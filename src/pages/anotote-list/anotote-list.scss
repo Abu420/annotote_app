@@ -1,0 +1,24 @@
+page-anotote-list {}
+
+.product-list .item.active strong,
+.product-list .item.active ion-icon,
+.product-list .item.active .time span {
+    color: #ff001d;
+}
+
+.fancy-bars {
+    width: 10px;
+    position: fixed;
+    top: 92px;
+    right: 2px;
+    bottom: 36px;
+    overflow: hidden;
+}
+
+.fancy-bars span {
+    height: 2px;
+    margin: 0 0 5px;
+    font-size: 0;
+    display: block;
+    background: #b3b3b3;
+}

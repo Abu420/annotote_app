@@ -1,0 +1,30 @@
+page-anotote-detail {}
+
+.details-list.list-md {
+    padding: 0 10px !important;
+}
+
+.details-list .status {
+    width: 19px;
+    height: 21px;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 3px 0 0;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    background: #2ba600;
+}
+
+.details-list .txt {
+    padding-left: 10px;
+    color: #0f000f;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.details-list p {
+    margin: 0 0 5px;
+}
