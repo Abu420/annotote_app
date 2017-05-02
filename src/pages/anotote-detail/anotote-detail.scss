@@ -4,6 +4,10 @@ page-anotote-detail {}
     padding: 0 10px !important;
 }
 
+.layout {
+    overflow: hidden;
+}
+
 .details-list .status {
     width: 19px;
     height: 21px;
@@ -13,18 +17,83 @@ page-anotote-detail {}
     font-weight: bold;
     color: #fff;
     text-align: center;
-    display: inline-block;
-    vertical-align: top;
+    float: left;
     background: #2ba600;
 }
 
 .details-list .txt {
     padding-left: 10px;
     color: #0f000f;
-    display: inline-block;
-    vertical-align: top;
+    overflow: hidden;
+}
+
+.details-list .txt p {
+    color: #0f000f;
 }
 
 .details-list p {
     margin: 0 0 5px;
+}
+
+.quotes .header {
+    padding: 20px 30px;
+    background: url('../assets/img/bg-header.png') no-repeat 14px 32%;
+    overflow: hidden;
+}
+
+.quotes .header strong {
+    margin: 0 0 5px;
+    font-size: 16px;
+    line-height: 20px;
+    display: block;
+}
+
+.time {
+    font-size: 13px;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+.time em {
+    float: right;
+    width: 56px;
+    font-style: normal;
+}
+
+.time button {
+    padding: 0;
+    float: right;
+    background: none;
+}
+
+.time ion-icon {
+    color: #e0e0e0;
+}
+
+.btns-area {
+    padding-top: 15px;
+}
+
+.btns-area:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.btns-area button {
+    background: #e0e0e0;
+    border-radius: 0 !important;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px !important;
+    height: 22px;
+    margin-right: 10px !important;
+    padding: 2px 6px !important;
+    vertical-align: top;
+    box-shadow: none;
+}
+
+.btns-area button.active {
+    background: #2ba600;
+    box-shadow: 0 1px 5px #ddd !important;
 }
