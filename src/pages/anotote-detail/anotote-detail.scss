@@ -97,3 +97,20 @@ page-anotote-detail {}
     background: #2ba600;
     box-shadow: 0 1px 5px #ddd !important;
 }
+
+#header button {
+    font-size: 28px;
+    line-height: 32px;
+}
+
+#header button.align-right {
+    float: right;
+}
+
+.toolbar-content {
+    padding: 0 30px;
+}
+
+.bar-buttons-md {
+    order: 1;
+}

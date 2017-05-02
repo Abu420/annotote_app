@@ -22,3 +22,20 @@ page-anotote-list {}
     display: block;
     background: #b3b3b3;
 }
+
+#header button {
+    font-size: 28px;
+    line-height: 32px;
+}
+
+#header button.align-right {
+    float: right;
+}
+
+.toolbar-content {
+    padding: 0 30px;
+}
+
+.bar-buttons-md {
+    order: 1;
+}

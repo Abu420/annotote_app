@@ -2,10 +2,8 @@ page-hello-ionic {}
 
 #wrapper {
     width: 100%;
-    height: 100%;
     position: relative;
     box-shadow: 0 0px 11px 0px #bdbdbd;
-    overflow: hidden;
 }
 
 .list-none {
@@ -31,6 +29,23 @@ button,
 
 .fab-md-primary {
     bottom: 40px !important;
+}
+
+#header button {
+    font-size: 28px;
+    line-height: 32px;
+}
+
+#header button.align-right {
+    float: right;
+}
+
+.bar-buttons-md {
+    order: 1;
+}
+
+.toolbar {
+    padding: 0 30px !important;
 }
 
 .user-controls button {
