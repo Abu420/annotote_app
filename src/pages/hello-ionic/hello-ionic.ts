@@ -11,7 +11,7 @@ export class HelloIonicPage {
   constructor(public navCtrl: NavController) {
 
   }
-
+  
   openAnototeList(event) {
         this.navCtrl.push(AnototeList, {});
   }

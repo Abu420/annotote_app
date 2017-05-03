@@ -21,4 +21,8 @@ export class AnototeDetail {
     console.log('ionViewDidLoad AnototeDetail');
   }
 
+  popView(){
+     this.navCtrl.pop();
+  }
+
 }
