@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
+import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
  * Generated class for the AnototeList page.
  *
@@ -25,6 +26,9 @@ export class AnototeList {
      this.navCtrl.pop();
    }
 
+  go_to_editor(event) {
+    this.navCtrl.push(AnototeEditor, {});
+  }
 
   openAnototeDetail(event) {
     this.navCtrl.push(AnototeDetail, {});

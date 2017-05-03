@@ -16,13 +16,13 @@
 <ion-content padding>
     <div id="wrapper">
         <ion-list no-lines class="user-controls layout">
-            <ion-item class="layout">
+            <ion-item (click)="login()" class="layout">
                 <button type="button">
                     <ion-icon name="unlock"></ion-icon>
                     <span>SIGN IN</span>
                 </button>
             </ion-item>
-            <ion-item class="layout">
+            <ion-item (click)="signup()" class="layout">
                 <button type="button">
                     <ion-icon name="person"></ion-icon>
                     <span>REGISTER</span>

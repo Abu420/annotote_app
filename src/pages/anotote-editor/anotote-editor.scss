@@ -1,0 +1,35 @@
+page-anotote-editor {}
+
+.editor-area {
+    padding: 10px;
+}
+
+.status {
+    width: 19px;
+    height: 21px;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 3px 0 0;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    float: left;
+    background: #2ba600;
+}
+
+textarea {
+    resize: none;
+    float: left;
+    margin-left: 5px;
+    overflow: hidden;
+    width: 94%;
+    height: calc(100vh - 130px);
+    color: #000 !important;
+    font-size: 14px;
+    line-height: 19px;
+    border: none;
+}
+
+ion-fab {
+    bottom: 30px;
+}

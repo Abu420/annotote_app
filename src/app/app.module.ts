@@ -3,11 +3,14 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { Login } from '../pages/login/login';
+import { Signup } from '../pages/signup/signup';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
+import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -15,11 +18,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 @NgModule({
   declarations: [
     MyApp,
+    Login,
+    Signup,
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
     AnototeList,
-    AnototeDetail
+    AnototeDetail,
+    AnototeEditor
   ],
   imports: [
     BrowserModule,
@@ -28,11 +34,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    Login,
+    Signup,
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
     AnototeList,
-    AnototeDetail
+    AnototeDetail,
+    AnototeEditor
   ],
   providers: [
     StatusBar,
