@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
+import { TopInterests } from '../home/top_interests';
+import { TopOptions } from '../home/top_options';
 /**
  * Generated class for the Home page.
  *
@@ -31,8 +33,24 @@ export class Home {
     this.navCtrl.push(Follows, {});
   }
 
-   presentSettingsModal() {
-     let settingsModal = this.modalCtrl.create(Settings, { userId: 8675309 });
+  presentTopOptionsModal() {
+     let topOptionsModal = this.modalCtrl.create(TopOptions, null);
+     topOptionsModal.onDidDismiss(data => {
+        if(data=='interests') {
+          let topInterestsModal = this.modalCtrl.create(TopInterests, null);
+          topInterestsModal.present();          
+        }
+     });
+     topOptionsModal.present();
+  }
+
+  presentTopInterestsModal() {
+     let topInterestsModal = this.modalCtrl.create(TopInterests, null);
+     topInterestsModal.present();
+  }
+
+  presentSettingsModal() {
+     let settingsModal = this.modalCtrl.create(Settings, null);
      settingsModal.present();
   }
 

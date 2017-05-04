@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
+import { AnototeOptions } from '../anotote-detail/tote_options';
 
 /**
  * Generated class for the AnototeDetail page.
@@ -14,15 +15,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AnototeDetail {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AnototeDetail');
   }
 
+
+
   popView(){
      this.navCtrl.pop();
+  }
+
+  presentAnototeOptionsModal() {
+     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
+     anototeOptionsModal.present();
   }
 
 }
