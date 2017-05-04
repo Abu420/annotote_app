@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { Home } from '../home/home';
 /**
  * Generated class for the Login page.
  *
@@ -19,6 +19,14 @@ export class Login {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Login');
+  }
+
+  popView(){
+     this.navCtrl.pop();
+  }
+
+  go_home() {
+    this.navCtrl.push(Home, {});
   }
 
 }

@@ -4,6 +4,9 @@ import { Platform, MenuController, Nav } from 'ionic-angular';
 
 import { Login } from '../pages/login/login';
 import { Signup } from '../pages/signup/signup';
+import { Home } from '../pages/home/home';
+import { Notifications } from '../pages/notifications/notifications';
+import { Follows } from '../pages/follows/follows';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ListPage } from '../pages/list/list';
 import { AnototeList } from '../pages/anotote-list/anotote-list';

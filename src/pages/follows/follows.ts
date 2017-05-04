@@ -1,33 +1,24 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Home } from '../home/home';
 
 /**
- * Generated class for the Signup page.
+ * Generated class for the Follows page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-signup',
-  templateUrl: 'signup.html',
+  selector: 'page-follows',
+  templateUrl: 'follows.html',
 })
-export class Signup {
+export class Follows {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Signup');
-  }
-
-  popView(){
-     this.navCtrl.pop();
-  }
-
-  go_home() {
-    this.navCtrl.push(Home, {});
+    console.log('ionViewDidLoad Follows');
   }
 
 }

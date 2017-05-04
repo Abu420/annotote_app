@@ -1,0 +1,13 @@
+page-notifications {}
+
+.product-list.notifications .txt strong {
+    color: #000;
+}
+
+.product-list.notifications .item.active .txt strong {
+    color: #ff001d;
+}
+
+.product-list.notifications .item .txt {
+    padding: 3px 0 16px;
+}

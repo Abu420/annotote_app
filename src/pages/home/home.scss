@@ -1,0 +1,92 @@
+    page-home {}
+    
+    .home-list ion-item {
+        height: 78px;
+    }
+    
+    .home-list ion-item button {
+        width: 67px;
+        height: 70px !important;
+        float: left;
+        box-shadow: none !important;
+        border: none !important;
+        background: none;
+    }
+    
+    .home-list ion-item button:hover {
+        background: none !important;
+    }
+    
+    .home-list ion-item button img {
+        height: 36px;
+    }
+    
+    .home-list .green {
+        background: #3bde00;
+    }
+    
+    .home-list .yellow {
+        background: #f4e300;
+    }
+    
+    .home-list .pink {
+        background: #fb9df0;
+    }
+    
+    .home-list span.txt {
+        padding: 25px 10px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #000;
+        display: block;
+        overflow: hidden;
+    }
+    
+    .notific-holder {
+        position: relative;
+    }
+    
+    .notices,
+    .bell em {
+        width: 20px;
+        height: 20px;
+        padding: 4px 0 0 1px;
+        border-radius: 100%;
+        background: red;
+        text-align: center;
+        color: #fff;
+        position: absolute;
+        bottom: -34px;
+        right: 6px;
+        z-index: 1000;
+        font-style: normal;
+    }
+    
+    .bell em {
+        bottom: auto;
+        top: -10px;
+        right: -1px;
+    }
+    
+    .notice-btn {
+        margin-top: 40px !important;
+        background: #fff;
+        display: block;
+        width: 100%;
+        padding: 8px 10px !important;
+        height: 50px;
+        color: #cbcbcb;
+        text-transform: none;
+        box-shadow: 0 0 5px 0;
+    }
+    
+    .notice-btn:hover {
+        color: #fff;
+        background: #505050 !important;
+    }
+    
+    .bell {
+        margin-right: 10px;
+        float: left;
+        position: relative;
+    }

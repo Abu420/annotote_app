@@ -8,6 +8,9 @@ import { Signup } from '../pages/signup/signup';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
+import { Home } from '../pages/home/home';
+import { Notifications } from '../pages/notifications/notifications';
+import { Follows } from '../pages/follows/follows';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
@@ -20,6 +23,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     Login,
     Signup,
+    Home,
+    Follows,
+    Notifications,
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
@@ -36,6 +42,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     Login,
     Signup,
+    Home,
+    Follows,
+    Notifications,
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
