@@ -6,9 +6,11 @@ import { MyApp } from './app.component';
 import { Login } from '../pages/login/login';
 import { Signup } from '../pages/signup/signup';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { Profile } from '../pages/follows/follows_profile';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 import { Home } from '../pages/home/home';
+import { Settings } from '../pages/home/settings';
 import { Notifications } from '../pages/notifications/notifications';
 import { Follows } from '../pages/follows/follows';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
@@ -25,10 +27,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Signup,
     Home,
     Follows,
+    Profile,
     Notifications,
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+    Settings,
     AnototeList,
     AnototeDetail,
     AnototeEditor
@@ -44,6 +48,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Signup,
     Home,
     Follows,
+    Profile,
+    Settings,
     Notifications,
     HelloIonicPage,
     ItemDetailsPage,

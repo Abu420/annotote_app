@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
+import { Settings } from '../home/settings';
 /**
  * Generated class for the Home page.
  *
@@ -15,7 +16,7 @@ import { Notifications } from '../notifications/notifications';
 })
 export class Home {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
@@ -28,6 +29,11 @@ export class Home {
 
   follows() {
     this.navCtrl.push(Follows, {});
+  }
+
+   presentSettingsModal() {
+     let settingsModal = this.modalCtrl.create(Settings, { userId: 8675309 });
+     settingsModal.present();
   }
 
 }

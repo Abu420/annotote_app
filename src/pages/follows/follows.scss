@@ -1,3 +1,76 @@
+follow_profile {
+    .top_empty_box {
+        width: 100%;
+        height: 50%;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .content_follows_profile {
+        width: 100%;
+        height: 50%;
+        overflow-y: auto;
+        background-color: #fff;
+    }
+    .follow_details {
+        padding: 20px;
+        overflow: hidden;
+    }
+    .follow_head {
+        margin: 0 0 20px;
+        overflow: hidden;
+    }
+    .follow_head button {
+        width: 17px;
+        float: left;
+        background: none;
+        box-shadow: none;
+    }
+    .follow_head strong {
+        padding: 10px 10px 0;
+        font-size: 15px;
+        line-height: 19px;
+        font-weight: norma;
+        float: left;
+        color: #000;
+    }
+    .follow_head strong em {
+        font-style: normal;
+        color: #d0d0d0;
+    }
+    .content_follows_profile {
+        background: #fff;
+    }
+    .img-holder {
+        text-align: center;
+        overflow: hidden;
+    }
+    .img-holder img {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .follow_list {
+        overflow: hidden;
+    }
+    .follow_list button {
+        float: left;
+        box-shadow: none;
+        background: none;
+    }
+    .follow_list .txt {
+        padding-left: 20px;
+        color: #000;
+        overflow: hidden;
+    }
+    .follow_list strong {
+        display: block;
+    }
+    .follow_list p {
+        margin: 0;
+    }
+    button:hover {
+        background: none !important;
+    }
+}
+
 page-follows {}
 
 .top-fixed {

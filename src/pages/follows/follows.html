@@ -7,8 +7,8 @@
 <ion-header>
     <ion-toolbar color="commonheader">
         <ion-buttons start>
-            <button ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
+            <button navPop ion-button icon-only>
+                <ion-icon name="arrow-round-back"></ion-icon>
             </button>
         </ion-buttons>
         <ion-title></ion-title>
@@ -23,7 +23,7 @@
     <div id="wrapper">
         <div class="top-fixed">Follows (47)</div>
         <ion-list no-lines class="product-list follows">
-            <ion-item>
+            <ion-item (click)="presentProfileModal()">
                 <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -33,114 +33,6 @@
                 <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Travis LeCleir</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Nick Balk</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Travis LeCleir</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Nick Balk</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Travis LeCleir</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Nick Balk</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Travis LeCleir</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Nick Balk</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Travis LeCleir</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Nick Balk</strong>
                 </div>
             </ion-item>
         </ion-list>

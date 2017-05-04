@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
+import { AnototeList } from '../anotote-list/anotote-list';
+import { Profile } from '../follows/follows_profile';
 /**
  * Generated class for the Follows page.
  *
@@ -14,11 +15,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class Follows {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Follows');
   }
+
+  presentProfileModal() {
+   let profileModal = this.modalCtrl.create(Profile, { userId: 8675309 });
+   profileModal.present();
+ }
 
 }
