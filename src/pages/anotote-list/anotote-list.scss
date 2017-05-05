@@ -1,4 +1,88 @@
-page-anotote-list {}
+page-anotote-list {
+    .product-list.show .item {
+        padding: 13px 20px !important;
+    }
+    .product-list .check {
+        width: 17px;
+        height: 18px;
+        padding: 15px 0 0;
+        float: left;
+    }
+    .product-list.show .txt strong,
+    .product-list.show .item.active .txt strong {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: normal;
+        display: block;
+        color: #000;
+    }
+    .product-list.show .item .time {
+        float: right;
+    }
+    .product-list.show .item.active .time span,
+    .product-list.show .item.active .time ion-icon {
+        margin-left: 4px;
+        color: #cbcbcb;
+    }
+    .product-list .txt-holder {
+        overflow: hidden;
+    }
+    .aling-left {
+        float: left;
+    }
+    .header-socials {
+        width: 100%;
+        padding: 10px 0 0 !important;
+        text-align: center;
+        background: none;
+    }
+    .header-socials .item:first-child {
+        width: 38px;
+    }
+    .first-btn {
+        height: 65px !important;
+    }
+    .first-btn:hover {
+        background: none !important;
+    }
+    .toolbar-background {
+        height: 60px !important;
+    }
+    .toolbar {
+        contain: none !important;
+        overflow: visible;
+    }
+    .align-left {
+        float: left;
+    }
+    .toolbar-md {
+        min-height: 60px !important;
+    }
+    .header-socials .item {
+        width: 25%;
+        display: inline-block;
+        vertical-align: top;
+        color: #fff;
+        text-align: center;
+        background: none;
+    }
+    .header-socials .item span {
+        font-size: 15px;
+        line-height: 19px;
+        color: #fff;
+        display: block;
+    }
+    .header-socials .item ion-icon {
+        font-size: 25px;
+        line-height: 29px;
+        color: #fff;
+        display: block;
+    }
+    .header-socials .item button {
+        background: none;
+        box-shadow: none;
+    }
+}
 
 .product-list .item.active strong,
 .product-list .item.active ion-icon,
@@ -38,4 +122,14 @@ page-anotote-list {}
 
 .bar-buttons-md {
     order: 1;
+}
+
+.header-holder:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.header-holder {
+    height: 60px;
 }

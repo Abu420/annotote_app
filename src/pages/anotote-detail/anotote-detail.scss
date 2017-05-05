@@ -1,3 +1,59 @@
+view_options {
+    .top_empty_box {
+        width: 100%;
+        height: 50%;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .content_follows_profile {
+        width: 100%;
+        height: 50%;
+        overflow-y: auto;
+        background-color: #fff;
+    }
+    .aling-left {
+        width: 24px;
+        float: left;
+        position: relative;
+    }
+    .txt {
+        color: #cbcbcb;
+        padding-left: 20px;
+        overflow: hidden;
+    }
+    .txt p {
+        color: #cbcbcb;
+    }
+    .counter {
+        width: 20px;
+        height: 20px;
+        padding: 1px 0 0 1px;
+        border-radius: 100%;
+        background: red;
+        text-align: center;
+        color: #fff;
+        position: absolute;
+        bottom: 2px;
+        right: -9px;
+        z-index: 1000;
+        font-style: normal;
+    }
+    .sharing_pop {
+        padding: 8px 20px !important;
+        color: #cbcbcb;
+        position: relative;
+    }
+    .sharing_pop .item {
+        padding: 10px 0 6px 0 !important;
+        border-bottom: 1px solid #e3e3e3 !important;
+        overflow: hidden;
+    }
+    .sharing_pop ion-icon {
+        font-size: 26px;
+        line-height: 30px;
+        color: #c9c9c9;
+    }
+}
+
 anotote_options {
     .top_empty_box {
         width: 100%;

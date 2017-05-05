@@ -1,35 +1,89 @@
-page-anotote-editor {}
-
-.editor-area {
-    padding: 10px;
-}
-
-.status {
-    width: 19px;
-    height: 21px;
-    font-size: 24px;
-    line-height: 24px;
-    padding: 3px 0 0;
-    font-weight: bold;
-    color: #fff;
-    text-align: center;
-    float: left;
-    background: #2ba600;
-}
-
-textarea {
-    resize: none;
-    float: left;
-    margin-left: 5px;
-    overflow: hidden;
-    width: 94%;
-    height: calc(100vh - 130px);
-    color: #000 !important;
-    font-size: 14px;
-    line-height: 19px;
-    border: none;
-}
-
-ion-fab {
-    bottom: 30px;
-}
+    comment_detail_popup {
+        .top_empty_box {
+            width: 100%;
+            height: 50%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .content_follows_profile {
+            width: 100%;
+            height: 50%;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .pop_heading {
+            padding: 10px;
+            color: #fff;
+            letter-spacing: -5px;
+            background: #313131;
+            overflow: hidden;
+        }
+        .pop_heading .col {
+            width: 33.3%;
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            letter-spacing: 0;
+        }
+        .pop_heading ion-icon {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .pop_heading ion-icon:hover {
+            color: #279701;
+        }
+        .pop_heading em {
+            padding: 0 4px;
+            display: inline-block;
+            vertical-align: top;
+            font-style: normal;
+        }
+        .pop_txt {
+            max-height: 298px;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 18px;
+            color: #fff;
+            box-shadow: 0 0 4px 0 #000 inset;
+            overflow: auto;
+            background: #313131;
+        }
+        .content_follows_profile {
+            overflow: hidden;
+        }
+    }
+    
+    page-anotote-editor {}
+    
+    .editor-area {
+        padding: 10px;
+    }
+    
+    .status {
+        width: 19px;
+        height: 21px;
+        font-size: 24px;
+        line-height: 24px;
+        padding: 3px 0 0;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        float: left;
+        background: #2ba600;
+    }
+    
+    textarea {
+        resize: none;
+        float: left;
+        margin-left: 5px;
+        overflow: hidden;
+        width: 91%;
+        height: calc(100vh - 130px);
+        color: #000 !important;
+        font-size: 14px;
+        line-height: 19px;
+        border: none;
+    }
+    
+    ion-fab {
+        bottom: 30px;
+    }

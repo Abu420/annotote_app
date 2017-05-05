@@ -12,12 +12,14 @@ import { ListPage } from '../pages/list/list';
 import { Home } from '../pages/home/home';
 import { Settings } from '../pages/home/settings';
 import { AnototeOptions } from '../pages/anotote-detail/tote_options';
+import { CommentDetailPopup } from '../pages/anotote-editor/comment_detail_popup';
 import { TopInterests } from '../pages/home/top_interests';
 import { TopOptions} from '../pages/home/top_options';
 import { Notifications } from '../pages/notifications/notifications';
 import { Follows } from '../pages/follows/follows';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
+import { ViewOptions } from '../pages/anotote-detail/view_options';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -31,10 +33,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Home,
     Follows,
     Profile,
+    ViewOptions,
     Notifications,
     HelloIonicPage,
     ItemDetailsPage,
     AnototeOptions,
+    CommentDetailPopup,
     ListPage,
     Settings,
     TopOptions,
@@ -57,7 +61,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Profile,
     Settings,
     TopOptions,
+    ViewOptions,
     TopInterests,
+    CommentDetailPopup,
     Notifications,
     HelloIonicPage,
     ItemDetailsPage,

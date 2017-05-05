@@ -22,7 +22,7 @@
 <ion-content padding>
     <div id="wrapper">
         <div class="editor-area layout">
-            <span class="status">"</span>
+            <span (click)="presentCommentDetailModal()" class="status">"</span>
             <textarea [(ngModel)]="text"></textarea>
         </div>
         <ion-fab bottom right edge>

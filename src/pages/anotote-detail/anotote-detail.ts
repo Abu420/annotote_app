@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
 import { AnototeOptions } from '../anotote-detail/tote_options';
+import { ViewOptions } from '../anotote-detail/view_options';
 
 /**
  * Generated class for the AnototeDetail page.
@@ -31,6 +32,11 @@ export class AnototeDetail {
   presentAnototeOptionsModal() {
      let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
      anototeOptionsModal.present();
+  }
+
+  presentViewOptionsModal() {
+     let viewsOptionsModal = this.modalCtrl.create(ViewOptions, null);
+     viewsOptionsModal.present();
   }
 
 }
