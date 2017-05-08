@@ -76,7 +76,7 @@ page-follows {}
 .top-fixed {
     padding: 13px;
     position: fixed;
-    top: 56px;
+    top: 76px;
     left: 0;
     right: 0;
     text-align: center;
@@ -113,4 +113,8 @@ page-follows {}
 .product-list.follows .txt strong {
     font-weight: normal;
     color: #e0e0e0;
+}
+
+.scroll-content {
+    padding: 36px 16px 16px !important;
 }
