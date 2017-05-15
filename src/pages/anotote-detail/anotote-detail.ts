@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
 import { AnototeOptions } from '../anotote-detail/tote_options';
 import { ViewOptions } from '../anotote-detail/view_options';
-
 /**
- * Generated class for the AnototeDetail page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
+ * Services
  */
+import {UtilityMethods} from '../../services/utility_methods';
+
 @IonicPage()
 @Component({
   selector: 'page-anotote-detail',
@@ -16,7 +14,11 @@ import { ViewOptions } from '../anotote-detail/view_options';
 })
 export class AnototeDetail {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
+  }
+
+  open_annotote_site() {
+    this.utilityMethods.launch('https://annotote.wordpress.com');
   }
 
   ionViewDidLoad() {
@@ -25,18 +27,18 @@ export class AnototeDetail {
 
 
 
-  popView(){
-     this.navCtrl.pop();
+  popView() {
+    this.navCtrl.pop();
   }
 
   presentAnototeOptionsModal() {
-     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
-     anototeOptionsModal.present();
+    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null, {showBackdrop: true, enableBackdropDismiss: true});
+    anototeOptionsModal.present();
   }
 
   presentViewOptionsModal() {
-     let viewsOptionsModal = this.modalCtrl.create(ViewOptions, null);
-     viewsOptionsModal.present();
+    let viewsOptionsModal = this.modalCtrl.create(ViewOptions, null);
+    viewsOptionsModal.present();
   }
 
 }

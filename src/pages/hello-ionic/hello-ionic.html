@@ -1,13 +1,13 @@
 <ion-header>
     <ion-toolbar color="homeheader">
         <ion-buttons start>
-            <button ion-button icon-only>
+            <button class="search_icon" ion-button icon-only>
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
         <ion-title></ion-title>
         <ion-buttons end>
-            <button ion-button icon-only>
+            <button (click)="open_annotote_site()" ion-button icon-only>
                 <ion-icon name="help"></ion-icon>
             </button>
         </ion-buttons>
@@ -15,23 +15,19 @@
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <ion-list no-lines class="user-controls layout">
-            <ion-item (click)="login()" class="layout">
-                <button type="button">
-                    <ion-icon name="unlock"></ion-icon>
-                    <span>SIGN IN</span>
-                </button>
-            </ion-item>
-            <ion-item (click)="signup()" class="layout">
-                <button type="button">
-                    <ion-icon name="person"></ion-icon>
-                    <span>REGISTER</span>
-                </button>
-            </ion-item>
-        </ion-list>
+        <div no-lines class="user-controls layout">
+            <button (click)="login()" class="layout" type="button">
+                <ion-icon name="unlock"></ion-icon>
+                <span>SIGN IN</span>
+            </button>
+            <button (click)="signup()" class="layout" type="button">
+                <ion-icon name="person"></ion-icon>
+                <span>REGISTER</span>
+            </button>
+        </div>
         <ion-list class="product-list">
-            <ion-item (click)="openAnototeList(p)">
-                <div class="img-holder"><img src="../assets/img/img1.png"></div>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
                 <div class="txt">
                     <strong>The future of business: Open</strong>
                     <div class="time">
@@ -43,8 +39,73 @@
                     </div>
                 </div>
             </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="../assets/img/img1.png"></div>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
+                <div class="txt">
+                    <strong>The future of business: Open</strong>
+                    <div class="time">
+                        <em>
+                      <button type="button"><ion-icon name="construct"></ion-icon></button>
+                      <span>10:31</span>
+                    </em>
+                        <span>The Buttonwood Tree</span>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
+                <div class="txt">
+                    <strong>The future of business: Open</strong>
+                    <div class="time">
+                        <em>
+                      <button type="button"><ion-icon name="construct"></ion-icon></button>
+                      <span>10:31</span>
+                    </em>
+                        <span>The Buttonwood Tree</span>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
+                <div class="txt">
+                    <strong>The future of business: Open</strong>
+                    <div class="time">
+                        <em>
+                      <button type="button"><ion-icon name="construct"></ion-icon></button>
+                      <span>10:31</span>
+                    </em>
+                        <span>The Buttonwood Tree</span>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
+                <div class="txt">
+                    <strong>The future of business: Open</strong>
+                    <div class="time">
+                        <em>
+                      <button type="button"><ion-icon name="construct"></ion-icon></button>
+                      <span>10:31</span>
+                    </em>
+                        <span>The Buttonwood Tree</span>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
+                <div class="txt">
+                    <strong>The future of business: Open</strong>
+                    <div class="time">
+                        <em>
+                      <button type="button"><ion-icon name="construct"></ion-icon></button>
+                      <span>10:31</span>
+                    </em>
+                        <span>The Buttonwood Tree</span>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item (click)="openAnototeList()">
+                <div class="img-holder"><img src="assets/img/img1.png"></div>
                 <div class="txt">
                     <strong>The future of business: Open</strong>
                     <div class="time">
@@ -57,27 +118,24 @@
                 </div>
             </ion-item>
         </ion-list>
-        <!--<p>
-            <button ion-button color="primary" menuToggle>Toggle Menu</button>
-        </p>-->
-        <ion-fab bottom right edge>
-            <button ion-fab mini>
-                <ion-icon name="add"></ion-icon>
-            </button>
-            <ion-fab-list side="top">
-                <button ion-fab>
-                    <ion-icon name="logo-facebook"></ion-icon>
-                </button>
-                <button ion-fab>
-                    <ion-icon name="logo-twitter"></ion-icon>
-                </button>
-                <button ion-fab>
-                    <ion-icon name="logo-vimeo"></ion-icon>
-                </button>
-                <button ion-fab>
-                    <ion-icon name="logo-googleplus"></ion-icon>
-                </button>
-            </ion-fab-list>
-        </ion-fab>
     </div>
+    <ion-fab bottom right>
+        <button ion-fab>
+            <ion-icon name="add"></ion-icon>
+        </button>
+        <ion-fab-list side="top">
+            <button ion-fab>
+                <ion-icon name="logo-facebook"></ion-icon>
+            </button>
+            <button ion-fab>
+                <ion-icon name="logo-twitter"></ion-icon>
+            </button>
+            <button ion-fab>
+                <ion-icon name="logo-vimeo"></ion-icon>
+            </button>
+            <button ion-fab>
+                <ion-icon name="logo-googleplus"></ion-icon>
+            </button>
+        </ion-fab-list>
+    </ion-fab>
 </ion-content>

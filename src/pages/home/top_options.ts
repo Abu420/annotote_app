@@ -6,10 +6,10 @@ import { IonicPage, NavController, ViewController , NavParams } from 'ionic-angu
 })
 export class TopOptions {
 
- constructor(public params: NavParams,public viewCtrl: ViewController) {
+ constructor(public params: NavParams, public viewCtrl: ViewController) {
  }
 
-  dismiss() {
+ dismiss() {
    let data = { 'foo': 'bar' };
    this.viewCtrl.dismiss(data);
  }

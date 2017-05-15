@@ -14,3 +14,20 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.bar-button {
+    height: $bar_button_custom_height;
+    width: $bar_button_custom_height;
+    font-size: 2.7rem;
+}
+
+.search_icon {
+    font-size: 2rem;
+}
+
+.help_icon {
+    font-size: 2.9rem;
+}
+
+.list-ios .item-block .item-inner {
+    border-bottom: 0px !important;
+}

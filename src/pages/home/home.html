@@ -1,11 +1,5 @@
-<!--
-  Generated template for the Home page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-    <ion-toolbar color="commonheader" navbar-md-height="height">
+    <ion-toolbar color="commonheader">
         <ion-buttons start>
             <button navPop ion-button icon-only>
                 <ion-icon name="arrow-round-back"></ion-icon>
@@ -22,33 +16,33 @@
 <ion-content padding>
     <div id="wrapper">
         <ion-list class="home-list layout">
-            <ion-item class="green">
-                <button (click)="presentSettingsModal()" ion-button icon-only><img src="../assets/img/strips.png"></button>
+            <ion-item (click)="openAnototeList()" class="green">
+                <button (click)="presentSettingsModal($event)" ion-button icon-only><img src="assets/img/strips.png"></button>
                 <span class="txt">ME</span>
             </ion-item>
             <ion-item (click)="follows()" class="yellow">
-                <button ion-button icon-only><img src="../assets/img/strips.png"></button>
+                <button ion-button icon-only><img src="assets/img/strips.png"></button>
                 <span class="txt">FOLLOWS</span>
             </ion-item>
             <ion-item class="pink">
-                <button (click)="presentTopOptionsModal()" ion-button icon-only><img src="../assets/img/strips.png"></button>
+                <button (click)="presentTopOptionsModal()" ion-button icon-only><img src="assets/img/strips.png"></button>
                 <span class="txt">TOP</span>
             </ion-item>
         </ion-list>
-        <div class="notific-holder">
+        <div class="notific-holder" (click)="notifications()">
             <button ion-button icon-only class="notices">1</button>
-            <ion-fab bottom right edge (click)="notifications()">
+            <ion-fab bottom right edge>
                 <button ion-fab mini>
                 <ion-icon name="add"></ion-icon>
             </button>
             </ion-fab>
         </div>
     </div>
-    <button ion-button icon-only class="notice-btn">
+    <!--<button ion-button icon-only class="notice-btn">
     <div class="bell">
         <ion-icon name="notifications"></ion-icon>
         <em>1</em>
     </div>
     <span>Notifications</span>
-</button>
+    </button>-->
 </ion-content>

@@ -1,5 +1,3 @@
-page-hello-ionic {}
-
 #wrapper {
     width: 100%;
     position: relative;
@@ -45,10 +43,6 @@ button,
     order: 1;
 }
 
-.toolbar {
-    padding: 0 30px !important;
-}
-
 .user-controls button {
     width: 100%;
     padding: 23px 35px !important;
@@ -56,6 +50,7 @@ button,
     color: #0f000f;
     text-align: left;
     background: none;
+    border-bottom: 1px solid #f7f4f4;
 }
 
 .user-controls .item:first-child button {
@@ -99,6 +94,12 @@ button,
     margin: 0 0 8px;
     color: #0f000f;
     display: block;
+        margin: 0 0 8px;
+    color: #0f000f;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-list .time {

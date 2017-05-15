@@ -11,3 +11,15 @@ page-notifications {}
 .product-list.notifications .item .txt {
     padding: 3px 0 16px;
 }
+
+.notifications_header {
+    height: $toolbar-snakebar-bottom;
+    min-height: $toolbar-snakebar-bottom;
+    .toolbar-title-ios {
+        font-size: 12px;
+    }
+}
+
+.notifications_header .toolbar-background {
+    border: 0px;
+}

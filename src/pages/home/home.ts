@@ -5,6 +5,7 @@ import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
 import { TopInterests } from '../home/top_interests';
 import { TopOptions } from '../home/top_options';
+import { AnototeList } from '../anotote-list/anotote-list';
 /**
  * Generated class for the Home page.
  *
@@ -34,24 +35,29 @@ export class Home {
   }
 
   presentTopOptionsModal() {
-     let topOptionsModal = this.modalCtrl.create(TopOptions, null);
-     topOptionsModal.onDidDismiss(data => {
-        if(data=='interests') {
-          let topInterestsModal = this.modalCtrl.create(TopInterests, null);
-          topInterestsModal.present();          
-        }
-     });
-     topOptionsModal.present();
+    let topOptionsModal = this.modalCtrl.create(TopOptions, null);
+    topOptionsModal.onDidDismiss(data => {
+      if (data == 'interests') {
+        let topInterestsModal = this.modalCtrl.create(TopInterests, null);
+        topInterestsModal.present();
+      }
+    });
+    topOptionsModal.present();
   }
 
   presentTopInterestsModal() {
-     let topInterestsModal = this.modalCtrl.create(TopInterests, null);
-     topInterestsModal.present();
+    let topInterestsModal = this.modalCtrl.create(TopInterests, null);
+    topInterestsModal.present();
   }
 
-  presentSettingsModal() {
-     let settingsModal = this.modalCtrl.create(Settings, null);
-     settingsModal.present();
+  openAnototeList() {
+    this.navCtrl.push(AnototeList, {});
+  }
+
+  presentSettingsModal(event) {
+    event.stopPropagation();
+    let settingsModal = this.modalCtrl.create(Settings, null);
+    settingsModal.present();
   }
 
 }

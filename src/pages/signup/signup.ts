@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Home } from '../home/home';
-
+import { StatusBar } from '@ionic-native/status-bar';
 /**
- * Generated class for the Signup page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
+ * Services
  */
+import { UtilityMethods } from '../../services/utility_methods'
+
 @IonicPage()
 @Component({
   selector: 'page-signup',
@@ -15,15 +14,20 @@ import { Home } from '../home/home';
 })
 export class Signup {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods) {
+    this.statusBar.backgroundColorByHexString('000000');
+  }
+
+  open_annotote_site() {
+    this.utilityMethods.launch('https://annotote.wordpress.com');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Signup');
   }
 
-  popView(){
-     this.navCtrl.pop();
+  popView() {
+    this.navCtrl.pop();
   }
 
   go_home() {

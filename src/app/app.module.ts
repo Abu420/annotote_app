@@ -24,6 +24,12 @@ import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
+/**
+ * Services
+ */
+import {UtilityMethods} from '../services/utility_methods'
 
 @NgModule({
   declarations: [
@@ -52,6 +58,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
+  
   entryComponents: [
     MyApp,
     Login,
@@ -73,9 +80,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AnototeDetail,
     AnototeEditor
   ],
+
   providers: [
     StatusBar,
+    InAppBrowser,
     SplashScreen,
+    UtilityMethods,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -1,9 +1,3 @@
-<!--
-  Generated template for the Login page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
     <ion-toolbar color="homeheader">
         <ion-buttons start>
@@ -13,7 +7,7 @@
         </ion-buttons>
         <ion-title></ion-title>
         <ion-buttons end>
-            <button ion-button icon-only>
+            <button (click)="open_annotote_site()" ion-button icon-only>
                 <ion-icon name="help"></ion-icon>
             </button>
         </ion-buttons>
@@ -34,3 +28,8 @@
         </div>
     </div>
 </ion-content>
+<ion-footer no-border>
+  <ion-toolbar class="snakebar_forgot_password" color="homeheader">
+    <ion-title>Forgot Password</ion-title>
+  </ion-toolbar>
+</ion-footer>

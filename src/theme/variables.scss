@@ -16,11 +16,19 @@ $font-path: "../assets/fonts";
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 $colors: ( primary: #488aff, secondary: #32db64, danger: #f53d3d, light: #f4f4f4, dark: #222, homeheader: #252525, commonheader: #3bde00, yellowheader: #f4e300, pinkheader: #fb9df0);
-$navbar-md-height: ( height: 72px);
-//$heights: ( md_header: 72px, wp_header: 72px, mios_header: 72px, );
+//
+//
+//
+//
+//Common CSS Variables for All platforms
+$bar_button_custom_height: 56px;
+$toolbar-snakebar-bottom: 45px;
 // App iOS Variables
-$navbar-md-height: ( height: 72px);
-$navbar-ios-height: ( height: 72px);
+$toolbar-ios-height: $bar_button_custom_height;
+$toolbar-ios-padding: 0px;
+//App Android Variables
+$toolbar-md-height: $bar_button_custom_height;
+$toolbar-md-padding: 0px;
 // --------------------------------------------------
 // iOS only Sass variables can go here
 // App Material Design Variables

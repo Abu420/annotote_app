@@ -71,12 +71,11 @@ follow_profile {
     }
 }
 
-page-follows {}
-
+// page-follows {
 .top-fixed {
     padding: 13px;
     position: fixed;
-    top: 76px;
+    top: $bar_button_custom_height;
     left: 0;
     right: 0;
     text-align: center;
@@ -84,6 +83,17 @@ page-follows {}
     box-shadow: 0 1px 17px #c5c5c5;
     background: #e0e0e0;
     z-index: 5;
+}
+
+.follows_header {
+    height: $toolbar-snakebar-bottom;
+    min-height: $toolbar-snakebar-bottom;
+    .toolbar-title-ios {
+        font-size: 12px;
+    }
+}
+.follows_header .toolbar-background {
+    border: 0px;
 }
 
 .product-list.follows {
@@ -118,3 +128,9 @@ page-follows {}
 .scroll-content {
     padding: 36px 16px 16px !important;
 }
+
+.item-ios {
+    border-top: 0px !important;
+}
+
+// }
