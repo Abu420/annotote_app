@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/v2/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,6 +12,44 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+span.dot, span.un_active_dot {
+    border-radius: 50%;
+    display: table-cell;
+    text-align: center;
+    position: relative;
+    height: 20px;
+}
+
+.dots_box {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+span.dot:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 50%;
+}
+
+span.un_active_dot:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #b7b7b7;
+    border-radius: 50%;
+}
+
 .bar-button {
     height: $bar_button_custom_height;
     width: $bar_button_custom_height;

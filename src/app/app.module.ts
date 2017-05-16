@@ -5,7 +5,7 @@ import { MyApp } from './app.component';
 
 import { Login } from '../pages/login/login';
 import { Signup } from '../pages/signup/signup';
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { FrontViewPage } from '../pages/front-view/front-view';
 import { Profile } from '../pages/follows/follows_profile';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
@@ -41,7 +41,7 @@ import {UtilityMethods} from '../services/utility_methods'
     Profile,
     ViewOptions,
     Notifications,
-    HelloIonicPage,
+    FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
     CommentDetailPopup,
@@ -72,7 +72,7 @@ import {UtilityMethods} from '../services/utility_methods'
     TopInterests,
     CommentDetailPopup,
     Notifications,
-    HelloIonicPage,
+    FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
     ListPage,

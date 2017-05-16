@@ -5,10 +5,15 @@
                 <ion-icon name="arrow-round-back"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title></ion-title>
+        <ion-title>
+            <div class="dots_box">
+                <span class="un_active_dot"></span>
+                <span class="dot"></span>
+            </div>
+        </ion-title>
         <ion-buttons end>
             <button ion-button icon-only>
-                <ion-icon name="help"></ion-icon>
+                <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
@@ -29,14 +34,6 @@
                 <span class="txt">TOP</span>
             </ion-item>
         </ion-list>
-        <div class="notific-holder" (click)="notifications()">
-            <button ion-button icon-only class="notices">1</button>
-            <ion-fab bottom right edge>
-                <button ion-fab mini>
-                <ion-icon name="add"></ion-icon>
-            </button>
-            </ion-fab>
-        </div>
     </div>
     <!--<button ion-button icon-only class="notice-btn">
     <div class="bell">
@@ -46,3 +43,9 @@
     <span>Notifications</span>
     </button>-->
 </ion-content>
+<ion-fab bottom right>
+    <button ion-fab>
+        <ion-icon name="add"></ion-icon>
+    </button>
+    <button ion-button icon-only class="notices">1</button>
+</ion-fab>

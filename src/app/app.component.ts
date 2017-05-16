@@ -7,7 +7,7 @@ import { Signup } from '../pages/signup/signup';
 import { Home } from '../pages/home/home';
 import { Notifications } from '../pages/notifications/notifications';
 import { Follows } from '../pages/follows/follows';
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { FrontViewPage } from '../pages/front-view/front-view';
 import { ListPage } from '../pages/list/list';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
@@ -24,7 +24,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage = HelloIonicPage;
+  rootPage = FrontViewPage;
   pages: Array<{title: string, component: any}>;
 
   constructor(
@@ -37,7 +37,7 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Hello Ionic', component: HelloIonicPage },
+      { title: 'Front View', component: FrontViewPage },
       { title: 'My First List', component: ListPage }
     ];
   }

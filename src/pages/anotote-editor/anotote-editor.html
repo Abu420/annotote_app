@@ -17,7 +17,7 @@
     <div id="wrapper">
         <div class="editor-area layout">
             <span (click)="presentCommentDetailModal()" class="status">"</span>
-            <textarea [(ngModel)]="text"></textarea>
+            <div [textContent]="editorContent" class="editor_text_box" contenteditable="true"></div>
         </div>
         <ion-fab (click)="presentCommentDetailModal()" bottom right>
             <button ion-fab>
