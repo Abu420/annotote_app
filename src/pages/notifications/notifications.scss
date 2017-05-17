@@ -18,4 +18,41 @@ page-notifications {
     .notifications_header .toolbar-background {
         border: 0px;
     }
+    .message-list{
+        .scroll-content{
+            margin-top: 70px !important;
+            padding: 0 !important;
+            .product-list{
+                .item-inner{
+                    padding-right: 0px;
+                    .label-ios{
+                        margin: 0px;
+                        .follow-name{
+                            font-weight: 600;
+                            margin-bottom: 3px;
+                            img{
+                                width: 4.5vw;
+                                display: inline-block;
+                                vertical-align: top;
+                                &.arrow-icon{
+                                    width: 2.5vw;
+                                    vertical-align: top;
+                                    margin-top: 5px;
+                                }
+                            }
+                        }
+                        .time{
+                            img{
+                                float: right;
+                                width: 4.5vw;
+                                &.play-icon{
+                                    width: 4vw;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

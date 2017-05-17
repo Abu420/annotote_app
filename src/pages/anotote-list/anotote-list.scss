@@ -145,4 +145,76 @@ page-anotote-list {
             }
         }
     }
+    .message-underlist{
+        .header{
+            padding: 20px 0;
+            figure{
+                margin: 0px;
+                display: inline-block;
+                width: 9%;
+                text-align: left;
+                vertical-align: middle;
+                img{
+                    width: 6px;
+                }
+            }
+            .underlist-text{
+                display: inline-block;
+                width: 90%;
+                vertical-align: middle;
+                strong{
+                    display: -webkit-inline-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                }
+                .time{
+                    float: left;
+                    width: 100%;
+                    margin-bottom: 10px;
+                    em{
+                        width: 60px;
+                        img{
+                            width: 16px;
+                            float: right;
+                            margin-left: 5px;
+                        }
+                    }
+                }
+                .btns-area{
+                    button{
+                        float: left;
+                        font-size: 12px !important;
+                        background: #e0e0e0;
+                        margin-right: 20px !important;
+                        &.me-tab{
+                            background: #2ba600;
+                        }
+                    }
+                }
+            }
+        }
+        .underlist-items{
+            padding: 0px;
+            .item-inner{
+                padding: 0px;
+                .label-ios{
+                    margin: 0px;
+                    padding: 15px 0px;
+                    .status{
+                        width: 22px;
+                        height: 22px;
+                        font-size: 30px;
+                        line-height: 1;
+                    }
+                    .txt{
+                        margin: 0px;
+                        padding: 0px;
+                        float: right;
+                        width: 88%;
+                    }
+                }
+            }
+        }
+    }
 }
