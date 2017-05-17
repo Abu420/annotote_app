@@ -1,0 +1,65 @@
+<div class="top_empty_box" (click)="dismiss()">
+</div>
+<div class="content_follows_profile">
+    <div no-lines class="sharing_pop bottom-border">
+        <div class="main_label">
+            <ion-icon name="share"></ion-icon>
+            <span>Share</span>
+        </div>
+        <ul>
+            <li>
+                <span>Link</span>
+            </li>
+            <li>
+                <span>Email</span>
+            </li>
+            <li>
+                <span>Twitter</span>
+            </li>
+            <li>
+                <ion-icon name="more"></ion-icon>
+            </li>
+        </ul>
+    </div>
+    <div no-lines class="sharing_pop three bottom-border">
+        <div class="main_label">
+            <ion-icon name="pricetag"></ion-icon>
+            <span>Tags</span>
+        </div>
+        <ul>
+            <li>
+                <span>Technology</span>
+            </li>
+            <li>
+                <span>Geopolitics</span>
+            </li>
+            <li (click)="presentTagsModal()">
+                <ion-icon name="more"></ion-icon>
+            </li>
+        </ul>
+    </div>
+    <div no-lines class="sharing_pop two bottom-border">
+        <div class="main_label">
+            <ion-icon name="unlock"></ion-icon>
+            <span>Privacy</span>
+        </div>
+        <ul>
+            <li>
+                <span>Public</span>
+            </li>
+            <li>
+                <span>Private</span>
+            </li>
+        </ul>
+    </div>
+    <div no-lines class="sharing_pop four bottom-border">
+        <div class="main_label">
+            <ion-icon name="trash"></ion-icon>
+        </div>
+        <ul>
+            <li>
+                <span>Delete</span>
+            </li>
+        </ul>
+    </div>
+</div>

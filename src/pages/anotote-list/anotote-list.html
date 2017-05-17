@@ -12,8 +12,8 @@
             </div>
         </ion-title>
         <ion-buttons end>
-            <button ion-button icon-only>
-                <ion-icon name="help"></ion-icon>
+            <button (click)="go_to_editor()" ion-button icon-only>
+                <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
@@ -150,7 +150,7 @@
         <span *ngFor="let bar of anototes" [ngClass]="bar.type=='message'?'red':'green'"></span>
     </div>
     <ion-fab bottom right>
-        <button (click)="go_to_editor()" ion-fab color="dark">            
+        <button  (click)="presentViewOptionsModal()" ion-fab color="dark">            
             <img src="assets/img/tot_icon_white.png" />
         </button>
     </ion-fab>
