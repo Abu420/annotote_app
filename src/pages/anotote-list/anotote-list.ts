@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
 import { StatusBar } from '@ionic-native/status-bar';
+import { AnototeOptions } from '../anotote-detail/tote_options';
+import { ViewOptions } from '../anotote-detail/view_options';
 /**
  * Services
  */
@@ -26,7 +28,7 @@ export class AnototeList {
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods) {
   }
 
   /**
@@ -80,11 +82,26 @@ export class AnototeList {
   }
 
   openAnototeDetail(anotote) {
-    if (this.current_active_anotote)
+    if (this.current_active_anotote) {
       this.current_active_anotote.active = false;
+      if (this.current_active_anotote.id == anotote.id) {
+        this.current_active_anotote = null;
+        return;
+      }
+    }
     this.current_active_anotote = anotote
     this.current_active_anotote.active = !this.current_active_anotote.active;
     // this.navCtrl.push(AnototeDetail, {});
+  }
+
+  presentAnototeOptionsModal() {
+    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null, { showBackdrop: true, enableBackdropDismiss: true });
+    anototeOptionsModal.present();
+  }
+
+  presentViewOptionsModal() {
+    let viewsOptionsModal = this.modalCtrl.create(ViewOptions, null);
+    viewsOptionsModal.present();
   }
 
 }

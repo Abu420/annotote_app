@@ -30,7 +30,9 @@ export class Home {
   }
 
   notifications() {
-    this.navCtrl.push(Notifications, {});
+    // this.navCtrl.push(Notifications, {});
+    let notifications = this.modalCtrl.create(Notifications, null);
+    notifications.present();
   }
 
   follows() {
