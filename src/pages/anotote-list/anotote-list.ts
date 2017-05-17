@@ -4,8 +4,9 @@ import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
 import { StatusBar } from '@ionic-native/status-bar';
-import { AnototeOptions } from '../anotote-detail/tote_options';
-import { ViewOptions } from '../anotote-detail/view_options';
+import { AnototeOptions } from '../anotote-list/tote_options';
+import { ViewOptions } from '../anotote-list/view_options';
+import { TagsPopUp } from '../anotote-list/tags';
 /**
  * Services
  */
@@ -95,7 +96,14 @@ export class AnototeList {
   }
 
   presentAnototeOptionsModal() {
-    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null, { showBackdrop: true, enableBackdropDismiss: true });
+    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
+    anototeOptionsModal.onDidDismiss(data => {
+      console.log(data)
+      if (data == 'tags') {
+        let tagsModal = this.modalCtrl.create(TagsPopUp, null);
+        tagsModal.present();
+      }
+    });
     anototeOptionsModal.present();
   }
 

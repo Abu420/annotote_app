@@ -8,10 +8,10 @@ import { Signup } from '../pages/signup/signup';
 import { FrontViewPage } from '../pages/front-view/front-view';
 import { Profile } from '../pages/follows/follows_profile';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
-import { ListPage } from '../pages/list/list';
+import { Chat } from '../pages/chat/chat';
 import { Home } from '../pages/home/home';
 import { Settings } from '../pages/home/settings';
-import { AnototeOptions } from '../pages/anotote-detail/tote_options';
+import { AnototeOptions } from '../pages/anotote-list/tote_options';
 import { CommentDetailPopup } from '../pages/anotote-editor/comment_detail_popup';
 import { TopInterests } from '../pages/home/top_interests';
 import { TopOptions } from '../pages/home/top_options';
@@ -19,7 +19,8 @@ import { Notifications } from '../pages/notifications/notifications';
 import { Follows } from '../pages/follows/follows';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
-import { ViewOptions } from '../pages/anotote-detail/view_options';
+import { ViewOptions } from '../pages/anotote-list/view_options';
+import { TagsPopUp } from '../pages/anotote-list/tags';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 /**
  * Directives
@@ -42,15 +43,16 @@ import { UtilityMethods } from '../services/utility_methods'
     Login,
     Signup,
     Home,
+    Chat,
     Follows,
     Profile,
     ViewOptions,
+    TagsPopUp,
     Notifications,
     FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
     CommentDetailPopup,
-    ListPage,
     Settings,
     TopOptions,
     TopInterests,
@@ -76,13 +78,14 @@ import { UtilityMethods } from '../services/utility_methods'
     Settings,
     TopOptions,
     ViewOptions,
+    TagsPopUp,
     TopInterests,
     CommentDetailPopup,
     Notifications,
     FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
-    ListPage,
+    Chat,
     AnototeList,
     AnototeDetail,
     AnototeEditor

@@ -8,7 +8,7 @@ import { Home } from '../pages/home/home';
 import { Notifications } from '../pages/notifications/notifications';
 import { Follows } from '../pages/follows/follows';
 import { FrontViewPage } from '../pages/front-view/front-view';
-import { ListPage } from '../pages/list/list';
+import { Chat } from '../pages/chat/chat';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
@@ -37,8 +37,7 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Front View', component: FrontViewPage },
-      { title: 'My First List', component: ListPage }
+      { title: 'Front View', component: FrontViewPage }
     ];
   }
 
