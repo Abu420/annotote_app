@@ -36,11 +36,13 @@ export class Home {
     notifications.present();
   }
 
-  follows() {
+  follows(event) {
+    event.stopPropagation();
     this.navCtrl.push(Follows, {});
   }
 
-  presentTopOptionsModal() {
+  presentTopOptionsModal(event) {
+    event.stopPropagation();
     let topOptionsModal = this.modalCtrl.create(TopOptions, null);
     topOptionsModal.onDidDismiss(data => {
       if (data == 'interests') {
@@ -56,8 +58,8 @@ export class Home {
     topInterestsModal.present();
   }
 
-  openAnototeList() {
-    this.navCtrl.push(AnototeList, {});
+  openAnototeList(color) {
+    this.navCtrl.push(AnototeList, { color: color });
   }
 
   openSearchResults() {

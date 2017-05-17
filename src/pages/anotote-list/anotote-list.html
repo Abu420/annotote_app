@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar *ngIf="!edit_mode" color="commonheader">
+    <ion-toolbar *ngIf="!edit_mode" [color]="current_color">
         <ion-buttons start>
             <button navPop ion-button icon-only>
                 <ion-icon name="arrow-round-back"></ion-icon>
@@ -17,7 +17,7 @@
             </button>
         </ion-buttons>
     </ion-toolbar>
-    <ion-toolbar *ngIf="edit_mode" color="commonheader">
+    <ion-toolbar *ngIf="edit_mode" [color]="current_color">
         <ion-buttons start>
             <button (click)="close_bulk_actions()" ion-button icon-only>
                 <ion-icon name="close"></ion-icon>
@@ -210,7 +210,7 @@
         <span *ngFor="let bar of anototes" [ngClass]="bar.type=='message'?'red':'green'"></span>
     </div>
     <ion-fab bottom right>
-        <button (click)="presentViewOptionsModal()" ion-fab color="dark">            
+        <button (click)="presentViewOptionsModal()" ion-fab [color]="current_color">            
             <img src="assets/img/tot_icon_white.png" />
         </button>
     </ion-fab>

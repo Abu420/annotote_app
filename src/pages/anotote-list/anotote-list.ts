@@ -27,11 +27,13 @@ export class AnototeList {
   public edit_mode: boolean; // True for edit list mode while false for simple list
   public current_active_anotote: Anotote;
   public toast: Toast;
+  public current_color: string;
 
   /**
    * Constructor
    */
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+    this.current_color = navParams.get('color');
   }
 
   /**
