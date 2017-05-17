@@ -9,6 +9,7 @@ import { FrontViewPage } from '../pages/front-view/front-view';
 import { Profile } from '../pages/follows/follows_profile';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { Chat } from '../pages/chat/chat';
+import { SearchResults } from '../pages/search-results/search-results';
 import { Home } from '../pages/home/home';
 import { Settings } from '../pages/home/settings';
 import { AnototeOptions } from '../pages/anotote-list/tote_options';
@@ -47,6 +48,7 @@ import { UtilityMethods } from '../services/utility_methods'
     Follows,
     Profile,
     ViewOptions,
+    SearchResults,
     TagsPopUp,
     Notifications,
     FrontViewPage,
@@ -80,6 +82,7 @@ import { UtilityMethods } from '../services/utility_methods'
     ViewOptions,
     TagsPopUp,
     TopInterests,
+    SearchResults,
     CommentDetailPopup,
     Notifications,
     FrontViewPage,

@@ -109,7 +109,6 @@ export class AnototeList {
       position: 'bottom',
       dismissOnPageChange: true,
       showCloseButton: false,
-      duration: 3000,
       cssClass: 'bottom_snakbar'
     });
 

@@ -6,6 +6,7 @@ import { Settings } from '../home/settings';
 import { TopInterests } from '../home/top_interests';
 import { TopOptions } from '../home/top_options';
 import { AnototeList } from '../anotote-list/anotote-list';
+import { SearchResults } from '../search-results/search-results';
 import { FrontViewPage } from '../front-view/front-view';
 /**
  * Generated class for the Home page.
@@ -57,6 +58,10 @@ export class Home {
 
   openAnototeList() {
     this.navCtrl.push(AnototeList, {});
+  }
+
+  openSearchResults() {
+    this.navCtrl.push(SearchResults, {});
   }
 
   presentSettingsModal(event) {

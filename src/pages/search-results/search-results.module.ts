@@ -13,4 +13,4 @@ import { Chat } from './chat';
     Chat
   ]
 })
-export class ChatModule { }
+export class SearchResultsModule { }
