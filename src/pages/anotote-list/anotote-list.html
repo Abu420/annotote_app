@@ -113,31 +113,61 @@
                     </div>
                 </div>
                 <div (click)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'">
-                    <div class="quotes layout message-underlist">                        
+                    <div class="quotes layout message-underlist">
+                        <header class="header">
+                            <figure>
+                                <img (click)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
+                            </figure>
+                            <div class="underlist-text">
+                                <h4>Chantel Bardaro</h4>
+                                <div class="time">
+                                    <em>
+                                        <span>12:45</span>
+                                        <img src="assets/img/chat-gray.png" alt="">
+                                    </em>
+                                    <span>Message</span>
+                                </div>
+                            </div>
+                        </header>
                         <ion-list no-lines class="details-list layout">
                             <ion-item class="underlist-items">
-                                <div class="txt">
-                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                                <figure>
+                                    <img src="assets/img/check-green.png" alt="">
+                                </figure>
+                                <div class="check-text">
+                                    <div class="name-time">
+                                        <span class="user">Me</span>
+                                        <span class="msg-time">11:22</span>
+                                    </div>
+                                    <p>Agreed, but review the other background research I’ve gathered</p>
+                                    <img src="assets/img/option-msg.png" alt="">
                                 </div>
-                                <span class="status">"</span>
                             </ion-item>
                             <ion-item class="underlist-items">
-                                <span class="status">"</span>
-                                <div class="txt">
-                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                                <figure>
+                                    <img src="assets/img/check-yellow.png" alt="">
+                                </figure>
+                                <div class="check-text">
+                                    <div class="name-time">
+                                        <span class="user">Chantel Bardaro</span>
+                                        <span class="msg-time">11:22</span>
+                                    </div>
+                                    <p>Agreed, but review the other background research I’ve gathered</p>
+                                    <img src="assets/img/option-msg.png" alt="">
                                 </div>
                             </ion-item>
-                            <ion-item class="underlist-items">
-                                <div class="txt">
-                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                            <ion-item class="underlist-items unread-msg">
+                                <figure>
+                                    <img src="assets/img/check-red.png" alt="">
+                                </figure>
+                                <div class="check-text">
+                                    <div class="name-time">
+                                        <span class="user">Chantel Bardaro</span>
+                                        <span class="msg-time">11:22</span>
+                                    </div>
+                                    <p>Agreed, but review the other background research I’ve gathered</p>
+                                    <img src="assets/img/option-msg.png" alt="">
                                 </div>
-                                <span class="status">"</span>
-                            </ion-item>
-                            <ion-item class="underlist-items">
-                                <div class="txt">
-                                    <p>Adds to US political trensions with Syrian government &amp; President Assad</p>
-                                </div>
-                                <span class="status">*</span>
                             </ion-item>
                         </ion-list>
                     </div>
