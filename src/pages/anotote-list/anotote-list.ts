@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AnototeOptions } from '../anotote-list/tote_options';
 import { ViewOptions } from '../anotote-list/view_options';
 import { TagsPopUp } from '../anotote-list/tags';
+import { Chat } from '../chat/chat';
 /**
  * Services
  */
@@ -95,7 +96,13 @@ export class AnototeList {
     // this.navCtrl.push(AnototeDetail, {});
   }
 
-  presentAnototeOptionsModal() {
+  go_to_chat_thread() {
+    console.log('chat')
+    this.navCtrl.push(Chat, {});
+  }
+
+  presentAnototeOptionsModal(event) {
+    event.stopPropagation();
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
       console.log(data)
