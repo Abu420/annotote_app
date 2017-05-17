@@ -209,7 +209,7 @@
     <div *ngIf="!edit_mode" class="fancy-bars">
         <span *ngFor="let bar of anototes" [ngClass]="bar.type=='message'?'red':'green'"></span>
     </div>
-    <ion-fab bottom right>
+    <ion-fab *ngIf="!current_active_anotote" bottom right>
         <button (click)="presentViewOptionsModal()" ion-fab [color]="current_color">            
             <img src="assets/img/tot_icon_white.png" />
         </button>
