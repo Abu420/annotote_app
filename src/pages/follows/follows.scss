@@ -1,12 +1,12 @@
 follow_profile {
     .top_empty_box {
         width: 100%;
-        height: 50%;
+        height: 35%;
         background: rgba(0, 0, 0, 0.7);
     }
     .content_follows_profile {
         width: 100%;
-        height: 50%;
+        height: 65%;
         overflow-y: auto;
         background-color: #fff;
     }
@@ -15,31 +15,32 @@ follow_profile {
         overflow: hidden;
     }
     .follow_head {
-        margin: 0 0 20px;
+        height: 50px;
+        width: 100%;
         overflow: hidden;
-    }
-    .follow_head button {
-        width: 17px;
-        float: left;
-        background: none;
-        box-shadow: none;
-    }
-    .follow_head strong {
-        padding: 10px 10px 0;
-        font-size: 15px;
-        line-height: 19px;
-        font-weight: norma;
-        float: left;
-        color: #000;
-    }
-    .follow_head strong em {
-        font-style: normal;
-        color: #d0d0d0;
+        .overflow_menu {
+            width: 45px;
+            float: left;
+            background: none;
+            box-shadow: none;
+        }
+        strong {
+            font-size: 20px;
+            line-height: 45px;
+            font-weight: normal;
+            float: left;
+            color: #000;
+            em {
+                font-style: normal;
+                color: #d0d0d0;
+            }
+        }
     }
     .content_follows_profile {
         background: #fff;
     }
     .img-holder {
+        padding: 25px;
         text-align: center;
         overflow: hidden;
     }
@@ -92,6 +93,7 @@ follow_profile {
         font-size: 12px;
     }
 }
+
 .follows_header .toolbar-background {
     border: 0px;
 }

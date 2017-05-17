@@ -54,7 +54,7 @@ export class FrontViewPage {
                   dismissOnPageChange: true,
                   showCloseButton: false,
                   duration: 3000,
-                  cssClass: 'login_signup_snakbar'
+                  cssClass: 'bottom_snakbar'
             });
 
             this.toast.onDidDismiss(() => {

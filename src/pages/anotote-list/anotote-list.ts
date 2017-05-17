@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, ToastController, Toast, NavParams } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
@@ -26,11 +26,12 @@ export class AnototeList {
   public anototes: Anotote[];
   public edit_mode: boolean; // True for edit list mode while false for simple list
   public current_active_anotote: Anotote;
+  public toast: Toast;
 
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
   }
 
   /**
@@ -86,6 +87,8 @@ export class AnototeList {
   openAnototeDetail(anotote) {
     if (this.current_active_anotote) {
       this.current_active_anotote.active = false;
+      if (!this.current_active_anotote.active && this.current_active_anotote.type == 'message')
+        this.toast.dismiss();
       if (this.current_active_anotote.id == anotote.id) {
         this.current_active_anotote = null;
         return;
@@ -93,7 +96,27 @@ export class AnototeList {
     }
     this.current_active_anotote = anotote
     this.current_active_anotote.active = !this.current_active_anotote.active;
-    // this.navCtrl.push(AnototeDetail, {});
+    if (this.current_active_anotote.active && this.current_active_anotote.type == 'message')
+      this.presentToast();
+  }
+
+  presentToast() {
+    if (this.toast != null) {
+      this.toast.dismiss();
+    }
+    this.toast = this.toastCtrl.create({
+      message: 'Reply to Chantal Bardaro',
+      position: 'bottom',
+      dismissOnPageChange: true,
+      showCloseButton: false,
+      duration: 3000,
+      cssClass: 'bottom_snakbar'
+    });
+
+    this.toast.onDidDismiss(() => {
+    });
+
+    this.toast.present();
   }
 
   go_to_chat_thread() {

@@ -19,7 +19,9 @@
     background-repeat: no-repeat;
     display: block;
 }
-span.dot, span.un_active_dot {
+
+span.dot,
+span.un_active_dot {
     border-radius: 50%;
     display: table-cell;
     text-align: center;
@@ -73,4 +75,17 @@ span.un_active_dot:after {
 
 .list-ios .item-block .item-inner {
     border-bottom: 0px !important;
+}
+
+.bottom_snakbar {
+    width: 100%;
+    border-radius: 0px;
+    .toast-wrapper {
+        bottom: 0px !important;
+        right: 0;
+        left: 0;
+        transform: translateY(0px) !important;
+        text-align: center;
+        border-radius: 0px;
+    }
 }
