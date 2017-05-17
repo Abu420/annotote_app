@@ -12,6 +12,13 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.tote_green_logo {
+    background-image: url('..assets/img/tote_logo.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+}
 span.dot, span.un_active_dot {
     border-radius: 50%;
     display: table-cell;

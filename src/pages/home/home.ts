@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { App, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
 import { TopInterests } from '../home/top_interests';
 import { TopOptions } from '../home/top_options';
 import { AnototeList } from '../anotote-list/anotote-list';
+import { FrontViewPage } from '../front-view/front-view';
 /**
  * Generated class for the Home page.
  *
@@ -19,11 +20,13 @@ import { AnototeList } from '../anotote-list/anotote-list';
 })
 export class Home {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
   }
 
+  /**
+   * View Events
+   */
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Home');
   }
 
   notifications() {
@@ -57,6 +60,11 @@ export class Home {
   presentSettingsModal(event) {
     event.stopPropagation();
     let settingsModal = this.modalCtrl.create(Settings, null);
+    settingsModal.onDidDismiss(data => {
+      if (data == 'logout') {
+        this.appCtrl.getRootNav().setRoot(FrontViewPage);
+      }
+    });
     settingsModal.present();
   }
 

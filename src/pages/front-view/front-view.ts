@@ -18,6 +18,12 @@ import { UtilityMethods } from '../../services/utility_methods'
 export class FrontViewPage {
       toast: Toast;
       constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+      }
+
+      /**
+       * View Events
+       */
+      ionViewDidLoad() {
             this.statusBar.backgroundColorByHexString('000000');
       }
 

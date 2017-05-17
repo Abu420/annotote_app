@@ -1,25 +1,21 @@
-page-notifications {}
-
-.product-list.notifications .txt strong {
-    color: #000;
-}
-
-.product-list.notifications .item.active .txt strong {
-    color: #ff001d;
-}
-
-.product-list.notifications .item .txt {
-    padding: 3px 0 16px;
-}
-
-.notifications_header {
-    height: $toolbar-snakebar-bottom;
-    min-height: $toolbar-snakebar-bottom;
-    .toolbar-title-ios {
-        font-size: 12px;
+page-notifications {
+    .product-list.notifications .txt strong {
+        color: #000;
     }
-}
-
-.notifications_header .toolbar-background {
-    border: 0px;
+    .product-list.notifications .item.active .txt strong {
+        color: #ff001d;
+    }
+    .product-list.notifications .item .txt {
+        padding: 3px 0 16px;
+    }
+    .notifications_header {
+        height: $toolbar-snakebar-bottom;
+        min-height: $toolbar-snakebar-bottom;
+        .toolbar-title-ios {
+            font-size: 12px;
+        }
+    }
+    .notifications_header .toolbar-background {
+        border: 0px;
+    }
 }

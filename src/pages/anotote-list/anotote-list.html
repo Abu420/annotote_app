@@ -1,157 +1,147 @@
 <ion-header>
-    <ion-toolbar color="commonheader">
+    <ion-toolbar *ngIf="!edit_mode" color="commonheader">
         <ion-buttons start>
             <button navPop ion-button icon-only>
                 <ion-icon name="arrow-round-back"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title></ion-title>
+        <ion-title>
+            <div class="dots_box">
+                <span class="un_active_dot"></span>
+                <span class="dot"></span>
+            </div>
+        </ion-title>
         <ion-buttons end>
             <button ion-button icon-only>
                 <ion-icon name="help"></ion-icon>
             </button>
         </ion-buttons>
-        <!--<div class="header-holder">
-            <ion-title></ion-title>
-            <ion-list no-lines class="header-socials">
-                <ion-item>
-                    <button ion-button icon-only class="first-btn"><img src="assets/img/tag.png"></button>
-                </ion-item>
-                <ion-item>
-                    <ion-icon name="share"></ion-icon>
-                    <span>Share</span>
-                </ion-item>
-                <ion-item>
-                    <ion-icon name="unlock"></ion-icon>
-                    <span>Privacy</span>
-                </ion-item>
-                <ion-item>
-                    <ion-icon name="trash"></ion-icon>
-                    <span>Delete</span>
-                </ion-item>
-            </ion-list>
-        </div>-->
+    </ion-toolbar>
+    <ion-toolbar *ngIf="edit_mode" color="commonheader">
+        <ion-buttons start>
+            <button (click)="close_bulk_actions()" ion-button icon-only>
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button icon-only>
+                <ion-icon name="share"></ion-icon>
+            </button>
+            <button ion-button icon-only>
+                <ion-icon name="lock"></ion-icon>
+            </button>
+            <button ion-button icon-only>
+                <ion-icon name="trash"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <ion-list class="product-list">
-            <ion-item (click)="openAnototeDetail()" class="active">
-                <div class="img-holder"><img src="assets/img/img2.png"></div>
-                <div class="txt">
-                    <strong>Chantel Bardaro Message</strong>
-                    <div class="time">
-                        <em>
-                            <button type="button"><ion-icon name="chatbubbles"></ion-icon></button>
-                            <span>12:45</span>
+        <ion-list *ngIf="!edit_mode" class="product-list">
+            <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type=='message'?'active':''">
+                <div (click)="openAnototeDetail(anotote)">
+                    <div class="img-holder"><img src="assets/img/img2.png"></div>
+                    <div class="txt">
+                        <strong [innerText]="anotote.title"></strong>
+                        <p [innerText]="anotote.short_text"></p>
+                        <div class="time">
+                            <em>
+                            <button type="button">
+                                <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
+                            </button>
+                            <span [innerText]="anotote.time"></span>
                         </em>
+                        </div>
                     </div>
                 </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img2.png"></div>
-                <div class="txt">
-                    <strong>The future of business: Open</strong>
-                    <div class="time">
-                        <em>
-                      <button type="button"><ion-icon name="arrow-dropright"></ion-icon></button>
-                      <span>10:31</span>
-                    </em>
-                        <span>The Buttonwood Tree</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img2.png"></div>
-                <div class="txt">
-                    <strong>The future of business: Open</strong>
-                    <div class="time">
-                        <em>
-                      <button type="button"><ion-icon name="barcode"></ion-icon></button>
-                      <span>10:31</span>
-                    </em>
-                        <span>The Buttonwood Tree</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img2.png"></div>
-                <div class="txt">
-                    <strong>The future of business: Open</strong>
-                    <div class="time">
-                        <em>
-                      <button type="button"><ion-icon name="briefcase"></ion-icon></button>
-                      <span>10:31</span>
-                    </em>
-                        <span>The Buttonwood Tree</span>
+                <div *ngIf="anotote.active">
+                    <div class="quotes layout">
+                        <header class="header">
+                            <button ion-button icon-only (click)="presentAnototeOptionsModal()" class="header-btn"><img src="assets/img/bg-header.png"></button>
+                            <strong>The future of business: Open source economics</strong>
+                            <div class="time">
+                                <em>
+                                    <span>12:45</span>
+                                    <button type="button"><ion-icon name="chatbubbles"></ion-icon></button>
+                                </em>
+                                <span>The Buttonwood Tree</span>
+                            </div>
+                            <div class="btns-area">
+                                <button ion-button class="active">Me</button>
+                                <button ion-button>Chantel Bardaro (3)</button>
+                                <button ion-button>Top</button>
+                            </div>
+                        </header>
+                        <ion-list no-lines class="details-list layout">
+                            <ion-item>
+                                <span class="status">"</span>
+                                <div class="txt">
+                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                                </div>
+                            </ion-item>
+                            <ion-item>
+                                <span class="status">"</span>
+                                <div class="txt">
+                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                                </div>
+                            </ion-item>
+                            <ion-item>
+                                <span class="status">"</span>
+                                <div class="txt">
+                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                                </div>
+                            </ion-item>
+                            <ion-item>
+                                <span class="status">*</span>
+                                <div class="txt">
+                                    <p>Adds to US political trensions with Syrian government &amp; President Assad</p>
+                                </div>
+                            </ion-item>
+                        </ion-list>
                     </div>
                 </div>
             </ion-item>
         </ion-list>
 
-        <!--<ion-list no-lines class="product-list show">
-            <ion-item class="active">
+        <ion-list *ngIf="edit_mode" no-lines class="product-list show">
+            <ion-item (click)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"
+                [ngClass]="anotote.checked?'even':''">
                 <div class="check">
-                    <img src="assets/img/check1.png">
-                   
+                    <img *ngIf="!anotote.checked" src="assets/img/check1.png">
+                    <img *ngIf="anotote.checked" src="assets/img/check2.png">
                 </div>
                 <div class="txt">
+                    <div class="txt-holder">
+                        <strong [innerText]="anotote.title"></strong>
+                    </div>
                     <div class="time">
                         <em>
-                            <button type="button"><ion-icon name="chatbubbles"></ion-icon></button>
-                            <span>12:45</span>
+                            <button type="button">
+                                <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
+                                <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
+                            </button>
+                            <span [innerText]="anotote.time"></span>
                         </em>
-                    </div>
-                    <div class="txt-holder">
-                        <strong>Chantel Bardaro</strong>
-                        <p>Message</p>
+                        <p [innerText]="anotote.short_text"></p>
                     </div>
                 </div>
             </ion-item>
-            <ion-item class="active">
-                <div class="check">
-                   
-                    <img src="assets/img/check2.png">
-                </div>
-                <div class="txt">
-                    <div class="time">
-                        <em>
-                            <button type="button"><ion-icon name="chatbubbles"></ion-icon></button>
-                            <span>12:45</span>
-                        </em>
-                    </div>
-                    <div class="txt-holder">
-                        <strong>Chantel Bardaro</strong>
-                        <p>The New York Times</p>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item class="active">
-                <div class="check">
-                   
-                    <img src="assets/img/check2.png">
-                </div>
-                <div class="txt">
-                    <div class="time">
-                        <em>
-                            <button type="button"><ion-icon name="chatbubbles"></ion-icon></button>
-                            <span>12:45</span>
-                        </em>
-                    </div>
-                    <div class="txt-holder">
-                        <strong>Chantel Bardaro</strong>
-                        <p>The Buttonwood Tree</p>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>-->
+        </ion-list>
     </div>
-    <!--<div class="fancy-bars">
-        <span *ngFor="let bar of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">bar</span>
-    </div>-->
+    <div *ngIf="!edit_mode" class="fancy-bars">
+        <span *ngFor="let bar of anototes" [ngClass]="bar.type=='message'?'red':'green'"></span>
+    </div>
     <ion-fab bottom right>
-        <button (click)="go_to_editor()" ion-fab>
-                <ion-icon name="add"></ion-icon>
-            </button>
+        <button (click)="go_to_editor()" ion-fab color="dark">            
+            <img src="assets/img/tot_icon_white.png" />
+        </button>
     </ion-fab>
 </ion-content>
