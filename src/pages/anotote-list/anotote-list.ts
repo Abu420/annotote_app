@@ -87,10 +87,11 @@ export class AnototeList {
   }
 
   openAnototeDetail(anotote) {
+    if (this.toast != null) {
+      this.toast.dismiss();
+    }
     if (this.current_active_anotote) {
       this.current_active_anotote.active = false;
-      if (!this.current_active_anotote.active && this.current_active_anotote.type == 'message')
-        this.toast.dismiss();
       if (this.current_active_anotote.id == anotote.id) {
         this.current_active_anotote = null;
         return;

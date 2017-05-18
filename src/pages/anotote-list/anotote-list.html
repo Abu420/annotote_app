@@ -12,14 +12,14 @@
             </div>
         </ion-title>
         <ion-buttons end>
-            <button (click)="go_to_editor()" ion-button icon-only>
+            <button (tap)="go_to_editor()" ion-button icon-only>
                 <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
     <ion-toolbar *ngIf="edit_mode" [color]="current_color">
         <ion-buttons start>
-            <button (click)="close_bulk_actions()" ion-button icon-only>
+            <button (tap)="close_bulk_actions()" ion-button icon-only>
                 <ion-icon name="close"></ion-icon>
             </button>
         </ion-buttons>
@@ -40,7 +40,7 @@
     <div id="wrapper">
         <ion-list *ngIf="!edit_mode" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type=='message'?'active':''">
-                <div (click)="openAnototeDetail(anotote)">
+                <div (tap)="openAnototeDetail(anotote)">
                     <div class="img-holder"><img src="assets/img/img2.png"></div>
                     <div class="txt">
                         <strong [innerText]="anotote.title"></strong>
@@ -66,7 +66,7 @@
                     <div class="quotes layout message-underlist">
                         <header class="header">
                             <figure>
-                                <img (click)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
+                                <img (tap)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
                             </figure>
                             <div class="underlist-text">
                                 <strong>The future of business: Open source economics</strong>
@@ -112,11 +112,11 @@
                         </ion-list>
                     </div>
                 </div>
-                <div (click)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'">
+                <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'">
                     <div class="quotes layout message-underlist">
                         <header class="header">
                             <figure>
-                                <img (click)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
+                                <img src="assets/img/option-icon.png" alt="">
                             </figure>
                             <div class="underlist-text">
                                 <h4>Chantel Bardaro</h4>
@@ -179,7 +179,7 @@
         </ion-list>
 
         <ion-list *ngIf="edit_mode" no-lines class="product-list show">
-            <ion-item (click)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"
+            <ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"
                 [ngClass]="anotote.checked?'even':''">
                 <div class="check">
                     <img *ngIf="!anotote.checked" src="assets/img/check1.png">
@@ -206,11 +206,11 @@
             </ion-item>
         </ion-list>
     </div>
-    <div *ngIf="!edit_mode" class="fancy-bars">
+    <!--<div *ngIf="!edit_mode" class="fancy-bars">
         <span *ngFor="let bar of anototes" [ngClass]="bar.type=='message'?'red':'green'"></span>
-    </div>
+    </div>-->
     <ion-fab *ngIf="!current_active_anotote" bottom right>
-        <button (click)="presentViewOptionsModal()" ion-fab [color]="current_color">            
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">            
             <img src="assets/img/tot_icon_white.png" />
         </button>
     </ion-fab>

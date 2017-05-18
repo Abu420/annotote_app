@@ -39,18 +39,19 @@
 
 tags_popup {
     .tag-panel{
-        height: 100vh;
+        height: 100%;
         .top_empty_box{
-            height: calc(100vh - 300px);
+            height: 60%;
             background: rgba(0,0,0, .6);
         }
         .tags-panel{
-            height: calc(100vh - 366px);
+            height: 40%;
             background: #FFF;
             h3{
                 text-align: center;
                 padding: 15px 0px;
                 margin: 0px;
+                height: 50px;
                 background: #e0e0e0;
                 color: #a6a9b9;
                 font-size: 16px;
@@ -61,7 +62,7 @@ tags_popup {
                 padding: 0px;
                 list-style: none;
                 padding: 20px;
-                height: calc(100vh - 415px);
+                height: calc(100% - 50px);
                 overflow: auto;
                 li{
                     display: block;

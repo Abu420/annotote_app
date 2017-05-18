@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { Chat } from './chat';
+import { SearchResults } from './search-results';
 
 @NgModule({
   declarations: [
-    Chat,
+    SearchResults,
   ],
   imports: [
-    IonicPageModule.forChild(Chat),
+    IonicPageModule.forChild(SearchResults),
   ],
   exports: [
-    Chat
+    SearchResults
   ]
 })
 export class SearchResultsModule { }
