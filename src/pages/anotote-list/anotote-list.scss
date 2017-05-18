@@ -38,16 +38,16 @@
 }
 
 tags_popup {
-    .tag-panel{
+    .tag-panel {
         height: 100%;
-        .top_empty_box{
+        .top_empty_box {
             height: 60%;
-            background: rgba(0,0,0, .6);
+            background: rgba(0, 0, 0, .6);
         }
-        .tags-panel{
+        .tags-panel {
             height: 40%;
             background: #FFF;
-            h3{
+            h3 {
                 text-align: center;
                 padding: 15px 0px;
                 margin: 0px;
@@ -57,23 +57,23 @@ tags_popup {
                 font-size: 16px;
                 box-shadow: 0px 1px 2px #888;
             }
-            .tag-list{
+            .tag-list {
                 margin: 0px;
                 padding: 0px;
                 list-style: none;
                 padding: 20px;
                 height: calc(100% - 50px);
                 overflow: auto;
-                li{
+                li {
                     display: block;
                     padding: 10px 0px;
-                    img{
+                    img {
                         width: 20px;
                         display: inline-block;
                         vertical-align: middle;
                         margin-right: 15px;
                     }
-                    span{
+                    span {
                         display: inline-block;
                         vertical-align: middle;
                         font-size: 14px;
@@ -192,80 +192,80 @@ page-anotote-list {
             }
         }
     }
-    .message-underlist{
-        .header{
+    .message-underlist {
+        .header {
             padding: 20px 0;
-            figure{
+            figure {
                 margin: 0px;
                 display: inline-block;
                 width: 9%;
                 text-align: left;
                 vertical-align: middle;
-                img{
+                img {
                     width: 6px;
                 }
             }
-            .underlist-text{
+            .underlist-text {
                 display: inline-block;
                 width: 90%;
                 vertical-align: middle;
-                strong{
+                strong {
                     display: -webkit-inline-box;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 2;
                     overflow: hidden;
                 }
-                h4{
+                h4 {
                     font-size: 5vw;
                     font-weight: 600;
                 }
-                .time{
+                .time {
                     float: left;
                     width: 100%;
                     margin-bottom: 10px;
-                    em{
+                    em {
                         width: 60px;
-                        img{
+                        img {
                             width: 16px;
                             float: right;
                             margin-left: 5px;
                         }
                     }
                 }
-                .btns-area{
-                    button{
+                .btns-area {
+                    button {
                         float: left;
                         font-size: 12px !important;
                         background: #e0e0e0;
                         margin-right: 5vw !important;
-                        &.me-tab{
+                        &.me-tab {
                             background: #2ba600;
                         }
                     }
                 }
             }
         }
-        .underlist-items{
+        .underlist-items {
             padding: 0px;
             border: 0px !important;
-            .item-inner{
+            .item-inner {
                 padding: 0px;
-                .label-ios{
+                .label-ios {
                     margin: 0px;
                     padding: 15px 0px;
-                    .status{
+                    .status {
                         width: 22px;
                         height: 22px;
                         font-size: 30px;
                         line-height: 1;
                     }
-                    .txt{
+                    .txt {
                         margin: 0px;
                         padding: 0px;
                         float: right;
                         width: 88%;
                     }
-                    figure{
+                    figure {
                         margin: 0px;
                         padding: 0px;
                         list-style: none;
@@ -273,22 +273,22 @@ page-anotote-list {
                         width: 10%;
                         vertical-align: top;
                         padding-top: 25px;
-                        img{
+                        img {
                             width: 15px;
                         }
                     }
-                    .check-text{
+                    .check-text {
                         display: inline-block;
                         vertical-align: top;
                         width: 89%;
-                        .name-time{
+                        .name-time {
                             color: #bfbfbf;
                             font-size: 16px;
-                            .msg-time{
+                            .msg-time {
                                 float: right;
                             }
                         }
-                        p{
+                        p {
                             font-size: 18px;
                             font-weight: 600;
                             word-wrap: normal;
@@ -297,27 +297,66 @@ page-anotote-list {
                             word-break: normal;
                             letter-spacing: 1px;
                         }
-                        img{
+                        img {
                             width: 30px;
                         }
                     }
-
                 }
             }
-            &.unread-msg{
+            &.unread-msg {
                 .item-inner {
-                    .label-ios{
-                        .check-text{
-                            .name-time{
+                    .label-ios {
+                        .check-text {
+                            .name-time {
                                 color: #ff2600;
                             }
-                            p{
+                            p {
                                 color: #ff2600;
                             }
                         }
                     }
                 }
             }
+        }
+    }
+    /**
+        Chat Message Box CSS
+    */
+    .message-bottom {
+        .toolbar-ios {
+            overflow: visible;
+            contain: none;
+        }
+    }
+    .send-btn {
+        position: relative;
+        img {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        input[type="text"] {
+            display: inline-block;
+            vertical-align: middle;
+            padding: 5px;
+            width: 70vw;
+            background: #222;
+            border: 0px;
+            color: #FFF;
+        }
+        input[type="submit"] {
+            background: #CCC;
+            color: #FFF;
+            width: 60px;
+            height: 60px;
+            overflow: hidden;
+            border-radius: 50%;
+            text-align: center;
+            padding: 15px 0px;
+            text-transform: uppercase;
+            position: absolute;
+            right: -20px;
+            top: -33px;
+            border: 0;
         }
     }
 }

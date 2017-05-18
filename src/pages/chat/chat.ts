@@ -12,14 +12,39 @@ import { UtilityMethods } from '../../services/utility_methods';
 })
 export class Chat {
 
+  /**
+   * Variables && Configs
+   */
+  public reply_box_on: boolean;
+
+
+  /**
+   * Constructor
+   */
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
+    this.reply_box_on = false;
   }
+
+  /**
+  * View LifeCycle Events
+  */
+
+  ionViewDidLoad() {
+  }
+
+  ionViewWillLeave() {
+  }
+
+  /**
+  * Methods
+  */
+
 
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AnototeDetail');
+  show_reply_box() {
+    this.reply_box_on = true;
   }
 }

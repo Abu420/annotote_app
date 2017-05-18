@@ -29,12 +29,14 @@ export class AnototeList {
   public current_active_anotote: Anotote;
   public toast: Toast;
   public current_color: string;
+  public reply_box_on: boolean;
 
   /**
    * Constructor
    */
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
     this.current_color = navParams.get('color');
+    this.reply_box_on = false;
   }
 
   /**
@@ -65,6 +67,10 @@ export class AnototeList {
   /**
    * Methods
    */
+
+  show_reply_box() {
+    this.reply_box_on = true;
+  }
 
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
