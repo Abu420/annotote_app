@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, ModalController, NavController, ToastController, Toast, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
@@ -23,6 +23,7 @@ export class AnototeList {
   /**
    * Variables && Configs
    */
+  @ViewChild(Content) content: Content;
   public anototes: Anotote[];
   public edit_mode: boolean; // True for edit list mode while false for simple list
   public current_active_anotote: Anotote;
@@ -87,10 +88,9 @@ export class AnototeList {
   }
 
   openAnototeDetail(anotote) {
-    if (this.toast != null) {
-      this.toast.dismiss();
-    }
     if (this.current_active_anotote) {
+      if (this.current_active_anotote.type == 'message')
+        this.content.resize();
       this.current_active_anotote.active = false;
       if (this.current_active_anotote.id == anotote.id) {
         this.current_active_anotote = null;
@@ -99,8 +99,8 @@ export class AnototeList {
     }
     this.current_active_anotote = anotote
     this.current_active_anotote.active = !this.current_active_anotote.active;
-    if (this.current_active_anotote.active && this.current_active_anotote.type == 'message')
-      this.presentToast();
+    if (this.current_active_anotote.type == 'message')
+      this.content.resize();
   }
 
   presentToast() {

@@ -67,6 +67,7 @@ export class Home {
   }
 
   presentSettingsModal(event) {
+    console.log(event)
     event.stopPropagation();
     let settingsModal = this.modalCtrl.create(Settings, null);
     settingsModal.onDidDismiss(data => {

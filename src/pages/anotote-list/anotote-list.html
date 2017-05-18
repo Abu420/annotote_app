@@ -215,3 +215,8 @@
         </button>
     </ion-fab>
 </ion-content>
+<ion-footer *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">
+    <ion-toolbar color="dark">
+        <ion-title (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
+    </ion-toolbar>
+</ion-footer>
