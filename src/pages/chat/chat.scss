@@ -29,77 +29,114 @@ page-chat {
 		}
 	}
 	.underlist-items{
+        padding: 0px;
+        border: 0px !important;
+        .item-inner{
             padding: 0px;
-            border: 0px !important;
-            .item-inner{
-                padding: 0px;
-                .label-ios{
+            .label-ios{
+                margin: 0px;
+                padding: 15px;
+                .status{
+                    width: 22px;
+                    height: 22px;
+                    font-size: 30px;
+                    line-height: 1;
+                }
+                .txt{
                     margin: 0px;
-                    padding: 15px;
-                    .status{
-                        width: 22px;
-                        height: 22px;
-                        font-size: 30px;
-                        line-height: 1;
+                    padding: 0px;
+                    float: right;
+                    width: 88%;
+                }
+                figure{
+                    margin: 0px;
+                    padding: 0px;
+                    list-style: none;
+                    display: inline-block;
+                    width: 10%;
+                    vertical-align: top;
+                    padding-top: 25px;
+                    img{
+                        width: 15px;
                     }
-                    .txt{
-                        margin: 0px;
-                        padding: 0px;
-                        float: right;
-                        width: 88%;
-                    }
-                    figure{
-                        margin: 0px;
-                        padding: 0px;
-                        list-style: none;
-                        display: inline-block;
-                        width: 10%;
-                        vertical-align: top;
-                        padding-top: 25px;
-                        img{
-                            width: 15px;
+                }
+                .check-text{
+                    display: inline-block;
+                    vertical-align: top;
+                    width: 89%;
+                    .name-time{
+                        color: #bfbfbf;
+                        font-size: 16px;
+                        .msg-time{
+                            float: right;
                         }
                     }
+                    p{
+                        font-size: 18px;
+                        font-weight: 600;
+                        word-wrap: normal;
+                        white-space: normal;
+                        color: #000;
+                        word-break: normal;
+                        letter-spacing: 1px;
+                    }
+                    img{
+                        width: 30px;
+                    }
+                }
+
+            }
+        }
+        &.unread-msg{
+            .item-inner {
+                .label-ios{
                     .check-text{
-                        display: inline-block;
-                        vertical-align: top;
-                        width: 89%;
                         .name-time{
-                            color: #bfbfbf;
-                            font-size: 16px;
-                            .msg-time{
-                                float: right;
-                            }
+                            color: #ff2600;
                         }
                         p{
-                            font-size: 18px;
-                            font-weight: 600;
-                            word-wrap: normal;
-                            white-space: normal;
-                            color: #000;
-                            word-break: normal;
-                            letter-spacing: 1px;
-                        }
-                        img{
-                            width: 30px;
-                        }
-                    }
-
-                }
-            }
-            &.unread-msg{
-                .item-inner {
-                    .label-ios{
-                        .check-text{
-                            .name-time{
-                                color: #ff2600;
-                            }
-                            p{
-                                color: #ff2600;
-                            }
+                            color: #ff2600;
                         }
                     }
                 }
             }
         }
+    }
+    .message-bottom{
+        .toolbar-ios{
+            overflow: visible;
+            contain: none;
+        }
+    }
+    .send-btn{
+        position: relative;
+        img{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        input[type="text"]{
+            display: inline-block;
+            vertical-align: middle;
+            padding: 5px;
+            width: 70vw;
+            background: #222;
+            border: 0px;
+            color: #FFF;
+        }
+        input[type="submit"]{
+            background: #CCC;
+            color: #FFF;
+            width: 60px;
+            height: 60px;
+            overflow: hidden;
+            border-radius: 50%;
+            text-align: center;
+            padding: 15px 0px;
+            text-transform: uppercase;
+            position: absolute;
+            right: -20px;
+            top: -33px;
+            border: 0;
+        }
+    }
 }

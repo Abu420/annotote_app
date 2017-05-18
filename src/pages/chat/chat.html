@@ -208,10 +208,13 @@
         </ion-item>
     </ion-list>
 </ion-content>
-<ion-footer>
+<ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <ion-title (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
-        <div>
+        <!-- <ion-title (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title> -->
+        <div class="send-btn">
+            <img src="assets/img/check-green.png" alt="">
+            <input type="text" value="" name="search" placeholder="Reply to Chantel Bardaro">
+            <input type="submit" value="Send" name="send">
         </div>
     </ion-toolbar>
 </ion-footer>
