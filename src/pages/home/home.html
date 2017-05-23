@@ -35,9 +35,9 @@
         </ion-list>
     </div>
 </ion-content>
-<ion-fab bottom right>
+<ion-fab (tap)="notifications()" bottom right>
     <button ion-fab color="dark">
         <img src="assets/img/tot_icon_white.png" />
     </button>
-    <button (tap)="notifications()" ion-button icon-only class="notices">1</button>
+    <button ion-button icon-only class="notices">1</button>
 </ion-fab>

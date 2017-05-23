@@ -16,8 +16,10 @@ import { UtilityMethods } from '../../services/utility_methods'
       providers: [UtilityMethods]
 })
 export class FrontViewPage {
-      toast: Toast;
+      public toast: Toast;
+      public showFabButton: boolean;
       constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+            this.showFabButton = true;
       }
 
       /**
@@ -41,6 +43,7 @@ export class FrontViewPage {
 
       openAnototeList(event) {
             // this.navCtrl.push(AnototeList, {});
+            this.showFabButton = false;
             this.presentToast();
       }
 
@@ -53,11 +56,12 @@ export class FrontViewPage {
                   position: 'bottom',
                   dismissOnPageChange: true,
                   showCloseButton: false,
-                  duration: 3000,
+                  duration: 1000,
                   cssClass: 'bottom_snakbar'
             });
 
             this.toast.onDidDismiss(() => {
+                  this.showFabButton = true;
             });
 
             this.toast.present();

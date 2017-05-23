@@ -62,11 +62,11 @@
 
                 <!-- anatote detail -->
 
-                <div *ngIf="anotote.active && anotote.type!='message'">
+                <div *ngIf="anotote.active && anotote.type!='message'" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <header class="header">
                             <figure>
-                                <img (tap)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
+                                <img (click)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
                             </figure>
                             <div class="underlist-text">
                                 <strong>The future of business: Open source economics</strong>
@@ -112,7 +112,10 @@
                         </ion-list>
                     </div>
                 </div>
-                <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'">
+
+                <!-- Anotote Message Detail Section -->
+
+                <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <header class="header">
                             <figure>
@@ -215,8 +218,8 @@
         </button>
     </ion-fab>
 </ion-content>
-<ion-footer *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">
-    <ion-toolbar color="dark" class="message-bottom">
+<ion-footer class="message-bottom" *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">
+    <ion-toolbar color="dark">
         <ion-title *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">

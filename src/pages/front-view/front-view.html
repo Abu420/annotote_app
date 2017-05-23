@@ -123,7 +123,7 @@
             </ion-item>
         </ion-list>
     </div>
-    <ion-fab bottom right>
+    <ion-fab *ngIf="showFabButton" (tap)="open_annotote_site()" bottom right>
         <button ion-fab color="dark">
             <img src="assets/img/tot_icon_white.png" />
         </button>

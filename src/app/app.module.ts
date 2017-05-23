@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyApp } from './app.component';
 
 import { Login } from '../pages/login/login';
+import { ForgotPassword } from '../pages/forgot-password/forgot-password';
 import { Signup } from '../pages/signup/signup';
 import { FrontViewPage } from '../pages/front-view/front-view';
 import { Profile } from '../pages/follows/follows_profile';
@@ -44,6 +46,7 @@ import {ChatService} from "../services/chat.service";
     MyApp,
     Login,
     Signup,
+    ForgotPassword,
     Home,
     Chat,
     Follows,
@@ -67,6 +70,7 @@ import {ChatService} from "../services/chat.service";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -75,6 +79,7 @@ import {ChatService} from "../services/chat.service";
     MyApp,
     Login,
     Signup,
+    ForgotPassword,
     Home,
     Follows,
     Profile,
