@@ -89,7 +89,7 @@
         <span class="gray-bar"></span>
     </div>-->
     <ion-list no-lines class="details-list layout">
-        <ion-item class="underlist-items">
+        <ion-item *ngFor="let message of conversation" class="underlist-items">
             <figure>
                 <img src="assets/img/check-green.png" alt="">
             </figure>
@@ -98,114 +98,11 @@
                     <span class="user">Me</span>
                     <span class="msg-time">11:22</span>
                 </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
+                <p>{{message}}</p>
                 <img src="assets/img/option-msg.png" alt="">
             </div>
         </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-yellow.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Chantel Bardaro</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-green.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Me</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-yellow.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Chantel Bardaro</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-green.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Me</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-yellow.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Chantel Bardaro</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-green.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Me</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items">
-            <figure>
-                <img src="assets/img/check-yellow.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Chantel Bardaro</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
-        <ion-item class="underlist-items unread-msg">
-            <figure>
-                <img src="assets/img/check-red.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user">Chantel Bardaro</span>
-                    <span class="msg-time">11:22</span>
-                </div>
-                <p>Agreed, but review the other background research I’ve gathered</p>
-                <img src="assets/img/option-msg.png" alt="">
-            </div>
-        </ion-item>
+
     </ion-list>
 </ion-content>
 <ion-footer class="message-bottom">
@@ -213,8 +110,8 @@
         <ion-title *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
-            <input type="text" value="" name="search" placeholder="Reply to Chantel Bardaro">
-            <input type="submit" value="Send" name="send">
+            <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Reply to Chantel Bardaro">
+            <input type="submit" value="Send" (click)="sendMessage()" name="send">
         </div>
     </ion-toolbar>
 </ion-footer>

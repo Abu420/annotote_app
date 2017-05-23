@@ -37,6 +37,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
  * Services
  */
 import { UtilityMethods } from '../services/utility_methods'
+import {ChatService} from "../services/chat.service";
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { UtilityMethods } from '../services/utility_methods'
   ],
 
   providers: [
+    ChatService,
     StatusBar,
     InAppBrowser,
     SplashScreen,
