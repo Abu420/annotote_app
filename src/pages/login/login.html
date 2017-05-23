@@ -20,21 +20,23 @@
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <div class="form-area">
-            <div class="input-holder layout active">
+        <form name="login_form" class="form-area">
+            <div class="input-holder layout" [ngClass]="focus_field=='email'?'active':''">
                 <ion-icon name="mail"></ion-icon>
-                <ion-input type="text" placeholder="Email"></ion-input>
+                <ion-input [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')"
+                    type="email" placeholder="Email"></ion-input>
             </div>
-            <div class="input-holder layout">
+            <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':''">
                 <ion-icon name="unlock"></ion-icon>
-                <ion-input type="password" placeholder="Password"></ion-input>
+                <ion-input [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')"
+                    type="password" placeholder="Password"></ion-input>
             </div>
-            <button (tap)="go_home()" ion-button>Go</button>
-        </div>
+            <button [ngClass]="(user.email.length>0 && user.password.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>
+        </form>
     </div>
 </ion-content>
 <ion-footer no-border>
-    <ion-toolbar class="snakebar_forgot_password" color="homeheader">
+    <ion-toolbar (tap)="open_forgot_password()" class="snakebar_forgot_password" color="homeheader">
         <ion-title>Forgot Password</ion-title>
     </ion-toolbar>
 </ion-footer>

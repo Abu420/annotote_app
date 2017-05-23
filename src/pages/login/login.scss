@@ -15,7 +15,7 @@ page-login {
     }
     .input-holder {
         padding: 16px 10px;
-        border: 1px solid #d9d9d9;
+        border-bottom: 1px solid #d9d9d9;
     }
     .input-holder.active {
         background: #d9d9d9;
@@ -45,6 +45,9 @@ page-login {
         bottom: -10px;
         right: -10px;
         font-weight: normal;
+    }
+    .form-area button.green {
+        background: $me_app_color;
     }
     .snakebar_forgot_password {
         height: $toolbar-snakebar-bottom;
