@@ -85,6 +85,10 @@ tags_popup {
 }
 
 page-anotote-list {
+    .toolbar {
+        overflow: visible;
+        contain: none;
+    }
     .wedge_icon {
         background-image: url(../assets/img/wedge.png);
         background-size: contain;
@@ -93,8 +97,18 @@ page-anotote-list {
         display: inline-block;
         position: absolute;
         left: 0;
-        top: 50px;
+        top: 120px;
         background-repeat: no-repeat;
+        z-index: 10000;
+    }
+    .close_icon_overflowing {
+        background-image: url(../assets/img/cancel.png);
+        background-size: contain;
+        width: 60px;
+        height: 60px;
+        display: inline-block;
+        position: absolute;
+        top: 25px;
     }
     .aling-left {
         float: left;
@@ -273,7 +287,7 @@ page-anotote-list {
         }
         .underlist-text {
             display: inline-block;
-            width: 90%;
+            width: 100%;
             text-align: right;
             vertical-align: middle;
             strong {

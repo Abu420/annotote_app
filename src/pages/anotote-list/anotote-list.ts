@@ -1,4 +1,4 @@
-import { Component, ViewChild, trigger, transition, style, animate } from '@angular/core';
+import { Component, ViewChild, trigger, transition, keyframes, style, animate } from '@angular/core';
 import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -20,12 +20,18 @@ import { UtilityMethods } from '../../services/utility_methods';
     trigger(
       'enterAnimation', [
         transition(':enter', [
-          style({ transform: 'translateY(100%)', opacity: 0 }),
-          animate('500ms', style({ transform: 'translateY(0)', opacity: 1 }))
+          animate(600, keyframes([
+            style({ opacity: 0, transform: 'translateY(-20px)', offset: 0 }),
+            style({ opacity: 1, transform: 'translateY(-10px)', offset: .75 }),
+            style({ opacity: 1, transform: 'translateY(0)', offset: 1 }),
+          ]))
         ]),
         transition(':leave', [
-          style({ transform: 'translateY(0)', opacity: 1 }),
-          animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+          animate(600, keyframes([
+            style({ opacity: 1, transform: 'translateY(50px)', offset: 0 }),
+            style({ opacity: 1, transform: 'translateY(10px)', offset: .75 }),
+            style({ opacity: 0, transform: 'translateY(0)', offset: 1 }),
+          ]))
         ])
       ]
     )
