@@ -14,6 +14,6 @@ import { Chat } from './chat';
   ]
 })
 export class ChatModule {
-  public constructor(){
+  public constructor() {
   }
 }
