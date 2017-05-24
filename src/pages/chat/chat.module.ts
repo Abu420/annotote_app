@@ -13,4 +13,7 @@ import { Chat } from './chat';
     Chat
   ]
 })
-export class ChatModule { }
+export class ChatModule {
+  public constructor(){
+  }
+}
