@@ -41,7 +41,11 @@
         <ion-list *ngIf="!edit_mode" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type=='message'?'active':''">
                 <div (tap)="openAnototeDetail(anotote)">
-                    <div class="img-holder"><img src="assets/img/img2.png"></div>
+                    <div *ngIf="!anotote.active" class="img-holder">
+                        <img src="assets/img/img2.png">
+
+                    </div>
+                    <span class="options" *ngIf="anotote.active"></span>
                     <div class="txt">
                         <strong [innerText]="anotote.title"></strong>
                         <p [innerText]="anotote.short_text"></p>
@@ -63,27 +67,16 @@
                 <!-- anatote detail -->
 
                 <div *ngIf="anotote.active && anotote.type!='message'" [@enterAnimation]>
-                    <div class="quotes layout message-underlist">
-                        <header class="header">
-                            <figure>
-                                <img (click)="presentAnototeOptionsModal($event)" src="assets/img/option-icon.png" alt="">
-                            </figure>
-                            <div class="underlist-text">
-                                <strong>The future of business: Open source economics</strong>
-                                <div class="time">
-                                    <em>
-                                        <span>12:45</span>
-                                        <img src="assets/img/tile-gray.png" alt="">
-                                    </em>
-                                    <span>The Buttonwood Tree</span>
-                                </div>
-                                <div class="btns-area">
-                                    <button ion-button class="active me-tab">Me</button>
-                                    <button ion-button class="active bardaro-tab">Chantel Bardaro (3)</button>
-                                    <button ion-button class="active top-tab">Top</button>
-                                </div>
+                    <header class="header">
+                        <div class="underlist-text">
+                            <div class="btns-area">
+                                <button ion-button class="active me-tab">Me</button>
+                                <button ion-button class="active bardaro-tab">Chantel Bardaro (3)</button>
+                                <button ion-button class="active top-tab">Top</button>
                             </div>
-                        </header>
+                        </div>
+                    </header>
+                    <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
                             <ion-item class="underlist-items">
                                 <div class="txt">
@@ -117,21 +110,6 @@
 
                 <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
-                        <header class="header">
-                            <figure>
-                                <img src="assets/img/option-icon.png" alt="">
-                            </figure>
-                            <div class="underlist-text">
-                                <h4>Chantel Bardaro</h4>
-                                <div class="time">
-                                    <em>
-                                        <span>12:45</span>
-                                        <img src="assets/img/chat-gray.png" alt="">
-                                    </em>
-                                    <span>Message</span>
-                                </div>
-                            </div>
-                        </header>
                         <ion-list no-lines class="details-list layout">
                             <ion-item class="underlist-items">
                                 <figure>
@@ -212,6 +190,7 @@
     <!--<div *ngIf="!edit_mode" class="fancy-bars">
         <span *ngFor="let bar of anototes" [ngClass]="bar.type=='message'?'red':'green'"></span>
     </div>-->
+    <span class="wedge_icon"></span>
     <ion-fab *ngIf="!current_active_anotote" bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">            
             <img src="assets/img/tot_icon_white.png" />

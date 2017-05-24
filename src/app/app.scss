@@ -89,3 +89,35 @@ span.un_active_dot:after {
         border-radius: 0px;
     }
 }
+
+#wrapper {
+    width: 100%;
+    position: relative;
+    box-shadow: 0 0px 11px 0px #bdbdbd;
+}
+
+.list-none {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+.label-md,
+.item-md,
+.item-md.item-block .item-inner,
+.ion-list,
+.list-md,
+.list-ios {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.fab-md-primary {
+    bottom: 40px !important;
+}
