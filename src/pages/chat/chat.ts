@@ -5,6 +5,8 @@ import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angu
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import {ChatService} from "../../services/chat.service";
+import {ChatMessage} from "../../models/ChatMessage";
+import {User} from "../../models/user";
 
 declare var io:any;
 
@@ -20,33 +22,38 @@ export class Chat {
    */
   public reply_box_on: boolean;
   public socket:any;
-  public conversation:Array<any> = [];
+  public conversation:Array<ChatMessage> = [];
   public textMessage:string = "";
+  public secondUser:User = null;
+  public loggedInUser:User = null;
 
   /**
    * Constructor
    */
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService:ChatService) {
     this.reply_box_on = false;
+    this.secondUser = new User(3,'bilal','akmal','bilal@gmail.com',null);
+    this.loggedInUser = new User(2,'noman','tufail','noman@gmail.com',null);
+    this.chatService.threadingUser = this.secondUser;
     this.connectionToSocket();
   }
 
   public connectionToSocket(){
     this.socket = io("http://139.162.37.73:5000");
     this.socket.on('receive_message', (msg:any)=>{
-      if(msg.receiverId == this.getLoggedInUserId()){
-        this.conversation.push(msg.message);
+      if(msg.receiverId == this.getLoggedInUserId() && msg.senderId == this.secondUser.id){
+        this.conversation.push(new ChatMessage(1,this.secondUser.full_name,"06:00", msg.message));
       }
     });
   }
 
   public getLoggedInUserId(){
-    return 2;
+    return this.loggedInUser.id;
   }
 
   public sendMessage(){
     if(this.textMessage != ""){
-      this.socket.emit('send_message',this.textMessage,2);
+      this.socket.emit('send_message',this.textMessage,this.loggedInUser.id, this.secondUser.id);
       this.textMessage = "";
     }
   }
@@ -70,5 +77,9 @@ export class Chat {
 
   show_reply_box() {
     this.reply_box_on = true;
+  }
+
+  ionViewDidLeave(){
+    this.chatService.threadingUser = null;
   }
 }

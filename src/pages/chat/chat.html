@@ -14,95 +14,20 @@
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
-    <!--<div class="right-bar">
-        <span class="red-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="red-bar"></span>
-        <span class="red-bar"></span>
-        <span class="yellow-bar"></span>
-        <span class="yellow-bar"></span>
-        <span class="yellow-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="green-bar"></span>
-        <span class="green-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-        <span class="gray-bar"></span>
-    </div>-->
     <ion-list no-lines class="details-list layout">
         <ion-item *ngFor="let message of conversation" class="underlist-items">
             <figure>
-                <img src="assets/img/check-green.png" alt="">
+                <img src="assets/img/check-yellow.png" alt="">
             </figure>
             <div class="check-text">
                 <div class="name-time">
-                    <span class="user">Me</span>
-                    <span class="msg-time">11:22</span>
+                    <span class="user">{{message.sender}}</span>
+                    <span class="msg-time">{{message.time}}</span>
                 </div>
-                <p>{{message}}</p>
+                <p>{{message.message}}</p>
                 <img src="assets/img/option-msg.png" alt="">
             </div>
         </ion-item>
-
     </ion-list>
 </ion-content>
 <ion-footer class="message-bottom">
