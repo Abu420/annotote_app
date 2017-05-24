@@ -36,10 +36,11 @@ export class Chat {
     this.loggedInUser = new User(2,'noman','tufail','noman@gmail.com',null);
     this.chatService.threadingUser = this.secondUser;
     this.connectionToSocket();
+    this.chatService.listenForGlobalMessages();
   }
 
   public connectionToSocket(){
-    this.socket = io("http://139.162.37.73:5000");
+    this.socket = io(this.chatService.socketUrl);
     this.socket.on('receive_message', (msg:any)=>{
       if(msg.receiverId == this.getLoggedInUserId() && msg.senderId == this.secondUser.id){
         this.conversation.push(new ChatMessage(1,this.secondUser.full_name,"06:00", msg.message));
