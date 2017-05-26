@@ -40,6 +40,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
  */
 import { UtilityMethods } from '../services/utility_methods'
 import {ChatService} from "../services/chat.service";
+import {Http, HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {ChatService} from "../services/chat.service";
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
   ],

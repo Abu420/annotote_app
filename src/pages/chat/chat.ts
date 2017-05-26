@@ -33,7 +33,7 @@ export class Chat {
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService) {
     this.reply_box_on = false;
     this.secondUser = new User(3, 'bilal', 'akmal', 'bilal@gmail.com', null);
-    this.loggedInUser = new User(2, 'noman', 'tufail', 'noman@gmail.com', null);
+    this.loggedInUser = new User(4, 'noman', 'tufail', 'noman@gmail.com', null);
     this.chatService.threadingUser = this.secondUser;
     this.connectionToSocket();
     this.chatService.listenForGlobalMessages();
@@ -61,6 +61,9 @@ export class Chat {
 
   public sendMessage() {
     if (this.textMessage != "") {
+      this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:123123123}).subscribe((data)=>{
+        this.mapChatHistory(data.json().data.messages);
+      }, (error)=>{});
       this.socket.emit('send_message', this.textMessage, this.loggedInUser.id, this.secondUser.id);
       this.textMessage = "";
     }
@@ -70,7 +73,20 @@ export class Chat {
   * View LifeCycle Events
   */
 
-  ionViewDidLoad() { }
+  ionViewDidLoad() {
+    this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id).subscribe((data)=>{
+      let messages:Array<any> = data.json().data.messages;
+      this.mapChatHistory(messages);
+    },(error)=>{});
+  }
+
+  mapChatHistory(messages:Array<any>){
+    this.conversation = [];
+    for (let element of messages) {
+      let sender = (parseInt(element.sender_id) == this.getLoggedInUserId())?this.loggedInUser.full_name:this.secondUser.full_name;
+      this.conversation.push(new ChatMessage(element.id, sender, element.createdAt, element.text));
+    }
+  }
 
   ionViewWillLeave() { }
 
