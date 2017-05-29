@@ -33,8 +33,30 @@ export class ChatService {
   }
 
   public saveMessage(data:any){
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$35FPtXCqaC9bgABVrQ7hle342ZOO274mogDgE8/pqixKhRVaPPGG6' });
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$m2fnGSYO8Aq4vPgI3uID9egtVStelES9lFIVswpdc38P6n7wHoRvm' });
     let options = new RequestOptions({ headers: headers });
     return this.http.post("http://139.162.37.73/anotote/api/send-message",data, options);
+  }
+
+  public currentUnixTimestamp(){
+    return Math.round((new Date()).getTime() / 1000);
+  }
+
+  public checkTime(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+
+  public currentTime() {
+    let today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+    // add a zero in front of numbers<10
+    m = this.checkTime(m);
+    s = this.checkTime(s);
+    return h + ":" + m + ":" + s;
   }
 }

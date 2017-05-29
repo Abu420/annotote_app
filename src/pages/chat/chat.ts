@@ -53,18 +53,19 @@ export class Chat {
   }
 
   doRefresh(refresher) {
-    setTimeout(() => {
-      console.log('Async operation has ended');
+    this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id).subscribe((data)=>{
+      let messages:Array<any> = data.json().data.messages;
+      this.mapChatHistory(messages);
       refresher.complete();
-    }, 2000);
+    },(error)=>{});
   }
 
   public sendMessage() {
     if (this.textMessage != "") {
-      this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:123123123}).subscribe((data)=>{
+      this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:this.chatService.currentUnixTimestamp()}).subscribe((data)=>{
         this.mapChatHistory(data.json().data.messages);
       }, (error)=>{});
-      this.socket.emit('send_message', this.textMessage, this.loggedInUser.id, this.secondUser.id);
+      this.socket.emit('send_message', this.textMessage, this.loggedInUser.id, this.secondUser.id, this.chatService.currentTime());
       this.textMessage = "";
     }
   }
