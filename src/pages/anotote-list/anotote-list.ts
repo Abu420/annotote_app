@@ -12,6 +12,9 @@ import { Chat } from '../chat/chat';
  * Services
  */
 import { UtilityMethods } from '../../services/utility_methods';
+import {AnototeService} from "../../services/anotote.service";
+import {AnototeListModule} from "./anotote-list.module";
+import {ListTotesModel} from "../../models/ListTotesModel";
 
 @IonicPage()
 @Component({
@@ -44,7 +47,7 @@ export class AnototeList {
    * Variables && Configs
    */
   @ViewChild(Content) content: Content;
-  public anototes: Anotote[];
+  public anototes: Array<ListTotesModel> = [];
   public edit_mode: boolean; // True for edit list mode while false for simple list
   public current_active_anotote: Anotote;
   public toast: Toast;
@@ -54,7 +57,7 @@ export class AnototeList {
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, public anototeService:AnototeService) {
     this.current_color = navParams.get('color');
     this.reply_box_on = false;
   }
@@ -71,13 +74,12 @@ export class AnototeList {
      */
     this.edit_mode = false;
 
-    this.anototes.push(new Anotote(1, "Chantel Bardaro Message", "Message", "", "12:45", "message", false));
-    this.anototes.push(new Anotote(2, "Times website hacked", "The New York Times", "", "10:24", "anotote_txt", false));
-    this.anototes.push(new Anotote(3, "The future of business: Open", "The Buttonwood Tree", "", "08/24", "anotote_video", false));
-    this.anototes.push(new Anotote(4, "Open source economics", "TED Talks", "", "10/20", "anotote_image", false));
-    this.anototes.push(new Anotote(5, "Recipe: Cranberry & herb", "Food Network", "", "10:24", "anotote_txt", false));
-    this.anototes.push(new Anotote(6, "Alcoa: 2015ql earnings", "Bloomberg", "", "08:10", "anotote_audio", false));
-    this.anototes.push(new Anotote(7, "Homeland (S4:E6)", "Showtime", "", "08:10", "anotote_video", false));
+    this.anototeService.fetchTotes().subscribe((data:any)=>{
+      this.anototes = data.json().data.totes;
+      console.log(this.anototes);
+    }, (error)=>{
+
+    });
   }
 
   ionViewWillLeave() {
