@@ -41,11 +41,11 @@
     <div id="wrapper">
         <ion-list *ngIf="!edit_mode" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type=='message'?'active':''">
-                <div (tap)="openAnototeDetail(anotote)">
+                <div (click)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active" class="img-holder">
                         <img src="assets/img/img2.png">
                     </div>
-                    <span class="options" *ngIf="anotote.active"></span>
+                    <span (click)="presentAnototeOptionsModal($event)" class="options" *ngIf="anotote.active"></span>
                     <div class="txt">
                         <strong [innerText]="anotote.title"></strong>
                         <p [innerText]="anotote.short_text"></p>
@@ -197,7 +197,7 @@
 <span navPop class="wedge_icon"></span>
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">
     <ion-toolbar color="dark">
-        <ion-title *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
+        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" value="" name="search" placeholder="Reply to Chantel Bardaro">

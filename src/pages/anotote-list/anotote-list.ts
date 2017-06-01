@@ -156,7 +156,6 @@ export class AnototeList {
     event.stopPropagation();
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
-      console.log(data)
       if (data == 'tags') {
         let tagsModal = this.modalCtrl.create(TagsPopUp, null);
         tagsModal.present();

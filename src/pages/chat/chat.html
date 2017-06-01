@@ -1,18 +1,25 @@
 <ion-header>
     <ion-toolbar color="commonheader">
         <ion-buttons start>
-            <button navPop ion-button icon-only>
-                <ion-icon name="arrow-round-back"></ion-icon>
+            <button class="search_icon" ion-button icon-only>
+                <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title></ion-title>
+        <ion-title>
+            <div class="dots_box">
+                <span class="un_active_dot"></span>
+                <span class="un_active_dot"></span>
+                <span class="dot"></span>
+            </div>
+        </ion-title>
         <ion-buttons end>
-            <button (tap)="open_annotote_site()" ion-button icon-only>
-                <ion-icon name="help"></ion-icon>
+            <button ion-button icon-only>
+                <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
+<span navPop class="wedge_icon"></span>
 <ion-content padding>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">-->
@@ -36,7 +43,7 @@
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <ion-title *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
+        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Reply to Chantel Bardaro">
