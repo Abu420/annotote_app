@@ -40,33 +40,39 @@
 <ion-content padding>
     <div id="wrapper">
         <ion-list *ngIf="!edit_mode" class="product-list">
-            <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type=='message'?'active':''">
-                <div (click)="openAnototeDetail(anotote)">
+            <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
+                <div (tap)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active" class="img-holder">
-                        <img src="assets/img/img2.png">
+                        <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null)?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
-                    <span (click)="presentAnototeOptionsModal($event)" class="options" *ngIf="anotote.active"></span>
-                    <div class="txt">
-                        <strong [innerText]="anotote.title"></strong>
-                        <p [innerText]="anotote.short_text"></p>
+                    <span class="options" *ngIf="anotote.active"></span>
+                    <div class="txt" *ngIf="anotote.type ==1">
+                        <strong [innerText]="anotote.userAnnotote.annotote.title"></strong>
+                        <p [innerText]="anotote.userAnnotote.annotote.source"></p>
                         <div class="time">
                             <em>
                             <button type="button">
-                                <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
+                                <ion-icon name="text"></ion-icon>
                             </button>
-                            <span [innerText]="anotote.time"></span>
+                            <span [innerText]="anotote.createdAt"></span>
+                        </em>
+                        </div>
+                    </div>
+                    <div class="txt" *ngIf="anotote.type ==2">
+                        <strong [innerText]="anotote.chatGroup.name"></strong>
+                        <p [innerText]="anotote.chatGroup.name"></p>
+                        <div class="time">
+                            <em>
+                          <button type="button">
+                            <ion-icon name="chatbubbles"></ion-icon>
+                          </button>
+                          <span [innerText]="anotote.createdAt"></span>
                         </em>
                         </div>
                     </div>
                 </div>
-
                 <!-- anatote detail -->
-
-                <div *ngIf="anotote.active && anotote.type!='message'" [@enterAnimation]>
+                <div *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
                     <header class="header">
                         <div class="underlist-text">
                             <div class="btns-area">
@@ -105,10 +111,8 @@
                         </ion-list>
                     </div>
                 </div>
-
                 <!-- Anotote Message Detail Section -->
-
-                <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type=='message'" [@enterAnimation]>
+                <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
                             <ion-item class="underlist-items">
@@ -153,43 +157,39 @@
                         </ion-list>
                     </div>
                 </div>
-
                 <!-- anatote detail -->
-
             </ion-item>
         </ion-list>
-
-        <ion-list *ngIf="edit_mode" no-lines class="product-list show">
-            <ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"
-                [ngClass]="anotote.checked?'even':''">
-                <div class="check">
-                    <img *ngIf="!anotote.checked" src="assets/img/check1.png">
-                    <img *ngIf="anotote.checked" src="assets/img/check2.png">
-                </div>
-                <div class="txt">
-                    <div class="txt-holder">
-                        <strong [innerText]="anotote.title"></strong>
-                    </div>
-                    <div class="time">
-                        <em>
-                            <button type="button">
-                                <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
-                                <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
-                            </button>
-                            <span [innerText]="anotote.time"></span>
-                        </em>
-                        <p [innerText]="anotote.short_text"></p>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
+        <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">-->
+        <!--<ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"-->
+        <!--[ngClass]="anotote.checked?'even':''">-->
+        <!--<div class="check">-->
+        <!--<img *ngIf="!anotote.checked" src="assets/img/check1.png">-->
+        <!--<img *ngIf="anotote.checked" src="assets/img/check2.png">-->
+        <!--</div>-->
+        <!--<div class="txt">-->
+        <!--<div class="txt-holder">-->
+        <!--<strong [innerText]="anotote.title"></strong>-->
+        <!--</div>-->
+        <!--<div class="time">-->
+        <!--<em>-->
+        <!--<button type="button">-->
+        <!--<ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>-->
+        <!--</button>-->
+        <!--<span [innerText]="anotote.time"></span>-->
+        <!--</em>-->
+        <!--<p [innerText]="anotote.short_text"></p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</ion-item>-->
+        <!--</ion-list>-->
     </div>
-
     <ion-fab *ngIf="!current_active_anotote" bottom right>
-        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">            
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
             <img src="assets/img/tot_icon_white.png" />
         </button>
     </ion-fab>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, trigger, transition, keyframes, style, animate } from '@angular/core';
+import { Component, ViewChild, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -13,6 +13,9 @@ import { Chat } from '../chat/chat';
  * Services
  */
 import { UtilityMethods } from '../../services/utility_methods';
+import {ListTotesModel} from "../../models/ListTotesModel";
+import {AnototeService} from "../../services/anotote.service";
+import {Follows} from "../follows/follows";
 
 @IonicPage()
 @Component({
@@ -21,18 +24,12 @@ import { UtilityMethods } from '../../services/utility_methods';
     trigger(
       'enterAnimation', [
         transition(':enter', [
-          animate(600, keyframes([
-            style({ opacity: 0, transform: 'translateY(-20px)', offset: 0 }),
-            style({ opacity: 1, transform: 'translateY(-10px)', offset: .75 }),
-            style({ opacity: 1, transform: 'translateY(0)', offset: 1 }),
-          ]))
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('500ms', style({ transform: 'translateY(0)', opacity: 1 }))
         ]),
         transition(':leave', [
-          animate(600, keyframes([
-            style({ opacity: 1, transform: 'translateY(50px)', offset: 0 }),
-            style({ opacity: 1, transform: 'translateY(10px)', offset: .75 }),
-            style({ opacity: 0, transform: 'translateY(0)', offset: 1 }),
-          ]))
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
         ])
       ]
     )
@@ -45,18 +42,19 @@ export class AnototeList {
    * Variables && Configs
    */
   @ViewChild(Content) content: Content;
-  public anototes: Anotote[];
+  public anototes: Array<ListTotesModel>;
   public edit_mode: boolean; // True for edit list mode while false for simple list
-  public current_active_anotote: Anotote;
+  public current_active_anotote: ListTotesModel;
   public toast: Toast;
   public current_color: string;
   public reply_box_on: boolean;
-
+  public whichStream:string = 'me';
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+  constructor(public anototeService:AnototeService,public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
     this.current_color = navParams.get('color');
+    this.whichStream = 'me';
     this.reply_box_on = false;
   }
 
@@ -71,14 +69,26 @@ export class AnototeList {
      * Set default mode to list not the edit one
      */
     this.edit_mode = false;
+    let anototes:Array<ListTotesModel> = [];
 
-    this.anototes.push(new Anotote(1, "Chantel Bardaro Message", "Message", "", "12:45", "message", false));
-    this.anototes.push(new Anotote(2, "Times website hacked", "The New York Times", "", "10:24", "anotote_txt", false));
-    this.anototes.push(new Anotote(3, "The future of business: Open", "The Buttonwood Tree", "", "08/24", "anotote_video", false));
-    this.anototes.push(new Anotote(4, "Open source economics", "TED Talks", "", "10/20", "anotote_image", false));
-    this.anototes.push(new Anotote(5, "Recipe: Cranberry & herb", "Food Network", "", "10:24", "anotote_txt", false));
-    this.anototes.push(new Anotote(6, "Alcoa: 2015ql earnings", "Bloomberg", "", "08:10", "anotote_audio", false));
-    this.anototes.push(new Anotote(7, "Homeland (S4:E6)", "Showtime", "", "08:10", "anotote_video", false));
+
+    this.anototeService.fetchTotes('me').subscribe((data)=>{
+      let stream = data.json().data.stream;
+      for(let entry of stream){
+        this.anototes.push(new ListTotesModel(entry.id, entry.type,entry.userToteId, entry.chatGroupId,entry.userAnnotote, entry.chatGroup,entry.createdAt,entry.updatedAt));
+      }
+    },(error)=>{
+
+    });
+
+
+    // this.anototes.push(new Anotote(1, "Chantel Bardaro Message", "Message", "", "12:45", "message", false));
+    // this.anototes.push(new Anotote(2, "Times website hacked", "The New York Times", "", "10:24", "anotote_txt", false));
+    // this.anototes.push(new Anotote(3, "The future of business: Open", "The Buttonwood Tree", "", "08/24", "anotote_video", false));
+    // this.anototes.push(new Anotote(4, "Open source economics", "TED Talks", "", "10/20", "anotote_image", false));
+    // this.anototes.push(new Anotote(5, "Recipe: Cranberry & herb", "Food Network", "", "10:24", "anotote_txt", false));
+    // this.anototes.push(new Anotote(6, "Alcoa: 2015ql earnings", "Bloomberg", "", "08:10", "anotote_audio", false));
+    // this.anototes.push(new Anotote(7, "Homeland (S4:E6)", "Showtime", "", "08:10", "anotote_video", false));
   }
 
   ionViewWillLeave() {
@@ -101,6 +111,7 @@ export class AnototeList {
   show_reply_box() {
     this.reply_box_on = true;
   }
+
 
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
@@ -125,7 +136,7 @@ export class AnototeList {
 
   openAnototeDetail(anotote) {
     if (this.current_active_anotote) {
-      if (this.current_active_anotote.type == 'message')
+      if (this.current_active_anotote.type == 2)
         this.content.resize();
       this.current_active_anotote.active = false;
       if (this.current_active_anotote.id == anotote.id) {
@@ -133,9 +144,9 @@ export class AnototeList {
         return;
       }
     }
-    this.current_active_anotote = anotote
+    this.current_active_anotote = anotote;
     this.current_active_anotote.active = !this.current_active_anotote.active;
-    if (this.current_active_anotote.type == 'message')
+    if (this.current_active_anotote.type == 2)
       this.content.resize();
   }
 
