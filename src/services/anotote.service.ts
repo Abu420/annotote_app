@@ -11,8 +11,12 @@ export class AnototeService {
 
   public constructor(public http:Http){}
 
-  public fetchTotes(){
-    return this.http.get('http://139.162.37.73/anotote/api/totes/me');
+  public fetchTotes(whichStream){
+    let headers = new Headers();
+    headers.append('Authorization', '$2y$10$XLoU25gEWjCk/iDgJpHHcekPts9Shfn3hyJvrzOFFpY2zeg/kedeC');
+    return this.http.get('http://139.162.37.73/anotote/api/totes/'+whichStream,{
+      headers: headers
+    });
   }
 
   public mapAnototeListing(totes:Array<any>){
