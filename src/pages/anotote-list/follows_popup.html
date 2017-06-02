@@ -1,25 +1,12 @@
 <ion-header>
-    <ion-toolbar color="follow">
-        <ion-buttons start>
-            <button navPop ion-button icon-only>
-                <ion-icon name="arrow-round-back"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-title></ion-title>
-        <ion-buttons end>
-            <button ion-button icon-only>
-                <ion-icon name="help"></ion-icon>
-            </button>
-        </ion-buttons>
-    </ion-toolbar>
     <ion-toolbar class="follows_header" color="light" no-border>
         <ion-title>Follows (47)</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <ion-list no-lines class="product-list follows">
-            <ion-item (click)="presentProfileModal()">
+        <ion-list no-lines class="product-list follows_popup">
+            <ion-item (click)="choose_this_user()">
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -32,7 +19,7 @@
                     <img src="assets/img/star-gray.png" alt="">
                 </div>
             </ion-item>
-            <ion-item (click)="presentProfileModal()">
+            <ion-item>
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -46,7 +33,7 @@
                     <img src="assets/img/star-gray.png" alt="">
                 </div>
             </ion-item>
-            <ion-item (click)="presentProfileModal()">
+            <ion-item>
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -58,7 +45,7 @@
                     <strong class="follow-name">Mark Camerata</strong>
                 </div>
             </ion-item>
-            <ion-item (click)="presentProfileModal()">
+            <ion-item>
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -70,7 +57,7 @@
                     <strong class="follow-name">Mark Camerata</strong>
                 </div>
             </ion-item>
-            <ion-item (click)="presentProfileModal()">
+            <ion-item>
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -82,7 +69,7 @@
                     <strong class="follow-name">Mark Camerata</strong>
                 </div>
             </ion-item>
-            <ion-item (click)="presentProfileModal()">
+            <ion-item>
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -94,7 +81,7 @@
                     <strong class="follow-name">Mark Camerata</strong>
                 </div>
             </ion-item>
-            <ion-item (click)="presentProfileModal()">
+            <ion-item>
                 <div class="img-holder"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">Alicia Marie</strong>
@@ -108,5 +95,4 @@
             </ion-item>
         </ion-list>
     </div>
-    
 </ion-content>

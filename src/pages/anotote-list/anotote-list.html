@@ -59,27 +59,25 @@
                         </div>
                     </div>
                     <div class="txt" *ngIf="anotote.type ==2">
-                      <strong [innerText]="anotote.chatGroup.name"></strong>
-                      <p [innerText]="anotote.chatGroup.name"></p>
-                      <div class="time">
-                        <em>
+                        <strong [innerText]="anotote.chatGroup.name"></strong>
+                        <p [innerText]="anotote.chatGroup.name"></p>
+                        <div class="time">
+                            <em>
                           <button type="button">
                             <ion-icon name="chatbubbles"></ion-icon>
                           </button>
                           <span [innerText]="anotote.createdAt"></span>
                         </em>
-                      </div>
+                        </div>
                     </div>
                 </div>
-
                 <!-- anatote detail -->
-
                 <div *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
                     <header class="header">
                         <div class="underlist-text">
                             <div class="btns-area">
                                 <button ion-button class="active me-tab">Me</button>
-                                <button ion-button class="active bardaro-tab">Chantel Bardaro (3)</button>
+                                <button (click)="open_follows_popup($event)" ion-button class="active bardaro-tab">Chantel Bardaro (3)</button>
                                 <button ion-button class="active top-tab">Top</button>
                             </div>
                         </div>
@@ -113,9 +111,7 @@
                         </ion-list>
                     </div>
                 </div>
-
                 <!-- Anotote Message Detail Section -->
-
                 <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
@@ -161,41 +157,37 @@
                         </ion-list>
                     </div>
                 </div>
-
                 <!-- anatote detail -->
-
             </ion-item>
         </ion-list>
-
         <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">-->
-            <!--<ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"-->
-                <!--[ngClass]="anotote.checked?'even':''">-->
-                <!--<div class="check">-->
-                    <!--<img *ngIf="!anotote.checked" src="assets/img/check1.png">-->
-                    <!--<img *ngIf="anotote.checked" src="assets/img/check2.png">-->
-                <!--</div>-->
-                <!--<div class="txt">-->
-                    <!--<div class="txt-holder">-->
-                        <!--<strong [innerText]="anotote.title"></strong>-->
-                    <!--</div>-->
-                    <!--<div class="time">-->
-                        <!--<em>-->
-                            <!--<button type="button">-->
-                                <!--<ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>-->
-                                <!--<ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>-->
-                                <!--<ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>-->
-                                <!--<ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>-->
-                                <!--<ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>-->
-                            <!--</button>-->
-                            <!--<span [innerText]="anotote.time"></span>-->
-                        <!--</em>-->
-                        <!--<p [innerText]="anotote.short_text"></p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</ion-item>-->
+        <!--<ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"-->
+        <!--[ngClass]="anotote.checked?'even':''">-->
+        <!--<div class="check">-->
+        <!--<img *ngIf="!anotote.checked" src="assets/img/check1.png">-->
+        <!--<img *ngIf="anotote.checked" src="assets/img/check2.png">-->
+        <!--</div>-->
+        <!--<div class="txt">-->
+        <!--<div class="txt-holder">-->
+        <!--<strong [innerText]="anotote.title"></strong>-->
+        <!--</div>-->
+        <!--<div class="time">-->
+        <!--<em>-->
+        <!--<button type="button">-->
+        <!--<ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>-->
+        <!--<ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>-->
+        <!--</button>-->
+        <!--<span [innerText]="anotote.time"></span>-->
+        <!--</em>-->
+        <!--<p [innerText]="anotote.short_text"></p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</ion-item>-->
         <!--</ion-list>-->
     </div>
-
     <ion-fab *ngIf="!current_active_anotote" bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
             <img src="assets/img/tot_icon_white.png" />
@@ -205,7 +197,7 @@
 <span navPop class="wedge_icon"></span>
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">
     <ion-toolbar color="dark">
-        <ion-title *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</ion-title>
+        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" value="" name="search" placeholder="Reply to Chantel Bardaro">

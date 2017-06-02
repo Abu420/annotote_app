@@ -89,18 +89,6 @@ page-anotote-list {
         overflow: visible;
         contain: none;
     }
-    .wedge_icon {
-        background-image: url(../assets/img/wedge.png);
-        background-size: contain;
-        width: 60px;
-        height: 60px;
-        display: inline-block;
-        position: absolute;
-        left: 0;
-        top: 120px;
-        background-repeat: no-repeat;
-        z-index: 10000;
-    }
     .close_icon_overflowing {
         background-image: url(../assets/img/cancel.png);
         background-size: contain;

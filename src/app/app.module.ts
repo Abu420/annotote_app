@@ -24,6 +24,7 @@ import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
 import { ViewOptions } from '../pages/anotote-list/view_options';
 import { TagsPopUp } from '../pages/anotote-list/tags';
+import { FollowsPopup } from '../pages/anotote-list/follows_popup';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 /**
  * Directives
@@ -63,6 +64,7 @@ import {AnototeService} from "../services/anotote.service";
     CommentDetailPopup,
     Settings,
     TopOptions,
+    FollowsPopup,
     TopInterests,
     AnototeList,
     AnototeDetail,
@@ -88,6 +90,7 @@ import {AnototeService} from "../services/anotote.service";
     Profile,
     Settings,
     TopOptions,
+    FollowsPopup,
     ViewOptions,
     TagsPopUp,
     TopInterests,

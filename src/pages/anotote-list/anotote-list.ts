@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AnototeOptions } from '../anotote-list/tote_options';
 import { ViewOptions } from '../anotote-list/view_options';
 import { TagsPopUp } from '../anotote-list/tags';
+import { FollowsPopup } from '../anotote-list/follows_popup';
 import { Chat } from '../chat/chat';
 /**
  * Services
@@ -97,6 +98,15 @@ export class AnototeList {
   /**
    * Methods
    */
+  
+  open_follows_popup(event) {
+    event.stopPropagation();
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, null);
+    anototeOptionsModal.onDidDismiss(data => {
+      console.log(data)
+    });
+    anototeOptionsModal.present();
+  }
 
   show_reply_box() {
     this.reply_box_on = true;
@@ -166,7 +176,6 @@ export class AnototeList {
     event.stopPropagation();
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
-      console.log(data)
       if (data == 'tags') {
         let tagsModal = this.modalCtrl.create(TagsPopUp, null);
         tagsModal.present();
