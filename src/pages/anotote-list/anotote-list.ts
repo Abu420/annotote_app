@@ -102,7 +102,6 @@ export class AnototeList {
     this.reply_box_on = true;
   }
 
-
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
   }

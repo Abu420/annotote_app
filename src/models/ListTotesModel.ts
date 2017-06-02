@@ -9,10 +9,12 @@ export class ListTotesModel{
   public userToteId:number = 0;
   public chatGroupId:number = 0;
   public userAnnotote:any = null;
+  public highlights:Array<any> = [];
   public chatGroup:any = null;
   public createdAt:string = '';
   public updatedAt:string = '';
   public active:boolean = false;
+  public activeParty:number = 1; //1:me, 2:follows, 3:top
   public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt){
     this.id = id;
     this.type = type;
