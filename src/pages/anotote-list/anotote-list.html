@@ -160,6 +160,10 @@
                 <!-- anatote detail -->
             </ion-item>
         </ion-list>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">-->
         <!--<ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;"-->
         <!--[ngClass]="anotote.checked?'even':''">-->

@@ -36,6 +36,7 @@ import {Follows} from "../follows/follows";
   ],
   templateUrl: 'anotote-list.html',
 })
+
 export class AnototeList {
 
   /**
@@ -98,6 +99,16 @@ export class AnototeList {
   /**
    * Methods
    */
+  
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+      infiniteScroll.enable(false);
+    }, 500);
+  }
   
   open_follows_popup(event) {
     event.stopPropagation();
