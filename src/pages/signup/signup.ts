@@ -87,6 +87,7 @@ export class Signup {
       first_name: this.user.firstName,
       last_name: this.user.lastName,
       platform: 'web',
+      platform_id: null,
       password: this.user.password,
       created_at: current_time
     }).subscribe((response) => {

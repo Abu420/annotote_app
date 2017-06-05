@@ -28,8 +28,10 @@ export class AuthenticationService {
    * Set User to Native Storage
    */
   public setUser(user: User) {
-    if (this._storage_ready)
+    if (this._storage_ready) {
       this.storage.set('_user', user);
+      this.storage.set('_token', user.access_token);
+    }
     this._user = user;
   }
 
