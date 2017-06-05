@@ -46,4 +46,9 @@ export class ListTotesModel{
   public setFirstFollowerName(name:string){
     this.firstFollowerName = name;
   }
+
+  public setFollowerHighlights(highlights:Array<null>){
+    this.activeParty = 2;
+    this.setHighlights(highlights);
+  }
 }

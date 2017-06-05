@@ -118,8 +118,11 @@ export class AnototeList {
     let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, {follows:this.current_active_anotote.followers});
     anototeOptionsModal.onDidDismiss(data => {
       if(data != null){
-        this.current_active_anotote.activeParty = 2;
-        this.setSimpleToteDetails(data.user.id, this.current_active_anotote.userAnnotote.annotote.id)
+        this.anototeService.fetchToteDetails(data.user.id, this.current_active_anotote.userAnnotote.annotote.id).subscribe((data)=>{
+          this.current_active_anotote.setFollowerHighlights(data.json().data.annotote.highlights);
+        },(error)=>{
+
+        });
       }
     });
     anototeOptionsModal.present();
@@ -179,7 +182,6 @@ export class AnototeList {
       let annotote = data.json().data.annotote;
       let followers:Array<any> = [];
       this.current_active_anotote.setHighlights(annotote.highlights);
-      console.log(annotote.follows);
       for(let follower of annotote.follows){
         followers.push(new User(follower.id, follower.firstName, follower.lastName, follower.email, follower.password));
       }
