@@ -76,37 +76,21 @@
                     <header class="header">
                         <div class="underlist-text">
                             <div class="btns-area">
-                                <button ion-button class="active me-tab">Me</button>
-                                <button (click)="open_follows_popup($event)" ion-button class="active bardaro-tab">Chantel Bardaro (3)</button>
+                                <button (click)="showMeHighlights()" ion-button class="active me-tab">Me</button>
+                                <button (click)="open_follows_popup($event)" ion-button class="active bardaro-tab">{{current_active_anotote.firstFollowerName}} ({{current_active_anotote.followers.length}})</button>
                                 <button ion-button class="active top-tab">Top</button>
                             </div>
                         </div>
                     </header>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item class="underlist-items">
+                            <ion-item class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
-                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
+                                    <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
+                                  <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
-                                <span class="status">"</span>
-                            </ion-item>
-                            <ion-item class="underlist-items">
-                                <span class="status">"</span>
-                                <div class="txt">
-                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
-                                </div>
-                            </ion-item>
-                            <ion-item class="underlist-items">
-                                <div class="txt">
-                                    <p>NYT website down after cyber attack on domain registrar, Melbourne IT.</p>
-                                </div>
-                                <span class="status">"</span>
-                            </ion-item>
-                            <ion-item class="underlist-items">
-                                <div class="txt">
-                                    <p>Adds to US political trensions with Syrian government &amp; President Assad</p>
-                                </div>
-                                <span class="status">*</span>
+                              <span class="status" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                              <span class="status" *ngIf="highlight.comment != null || highlight.comment != ''">*</span>
                             </ion-item>
                         </ion-list>
                     </div>

@@ -16,6 +16,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import {ListTotesModel} from "../../models/ListTotesModel";
 import {AnototeService} from "../../services/anotote.service";
 import {Follows} from "../follows/follows";
+import {User} from "../../models/user";
 
 @IonicPage()
 @Component({
@@ -73,23 +74,16 @@ export class AnototeList {
     let anototes:Array<ListTotesModel> = [];
 
 
-    this.anototeService.fetchTotes('me').subscribe((data)=>{
+    this.anototeService.fetchTotes(this.whichStream).subscribe((data)=>{
       let stream = data.json().data.stream;
       for(let entry of stream){
         this.anototes.push(new ListTotesModel(entry.id, entry.type,entry.userToteId, entry.chatGroupId,entry.userAnnotote, entry.chatGroup,entry.createdAt,entry.updatedAt));
       }
+      console.log(this.anototes);
     },(error)=>{
 
     });
 
-
-    // this.anototes.push(new Anotote(1, "Chantel Bardaro Message", "Message", "", "12:45", "message", false));
-    // this.anototes.push(new Anotote(2, "Times website hacked", "The New York Times", "", "10:24", "anotote_txt", false));
-    // this.anototes.push(new Anotote(3, "The future of business: Open", "The Buttonwood Tree", "", "08/24", "anotote_video", false));
-    // this.anototes.push(new Anotote(4, "Open source economics", "TED Talks", "", "10/20", "anotote_image", false));
-    // this.anototes.push(new Anotote(5, "Recipe: Cranberry & herb", "Food Network", "", "10:24", "anotote_txt", false));
-    // this.anototes.push(new Anotote(6, "Alcoa: 2015ql earnings", "Bloomberg", "", "08:10", "anotote_audio", false));
-    // this.anototes.push(new Anotote(7, "Homeland (S4:E6)", "Showtime", "", "08:10", "anotote_video", false));
   }
 
   ionViewWillLeave() {
@@ -98,7 +92,17 @@ export class AnototeList {
   /**
    * Methods
    */
-  
+
+  showMeHighlights(){
+    this.current_active_anotote.activeParty = 1;
+    this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.annotote.id);
+  }
+
+  showTopHighlights(){
+    this.current_active_anotote.activeParty = 3;
+    this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.annotote.id);
+  }
+
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
@@ -108,12 +112,15 @@ export class AnototeList {
       infiniteScroll.enable(false);
     }, 500);
   }
-  
+
   open_follows_popup(event) {
     event.stopPropagation();
-    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, null);
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, {follows:this.current_active_anotote.followers});
     anototeOptionsModal.onDidDismiss(data => {
-      console.log(data)
+      if(data != null){
+        this.current_active_anotote.activeParty = 2;
+        this.setSimpleToteDetails(data.user.id, this.current_active_anotote.userAnnotote.annotote.id)
+      }
     });
     anototeOptionsModal.present();
   }
@@ -121,7 +128,6 @@ export class AnototeList {
   show_reply_box() {
     this.reply_box_on = true;
   }
-
 
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
@@ -158,6 +164,33 @@ export class AnototeList {
     this.current_active_anotote.active = !this.current_active_anotote.active;
     if (this.current_active_anotote.type == 2)
       this.content.resize();
+
+    if(this.current_active_anotote.type == 1 && this.whichStream == 'me'){
+      this.current_active_anotote.activeParty = 1;
+      this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.annotote.id);
+    }else if(this.current_active_anotote.type == 1 && this.whichStream == 'follows'){
+      this.current_active_anotote.activeParty = 2;
+      this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.annotote.id);
+    }
+  }
+
+  public setSimpleToteDetails(user_id, tote_id){
+    this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data)=>{
+      let annotote = data.json().data.annotote;
+      let followers:Array<any> = [];
+      this.current_active_anotote.setHighlights(annotote.highlights);
+      console.log(annotote.follows);
+      for(let follower of annotote.follows){
+        followers.push(new User(follower.id, follower.firstName, follower.lastName, follower.email, follower.password));
+      }
+      this.current_active_anotote.setFollowers(followers);
+    },(error)=>{
+
+    });
+  }
+
+  public getLoggedInUserId(){
+    return 3;
   }
 
   presentToast() {
@@ -179,7 +212,7 @@ export class AnototeList {
   }
 
   go_to_chat_thread() {
-    console.log('chat')
+    console.log('chat');
     this.navCtrl.push(Chat, {});
   }
 

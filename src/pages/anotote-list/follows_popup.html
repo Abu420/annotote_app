@@ -6,91 +6,10 @@
 <ion-content padding>
     <div id="wrapper">
         <ion-list no-lines class="product-list follows_popup">
-            <ion-item (click)="choose_this_user()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
+            <ion-item *ngFor="let user of follows" (click)="choose_this_user(user)">
+                <div class="img-holder" *ngIf="user.photo != null && user.photo != '' && user.photo != undefined"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <img src="assets/img/star-gray.png" alt="">
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                    <img src="assets/img/star-gray.png" alt="">
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <img src="assets/img/star-gray.png" alt="">
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
+                    <strong class="follow-name">{{user.full_name}}</strong>
                 </div>
             </ion-item>
         </ion-list>

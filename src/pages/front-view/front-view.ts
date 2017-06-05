@@ -41,16 +41,16 @@ export class FrontViewPage {
        * API calls
        */
       fetch_latest_annototes() {
-            let self = this;
-            this.utilityMethods.show_loader('Please wait...');
-            this.anototeService.fetchLatestTotes()
-                  .subscribe((response) => {
-                        self.utilityMethods.hide_loader();
-                        console.log(response);
-                        this.latest_anototes = response.data.annototes;
-                  }, (error) => {
-                        this.utilityMethods.hide_loader();
-                  });
+            // let self = this;
+            // this.utilityMethods.show_loader('Please wait...');
+            // this.anototeService.fetchLatestTotes()
+            //       .subscribe((response) => {
+            //             self.utilityMethods.hide_loader();
+            //             console.log(response);
+            //             this.latest_anototes = response.data.annototes;
+            //       }, (error) => {
+            //             this.utilityMethods.hide_loader();
+            //       });
       }
 
       /**

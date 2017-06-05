@@ -20,14 +20,13 @@ export class AnototeService {
     });
   }
 
-  /**
-   * Fetch Latest Annotote Stream [Last 48 Hours]
-   */
 
-  public fetchLatestTotes() {
-    var url = this.constants.API_BASEURL + '/totes/fetch?dateTime=1496279585&page=0';
-    var response = this.http.get(url).map(res => res.json());
-    return response;
+  public fetchToteDetails(user_id: number, anotote_id: number) {
+    let headers = new Headers();
+    headers.append('Authorization', '$2y$10$XLoU25gEWjCk/iDgJpHHcekPts9Shfn3hyJvrzOFFpY2zeg/kedeC');
+    return this.http.get('http://139.162.37.73/anotote/api/get-annotote-detail?user_id=' + user_id + '&annotote_id=' + anotote_id, {
+      headers: headers
+    });
   }
 
   public mapAnototeListing(totes: Array<any>) {

@@ -13,6 +13,7 @@ export class User {
     public platformId: string;
     public rememberToken: string;
     public updatedAt: string;
+
     public verified: string;
     constructor(id, f_name, l_name, em, passw) {
         this.id = id;
