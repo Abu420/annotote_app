@@ -47,6 +47,7 @@ import { AnototeService } from "../services/anotote.service";
 import { Constants } from "../services/constants.service";
 import { SecureHttpService } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
+import {DatetimeService} from "../services/datetime.service";
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { AuthenticationService } from "../services/auth.service";
   providers: [
     ChatService,
     AnototeService,
+    DatetimeService,
     AuthenticationService,
     Constants,
     {

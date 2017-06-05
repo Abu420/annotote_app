@@ -23,7 +23,7 @@ export class UtilityMethods {
     /**
      * Show Loader for Async Tasks
      */
-    show_loader(msg) {
+    public show_loader(msg) {
         this.loading = this.loadingCtrl.create({
             content: msg
         });
@@ -52,7 +52,7 @@ export class UtilityMethods {
     }
 
     /**
-     * 
+     *
      */
     message_alert_with_callback(title, msg, callback) {
         let alert = this.alertCtrl.create({

@@ -1,13 +1,14 @@
 <ion-header>
     <ion-toolbar class="follows_header" color="light" no-border>
-        <ion-title>Follows (47)</ion-title>
+        <ion-title>Follows ({{follows.length}})</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
         <ion-list no-lines class="product-list follows_popup">
             <ion-item *ngFor="let user of follows" (click)="choose_this_user(user)">
-                <div class="img-holder" *ngIf="user.photo != null && user.photo != '' && user.photo != undefined"><img src="assets/img/img3.jpg"></div>
+                <div class="img-holder" *ngIf="user.photo != null && user.photo != '' && user.photo != undefined"><img src="{{user.photo}}"></div>
+              <div class="img-holder" *ngIf="user.photo == null || user.photo == '' || user.photo == undefined"><img src="assets/img/img3.jpg"></div>
                 <div class="txt">
                     <strong class="follow-name">{{user.full_name}}</strong>
                 </div>

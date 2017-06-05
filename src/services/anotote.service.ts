@@ -12,10 +12,10 @@ export class AnototeService {
 
   public constructor(public http: Http, public constants: Constants) { }
 
-  public fetchTotes(whichStream) {
+  public fetchTotes(whichStream, page = 1) {
     let headers = new Headers();
-    headers.append('Authorization', '$2y$10$qEd9zItRFeit0l5AyQ6/GebcOwnBD1vAaZ36idYYEThEuly2zwcfK');
-    return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream, {
+    headers.append('Authorization', '$2y$10$lmErTBOZuVGxGzgwLhUc1.ayPo81JXLkTr02xqbtXBfLL5S5cPuPS');
+    return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream + '?page=' + page, {
       headers: headers
     });
   }
@@ -23,7 +23,7 @@ export class AnototeService {
 
   public fetchToteDetails(user_id: number, anotote_id: number) {
     let headers = new Headers();
-    headers.append('Authorization', '$2y$10$qEd9zItRFeit0l5AyQ6/GebcOwnBD1vAaZ36idYYEThEuly2zwcfK');
+    headers.append('Authorization', '$2y$10$lmErTBOZuVGxGzgwLhUc1.ayPo81JXLkTr02xqbtXBfLL5S5cPuPS');
     return this.http.get('http://139.162.37.73/anotote/api/get-annotote-detail?user_id=' + user_id + '&annotote_id=' + anotote_id, {
       headers: headers
     });
