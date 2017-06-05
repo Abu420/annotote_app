@@ -37,6 +37,7 @@ import {User} from "../../models/user";
   ],
   templateUrl: 'anotote-list.html',
 })
+
 export class AnototeList {
 
   /**
@@ -86,7 +87,6 @@ export class AnototeList {
   }
 
   ionViewWillLeave() {
-    console.log("Looks like I'm about to leave :(");
   }
 
   /**
@@ -101,6 +101,16 @@ export class AnototeList {
   showTopHighlights(){
     this.current_active_anotote.activeParty = 3;
     this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.annotote.id);
+  }
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+      infiniteScroll.enable(false);
+    }, 500);
   }
 
   open_follows_popup(event) {

@@ -33,6 +33,7 @@ import { PressDirective } from '../directives/longPress';
 import { AbsoluteDrag } from '../directives/absolute-drag';
 
 import { StatusBar } from '@ionic-native/status-bar';
+import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -40,9 +41,12 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
  * Services
  */
 import { UtilityMethods } from '../services/utility_methods'
-import {ChatService} from "../services/chat.service";
-import {Http, HttpModule} from "@angular/http";
-import {AnototeService} from "../services/anotote.service";
+import { ChatService } from "../services/chat.service";
+import { Http, HttpModule, XHRBackend, RequestOptions } from "@angular/http";
+import { AnototeService } from "../services/anotote.service";
+import { Constants } from "../services/constants.service";
+import { SecureHttpService } from '../services/http_interceptor';
+import { AuthenticationService } from "../services/auth.service";
 
 @NgModule({
   declarations: [
@@ -75,6 +79,7 @@ import {AnototeService} from "../services/anotote.service";
   imports: [
     BrowserModule,
     HttpModule,
+    IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
   ],
@@ -109,6 +114,15 @@ import {AnototeService} from "../services/anotote.service";
   providers: [
     ChatService,
     AnototeService,
+    AuthenticationService,
+    Constants,
+    {
+      provide: Http,
+      useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => {
+        return new SecureHttpService(backend, defaultOptions);
+      },
+      deps: [XHRBackend, RequestOptions]
+    },
     StatusBar,
     InAppBrowser,
     SplashScreen,

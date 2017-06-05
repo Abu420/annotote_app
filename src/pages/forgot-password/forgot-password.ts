@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Home } from '../home/home';
-import { PasswordForgot } from '../../models/forgot_password';
+import * as _ from 'underscore/underscore';
 import { StatusBar } from '@ionic-native/status-bar';
 /**
  * Services
  */
-import { UtilityMethods } from '../../services/utility_methods'
+import { UtilityMethods } from '../../services/utility_methods';
+import { AuthenticationService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -18,38 +19,28 @@ export class ForgotPassword {
   /**
    * Variables && Configs
    */
-  public passwordForgot: PasswordForgot;
+  public forgot_password_email: string;
   public focus_field: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods) {
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
-    this.passwordForgot = new PasswordForgot("", "", "");
+    this.forgot_password_email = 'joe@city.com';
   }
 
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad Login');
-  }
+  ionViewDidLoad() { }
 
   popView() {
     this.navCtrl.pop();
   }
 
-  value_updating_old_password(value) {
-    this.passwordForgot.old_password = value;
-  }
-
-  value_updating_new_password(value) {
-    this.passwordForgot.new_password = value;
-  }
-
-  value_updating_con_password(value) {
-    this.passwordForgot.confirm_password = value;
+  value_updating_email(value) {
+    this.forgot_password_email = value;
   }
 
   changeColor(field) {
@@ -57,7 +48,36 @@ export class ForgotPassword {
   }
 
   go_home() {
-    this.navCtrl.push(Home, {});
+    /**
+     * Validate User first
+     */
+    var _error = false;
+    if (_.isEmpty(this.forgot_password_email) || !this.utilityMethods.validate_email(this.forgot_password_email)) {
+      _error = true;
+    }
+    if (_error) {
+      this.utilityMethods.message_alert('Error', 'Please enter valid email.');
+      return;
+    }
+
+    /**
+     * API call, after Successfull validation
+     */
+    var current_time = (new Date()).getTime() / 1000,
+      platform_name = this.platform.is('ios') ? 'ios' : 'android';
+    this.utilityMethods.show_loader('Please wait...');
+    this.authService.forgot_password({
+      email: this.forgot_password_email
+    }).subscribe((response) => {
+      let self = this;
+      this.utilityMethods.hide_loader();
+      this.utilityMethods.message_alert_with_callback('Forgot Password', 'Link to reset password has been sent via email.', function () {
+        self.navCtrl.pop();
+      });
+    }, (error) => {
+      this.utilityMethods.hide_loader();
+      this.utilityMethods.message_alert('Error', 'No account matches to: ' + this.forgot_password_email);
+    });
   }
 
 }
