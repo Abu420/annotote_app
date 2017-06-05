@@ -93,7 +93,6 @@ export class AnototeList {
   }
 
   ionViewWillLeave() {
-    console.log("Looks like I'm about to leave :(");
   }
 
   /**

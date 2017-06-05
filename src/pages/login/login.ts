@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Home } from '../home/home';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { User } from '../../models/user';
 import { StatusBar } from '@ionic-native/status-bar';
+import * as _ from 'underscore/underscore';
 /**
  * Services
  */
-import { UtilityMethods } from '../../services/utility_methods'
+import { UtilityMethods } from '../../services/utility_methods';
+import { AuthenticationService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -26,11 +28,11 @@ export class Login {
    * Constructor
    */
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods) {
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
-    this.user = new User("", "", "", "", "");
+    this.user = new User("", "", "", "mba858@gmail.com", "123456");
   }
 
   /**
@@ -72,7 +74,48 @@ export class Login {
   }
 
   go_home() {
-    this.navCtrl.push(Home, {});
+    /**
+     * Validate User first
+     */
+    var _error = false;
+    if (_.isEmpty(this.user.email) || !this.utilityMethods.validate_email(this.user.email)) {
+      _error = true;
+    }
+    if (_.isEmpty(this.user.password)) {
+      _error = true;
+    }
+    if (_error) {
+      this.utilityMethods.message_alert('Error', 'Please enter valid email and password.');
+      return;
+    }
+
+    /**
+     * API call, after Successfull validation
+     */
+    var current_time = (new Date()).getTime() / 1000,
+      platform_name = this.platform.is('ios') ? 'ios' : 'android';
+    this.utilityMethods.show_loader('Please wait...');
+    this.authService.login({
+      email: this.user.email,
+      password: this.user.password,
+      created_at: current_time,
+      device_type: platform_name,
+      device_id: '123456'
+    }).subscribe((response) => {
+      this.utilityMethods.hide_loader();
+      console.log(response);
+      response.data.user.access_token = response.access_token;
+      this.authService.setUser(response.data.user);
+      this.navCtrl.push(Home, {});
+    }, (error) => {
+      this.utilityMethods.hide_loader();
+      if (error.status == 404)
+        this.utilityMethods.message_alert('Error', 'Invalid email or password.');
+      else if (error.status == 400)
+        this.utilityMethods.message_alert('Error', 'Your account is not verified. Verification email has already been sent.');
+      else
+        this.utilityMethods.message_alert('Error', 'Invalid email or password.');
+    });
   }
 
 }

@@ -94,4 +94,5 @@
         <variable name="XWALK_MODE" value="embedded" />
         <variable name="XWALK_MULTIPLEAPK" value="true" />
     </plugin>
+    <plugin name="cordova-sqlite-storage" spec="~2.0.4" />
 </widget>

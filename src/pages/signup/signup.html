@@ -27,22 +27,23 @@
                 <ion-input [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')"
                     type="email" placeholder="Email"></ion-input>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='full_name'?'active':''">
+            <div class="input-holder layout" [ngClass]="focus_field=='first_name'?'active':''">
                 <ion-icon name="person"></ion-icon>
-                <ion-input [value]="user.full_name" (input)="value_updating_full_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('full_name')"
-                    type="text" placeholder="Full name"></ion-input>
+                <ion-input [value]="user.firstName" (input)="value_updating_first_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('first_name')"
+                    type="text" placeholder="First Name"></ion-input>
+            </div>
+            <div class="input-holder layout" [ngClass]="focus_field=='last_name'?'active':''">
+                <ion-icon name="person"></ion-icon>
+                <ion-input [value]="user.lastName" (input)="value_updating_last_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('last_name')"
+                    type="text" placeholder="Last Name"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':''">
                 <ion-icon name="unlock"></ion-icon>
                 <ion-input [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')"
                     type="password" placeholder="Password"></ion-input>
             </div>
-            <button [ngClass]="(user.email.length>0 && user.password.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>
+            <button [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.password.length>0)?'green':''"
+                (tap)="go_home()" ion-button>Go</button>
         </form>
     </div>
 </ion-content>
-<ion-footer no-border>
-    <ion-toolbar (tap)="open_forgot_password()" class="snakebar_forgot_password" color="homeheader">
-        <ion-title>Forgot Password</ion-title>
-    </ion-toolbar>
-</ion-footer>
