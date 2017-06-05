@@ -62,7 +62,6 @@ export class Login {
 
   value_updating_password(value) {
     this.user.password = value;
-    console.log(this.user)
   }
 
   open_forgot_password() {

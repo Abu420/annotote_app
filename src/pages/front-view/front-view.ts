@@ -8,7 +8,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 /**
  * Services
  */
-import { UtilityMethods } from '../../services/utility_methods'
+import { UtilityMethods } from '../../services/utility_methods';
+import { AnototeService } from '../../services/anotote.service';
 
 @Component({
       selector: 'page-front-view',
@@ -17,8 +18,10 @@ import { UtilityMethods } from '../../services/utility_methods'
 })
 export class FrontViewPage {
       public toast: Toast;
+      public latest_anototes: any;
       public showFabButton: boolean;
-      constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+
+      constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, public anototeService: AnototeService) {
             this.showFabButton = true;
       }
 
@@ -27,11 +30,32 @@ export class FrontViewPage {
        */
       ionViewDidLoad() {
             this.statusBar.backgroundColorByHexString('000000');
+            // this.fetch_latest_annototes();
       }
 
       open_annotote_site() {
             this.utilityMethods.launch('https://annotote.wordpress.com');
       }
+
+      /**
+       * API calls
+       */
+      fetch_latest_annototes() {
+            let self = this;
+            this.utilityMethods.show_loader('Please wait...');
+            this.anototeService.fetchLatestTotes()
+                  .subscribe((response) => {
+                        self.utilityMethods.hide_loader();
+                        console.log(response);
+                        this.latest_anototes = response.data.annototes;
+                  }, (error) => {
+                        this.utilityMethods.hide_loader();
+                  });
+      }
+
+      /**
+       * Methods
+       */
 
       login() {
             this.navCtrl.push(Login, {});
@@ -39,6 +63,16 @@ export class FrontViewPage {
 
       signup() {
             this.navCtrl.push(Signup, {});
+      }
+
+      doInfinite(infiniteScroll) {
+            console.log('Begin async operation');
+
+            setTimeout(() => {
+                  console.log('Async operation has ended');
+                  infiniteScroll.complete();
+                  infiniteScroll.enable(false);
+            }, 500);
       }
 
       openAnototeList(event) {
