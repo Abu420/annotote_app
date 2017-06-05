@@ -26,7 +26,7 @@ export class ForgotPassword {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
-    this.forgot_password_email = 'joe@city.com';
+    this.forgot_password_email = '';
   }
 
   open_annotote_site() {

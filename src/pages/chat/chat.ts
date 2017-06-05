@@ -32,8 +32,8 @@ export class Chat {
    */
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService) {
     this.reply_box_on = false;
-    this.secondUser = new User(3, 'bilal', 'akmal', 'bilal@gmail.com', null);
-    this.loggedInUser = new User(4, 'noman', 'tufail', 'noman@gmail.com', null);
+    this.secondUser = new User(10, 'bilal', 'akmal', 'bilal@gmail.com', null);
+    this.loggedInUser = new User(9, 'noman', 'tufail', 'noman@gmail.com', null);
     this.chatService.threadingUser = this.secondUser;
     this.connectionToSocket();
     this.chatService.listenForGlobalMessages();

@@ -32,7 +32,7 @@ export class Login {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
-    this.user = new User("", "", "", "mba858@gmail.com", "123456");
+    this.user = new User("", "", "", "", "");
   }
 
   /**
