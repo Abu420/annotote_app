@@ -15,12 +15,13 @@ export class User {
     public updatedAt: string;
 
     public verified: string;
-    constructor(id, f_name, l_name, em, passw) {
+    constructor(id, f_name, l_name, em, passw, photo=null) {
         this.id = id;
         this.firstName = f_name;
         this.lastName = l_name;
         this.full_name = this.firstName + '' + this.lastName;
         this.email = em;
         this.password = passw;
+        this.photo = photo;
     }
 }

@@ -1,6 +1,8 @@
 import {ListTotesUserToteModel} from "./ListTotesUserToteModel";
 import {ListTotesUserGroupModel} from "./ListTotesUserGroupModel";
 import {User} from "./user";
+import {UtilityMethods} from "../services/utility_methods";
+import {DatetimeService} from "../services/datetime.service";
 /**
  * Created by nomantufail on 30/05/2017.
  */
@@ -19,15 +21,17 @@ export class ListTotesModel{
   public updatedAt:string = '';
   public active:boolean = false;
   public activeParty:number = 1; //1:me, 2:follows, 3:top
+  private datetimeService:DatetimeService = null;
   public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt){
+    this.datetimeService = new DatetimeService();
     this.id = id;
     this.type = type;
     this.userToteId = userToteId;
     this.chatGroupId = chatGroupId;
     this.userAnnotote = userAnnotote;
     this.chatGroup = chatGroup;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.createdAt = this.datetimeService.convertTimeFormat(createdAt);
+    this.updatedAt = this.datetimeService.convertTimeFormat(updatedAt);
     if(this.userAnnotote != null){
       this.setHighlights(this.userAnnotote.annototeHeighlights);
     }

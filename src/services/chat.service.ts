@@ -28,12 +28,14 @@ export class ChatService {
     return 2;
   }
 
-  public fetchHistory(firstUser:number, secondUser:number){
-    return this.http.get('http://139.162.37.73/anotote/api/fetch-chat-history?second_person='+secondUser);
+  public fetchHistory(firstUser:number, secondUser:number, page=1){
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$lmErTBOZuVGxGzgwLhUc1.ayPo81JXLkTr02xqbtXBfLL5S5cPuPS' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get('http://139.162.37.73/anotote/api/chat-history?second_person='+secondUser+'&page='+page, options);
   }
 
   public saveMessage(data:any){
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$m2fnGSYO8Aq4vPgI3uID9egtVStelES9lFIVswpdc38P6n7wHoRvm' });
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$lmErTBOZuVGxGzgwLhUc1.ayPo81JXLkTr02xqbtXBfLL5S5cPuPS' });
     let options = new RequestOptions({ headers: headers });
     return this.http.post("http://139.162.37.73/anotote/api/send-message",data, options);
   }
