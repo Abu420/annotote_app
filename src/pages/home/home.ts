@@ -91,6 +91,7 @@ export class Home {
           }, (error) => {
             this.utilityMethods.hide_loader();
             this.utilityMethods.message_alert('Error', 'Logout operation failed, please try again or later.');
+            self.authService.clear_user();
           });
       }
     });

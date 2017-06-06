@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import {User} from "../models/user";
 import {Http, RequestOptions, Headers} from "@angular/http";
+import {AuthenticationService} from "./auth.service";
 declare var io:any;
 @Injectable()
 
@@ -12,7 +13,7 @@ export class ChatService {
   public socket:any = null;
   public threadingUser:User;
   public socketUrl:string = "http://139.162.37.73:5000";
-  constructor(public http:Http){
+  constructor(public http:Http, public authService:AuthenticationService){
 
   }
   public listenForGlobalMessages(){
@@ -29,13 +30,13 @@ export class ChatService {
   }
 
   public fetchHistory(firstUser:number, secondUser:number, page=1){
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$lmErTBOZuVGxGzgwLhUc1.ayPo81JXLkTr02xqbtXBfLL5S5cPuPS' });
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':this.authService.getUser().access_token });
     let options = new RequestOptions({ headers: headers });
     return this.http.get('http://139.162.37.73/anotote/api/chat-history?second_person='+secondUser+'&page='+page, options);
   }
 
   public saveMessage(data:any){
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':'$2y$10$lmErTBOZuVGxGzgwLhUc1.ayPo81JXLkTr02xqbtXBfLL5S5cPuPS' });
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':this.authService.getUser().access_token });
     let options = new RequestOptions({ headers: headers });
     return this.http.post("http://139.162.37.73/anotote/api/send-message",data, options);
   }
