@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <!-- Anotote Message Detail Section -->
-                <div (tap)="go_to_chat_thread()" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
+                <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
                             <ion-item class="underlist-items">

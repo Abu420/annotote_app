@@ -216,6 +216,7 @@ export class AnototeList {
   }
 
   public getLoggedInUserId(){
+    console.log(this.authService.getUser());
     return this.authService.getUser().id;
   }
 
@@ -237,9 +238,14 @@ export class AnototeList {
     this.toast.present();
   }
 
-  go_to_chat_thread() {
-    console.log('chat');
-    this.navCtrl.push(Chat, {});
+  go_to_chat_thread(groupUsers:Array<any>) {
+    let secondUser:any = null;
+    for(let user of groupUsers){
+      if(user.id != this.getLoggedInUserId()){
+        secondUser = user;
+      }
+    }
+    this.navCtrl.push(Chat, {secondUser:secondUser.user});
   }
 
   presentAnototeOptionsModal(event) {

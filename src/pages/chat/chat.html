@@ -20,15 +20,17 @@
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
-<ion-content padding>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">-->
-        </ion-refresher-content>
-    </ion-refresher>
-    <ion-list no-lines class="details-list layout">
+<ion-content padding #scrollMe>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+    <ion-list no-lines class="details-list layout" id="chat-listing-area">
         <ion-item *ngFor="let message of conversation" class="underlist-items">
             <figure>
-                <img src="assets/img/check-yellow.png" alt="">
+                <img *ngIf="message.sender != loggedInUser.firstName+' '+loggedInUser.lastName" src="assets/img/check-yellow.png" alt="">
+                <img *ngIf="message.sender == loggedInUser.firstName+' '+loggedInUser.lastName" src="assets/img/check-green.png" alt="">
             </figure>
             <div class="check-text">
                 <div class="name-time">
@@ -36,14 +38,9 @@
                     <span class="msg-time">{{message.time}}</span>
                 </div>
                 <p>{{message.message}}</p>
-                <img src="assets/img/option-msg.png" alt="">
             </div>
         </ion-item>
     </ion-list>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
