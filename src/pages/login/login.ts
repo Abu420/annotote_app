@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
 import { Home } from '../home/home';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { User } from '../../models/user';
@@ -28,7 +28,7 @@ export class Login {
    * Constructor
    */
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
@@ -73,6 +73,7 @@ export class Login {
   }
 
   go_home() {
+    this.keyboard.close();
     /**
      * Validate User first
      */
@@ -102,7 +103,6 @@ export class Login {
       device_id: '123456'
     }).subscribe((response) => {
       this.utilityMethods.hide_loader();
-      console.log(response);
       response.data.user.access_token = response.access_token;
       this.authService.setUser(response.data.user);
       this.navCtrl.push(Home, {});
@@ -112,8 +112,6 @@ export class Login {
         this.utilityMethods.message_alert('Error', 'Invalid email or password.');
       else if (error.status == 400)
         this.utilityMethods.message_alert('Error', 'Your account is not verified. Verification email has already been sent.');
-      else
-        this.utilityMethods.message_alert('Error', 'Invalid email or password.');
     });
   }
 

@@ -33,6 +33,20 @@ page-front-view {
         display: inline-block;
         vertical-align: middle;
     }
+    .latest_totes_spinner {
+        position: relative;
+        width: 100%;
+        ion-spinner {
+            position: absolute;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            right: 0;
+            left: 0;
+            top: 10px;
+            margin: auto;
+        }
+    }
     .product-list .item {
         border-top: 2px solid #f0f0f0 !important;
         overflow: hidden;

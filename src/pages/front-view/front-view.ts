@@ -19,6 +19,7 @@ import { AnototeService } from '../../services/anotote.service';
 export class FrontViewPage {
       public toast: Toast;
       public latest_anototes: any;
+      public latest_anototes_firstTime_loading: boolean;
       public showFabButton: boolean;
 
       constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, public anototeService: AnototeService) {
@@ -30,7 +31,7 @@ export class FrontViewPage {
        */
       ionViewDidLoad() {
             this.statusBar.backgroundColorByHexString('000000');
-            // this.fetch_latest_annototes();
+            this.fetch_latest_annototes();
       }
 
       open_annotote_site() {
@@ -41,16 +42,16 @@ export class FrontViewPage {
        * API calls
        */
       fetch_latest_annototes() {
-            // let self = this;
-            // this.utilityMethods.show_loader('Please wait...');
-            // this.anototeService.fetchLatestTotes()
-            //       .subscribe((response) => {
-            //             self.utilityMethods.hide_loader();
-            //             console.log(response);
-            //             this.latest_anototes = response.data.annototes;
-            //       }, (error) => {
-            //             this.utilityMethods.hide_loader();
-            //       });
+            this.latest_anototes_firstTime_loading = true;
+            let self = this;
+            this.anototeService.fetchLatestTotes()
+                  .subscribe((response) => {
+                        console.log(response);
+                        this.latest_anototes = response.data.annototes;
+                        this.latest_anototes_firstTime_loading = false;
+                  }, (error) => {
+                        this.latest_anototes_firstTime_loading = false;
+                  });
       }
 
       /**
@@ -66,8 +67,6 @@ export class FrontViewPage {
       }
 
       doInfinite(infiniteScroll) {
-            console.log('Begin async operation');
-
             setTimeout(() => {
                   console.log('Async operation has ended');
                   infiniteScroll.complete();

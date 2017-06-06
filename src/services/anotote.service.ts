@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { User } from "../models/user";
-import { Constants } from '../services/constants.service'
+import { Constants } from '../services/constants.service';
 import { Http, RequestOptions, Headers } from "@angular/http";
 
 @Injectable()
@@ -18,6 +18,12 @@ export class AnototeService {
     return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream + '?page=' + page, {
       headers: headers
     });
+  }
+
+  public fetchLatestTotes() {
+    var url = this.constants.API_BASEURL + '/totes/fetch?dateTime=1496279585&page=0';
+    var response = this.http.get(url, {}).map(res => res.json());
+    return response;
   }
 
 

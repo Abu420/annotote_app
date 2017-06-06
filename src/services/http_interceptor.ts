@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Http, ConnectionBackend, Headers, RequestOptions, Request, Response, RequestOptionsArgs } from '@angular/http';
+import { Http, ConnectionBackend, Headers, RequestOptions, BaseRequestOptions, Request, Response, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class SecureHttpService extends Http {
+export class DefaultRequestOptions extends BaseRequestOptions {
+    headers = new Headers();
 
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
-        super(backend, defaultOptions);
-    }
-
-    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        return super.request(url, options);
-    }
-
-    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-        return super.get(url, options);
+    merge(options?: RequestOptionsArgs): RequestOptions {
+        var newOptions = super.merge(options),
+            _token = localStorage.getItem('_token');
+        if (_token)
+            newOptions.headers.set('Authorization', _token);
+        return newOptions;
     }
 }

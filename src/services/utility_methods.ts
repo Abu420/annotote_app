@@ -73,10 +73,7 @@ export class UtilityMethods {
      */
 
     launch(url) {
-        this.platform.ready().then(() => {
-            const browser = this.iab.create(url, '_system');
-            browser.show();
-        });
+        window.open(url, '_system')
     }
 
     /**

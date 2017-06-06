@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
 import { Home } from '../home/home';
 import { User } from '../../models/user';
 import * as _ from 'underscore/underscore';
@@ -27,7 +27,7 @@ export class Signup {
   /**
    * Constructor
    */
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.user = new User("", "", "", "", "");
@@ -55,6 +55,7 @@ export class Signup {
   }
 
   go_home() {
+    this.keyboard.close();
     /**
      * Validate User first
      */

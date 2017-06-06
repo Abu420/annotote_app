@@ -45,7 +45,7 @@ import { ChatService } from "../services/chat.service";
 import { Http, HttpModule, XHRBackend, RequestOptions } from "@angular/http";
 import { AnototeService } from "../services/anotote.service";
 import { Constants } from "../services/constants.service";
-import { SecureHttpService } from '../services/http_interceptor';
+import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
 import {DatetimeService} from "../services/datetime.service";
 
@@ -119,11 +119,7 @@ import {DatetimeService} from "../services/datetime.service";
     AuthenticationService,
     Constants,
     {
-      provide: Http,
-      useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => {
-        return new SecureHttpService(backend, defaultOptions);
-      },
-      deps: [XHRBackend, RequestOptions]
+      provide: RequestOptions, useClass: DefaultRequestOptions
     },
     StatusBar,
     InAppBrowser,

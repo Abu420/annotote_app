@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
 import { Home } from '../home/home';
 import * as _ from 'underscore/underscore';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,7 +22,7 @@ export class ForgotPassword {
   public forgot_password_email: string;
   public focus_field: string;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
@@ -48,6 +48,7 @@ export class ForgotPassword {
   }
 
   go_home() {
+    this.keyboard.close();
     /**
      * Validate User first
      */

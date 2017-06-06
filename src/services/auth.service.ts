@@ -31,6 +31,7 @@ export class AuthenticationService {
     if (this._storage_ready) {
       this.storage.set('_user', user);
       this.storage.set('_token', user.access_token);
+      localStorage.setItem('_token', user.access_token);
     }
     this._user = user;
   }
@@ -55,7 +56,6 @@ export class AuthenticationService {
    */
   public sync_user() {
     var response = this.storage.get('_user').then((value) => {
-      console.log(value)
       this._user = value;
       return value;
     });
@@ -90,10 +90,8 @@ export class AuthenticationService {
    * params: [], 
    */
   public logout() {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': this._user.access_token });
-    var options = new RequestOptions({ headers: headers }),
-      url = this.constants.API_BASEURL + '/logout';
-    var response = this.http.get(url, options).map(res => res.json());
+    var url = this.constants.API_BASEURL + '/logout';
+    var response = this.http.get(url, {}).map(res => res.json());
     return response;
   }
 
