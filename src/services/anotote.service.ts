@@ -13,7 +13,7 @@ export class AnototeService {
 
   public constructor(public http: Http, public constants: Constants, public authService:AuthenticationService) { }
 
-  public fetchTotes(whichStream, page=1) {
+  public fetchTotes(whichStream, page = 1) {
     let headers = new Headers();
     headers.append('Authorization', this.authService.getUser().access_token);
     return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream+'?page='+page, {

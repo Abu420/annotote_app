@@ -108,11 +108,11 @@ export class Chat {
     this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id).subscribe((data)=>{
       let messages:Array<any> = data.json().data.messages;
       this.conversation = this.mapChatHistory(messages);
+      this.autoScroll();
       this.utilityMethods.hide_loader();
     },(error)=>{
       this.utilityMethods.hide_loader();
     });
-    this.autoScroll();
   }
 
   autoScroll() {

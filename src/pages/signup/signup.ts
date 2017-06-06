@@ -30,7 +30,7 @@ export class Signup {
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
-    this.user = new User("", "Bilal", "Akmal", "mba858@gmail.com", "123456");
+    this.user = new User("", "", "", "", "");
   }
 
   /**
