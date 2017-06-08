@@ -22,6 +22,12 @@ export class Signup {
    * Variables && Configs
    */
   public user: User;
+  public field_error = {
+    first_name: false,
+    last_name: false,
+    email: false,
+    password: false
+  };
   public focus_field: string;
 
   /**
@@ -62,18 +68,22 @@ export class Signup {
     var _error = false;
     if (_.isEmpty(this.user.email) || !this.utilityMethods.validate_email(this.user.email)) {
       _error = true;
+      this.field_error.email = true;
     }
     if (_.isEmpty(this.user.password)) {
       _error = true;
+      this.field_error.password = true;
     }
     if (_.isEmpty(this.user.firstName)) {
       _error = true;
+      this.field_error.first_name = true;
     }
     if (_.isEmpty(this.user.lastName)) {
       _error = true;
+      this.field_error.last_name = true;
     }
     if (_error) {
-      this.utilityMethods.message_alert('Error', 'Please enter complete details to register.');
+      // this.utilityMethods.message_alert('Error', 'Please enter complete details to register.');
       return;
     }
 
@@ -105,18 +115,22 @@ export class Signup {
 
   value_updating_email(value) {
     this.user.email = value;
+    this.field_error.email = false;
   }
 
   value_updating_first_name(value) {
     this.user.firstName = value;
+    this.field_error.first_name = false;
   }
 
   value_updating_last_name(value) {
     this.user.lastName = value;
+    this.field_error.last_name = false;
   }
 
   value_updating_password(value) {
     this.user.password = value;
+    this.field_error.password = false;
   }
 
   changeColor(field) {

@@ -134,3 +134,78 @@ button,
 .fab-md-primary {
     bottom: 40px !important;
 }
+
+.invalid_field {
+    border: 1px solid #ff0000 !important;
+}
+
+
+/**
+* Search Popup CSS
+*/
+
+search_page {
+    background: rgba(0, 0, 0, 0.3);
+    ion-list {
+        .user_list_item {
+            height: 55px;
+            line-height: 55px;
+            .follow_btn {
+                height: 45px;
+                float: left;
+                width: 45px;
+                float: right;
+                background-image: url(../assets/img/follow_friend.png);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+            }
+        }
+    }
+    .search_header {
+        height: $bar_button_custom_height;
+        background-color: black;
+        .options {
+            height: $bar_button_custom_height;
+            float: left;
+            width: 30px;
+            background-image: url(../assets/img/option-icon.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 5px;
+        }
+        .search_button {
+            height: $bar_button_custom_height;
+            float: left;
+            width: $bar_button_custom_height;
+            background-image: url(../assets/img/search.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 30px;
+        }
+        .clear_button {
+            height: $bar_button_custom_height;
+            float: right;
+            width: $bar_button_custom_height;
+            background-image: url(../assets/img/cross.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 25px;
+        }
+        ion-input {
+            width: calc(100% - 142px);
+            display: inline-block;
+            float: left;
+            height: 100%;
+            input {
+                padding: 0;
+                width: calc(100% - 8px);
+                margin: 0px;
+                background: white;
+                height: 50px;
+                margin-top: 3px;
+                padding-left: 5px;
+            }
+        }
+    }
+}

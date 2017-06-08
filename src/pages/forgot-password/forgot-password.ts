@@ -77,7 +77,10 @@ export class ForgotPassword {
       });
     }, (error) => {
       this.utilityMethods.hide_loader();
-      this.utilityMethods.message_alert('Error', 'No account matches to: ' + this.forgot_password_email);
+      if (error.status == 451)
+        this.utilityMethods.message_alert('Error', 'Your email is not verified yet.');
+      else
+        this.utilityMethods.message_alert('Error', 'No account matches to: ' + this.forgot_password_email);
     });
   }
 

@@ -35,7 +35,8 @@ export class UtilityMethods {
      * Hide currently active loader
      */
     hide_loader() {
-        this.loading.dismiss();
+        if (this.loading)
+            this.loading.dismiss();
     }
 
 

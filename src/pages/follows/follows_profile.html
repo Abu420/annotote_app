@@ -4,7 +4,8 @@
     <div class="follow_details">
         <div class="follow_head">
             <img class="overflow_menu" src="assets/img/bg-header.png">
-            <strong>Bob Sullivan <em><</em></strong>
+            <strong [innerText]="profileData.user.firstName + ' ' + profileData.user.lastName"> <em><</em></strong>
+            <span class="follow_user"></span>
         </div>
         <div class="img-holder">
             <img src="assets/img/cover_image.jpg">
@@ -13,28 +14,28 @@
             <ion-item>
                 <button ion-button icon-only><img src="assets/img/img5.png"></button>
                 <div class="txt">
-                    <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</strong>
+                    <strong [innerText]="profileData.user.description"></strong>
                 </div>
             </ion-item>
             <ion-item>
                 <button ion-button icon-only><img src="assets/img/img5.png"></button>
                 <div class="txt">
                     <strong>Totes</strong>
-                    <p>1,344</p>
+                    <p [innerText]="profileData.totes"></p>
                 </div>
             </ion-item>
             <ion-item>
                 <button ion-button icon-only><img src="assets/img/img5.png"></button>
                 <div class="txt">
                     <strong>Followers</strong>
-                    <p>254</p>
+                    <p [innerText]="profileData.followers"></p>
                 </div>
             </ion-item>
             <ion-item>
                 <button ion-button icon-only><img src="assets/img/img5.png"></button>
                 <div class="txt">
                     <strong>Follows</strong>
-                    <p>89</p>
+                    <p [innerText]="profileData.follows"></p>
                 </div>
             </ion-item>
         </ion-list>

@@ -24,6 +24,7 @@ import { AnototeList } from '../pages/anotote-list/anotote-list';
 import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
 import { ViewOptions } from '../pages/anotote-list/view_options';
 import { TagsPopUp } from '../pages/anotote-list/tags';
+import { Search } from '../pages/search/search';
 import { FollowsPopup } from '../pages/anotote-list/follows_popup';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 /**
@@ -44,6 +45,7 @@ import { UtilityMethods } from '../services/utility_methods'
 import { ChatService } from "../services/chat.service";
 import { Http, HttpModule, XHRBackend, RequestOptions } from "@angular/http";
 import { AnototeService } from "../services/anotote.service";
+import { SearchService } from "../services/search.service";
 import { Constants } from "../services/constants.service";
 import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
@@ -68,6 +70,7 @@ import {DatetimeService} from "../services/datetime.service";
     AnototeOptions,
     CommentDetailPopup,
     Settings,
+    Search,
     TopOptions,
     FollowsPopup,
     TopInterests,
@@ -100,6 +103,7 @@ import {DatetimeService} from "../services/datetime.service";
     ViewOptions,
     TagsPopUp,
     TopInterests,
+    Search,
     SearchResults,
     CommentDetailPopup,
     Notifications,
@@ -114,6 +118,7 @@ import {DatetimeService} from "../services/datetime.service";
 
   providers: [
     ChatService,
+    SearchService,
     AnototeService,
     DatetimeService,
     AuthenticationService,

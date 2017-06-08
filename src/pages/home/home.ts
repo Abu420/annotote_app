@@ -5,6 +5,7 @@ import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
 import { TopInterests } from '../home/top_interests';
 import { TopOptions } from '../home/top_options';
+import { Search } from '../search/search';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { SearchResults } from '../search-results/search-results';
 import { FrontViewPage } from '../front-view/front-view';
@@ -68,7 +69,11 @@ export class Home {
   }
 
   openSearchResults() {
-    this.navCtrl.push(SearchResults, {});
+    let searchModal = this.modalCtrl.create(Search, null);
+    searchModal.onDidDismiss(data => {
+    });
+    searchModal.present();
+    // this.navCtrl.push(SearchResults, {});
   }
 
   presentSettingsModal(event) {

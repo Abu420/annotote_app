@@ -18,6 +18,16 @@ follow_profile {
         height: 50px;
         width: 100%;
         overflow: hidden;
+        .follow_user {
+            height: 45px;
+            float: left;
+            width: 45px;
+            float: right;
+            background-image: url(../assets/img/follow_friend.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 30px;
+        }
         .overflow_menu {
             width: 45px;
             float: left;
@@ -73,28 +83,28 @@ follow_profile {
 }
 
 page-follows {
-    .scroll-content{
+    .scroll-content {
         padding: 0px !important;
     }
-    #wrapper{
+    #wrapper {
         box-shadow: none;
-        .product-list{
+        .product-list {
             margin-top: 0px !important;
-            .item-block{
+            .item-block {
                 padding: 30px 20px 0 !important;
-                .item-inner{
+                .item-inner {
                     padding-right: 0px;
-                    .label-ios{
+                    .label-ios {
                         margin: 0px;
-                        .txt{
-                            .follow-name{
+                        .txt {
+                            .follow-name {
                                 color: #000;
                                 font-weight: 600;
                                 display: inline-block;
                                 vertical-align: middle;
                                 margin: 0px;
                             }
-                            img{
+                            img {
                                 display: inline-block;
                                 vertical-align: middle;
                                 width: 20px;
@@ -106,6 +116,7 @@ page-follows {
         }
     }
 }
+
 .top-fixed {
     padding: 13px;
     position: fixed;

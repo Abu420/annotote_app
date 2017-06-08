@@ -87,10 +87,10 @@
                             <ion-item class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
-                                  <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                    <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
-                              <span class="status" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                              <span class="status" *ngIf="highlight.comment != null || highlight.comment != ''">*</span>
+                                <span class="status" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                <span class="status" *ngIf="highlight.comment != null || highlight.comment != ''">*</span>
                             </ion-item>
                         </ion-list>
                     </div>
@@ -185,7 +185,7 @@
 <span navPop class="wedge_icon"></span>
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">
     <ion-toolbar color="dark">
-        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
+        <p style="text-align: center; color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" value="" name="search" placeholder="Reply to Chantel Bardaro">
