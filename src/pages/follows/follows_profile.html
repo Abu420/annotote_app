@@ -5,8 +5,10 @@
         <div class="follow_head">
             <img class="overflow_menu" src="assets/img/bg-header.png">
             <strong [innerText]="profileData.user.firstName + ' ' + profileData.user.lastName"> <em><</em></strong>
-            <span class="follow_user"></span>
+            <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
+            <span (click)="unFollowUser()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="unFollow_user"></span>
         </div>
+        <button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>
         <div class="img-holder">
             <img src="assets/img/cover_image.jpg">
         </div>
