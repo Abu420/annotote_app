@@ -18,7 +18,7 @@
     <div id="wrapper">
         <div class="editor-area layout">
             <span (click)="presentCommentDetailModal()" class="status">"</span>
-            <div [textContent]="text" class="editor_text_box" contenteditable="true"></div>
+            <div [(textEditor)]="text" class="editor_text_box" contenteditable="false"></div>
         </div>
     </div>
     <ion-fab (click)="presentCommentDetailModal()" bottom right>

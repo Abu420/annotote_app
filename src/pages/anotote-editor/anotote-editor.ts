@@ -1,6 +1,7 @@
 import { Component, Input, Output, Directive, ElementRef, Renderer, EventEmitter, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
+import { TextEditor } from '../directives/editor';
 /**
  * Services
  */
@@ -9,7 +10,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 @IonicPage()
 @Component({
     selector: 'page-anotote-editor',
-    templateUrl: 'anotote-editor.html',
+    templateUrl: 'anotote-editor.html'
 })
 export class AnototeEditor {
     public editorContent: string;
