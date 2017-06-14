@@ -40,4 +40,10 @@ export class AnototeService {
     //todo: implement real maping
     return [];
   }
+
+  public quickChat(id){
+    var url = this.constants.API_BASEURL + '/chat-quick-detail?second_person='+id;
+    var response = this.http.get(url).map(res => res.json())
+    return response;
+  }
 }

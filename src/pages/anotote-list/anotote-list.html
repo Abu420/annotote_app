@@ -39,11 +39,14 @@
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <ion-list *ngIf="!edit_mode" class="product-list">
+        <ion-list *ngIf="!edit_mode && anototes.length > 0" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
                 <div (tap)="openAnototeDetail(anotote)">
-                    <div *ngIf="!anotote.active" class="img-holder">
+                    <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null)?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
+                    </div>
+                    <div *ngIf="!anotote.active && current_color == 'top'" class="img-holder">
+                        <img [src]="(anotote.annotote.photo != null)?anotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <span class="options" *ngIf="anotote.active"></span>
                     <div class="txt" *ngIf="anotote.type ==1">
@@ -144,7 +147,10 @@
                 <!-- anatote detail -->
             </ion-item>
         </ion-list>
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <div class="no_totes" [hidden]="has_totes">
+            <p [ngClass]="{'green': current_color == 'me', 'yellow':current_color == 'follow', 'pink':current_color == 'top' }">No totes found.</p>
+        </div>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="anototes.length > 0 && anototes.length % 10 == 0">
             <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>

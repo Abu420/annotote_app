@@ -260,6 +260,24 @@ page-anotote-list {
             }
         }
     }
+    .no_totes {
+        width: 100%;
+        text-align: center;
+        padding: 1%;
+        font-weight: bold;
+        p {
+            font-size: 4vw;
+        }
+        p.green {
+            color: #3bde00;
+        }
+        p.yellow {
+            color: #f4e300;
+        }
+        p.pink {
+            color: #fb9df0;
+        }
+    }
     .header {
         padding: 0 0 10px 0;
         text-align: right;

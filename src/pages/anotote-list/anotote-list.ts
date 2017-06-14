@@ -53,6 +53,8 @@ export class AnototeList {
   public reply_box_on: boolean;
   public whichStream:string = 'me';
   public current_page:number = 1;
+  public has_totes:boolean = true;
+  public message:any = [];
   /**
    * Constructor
    */
@@ -60,6 +62,7 @@ export class AnototeList {
     this.current_color = navParams.get('color');
     this.setStreamType(navParams.get('color'))
     this.reply_box_on = false;
+    this.anototes = new Array<ListTotesModel>();
   }
 
   public setStreamType(streamType){
@@ -89,6 +92,9 @@ export class AnototeList {
       for(let entry of stream){
         this.anototes.push(new ListTotesModel(entry.id, entry.type,entry.userToteId, entry.chatGroupId,entry.userAnnotote, entry.chatGroup,entry.createdAt,entry.updatedAt));
       }
+      if(this.anototes.length == 0){
+        this.has_totes = false;
+      }
       this.utilityMethods.hide_loader();
     },(error)=>{
       this.utilityMethods.hide_loader();
@@ -114,10 +120,10 @@ export class AnototeList {
   }
 
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
+    //console.log('Begin async operation');
 
     setTimeout(() => {
-      console.log('Async operation has ended');
+      //console.log('Async operation has ended');
       this.anototeService.fetchTotes(this.whichStream, ++this.current_page).subscribe((data:any)=>{
         let stream = data.json().data.annototes;
         for(let entry of stream){
@@ -196,7 +202,23 @@ export class AnototeList {
     }else if(this.current_active_anotote.type == 1 && this.whichStream == 'follows'){
       this.current_active_anotote.activeParty = 2;
       this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.annotote.id);
+    }else if(this.current_active_anotote.type == 2 && this.whichStream == 'me'){
+      this.getQuickChatHistory(anotote);
     }
+  }
+
+  public getQuickChatHistory(tote){
+    this.utilityMethods.show_loader('');
+    this.anototeService.quickChat(tote.chatGroup.groupUsers[1].user.id).subscribe((result)=>{
+      this.utilityMethods.hide_loader();
+      if(result.status == 1){
+
+      }else{
+        this.presentToast();
+      }
+    },(error)=>{
+
+    });
   }
 
   public setSimpleToteDetails(user_id, tote_id){
