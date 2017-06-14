@@ -18,12 +18,19 @@
     <div id="wrapper">
         <div class="editor-area layout">
             <span (click)="presentCommentDetailModal()" class="status">"</span>
-            <div [(textEditor)]="text" class="editor_text_box" contenteditable="false"></div>
+            <div id="text_editor" [(textEditor)]="text" class="editor_text_box" contenteditable="false"></div>
         </div>
     </div>
-    <ion-fab (click)="presentCommentDetailModal()" bottom right>
+    <!--<ion-fab (click)="presentCommentDetailModal()" bottom right>
         <button ion-fab color="dark">            
                 <img src="assets/img/tot_icon_white.png" />
             </button>
-    </ion-fab>
+    </ion-fab>-->
 </ion-content>
+<ion-footer class="inline_tote_options" *ngIf="show_tote_options">
+    <ion-toolbar color="dark">
+        <span (click)="comment_it()" class="comment"></span>
+        <span class="quote"></span>
+        <span class="cross"></span>
+    </ion-toolbar>
+</ion-footer>

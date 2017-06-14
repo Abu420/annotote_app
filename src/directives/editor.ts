@@ -1,12 +1,8 @@
-import { Directive, ElementRef, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, Input, Output, HostListener, EventEmitter, SimpleChanges } from '@angular/core';
+import { Events } from 'ionic-angular';
 
 @Directive({
-    selector: '[textEditor]',
-    host: {
-        '(keyup)': 'onKeyup()',
-        '(selectstart)': 'onSelectStart',
-        '(mouseup)': 'onMouseup'
-    }
+    selector: '[textEditor]'
 })
 export class TextEditor {
     @Input('textEditor') model: string;
@@ -22,7 +18,36 @@ export class TextEditor {
      */
     private lastViewModel: string;
 
-    constructor(private elRef: ElementRef) {
+    constructor(public events: Events, private el: ElementRef) {
+        events.subscribe('tote:comment', () => {
+            console.log('tote:comment')
+            this.highlight_();
+        });
+    }
+
+    @HostListener('touchstart') onTouchStart() {
+        console.log('touch_start');
+        this.events.publish('show_tote_options', false);
+    }
+
+    @HostListener('touchend') onTouchEnd() {
+        console.log('touch_end');
+        var selected = getSelection(),
+            selected_txt = selected.toString();
+        if (selected_txt != '')
+            this.events.publish('show_tote_options', true);
+        else
+            this.events.publish('show_tote_options', false);
+    }
+
+    @HostListener('selectstart') onSelectStart() {
+        var selected = getSelection(),
+            selected_txt = selected.toString();
+        console.log(selected_txt);
+        if (selected_txt != '')
+            this.events.publish('show_tote_options', true);
+        else
+            this.events.publish('show_tote_options', false);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -32,18 +57,15 @@ export class TextEditor {
         }
     }
 
-    /**
-     * On Text Select Start Event
-     */
-    onSelectStart() {
-        console.log('hello')
-    }
-
     /** This should probably be debounced. */
     onKeyup() {
-        var value = this.elRef.nativeElement.innerText;
+        var value = this.el.nativeElement.innerText;
         this.lastViewModel = value;
         this.update.emit(value);
+    }
+
+    selectionChangeEvent() {
+        console.log('Selection Change Event');
     }
 
     onMouseup() {
@@ -51,6 +73,26 @@ export class TextEditor {
     }
 
     private refreshView() {
-        this.elRef.nativeElement.innerText = this.model
+        this.el.nativeElement.innerText = this.model
+    }
+
+    private highlight_() {
+        var selected = getSelection(),
+            selected_txt = selected.toString();
+        if (selected_txt != '') {
+            var range = selected.getRangeAt(0);
+            if (selected.toString().length > 1) {
+                var newNode = document.createElement("span");
+                newNode.onclick = function () {
+                    console.log('Already created tote')
+                }
+                newNode.ontouchstart = function () {
+                    console.log('Already created tote touch')
+                }
+                newNode.setAttribute("class", "highlight");
+                range.surroundContents(newNode);
+            }
+            selected.removeAllRanges();
+        }
     }
 }
