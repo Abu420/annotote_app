@@ -23,6 +23,16 @@ export class TextEditor {
             console.log('tote:comment')
             this.highlight_();
         });
+
+        document.addEventListener("selectionchange", function () {
+            var selected = getSelection(),
+                selected_txt = selected.toString();
+            console.log(selected_txt);
+            if (selected_txt != '')
+                events.publish('show_tote_options', true);
+            else
+                events.publish('show_tote_options', false);
+        });
     }
 
     @HostListener('touchstart') onTouchStart() {
@@ -41,13 +51,6 @@ export class TextEditor {
     }
 
     @HostListener('selectstart') onSelectStart() {
-        var selected = getSelection(),
-            selected_txt = selected.toString();
-        console.log(selected_txt);
-        if (selected_txt != '')
-            this.events.publish('show_tote_options', true);
-        else
-            this.events.publish('show_tote_options', false);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -83,7 +86,8 @@ export class TextEditor {
             var range = selected.getRangeAt(0);
             if (selected.toString().length > 1) {
                 var newNode = document.createElement("span");
-                newNode.onclick = function () {
+                newNode.onclick = function (evt) {
+                    console.log(evt)
                     console.log('Already created tote')
                 }
                 newNode.ontouchstart = function () {
