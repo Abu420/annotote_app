@@ -18,12 +18,14 @@ import { AnototeService } from '../../services/anotote.service';
 })
 export class FrontViewPage {
       public toast: Toast;
+      public page: number;
       public latest_anototes: any;
       public latest_anototes_firstTime_loading: boolean;
       public showFabButton: boolean;
 
       constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, public anototeService: AnototeService) {
             this.showFabButton = true;
+            this.page = 0;
       }
 
       /**
@@ -44,7 +46,8 @@ export class FrontViewPage {
       fetch_latest_annototes() {
             this.latest_anototes_firstTime_loading = true;
             let self = this;
-            this.anototeService.fetchLatestTotes()
+            this.page++;
+            this.anototeService.fetchLatestTotes(this.page)
                   .subscribe((response) => {
                         console.log(response);
                         this.latest_anototes = response.data.annototes;
@@ -67,11 +70,25 @@ export class FrontViewPage {
       }
 
       doInfinite(infiniteScroll) {
-            setTimeout(() => {
-                  console.log('Async operation has ended');
-                  infiniteScroll.complete();
-                  infiniteScroll.enable(false);
-            }, 500);
+            let self = this;
+            this.page++;
+            this.anototeService.fetchLatestTotes(this.page)
+                  .subscribe((response) => {
+                        console.log(response);
+                        if (response.data.annototes.length % 10 != 0 || response.data.annototes.length == 0)
+                              infiniteScroll.enable(false);
+                        for (let ano of response.data.annototes) {
+                              this.latest_anototes.push(ano);
+                        }
+                        infiniteScroll.complete();
+                  }, (error) => {
+                        infiniteScroll.complete();
+                  });
+            // setTimeout(() => {
+            //       console.log('Async operation has ended');
+            //       infiniteScroll.complete();
+            //       infiniteScroll.enable(false);
+            // }, 500);
       }
 
       openAnototeList(event) {

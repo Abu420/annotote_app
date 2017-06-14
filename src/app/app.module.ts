@@ -31,6 +31,7 @@ import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
  * Directives
  */
 import { PressDirective } from '../directives/longPress';
+import { TextEditor } from '../directives/editor';
 import { AbsoluteDrag } from '../directives/absolute-drag';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -49,7 +50,7 @@ import { SearchService } from "../services/search.service";
 import { Constants } from "../services/constants.service";
 import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
-import {DatetimeService} from "../services/datetime.service";
+import { DatetimeService } from "../services/datetime.service";
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import {DatetimeService} from "../services/datetime.service";
     CommentDetailPopup,
     Settings,
     Search,
+    TextEditor,
     TopOptions,
     FollowsPopup,
     TopInterests,

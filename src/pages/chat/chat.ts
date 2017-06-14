@@ -19,6 +19,7 @@ declare var io: any;
     content: new ViewChild('content')
   }
 })
+
 export class Chat {
   @ViewChild(Content) content: Content;
   /**

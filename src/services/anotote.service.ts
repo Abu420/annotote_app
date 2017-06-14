@@ -5,24 +5,24 @@ import { Injectable } from '@angular/core';
 import { User } from "../models/user";
 import { Constants } from '../services/constants.service';
 import { Http, RequestOptions, Headers } from "@angular/http";
-import {AuthenticationService} from "./auth.service";
+import { AuthenticationService } from "./auth.service";
 
 @Injectable()
 
 export class AnototeService {
 
-  public constructor(public http: Http, public constants: Constants, public authService:AuthenticationService) { }
+  public constructor(public http: Http, public constants: Constants, public authService: AuthenticationService) { }
 
   public fetchTotes(whichStream, page = 1) {
     let headers = new Headers();
     headers.append('Authorization', this.authService.getUser().access_token);
-    return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream+'?page='+page, {
+    return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream + '?page=' + page, {
       headers: headers
     });
   }
 
-  public fetchLatestTotes() {
-    var url = this.constants.API_BASEURL + '/totes/fetch?dateTime=1496279585&page=0';
+  public fetchLatestTotes(page) {
+    var url = this.constants.API_BASEURL + '/totes/fetch?dateTime=1496279585&page=' + page;
     var response = this.http.get(url, {}).map(res => res.json());
     return response;
   }

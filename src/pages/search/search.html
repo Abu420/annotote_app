@@ -1,18 +1,26 @@
-<div class="search_header">
-    <span class="options"></span>
-    <span class="search_button"></span>
-    <ion-input [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search"></ion-input>
-    <span (click)="dismiss()" class="clear_button"></span>
-</div>
-<ion-list>
-    <ion-item *ngIf="search_txt.length>0 && search_results.length==0 && !search_loading">
-        No item found
-    </ion-item>
-    <ion-item *ngIf="search_txt.length>0 && search_results.length>=0 && !search_loading">
-        Search (enter)
-    </ion-item>
-    <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
-        <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
-        <span (click)="followUser($event, search_result.id)" class="follow_btn"></span>
-    </ion-item>
-</ion-list>
+<ion-header>
+    <ion-toolbar color="homeheader">
+        <div class="search_header">
+            <span class="options"></span>
+            <span class="search_button"></span>
+            <ion-input [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search"></ion-input>
+            <span (click)="dismiss()" class="clear_button"></span>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <!-- content-->
+    <ion-list>
+        <ion-item *ngIf="search_txt.length>0 && search_results.length==0 && !search_loading">
+            No item found
+        </ion-item>
+        <ion-item *ngIf="search_txt.length>0 && search_results.length>0 && !search_loading">
+            Search (enter)
+        </ion-item>
+        <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
+            <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
+            <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
+            <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>
+        </ion-item>
+    </ion-list>
+</ion-content>
