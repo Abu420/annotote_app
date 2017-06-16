@@ -1,6 +1,8 @@
 import { Component, Input, ViewChild, Output, Directive, ElementRef, Renderer, EventEmitter, OnInit } from '@angular/core';
 import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
+import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
+import { CreateAnotationOptionsPopup } from '../anotote-editor/create_anotation_options';
 import { TextEditor } from '../directives/editor';
 /**
  * Services
@@ -15,21 +17,42 @@ import { UtilityMethods } from '../../services/utility_methods';
 export class AnototeEditor {
     @ViewChild(Content) content: Content;
     public editorContent: string;
-    public show_tote_options: boolean;
-
-    public text = "NYT website down after cyber attack on domain registrar, Melbourne IT. The hacking was just the latest of a major media organization, with The Financial Times and The Washington Post also having their operations disrupted within the last few months. It was also the second time this month that the Web site of The New York Times was unavailable for several hours. Marc Frons, chief information officer for The New York Times Company, issued a statement at 4:20 p.m. on Tuesday warning employees that the disruption — which appeared to be affecting the Web site well into the evening — was “the result of a malicious external attack.” He advised employees to “be careful when sending e-mail communications until this situation is resolved.” In an interview, Mr. Frons said the attack was carried out by a group known as “the Syrian Electronic";
+    public show_tote_options_flag: boolean;
+    private selectedText: string;
+    private selection: Selection;
+    private selection_lock: boolean;
+    private text: string;
 
     constructor(public events: Events, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
-        events.subscribe('show_tote_options', (flag) => {
-            this.show_tote_options = flag;
-            this.content.resize();
+        this.show_tote_options_flag = false;
+        this.selection_lock = false;
+        events.subscribe('show_tote_options', (data) => {
+            if (data.flag && !this.selection_lock) {
+                this.show_tote_options_flag = data.flag;
+                this.selectedText = data.txt;
+                this.selection = data.selection;
+                this.content.resize();
+            }
         });
+
+        events.subscribe('show_anotation_details', (data) => {
+            this.presentCommentDetailModal(data.txt);
+        });
+        this.text = navParams.get('tote_txt');
     }
 
     comment_it() {
-        this.events.publish('tote:comment', true);
-        this.show_tote_options = false;
+        this.selection_lock = true;
+        this.show_tote_options_flag = false;
         this.content.resize();
+        this.presentCreateAnotationModal();
+    }
+
+    quote_it() {
+        // this.events.publish('tote:comment', true);
+        this.show_tote_options_flag = false;
+        this.content.resize();
+        this.presentCreateAnotationModal();
     }
 
     popView() {
@@ -37,13 +60,31 @@ export class AnototeEditor {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad AnototeEditor');
     }
 
-    presentCommentDetailModal() {
-        console.log(this.editorContent)
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, null);
+    presentCommentDetailModal(txt) {
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: txt });
         commentDetailModal.present();
+    }
+
+    presentCreateAnotationModal() {
+        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText });
+        createAnotationModal.onDidDismiss(data => {
+            if (data == 'done') {
+                console.log('done')
+                this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText });
+            }
+            this.selection_lock = false;
+        });
+        createAnotationModal.present();
+    }
+
+    presentCreateAnotationOptionsModal() {
+        let createAnotationOptionsModal = this.modalCtrl.create(CreateAnotationOptionsPopup, { selected_txt: this.selectedText });
+        createAnotationOptionsModal.onDidDismiss(data => {
+            this.selection_lock = false;
+        });
+        createAnotationOptionsModal.present();
     }
 
 }

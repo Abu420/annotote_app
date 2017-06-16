@@ -63,4 +63,25 @@ export class SearchService {
         var response = this.http.get(url).map(res => res.json());
         return response;
     }
+
+    /**
+     * Create Anotote API
+     * type: {POST}
+     * params: [url, created_at], 
+     */
+    public create_anotote(params) {
+        var url = this.constants.API_BASEURL + '/create-annotote';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+     * Get Anotote Content API
+     * type: {GET}
+     * params: [url], 
+     */
+    public get_anotote_content(url) {
+        var response = this.http.get(url);
+        return response;
+    }
 }

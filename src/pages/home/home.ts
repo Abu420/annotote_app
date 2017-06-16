@@ -68,7 +68,7 @@ export class Home {
     this.navCtrl.push(AnototeList, { color: color });
   }
 
-  openSearchResults() {
+  openSearchPopup() {
     let searchModal = this.modalCtrl.create(Search, null);
     searchModal.onDidDismiss(data => {
     });

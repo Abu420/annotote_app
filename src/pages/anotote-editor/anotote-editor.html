@@ -17,7 +17,6 @@
 <ion-content padding>
     <div id="wrapper">
         <div class="editor-area layout">
-            <span (click)="presentCommentDetailModal()" class="status">"</span>
             <div id="text_editor" [(textEditor)]="text" class="editor_text_box" contenteditable="false"></div>
         </div>
     </div>
@@ -27,7 +26,7 @@
             </button>
     </ion-fab>-->
 </ion-content>
-<ion-footer class="inline_tote_options" *ngIf="show_tote_options">
+<ion-footer class="inline_tote_options" *ngIf="show_tote_options_flag==true">
     <ion-toolbar color="dark">
         <span (click)="comment_it()" class="comment"></span>
         <span class="quote"></span>

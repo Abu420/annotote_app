@@ -16,6 +16,8 @@ import { Home } from '../pages/home/home';
 import { Settings } from '../pages/home/settings';
 import { AnototeOptions } from '../pages/anotote-list/tote_options';
 import { CommentDetailPopup } from '../pages/anotote-editor/comment_detail_popup';
+import { CreateAnotationPopup } from '../pages/anotote-editor/create_anotation';
+import { CreateAnotationOptionsPopup } from '../pages/anotote-editor/create_anotation_options';
 import { TopInterests } from '../pages/home/top_interests';
 import { TopOptions } from '../pages/home/top_options';
 import { Notifications } from '../pages/notifications/notifications';
@@ -35,6 +37,7 @@ import { TextEditor } from '../directives/editor';
 import { AbsoluteDrag } from '../directives/absolute-drag';
 
 import { StatusBar } from '@ionic-native/status-bar';
+import { Network } from '@ionic-native/network';
 import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -69,6 +72,8 @@ import { DatetimeService } from "../services/datetime.service";
     FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
+    CreateAnotationOptionsPopup,
+    CreateAnotationPopup,
     CommentDetailPopup,
     Settings,
     Search,
@@ -107,6 +112,8 @@ import { DatetimeService } from "../services/datetime.service";
     TopInterests,
     Search,
     SearchResults,
+    CreateAnotationOptionsPopup,
+    CreateAnotationPopup,
     CommentDetailPopup,
     Notifications,
     FrontViewPage,
@@ -129,6 +136,7 @@ import { DatetimeService } from "../services/datetime.service";
       provide: RequestOptions, useClass: DefaultRequestOptions
     },
     StatusBar,
+    Network,
     InAppBrowser,
     SplashScreen,
     UtilityMethods,

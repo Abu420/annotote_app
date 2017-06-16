@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
+import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
  * Services
  */
@@ -17,7 +18,7 @@ export class Search {
     public search_results: any;
     public search_loading: boolean;
 
-    constructor(public params: NavParams, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
+    constructor(public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
         this.search_results = [];
         this.search_txt = "";
 
@@ -95,17 +96,43 @@ export class Search {
             return;
         }
         let self = this;
+
+        var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
+        var current_time = (new Date()).getTime() / 1000;
         this.search_loading = true;
-        this.searchService.general_search(this.search_txt)
-            .subscribe((response) => {
-                console.log(response)
-                this.search_results = response.data.users;
-                this.search_loading = false;
-            }, (error) => {
-                this.search_results = [];
-                this.search_loading = false;
-                // self.utilityMethods.message_alert('Error', 'No matching results found');
-            });
+        if (!url_or_user)
+            this.searchService.general_search(this.search_txt)
+                .subscribe((response) => {
+                    console.log(response)
+                    this.search_results = response.data.users;
+                    this.search_loading = false;
+                }, (error) => {
+                    this.search_results = [];
+                    this.search_loading = false;
+                    // self.utilityMethods.message_alert('Error', 'No matching results found');
+                });
+        else {
+            this.utilityMethods.show_loader('Please wait...');
+            this.searchService.create_anotote({ url: this.search_txt, created_at: current_time })
+                .subscribe((response) => {
+                    this.searchService.get_anotote_content(response.data.annotote.localLink)
+                        .subscribe((response) => {
+                            this.utilityMethods.hide_loader();
+                            this.go_to_browser(response.text());
+                        }, (error) => {
+                            this.utilityMethods.hide_loader();
+                            this.search_loading = false;
+                        });
+                }, (error) => {
+                    this.utilityMethods.hide_loader();
+                    this.search_loading = false;
+                });
+        }
+    }
+
+    go_to_browser(scrapped_txt) {
+        this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt });
+        this.dismiss()
     }
 
     showProfile(user_id) {

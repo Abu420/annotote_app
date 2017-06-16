@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController , NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'comment_detail_popup',
   templateUrl: 'comment_detail_popup.html',
 })
 export class CommentDetailPopup {
+  private anotote_txt: string;
 
- constructor(public params: NavParams,public viewCtrl: ViewController) {
- }
+  constructor(public params: NavParams, public viewCtrl: ViewController) {
+    this.anotote_txt = this.params.get('txt');
+  }
 
   dismiss() {
-   let data = { 'foo': 'bar' };
-   this.viewCtrl.dismiss(data);
- }
+    this.viewCtrl.dismiss();
+  }
 
- presentTopInterestsModal() {
-   this.viewCtrl.dismiss('interests');
- }
+  presentTopInterestsModal() {
+    this.viewCtrl.dismiss();
+  }
 
 }

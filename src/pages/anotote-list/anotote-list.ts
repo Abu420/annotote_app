@@ -9,15 +9,16 @@ import { ViewOptions } from '../anotote-list/view_options';
 import { TagsPopUp } from '../anotote-list/tags';
 import { FollowsPopup } from '../anotote-list/follows_popup';
 import { Chat } from '../chat/chat';
+import { Search } from '../search/search';
 /**
  * Services
  */
 import { UtilityMethods } from '../../services/utility_methods';
-import {ListTotesModel} from "../../models/ListTotesModel";
-import {AnototeService} from "../../services/anotote.service";
-import {Follows} from "../follows/follows";
-import {User} from "../../models/user";
-import {AuthenticationService} from "../../services/auth.service";
+import { ListTotesModel } from "../../models/ListTotesModel";
+import { AnototeService } from "../../services/anotote.service";
+import { Follows } from "../follows/follows";
+import { User } from "../../models/user";
+import { AuthenticationService } from "../../services/auth.service";
 
 @IonicPage()
 @Component({
@@ -51,24 +52,24 @@ export class AnototeList {
   public toast: Toast;
   public current_color: string;
   public reply_box_on: boolean;
-  public whichStream:string = 'me';
-  public current_page:number = 1;
-  public has_totes:boolean = true;
-  public message:any = [];
+  public whichStream: string = 'me';
+  public current_page: number = 1;
+  public has_totes: boolean = true;
+  public message: any = [];
   /**
    * Constructor
    */
-  constructor(public authService:AuthenticationService, public anototeService:AnototeService,public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+  constructor(public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
     this.current_color = navParams.get('color');
     this.setStreamType(navParams.get('color'))
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
   }
 
-  public setStreamType(streamType){
-    if(streamType == 'follow'){
-      this.whichStream = streamType+'s';
-    }else{
+  public setStreamType(streamType) {
+    if (streamType == 'follow') {
+      this.whichStream = streamType + 's';
+    } else {
       this.whichStream = streamType;
     }
   }
@@ -84,19 +85,19 @@ export class AnototeList {
      * Set default mode to list not the edit one
      */
     this.edit_mode = false;
-    let anototes:Array<ListTotesModel> = [];
+    let anototes: Array<ListTotesModel> = [];
 
     this.utilityMethods.show_loader('fetching totes..');
-    this.anototeService.fetchTotes(this.whichStream).subscribe((data)=>{
+    this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
       let stream = data.json().data.annototes;
-      for(let entry of stream){
-        this.anototes.push(new ListTotesModel(entry.id, entry.type,entry.userToteId, entry.chatGroupId,entry.userAnnotote, entry.chatGroup,entry.createdAt,entry.updatedAt));
+      for (let entry of stream) {
+        this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
       }
-      if(this.anototes.length == 0){
+      if (this.anototes.length == 0) {
         this.has_totes = false;
       }
       this.utilityMethods.hide_loader();
-    },(error)=>{
+    }, (error) => {
       this.utilityMethods.hide_loader();
     });
 
@@ -109,12 +110,12 @@ export class AnototeList {
    * Methods
    */
 
-  showMeHighlights(){
+  showMeHighlights() {
     this.current_active_anotote.activeParty = 1;
     this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.annotote.id);
   }
 
-  showTopHighlights(){
+  showTopHighlights() {
     this.current_active_anotote.activeParty = 3;
     this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.annotote.id);
   }
@@ -124,13 +125,13 @@ export class AnototeList {
 
     setTimeout(() => {
       //console.log('Async operation has ended');
-      this.anototeService.fetchTotes(this.whichStream, ++this.current_page).subscribe((data:any)=>{
+      this.anototeService.fetchTotes(this.whichStream, ++this.current_page).subscribe((data: any) => {
         let stream = data.json().data.annototes;
-        for(let entry of stream){
-          this.anototes.push(new ListTotesModel(entry.id, entry.type,entry.userToteId, entry.chatGroupId,entry.userAnnotote, entry.chatGroup,entry.createdAt,entry.updatedAt));
+        for (let entry of stream) {
+          this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
         }
         infiniteScroll.complete();
-        if(stream.length <= 0){
+        if (stream.length <= 0) {
           infiniteScroll.enable(false);
         }
       });
@@ -138,17 +139,17 @@ export class AnototeList {
   }
 
   open_follows_popup(event) {
-    if(this.current_active_anotote.followers.length == 0)
+    if (this.current_active_anotote.followers.length == 0)
       return false;
     event.stopPropagation();
-    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, {follows:this.current_active_anotote.followers});
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: this.current_active_anotote.followers });
     anototeOptionsModal.onDidDismiss(data => {
-      if(data != null){
+      if (data != null) {
         this.utilityMethods.show_loader('loading follows totes...')
-        this.anototeService.fetchToteDetails(data.user.id, this.current_active_anotote.userAnnotote.annotote.id).subscribe((data)=>{
+        this.anototeService.fetchToteDetails(data.user.id, this.current_active_anotote.userAnnotote.annotote.id).subscribe((data) => {
           this.current_active_anotote.setFollowerHighlights(data.json().data.annotote.highlights);
           this.utilityMethods.hide_loader()
-        },(error)=>{
+        }, (error) => {
           this.utilityMethods.hide_loader()
         });
       }
@@ -196,48 +197,48 @@ export class AnototeList {
     if (this.current_active_anotote.type == 2)
       this.content.resize();
 
-    if(this.current_active_anotote.type == 1 && this.whichStream == 'me'){
+    if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
       this.current_active_anotote.activeParty = 1;
       this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.annotote.id);
-    }else if(this.current_active_anotote.type == 1 && this.whichStream == 'follows'){
+    } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
       this.current_active_anotote.activeParty = 2;
       this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.annotote.id);
-    }else if(this.current_active_anotote.type == 2 && this.whichStream == 'me'){
+    } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
       this.getQuickChatHistory(anotote);
     }
   }
 
-  public getQuickChatHistory(tote){
+  public getQuickChatHistory(tote) {
     this.utilityMethods.show_loader('');
-    this.anototeService.quickChat(tote.chatGroup.groupUsers[1].user.id).subscribe((result)=>{
+    this.anototeService.quickChat(tote.chatGroup.groupUsers[1].user.id).subscribe((result) => {
       this.utilityMethods.hide_loader();
-      if(result.status == 1){
+      if (result.status == 1) {
 
-      }else{
+      } else {
         this.presentToast();
       }
-    },(error)=>{
+    }, (error) => {
 
     });
   }
 
-  public setSimpleToteDetails(user_id, tote_id){
+  public setSimpleToteDetails(user_id, tote_id) {
     this.utilityMethods.show_loader('loading tote details...');
-    this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data)=>{
+    this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data) => {
       let annotote = data.json().data.annotote;
-      let followers:Array<any> = [];
+      let followers: Array<any> = [];
       this.current_active_anotote.setHighlights(annotote.highlights);
-      for(let follower of annotote.follows){
+      for (let follower of annotote.follows) {
         followers.push(new User(follower.id, follower.firstName, follower.lastName, follower.email, follower.password, follower.photo));
       }
       this.current_active_anotote.setFollowers(followers);
       this.utilityMethods.hide_loader();
-    },(error)=>{
+    }, (error) => {
 
     });
   }
 
-  public getLoggedInUserId(){
+  public getLoggedInUserId() {
     console.log(this.authService.getUser());
     return this.authService.getUser().id;
   }
@@ -260,14 +261,14 @@ export class AnototeList {
     this.toast.present();
   }
 
-  go_to_chat_thread(groupUsers:Array<any>) {
-    let secondUser:any = null;
-    for(let user of groupUsers){
-      if(user.id != this.getLoggedInUserId()){
+  go_to_chat_thread(groupUsers: Array<any>) {
+    let secondUser: any = null;
+    for (let user of groupUsers) {
+      if (user.id != this.getLoggedInUserId()) {
         secondUser = user;
       }
     }
-    this.navCtrl.push(Chat, {secondUser:secondUser.user});
+    this.navCtrl.push(Chat, { secondUser: secondUser.user });
   }
 
   presentAnototeOptionsModal(event) {
@@ -280,6 +281,13 @@ export class AnototeList {
       }
     });
     anototeOptionsModal.present();
+  }
+
+  openSearchPopup() {
+    let searchModal = this.modalCtrl.create(Search, null);
+    searchModal.onDidDismiss(data => {
+    });
+    searchModal.present();
   }
 
   presentViewOptionsModal() {
