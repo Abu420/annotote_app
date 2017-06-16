@@ -51,6 +51,8 @@ import { Constants } from "../services/constants.service";
 import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
+import {ChatHeads} from "../services/pipes"
+import { Push } from '@ionic-native/push';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { DatetimeService } from "../services/datetime.service";
     AnototeDetail,
     AbsoluteDrag,
     PressDirective,
-    AnototeEditor
+    AnototeEditor,
+    ChatHeads,
   ],
   imports: [
     BrowserModule,
@@ -125,6 +128,7 @@ import { DatetimeService } from "../services/datetime.service";
     DatetimeService,
     AuthenticationService,
     Constants,
+    Push,
     {
       provide: RequestOptions, useClass: DefaultRequestOptions
     },

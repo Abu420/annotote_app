@@ -19,7 +19,7 @@ export class User {
         this.id = id;
         this.firstName = f_name;
         this.lastName = l_name;
-        this.full_name = this.firstName + '' + this.lastName;
+        this.full_name = this.firstName + ' ' + this.lastName;
         this.email = em;
         this.password = passw;
         this.photo = photo;

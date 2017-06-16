@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Platform, AlertController, LoadingController } from 'ionic-angular';
+import { Platform, AlertController, LoadingController,ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class UtilityMethods {
 
     private loading: any;
 
-    constructor(private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController) {
+    constructor(private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl:ToastController) {
         this.platform = platform;
     }
 
@@ -38,7 +38,22 @@ export class UtilityMethods {
         if (this.loading)
             this.loading.dismiss();
     }
+    /**
+     * Toast from ionic not through plugin
+     */
+    doToast(msg:string){
+        let toast = this.toastCtrl.create({
+            message: msg,
+            duration: 2500,
+            position: 'bottom'
+        });
 
+        toast.onDidDismiss(() => {
+            // console.log('Dismissed toast');
+        });
+
+        toast.present();
+    }
 
     /**
      * Message alert to show just alert message without any callback etc

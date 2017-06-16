@@ -9,6 +9,7 @@ import { ViewOptions } from '../anotote-list/view_options';
 import { TagsPopUp } from '../anotote-list/tags';
 import { FollowsPopup } from '../anotote-list/follows_popup';
 import { Chat } from '../chat/chat';
+
 /**
  * Services
  */
@@ -18,6 +19,7 @@ import {AnototeService} from "../../services/anotote.service";
 import {Follows} from "../follows/follows";
 import {User} from "../../models/user";
 import {AuthenticationService} from "../../services/auth.service";
+import {ChatHeads} from "../../services/pipes"
 
 @IonicPage()
 @Component({
@@ -54,7 +56,8 @@ export class AnototeList {
   public whichStream:string = 'me';
   public current_page:number = 1;
   public has_totes:boolean = true;
-  public message:any = [];
+  public messages:any = [];
+  public user:any;
   /**
    * Constructor
    */
@@ -63,6 +66,7 @@ export class AnototeList {
     this.setStreamType(navParams.get('color'))
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
+    this.user = authService.getUser();
   }
 
   public setStreamType(streamType){
@@ -212,9 +216,9 @@ export class AnototeList {
     this.anototeService.quickChat(tote.chatGroup.groupUsers[1].user.id).subscribe((result)=>{
       this.utilityMethods.hide_loader();
       if(result.status == 1){
-
+        this.messages = result.data.messages;
       }else{
-        this.presentToast();
+        this.utilityMethods.doToast("Couldn't load chat history.");
       }
     },(error)=>{
 

@@ -17,6 +17,8 @@ import { AuthenticationService } from "../services/auth.service";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -31,7 +33,7 @@ export class MyApp {
   public rootPage: any;
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen,private push: Push,public storage:Storage) {
     this.initializeApp();
   }
 
@@ -61,6 +63,41 @@ export class MyApp {
           r_page.setRoot(FrontViewPage);
         s_screen.hide();
       });
+
+      /**
+       * Push Notificaiton
+       */
+       if(this.platform.is('cordova')){
+          this.push.hasPermission().then((res: any) => {
+            if (res.isEnabled) {
+              console.log('We have permission to send push notifications');
+            } else {
+              console.log('We do not have permission to send push notifications');
+            }
+          });
+
+          const options: PushOptions = {
+            android: {
+                senderID: '200726631075'
+            },
+            ios: {
+                alert: 'true',
+                badge: true,
+                sound: 'false'
+            },
+            windows: {}
+          }
+
+          const pushObject: PushObject = this.push.init(options);
+
+          pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+
+          pushObject.on('registration').subscribe((registration: any) => {
+            this.storage.set('device_id',registration.registrationId);
+          });
+
+          pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+       }
     });
   }
 
