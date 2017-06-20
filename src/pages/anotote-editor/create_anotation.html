@@ -7,5 +7,5 @@
         <span (tap)="done()" class="done"></span>
     </div>
     <p class="selected_txt" [innerText]="selectedTxt"></p>
-    <textarea placeholder="..."></textarea>
+    <textarea (input)="value_updating_comment($event.target.value)" placeholder="..."></textarea>
 </div>

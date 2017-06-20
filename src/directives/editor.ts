@@ -2,25 +2,14 @@ import { Directive, ElementRef, Input, Output, HostListener, EventEmitter, Simpl
 import { Events } from 'ionic-angular';
 
 @Directive({
-    selector: '[textEditor]'
+    selector: '[text-editor]'
 })
 export class TextEditor {
-    @Input('textEditor') model: string;
-    @Output('contenteditableModelChange') update = new EventEmitter();
-
-    /**
-     * By updating this property on keyup, and checking against it during
-     * ngOnChanges, we can rule out change events fired by our own onKeyup.
-     * Ideally we would not have to check against the whole string on every
-     * change, could possibly store a flag during onKeyup and test against that
-     * flag in ngOnChanges, but implementation details of Angular change detection
-     * cycle might make this not work in some edge cases?
-     */
-    private lastViewModel: string;
 
     constructor(public events: Events, private el: ElementRef) {
         events.subscribe('tote:comment', (data) => {
-            this.highlight_(data);
+            if (data.selection != null)
+                this.highlight_(data);
         });
 
         document.addEventListener("selectionchange", function () {
@@ -34,29 +23,9 @@ export class TextEditor {
         });
     }
 
-    // @HostListener('selectstart') onSelectStart() {
-    // }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['model'] && changes['model'].currentValue !== this.lastViewModel) {
-            this.lastViewModel = this.model;
-            this.refreshView();
-        }
-    }
-
-    /** This should probably be debounced. */
-    onKeyup() {
-        var value = this.el.nativeElement.innerText;
-        this.lastViewModel = value;
-        this.update.emit(value);
-    }
-
-    private refreshView() {
-        this.el.nativeElement.innerText = this.model
-    }
-
     private highlight_(data) {
         try {
+            console.log(data);
             var self = this;
             var _selected = data.selection;
             var selection = window.getSelection();
@@ -66,19 +35,14 @@ export class TextEditor {
             var newNode = document.createElement("span");
             newNode.onclick = function (this, evt) {
                 evt.stopPropagation();
-                // // get the element's parent node
-                // var parent = this.parentNode;
-
-                // // move all children out of the element
-                // while (this.firstChild) parent.insertBefore(this.firstChild, this);
-
-                // // remove the empty element
-                // parent.removeChild(this);
                 var text = this.getAttribute('data-txt');
                 self.events.publish('show_anotation_details', { txt: text });
             }
             newNode.setAttribute("data-txt", data.selected_txt);
-            newNode.setAttribute("class", "highlight");
+            if (data.type == 'comment')
+                newNode.setAttribute("class", "highlight_comment");
+            else
+                newNode.setAttribute("class", "highlight_quote");
             range.surroundContents(newNode);
             selection.removeAllRanges();
         } catch (e) {

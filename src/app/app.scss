@@ -39,14 +39,19 @@ body {
 .wedge_icon {
     background-image: url(../assets/img/wedge.png);
     background-size: contain;
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
     display: inline-block;
     position: absolute;
     left: 0;
     top: 120px;
     background-repeat: no-repeat;
     z-index: 10000;
+}
+
+.highlight {
+    background-color: #FFCCCC;
+    font-weight: bold;
 }
 
 span.dot,
@@ -104,6 +109,18 @@ span.un_active_dot:after {
 
 .list-ios .item-block .item-inner {
     border-bottom: 0px !important;
+}
+
+.black {
+    background-color: black;
+}
+
+.green {
+    background-color: #3bde00;
+}
+
+.yellow {
+    background-color: #f4e300;
 }
 
 .bottom_snakbar {
@@ -194,7 +211,6 @@ search_page {
     }
     .search_header {
         height: $bar_button_custom_height;
-        background-color: black;
         .options {
             height: $bar_button_custom_height;
             float: left;

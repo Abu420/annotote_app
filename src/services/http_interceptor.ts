@@ -14,8 +14,8 @@ export class DefaultRequestOptions extends BaseRequestOptions {
     merge(options?: RequestOptionsArgs): RequestOptions {
         var newOptions = super.merge(options),
             _token = localStorage.getItem('_token');
-        if (_token)
-            newOptions.headers.set('Authorization', _token);
+        // if (_token)
+        //     newOptions.headers.set('Authorization', _token);
         return newOptions;
     }
 }

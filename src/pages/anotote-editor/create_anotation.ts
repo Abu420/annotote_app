@@ -6,21 +6,22 @@ import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angul
 })
 export class CreateAnotationPopup {
     private selectedTxt: string;
+    private comment: string;
 
     constructor(public params: NavParams, public viewCtrl: ViewController) {
         this.selectedTxt = this.params.get('selected_txt');
     }
 
+    value_updating_comment(value) {
+        this.comment = value;
+    }
+
     done() {
-        this.viewCtrl.dismiss('done');
+        this.viewCtrl.dismiss({ status: true, comment: this.comment });
     }
 
     dismiss() {
-        this.viewCtrl.dismiss();
-    }
-
-    presentTopInterestsModal() {
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss({ status: false, comment: '' });
     }
 
 }

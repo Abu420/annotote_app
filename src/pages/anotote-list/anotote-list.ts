@@ -10,15 +10,18 @@ import { TagsPopUp } from '../anotote-list/tags';
 import { FollowsPopup } from '../anotote-list/follows_popup';
 import { Chat } from '../chat/chat';
 import { Search } from '../search/search';
+
 /**
  * Services
  */
+import { SearchService } from '../../services/search.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { ListTotesModel } from "../../models/ListTotesModel";
 import { AnototeService } from "../../services/anotote.service";
 import { Follows } from "../follows/follows";
 import { User } from "../../models/user";
 import { AuthenticationService } from "../../services/auth.service";
+import { ChatHeads } from "../../services/pipes"
 
 @IonicPage()
 @Component({
@@ -55,15 +58,17 @@ export class AnototeList {
   public whichStream: string = 'me';
   public current_page: number = 1;
   public has_totes: boolean = true;
-  public message: any = [];
+  public messages: any = [];
+  public user: any;
   /**
    * Constructor
    */
-  constructor(public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+  constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
     this.current_color = navParams.get('color');
     this.setStreamType(navParams.get('color'))
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
+    this.user = authService.getUser();
   }
 
   public setStreamType(streamType) {
@@ -87,7 +92,7 @@ export class AnototeList {
     this.edit_mode = false;
     let anototes: Array<ListTotesModel> = [];
 
-    this.utilityMethods.show_loader('fetching totes..');
+    this.utilityMethods.show_loader('');
     this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
       let stream = data.json().data.annototes;
       for (let entry of stream) {
@@ -118,6 +123,21 @@ export class AnototeList {
   showTopHighlights() {
     this.current_active_anotote.activeParty = 3;
     this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.annotote.id);
+  }
+
+  open_browser(anotote) {
+    this.utilityMethods.show_loader('');
+    this.searchService.get_anotote_content(anotote.userAnnotote.filePath)
+      .subscribe((response_content) => {
+        this.utilityMethods.hide_loader();
+        this.go_to_browser(response_content.text(), anotote.userAnnotote.annotote.id);
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+      });
+  }
+
+  go_to_browser(scrapped_txt, anotote_id) {
+    this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id });
   }
 
   doInfinite(infiniteScroll) {
@@ -213,9 +233,9 @@ export class AnototeList {
     this.anototeService.quickChat(tote.chatGroup.groupUsers[1].user.id).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.status == 1) {
-
+        this.messages = result.data.messages;
       } else {
-        this.presentToast();
+        this.utilityMethods.doToast("Couldn't load chat history.");
       }
     }, (error) => {
 
@@ -223,7 +243,7 @@ export class AnototeList {
   }
 
   public setSimpleToteDetails(user_id, tote_id) {
-    this.utilityMethods.show_loader('loading tote details...');
+    this.utilityMethods.show_loader('');
     this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data) => {
       let annotote = data.json().data.annotote;
       let followers: Array<any> = [];
@@ -284,7 +304,11 @@ export class AnototeList {
   }
 
   openSearchPopup() {
-    let searchModal = this.modalCtrl.create(Search, null);
+    var url = null;
+    console.log(this.current_active_anotote);
+    if (this.current_active_anotote != null)
+      url = this.current_active_anotote.userAnnotote.annotote.link;
+    let searchModal = this.modalCtrl.create(Search, { link: url });
     searchModal.onDidDismiss(data => {
     });
     searchModal.present();

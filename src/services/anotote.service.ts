@@ -29,11 +29,7 @@ export class AnototeService {
 
 
   public fetchToteDetails(user_id: number, anotote_id: number) {
-    let headers = new Headers();
-    headers.append('Authorization', this.authService.getUser().access_token);
-    return this.http.get('http://139.162.37.73/anotote/api/get-annotote-detail?user_id=' + user_id + '&annotote_id=' + anotote_id, {
-      headers: headers
-    });
+    return this.http.get(this.constants.API_BASEURL+'/get-annotote-detail?user_id=' + user_id + '&annotote_id=' + anotote_id)
   }
 
   public mapAnototeListing(totes: Array<any>) {

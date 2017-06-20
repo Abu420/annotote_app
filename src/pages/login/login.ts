@@ -52,6 +52,10 @@ export class Login {
     this.utilityMethods.launch('https://annotote.wordpress.com');
   }
 
+  go_back(ev) {
+    console.log("DIRECTION " + ev.direction);
+  }
+
   popView() {
     this.navCtrl.pop();
   }
@@ -74,6 +78,10 @@ export class Login {
 
   go_home() {
     this.keyboard.close();
+    if (this.utilityMethods.isOffline()) {
+      this.utilityMethods.internet_connection_error();
+      return;
+    }
     /**
      * Validate User first
      */

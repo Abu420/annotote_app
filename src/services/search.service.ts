@@ -76,6 +76,50 @@ export class SearchService {
     }
 
     /**
+     * Save search entry
+     * type: {POST}
+     * params: [searched_term, book_marked, created_at]
+     */
+    public save_search_entry(params) {
+        var url = this.constants.API_BASEURL + '/search/save';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+     * Get search entries
+     * type: {GET}
+     * params: [searched_term, book_marked, created_at]
+     */
+    public get_search_entries() {
+        var url = this.constants.API_BASEURL + '/search/get';
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    /**
+     * Remove search entry
+     * type: {GET}
+     * params: [search_id]
+     */
+    public remove_search_id(search_id) {
+        var url = this.constants.API_BASEURL + '/search/delete?search_id=' + search_id;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    /**
+    * Create Anotation on Anotote API
+    * type: {POST}
+    * params: [url, created_at]
+    */
+    public create_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/create';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
      * Get Anotote Content API
      * type: {GET}
      * params: [url], 

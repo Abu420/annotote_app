@@ -101,23 +101,25 @@ comment_detail_popup {
 
 page-anotote-editor {
     .inline_tote_options {
-        .toolbar {
-            overflow: visible;
-            contain: none;
-            .comment,
-            .quote,
-            .cross {
-                width: calc(100%/3);
-                height: $bar_button_custom_height;
-                background-image: url(../assets/img/cross.png);
-                display: inline-block;
-                background-size: 20px;
-                margin: 0px;
-                background-repeat: no-repeat;
-                background-position: center center;
-                box-sizing: border-box;
-                float: left;
-            }
+        position: absolute;
+        bottom: 0;
+        height: 50px;
+        width: 100%;
+        background: black;
+        z-index: 10000;
+        .comment,
+        .quote,
+        .cross {
+            width: calc(100%/3);
+            height: $bar_button_custom_height;
+            background-image: url(../assets/img/cross.png);
+            display: inline-block;
+            background-size: 20px;
+            margin: 0px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            box-sizing: border-box;
+            float: left;
         }
     }
 }
@@ -149,12 +151,21 @@ page-anotote-editor {
     font-size: 14px;
     line-height: 25px;
     border: none;
-    .highlight {
+    .highlight_quote,
+    .highlight_comment {
         background: #f5f6f7;
         color: red;
     }
-    .highlight:before {
+    .highlight_comment:before {
         content: "*";
+        background: greenyellow;
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        text-align: center;
+    }
+    .highlight_quote:before {
+        content: "\"";
         background: greenyellow;
         width: 25px;
         height: 25px;

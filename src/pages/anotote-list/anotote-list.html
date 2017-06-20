@@ -87,7 +87,7 @@
                     </header>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (click)="open_browser(anotote)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
@@ -102,20 +102,23 @@
                 <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item class="underlist-items">
+                            <ion-item class="underlist-items" *ngFor="let message of messages">
                                 <figure>
-                                    <img src="assets/img/check-green.png" alt="">
+                                    <img [src]="message | chatHeads" alt="">
+                                    <!--<img [src]="assets/img/check-green.png" alt="">-->
                                 </figure>
                                 <div class="check-text">
                                     <div class="name-time">
-                                        <span class="user">Me</span>
-                                        <span class="msg-time">11:22</span>
+                                        <span class="user" *ngIf="message.senderId == user.id">Me</span>
+                                        <span class="user" *ngIf="message.senderId != user.id">{{anotote.chatGroup.groupUsers[1].user.firstName}} {{anotote.chatGroup.groupUsers[1].user.lastName}}</span>
+                                        <span class="msg-time">{{message.createdAt | date: 'hh:mm'}}</span>
                                     </div>
-                                    <p>Agreed, but review the other background research I’ve gathered</p>
+                                    <p [ngStyle]="{'color': 'red'}" *ngIf="message.read == 0">{{message.text}}</p>
+                                    <p *ngIf="message.read != 0">{{message.text}}</p>
                                     <img src="assets/img/option-msg.png" alt="">
                                 </div>
                             </ion-item>
-                            <ion-item class="underlist-items">
+                            <!--<ion-item class="underlist-items">
                                 <figure>
                                     <img src="assets/img/check-yellow.png" alt="">
                                 </figure>
@@ -140,7 +143,7 @@
                                     <p>Agreed, but review the other background research I’ve gathered</p>
                                     <img src="assets/img/option-msg.png" alt="">
                                 </div>
-                            </ion-item>
+                            </ion-item>-->
                         </ion-list>
                     </div>
                 </div>

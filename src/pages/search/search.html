@@ -1,26 +1,64 @@
 <ion-header>
     <ion-toolbar color="homeheader">
-        <div class="search_header">
-            <span class="options"></span>
+        <div [ngClass]="{'black': current_url == null, 'green':current_url != null}" class="search_header">
+            <span (click)="show_filters()" class="options"></span>
             <span class="search_button"></span>
-            <input class="search_field" [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search" />
+            <input search-field id="search_field_id" class="search_field" [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss()" class="clear_button"></span>
         </div>
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
     <!-- content-->
-    <ion-list>
-        <ion-item *ngIf="search_txt.length>0 && search_results.length==0 && !search_loading">
-            No item found
+    <ion-list *ngIf="!filter_mode">
+        <ion-item (click)="show_share_options()" *ngIf="current_url">
+            Share this link (enter)
         </ion-item>
-        <ion-item *ngIf="search_txt.length>0 && search_results.length>0 && !search_loading">
+        <ion-item (click)="clear_deep_link()" *ngIf="current_url">
+            New search or address
+        </ion-item>
+        <!--<ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading">
+            No item found
+        </ion-item>-->
+        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length>0 && !search_loading">
             Search (enter)
+        </ion-item>
+        <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length>0 && entering_url">
+            View (enter)
+        </ion-item>
+        <ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
+            Save
+        </ion-item>
+        <ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
+            Bookmark
         </ion-item>
         <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
             <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
             <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
             <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>
+        </ion-item>
+    </ion-list>
+    <ion-list *ngIf="filter_mode">
+        <ion-item>
+            <table>
+                <th>Media</th>
+            </table>
+        </ion-item>
+        <ion-item>
+            <table>
+                <th>Category</th>
+                <th>Me</th>
+                <th>Follows</th>
+                <th>Top</th>
+            </table>
+        </ion-item>
+        <ion-item>
+            <table>
+                <th>Date</th>
+                <th><input placeholder="YYYY" /></th>
+                <th><input placeholder="MM" /></th>
+                <th><input placeholder="DD" /></th>
+            </table>
         </ion-item>
     </ion-list>
 </ion-content>

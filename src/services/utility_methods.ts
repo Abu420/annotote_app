@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Platform, AlertController, LoadingController } from 'ionic-angular';
+import { Network } from '@ionic-native/network';
+import { Platform, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
 export class UtilityMethods {
 
     private loading: any;
+    private onDevice: boolean;
 
-    constructor(private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController) {
+    constructor(private network: Network, private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
         this.platform = platform;
     }
 
@@ -37,6 +39,22 @@ export class UtilityMethods {
     hide_loader() {
         if (this.loading)
             this.loading.dismiss();
+    }
+    /**
+     * Toast from ionic not through plugin
+     */
+    doToast(msg: string) {
+        let toast = this.toastCtrl.create({
+            message: msg,
+            duration: 2500,
+            position: 'bottom'
+        });
+
+        toast.onDidDismiss(() => {
+            // console.log('Dismissed toast');
+        });
+
+        toast.present();
     }
 
     /**
@@ -82,7 +100,6 @@ export class UtilityMethods {
         return re_weburl.test(url);
     }
 
-
     /**
      * Message alert to show just alert message without any callback etc
      */
@@ -110,6 +127,24 @@ export class UtilityMethods {
             }]
         });
         alert.present();
+    }
+
+    /**
+     * Internet Connection Error
+     */
+    internet_connection_error() {
+        this.message_alert('Internet Connection Error', 'Please check your internet connection settings.');
+    }
+
+    /**
+     * Internet Connection Check
+     */
+    isOffline(): boolean {
+        if (this.onDevice && this.network.type) {
+            return this.network.type === "none";
+        } else {
+            return !navigator.onLine;
+        }
     }
 
     /**
