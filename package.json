@@ -67,22 +67,22 @@
     ],
     "description": "Anotot: An Ionic project",
     "cordova": {
-        "plugins": {
-            "cordova-plugin-console": {},
-            "cordova-plugin-device": {},
-            "cordova-plugin-splashscreen": {},
-            "cordova-plugin-statusbar": {},
-            "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {},
-            "cordova-plugin-inappbrowser": {},
-            "cordova-sqlite-storage": {},
-            "phonegap-plugin-push": {
-                "SENDER_ID": "200726631075"
-            }
-        },
         "platforms": [
             "android",
             "ios"
-        ]
+        ],
+        "plugins": {
+            "cordova-plugin-console": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-inappbrowser": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {},
+            "cordova-sqlite-storage": {},
+            "ionic-plugin-keyboard": {},
+            "phonegap-plugin-push": {
+                "SENDER_ID": "200726631075"
+            }
+        }
     }
 }

@@ -47,7 +47,7 @@
         <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
-            <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Reply to Chantel Bardaro">
+            <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply">
             <input type="submit" value="Send" (click)="sendMessage()" name="send">
         </div>
     </ion-toolbar>

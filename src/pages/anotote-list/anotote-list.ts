@@ -221,7 +221,7 @@ export class AnototeList {
         this.utilityMethods.doToast("Couldn't load chat history.");
       }
     },(error)=>{
-
+      this.utilityMethods.doToast("Couldn't load chat history.");
     });
   }
 
@@ -242,7 +242,7 @@ export class AnototeList {
   }
 
   public getLoggedInUserId(){
-    console.log(this.authService.getUser());
+    //console.log(this.authService.getUser());
     return this.authService.getUser().id;
   }
 
