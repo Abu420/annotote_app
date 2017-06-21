@@ -10,14 +10,12 @@ export class ChatHeads {
 
   transform(input) {
       let user = this.auth.getUser();
-      if(input.read == 0){
+      if(input.senderId == user.id){
+        return "assets/img/check-green.png";
+      }else if(input.read == 0){
         return "assets/img/check-red.png";
       }else{
-        if(input.senderId == user.id){
-          return "assets/img/check-green.png";
-        }else{
-          return "assets/img/check-yellow.png";
-        }
+        return "assets/img/check-yellow.png";
       }
         
   }

@@ -237,8 +237,8 @@ export class AnototeList {
       } else {
         this.utilityMethods.doToast("Couldn't load chat history.");
       }
-    }, (error) => {
-
+    },(error)=>{
+      this.utilityMethods.doToast("Couldn't load chat history.");
     });
   }
 

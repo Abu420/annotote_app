@@ -77,8 +77,8 @@ export class Chat {
 
   public sendMessage() {
     if (this.textMessage != "") {
-      this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:this.chatService.currentUnixTimestamp()}).subscribe((data)=>{
-        // this.mapChatHistory(data.json().data.messages);
+      this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:this.chatService.currentUnixTimestamp()}).subscribe((result)=>{
+        this.conversation.unshift(result.data[0]);
       }, (error)=>{});
       this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.loggedInUser.id, this.chatService.currentTime());
       this.textMessage = "";
@@ -87,7 +87,7 @@ export class Chat {
   }
 
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
+    //console.log('Begin async operation');
     this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id, ++this.current_page).subscribe((data)=>{
       let messages:Array<any> = data.json().data.messages;
       for(let message of this.mapChatHistory(messages)){

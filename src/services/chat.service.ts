@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import {User} from "../models/user";
 import {Http, RequestOptions, Headers} from "@angular/http";
 import {AuthenticationService} from "./auth.service";
+import { Constants } from '../services/constants.service';
 declare var io:any;
 @Injectable()
 
@@ -13,7 +14,7 @@ export class ChatService {
   public socket:any = null;
   public threadingUser:User;
   public socketUrl:string = "http://139.162.37.73:5000";
-  constructor(public http:Http, public authService:AuthenticationService){
+  constructor(public http:Http, public authService:AuthenticationService,public constant:Constants){
 
   }
   public listenForGlobalMessages(){
@@ -35,10 +36,10 @@ export class ChatService {
     return this.http.get('http://139.162.37.73/anotote/api/chat-history?second_person='+secondUser+'&page='+page, options);
   }
 
-  public saveMessage(data:any){
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':this.authService.getUser().access_token });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post("http://139.162.37.73/anotote/api/send-message",data, options);
+  public saveMessage(params:any){
+    // let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':this.authService.getUser().access_token });
+    // let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.constant.API_BASEURL+"/send-message",params, {}).map(res => res.json());
   }
 
   public currentUnixTimestamp(){
