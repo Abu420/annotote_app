@@ -44,7 +44,6 @@ export class Home {
    */
   ionViewDidLoad() {
     this.events.subscribe('new_search_added', (data) => {
-      console.log(data);
       this.searches.splice(0, 0, data.entry);
     });
   }
@@ -71,10 +70,13 @@ export class Home {
     this.navCtrl.push(Follows, {});
   }
 
+  open_this_search(search) {
+    this.openSearchPopup({ saved_searched_txt: search.term });
+  }
+
   get_search_entries() {
     this.searchService.get_search_entries()
       .subscribe((response) => {
-        console.log(response);
         this.latest_searches_firstTime_loading = false;
         this.searches = response.data.searches;
       });
@@ -132,8 +134,8 @@ export class Home {
     this.navCtrl.push(AnototeList, { color: color });
   }
 
-  openSearchPopup() {
-    let searchModal = this.modalCtrl.create(Search, null);
+  openSearchPopup(data) {
+    let searchModal = this.modalCtrl.create(Search, data);
     searchModal.onDidDismiss(data => {
     });
     searchModal.present();
@@ -155,6 +157,7 @@ export class Home {
           .subscribe((response) => {
             self.utilityMethods.hide_loader();
             self.authService.clear_user();
+            self.notificationService.clear_data();
             self.appCtrl.getRootNav().setRoot(FrontViewPage);
           }, (error) => {
             this.utilityMethods.hide_loader();

@@ -91,11 +91,11 @@ export class MyApp {
         const pushObject: PushObject = this.push.init(options);
 
         pushObject.on('notification').subscribe((notification: any) => {
-          this.notification_handler(notification);
+          this.notification_handler();
         });
 
         pushObject.on('registration').subscribe((registration: any) => {
-          this.storage.set('device_id', registration.registrationId);
+          localStorage.setItem('device_id', registration.registrationId);
         });
 
         pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
@@ -103,9 +103,8 @@ export class MyApp {
     });
   }
 
-  notification_handler(notification) {
-    console.log(notification)
-    let notifications = this.modalCtrl.create(Notifications, null);
+  notification_handler() {
+    let notifications = this.modalCtrl.create(Notifications, { reload: true });
     notifications.present();
   }
 

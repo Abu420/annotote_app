@@ -36,7 +36,7 @@ export class SanitizeHtmlPipe implements PipeTransform {
 })
 export class AnototeEditor {
     @ViewChild(Content) content: Content;
-    public show_tote_options_flag: number;
+    public toggle_annotation_option: boolean;
     public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
     private selectedText: string;
     private selection: any;
@@ -46,7 +46,7 @@ export class AnototeEditor {
     private tote_id: string;
 
     constructor(private _sanitizer: DomSanitizer, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
-        this.show_tote_options_flag = 0;
+        this.toggle_annotation_option = false;
         this.selection_lock = false;
         /**
          * Get Page Params
@@ -66,9 +66,9 @@ export class AnototeEditor {
             if (selected_txt != '') {
                 var range = sel.getRangeAt(0);
                 var current_selection = { "startContainer": range.startContainer, "startOffset": range.startOffset, "endContainer": range.endContainer, "endOffset": range.endOffset };
-                events.publish('show_tote_options', { flag: 1, txt: selected_txt, selection: current_selection });
+                events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
             } else {
-                events.publish('show_tote_options', { flag: 0, txt: '', selection: '' });
+                events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
             }
         });
     }
@@ -81,7 +81,7 @@ export class AnototeEditor {
             var range = document.createRange();
             range.setStart(this.selection.startContainer, this.selection.startOffset);
             range.setEnd(this.selection.endContainer, this.selection.endOffset);
-            var newNode = document.createElement("span");
+            var newNode = document.createElement("highlight_quote");
             newNode.onclick = function (this, evt) {
                 evt.stopPropagation();
                 var text = this.getAttribute('data-txt');
@@ -104,7 +104,7 @@ export class AnototeEditor {
      */
     ionViewDidLoad() {
         this.events.subscribe('show_tote_options', (data) => {
-            this.show_tote_options_flag = data.flag;
+            this.toggle_annotation_option = data.flag;
             if (data.flag && !this.selection_lock) {
                 this.selectedText = data.txt;
                 this.selection = data.selection;
@@ -137,14 +137,14 @@ export class AnototeEditor {
 
     comment_it() {
         this.selection_lock = true;
-        this.show_tote_options_flag = 0;
+        this.toggle_annotation_option = false;
         this.content.resize();
         this.presentCreateAnotationModal();
     }
 
     quote_it() {
         this.selection_lock = true;
-        this.show_tote_options_flag = 0;
+        this.toggle_annotation_option = false;
         this.content.resize();
         this.add_annotation_api('quote', null);
     }

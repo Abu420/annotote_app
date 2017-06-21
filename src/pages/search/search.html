@@ -11,6 +11,9 @@
 <ion-content padding>
     <!-- content-->
     <ion-list *ngIf="!filter_mode">
+        <ion-item *ngIf="search_loading" class="search_spinner">
+            <ion-spinner name="ios"></ion-spinner>
+        </ion-item>
         <ion-item (click)="show_share_options()" *ngIf="current_url">
             Share this link (enter)
         </ion-item>
@@ -26,17 +29,19 @@
         <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length>0 && entering_url">
             View (enter)
         </ion-item>
-        <ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
+        <ion-item (click)="save_search_entry()" *ngIf="!current_url && search_txt.length>0 && entering_url">
             Save
         </ion-item>
-        <ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
+        <!--<ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
             Bookmark
-        </ion-item>
-        <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
-            <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
-            <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
-            <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>
-        </ion-item>
+        </ion-item>-->
+        <div *ngIf="search_txt.length>0">
+            <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
+                <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
+                <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
+                <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>
+            </ion-item>
+        </div>
     </ion-list>
     <ion-list *ngIf="filter_mode">
         <ion-item>

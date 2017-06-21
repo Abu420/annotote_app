@@ -5,6 +5,7 @@ import { ForgotPassword } from '../forgot-password/forgot-password';
 import { User } from '../../models/user';
 import { StatusBar } from '@ionic-native/status-bar';
 import * as _ from 'underscore/underscore';
+import { Storage } from '@ionic/storage';
 /**
  * Services
  */
@@ -23,16 +24,18 @@ export class Login {
    */
   public user: User;
   public focus_field: string;
+  public device_id: string;
 
   /**
    * Constructor
    */
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
+  constructor(public platform: Platform, public navCtrl: NavController, public storage: Storage, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.user = new User("", "", "", "", "");
+    this.device_id = localStorage.getItem('device_id');
   }
 
   /**
@@ -108,7 +111,7 @@ export class Login {
       password: this.user.password,
       created_at: current_time,
       device_type: platform_name,
-      device_id: '123456'
+      device_id: this.device_id ? this.device_id : 'null'
     }).subscribe((response) => {
       this.utilityMethods.hide_loader();
       response.data.user.access_token = response.access_token;

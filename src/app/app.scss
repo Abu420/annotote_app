@@ -183,6 +183,20 @@ button,
 
 search_page {
     background: rgba(0, 0, 0, 0.3);
+    .search_spinner {
+        position: relative;
+        width: 100%;
+        ion-spinner {
+            position: absolute;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            right: 0;
+            left: 0;
+            top: 10px;
+            margin: auto;
+        }
+    }
     ion-list {
         .user_list_item {
             height: 55px;

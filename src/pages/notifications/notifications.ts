@@ -26,11 +26,14 @@ export class Notifications {
   private _notifications: any;
   private _loading: boolean;
   private _unread: number;
+  private _reload: boolean;
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
+  constructor(public params: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
     this._notifications = [];
     this._loading = false;
     this._unread = 0;
+
+    this._reload = this.params.get('reload');
   }
 
   ionViewDidLoad() {
@@ -78,10 +81,11 @@ export class Notifications {
 
   loadNotifications() {
     var user_id = this.authService.getUser().id;
-    if (this.notificationService.loaded_once()) {
+    if (this.notificationService.loaded_once() && this._reload == null) {
       var data = this.notificationService.get_notification_data();
       this._notifications = data.notifications;
       this._unread = data.unread;
+      this._loading = true;
     } else {
       this.notificationService.get_notifications(user_id)
         .subscribe((response) => {

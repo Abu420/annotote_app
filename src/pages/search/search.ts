@@ -35,6 +35,11 @@ export class Search {
         this.current_url = params.get('link');
         if (this.current_url != null && this.current_url != undefined)
             this.search_txt = this.current_url;
+        var saved_search_txt = params.get('saved_searched_txt');
+        if (saved_search_txt != null) {
+            this.value_updating_search(saved_search_txt);
+            this.search_txt = saved_search_txt;
+        }
 
         /**
          * User followed Event Subscriber
@@ -98,6 +103,7 @@ export class Search {
         }).subscribe((response) => {
             this.utilityMethods.hide_loader();
             console.log(response);
+            this.utilityMethods.doToast("Saved to search stream successfully !");
             this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
@@ -172,6 +178,7 @@ export class Search {
                 });
         }
         else {
+            this.search_loading = false;
             this.entering_url = true;
         }
     }

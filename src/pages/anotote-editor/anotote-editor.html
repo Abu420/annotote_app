@@ -34,7 +34,7 @@
             </button>
     </ion-fab>-->
 </ion-content>
-<div class="inline_tote_options" [hidden]="show_tote_options_flag==0">
+<div class="inline_tote_options" *ngIf="toggle_annotation_option">
     <span (click)="comment_it()" class="comment"></span>
     <span (click)="quote_it()" class="quote"></span>
     <span class="cross"></span>

@@ -10,7 +10,9 @@ export class SearchField {
     }
 
     ngAfterViewInit() {
-        this.renderer.invokeElementMethod(this.elementRef.nativeElement, 'focus', []);
-        this.elementRef.nativeElement.setSelectionRange(0, 10000);
+        setTimeout(() => {
+            this.renderer.invokeElementMethod(this.elementRef.nativeElement, 'focus', []);
+            this.elementRef.nativeElement.setSelectionRange(0, 10000);
+        }, 1000);
     }
 }
