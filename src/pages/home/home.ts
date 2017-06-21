@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, IonicPage, NavController, NavParams, ModalController, Platform } from 'ionic-angular';
+import { App, IonicPage, Events, NavController, NavParams, ModalController, Platform } from 'ionic-angular';
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
@@ -12,7 +12,9 @@ import { FrontViewPage } from '../front-view/front-view';
 /**
  * Services
  */
+import { NotificationService } from '../../services/notifications.service';
 import { UtilityMethods } from '../../services/utility_methods';
+import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 /**
  * Generated class for the Home page.
@@ -27,24 +29,88 @@ import { AuthenticationService } from '../../services/auth.service';
 })
 export class Home {
 
-  constructor(public platform: Platform, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
+  private _unread: number;
+  public searches: any;
+  public latest_searches_firstTime_loading: boolean;
+
+  constructor(public platform: Platform, private events: Events, public searchService: SearchService, public notificationService: NotificationService, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
+    this._unread = 0;
+    this.searches = [];
+    this.latest_searches_firstTime_loading = true;
   }
 
   /**
    * View Events
    */
   ionViewDidLoad() {
+    this.events.subscribe('new_search_added', (data) => {
+      this.searches.splice(0, 0, data.entry);
+    });
+  }
+
+  ionViewWillEnter() {
+    console.log('enter')
+    /**
+     * Load Notifications Count
+     */
+    this.loadNotifications();
+    this.get_search_entries();
   }
 
   notifications() {
-    // this.navCtrl.push(Notifications, {});
     let notifications = this.modalCtrl.create(Notifications, null);
+    notifications.onDidDismiss(data => {
+      this.loadNotifications();
+    });
     notifications.present();
   }
 
   follows(event) {
     event.stopPropagation();
     this.navCtrl.push(Follows, {});
+  }
+
+  open_this_search(search) {
+    this.openSearchPopup({ saved_searched_txt: search.term });
+  }
+
+  get_search_entries() {
+    this.searchService.get_search_entries()
+      .subscribe((response) => {
+        this.latest_searches_firstTime_loading = false;
+        this.searches = response.data.searches;
+      });
+  }
+
+  remove_search_entry(id) {
+    this.utilityMethods.show_loader('');
+    this.searchService.remove_search_id(id)
+      .subscribe((response) => {
+        console.log(response);
+        for (var i = 0; i < this.searches.length; i++) {
+          if (this.searches[i].id == id) {
+            this.searches.splice(i, 1);
+            break;
+          }
+        }
+        this.utilityMethods.hide_loader();
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+      });
+  }
+
+  loadNotifications() {
+    var user_id = this.authService.getUser().id;
+    if (this.notificationService.loaded_once()) {
+      var data = this.notificationService.get_notification_data();
+      this._unread = data.unread;
+    } else {
+      this.notificationService.get_notifications(user_id)
+        .subscribe((response) => {
+          this._unread = response.data.unread;
+        }, (error) => {
+        });
+    }
   }
 
   presentTopOptionsModal(event) {
@@ -68,12 +134,11 @@ export class Home {
     this.navCtrl.push(AnototeList, { color: color });
   }
 
-  openSearchResults() {
-    let searchModal = this.modalCtrl.create(Search, null);
+  openSearchPopup(data) {
+    let searchModal = this.modalCtrl.create(Search, data);
     searchModal.onDidDismiss(data => {
     });
     searchModal.present();
-    // this.navCtrl.push(SearchResults, {});
   }
 
   presentSettingsModal(event) {
@@ -92,6 +157,7 @@ export class Home {
           .subscribe((response) => {
             self.utilityMethods.hide_loader();
             self.authService.clear_user();
+            self.notificationService.clear_data();
             self.appCtrl.getRootNav().setRoot(FrontViewPage);
           }, (error) => {
             this.utilityMethods.hide_loader();

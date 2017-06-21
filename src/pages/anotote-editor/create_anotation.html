@@ -1,0 +1,11 @@
+<div class="top_empty_box" (tap)="dismiss()">
+</div>
+<div class="create_anotation_content">
+    <div class="_buttons">
+        <span class="close"></span>
+        <span class="share"></span>
+        <span (tap)="done()" class="done"></span>
+    </div>
+    <p class="selected_txt" [innerText]="selectedTxt"></p>
+    <textarea (input)="value_updating_comment($event.target.value)" placeholder="..."></textarea>
+</div>

@@ -113,7 +113,151 @@ top_options {
     }
 }
 
-page-home {}
+anotote_content_options {
+    background: rgba(0, 0, 0, 0.3);
+    ion-list {
+        .user_list_item {
+            height: 55px;
+            line-height: 55px;
+            .un_follow_btn {
+                height: 45px;
+                float: left;
+                width: 45px;
+                float: right;
+                background-image: url(../assets/img/remove.png);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+            }
+            .follow_btn {
+                height: 45px;
+                float: left;
+                width: 45px;
+                float: right;
+                background-image: url(../assets/img/follow_friend.png);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+            }
+        }
+    }
+    .search_header {
+        height: $bar_button_custom_height;
+        .options {
+            height: $bar_button_custom_height;
+            float: left;
+            width: 30px;
+            background-image: url(../assets/img/option-icon.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 5px;
+        }
+        .search_button {
+            height: $bar_button_custom_height;
+            float: left;
+            width: $bar_button_custom_height;
+            background-image: url(../assets/img/search.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 30px;
+        }
+        .clear_button {
+            height: $bar_button_custom_height;
+            float: right;
+            width: $bar_button_custom_height;
+            background-image: url(../assets/img/cross.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 25px;
+        }
+        .search_field {
+            width: calc(100% - 142px);
+            display: inline-block;
+            float: left;
+            height: 100%;
+            input {
+                padding: 0;
+                width: calc(100% - 8px);
+                margin: 0px;
+                background: white;
+                height: 50px;
+                margin-top: 3px;
+                padding-left: 5px;
+            }
+        }
+    }
+}
+
+page-home {
+    .product-list .item {
+        border-top: 2px solid #f0f0f0 !important;
+        overflow: hidden;
+    }
+    .product-list .img-holder,
+    .product-list .img-holder img {
+        width: 74px;
+        height: 72px;
+        float: left;
+        background: gray;
+    }
+    .product-list .txt {
+        padding: 14px 10px 5px 20px;
+        color: #cbcbcb;
+        overflow: hidden;
+    }
+    .product-list strong {
+        margin: 0 0 8px;
+        color: #0f000f;
+        display: block;
+        margin: 0 0 8px;
+        color: #0f000f;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .product-list .time {
+        font-size: 13px;
+        display: inline-block;
+        overflow: hidden;
+    }
+    .product-list em {
+        float: right;
+        width: 56px;
+        font-style: normal;
+    }
+    .product-list button {
+        padding: 0;
+        float: right;
+        background: none;
+    }
+    .product-list .txt span {
+        overflow: hidden;
+    }
+    .remove_item {
+        width: 45px;
+        height: 45px;
+        display: inline-block;
+        background-image: url('../assets/img/remove.png');
+        background-repeat: no-repeat;
+        background-size: 30px;
+        float: right;
+    }
+    .latest_searches_spinner {
+        position: relative;
+        width: 100%;
+        ion-spinner {
+            position: absolute;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            right: 0;
+            left: 0;
+            top: 10px;
+            margin: auto;
+        }
+    }
+}
 
 .home-list ion-item {
     height: 78px;

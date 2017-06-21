@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Platform, MenuController, Nav } from 'ionic-angular';
+import { Platform, MenuController, Nav, ModalController } from 'ionic-angular';
 
 import { Constants } from '../services/constants.service';
 import { Login } from '../pages/login/login';
@@ -33,7 +33,7 @@ export class MyApp {
   public rootPage: any;
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen,private push: Push,public storage:Storage) {
+  constructor(public modalCtrl: ModalController, public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen, private push: Push, public storage: Storage) {
     this.initializeApp();
   }
 
@@ -42,7 +42,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       // let status bar overlay webview
-      this.statusBar.overlaysWebView(true);
+      this.statusBar.overlaysWebView(false);
 
       // set status bar to white
       this.statusBar.backgroundColorByHexString('#000000');
@@ -67,38 +67,45 @@ export class MyApp {
       /**
        * Push Notificaiton
        */
-       if(this.platform.is('cordova')){
-          this.push.hasPermission().then((res: any) => {
-            if (res.isEnabled) {
-              console.log('We have permission to send push notifications');
-            } else {
-              console.log('We do not have permission to send push notifications');
-            }
-          });
-
-          const options: PushOptions = {
-            android: {
-                senderID: '200726631075'
-            },
-            ios: {
-                alert: 'true',
-                badge: true,
-                sound: 'false'
-            },
-            windows: {}
+      if (this.platform.is('cordova')) {
+        this.push.hasPermission().then((res: any) => {
+          if (res.isEnabled) {
+            console.log('We have permission to send push notifications');
+          } else {
+            console.log('We do not have permission to send push notifications');
           }
+        });
 
-          const pushObject: PushObject = this.push.init(options);
+        const options: PushOptions = {
+          android: {
+            senderID: '200726631075'
+          },
+          ios: {
+            alert: 'true',
+            badge: false,
+            sound: 'false'
+          },
+          windows: {}
+        }
 
-          pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+        const pushObject: PushObject = this.push.init(options);
 
-          pushObject.on('registration').subscribe((registration: any) => {
-            this.storage.set('device_id',registration.registrationId);
-          });
+        pushObject.on('notification').subscribe((notification: any) => {
+          this.notification_handler();
+        });
 
-          pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-       }
+        pushObject.on('registration').subscribe((registration: any) => {
+          localStorage.setItem('device_id', registration.registrationId);
+        });
+
+        pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+      }
     });
+  }
+
+  notification_handler() {
+    let notifications = this.modalCtrl.create(Notifications, { reload: true });
+    notifications.present();
   }
 
   openPage(page) {

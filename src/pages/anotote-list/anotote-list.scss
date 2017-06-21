@@ -85,7 +85,158 @@ tags_popup {
 }
 
 page-anotote-list {
-	#wrapper{
+	.scroll-content{
+		padding: 20px 16px 16px !important;
+		.item {
+			padding: 0px;
+			.item-inner{
+				padding: 0px;
+				.label-ios{
+					margin: 0px;
+					>div{
+						display: table;
+						width: 100%;
+						border-bottom: 1px solid #CCC;
+						.img-holder{
+							display: table-cell;
+							width: 20%;
+							vertical-align: middle;
+							img{
+								vertical-align: middle;
+							}
+						}
+						.txt {
+							display: table-cell;
+							width: 80%;
+							vertical-align: middle;
+							padding: 0px 10px;
+							position: relative;
+							strong{
+								font-weight: normal;
+								font-size: 16px;
+								display: block;
+							}
+							p{
+								font-size: 12px;	
+							}
+							.time{
+								float: right;
+								em{
+									width: 70px;	
+								}
+								button{
+									margin-left: 10px !important;
+									display: inline-block;
+								}
+								span{
+									display: inline-block;
+									margin-right: 10px !important;
+								}
+							}
+						}
+						figure {
+							margin: 0px;
+							padding: 0px;
+							list-style: none;
+							display: inline-block;
+							width: 10%;
+							vertical-align: top;
+							padding-top: 25px;
+							img {
+								width: 15px;
+							}
+						}
+					}
+					.activeTote{
+						.options {
+							height: 74px;
+							display: inline-block;
+							vertical-align: middle;
+							width: 15vw;
+							background-image: url(../assets/img/option-icon.png);
+							background-position: center center;
+							background-repeat: no-repeat;
+							background-size: 8px;
+						}
+						.txt{
+							width: 85%;
+						}
+					}
+					.ng-trigger{
+						.details-list{
+							.item {
+								.item-inner{
+									.label-ios{
+										padding: 15px 0px 0 20px;
+										display: table;
+										width: 100%;
+										figure{
+											display: table-cell;
+											vertical-align: top;
+											padding: 3px 0 0;
+										}
+										.check-text {
+											display: table-cell;
+											vertical-align: top;
+											padding: 0 10px 0 12px;
+											border: 0px;
+											.name-time{
+												font-size: 13px;
+												color: #888;
+												.msg-time{
+													float: right;
+												}
+											}
+											p{
+												font-size: 18px;	
+											}
+											img{
+												width: 25px;
+												display: inline-block;
+												vertical-align: top;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					.listHeader{
+						padding: 10px 20px 10px 60px;
+						margin-top: -1px;
+						background: #FFF;
+						.btns-area{
+							padding: 0px;	
+						}
+					}
+					.message-underlist{
+						padding: 10px 0;
+						.underlist-items{
+							.item-inner{
+								.input-wrapper{
+									.label-ios{
+										padding: 10px 0px 10px 20px;
+										.txt {
+											border-bottom: 0px;	
+											display: inline-block;
+											vertical-align: top;
+											p{
+												font-size: 18px;	
+											}
+										}
+										.status {
+											margin-top: 4px;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/*#wrapper{
 		box-shadow: none;
 	}
 	.details-list{
@@ -540,5 +691,5 @@ page-anotote-list {
             top: -33px;
             border: 0;
         }
-    }
+    }*/
 }

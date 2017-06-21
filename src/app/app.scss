@@ -39,14 +39,19 @@ body {
 .wedge_icon {
     background-image: url(../assets/img/wedge.png);
     background-size: contain;
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
     display: inline-block;
     position: absolute;
     left: 0;
     top: 120px;
     background-repeat: no-repeat;
     z-index: 10000;
+}
+
+.highlight {
+    background-color: #FFCCCC;
+    font-weight: bold;
 }
 
 span.dot,
@@ -104,6 +109,18 @@ span.un_active_dot:after {
 
 .list-ios .item-block .item-inner {
     border-bottom: 0px !important;
+}
+
+.black {
+    background-color: black;
+}
+
+.green {
+    background-color: #3bde00;
+}
+
+.yellow {
+    background-color: #f4e300;
 }
 
 .bottom_snakbar {
@@ -166,6 +183,20 @@ button,
 
 search_page {
     background: rgba(0, 0, 0, 0.3);
+    .search_spinner {
+        position: relative;
+        width: 100%;
+        ion-spinner {
+            position: absolute;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            right: 0;
+            left: 0;
+            top: 10px;
+            margin: auto;
+        }
+    }
     ion-list {
         .user_list_item {
             height: 55px;
@@ -194,7 +225,6 @@ search_page {
     }
     .search_header {
         height: $bar_button_custom_height;
-        background-color: black;
         .options {
             height: $bar_button_custom_height;
             float: left;
@@ -222,7 +252,7 @@ search_page {
             background-repeat: no-repeat;
             background-size: 25px;
         }
-        ion-input {
+        .search_field {
             width: calc(100% - 142px);
             display: inline-block;
             float: left;

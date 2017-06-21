@@ -21,7 +21,7 @@
             </li>
         </ul>
     </div>
-    <div no-lines class="sharing_pop three bottom-border">
+    <div *ngIf="share_type!='search'" no-lines class="sharing_pop three bottom-border">
         <div class="main_label">
             <ion-icon name="pricetag"></ion-icon>
             <span>Tags</span>
@@ -38,7 +38,7 @@
             </li>
         </ul>
     </div>
-    <div no-lines class="sharing_pop two bottom-border">
+    <div *ngIf="share_type!='search'" no-lines class="sharing_pop two bottom-border">
         <div class="main_label">
             <ion-icon name="unlock"></ion-icon>
             <span>Privacy</span>
@@ -52,7 +52,7 @@
             </li>
         </ul>
     </div>
-    <div no-lines class="sharing_pop four bottom-border">
+    <div *ngIf="share_type!='search'" no-lines class="sharing_pop four bottom-border">
         <div class="main_label">
             <ion-icon name="trash"></ion-icon>
         </div>

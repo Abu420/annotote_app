@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar *ngIf="!edit_mode" [color]="current_color">
         <ion-buttons start>
-            <button class="search_icon" ion-button icon-only>
+            <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
@@ -41,37 +41,37 @@
     <div id="wrapper">
         <ion-list *ngIf="!edit_mode && anototes.length > 0" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
-                <div (tap)="openAnototeDetail(anotote)">
+                <div [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" class="img-holder">
-                        <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null)?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
+                        <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <div *ngIf="!anotote.active && current_color == 'top'" class="img-holder">
-                        <img [src]="(anotote.annotote.photo != null)?anotote.annotote.photo:'assets/img/img2.png'">
+                        <img [src]="(anotote.annotote.photo != null)?anotote.annotote.photo:'assets/img/avatar.png'">
                     </div>
                     <span class="options" *ngIf="anotote.active"></span>
                     <div class="txt" *ngIf="anotote.type ==1">
                         <strong [innerText]="anotote.userAnnotote.annotote.title"></strong>
-                        <p [innerText]="anotote.userAnnotote.annotote.source"></p>
                         <div class="time">
                             <em>
-                            <button type="button">
-                                <ion-icon name="text"></ion-icon>
-                            </button>
-                            <span [innerText]="anotote.createdAt"></span>
-                        </em>
+								<button type="button">
+									<ion-icon name="text"></ion-icon>
+								</button>
+								<span [innerText]="anotote.createdAt"></span>
+                        	</em>
                         </div>
+                        <p [innerText]="anotote.userAnnotote.annotote.source"></p>
                     </div>
                     <div class="txt" *ngIf="anotote.type ==2">
                         <strong [innerText]="anotote.chatGroup.name"></strong>
-                        <p [innerText]="anotote.chatGroup.name"></p>
                         <div class="time">
                             <em>
-                          <button type="button">
-                            <ion-icon name="chatbubbles"></ion-icon>
-                          </button>
-                          <span [innerText]="anotote.createdAt"></span>
-                        </em>
+							  <button type="button">
+								<ion-icon name="chatbubbles"></ion-icon>
+							  </button>
+							  <span [innerText]="anotote.createdAt"></span>
+							</em>
                         </div>
+                        <p [innerText]="anotote.chatGroup.name"></p>
                     </div>
                 </div>
                 <!-- anatote detail -->
@@ -87,13 +87,13 @@
                     </header>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (click)="open_browser(anotote)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
                                 <span class="status" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                <span class="status" *ngIf="highlight.comment != null || highlight.comment != ''">"</span>
+                                <span class="status" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                             </ion-item>
                         </ion-list>
                     </div>

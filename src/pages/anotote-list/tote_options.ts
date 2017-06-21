@@ -7,7 +7,12 @@ import { IonicPage, NavController, ViewController, ModalController, NavParams } 
 })
 export class AnototeOptions {
 
+  public share_type: any;
+  public share_content: string;
+
   constructor(params: NavParams, public viewCtrl: ViewController) {
+    this.share_type = params.get('share_type');
+    this.share_content = params.get('share_content');
   }
 
   presentTagsModal() {

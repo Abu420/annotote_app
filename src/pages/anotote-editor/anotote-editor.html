@@ -5,10 +5,16 @@
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title></ion-title>
+        <ion-title>
+            <div class="dots_box">
+                <span class="un_active_dot"></span>
+                <span class="un_active_dot"></span>
+                <span class="dot"></span>
+            </div>
+        </ion-title>
         <ion-buttons end>
             <button ion-button icon-only>
-                <ion-icon name="help"></ion-icon>
+                <ion-icon name="ios-desktop"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>
@@ -17,8 +23,9 @@
 <ion-content padding>
     <div id="wrapper">
         <div class="editor-area layout">
-            <span (click)="presentCommentDetailModal()" class="status">"</span>
-            <div id="text_editor" [(textEditor)]="text" class="editor_text_box" contenteditable="false"></div>
+            <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
+            <!--<dcl-wrapper [type]="tab"></dcl-wrapper>-->
+            <div class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         </div>
     </div>
     <!--<ion-fab (click)="presentCommentDetailModal()" bottom right>
@@ -27,10 +34,8 @@
             </button>
     </ion-fab>-->
 </ion-content>
-<ion-footer class="inline_tote_options" *ngIf="show_tote_options">
-    <ion-toolbar color="dark">
-        <span (click)="comment_it()" class="comment"></span>
-        <span class="quote"></span>
-        <span class="cross"></span>
-    </ion-toolbar>
-</ion-footer>
+<div class="inline_tote_options" *ngIf="toggle_annotation_option">
+    <span (click)="comment_it()" class="comment"></span>
+    <span (click)="quote_it()" class="quote"></span>
+    <span class="cross"></span>
+</div>
