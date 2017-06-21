@@ -76,7 +76,7 @@
                 </div>
                 <!-- anatote detail -->
                 <div *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
-                    <header class="header">
+                    <header class="listHeader">
                         <div class="underlist-text">
                             <div class="btns-area">
                                 <button (click)="showMeHighlights()" ion-button class="active me-tab">Me</button>
@@ -93,7 +93,7 @@
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
                                 <span class="status" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                <span class="status" *ngIf="highlight.comment != null || highlight.comment != ''">*</span>
+                                <span class="status" *ngIf="highlight.comment != null || highlight.comment != ''">"</span>
                             </ion-item>
                         </ion-list>
                     </div>
