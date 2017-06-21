@@ -16,6 +16,8 @@ import { Home } from '../pages/home/home';
 import { Settings } from '../pages/home/settings';
 import { AnototeOptions } from '../pages/anotote-list/tote_options';
 import { CommentDetailPopup } from '../pages/anotote-editor/comment_detail_popup';
+import { CreateAnotationPopup } from '../pages/anotote-editor/create_anotation';
+import { CreateAnotationOptionsPopup } from '../pages/anotote-editor/create_anotation_options';
 import { TopInterests } from '../pages/home/top_interests';
 import { TopOptions } from '../pages/home/top_options';
 import { Notifications } from '../pages/notifications/notifications';
@@ -27,14 +29,24 @@ import { TagsPopUp } from '../pages/anotote-list/tags';
 import { Search } from '../pages/search/search';
 import { FollowsPopup } from '../pages/anotote-list/follows_popup';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
+
+/**
+ * 3rd Party Libraries
+ */
+import { MomentModule } from 'angular2-moment';
+
 /**
  * Directives
  */
 import { PressDirective } from '../directives/longPress';
 import { TextEditor } from '../directives/editor';
+import { SearchField } from '../directives/search-field';
+import { DclWrapper } from '../directives/dcl';
 import { AbsoluteDrag } from '../directives/absolute-drag';
 
 import { StatusBar } from '@ionic-native/status-bar';
+import { Network } from '@ionic-native/network';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -47,12 +59,19 @@ import { ChatService } from "../services/chat.service";
 import { Http, HttpModule, XHRBackend, RequestOptions } from "@angular/http";
 import { AnototeService } from "../services/anotote.service";
 import { SearchService } from "../services/search.service";
+import { NotificationService } from "../services/notifications.service";
 import { Constants } from "../services/constants.service";
 import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
-import {ChatHeads} from "../services/pipes"
+import { ChatHeads } from "../services/pipes"
+import { HttpFactory } from "../services/httpFactory"
 import { Push } from '@ionic-native/push';
+
+/**
+ * Pipes
+ */
+import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
 
 @NgModule({
   declarations: [
@@ -62,6 +81,7 @@ import { Push } from '@ionic-native/push';
     ForgotPassword,
     Home,
     Chat,
+    SanitizeHtmlPipe,
     Follows,
     Profile,
     ViewOptions,
@@ -71,10 +91,13 @@ import { Push } from '@ionic-native/push';
     FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
+    CreateAnotationOptionsPopup,
+    CreateAnotationPopup,
     CommentDetailPopup,
     Settings,
     Search,
     TextEditor,
+    SearchField,
     TopOptions,
     FollowsPopup,
     TopInterests,
@@ -90,6 +113,7 @@ import { Push } from '@ionic-native/push';
     HttpModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
+    MomentModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -110,6 +134,8 @@ import { Push } from '@ionic-native/push';
     TopInterests,
     Search,
     SearchResults,
+    CreateAnotationOptionsPopup,
+    CreateAnotationPopup,
     CommentDetailPopup,
     Notifications,
     FrontViewPage,
@@ -126,14 +152,19 @@ import { Push } from '@ionic-native/push';
     SearchService,
     AnototeService,
     DatetimeService,
+    NotificationService,
     AuthenticationService,
     Constants,
-    Push,
     {
-      provide: RequestOptions, useClass: DefaultRequestOptions
+      provide: Http,
+      useFactory: HttpFactory,
+      deps: [XHRBackend, RequestOptions]
     },
+    Push,
     StatusBar,
+    Network,
     InAppBrowser,
+    SocialSharing,
     SplashScreen,
     UtilityMethods,
     { provide: ErrorHandler, useClass: IonicErrorHandler }

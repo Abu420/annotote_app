@@ -8,6 +8,11 @@ page-notifications {
     .product-list.notifications .item .txt {
         padding: 3px 0 16px;
     }
+    .product-list.follows .img-holder {
+        margin-right: 20px;
+        display: inline-block;
+        float: left;
+    }
     .notifications_header {
         height: $toolbar-snakebar-bottom;
         min-height: $toolbar-snakebar-bottom;
@@ -18,34 +23,48 @@ page-notifications {
     .notifications_header .toolbar-background {
         border: 0px;
     }
-    .message-list{
-        .scroll-content{
+    .notifications_spinner {
+        position: relative;
+        width: 100%;
+        ion-spinner {
+            position: absolute;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            right: 0;
+            left: 0;
+            top: 10px;
+            margin: auto;
+        }
+    }
+    .message-list {
+        .scroll-content {
             margin-top: 70px !important;
             padding: 0 !important;
-            .product-list{
-                .item-inner{
+            .product-list {
+                .item-inner {
                     padding-right: 0px;
-                    .label-ios{
+                    .label-ios {
                         margin: 0px;
-                        .follow-name{
+                        .follow-name {
                             font-weight: 600;
                             margin-bottom: 3px;
-                            img{
+                            img {
                                 width: 4.5vw;
                                 display: inline-block;
                                 vertical-align: top;
-                                &.arrow-icon{
+                                &.arrow-icon {
                                     width: 2.5vw;
                                     vertical-align: top;
                                     margin-top: 5px;
                                 }
                             }
                         }
-                        .time{
-                            img{
+                        .time {
+                            img {
                                 float: right;
                                 width: 4.5vw;
-                                &.play-icon{
+                                &.play-icon {
                                     width: 4vw;
                                 }
                             }

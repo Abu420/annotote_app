@@ -62,6 +62,10 @@ export class Signup {
 
   go_home() {
     this.keyboard.close();
+    if (this.utilityMethods.isOffline()) {
+      this.utilityMethods.internet_connection_error();
+      return;
+    }
     /**
      * Validate User first
      */
