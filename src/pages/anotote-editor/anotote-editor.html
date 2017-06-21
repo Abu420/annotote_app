@@ -20,12 +20,12 @@
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
-<ion-content padding>
+<ion-content swipe-vertical padding>
     <div id="wrapper">
         <div class="editor-area layout">
             <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
             <!--<dcl-wrapper [type]="tab"></dcl-wrapper>-->
-            <div class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
+            <div (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         </div>
     </div>
     <!--<ion-fab (click)="presentCommentDetailModal()" bottom right>

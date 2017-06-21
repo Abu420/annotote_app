@@ -122,7 +122,7 @@ export class AnototeList {
 
   showTopHighlights() {
     this.current_active_anotote.activeParty = 3;
-    this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.annotote.id);
+    this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.id);
   }
 
   open_browser(anotote) {
@@ -130,7 +130,7 @@ export class AnototeList {
     this.searchService.get_anotote_content(anotote.userAnnotote.filePath)
       .subscribe((response_content) => {
         this.utilityMethods.hide_loader();
-        this.go_to_browser(response_content.text(), anotote.userAnnotote.annotote.id);
+        this.go_to_browser(response_content.text(), anotote.userAnnotote.id);
       }, (error) => {
         this.utilityMethods.hide_loader();
       });
@@ -259,7 +259,6 @@ export class AnototeList {
   }
 
   public getLoggedInUserId() {
-    console.log(this.authService.getUser());
     return this.authService.getUser().id;
   }
 

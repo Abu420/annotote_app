@@ -37,7 +37,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content swipe-vertical padding>
     <div id="wrapper">
         <ion-list *ngIf="!edit_mode && anototes.length > 0" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
