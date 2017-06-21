@@ -117,6 +117,11 @@ export class AnototeEditor {
         });
     }
 
+    editor_click(event) {
+        console.log(event.target);
+        console.log(event.target.getAttribute("class"));
+    }
+
     onPageWillLeave() {
         this.events.unsubscribe('show_tote_options', function () {
             console.log('here')

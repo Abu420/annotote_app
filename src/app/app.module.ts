@@ -41,6 +41,7 @@ import { MomentModule } from 'angular2-moment';
 import { PressDirective } from '../directives/longPress';
 import { TextEditor } from '../directives/editor';
 import { SearchField } from '../directives/search-field';
+import { SwipeVertical } from '../directives/swipe-vertical';
 import { DclWrapper } from '../directives/dcl';
 import { AbsoluteDrag } from '../directives/absolute-drag';
 
@@ -98,6 +99,7 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
     Search,
     TextEditor,
     SearchField,
+    SwipeVertical,
     TopOptions,
     FollowsPopup,
     TopInterests,

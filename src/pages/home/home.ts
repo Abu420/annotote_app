@@ -48,6 +48,14 @@ export class Home {
     });
   }
 
+  mySwipeUpAction() {
+    console.log('left')
+  }
+
+  mySwipeDownAction() {
+
+  }
+
   ionViewWillEnter() {
     console.log('enter')
     /**
@@ -82,7 +90,8 @@ export class Home {
       });
   }
 
-  remove_search_entry(id) {
+  remove_search_entry(id, event) {
+    event.stopPropagation();
     this.utilityMethods.show_loader('');
     this.searchService.remove_search_id(id)
       .subscribe((response) => {

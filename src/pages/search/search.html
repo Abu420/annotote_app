@@ -20,9 +20,9 @@
         <ion-item (click)="clear_deep_link()" *ngIf="current_url">
             New search or address
         </ion-item>
-        <!--<ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading">
-            No item found
-        </ion-item>-->
+        <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading">
+            No results
+        </ion-item>
         <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length>0 && !search_loading">
             Search (enter)
         </ion-item>
