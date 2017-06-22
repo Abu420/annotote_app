@@ -18,9 +18,15 @@
         </ion-buttons>
     </ion-toolbar>
     <ion-toolbar *ngIf="edit_mode" [color]="current_color">
-        <ion-buttons start>
+       	<ul class="topList">
+       		<li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/tag.png" alt=""></li>
+       		<li class="delete"><img src="assets/img/delete.png" alt=""></li>
+       		<li class="privacy"><img src="assets/img/privacy.png" alt=""></li>
+       		<li class="share"><img src="assets/img/share.png" alt=""></li>
+       	</ul>
+        <!--<ion-buttons start>
             <button (tap)="close_bulk_actions()" ion-button icon-only>
-                <!--<ion-icon name="close"></ion-icon>-->
+                <ion-icon name="close"></ion-icon>
                 <span class="close_icon_overflowing"></span>
             </button>
         </ion-buttons>
@@ -34,7 +40,7 @@
             <button ion-button icon-only>
                 <ion-icon name="trash"></ion-icon>
             </button>
-        </ion-buttons>
+        </ion-buttons>-->
     </ion-toolbar>
 </ion-header>
 <ion-content swipe-vertical padding>

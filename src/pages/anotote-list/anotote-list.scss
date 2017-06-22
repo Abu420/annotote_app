@@ -115,6 +115,12 @@ page-anotote-list {
 								font-weight: normal;
 								font-size: 16px;
 								display: block;
+								text-overflow: ellipsis;
+								display: -webkit-box;
+								-webkit-box-orient: vertical;
+								-webkit-line-clamp: 1;
+								width: 66vw;
+								overflow: hidden;
 							}
 							p{
 								font-size: 12px;	
@@ -221,7 +227,12 @@ page-anotote-list {
 											display: inline-block;
 											vertical-align: top;
 											p{
-												font-size: 18px;	
+												font-size: 18px;
+												text-overflow: ellipsis;
+												display: -webkit-box;
+												-webkit-box-orient: vertical;
+												-webkit-line-clamp: 1;
+												width: 78vw;
 											}
 										}
 										.status {
@@ -235,6 +246,28 @@ page-anotote-list {
 				}
 			}
 		}
+	}
+	.toolbar-ios{
+		contain: none;
+		overflow: visible;
+	}
+	.topList {
+		margin: 0;
+		padding: 0px;
+		list-style: none;
+	}
+	
+	.topList li{
+		float: right;
+		padding: 3px 10px;
+	}
+	
+	.topList li.leftIcon{
+		float: left;
+		padding: 0px 10px;
+		position: absolute;
+		left: 30px;
+		top: 8px;
 	}
 	/*#wrapper{
 		box-shadow: none;
