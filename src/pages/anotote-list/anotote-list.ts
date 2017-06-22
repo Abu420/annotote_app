@@ -98,6 +98,7 @@ export class AnototeList {
       for (let entry of stream) {
         this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
       }
+	  console.log(this.anototes)
       if (this.anototes.length == 0) {
         this.has_totes = false;
       }

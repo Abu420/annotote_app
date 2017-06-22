@@ -85,6 +85,200 @@ tags_popup {
 }
 
 page-anotote-list {
+	.scroll-content{
+		padding: 20px 16px 16px !important;
+		.item {
+			padding: 0px;
+			.item-inner{
+				padding: 0px;
+				.label-ios{
+					margin: 0px;
+					>div{
+						display: table;
+						width: 100%;
+						border-bottom: 1px solid #CCC;
+						.img-holder{
+							display: table-cell;
+							width: 20%;
+							vertical-align: middle;
+							img{
+								vertical-align: middle;
+							}
+						}
+						.txt {
+							display: table-cell;
+							width: 80%;
+							vertical-align: middle;
+							padding: 0px 10px;
+							position: relative;
+							strong{
+								font-weight: normal;
+								font-size: 16px;
+								display: block;
+							}
+							p{
+								font-size: 12px;	
+							}
+							.time{
+								float: right;
+								em{
+									width: 70px;	
+								}
+								button{
+									margin-left: 10px !important;
+									display: inline-block;
+								}
+								span{
+									display: inline-block;
+									margin-right: 10px !important;
+								}
+							}
+						}
+						figure {
+							margin: 0px;
+							padding: 0px;
+							list-style: none;
+							display: inline-block;
+							width: 10%;
+							vertical-align: top;
+							padding-top: 25px;
+							img {
+								width: 15px;
+							}
+						}
+					}
+					.activeTote{
+						.options {
+							height: 74px;
+							display: inline-block;
+							vertical-align: middle;
+							width: 15vw;
+							background-image: url(../assets/img/option-icon.png);
+							background-position: center center;
+							background-repeat: no-repeat;
+							background-size: 8px;
+						}
+						.txt{
+							width: 85%;
+						}
+					}
+					.ng-trigger{
+						.details-list{
+							.item {
+								.item-inner{
+									.label-ios{
+										padding: 15px 0px 0 20px;
+										display: table;
+										width: 100%;
+										figure{
+											display: table-cell;
+											vertical-align: top;
+											padding: 3px 0 0;
+										}
+										.check-text {
+											display: table-cell;
+											vertical-align: top;
+											padding: 0 10px 0 12px;
+											border: 0px;
+											.name-time{
+												font-size: 13px;
+												color: #888;
+												.msg-time{
+													float: right;
+												}
+											}
+											p{
+												font-size: 18px;	
+											}
+											img{
+												width: 25px;
+												display: inline-block;
+												vertical-align: top;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					.listHeader{
+						padding: 10px 20px 10px 60px;
+						margin-top: -1px;
+						background: #FFF;
+						.btns-area{
+							padding: 0px;	
+						}
+					}
+					.message-underlist{
+						padding: 10px 0;
+						.underlist-items{
+							.item-inner{
+								.input-wrapper{
+									.label-ios{
+										padding: 10px 0px 10px 20px;
+										.txt {
+											border-bottom: 0px;	
+											display: inline-block;
+											vertical-align: top;
+											p{
+												font-size: 18px;	
+											}
+										}
+										.status {
+											margin-top: 4px;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/*#wrapper{
+		box-shadow: none;
+	}
+	.details-list{
+		padding: 0px 15px !important;	
+		.item-block{
+			&:after{
+				display: none;
+			}
+			border: 0px;
+			.item-inner{
+				border: 0px;
+				.label-ios{
+					p{
+						width: 100% !important;
+						font-weight: bold;
+						font-size: 16px !important;
+					}
+
+				}
+			}
+		}
+	}
+	.listHeader{
+		padding-left: 19vw;
+		margin-top: -28px;
+		margin-bottom: 10px;
+		.btns-area {
+			button{
+				float: left;
+			}
+		}
+	}
+	
+	.scroll-content{
+		padding-top: 5px !important;
+		box-shadow: 0 0px 11px 0px #bdbdbd;
+		padding: 0px !important;
+		margin-left: 15px;
+		margin-right: 15px;
+		margin-top: 70px !important;
+		height: calc(100vh - 100px);
+	}
     .toolbar {
         overflow: visible;
         contain: none;
@@ -145,8 +339,59 @@ page-anotote-list {
     }
     .product-list {
         .item {
-            border-top: 2px solid #f0f0f0 !important;
             overflow: hidden;
+			padding-left: 0px;
+			border: 0px !important;
+			&:after{
+				content: "";
+				width: 72vw;
+				position: absolute;
+				right: 0px;
+				bottom: 0px;
+				z-index: 10;
+				height: 1px;
+				background: #CCC;
+			}
+			.item-inner{
+				padding: 0px;
+				.label-ios{
+					margin: 0px;
+					.img-holder{
+						display: inline-block;
+						vertical-align: middle;
+						float: none;
+						width: 20vw;
+						height: 20vw;
+					}
+					.txt{
+						display: inline-block;
+						vertical-align: middle;
+						float: none;
+						width: 69vw;
+						padding: 0 0 0 10px;
+						strong{
+							font-size: 5vw;
+							margin: 0px;
+						}
+						p{
+							font-size: 3vw;
+							width: 68%;
+						}
+						.time{
+							position: absolute;
+							right: 10px;
+							bottom: 8px;
+							em{
+								width: auto;
+								font-size: 11px;
+							}
+							span{
+								float: right;
+							}
+						}
+					}
+				}
+			}
         }
         .img-holder {
             width: 74px;
@@ -159,10 +404,11 @@ page-anotote-list {
         }
         .options {
             height: 74px;
-            float: left;
-            width: 50px;
+            display: inline-block;
+			vertical-align: middle;
+            width: 15vw;
             background-image: url(../assets/img/option-icon.png);
-            background-position: left 3px center;
+            background-position: center center;
             background-repeat: no-repeat;
             background-size: 8px;
         }
@@ -198,6 +444,7 @@ page-anotote-list {
         }
         .txt span {
             overflow: hidden;
+			display: inline-block;
         }
         .check {
             width: 17px;
@@ -279,6 +526,7 @@ page-anotote-list {
         }
     }
     .header {
+        padding: 0;
         text-align: right;
         figure {
             margin: 0px;
@@ -320,7 +568,7 @@ page-anotote-list {
             }
             .btns-area {
                 button {
-                    float: right;
+                    float: left;
                     font-size: 12px !important;
                     background: #e0e0e0;
                     margin-right: 5vw !important;
@@ -392,6 +640,7 @@ page-anotote-list {
             }
             &.unread-msg {
                 .item-inner {
+					padding: 0px;
                     .label-ios {
                         .check-text {
                             .name-time {
@@ -442,5 +691,5 @@ page-anotote-list {
             top: -33px;
             border: 0;
         }
-    }
+    }*/
 }
