@@ -48,6 +48,10 @@ export class Home {
     });
   }
 
+  ionViewDidLeave() {
+    this.events.unsubscribe('new_search_added');
+  }
+
   mySwipeUpAction() {
     console.log('left')
   }

@@ -67,6 +67,8 @@ export class Search {
     }
 
     dismiss() {
+        this.events.unsubscribe('user:followed');
+        this.events.unsubscribe('user:unFollowed');
         this.viewCtrl.dismiss();
     }
 
