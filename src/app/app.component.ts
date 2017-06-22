@@ -91,6 +91,7 @@ export class MyApp {
         const pushObject: PushObject = this.push.init(options);
 
         pushObject.on('notification').subscribe((notification: any) => {
+          console.log(notification);
           this.notification_handler();
         });
 
