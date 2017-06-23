@@ -65,7 +65,7 @@ export class AnototeList {
    */
   constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
     this.current_color = navParams.get('color');
-    this.setStreamType(navParams.get('color'))
+    this.setStreamType(navParams.get('color'));
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
     this.user = authService.getUser();
@@ -122,22 +122,22 @@ export class AnototeList {
 
   showTopHighlights() {
     this.current_active_anotote.activeParty = 3;
-    this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.annotote.id);
+    this.setSimpleToteDetails(null, this.current_active_anotote.userAnnotote.id);
   }
 
-  open_browser(anotote) {
+  open_browser(anotote, highlight) {
     this.utilityMethods.show_loader('');
     this.searchService.get_anotote_content(anotote.userAnnotote.filePath)
       .subscribe((response_content) => {
         this.utilityMethods.hide_loader();
-        this.go_to_browser(response_content.text(), anotote.userAnnotote.annotote.id);
+        this.go_to_browser(response_content.text(), anotote.userAnnotote.id, highlight);
       }, (error) => {
         this.utilityMethods.hide_loader();
       });
   }
 
-  go_to_browser(scrapped_txt, anotote_id) {
-    this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id });
+  go_to_browser(scrapped_txt, anotote_id, highlight) {
+    this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id, highlight: highlight, which_stream: this.whichStream });
   }
 
   doInfinite(infiniteScroll) {
@@ -237,7 +237,7 @@ export class AnototeList {
       } else {
         this.utilityMethods.doToast("Couldn't load chat history.");
       }
-    },(error)=>{
+    }, (error) => {
       this.utilityMethods.doToast("Couldn't load chat history.");
     });
   }
@@ -258,8 +258,7 @@ export class AnototeList {
     });
   }
 
-  public getLoggedInUserId(){
-    //console.log(this.authService.getUser());
+  public getLoggedInUserId() {
     return this.authService.getUser().id;
   }
 

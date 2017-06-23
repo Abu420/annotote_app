@@ -11,7 +11,7 @@
         <ion-title>Notifications ({{_unread}})</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content swipe-vertical padding>
     <div id="wrapper">
         <div *ngIf="!_loading" class="notifications_spinner">
             <ion-spinner name="ios"></ion-spinner>
@@ -20,7 +20,7 @@
             <ion-item (click)="read_notification(notification)" *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus==0}">
                 <div class="img-holder">
                     <img *ngIf="notification.sender.photo!=null" [src]="img.src">
-                    <img *ngIf="notification.sender.photo==null" src="assets/img/img3.jpg">
+                    <img *ngIf="notification.sender.photo==null" src="assets/img/img2.png">
                 </div>
                 <div class="txt">
                     <strong class="follow-name">

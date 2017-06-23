@@ -111,7 +111,7 @@ export class Login {
       password: this.user.password,
       created_at: current_time,
       device_type: platform_name,
-      device_id: this.device_id ? this.device_id : 'null'
+      device_id: this.device_id ? this.device_id : 123456
     }).subscribe((response) => {
       this.utilityMethods.hide_loader();
       response.data.user.access_token = response.access_token;

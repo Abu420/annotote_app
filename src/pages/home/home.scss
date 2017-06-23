@@ -189,11 +189,39 @@ anotote_content_options {
 }
 
 page-home {
-    .product-list .item {
-        border-top: 2px solid #f0f0f0 !important;
-        overflow: hidden;
+    .product-list {
+        .item {
+            border-top: 2px solid #f0f0f0 !important;
+            overflow: hidden;
+            padding: 0px;
+            .item-inner {
+                padding: 0px;
+                .label-ios {
+                    margin: 0px;
+                    .txt {
+                        position: relative;
+                        padding: 10px 20px;
+                        .time {
+                            color: #969696;
+                        }
+                        .remove_item {
+                            position: absolute;
+                            right: 0px;
+                            top: 50%;
+                            -webkit-transform: translate(-50%, -50%);
+                            transform: translate(-50%, -50%);
+                            width: 25px;
+                            height: 25px;
+                            background-image: url(../assets/img/remove.png);
+                            background-repeat: no-repeat;
+                            background-size: 100%;
+                        }
+                    }
+                }
+            }
+        }
     }
-    .product-list .img-holder,
+    /*.product-list .img-holder,
     .product-list .img-holder img {
         width: 74px;
         height: 72px;
@@ -256,7 +284,7 @@ page-home {
             top: 10px;
             margin: auto;
         }
-    }
+    }*/
 }
 
 .home-list ion-item {
@@ -337,6 +365,21 @@ page-home {
     color: #cbcbcb;
     text-transform: none;
     box-shadow: 0 0 5px 0;
+}
+
+.latest_searches_spinner {
+    position: relative;
+    width: 100%;
+    ion-spinner {
+        position: absolute;
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        right: 0;
+        left: 0;
+        top: 10px;
+        margin: auto;
+    }
 }
 
 // .notice-btn:hover {

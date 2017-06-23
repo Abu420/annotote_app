@@ -20,8 +20,7 @@
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
-<ion-content padding #scrollMe>
-
+<ion-content swipe-vertical padding #scrollMe>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>

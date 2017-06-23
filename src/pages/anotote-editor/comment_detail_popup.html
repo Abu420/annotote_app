@@ -1,18 +1,27 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile">
-    <div class="pop_heading">
-        <div class="col">
-            <ion-icon name="arrow-down"></ion-icon>
-            <em>83%</em>
-            <ion-icon name="arrow-up"></ion-icon>
-        </div>
-        <div class="col">Top</div>
-        <div class="col">
-            <ion-icon name="share"></ion-icon>
-        </div>
-    </div>
-    <div class="pop_txt">
-        <p [innerText]="anotote_txt"></p>
-    </div>
+   <div class="popupPanel">
+		<div class="pop_heading">
+			<!--<div class="col">
+				<ion-icon name="ios-arrow-down-outline"></ion-icon>
+				<em>83%</em>
+				<ion-icon name="ios-arrow-up-outline"></ion-icon>
+			</div>-->
+			<div class="col">
+				<ion-icon name="md-close"></ion-icon>
+			</div>
+			<div class="col">Chantel Bardaro (3)</div>
+			<div class="col">
+				<ion-icon name="share"></ion-icon>
+			</div>
+		</div>
+		<div class="pop_txt">
+			<p [innerText]="anotote_txt"></p>
+		</div>
+		<div class="threeDosts">
+			<textarea placeholder="Enter Text"></textarea>
+			<img src="assets/img/option-msg.png" alt="">
+		</div>
+	</div>
 </div>

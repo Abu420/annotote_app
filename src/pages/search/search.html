@@ -1,69 +1,82 @@
-<ion-header>
+<ion-header class="searchHeader">
     <ion-toolbar color="homeheader">
         <div [ngClass]="{'black': current_url == null, 'green':current_url != null}" class="search_header">
-            <span (click)="show_filters()" class="options"></span>
+            <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
             <span class="search_button"></span>
             <input search-field id="search_field_id" class="search_field" [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss()" class="clear_button"></span>
         </div>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content swipe-vertical padding class="searchPage">
     <!-- content-->
     <ion-list *ngIf="!filter_mode">
         <ion-item *ngIf="search_loading" class="search_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </ion-item>
-        <ion-item (click)="show_share_options()" *ngIf="current_url">
-            Share this link (enter)
+        <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
+            <img src="assets/img/shareC.png" alt="">
+            <span>Share this link (enter)</span>
         </ion-item>
-        <ion-item (click)="clear_deep_link()" *ngIf="current_url">
-            New search or address
+        <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter">
+            <ion-icon name="search"></ion-icon>
+            <span>New search or address</span>
         </ion-item>
-        <!--<ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading">
-            No item found
-        </ion-item>-->
-        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length>0 && !search_loading">
-            Search (enter)
+        <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
+            <ion-icon name="search"></ion-icon>
+            <span>No results</span>
         </ion-item>
-        <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length>0 && entering_url">
-            View (enter)
+        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length>0 && !search_loading" class="searchFilter">
+            <ion-icon name="search"></ion-icon>
+            <span>Search (enter)</span>
         </ion-item>
-        <ion-item (click)="save_search_entry()" *ngIf="!current_url && search_txt.length>0 && entering_url">
-            Save
+        <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length>0 && entering_url" class="searchFilter">
+            <ion-icon name="eye"></ion-icon>
+            <span>View (enter)</span>
+        </ion-item>
+        <ion-item (click)="save_search_entry()" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
+            <ion-icon name="ios-cloud"></ion-icon>
+            <span>Save</span>
         </ion-item>
         <!--<ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
             Bookmark
         </ion-item>-->
-        <div *ngIf="search_txt.length>0">
+        <div *ngIf="search_txt.length>0" class="searchResult">
             <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
+                <figure><img src="assets/img/avatar.png" alt=""></figure>
                 <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
                 <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
                 <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>
             </ion-item>
         </div>
     </ion-list>
-    <ion-list *ngIf="filter_mode">
-        <ion-item>
-            <table>
-                <th>Media</th>
-            </table>
-        </ion-item>
-        <ion-item>
-            <table>
-                <th>Category</th>
-                <th>Me</th>
-                <th>Follows</th>
-                <th>Top</th>
-            </table>
-        </ion-item>
-        <ion-item>
-            <table>
-                <th>Date</th>
-                <th><input placeholder="YYYY" /></th>
-                <th><input placeholder="MM" /></th>
-                <th><input placeholder="DD" /></th>
-            </table>
-        </ion-item>
+    <ion-list *ngIf="filter_mode" class="filterMode">
+        <div class="mediaMode">
+            <h4>Media</h4>
+            <ul>
+                <li><img src="assets/img/tile-gray.png" alt=""></li>
+                <li><img src="assets/img/roundbox.png" alt=""></li>
+                <li><img src="assets/img/blackTag.png" alt=""></li>
+                <li><img src="assets/img/blackPlay.png" alt=""></li>
+                <li><img src="assets/img/@icon-gray.png" alt=""></li>
+                <li><img src="assets/img/chat-gray.png" alt=""></li>
+            </ul>
+        </div>
+        <div class="catMode">
+            <h4>Category</h4>
+            <ul>
+                <li><span>Me</span></li>
+                <li><span>Follows</span></li>
+                <li class="active"><span>Top</span></li>
+            </ul>
+        </div>
+        <div class="dateMode">
+            <h4>Date</h4>
+            <ul>
+                <li><input type="text" placeholder="YYYY"></li>
+                <li><input type="text" placeholder="MM"></li>
+                <li><input type="text" placeholder="DD"></li>
+            </ul>
+        </div>
     </ion-list>
 </ion-content>

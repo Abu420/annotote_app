@@ -1,71 +1,76 @@
 page-notifications {
-    .product-list.notifications .txt strong {
-        color: #000;
-    }
-    .product-list.notifications .item.active .txt strong {
-        color: #ff001d;
-    }
-    .product-list.notifications .item .txt {
-        padding: 3px 0 16px;
-    }
-    .product-list.follows .img-holder {
-        margin-right: 20px;
-        display: inline-block;
-        float: left;
-    }
-    .notifications_header {
-        height: $toolbar-snakebar-bottom;
-        min-height: $toolbar-snakebar-bottom;
-        .toolbar-title-ios {
-            font-size: 12px;
-        }
-    }
-    .notifications_header .toolbar-background {
-        border: 0px;
-    }
-    .notifications_spinner {
-        position: relative;
-        width: 100%;
-        ion-spinner {
-            position: absolute;
-            display: inline-block;
-            width: 28px;
-            height: 28px;
-            right: 0;
-            left: 0;
-            top: 10px;
-            margin: auto;
-        }
-    }
-    .message-list {
-        .scroll-content {
-            margin-top: 70px !important;
-            padding: 0 !important;
+    .scroll-content {
+        padding: 8px 16px 16px !important;
+        #wrapper {
+            .notifications_spinner {
+                position: relative;
+                width: 100%;
+                ion-spinner {
+                    position: absolute;
+                    display: inline-block;
+                    width: 28px;
+                    height: 28px;
+                    right: 0;
+                    left: 0;
+                    top: 10px;
+                    margin: auto;
+                }
+            }
+            box-shadow: none;
             .product-list {
-                .item-inner {
-                    padding-right: 0px;
-                    .label-ios {
-                        margin: 0px;
-                        .follow-name {
-                            font-weight: 600;
-                            margin-bottom: 3px;
-                            img {
-                                width: 4.5vw;
-                                display: inline-block;
-                                vertical-align: top;
-                                &.arrow-icon {
-                                    width: 2.5vw;
-                                    vertical-align: top;
-                                    margin-top: 5px;
+                margin-top: 0px !important;
+                .item {
+                    padding: 0px !important;
+                    .item-inner {
+                        padding: 0px;
+                        .label-ios {
+                            margin: 0px;
+                            display: table;
+                            width: 100%;
+                            .img-holder {
+                                display: table-cell;
+                                vertical-align: middle;
+                                width: 20%;
+                                height: auto;
+                                img {
+                                    width: 100%;
+                                    height: auto;
+                                    vertical-align: middle;
                                 }
                             }
-                        }
-                        .time {
-                            img {
-                                float: right;
-                                width: 4.5vw;
-                                &.play-icon {
-                                    width: 4vw;
+                            .txt {
+                                display: table-cell;
+                                vertical-align: middle;
+                                width: 80%;
+                                padding: 20px 0px 8px 10px;
+                                .follow-name {
+                                    font-size: 18px;
+                                    color: #000;
+                                    img {
+                                        display: inline-block;
+                                        width: 12px;
+                                        &.star-icon {
+                                            width: 15px;
+                                        }
+                                    }
+                                }
+                                .time {
+                                    span {
+                                        font-size: 14px;
+                                        color: #CCC;
+                                    }
+                                    em {
+                                        font-size: 12px;
+                                        width: auto;
+                                        img {
+                                            width: 12px;
+                                            display: inline-block;
+                                            vertical-align: middle;
+                                        }
+                                        span {
+                                            font-size: 12px;
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -1,16 +1,18 @@
-import { Component, Input, Pipe, PipeTransform, ViewChild, Output, Directive, ElementRef, Renderer, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
 import { CreateAnotationOptionsPopup } from '../anotote-editor/create_anotation_options';
 import { TextEditor } from '../directives/editor';
+import { Search } from '../search/search';
 import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Services
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
+import { AuthenticationService } from '../../services/auth.service';
 
 @Pipe({
     name: 'sanitizeHtml'
@@ -34,18 +36,23 @@ export class SanitizeHtmlPipe implements PipeTransform {
         ':host /deep/ >>> .highlight_quote, .highlight_comment { background: #f5f6f7;color: red; };.highlight_quote:before { content: "*";width: 25px;height: 25px;display: inline-block;text-align: center;background: greenyellow; };'
     ]
 })
-export class AnototeEditor {
+export class AnototeEditor implements OnDestroy {
     @ViewChild(Content) content: Content;
     public toggle_annotation_option: boolean;
     public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
     private selectedText: string;
     private selection: any;
+    private selected_highlight: { txt: '', identifier: '', type: '' };
     private selection_lock: boolean;
     private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
     private text: string; // Anotote article whole text
     private tote_id: string;
+    private detail_event: any;
+    private popup_shown: boolean;
+    private which_stream: string;
+    private show_anotation_details: (txt: string) => void;
 
-    constructor(private _sanitizer: DomSanitizer, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
+    constructor(private _sanitizer: DomSanitizer, private authService: AuthenticationService, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
         this.toggle_annotation_option = false;
         this.selection_lock = false;
         /**
@@ -54,8 +61,8 @@ export class AnototeEditor {
         this.text = navParams.get('tote_txt');
         this.tote_id = navParams.get('anotote_id');
         this.anotote_type = navParams.get('anotote_type');
-        if (this.anotote_type == null)
-            this.anotote_type = 'me';
+        this.which_stream = navParams.get('which_stream');
+        this.popup_shown = false;
 
         /**
          * Document Selection Listner
@@ -71,32 +78,6 @@ export class AnototeEditor {
                 events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
             }
         });
-    }
-
-    private highlight_(type) {
-        console.log(type)
-        try {
-            var self = this;
-            var selection = window.getSelection();
-            var range = document.createRange();
-            range.setStart(this.selection.startContainer, this.selection.startOffset);
-            range.setEnd(this.selection.endContainer, this.selection.endOffset);
-            var newNode = document.createElement("highlight_quote");
-            newNode.onclick = function (this, evt) {
-                evt.stopPropagation();
-                var text = this.getAttribute('data-txt');
-                self.events.publish('show_anotation_details', { txt: text });
-            }
-            newNode.setAttribute("data-txt", this.selectedText);
-            if (type == 'comment')
-                newNode.setAttribute("class", "highlight_comment");
-            else
-                newNode.setAttribute("class", "highlight_quote");
-            range.surroundContents(newNode);
-            selection.removeAllRanges();
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     /**
@@ -117,22 +98,56 @@ export class AnototeEditor {
         });
     }
 
-    onPageWillLeave() {
-        this.events.unsubscribe('show_tote_options', function () {
-            console.log('here')
-        });
-
-        this.events.unsubscribe('show_anotation_details', function () {
-            console.log('here 2')
-        });
+    ionViewDidLeave() {
     }
 
-    share_it() {
-        this.socialSharing.share(this.selectedText, 'Anotote Text Sharing', null, null).then(() => {
-            // Sharing via email is possible
-        }).catch(() => {
-            // Sharing via email is not possible
-        });
+
+    ngOnDestroy() {
+        this.events.unsubscribe('show_anotation_details');
+        this.events.unsubscribe('show_tote_options');
+    }
+
+    private highlight_(type, identifier) {
+        try {
+            var self = this;
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.setStart(this.selection.startContainer, this.selection.startOffset);
+            range.setEnd(this.selection.endContainer, this.selection.endOffset);
+            var newNode = document.createElement("highlight_quote");
+            newNode.onclick = function (this, evt) {
+                evt.stopPropagation();
+                var text = this.getAttribute('data-selectedtxt');
+                self.events.publish('show_anotation_details', { txt: text });
+            }
+            newNode.setAttribute("data-selectedtxt", this.selectedText);
+            newNode.setAttribute("data-identifier", identifier);
+            if (type == 'comment')
+                newNode.setAttribute("class", "highlight_comment");
+            else
+                newNode.setAttribute("class", "highlight_quote");
+            range.surroundContents(newNode);
+            selection.removeAllRanges();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    scrollTo(element: string) {
+        let yOffset = document.getElementById(element).offsetTop;
+        this.content.scrollTo(0, yOffset, 4000)
+    }
+
+    editor_click(event) {
+        // console.log(event.target.getAttribute("class"));
+        // console.log(event.target.getAttribute("data-identifier"));
+        // console.log(event.target.getAttribute("data-selectedtxt"));
+        var identifier = event.target.getAttribute("data-identifier");
+        if (identifier) {
+            console.log(event.target);
+            this.presentCommentDetailModal(event.target.getAttribute("data-selectedtxt"));
+        }
+
     }
 
     comment_it() {
@@ -149,27 +164,51 @@ export class AnototeEditor {
         this.add_annotation_api('quote', null);
     }
 
+    share_it() {
+        this.selection_lock = true;
+        this.toggle_annotation_option = false;
+        this.content.resize();
+        this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
+    }
+
     popView() {
         this.navCtrl.pop();
     }
 
+    openSearchPopup() {
+        this.popup_shown = true;
+        var url = null;
+        let searchModal = this.modalCtrl.create(Search, {});
+        searchModal.onDidDismiss(data => {
+            this.popup_shown = false;
+        });
+        searchModal.present();
+    }
+
     presentCommentDetailModal(txt) {
+        this.popup_shown = true;
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: txt });
+        commentDetailModal.onDidDismiss(data => {
+            this.popup_shown = false;
+        });
         commentDetailModal.present();
     }
 
     presentCreateAnotationModal() {
+        this.popup_shown = true;
         if (this.selectedText == '') {
             this.selection_lock = false;
             return;
         }
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText });
         createAnotationModal.onDidDismiss(data => {
-            console.log(data)
-            if (data.status) {
+            if (data.create) {
                 this.create_anotation(data.comment);
+            } else if (data.share) {
+                this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
             }
             this.selection_lock = false;
+            this.popup_shown = false;
         });
         createAnotationModal.present();
     }
@@ -181,13 +220,28 @@ export class AnototeEditor {
         this.add_annotation_api('comment', comment);
     }
 
+    remove_annotation_api() {
+        // this.utilityMethods.show_loader('Please wait...');
+        // var article_txt = document.getElementById('text_editor').innerHTML;
+        // this.searchService.remove_anotation({ annotation_id: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, file_text: article_txt })
+        //     .subscribe((response) => {
+        //         this.utilityMethods.hide_loader();
+        //         this.selectedText = '';
+        //         this.selection_lock = false;
+        //     }, (error) => {
+        //         this.utilityMethods.hide_loader();
+        //         this.selection_lock = false;
+        //     });
+    }
+
     add_annotation_api(type, comment) {
         // this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText, type: type });
-        this.highlight_(type);
-        this.utilityMethods.show_loader('Please wait...');
         var current_time = (new Date()).getTime() / 1000;
+        var identifier = this.generate_dynamic_identifier(this.tote_id, this.authService.getUser().id, current_time);
+        this.highlight_(type, identifier);
+        this.utilityMethods.show_loader('Please wait...');
         var article_txt = document.getElementById('text_editor').innerHTML;
-        this.searchService.create_anotation({ user_tote_id: this.tote_id, highlight_text: this.selectedText, created_at: current_time, file_text: article_txt, comment: comment })
+        this.searchService.create_anotation({ identifier: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, created_at: current_time, file_text: article_txt, comment: comment })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.selectedText = '';
@@ -198,10 +252,16 @@ export class AnototeEditor {
             });
     }
 
+    generate_dynamic_identifier(anotote_id, user_id, time) {
+        return anotote_id + '_' + user_id + '_' + time;
+    }
+
     presentCreateAnotationOptionsModal() {
+        this.popup_shown = true;
         let createAnotationOptionsModal = this.modalCtrl.create(CreateAnotationOptionsPopup, { selected_txt: this.selectedText });
         createAnotationOptionsModal.onDidDismiss(data => {
             this.selection_lock = false;
+            this.popup_shown = false;
         });
         createAnotationOptionsModal.present();
     }
