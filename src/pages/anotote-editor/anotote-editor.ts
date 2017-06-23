@@ -241,6 +241,9 @@ export class AnototeEditor implements OnDestroy {
                 this.selection_lock = false;
             }, (error) => {
                 this.utilityMethods.hide_loader();
+                if (error.code == -1) { 
+                    this.utilityMethods.internet_connection_error();
+                }
                 this.selection_lock = false;
             });
     }

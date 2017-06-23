@@ -13,8 +13,9 @@ export class InterceptedHttp extends Http {
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         if(!this.utils.isOffline())
             return super.request(url, options);
-        else
-            this.utils.internet_connection_error();
+        else {
+            return Observable.throw({"error": 'no_internet_connection', "code": -1});
+        }
     }
 
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {

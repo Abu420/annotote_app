@@ -77,7 +77,9 @@ export class ForgotPassword {
       });
     }, (error) => {
       this.utilityMethods.hide_loader();
-      if (error.status == 451)
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }else if (error.status == 451)
         this.utilityMethods.message_alert('Error', 'Your email is not verified yet.');
       else
         this.utilityMethods.message_alert('Error', 'No account matches to: ' + this.forgot_password_email);

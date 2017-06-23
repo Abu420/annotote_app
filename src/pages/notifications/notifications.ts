@@ -46,6 +46,10 @@ export class Notifications {
       .subscribe((response) => {
         notification.readStatus = 1;
         this._unread = this.notificationService.decrement_notification();
+      },(error)=>{
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
     if (notification.type != 'user:message')
       this.showProfile(notification.sender.id);
@@ -65,6 +69,9 @@ export class Notifications {
         this.presentProfileModal(response);
       }, (error) => {
         this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
   }
 
@@ -95,6 +102,9 @@ export class Notifications {
           this._unread = data.unread;
         }, (error) => {
           this._loading = true;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
         });
     }
   }

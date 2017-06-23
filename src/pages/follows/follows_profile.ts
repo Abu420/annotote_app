@@ -46,6 +46,9 @@ export class Profile {
         this.events.publish('user:followed', this.profileData.user.id);
     }, (error) => {
       this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
     });
   }
 
@@ -63,6 +66,9 @@ export class Profile {
         this.events.publish('user:unFollowed', this.profileData.user.id);
     }, (error) => {
       this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
     });
   }
 

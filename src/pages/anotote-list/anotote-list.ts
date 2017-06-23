@@ -104,6 +104,9 @@ export class AnototeList {
       this.utilityMethods.hide_loader();
     }, (error) => {
       this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
     });
 
   }
@@ -133,6 +136,9 @@ export class AnototeList {
         this.go_to_browser(response_content.text(), anotote.userAnnotote.id, highlight);
       }, (error) => {
         this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
   }
 
@@ -154,6 +160,11 @@ export class AnototeList {
         if (stream.length <= 0) {
           infiniteScroll.enable(false);
         }
+      },(error)=>{
+        this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
     }, 500);
   }
@@ -170,7 +181,10 @@ export class AnototeList {
           this.current_active_anotote.setFollowerHighlights(data.json().data.annotote.highlights);
           this.utilityMethods.hide_loader()
         }, (error) => {
-          this.utilityMethods.hide_loader()
+          this.utilityMethods.hide_loader();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
         });
       }
     });
@@ -238,6 +252,10 @@ export class AnototeList {
         this.utilityMethods.doToast("Couldn't load chat history.");
       }
     }, (error) => {
+      this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
       this.utilityMethods.doToast("Couldn't load chat history.");
     });
   }
@@ -254,7 +272,11 @@ export class AnototeList {
       this.current_active_anotote.setFollowers(followers);
       this.utilityMethods.hide_loader();
     }, (error) => {
-
+      this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+        this.utilityMethods.doToast("Couldn't load chat history.");
+      }
     });
   }
 
