@@ -72,6 +72,9 @@ import { Push } from '@ionic-native/push';
  * Pipes
  */
 import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
+import { Highlight } from "../directives/highlight";
+import { Safe } from "../services/SafeHtml";
+import { AnototeContentOptions } from "../pages/home/content_options";
 
 @NgModule({
   declarations: [
@@ -107,6 +110,10 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
     PressDirective,
     AnototeEditor,
     ChatHeads,
+    DclWrapper,
+    Highlight,
+    Safe,
+    AnototeContentOptions
   ],
   imports: [
     BrowserModule,
@@ -158,7 +165,7 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
     {
       provide: Http,
       useFactory: HttpFactory,
-      deps: [XHRBackend, RequestOptions]
+      deps: [XHRBackend, RequestOptions, UtilityMethods]
     },
     Push,
     StatusBar,

@@ -133,7 +133,7 @@ export class UtilityMethods {
      * Internet Connection Error
      */
     internet_connection_error() {
-        this.message_alert('Internet Connection Error', 'Please check your internet connection settings.');
+        this.doToast("Please check your internet connection and try again.");
     }
 
     /**

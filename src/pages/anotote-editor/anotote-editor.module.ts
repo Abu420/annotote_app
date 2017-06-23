@@ -4,13 +4,13 @@ import { AnototeEditor } from './anotote-editor';
 
 @NgModule({
   declarations: [
-    AnototeEditor,
+    // AnototeEditor,
   ],
   imports: [
     IonicPageModule.forChild(AnototeEditor),
   ],
   exports: [
-    AnototeEditor
+    // AnototeEditor
   ]
 })
 export class AnototeEditorModule {}

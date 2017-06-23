@@ -4,13 +4,13 @@ import { Notifications } from './notifications';
 
 @NgModule({
   declarations: [
-    Notifications,
+    // Notifications,
   ],
   imports: [
     IonicPageModule.forChild(Notifications),
   ],
   exports: [
-    Notifications
+    // Notifications
   ]
 })
 export class NotificationsModule {}

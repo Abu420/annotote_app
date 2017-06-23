@@ -4,13 +4,13 @@ import { Login } from './login';
 
 @NgModule({
   declarations: [
-    Login,
+    // Login,
   ],
   imports: [
     IonicPageModule.forChild(Login),
   ],
   exports: [
-    Login
+    // Login
   ]
 })
 export class LoginModule {}

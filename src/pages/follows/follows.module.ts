@@ -4,13 +4,13 @@ import { Follows } from './follows';
 
 @NgModule({
   declarations: [
-    Follows,
+    // Follows,
   ],
   imports: [
     IonicPageModule.forChild(Follows),
   ],
   exports: [
-    Follows
+    // Follows
   ]
 })
 export class FollowsModule {}
