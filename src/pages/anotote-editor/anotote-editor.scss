@@ -22,11 +22,11 @@ create_anotation_popup {
             display: block;
             min-height: 100px;
         }
-        ._buttons{
+        ._buttons {
             height: 40px;
             width: 100%;
             display: block;
-            .close{
+            .close {
                 width: calc(100%/3);
                 height: $bar_button_custom_height;
                 background-image: url(../assets/img/cross.png);
@@ -38,23 +38,23 @@ create_anotation_popup {
                 box-sizing: border-box;
                 float: left;
             }
-			.share{
-				@extend .close;
-				background-image: url(../assets/img/shareC.png);
-				background-size: 25px;
-			}
-			.done{
-				@extend .close;
-				background-image: url(../assets/img/tick.png);	
-			}
+            .share {
+                @extend .close;
+                background-image: url(../assets/img/shareC.png);
+                background-size: 25px;
+            }
+            .done {
+                @extend .close;
+                background-image: url(../assets/img/tick.png);
+            }
         }
     }
 }
 
 comment_detail_popup {
-	.plusBtn {
-		float: right;
-	}
+    .plusBtn {
+        float: right;
+    }
     .top_empty_box {
         width: 100%;
         height: 100%;
@@ -106,25 +106,25 @@ comment_detail_popup {
     .content_follows_profile {
         overflow: hidden;
     }
-	.popupPanel{
-		position: absolute;
-		bottom: 0px;
-		left: 0px;
-		width: 100%;
-		background: #313131;
-		textarea{
-			width: 100%;
-			background: transparent;
-			padding: 10px;
-			margin-bottom: 10px;
-			border: 1px solid #545454;
-			color: #FFF;
-			resize: none;
-		}
-		.threeDosts{
-			padding: 0px 20px 20px;
-		}
-	}
+    .popupPanel {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        background: #313131;
+        textarea {
+            width: 100%;
+            background: transparent;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #545454;
+            color: #FFF;
+            resize: none;
+        }
+        .threeDosts {
+            padding: 0px 20px 20px;
+        }
+    }
 }
 
 page-anotote-editor {
@@ -135,7 +135,7 @@ page-anotote-editor {
         width: 100%;
         background: black;
         z-index: 10000;
-        .quote{
+        .quote {
             width: calc(100%/3);
             height: $bar_button_custom_height;
             background-image: url(../assets/img/quote.png);
@@ -147,23 +147,21 @@ page-anotote-editor {
             box-sizing: border-box;
             float: left;
         }
-		.comment{
-			@extend .quote;
-			background-image: url(../assets/img/comment.png);
-			background-size: 45px;
-		}
-		.cross{
-			@extend .quote;
-			background-image: url(../assets/img/shareC.png);
-		}
+        .comment {
+            @extend .quote;
+            background-image: url(../assets/img/comment.png);
+            background-size: 45px;
+        }
+        .cross {
+            @extend .quote;
+            background-image: url(../assets/img/shareC.png);
+        }
     }
 }
 
-.editor-area {
-    padding: 10px;
-}
+.me {}
 
-.status{
+.status {
     width: 19px;
     height: 21px;
     font-size: 24px;
@@ -176,58 +174,93 @@ page-anotote-editor {
     background: #2ba600;
 }
 
-.editor_text_box{
-    resize: none;
-    float: left;
-    margin-left: 5px;
-    overflow: hidden;
-    width: 90%;
-    color: #000 !important;
-    font-size: 14px;
-    line-height: 25px;
-    border: none;
-    .highlight_quote,
-    .highlight_comment{
-		background: #c3f5b2 !important;
-		color: #000 !important;
-		padding-right: 5px;
+.editor-area {
+    padding: 10px;
+    .editor_text_box {
+        resize: none;
+        float: left;
+        margin-left: 5px;
+        overflow: hidden;
+        width: 90%;
+        color: #000 !important;
+        font-size: 14px;
+        line-height: 25px;
+        border: none;
+        &.me {
+            .highlight_quote,
+            .highlight_comment {
+                background: #c3f5b2 !important;
+            }
+            .highlight_comment:before {
+                background: #2ba600;
+            }
+            .highlight_quote:before {
+                background: #2ba600;
+            }
+        }
+        &.follows {
+            .highlight_quote,
+            .highlight_comment {
+                background: #f4e300 !important;
+            }
+            .highlight_comment:before {
+                background: #f4e300;
+            }
+            .highlight_quote:before {
+                background: #f4e300;
+            }
+        }
+        &.top {
+            .highlight_quote,
+            .highlight_comment {
+                background: #fb9df0 !important;
+            }
+            .highlight_comment:before {
+                background: #fb9df0;
+            }
+            .highlight_quote:before {
+                background: #fb9df0;
+            }
+        }
+        .highlight_quote,
+        .highlight_comment {
+            color: #000 !important;
+            padding-right: 5px;
+        }
+        .highlight_comment:before {
+            content: "*";
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            text-align: center;
+            color: #FFF;
+        }
+        .highlight_quote:before {
+            content: '"';
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            text-align: center;
+            vertical-align: top;
+            line-height: 1.2;
+            color: #FFF;
+            margin-top: 3px;
+            font-size: 25px;
+        }
     }
-    .highlight_comment:before{
-        content: "*";
-        background: #2ba600;
-        width: 25px;
-        height: 25px;
-        display: inline-block;
-        text-align: center;
-		color: #FFF;
-    }
-    .highlight_quote:before{
-		content: '"';
-		background: #2ba600;
-		width: 18px;
-		height: 18px;
-		display: inline-block;
-		text-align: center;
-		vertical-align: top;
-		line-height: 1.2;
-		color: #FFF;
-		margin-top: 3px;
-		font-size: 25px;
-	}
 }
 
-ion-fab{
+ion-fab {
     bottom: 30px;
 }
 
-	
 .plusBtn {
-	float: right;
-	button{
-		font-size: 18px;	
-	}
+    float: right;
+    button {
+        font-size: 18px;
+    }
 }
 
 .boxIcon {
-	margin-right: 20px;
+    margin-right: 20px;
 }

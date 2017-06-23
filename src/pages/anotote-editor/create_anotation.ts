@@ -16,12 +16,16 @@ export class CreateAnotationPopup {
         this.comment = value;
     }
 
+    share() {
+        this.viewCtrl.dismiss({ share: true });
+    }
+
     done() {
-        this.viewCtrl.dismiss({ status: true, comment: this.comment });
+        this.viewCtrl.dismiss({ create: true, comment: this.comment });
     }
 
     dismiss() {
-        this.viewCtrl.dismiss({ status: false, comment: '' });
+        this.viewCtrl.dismiss({ create: false, comment: '' });
     }
 
 }

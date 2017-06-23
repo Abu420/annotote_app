@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Platform, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -10,7 +11,7 @@ export class UtilityMethods {
     private loading: any;
     private onDevice: boolean;
 
-    constructor(private network: Network, private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+    constructor(private socialSharing: SocialSharing, private network: Network, private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
         this.platform = platform;
     }
 
@@ -20,6 +21,19 @@ export class UtilityMethods {
 
     console(msg) {
         console.log(msg);
+    }
+
+    /**
+     * Native Share Sheet
+     */
+    public show_native_sheet(message, subject, file, url) {
+        if (this.socialSharing)
+            this.socialSharing.share(message, subject, file, url)
+                .then(() => {
+                    // Success!
+                }).catch(() => {
+                    // Error!
+                });;
     }
 
     /**

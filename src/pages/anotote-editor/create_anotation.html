@@ -2,8 +2,8 @@
 </div>
 <div class="create_anotation_content">
     <div class="_buttons">
-        <span class="close"></span>
-        <span class="share"></span>
+        <span (tap)="dismiss()" class="close"></span>
+        <span (tap)="share(selectedTxt)" class="share"></span>
         <span (tap)="done()" class="done"></span>
     </div>
     <p class="selected_txt" [innerText]="selectedTxt"></p>

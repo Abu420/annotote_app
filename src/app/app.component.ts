@@ -92,6 +92,11 @@ export class MyApp {
 
         pushObject.on('notification').subscribe((notification: any) => {
           console.log(notification);
+          notification.additionalData.payload.notification = JSON.parse(notification.additionalData.payload.notification);
+          if (notification.additionalData.payload.notification.type == 'user:message' && notification.additionalData.foreground) {
+            console.log('message type notification');
+            return;
+          }
           this.notification_handler();
         });
 

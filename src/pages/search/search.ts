@@ -157,6 +157,7 @@ export class Search {
      */
     value_updating_search(value) {
         this.search_txt = value;
+        this.search_results = [];
         if (value.length == 0) {
             this.current_url = null;
             this.search_results = [];
@@ -211,7 +212,7 @@ export class Search {
     }
 
     go_to_browser(scrapped_txt, anotote_id) {
-        this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id });
+        this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id, which_stream: 'me' });
         this.dismiss()
     }
 

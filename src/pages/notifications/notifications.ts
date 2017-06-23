@@ -81,7 +81,7 @@ export class Notifications {
 
   loadNotifications() {
     var user_id = this.authService.getUser().id;
-    if (this.notificationService.loaded_once() && this._reload == null) {
+    if (this.notificationService.loaded_once() && (this._reload == null || this._reload == undefined)) {
       var data = this.notificationService.get_notification_data();
       this._notifications = data.notifications;
       this._unread = data.unread;
@@ -90,8 +90,9 @@ export class Notifications {
       this.notificationService.get_notifications(user_id)
         .subscribe((response) => {
           this._loading = true;
-          this._notifications = this.notificationService.get_notification_data();
-          this._unread = response.data.unread;
+          var data = this.notificationService.get_notification_data();
+          this._notifications = data.notifications;
+          this._unread = data.unread;
         }, (error) => {
           this._loading = true;
         });
