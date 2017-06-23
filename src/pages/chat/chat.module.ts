@@ -4,13 +4,13 @@ import { Chat } from './chat';
 
 @NgModule({
   declarations: [
-    Chat,
+    // Chat,
   ],
   imports: [
     IonicPageModule.forChild(Chat),
   ],
   exports: [
-    Chat
+    // Chat
   ]
 })
 export class ChatModule {

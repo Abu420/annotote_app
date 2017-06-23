@@ -4,13 +4,13 @@ import { SearchResults } from './search-results';
 
 @NgModule({
   declarations: [
-    SearchResults,
+    // SearchResults,
   ],
   imports: [
     IonicPageModule.forChild(SearchResults),
   ],
   exports: [
-    SearchResults
+    // SearchResults
   ]
 })
 export class SearchResultsModule { }
