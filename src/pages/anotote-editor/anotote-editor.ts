@@ -5,6 +5,7 @@ import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
 import { CreateAnotationOptionsPopup } from '../anotote-editor/create_anotation_options';
 import { TextEditor } from '../directives/editor';
+import { Search } from '../search/search';
 import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Services
@@ -121,6 +122,16 @@ export class AnototeEditor {
         });
     }
 
+    ionViewDidLeave() {
+        this.events.unsubscribe('show_anotation_details');
+        this.events.unsubscribe('show_tote_options');
+    }
+
+    scrollTo(element: string) {
+        let yOffset = document.getElementById(element).offsetTop;
+        this.content.scrollTo(0, yOffset, 4000)
+    }
+
     editor_click(event) {
         console.log(event.target);
         console.log(event.target.getAttribute("class"));
@@ -131,15 +142,6 @@ export class AnototeEditor {
             this.presentCommentDetailModal(event.target.getAttribute("data-selectedtxt"));
         }
 
-    }
-
-    onPageWillLeave() {
-        console.log('on page will leave')
-    }
-
-    ionViewDidLeave() {
-        this.events.unsubscribe('show_anotation_details');
-        this.events.unsubscribe('show_tote_options');
     }
 
     share_it() {
@@ -168,6 +170,14 @@ export class AnototeEditor {
         this.navCtrl.pop();
     }
 
+    openSearchPopup() {
+        var url = null;
+        let searchModal = this.modalCtrl.create(Search, {});
+        searchModal.onDidDismiss(data => {
+        });
+        searchModal.present();
+    }
+
     presentCommentDetailModal(txt) {
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: txt });
         commentDetailModal.present();
@@ -194,6 +204,20 @@ export class AnototeEditor {
      */
     private create_anotation(comment) {
         this.add_annotation_api('comment', comment);
+    }
+
+    remove_annotation_api() {
+        // this.utilityMethods.show_loader('Please wait...');
+        // var article_txt = document.getElementById('text_editor').innerHTML;
+        // this.searchService.remove_anotation({ annotation_id: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, file_text: article_txt })
+        //     .subscribe((response) => {
+        //         this.utilityMethods.hide_loader();
+        //         this.selectedText = '';
+        //         this.selection_lock = false;
+        //     }, (error) => {
+        //         this.utilityMethods.hide_loader();
+        //         this.selection_lock = false;
+        //     });
     }
 
     add_annotation_api(type, comment) {
