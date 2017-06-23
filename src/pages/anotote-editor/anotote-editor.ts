@@ -83,14 +83,15 @@ export class AnototeEditor implements OnDestroy {
      */
     ionViewDidLoad() {
         this.events.subscribe('show_tote_options', (data) => {
-            this.toggle_annotation_option = data.flag;
-            if (data.flag && !this.selection_lock) {
-                this.selectedText = data.txt;
-                this.selection = data.selection;
-                // this.content.resize();
+            if (this.which_stream == 'me') {
+                this.toggle_annotation_option = data.flag;
+                if (data.flag && !this.selection_lock) {
+                    this.selectedText = data.txt;
+                    this.selection = data.selection;
+                    this.content.resize();
+                }
             }
         });
-
         this.events.subscribe('show_anotation_details', (data) => {
             this.presentCommentDetailModal(data.txt);
         });

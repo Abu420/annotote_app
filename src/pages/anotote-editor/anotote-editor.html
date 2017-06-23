@@ -37,8 +37,16 @@
             </button>
     </ion-fab>-->
 </ion-content>
-<div class="inline_tote_options" *ngIf="toggle_annotation_option">
+<ion-footer class="inline_tote_options" *ngIf="toggle_annotation_option">
+    <ion-toolbar color="dark">
+        <span (click)="comment_it()" class="comment"></span>
+        <span (click)="quote_it()" class="quote"></span>
+        <span (click)="share_it()" class="cross"></span>
+    </ion-toolbar>
+</ion-footer>
+
+<!--<div class="inline_tote_options" *ngIf="toggle_annotation_option">
     <span (click)="comment_it()" class="comment"></span>
     <span (click)="quote_it()" class="quote"></span>
     <span (click)="share_it()" class="cross"></span>
-</div>
+</div>-->
