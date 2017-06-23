@@ -181,5 +181,4 @@ export class Home {
     });
     settingsModal.present();
   }
-
 }
