@@ -25,7 +25,7 @@ export class CreateAnotationPopup {
     }
 
     dismiss() {
-        this.viewCtrl.dismiss({ create: false, comment: '' });
+        this.viewCtrl.dismiss({ create: false, share: false });
     }
 
 }

@@ -48,7 +48,6 @@ export class AnototeEditor implements OnDestroy {
     private text: string; // Anotote article whole text
     private tote_id: string;
     private detail_event: any;
-    private popup_shown: boolean;
     private which_stream: string;
     private show_anotation_details: (txt: string) => void;
 
@@ -62,7 +61,6 @@ export class AnototeEditor implements OnDestroy {
         this.tote_id = navParams.get('anotote_id');
         this.anotote_type = navParams.get('anotote_type');
         this.which_stream = navParams.get('which_stream');
-        this.popup_shown = false;
 
         /**
          * Document Selection Listner
@@ -176,26 +174,21 @@ export class AnototeEditor implements OnDestroy {
     }
 
     openSearchPopup() {
-        this.popup_shown = true;
         var url = null;
         let searchModal = this.modalCtrl.create(Search, {});
         searchModal.onDidDismiss(data => {
-            this.popup_shown = false;
         });
         searchModal.present();
     }
 
     presentCommentDetailModal(txt) {
-        this.popup_shown = true;
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: txt });
         commentDetailModal.onDidDismiss(data => {
-            this.popup_shown = false;
         });
         commentDetailModal.present();
     }
 
     presentCreateAnotationModal() {
-        this.popup_shown = true;
         if (this.selectedText == '') {
             this.selection_lock = false;
             return;
@@ -208,7 +201,6 @@ export class AnototeEditor implements OnDestroy {
                 this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
             }
             this.selection_lock = false;
-            this.popup_shown = false;
         });
         createAnotationModal.present();
     }
@@ -260,11 +252,9 @@ export class AnototeEditor implements OnDestroy {
     }
 
     presentCreateAnotationOptionsModal() {
-        this.popup_shown = true;
         let createAnotationOptionsModal = this.modalCtrl.create(CreateAnotationOptionsPopup, { selected_txt: this.selectedText });
         createAnotationOptionsModal.onDidDismiss(data => {
             this.selection_lock = false;
-            this.popup_shown = false;
         });
         createAnotationOptionsModal.present();
     }
