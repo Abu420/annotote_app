@@ -120,6 +120,17 @@ export class SearchService {
     }
 
     /**
+    * Remove Anotation API
+    * type: {POST}
+    * params: [url, created_at]
+    */
+    public remove_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/create';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
      * Get Anotote Content API
      * type: {GET}
      * params: [url], 
