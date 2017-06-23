@@ -72,14 +72,22 @@ export class Chat {
       let messages:Array<any> = data.json().data.messages;
       this.conversation = this.mapChatHistory(messages);
       refresher.complete();
-    },(error)=>{});
+    },(error)=>{
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    });
   }
 
   public sendMessage() {
     if (this.textMessage != "") {
       this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:this.chatService.currentUnixTimestamp()}).subscribe((result)=>{
         this.conversation.unshift(result.data[0]);
-      }, (error)=>{});
+      }, (error)=>{
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      });
       this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.loggedInUser.id, this.chatService.currentTime());
       this.textMessage = "";
       this.autoScroll();
@@ -97,7 +105,11 @@ export class Chat {
       if(messages.length <= 0){
         infiniteScroll.enable(false);
       }
-    },(error)=>{});
+    },(error)=>{
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    });
   }
 
   /**
@@ -113,6 +125,9 @@ export class Chat {
       this.utilityMethods.hide_loader();
     },(error)=>{
       this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
     });
   }
 

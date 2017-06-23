@@ -54,6 +54,9 @@ export class FrontViewPage {
                         this.latest_anototes_firstTime_loading = false;
                   }, (error) => {
                         this.latest_anototes_firstTime_loading = false;
+                        if (error.code == -1) {
+                              this.utilityMethods.internet_connection_error();
+                        }
                   });
       }
 
@@ -74,7 +77,7 @@ export class FrontViewPage {
             this.page++;
             this.anototeService.fetchLatestTotes(this.page)
                   .subscribe((response) => {
-                        console.log(response);
+                        //console.log(response);
                         if (response.data.annototes.length % 10 != 0 || response.data.annototes.length == 0)
                               infiniteScroll.enable(false);
                         for (let ano of response.data.annototes) {
@@ -83,6 +86,9 @@ export class FrontViewPage {
                         infiniteScroll.complete();
                   }, (error) => {
                         infiniteScroll.complete();
+                        if (error.code == -1) {
+                              this.utilityMethods.internet_connection_error();
+                        }
                   });
             // setTimeout(() => {
             //       console.log('Async operation has ended');

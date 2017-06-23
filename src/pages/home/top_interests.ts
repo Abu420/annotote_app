@@ -7,7 +7,7 @@ import { IonicPage, NavController, ViewController , NavParams } from 'ionic-angu
 export class TopInterests {
 
  constructor(params: NavParams,public viewCtrl: ViewController) {
-   console.log('UserId', params.get('userId'));
+   //console.log('UserId', params.get('userId'));
  }
 
   dismiss() {
