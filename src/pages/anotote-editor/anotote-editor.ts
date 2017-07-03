@@ -167,7 +167,7 @@ export class AnototeEditor implements OnDestroy {
         this.selection_lock = true;
         this.toggle_annotation_option = false;
         this.content.resize();
-        this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
+        // this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
     }
 
     popView() {
@@ -199,7 +199,7 @@ export class AnototeEditor implements OnDestroy {
             if (data.create) {
                 this.create_anotation(data.comment);
             } else if (data.share) {
-                this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
+                // this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
             }
             this.selection_lock = false;
         });
