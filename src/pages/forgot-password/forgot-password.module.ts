@@ -4,13 +4,13 @@ import { ForgotPassword } from './forgot-password';
 
 @NgModule({
   declarations: [
-    ForgotPassword,
+    // ForgotPassword,
   ],
   imports: [
     IonicPageModule.forChild(ForgotPassword),
   ],
   exports: [
-    ForgotPassword
+    // ForgotPassword
   ]
 })
 export class ForgotPasswordModule {}

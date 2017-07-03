@@ -1,68 +1,82 @@
 page-notifications {
-    .scroll-content{
-		padding: 8px 16px 16px !important;
-		#wrapper{
-			box-shadow: none;
-			.product-list{
-				margin-top: 0px !important;
-				.item {
-					padding: 0px !important;
-					.item-inner{
-						padding: 0px;
-						.label-ios{
-							margin: 0px;
-							display: table;
-							width: 100%;
-							.img-holder{
-								display: table-cell;
-								vertical-align: middle;
-								width: 20%;
-								height: auto;
-								img{
-									width: 100%;
-									height: auto;
-									vertical-align: middle;
-								}
-							}
-							.txt{
-								display: table-cell;
-								vertical-align: middle;
-								width: 80%;
-								padding: 20px 0px 8px 10px;
-								.follow-name{
-									font-size: 18px;
-									color: #000;
-									img{
-										display: inline-block;
-										width: 12px;
-										&.star-icon{
-											width: 15px;	
-										}
-									}
-								}
-								.time{
-									span{
-										font-size: 14px;
-										color: #CCC;
-									}
-									em{
-										font-size: 12px;
-										width: auto;
-										img{
-											width: 12px;
-											display: inline-block;
-											vertical-align: middle;
-										}
-										span{
-											font-size: 12px;	
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    .scroll-content {
+        padding: 8px 16px 16px !important;
+        #wrapper {
+            .notifications_spinner {
+                position: relative;
+                width: 100%;
+                ion-spinner {
+                    position: absolute;
+                    display: inline-block;
+                    width: 28px;
+                    height: 28px;
+                    right: 0;
+                    left: 0;
+                    top: 10px;
+                    margin: auto;
+                }
+            }
+            box-shadow: none;
+            .product-list {
+                margin-top: 0px !important;
+                .item {
+                    padding: 0px !important;
+                    .item-inner {
+                        padding: 0px;
+                        .label-ios {
+                            margin: 0px;
+                            display: table;
+                            width: 100%;
+                            .img-holder {
+                                display: table-cell;
+                                vertical-align: middle;
+                                width: 20%;
+                                height: auto;
+                                img {
+                                    width: 100%;
+                                    height: auto;
+                                    vertical-align: middle;
+                                }
+                            }
+                            .txt {
+                                display: table-cell;
+                                vertical-align: middle;
+                                width: 80%;
+                                padding: 20px 0px 8px 10px;
+                                .follow-name {
+                                    font-size: 18px;
+                                    color: #000;
+                                    img {
+                                        display: inline-block;
+                                        width: 12px;
+                                        &.star-icon {
+                                            width: 15px;
+                                        }
+                                    }
+                                }
+                                .time {
+                                    span {
+                                        font-size: 14px;
+                                        color: #CCC;
+                                    }
+                                    em {
+                                        font-size: 12px;
+                                        width: auto;
+                                        img {
+                                            width: 12px;
+                                            display: inline-block;
+                                            vertical-align: middle;
+                                        }
+                                        span {
+                                            font-size: 12px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

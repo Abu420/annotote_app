@@ -112,7 +112,9 @@ export class Signup {
       });
     }, (error) => {
       self.utilityMethods.hide_loader();
-      if (error.status == 400)
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }else if (error.status == 400)
         self.utilityMethods.message_alert('Error', 'This email has already been taken.');
     });
   }

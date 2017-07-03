@@ -109,6 +109,9 @@ export class Search {
             this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            }
         });
     }
 
@@ -132,6 +135,9 @@ export class Search {
             console.log(response);
         }, (error) => {
             this.utilityMethods.hide_loader();
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            }
         });
     }
 
@@ -149,6 +155,9 @@ export class Search {
             console.log(response);
         }, (error) => {
             this.utilityMethods.hide_loader();
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            }
         });
     }
 
@@ -157,6 +166,7 @@ export class Search {
      */
     value_updating_search(value) {
         this.search_txt = value;
+        this.search_results = [];
         if (value.length == 0) {
             this.current_url = null;
             this.search_results = [];
@@ -203,15 +213,21 @@ export class Search {
                     }, (error) => {
                         this.utilityMethods.hide_loader();
                         this.search_loading = false;
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        }
                     });
             }, (error) => {
                 this.utilityMethods.hide_loader();
                 this.search_loading = false;
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                }
             });
     }
 
     go_to_browser(scrapped_txt, anotote_id) {
-        this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id });
+        this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id, which_stream: 'me' });
         this.dismiss()
     }
 
@@ -223,6 +239,9 @@ export class Search {
                 this.presentProfileModal(response);
             }, (error) => {
                 this.utilityMethods.hide_loader();
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                }
             });
     }
 

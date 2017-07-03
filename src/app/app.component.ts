@@ -41,7 +41,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       // let status bar overlay webview
-      this.statusBar.overlaysWebView(false);
+      this.statusBar.overlaysWebView(true);
 
       // set status bar to white
       this.statusBar.backgroundColorByHexString('#000000');
@@ -91,6 +91,11 @@ export class MyApp {
 
         pushObject.on('notification').subscribe((notification: any) => {
           console.log(notification);
+          notification.additionalData.payload.notification = JSON.parse(notification.additionalData.payload.notification);
+          if (notification.additionalData.payload.notification.type == 'user:message' && notification.additionalData.foreground) {
+            console.log('message type notification');
+            return;
+          }
           this.notification_handler();
         });
 

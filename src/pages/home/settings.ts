@@ -36,6 +36,9 @@ export class Settings {
         profile.present();
       }, (error) => {
         this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
   }
 

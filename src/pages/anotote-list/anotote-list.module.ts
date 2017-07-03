@@ -4,13 +4,13 @@ import { AnototeList } from './anotote-list';
 
 @NgModule({
   declarations: [
-    AnototeList,
+    // AnototeList,
   ],
   imports: [
     IonicPageModule.forChild(AnototeList),
   ],
   exports: [
-    AnototeList
+    // AnototeList
   ]
 })
 export class AnototeListModule {}

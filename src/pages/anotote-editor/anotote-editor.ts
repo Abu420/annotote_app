@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, ViewChild, Output, Directive } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
@@ -36,7 +36,7 @@ export class SanitizeHtmlPipe implements PipeTransform {
         ':host /deep/ >>> .highlight_quote, .highlight_comment { background: #f5f6f7;color: red; };.highlight_quote:before { content: "*";width: 25px;height: 25px;display: inline-block;text-align: center;background: greenyellow; };'
     ]
 })
-export class AnototeEditor {
+export class AnototeEditor implements OnDestroy {
     @ViewChild(Content) content: Content;
     public toggle_annotation_option: boolean;
     public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
@@ -48,6 +48,7 @@ export class AnototeEditor {
     private text: string; // Anotote article whole text
     private tote_id: string;
     private detail_event: any;
+    private which_stream: string;
     private show_anotation_details: (txt: string) => void;
 
     constructor(private _sanitizer: DomSanitizer, private authService: AuthenticationService, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
@@ -59,8 +60,7 @@ export class AnototeEditor {
         this.text = navParams.get('tote_txt');
         this.tote_id = navParams.get('anotote_id');
         this.anotote_type = navParams.get('anotote_type');
-        if (this.anotote_type == null)
-            this.anotote_type = 'me';
+        this.which_stream = navParams.get('which_stream');
 
         /**
          * Document Selection Listner
@@ -76,6 +76,34 @@ export class AnototeEditor {
                 events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
             }
         });
+    }
+
+    /**
+     * Page LifeCycle Events
+     */
+    ionViewDidLoad() {
+        this.events.subscribe('show_tote_options', (data) => {
+            if (this.which_stream == 'me') {
+                this.toggle_annotation_option = data.flag;
+                if (data.flag && !this.selection_lock) {
+                    this.selectedText = data.txt;
+                    this.selection = data.selection;
+                    this.content.resize();
+                }
+            }
+        });
+        this.events.subscribe('show_anotation_details', (data) => {
+            this.presentCommentDetailModal(data.txt);
+        });
+    }
+
+    ionViewDidLeave() {
+    }
+
+
+    ngOnDestroy() {
+        this.events.unsubscribe('show_anotation_details');
+        this.events.unsubscribe('show_tote_options');
     }
 
     private highlight_(type, identifier) {
@@ -104,52 +132,21 @@ export class AnototeEditor {
         }
     }
 
-    /**
-     * Page LifeCycle Events
-     */
-    ionViewDidLoad() {
-        this.events.subscribe('show_tote_options', (data) => {
-            this.toggle_annotation_option = data.flag;
-            if (data.flag && !this.selection_lock) {
-                this.selectedText = data.txt;
-                this.selection = data.selection;
-                // this.content.resize();
-            }
-        });
-
-        this.events.subscribe('show_anotation_details', (data) => {
-            this.presentCommentDetailModal(data.txt);
-        });
-    }
-
-    ionViewDidLeave() {
-        this.events.unsubscribe('show_anotation_details');
-        this.events.unsubscribe('show_tote_options');
-    }
-
     scrollTo(element: string) {
         let yOffset = document.getElementById(element).offsetTop;
         this.content.scrollTo(0, yOffset, 4000)
     }
 
     editor_click(event) {
-        console.log(event.target);
-        console.log(event.target.getAttribute("class"));
-        console.log(event.target.getAttribute("data-identifier"));
-        console.log(event.target.getAttribute("data-selectedtxt"));
+        // console.log(event.target.getAttribute("class"));
+        // console.log(event.target.getAttribute("data-identifier"));
+        // console.log(event.target.getAttribute("data-selectedtxt"));
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
+            console.log(event.target);
             this.presentCommentDetailModal(event.target.getAttribute("data-selectedtxt"));
         }
 
-    }
-
-    share_it() {
-        this.socialSharing.share(this.selectedText, 'Anotote Text Sharing', null, null).then(() => {
-            // Sharing via email is possible
-        }).catch(() => {
-            // Sharing via email is not possible
-        });
     }
 
     comment_it() {
@@ -166,6 +163,13 @@ export class AnototeEditor {
         this.add_annotation_api('quote', null);
     }
 
+    share_it() {
+        this.selection_lock = true;
+        this.toggle_annotation_option = false;
+        this.content.resize();
+        this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
+    }
+
     popView() {
         this.navCtrl.pop();
     }
@@ -180,6 +184,8 @@ export class AnototeEditor {
 
     presentCommentDetailModal(txt) {
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: txt });
+        commentDetailModal.onDidDismiss(data => {
+        });
         commentDetailModal.present();
     }
 
@@ -190,9 +196,10 @@ export class AnototeEditor {
         }
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText });
         createAnotationModal.onDidDismiss(data => {
-            console.log(data)
-            if (data.status) {
+            if (data.create) {
                 this.create_anotation(data.comment);
+            } else if (data.share) {
+                this.utilityMethods.show_native_sheet('Deep Link', 'Anotote Text Sharing', null, null);
             }
             this.selection_lock = false;
         });
@@ -234,6 +241,9 @@ export class AnototeEditor {
                 this.selection_lock = false;
             }, (error) => {
                 this.utilityMethods.hide_loader();
+                if (error.code == -1) { 
+                    this.utilityMethods.internet_connection_error();
+                }
                 this.selection_lock = false;
             });
     }

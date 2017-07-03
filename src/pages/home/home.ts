@@ -91,6 +91,10 @@ export class Home {
       .subscribe((response) => {
         this.latest_searches_firstTime_loading = false;
         this.searches = response.data.searches;
+      },(error)=>{
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
   }
 
@@ -109,6 +113,9 @@ export class Home {
         this.utilityMethods.hide_loader();
       }, (error) => {
         this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
       });
   }
 
@@ -122,6 +129,9 @@ export class Home {
         .subscribe((response) => {
           this._unread = response.data.unread;
         }, (error) => {
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
         });
     }
   }
@@ -176,10 +186,12 @@ export class Home {
             this.utilityMethods.hide_loader();
             this.utilityMethods.message_alert('Error', 'Logout operation failed, please try again or later.');
             self.authService.clear_user();
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            }
           });
       }
     });
     settingsModal.present();
   }
-
 }

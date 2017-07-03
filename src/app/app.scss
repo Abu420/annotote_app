@@ -182,7 +182,180 @@ button,
 */
 
 search_page {
+	.toolbar{
+		contain: none;
+		overflow: visible;
+	}
+	.filterMode{
+		background: #FFF;
+		>div{
+			padding: 20px;
+			display: table;
+			width: 100%;
+			position: relative;
+			&:after{
+				content: "";
+				bottom: 0px;
+				position: absolute;
+				right: 0px;
+				width: 75%;
+				height: 1px;
+				background: #CCC;
+			}
+			h4{
+				display: table-cell;
+				vertical-align: middle;
+				margin: 0px;
+				font-size: 4vw;
+				width: 20%;
+			}
+			ul{
+				display: table-cell;
+				vertical-align: middle;
+				margin: 0px;
+				padding: 0px;
+				list-style: none;
+				li{
+					display: inline-block;
+					padding: 0px 10px;
+					vertical-align: middle;
+				}
+			}
+			&.mediaMode{
+				ul{
+					li{
+						padding: 0 5px;
+					}
+				}
+			}
+			
+			&.catMode{
+				ul{
+					li{
+						span{
+							color: #CCC;	
+						}
+						&.active{
+							span{
+								color: #868686;
+								text-shadow: 2px 2px 2px #CCC;
+							}
+						}
+					}
+				}
+			}
+			&.dateMode{
+				ul{
+					li{
+						width: 32%;
+						input{
+							border: 0px;
+							width: 100%;
+						}
+					}
+				}
+				&:after{
+					display: none;
+				}
+			}
+			
+		}
+	}
     background: rgba(0, 0, 0, 0.3);
+	.searchHeader{
+		.options{
+			background-color: #3c3c3c;
+			&.activeOption{
+				position: relative;
+				&:after{
+					content: "";
+					position: absolute;
+					left: 0px;
+					bottom: -20px;
+					z-index: 999;
+					width: 0;
+					height: 0;
+					border-left: 15px solid transparent;
+					border-right: 15px solid transparent;
+					border-top: 20px solid #3c3c3c;
+				}
+			}
+		}
+	}
+	.searchPage{
+		padding: 0px !important;
+		background: rgba(255, 255, 255, 0.58);
+		.scroll-content{
+			padding: 0px 0px 16px !important;
+			.searchFilter{
+				padding: 0px;
+				>.item-inner{
+					padding: 0px;
+					.label-ios{
+						margin: 0px;
+						display: table;
+						width: 100%;
+						.icon-ios{
+							display: table-cell;
+							vertical-align: middle;
+							width: 20%;
+							padding: 20px;
+							font-size: 30px;
+							text-align: center;
+						}
+						>span{
+							padding: 20px 10px;
+							display: table-cell;
+							vertical-align: middle;
+							border-bottom: 1px solid #CCC;
+						}
+					}
+				}
+			}
+		}
+		.searchResult{
+			>.user_list_item {
+				padding: 0px;
+				line-height: normal;
+				height: auto;
+				.item-inner{
+					padding: 0px;
+					.label-ios{
+						display: table;
+						width: 100%;
+						margin: 0px;
+						padding: 0 0 0 10px;
+						figure{
+							display: table-cell;
+							vertical-align: middle;
+							width: 15%;
+							padding-right: 10px;
+						}
+						>span{
+							@extend figure;
+							width: 60%;
+							margin: 0px;
+							padding-left: 20px;
+							border-bottom: 1px solid #CCC;
+							float: none;
+							&.un_follow_btn{
+								width: 10% !important;
+								padding: 20px;
+								background-size: 20px;
+								background-image: url(../assets/img/remove.png);
+								background-position: center;
+								background-repeat: no-repeat;
+							}
+							&.follow_btn{
+								@extend .un_follow_btn;
+								background-image: url(../assets/img/follow_friend.png) !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
     .search_spinner {
         position: relative;
         width: 100%;
@@ -201,26 +374,6 @@ search_page {
         .user_list_item {
             height: 55px;
             line-height: 55px;
-            .un_follow_btn {
-                height: 45px;
-                float: left;
-                width: 45px;
-                float: right;
-                background-image: url(../assets/img/remove.png);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: 30px;
-            }
-            .follow_btn {
-                height: 45px;
-                float: left;
-                width: 45px;
-                float: right;
-                background-image: url(../assets/img/follow_friend.png);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: 30px;
-            }
         }
     }
     .search_header {

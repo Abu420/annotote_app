@@ -81,10 +81,6 @@ export class Login {
 
   go_home() {
     this.keyboard.close();
-    if (this.utilityMethods.isOffline()) {
-      this.utilityMethods.internet_connection_error();
-      return;
-    }
     /**
      * Validate User first
      */
@@ -111,7 +107,7 @@ export class Login {
       password: this.user.password,
       created_at: current_time,
       device_type: platform_name,
-      device_id: this.device_id ? this.device_id : 'null'
+      device_id: this.device_id ? this.device_id : 123456
     }).subscribe((response) => {
       this.utilityMethods.hide_loader();
       response.data.user.access_token = response.access_token;
@@ -119,7 +115,9 @@ export class Login {
       this.navCtrl.push(Home, {});
     }, (error) => {
       this.utilityMethods.hide_loader();
-      if (error.status == 404)
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }else if (error.status == 404)
         this.utilityMethods.message_alert('Error', 'Invalid email or password.');
       else if (error.status == 400)
         this.utilityMethods.message_alert('Error', 'Your account is not verified. Verification email has already been sent.');

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Network } from '@ionic-native/network';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Platform, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -145,7 +146,7 @@ export class UtilityMethods {
      * Internet Connection Error
      */
     internet_connection_error() {
-        this.message_alert('Internet Connection Error', 'Please check your internet connection settings.');
+        this.doToast("Please check your internet connection and try again.");
     }
 
     /**

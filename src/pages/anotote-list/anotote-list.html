@@ -18,12 +18,12 @@
         </ion-buttons>
     </ion-toolbar>
     <ion-toolbar *ngIf="edit_mode" [color]="current_color">
-       	<ul class="topList">
-       		<li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/tag.png" alt=""></li>
-       		<li class="delete"><img src="assets/img/delete.png" alt=""></li>
-       		<li class="privacy"><img src="assets/img/privacy.png" alt=""></li>
-       		<li class="share"><img src="assets/img/share.png" alt=""></li>
-       	</ul>
+        <ul class="topList">
+            <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/tag.png" alt=""></li>
+            <li class="delete"><img src="assets/img/delete.png" alt=""></li>
+            <li class="privacy"><img src="assets/img/privacy.png" alt=""></li>
+            <li class="share"><img src="assets/img/share.png" alt=""></li>
+        </ul>
         <!--<ion-buttons start>
             <button (tap)="close_bulk_actions()" ion-button icon-only>
                 <ion-icon name="close"></ion-icon>
@@ -93,7 +93,7 @@
                     </header>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item (click)="open_browser(anotote)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>

@@ -15,6 +15,10 @@ export class CommentDetailPopup {
     this.viewCtrl.dismiss();
   }
 
+  share() {
+    this.viewCtrl.dismiss({ share: true });
+  }
+
   presentTopInterestsModal() {
     this.viewCtrl.dismiss();
   }
