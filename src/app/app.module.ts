@@ -27,7 +27,7 @@ import { ViewOptions } from '../pages/anotote-list/view_options';
 import { TagsPopUp } from '../pages/anotote-list/tags';
 import { Search } from '../pages/search/search';
 import { FollowsPopup } from '../pages/anotote-list/follows_popup';
-// import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
+import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 
 /**
  * 3rd Party Libraries
@@ -71,7 +71,7 @@ import { Push } from '@ionic-native/push';
 /**
  * Pipes
  */
-import { SanitizeHtmlPipe, AnototeEditor } from '../pages/anotote-editor/anotote-editor';
+import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
 import { Highlight } from "../directives/highlight";
 import { Safe } from "../services/SafeHtml";
 import { AnototeContentOptions } from "../pages/home/content_options";
@@ -79,19 +79,25 @@ import { AnototeContentOptions } from "../pages/home/content_options";
 @NgModule({
   declarations: [
     MyApp,
+    Login,
+    Signup,
+    ForgotPassword,
+    Home,
+    Chat,
     SanitizeHtmlPipe,
+    Follows,
+    Profile,
     ViewOptions,
+    SearchResults,
     TagsPopUp,
+    Notifications,
+    FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
     CreateAnotationOptionsPopup,
     CreateAnotationPopup,
     CommentDetailPopup,
-    Profile,
     Settings,
-    FrontViewPage,
-    DclWrapper,
-    Highlight,
     Search,
     TextEditor,
     SearchField,
@@ -99,6 +105,7 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     TopOptions,
     FollowsPopup,
     TopInterests,
+    AnototeList,
     AbsoluteDrag,
     PressDirective,
     AnototeEditor,
@@ -142,7 +149,8 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     ItemDetailsPage,
     AnototeOptions,
     Chat,
-    AnototeList
+    AnototeList,
+    AnototeEditor
   ],
 
   providers: [
