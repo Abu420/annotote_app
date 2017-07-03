@@ -11,7 +11,6 @@ import { Follows } from '../pages/follows/follows';
 import { FrontViewPage } from '../pages/front-view/front-view';
 import { Chat } from '../pages/chat/chat';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
-import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
 import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 import { AuthenticationService } from "../services/auth.service";
 

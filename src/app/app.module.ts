@@ -23,12 +23,11 @@ import { TopOptions } from '../pages/home/top_options';
 import { Notifications } from '../pages/notifications/notifications';
 import { Follows } from '../pages/follows/follows';
 import { AnototeList } from '../pages/anotote-list/anotote-list';
-import { AnototeDetail } from '../pages/anotote-detail/anotote-detail';
 import { ViewOptions } from '../pages/anotote-list/view_options';
 import { TagsPopUp } from '../pages/anotote-list/tags';
 import { Search } from '../pages/search/search';
 import { FollowsPopup } from '../pages/anotote-list/follows_popup';
-import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
+// import { AnototeEditor } from '../pages/anotote-editor/anotote-editor';
 
 /**
  * 3rd Party Libraries
@@ -77,25 +76,19 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
 @NgModule({
   declarations: [
     MyApp,
-    Login,
-    Signup,
-    ForgotPassword,
-    Home,
-    Chat,
     SanitizeHtmlPipe,
-    Follows,
-    Profile,
     ViewOptions,
-    SearchResults,
     TagsPopUp,
-    Notifications,
-    FrontViewPage,
     ItemDetailsPage,
     AnototeOptions,
     CreateAnotationOptionsPopup,
     CreateAnotationPopup,
     CommentDetailPopup,
+    Profile,
     Settings,
+    FrontViewPage,
+    DclWrapper,
+    Highlight,
     Search,
     TextEditor,
     SearchField,
@@ -103,12 +96,9 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
     TopOptions,
     FollowsPopup,
     TopInterests,
-    AnototeList,
-    AnototeDetail,
     AbsoluteDrag,
     PressDirective,
-    AnototeEditor,
-    ChatHeads,
+    ChatHeads
   ],
   imports: [
     BrowserModule,
@@ -144,9 +134,7 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
     ItemDetailsPage,
     AnototeOptions,
     Chat,
-    AnototeList,
-    AnototeDetail,
-    AnototeEditor
+    AnototeList
   ],
 
   providers: [
