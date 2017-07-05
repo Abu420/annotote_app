@@ -61,7 +61,7 @@ export class Home {
   }
 
   ionViewWillEnter() {
-    console.log('enter')
+    //console.log('enter')
     /**
      * Load Notifications Count
      */

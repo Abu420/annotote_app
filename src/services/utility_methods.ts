@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
-import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet';
+//import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { Platform, AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { Platform, AlertController, LoadingController, ToastController, ActionSheetController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class UtilityMethods {
     private loading: any;
     private onDevice: boolean;
 
-    constructor(private actionSheet: ActionSheet, private socialSharing: SocialSharing, private network: Network, private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+    constructor(private actionSheet: ActionSheetController, private socialSharing: SocialSharing, private network: Network, private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
         this.platform = platform;
     }
 
