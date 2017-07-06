@@ -48,6 +48,7 @@ export class AnototeEditor implements OnDestroy {
     private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
     private text: string; // Anotote article whole text
     private tote_id: string;
+    private full_screen_mode: boolean;
     private detail_event: any;
     private which_stream: string;
     private show_anotation_details: (txt: string) => void;
@@ -64,6 +65,7 @@ export class AnototeEditor implements OnDestroy {
         this.anotote_type = navParams.get('anotote_type');
         this.which_stream = navParams.get('which_stream');
         this.highlight = navParams.get('highlight');
+        this.full_screen_mode = false;
         setTimeout(function () {
             that.scrollTo(that.highlight.identifier);
         }, 1000);
@@ -157,7 +159,12 @@ export class AnototeEditor implements OnDestroy {
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
             console.log(event.target);
-            this.presentCommentDetailModal(event.target.getAttribute("data-selectedtxt"));
+            this.selected_highlight = {
+                txt: event.target.getAttribute("data-selectedtxt"),
+                identifier: event.target.getAttribute("data-identifier"),
+                type: event.target.getAttribute("class")
+            };
+            this.presentCommentDetailModal(this.selected_highlight, event.target);
         }
 
     }
@@ -195,9 +202,13 @@ export class AnototeEditor implements OnDestroy {
         searchModal.present();
     }
 
-    presentCommentDetailModal(txt) {
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: txt });
+    presentCommentDetailModal(highlight, element) {
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier });
         commentDetailModal.onDidDismiss(data => {
+            if (data.delete) {
+                console.log(highlight)
+                this.remove_annotation_api(highlight.identifier, element);
+            }
         });
         commentDetailModal.present();
     }
@@ -226,18 +237,17 @@ export class AnototeEditor implements OnDestroy {
         this.add_annotation_api('comment', comment);
     }
 
-    remove_annotation_api() {
-        // this.utilityMethods.show_loader('Please wait...');
-        // var article_txt = document.getElementById('text_editor').innerHTML;
-        // this.searchService.remove_anotation({ annotation_id: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, file_text: article_txt })
-        //     .subscribe((response) => {
-        //         this.utilityMethods.hide_loader();
-        //         this.selectedText = '';
-        //         this.selection_lock = false;
-        //     }, (error) => {
-        //         this.utilityMethods.hide_loader();
-        //         this.selection_lock = false;
-        //     });
+    remove_annotation_api(an_id, element) {
+        this.utilityMethods.show_loader('Please wait...');
+        var current_time = (new Date()).getTime() / 1000;
+        element.replaceWith(element.innerText);
+        var article_txt = document.getElementById('text_editor').innerHTML;
+        this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
+            .subscribe((response) => {
+                this.utilityMethods.hide_loader();
+            }, (error) => {
+                this.utilityMethods.hide_loader();
+            });
     }
 
     add_annotation_api(type, comment) {

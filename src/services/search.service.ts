@@ -122,10 +122,10 @@ export class SearchService {
     /**
     * Remove Anotation API
     * type: {POST}
-    * params: [url, created_at]
+    * params: [annotation_id, delete]
     */
     public remove_anotation(params) {
-        var url = this.constants.API_BASEURL + '/annotote/highlight/create';
+        var url = this.constants.API_BASEURL + '/delete-user-annotation';
         var response = this.http.post(url, params).map(res => res.json());
         return response;
     }
