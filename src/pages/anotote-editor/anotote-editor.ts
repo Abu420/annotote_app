@@ -42,6 +42,7 @@ export class AnototeEditor implements OnDestroy {
     public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
     private selectedText: string;
     private selection: any;
+    private highlight: any;
     private selected_highlight: { txt: '', identifier: '', type: '' };
     private selection_lock: boolean;
     private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
@@ -52,6 +53,7 @@ export class AnototeEditor implements OnDestroy {
     private show_anotation_details: (txt: string) => void;
 
     constructor(private _sanitizer: DomSanitizer, private authService: AuthenticationService, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
+        var that = this;
         this.toggle_annotation_option = false;
         this.selection_lock = false;
         /**
@@ -61,7 +63,10 @@ export class AnototeEditor implements OnDestroy {
         this.tote_id = navParams.get('anotote_id');
         this.anotote_type = navParams.get('anotote_type');
         this.which_stream = navParams.get('which_stream');
-
+        this.highlight = navParams.get('highlight');
+        setTimeout(function () {
+            that.scrollTo(that.highlight.identifier);
+        }, 1000);
         /**
          * Document Selection Listner
          */
@@ -76,6 +81,8 @@ export class AnototeEditor implements OnDestroy {
                 events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
             }
         });
+        console.log(this.which_stream);
+
     }
 
     /**
@@ -125,6 +132,7 @@ export class AnototeEditor implements OnDestroy {
                 newNode.setAttribute("class", "highlight_comment");
             else
                 newNode.setAttribute("class", "highlight_quote");
+
             range.surroundContents(newNode);
             selection.removeAllRanges();
         } catch (e) {
@@ -132,9 +140,14 @@ export class AnototeEditor implements OnDestroy {
         }
     }
 
-    scrollTo(element: string) {
-        let yOffset = document.getElementById(element).offsetTop;
-        this.content.scrollTo(0, yOffset, 4000)
+    scrollTo(identifier: string) {
+        console.log(identifier);
+        let element: any = document.querySelectorAll('[data-identifier="' + identifier + '"]');
+        console.log(element);
+        if (element != null && element.length > 0) {
+            let yOffset = element[0].offsetTop;
+            this.content.scrollTo(0, yOffset, 2000)
+        }
     }
 
     editor_click(event) {
@@ -241,7 +254,7 @@ export class AnototeEditor implements OnDestroy {
                 this.selection_lock = false;
             }, (error) => {
                 this.utilityMethods.hide_loader();
-                if (error.code == -1) { 
+                if (error.code == -1) {
                     this.utilityMethods.internet_connection_error();
                 }
                 this.selection_lock = false;

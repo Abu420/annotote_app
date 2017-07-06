@@ -12,7 +12,7 @@
                 <span class="dot"></span>
             </div>
         </ion-title>
-        <ion-buttons *ngIf="whichstream=='me'" class="plusBtn">
+        <ion-buttons *ngIf="which_stream!='me'" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>
                 <ion-icon name="md-add"></ion-icon>
             </button>

@@ -15,6 +15,10 @@ export class CommentDetailPopup {
     this.viewCtrl.dismiss();
   }
 
+  delete() {
+    this.viewCtrl.dismiss({ delete: true });
+  }
+
   share() {
     this.viewCtrl.dismiss({ share: true });
   }
