@@ -104,7 +104,7 @@
                     </header>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item *ngIf="highlight.deleted != 1" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
