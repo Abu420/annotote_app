@@ -172,7 +172,7 @@
                     <img *ngIf="!anotote.checked" src="assets/img/check1.png">
                     <img *ngIf="anotote.checked" src="assets/img/check2.png">
                 </div>
-                <div class="txt">
+                <div class="txt" *ngIf="anotote.type ==1">
                     <div class="txt-holder">
                         <strong [innerText]="anotote.title"></strong>
                     </div>
@@ -188,6 +188,25 @@
                             <span [innerText]="anotote.time"></span>
                          </em>
                         <p [innerText]="anotote.short_text"></p>
+                    </div>
+                </div>
+                <div class="txt" *ngIf="anotote.type == 2">
+                    <div class="txt-holder">
+                        <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
+                        <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
+                    </div>
+                    <div class="time">
+                        <em>
+                            <button type="button">
+                            <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
+                            <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
+                            <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
+                            <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
+                            <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
+                            </button>
+                            <span [innerText]="anotote.createdAt"></span>
+                         </em>
+                        <p>Message</p>
                     </div>
                 </div>
             </ion-item>
