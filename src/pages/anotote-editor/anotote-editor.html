@@ -6,7 +6,7 @@
                 <span><img src="assets/img/new1.png"></span>
             </div>
         </ion-title>
-        <ion-buttons *ngIf="full_screen_mode" (click)="full_screen_mode=false;" end class="boxIcon">
+        <ion-buttons *ngIf="full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
             <span class="downImage"><img src="assets/img/new3.png" alt=""></span>
         </ion-buttons>
         <ion-buttons start>
@@ -26,7 +26,7 @@
                 <ion-icon name="md-add"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-buttons *ngIf="!full_screen_mode" (click)="full_screen_mode=true;" end class="boxIcon">
+        <ion-buttons *ngIf="!full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
             <span><img src="assets/img/box.png" alt=""></span>
         </ion-buttons>
     </ion-toolbar>

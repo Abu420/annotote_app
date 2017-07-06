@@ -132,6 +132,13 @@ page-anotote-editor {
         contain: none;
         overflow: visible;
     }
+    .boxIcon {
+        margin: 0px;
+        span {
+            padding: 17px;
+            display: block;
+        }
+    }
     .downImage {
         margin-bottom: -40px;
     }

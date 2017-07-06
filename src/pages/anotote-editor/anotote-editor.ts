@@ -115,6 +115,11 @@ export class AnototeEditor implements OnDestroy {
         this.events.unsubscribe('show_tote_options');
     }
 
+    change_full_screen_mode() {
+        console.log('hello')
+        this.full_screen_mode=!this.full_screen_mode;
+    }
+
     private highlight_(type, identifier) {
         try {
             var self = this;
@@ -202,7 +207,7 @@ export class AnototeEditor implements OnDestroy {
         searchModal.present();
     }
 
-    presentCommentDetailModal(highlight, element) {
+    presentCommentDetailModal(highlight, element?) {
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier });
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
