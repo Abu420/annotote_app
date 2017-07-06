@@ -105,6 +105,12 @@ page-anotote-list {
                                 vertical-align: middle;
                             }
                         }
+                        .check {
+                            display: table-cell;
+                            width: 100%;
+                            vertical-align: middle;
+                            text-align: center;
+                        }
                         .txt {
                             display: table-cell;
                             width: 80%;

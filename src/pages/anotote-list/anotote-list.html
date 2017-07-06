@@ -1,30 +1,36 @@
 <ion-header>
-    <ion-toolbar *ngIf="!edit_mode" [color]="current_color">
-        <ion-buttons start>
+    <ion-toolbar [color]="current_color">
+        <ion-buttons *ngIf="!edit_mode" start>
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>
+        <ion-title *ngIf="!edit_mode">
             <div class="dots_box">
                 <span class="un_active_dot"></span>
                 <span class="dot"></span>
             </div>
         </ion-title>
-        <ion-buttons end>
+        <ion-buttons *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
                 <ion-icon name="add"></ion-icon>
             </button>
         </ion-buttons>
+        <ul class="topList" *ngIf="edit_mode">
+            <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
+            <li class="delete"><img src="assets/img/delete.png" alt=""></li>
+            <li class="privacy"><img src="assets/img/privacy.png" alt=""></li>
+            <li class="share"><img src="assets/img/share.png" alt=""></li>
+        </ul>
     </ion-toolbar>
-    <ion-toolbar *ngIf="edit_mode" [color]="current_color">
+    <!--<ion-toolbar *ngIf="edit_mode" [color]="current_color">
         <ul class="topList">
             <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
             <li class="delete"><img src="assets/img/delete.png" alt=""></li>
             <li class="privacy"><img src="assets/img/privacy.png" alt=""></li>
             <li class="share"><img src="assets/img/share.png" alt=""></li>
         </ul>
-        <!--<ion-buttons start>
+        <ion-buttons start>
             <button (tap)="close_bulk_actions()" ion-button icon-only>
                 <ion-icon name="close"></ion-icon>
                 <span class="close_icon_overflowing"></span>
@@ -40,19 +46,23 @@
             <button ion-button icon-only>
                 <ion-icon name="trash"></ion-icon>
             </button>
-        </ion-buttons>-->
-    </ion-toolbar>
+        </ion-buttons>
+    </ion-toolbar>-->
 </ion-header>
 <ion-content swipe-vertical padding>
     <div id="wrapper">
-        <ion-list *ngIf="!edit_mode && anototes.length > 0" class="product-list">
+        <ion-list *ngIf="anototes.length > 0" class="product-list">
             <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
                 <div [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
-                    <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" class="img-holder">
+                    <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
-                    <div *ngIf="!anotote.active && current_color == 'top'" class="img-holder">
+                    <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.annotote.photo != null)?anotote.annotote.photo:'assets/img/avatar.png'">
+                    </div>
+                    <div class="check" [hidden]="!edit_mode">
+                        <img *ngIf="!anotote.checked" src="assets/img/check1.png">
+                        <img *ngIf="anotote.checked" src="assets/img/check2.png">
                     </div>
                     <span class="options" *ngIf="anotote.active"></span>
                     <div class="txt" *ngIf="anotote.type ==1">
@@ -94,7 +104,7 @@
                     </header>
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item *ngIf="highlight.deleted != 1" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
@@ -166,7 +176,7 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
         <!-- Working for annotote long press -->
-        <ion-list *ngIf="edit_mode" no-lines class="product-list show">
+        <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">
             <ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;" [ngClass]="anotote.checked?'even':''">
                 <div class="check">
                     <img *ngIf="!anotote.checked" src="assets/img/check1.png">
@@ -210,7 +220,7 @@
                     </div>
                 </div>
             </ion-item>
-        </ion-list>
+        </ion-list>-->
     </div>
     <ion-fab *ngIf="!current_active_anotote" bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">

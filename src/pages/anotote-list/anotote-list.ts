@@ -217,28 +217,32 @@ export class AnototeList {
   }
 
   openAnototeDetail(anotote) {
-    if (this.current_active_anotote) {
+    if(!this.edit_mode){
+      if (this.current_active_anotote) {
+        if (this.current_active_anotote.type == 2)
+          this.content.resize();
+        this.current_active_anotote.active = false;
+        if (this.current_active_anotote.id == anotote.id) {
+          this.current_active_anotote = null;
+          return;
+        }
+      }
+      this.current_active_anotote = anotote;
+      this.current_active_anotote.active = !this.current_active_anotote.active;
       if (this.current_active_anotote.type == 2)
         this.content.resize();
-      this.current_active_anotote.active = false;
-      if (this.current_active_anotote.id == anotote.id) {
-        this.current_active_anotote = null;
-        return;
-      }
-    }
-    this.current_active_anotote = anotote;
-    this.current_active_anotote.active = !this.current_active_anotote.active;
-    if (this.current_active_anotote.type == 2)
-      this.content.resize();
 
-    if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
-      this.current_active_anotote.activeParty = 1;
-      this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.annotote.id);
-    } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
-      this.current_active_anotote.activeParty = 2;
-      this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.annotote.id);
-    } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
-      this.getQuickChatHistory(anotote);
+      if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
+        this.current_active_anotote.activeParty = 1;
+        this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.annotote.id);
+      } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
+        this.current_active_anotote.activeParty = 2;
+        this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.annotote.id);
+      } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
+        this.getQuickChatHistory(anotote);
+      }
+    }else{
+      anotote.checked = !anotote.checked;
     }
   }
 
