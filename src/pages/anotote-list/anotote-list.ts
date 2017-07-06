@@ -269,6 +269,11 @@ export class AnototeList {
     this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data) => {
       let annotote = data.json().data.annotote;
       let followers: Array<any> = [];
+      for(let highlight of annotote.highlights){
+        if(highlight.deleted == 1){
+          annotote.highlights.splice(annotote.highlights.indexOf(highlight),1);
+        }
+      }
       this.current_active_anotote.setHighlights(annotote.highlights);
       for (let follower of annotote.follows) {
         followers.push(new User(follower.id, follower.firstName, follower.lastName, follower.email, follower.password, follower.photo));
