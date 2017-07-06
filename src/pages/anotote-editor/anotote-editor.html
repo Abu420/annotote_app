@@ -6,11 +6,15 @@
             </button>
         </ion-buttons>
         <ion-title>
-            <div class="dots_box">
+            <div class="arrows">
+                <span><img src="assets/img/new2.png"></span>
+                <span><img src="assets/img/new1.png"></span>
+            </div>
+            <!--<div class="dots_box">
                 <span class="un_active_dot"></span>
                 <span class="un_active_dot"></span>
                 <span class="dot"></span>
-            </div>
+            </div>-->
         </ion-title>
         <ion-buttons *ngIf="which_stream!='me'" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>
@@ -18,7 +22,8 @@
             </button>
         </ion-buttons>
         <ion-buttons end class="boxIcon">
-            <span><img src="assets/img/box.png" alt=""></span>
+            <span class="downImage"><img src="assets/img/new3.png" alt=""></span>
+            <!--<span><img src="assets/img/box.png" alt=""></span>-->
         </ion-buttons>
     </ion-toolbar>
 </ion-header>

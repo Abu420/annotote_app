@@ -49,7 +49,7 @@ import { Network } from '@ionic-native/network';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ActionSheet } from '@ionic-native/action-sheet';
+//import { ActionSheet } from '@ionic-native/action-sheet';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 /**
@@ -170,7 +170,6 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     Push,
     StatusBar,
     Network,
-    ActionSheet,
     InAppBrowser,
     SocialSharing,
     SplashScreen,

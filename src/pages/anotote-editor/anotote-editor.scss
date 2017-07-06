@@ -128,6 +128,13 @@ comment_detail_popup {
 }
 
 page-anotote-editor {
+    .toolbar {
+        contain: none;
+        overflow: visible;
+    }
+    .downImage {
+        margin-bottom: -40px;
+    }
     .inline_tote_options {
         position: absolute;
         bottom: 0;
