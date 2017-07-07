@@ -65,7 +65,7 @@
         "@ionic/app-scripts": "^1.3.12",
         "@ionic/cli-plugin-cordova": "1.4.0",
         "@ionic/cli-plugin-ionic-angular": "1.3.1",
-        "typescript": "~2.2.1"
+        "typescript": "~2.3.4"
     },
     "cordovaPlugins": [
         "cordova-plugin-whitelist",
@@ -81,8 +81,7 @@
     "description": "Anotot: An Ionic project",
     "cordova": {
         "platforms": [
-            "android",
-            "ios"
+            "android"
         ],
         "plugins": {
             "cordova-plugin-console": {},
@@ -93,11 +92,11 @@
             "cordova-plugin-whitelist": {},
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
+            "cordova-plugin-x-socialsharing": {},
+            "cordova-plugin-network-information": {},
             "phonegap-plugin-push": {
                 "SENDER_ID": "200726631075"
-            },
-            "cordova-plugin-x-socialsharing": {},
-            "cordova-plugin-network-information": {}
+            }
         }
     }
 }
