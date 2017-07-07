@@ -29,7 +29,7 @@ export class AnototeService {
 
 
   public fetchToteDetails(user_id: number, anotote_id: number) {
-    return this.http.get(this.constants.API_BASEURL+'/get-annotote-detail?user_id=' + user_id + '&annotote_id=' + anotote_id)
+    return this.http.get(this.constants.API_BASEURL+'/get-annotote-detail?user_id=' + user_id + '&user_annotote_id=' + anotote_id)
   }
 
   public mapAnototeListing(totes: Array<any>) {
