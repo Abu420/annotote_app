@@ -22,6 +22,7 @@ export class ListTotesModel{
   public active:boolean = false;
   public activeParty:number = 1; //1:me, 2:follows, 3:top
   private datetimeService:DatetimeService = null;
+  public checked:boolean;
   public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt){
     this.datetimeService = new DatetimeService();
     this.id = id;
@@ -32,6 +33,7 @@ export class ListTotesModel{
     this.chatGroup = chatGroup;
     this.createdAt = this.datetimeService.convertTimeFormat(createdAt);
     this.updatedAt = this.datetimeService.convertTimeFormat(updatedAt);
+    this.checked=false;
     if(this.userAnnotote != null){
       this.setHighlights(this.userAnnotote.annototeHeighlights);
     }

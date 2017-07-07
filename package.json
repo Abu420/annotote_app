@@ -80,8 +80,7 @@
     "description": "Anotot: An Ionic project",
     "cordova": {
         "platforms": [
-            "android",
-            "ios"
+            "android"
         ],
         "plugins": {
             "cordova-plugin-console": {},
@@ -92,11 +91,11 @@
             "cordova-plugin-whitelist": {},
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
+            "cordova-plugin-x-socialsharing": {},
+            "cordova-plugin-network-information": {},
             "phonegap-plugin-push": {
                 "SENDER_ID": "200726631075"
-            },
-            "cordova-plugin-x-socialsharing": {},
-            "cordova-plugin-network-information": {}
+            }
         }
     }
 }
