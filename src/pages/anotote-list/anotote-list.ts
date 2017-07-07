@@ -256,8 +256,22 @@ export class AnototeList {
       } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
         this.getQuickChatHistory(anotote);
       }
-    } else {
-      anotote.checked = !anotote.checked;
+    }else{
+      if(anotote.active){
+        anotote.active=false;
+      }
+      if(anotote.chatGroupId == null){
+        if(anotote.checked){
+          this.selected_totes.splice(this.selected_totes.indexOf(anotote),1);
+          anotote.checked = false;
+        }else{
+          this.selected_totes.push(anotote);
+          anotote.checked = true;
+        }
+      }else{
+        this.utilityMethods.message_alert("Information","You cannot select a chat tote. If you want to delete it, please long press it.")
+      }
+      
     }
   }
 
