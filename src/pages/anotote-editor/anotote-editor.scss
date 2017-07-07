@@ -120,6 +120,10 @@ comment_detail_popup {
             border: 1px solid #545454;
             color: #FFF;
             resize: none;
+            textarea.text-input {
+                resize: none;
+                margin: 0px;
+            }
         }
         .threeDosts {
             padding: 0px 20px 20px;

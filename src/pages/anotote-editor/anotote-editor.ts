@@ -53,12 +53,12 @@ export class AnototeEditor implements OnDestroy {
     private selectedText: string;
     private selection: any;
     private highlight: any;
-    private selected_highlight: { txt: '', identifier: '', type: '', comment: '' };
+    private selected_highlight: { txt: '', identifier: '', type: '', comment: '', from_where: '' };
     private selection_lock: boolean;
     private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
     private text: string; // Anotote article whole text
     private tote_id: string;
-    private anotote_list: string;
+    private from_where: string;
     private full_screen_mode: boolean;
     private detail_event: any;
     private which_stream: string;
@@ -75,10 +75,14 @@ export class AnototeEditor implements OnDestroy {
         this.tote_id = navParams.get('anotote_id');
         this.anotote_type = navParams.get('anotote_type');
         this.which_stream = navParams.get('which_stream');
-        this.anotote_list = navParams.get('from_where');
+        // this.from_where = navParams.get('from_where');
+        if (navParams.get('from_where') == 'anotote_list')
+            this.from_where = 'anotote_list';
+        else
+            this.from_where = 'new_anotote';
         this.highlight = navParams.get('highlight');
         this.full_screen_mode = false;
-        if (this.anotote_list == 'anotote_list')
+        if (this.from_where == 'anotote_list')
             setTimeout(function () {
                 that.scrollTo(that.highlight.identifier);
             }, 1000);
@@ -127,6 +131,7 @@ export class AnototeEditor implements OnDestroy {
         this.events.subscribe('show_tote_options', (data) => {
             if (this.which_stream == 'me') {
                 this.toggle_annotation_option = data.flag;
+                this.content.resize();
                 if (data.flag && !this.selection_lock) {
                     this.selectedText = data.txt;
                     this.selection = data.selection;
@@ -200,6 +205,7 @@ export class AnototeEditor implements OnDestroy {
                 txt: event.target.getAttribute("data-selectedtxt"),
                 identifier: event.target.getAttribute("data-identifier"),
                 type: event.target.getAttribute("class"),
+                from_where: '',
                 comment: event.target.getAttribute("data-comment")
             };
             this.presentCommentDetailModal(this.selected_highlight, event.target);
