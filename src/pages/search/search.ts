@@ -220,7 +220,11 @@ export class Search {
             }, (error) => {
                 this.utilityMethods.hide_loader();
                 this.search_loading = false;
-                if (error.code == -1) {
+                console.log(error);
+                if (error.status == 500) {
+                    this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                }
+                else if (error.code == -1) {
                     this.utilityMethods.internet_connection_error();
                 }
             });

@@ -91,7 +91,9 @@ page-anotote-list {
             padding: 0px;
             .item-inner {
                 padding: 0px;
-                .label-ios {
+                ion-label,
+                .label-ios,
+                .label-md {
                     margin: 0px;
                     >div {
                         display: table;
