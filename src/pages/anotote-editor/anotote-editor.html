@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [ngClass]="{'hide-header':showheader,'show-header':hideheader}">
     <ion-toolbar color="commonheader">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
@@ -7,7 +7,9 @@
             </div>
         </ion-title>
         <ion-buttons *ngIf="full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
-            <span class="downImage"><img src="assets/img/new3.png" alt=""></span>
+            <button style="background: transparent;">
+                <span class="downImage"><img src="assets/img/new3.png" alt=""></span>
+            </button>
         </ion-buttons>
         <ion-buttons start>
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
@@ -27,7 +29,9 @@
             </button>
         </ion-buttons>
         <ion-buttons *ngIf="!full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
-            <span><img src="assets/img/box.png" alt=""></span>
+            <button style="background: transparent;">
+                <span><img src="assets/img/box.png" alt=""></span>
+            </button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>

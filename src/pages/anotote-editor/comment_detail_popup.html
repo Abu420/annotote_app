@@ -22,8 +22,8 @@
         <div class="pop_txt">
             <p [innerText]="anotote_txt"></p>
         </div>
-        <div class="threeDosts">
-            <textarea placeholder="Enter Text"></textarea>
+        <div *ngIf="anotote_type=='highlight_comment'" class="threeDosts">
+            <ion-textarea [innerText]="anotote_comment" placeholder="Enter Text"></ion-textarea>
             <img src="assets/img/option-msg.png" alt="">
         </div>
     </div>

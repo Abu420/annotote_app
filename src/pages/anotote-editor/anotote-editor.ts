@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, Pipe, PipeTransform, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
@@ -38,22 +38,33 @@ export class SanitizeHtmlPipe implements PipeTransform {
 })
 export class AnototeEditor implements OnDestroy {
     @ViewChild(Content) content: Content;
+    /**
+     * Reg Scroll Hide/Show Header
+     */
+    public start = 0;
+    public threshold = 100;
+    public slideHeaderPrevious = 0;
+    public ionScroll: any;
+    public showheader: boolean;
+    public hideheader: boolean;
+    public headercontent: any;
     public toggle_annotation_option: boolean;
     public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
     private selectedText: string;
     private selection: any;
     private highlight: any;
-    private selected_highlight: { txt: '', identifier: '', type: '' };
+    private selected_highlight: { txt: '', identifier: '', type: '', comment: '' };
     private selection_lock: boolean;
     private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
     private text: string; // Anotote article whole text
     private tote_id: string;
+    private anotote_list: string;
     private full_screen_mode: boolean;
     private detail_event: any;
     private which_stream: string;
     private show_anotation_details: (txt: string) => void;
 
-    constructor(private _sanitizer: DomSanitizer, private authService: AuthenticationService, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
+    constructor(public myElement: ElementRef, private _sanitizer: DomSanitizer, private authService: AuthenticationService, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
         var that = this;
         this.toggle_annotation_option = false;
         this.selection_lock = false;
@@ -64,11 +75,13 @@ export class AnototeEditor implements OnDestroy {
         this.tote_id = navParams.get('anotote_id');
         this.anotote_type = navParams.get('anotote_type');
         this.which_stream = navParams.get('which_stream');
+        this.anotote_list = navParams.get('from_where');
         this.highlight = navParams.get('highlight');
         this.full_screen_mode = false;
-        setTimeout(function () {
-            that.scrollTo(that.highlight.identifier);
-        }, 1000);
+        if (this.anotote_list == 'anotote_list')
+            setTimeout(function () {
+                that.scrollTo(that.highlight.identifier);
+            }, 1000);
         /**
          * Document Selection Listner
          */
@@ -83,8 +96,28 @@ export class AnototeEditor implements OnDestroy {
                 events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
             }
         });
-        console.log(this.which_stream);
+        this.showheader = false;
+        this.hideheader = true;
+    }
 
+    ngOnInit() {
+        // Ionic scroll element
+        this.ionScroll = this.myElement.nativeElement.getElementsByClassName('scroll-content')[0];
+        // On scroll function
+        this.ionScroll.addEventListener("scroll", () => {
+            if (this.ionScroll.scrollTop - this.start > this.threshold) {
+                this.showheader = true;
+                this.hideheader = false;
+            } else {
+                this.showheader = false;
+                this.hideheader = true;
+            }
+            if (this.slideHeaderPrevious >= this.ionScroll.scrollTop - this.start) {
+                this.showheader = false;
+                this.hideheader = true;
+            }
+            this.slideHeaderPrevious = this.ionScroll.scrollTop - this.start;
+        });
     }
 
     /**
@@ -102,6 +135,7 @@ export class AnototeEditor implements OnDestroy {
             }
         });
         this.events.subscribe('show_anotation_details', (data) => {
+            console.log(data)
             this.presentCommentDetailModal(data.txt);
         });
     }
@@ -116,11 +150,10 @@ export class AnototeEditor implements OnDestroy {
     }
 
     change_full_screen_mode() {
-        console.log('hello')
-        this.full_screen_mode=!this.full_screen_mode;
+        this.full_screen_mode = !this.full_screen_mode;
     }
 
-    private highlight_(type, identifier) {
+    private highlight_(type, identifier, comment) {
         try {
             var self = this;
             var selection = window.getSelection();
@@ -128,15 +161,17 @@ export class AnototeEditor implements OnDestroy {
             range.setStart(this.selection.startContainer, this.selection.startOffset);
             range.setEnd(this.selection.endContainer, this.selection.endOffset);
             var newNode = document.createElement("highlight_quote");
-            newNode.onclick = function (this, evt) {
-                evt.stopPropagation();
-                var text = this.getAttribute('data-selectedtxt');
-                self.events.publish('show_anotation_details', { txt: text });
-            }
+            // newNode.onclick = function (this, evt) {
+            //     evt.stopPropagation();
+            //     var text = this.getAttribute('data-selectedtxt');
+            //     self.events.publish('show_anotation_details', { txt: text });
+            // }
             newNode.setAttribute("data-selectedtxt", this.selectedText);
             newNode.setAttribute("data-identifier", identifier);
-            if (type == 'comment')
+            if (type == 'comment') {
                 newNode.setAttribute("class", "highlight_comment");
+                newNode.setAttribute("data-comment", comment);
+            }
             else
                 newNode.setAttribute("class", "highlight_quote");
 
@@ -148,9 +183,7 @@ export class AnototeEditor implements OnDestroy {
     }
 
     scrollTo(identifier: string) {
-        console.log(identifier);
         let element: any = document.querySelectorAll('[data-identifier="' + identifier + '"]');
-        console.log(element);
         if (element != null && element.length > 0) {
             let yOffset = element[0].offsetTop;
             this.content.scrollTo(0, yOffset, 2000)
@@ -163,11 +196,11 @@ export class AnototeEditor implements OnDestroy {
         // console.log(event.target.getAttribute("data-selectedtxt"));
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
-            console.log(event.target);
             this.selected_highlight = {
                 txt: event.target.getAttribute("data-selectedtxt"),
                 identifier: event.target.getAttribute("data-identifier"),
-                type: event.target.getAttribute("class")
+                type: event.target.getAttribute("class"),
+                comment: event.target.getAttribute("data-comment")
             };
             this.presentCommentDetailModal(this.selected_highlight, event.target);
         }
@@ -208,7 +241,8 @@ export class AnototeEditor implements OnDestroy {
     }
 
     presentCommentDetailModal(highlight, element?) {
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier });
+        console.log(highlight)
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment });
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
                 console.log(highlight)
@@ -259,7 +293,7 @@ export class AnototeEditor implements OnDestroy {
         // this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText, type: type });
         var current_time = (new Date()).getTime() / 1000;
         var identifier = this.generate_dynamic_identifier(this.tote_id, this.authService.getUser().id, current_time);
-        this.highlight_(type, identifier);
+        this.highlight_(type, identifier, comment);
         this.utilityMethods.show_loader('Please wait...');
         var article_txt = document.getElementById('text_editor').innerHTML;
         this.searchService.create_anotation({ identifier: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, created_at: current_time, file_text: article_txt, comment: comment })
