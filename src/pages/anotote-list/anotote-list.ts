@@ -256,7 +256,6 @@ export class AnototeList {
       } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
         this.getQuickChatHistory(anotote);
       }
-<<<<<<< HEAD
     }else{
       if(anotote.active){
         anotote.active=false;
@@ -273,10 +272,6 @@ export class AnototeList {
         this.utilityMethods.message_alert("Information","You cannot select a chat tote. If you want to delete it, please long press it.")
       }
       
-=======
-    } else {
-      anotote.checked = !anotote.checked;
->>>>>>> 8d892d5f5b0e5b98b50db8d38a45319369ad7f21
     }
   }
 
