@@ -147,6 +147,10 @@ export class AnototeList {
     this.navCtrl.push(AnototeEditor, { from_where: 'anotote_list', tote_txt: scrapped_txt, anotote_id: anotote_id, highlight: highlight, which_stream: this.whichStream });
   }
 
+  reorderItems() {
+    console.log('hello');
+  }
+
   doInfinite(infiniteScroll) {
     //console.log('Begin async operation');
 
@@ -201,6 +205,8 @@ export class AnototeList {
   }
 
   bulkAction(anotote) {
+    if(anotote.active)
+      return;    
     if(this.edit_mode == false){
       this.edit_mode = true;
       anotote.checked = !anotote.checked;
