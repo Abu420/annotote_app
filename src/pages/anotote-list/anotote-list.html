@@ -103,7 +103,7 @@
                         </div>
                     </header>
                     <div class="quotes layout message-underlist">
-                        <ion-list no-lines class="details-list layout">
+                        <ion-list (ionItemReorder)="reorderItems($event)" reorder="true" no-lines class="details-list layout">
                             <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
