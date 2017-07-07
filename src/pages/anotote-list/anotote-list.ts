@@ -144,7 +144,7 @@ export class AnototeList {
   }
 
   go_to_browser(scrapped_txt, anotote_id, highlight) {
-    this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id, highlight: highlight, which_stream: this.whichStream });
+    this.navCtrl.push(AnototeEditor, { from_where: 'anotote_list', tote_txt: scrapped_txt, anotote_id: anotote_id, highlight: highlight, which_stream: this.whichStream });
   }
 
   doInfinite(infiniteScroll) {
@@ -161,7 +161,7 @@ export class AnototeList {
         if (stream.length <= 0) {
           infiniteScroll.enable(false);
         }
-      },(error)=>{
+      }, (error) => {
         this.utilityMethods.hide_loader();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
@@ -228,7 +228,7 @@ export class AnototeList {
   }
 
   go_to_editor(event) {
-    this.navCtrl.push(AnototeEditor, {});
+    // this.navCtrl.push(AnototeEditor, {});
   }
 
   openAnototeDetail(anotote:ListTotesModel) {
@@ -256,6 +256,7 @@ export class AnototeList {
       } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
         this.getQuickChatHistory(anotote);
       }
+<<<<<<< HEAD
     }else{
       if(anotote.active){
         anotote.active=false;
@@ -272,6 +273,10 @@ export class AnototeList {
         this.utilityMethods.message_alert("Information","You cannot select a chat tote. If you want to delete it, please long press it.")
       }
       
+=======
+    } else {
+      anotote.checked = !anotote.checked;
+>>>>>>> 8d892d5f5b0e5b98b50db8d38a45319369ad7f21
     }
   }
 
@@ -298,9 +303,9 @@ export class AnototeList {
     this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data) => {
       let annotote = data.json().data.annotote;
       let followers: Array<any> = [];
-      for(let highlight of annotote.highlights){
-        if(highlight.deleted == 1){
-          annotote.highlights.splice(annotote.highlights.indexOf(highlight),1);
+      for (let highlight of annotote.highlights) {
+        if (highlight.deleted == 1) {
+          annotote.highlights.splice(annotote.highlights.indexOf(highlight), 1);
         }
       }
       this.current_active_anotote.setHighlights(annotote.highlights);

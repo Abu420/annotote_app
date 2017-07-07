@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "noStrictGenericChecks": true,
         "allowSyntheticDefaultImports": true,
         "declaration": false,
         "emitDecoratorMetadata": true,

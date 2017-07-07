@@ -57,7 +57,6 @@
         "rxjs": "5.1.1",
         "sw-toolbox": "3.4.0",
         "tslint": "^5.4.3",
-        "typescript": "^2.3.4",
         "underscore": "^1.8.3",
         "zone.js": "^0.8.5"
     },
@@ -65,7 +64,7 @@
         "@ionic/app-scripts": "^1.3.12",
         "@ionic/cli-plugin-cordova": "1.4.0",
         "@ionic/cli-plugin-ionic-angular": "1.3.1",
-        "typescript": "~2.3.4"
+        "typescript": "^2.3.4"
     },
     "cordovaPlugins": [
         "cordova-plugin-whitelist",
