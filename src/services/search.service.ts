@@ -131,6 +131,28 @@ export class SearchService {
     }
 
     /**
+    * Update Anotation API
+    * type: {POST}
+    * params: [annotation_id, highlight_text, file_text, comment, identifier, updated_at]
+    */
+    public update_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/update';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+    * Reorder Anotation API
+    * type: {POST}
+    * params: [annotation_ids, order]
+    */
+    public reorder_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/updateOrder';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
      * Get Anotote Content API
      * type: {GET}
      * params: [url], 

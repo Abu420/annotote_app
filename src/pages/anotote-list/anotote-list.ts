@@ -59,8 +59,9 @@ export class AnototeList {
   public current_page: number = 1;
   public has_totes: boolean = true;
   public messages: any = [];
+  private reorder_highlights: boolean;
   public user: any;
-  public selected_totes: Array<ListTotesModel>= [];
+  public selected_totes: Array<ListTotesModel> = [];
   /**
    * Constructor
    */
@@ -70,6 +71,7 @@ export class AnototeList {
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
     this.user = authService.getUser();
+    this.reorder_highlights = false;
   }
 
   public setStreamType(streamType) {
@@ -104,11 +106,21 @@ export class AnototeList {
       }
       this.utilityMethods.hide_loader();
     }, (error) => {
+      console.log(error);
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
     });
+
+    /**
+     * Anotation List Reorder Check
+     */
+    console.log(this.whichStream)
+    if (this.whichStream == 'me')
+      this.reorder_highlights = true;
+    else
+      this.reorder_highlights = false;
 
   }
 
@@ -147,8 +159,28 @@ export class AnototeList {
     this.navCtrl.push(AnototeEditor, { from_where: 'anotote_list', tote_txt: scrapped_txt, anotote_id: anotote_id, highlight: highlight, which_stream: this.whichStream });
   }
 
-  reorderItems() {
-    console.log('hello');
+  reorderItems(indexes, anotote) {
+    let element = anotote.highlights[indexes.from];
+    anotote.highlights.splice(indexes.from, 1);
+    anotote.highlights.splice(indexes.to, 0, element);
+
+    var _anotation_ids = "", _orders = "", counter = 1;
+    for (let highlight of anotote.highlights) {
+      _anotation_ids += highlight.id + ",";
+      _orders += counter + ",";
+      counter++;
+    }
+    if (_anotation_ids.length > 0)
+      _anotation_ids = _anotation_ids.slice(0, -1);
+    if (_orders.length > 0)
+      _orders = _orders.slice(0, -1);
+
+    this.searchService.reorder_anotation({ annotation_ids: _anotation_ids, order: _orders })
+      .subscribe((res) => {
+        console.log(res);
+      }, (error) => {
+        console.log(error);
+      });
   }
 
   doInfinite(infiniteScroll) {
@@ -205,14 +237,14 @@ export class AnototeList {
   }
 
   bulkAction(anotote) {
-    if(anotote.active)
-      return;    
-    if(this.edit_mode == false){
+    if (anotote.active)
+      return;
+    if (this.edit_mode == false) {
       this.edit_mode = true;
       anotote.checked = !anotote.checked;
-    }else{
-      if(anotote.chatGroup != null){
-        this.utilityMethods.confirmation_message("Are you sure?","Do you really want to delete this chat group",function(){
+    } else {
+      if (anotote.chatGroup != null) {
+        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", function () {
           console.log('deleted');
         })
       }
@@ -222,9 +254,9 @@ export class AnototeList {
   close_bulk_actions() {
     this.edit_mode = false;
     this.selected_totes = [];
-    for(let tote of this.anototes){
-      if(tote.checked){
-        tote.checked=false;
+    for (let tote of this.anototes) {
+      if (tote.checked) {
+        tote.checked = false;
       }
     }
   }
@@ -237,8 +269,8 @@ export class AnototeList {
     // this.navCtrl.push(AnototeEditor, {});
   }
 
-  openAnototeDetail(anotote:ListTotesModel) {
-    if(!this.edit_mode){
+  openAnototeDetail(anotote: ListTotesModel) {
+    if (!this.edit_mode) {
       if (this.current_active_anotote) {
         if (this.current_active_anotote.type == 2)
           this.content.resize();
@@ -262,22 +294,22 @@ export class AnototeList {
       } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
         this.getQuickChatHistory(anotote);
       }
-    }else{
-      if(anotote.active){
-        anotote.active=false;
+    } else {
+      if (anotote.active) {
+        anotote.active = false;
       }
-      if(anotote.chatGroupId == null){
-        if(anotote.checked){
-          this.selected_totes.splice(this.selected_totes.indexOf(anotote),1);
+      if (anotote.chatGroupId == null) {
+        if (anotote.checked) {
+          this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
           anotote.checked = false;
-        }else{
+        } else {
           this.selected_totes.push(anotote);
           anotote.checked = true;
         }
-      }else{
-        this.utilityMethods.message_alert("Information","You cannot select a chat tote. If you want to delete it, please long press it.")
+      } else {
+        this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.")
       }
-      
+
     }
   }
 
@@ -384,17 +416,17 @@ export class AnototeList {
     viewsOptionsModal.present();
   }
 
-  share_totes(){
-    var message ='';
-    for(let tote of this.anototes){
-      if(tote.checked){
+  share_totes() {
+    var message = '';
+    for (let tote of this.anototes) {
+      if (tote.checked) {
         message += tote.userAnnotote.filePath + '\n';
       }
     }
-    this.utilityMethods.share_content_native(message,'','','');
+    this.utilityMethods.share_content_native(message, '', '', '');
   }
 
-  delete_totes(){
+  delete_totes() {
 
   }
 

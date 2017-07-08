@@ -253,6 +253,8 @@ export class AnototeEditor implements OnDestroy {
             if (data.delete) {
                 console.log(highlight)
                 this.remove_annotation_api(highlight.identifier, element);
+            } else if (data.update) {
+                this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             }
         });
         commentDetailModal.present();
@@ -288,6 +290,22 @@ export class AnototeEditor implements OnDestroy {
         element.replaceWith(element.innerText);
         var article_txt = document.getElementById('text_editor').innerHTML;
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
+            .subscribe((response) => {
+                this.utilityMethods.hide_loader();
+            }, (error) => {
+                this.utilityMethods.hide_loader();
+            });
+    }
+
+    update_annotation_api(anotation_id, highlight_text, comment, identifier, element) {
+        console.log(element);
+        this.utilityMethods.show_loader('Please wait...');
+        var current_time = (new Date()).getTime() / 1000;
+        // element.replaceWith(element.innerText);
+        element.setAttribute("data-comment", comment);
+        console.log(element);
+        var article_txt = document.getElementById('text_editor').innerHTML;
+        this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
             }, (error) => {

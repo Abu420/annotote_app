@@ -21,19 +21,20 @@ export class CommentDetailPopup {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss({ delete: false, share: false });
+    this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
   }
 
   delete() {
-    this.viewCtrl.dismiss({ delete: true, share: false });
+    this.viewCtrl.dismiss({ delete: true, share: false, update: false, comment: '' });
   }
 
   share() {
-    this.viewCtrl.dismiss({ share: true, delete: false });
+    this.viewCtrl.dismiss({ share: true, delete: false, update: false, comment: '' });
   }
 
   update_comment() {
-    console.log(this.anotote_comment)
+    console.log(this.anotote_comment);
+    this.viewCtrl.dismiss({ share: true, delete: false, update: true, comment: this.anotote_comment });
   }
 
   doTextareaValueChange(ev) {
