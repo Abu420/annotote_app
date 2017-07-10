@@ -114,6 +114,15 @@ export class UtilityMethods {
     }
 
     /**
+     * Get PHP Wala tame
+     */
+    get_php_wala_time() {
+        var current_time = (new Date()).getTime() / 1000;
+        current_time = Math.round(current_time);
+        return current_time;
+    }
+
+    /**
      * Message alert to show just alert message without any callback etc
      */
     message_alert(title, msg) {
@@ -142,7 +151,7 @@ export class UtilityMethods {
         alert.present();
     }
 
-    confirmation_message(title,msg,callback){
+    confirmation_message(title, msg, callback) {
         let alert = this.alertCtrl.create({
             title: title,
             subTitle: msg,
@@ -151,10 +160,10 @@ export class UtilityMethods {
                 handler: () => {
                     callback();
                 }
-            },{
+            }, {
                 text: 'Cancel',
-                role:'cancel',
-                handler: () => {}
+                role: 'cancel',
+                handler: () => { }
             }]
         });
         alert.present();

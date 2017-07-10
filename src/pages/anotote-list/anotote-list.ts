@@ -142,11 +142,12 @@ export class AnototeList {
   }
 
   open_browser(anotote, highlight) {
+    console.log(anotote);
     this.utilityMethods.show_loader('');
     this.searchService.get_anotote_content(anotote.userAnnotote.filePath)
       .subscribe((response_content) => {
         this.utilityMethods.hide_loader();
-        this.go_to_browser(response_content.text(), anotote.userAnnotote.id, highlight);
+        this.go_to_browser(response_content.text(), anotote.userAnnotote.annototeId, anotote.userAnnotote.id, highlight, anotote.userAnnotote.userId);
       }, (error) => {
         this.utilityMethods.hide_loader();
         if (error.code == -1) {
@@ -155,8 +156,9 @@ export class AnototeList {
       });
   }
 
-  go_to_browser(scrapped_txt, anotote_id, highlight) {
-    this.navCtrl.push(AnototeEditor, { from_where: 'anotote_list', tote_txt: scrapped_txt, anotote_id: anotote_id, highlight: highlight, which_stream: this.whichStream });
+  go_to_browser(scrapped_txt, anotote_id, user_anotote_id, highlight, user_id) {
+    console.log(user_id)
+    this.navCtrl.push(AnototeEditor, { from_where: 'anotote_list', tote_txt: scrapped_txt, main_anotote_id: anotote_id, anotote_id: user_anotote_id, highlight: highlight, which_stream: this.whichStream, anotote_user_id: user_id });
   }
 
   reorderItems(indexes, anotote) {

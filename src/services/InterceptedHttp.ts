@@ -13,7 +13,7 @@ export class InterceptedHttp extends Http {
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         if (!this.utils.isOffline())
             return super.request(url, options)
-                .timeout(10000).catch(err => {
+                .timeout(60000).catch(err => {
                     if (err.name !== "TimeoutError") {
                         return Observable.throw({ "error": "Timeout has occurred", "code": -2 });
                     }
@@ -52,6 +52,8 @@ export class InterceptedHttp extends Http {
         if (_token)
             options.headers.set('Authorization', _token);
 
+        options.headers.set("Cache-Control", "no-cache");
+        options.headers.set("Pragma", "no-cache");
         return options;
     }
 }

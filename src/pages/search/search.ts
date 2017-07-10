@@ -97,7 +97,7 @@ export class Search {
 
     save_search_entry() {
         let self = this;
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         this.searchService.save_search_entry({
             created_at: current_time,
             book_marked: 0,
@@ -124,7 +124,7 @@ export class Search {
     followUser(event, person) {
         event.stopPropagation();
         let self = this;
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         this.utilityMethods.show_loader('Please wait...');
         this.searchService.follow_user({
             created_at: current_time,
@@ -144,7 +144,7 @@ export class Search {
     unFollowUser(event, person) {
         event.stopPropagation();
         let self = this;
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         this.utilityMethods.show_loader('Please wait...');
         this.searchService.un_follow_user({
             created_at: current_time,
@@ -175,7 +175,7 @@ export class Search {
         let self = this;
 
         var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         this.search_loading = true;
         if (!url_or_user) {
             this.entering_url = false;
@@ -196,7 +196,7 @@ export class Search {
     }
 
     scrape_this_url() {
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         this.utilityMethods.show_loader('Please wait...');
         /**
          * Create Anotote API

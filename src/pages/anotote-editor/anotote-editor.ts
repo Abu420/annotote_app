@@ -58,6 +58,8 @@ export class AnototeEditor implements OnDestroy {
     private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
     private text: string; // Anotote article whole text
     private tote_id: string;
+    private main_anotote_id: string;
+    private tote_user_id: string;
     private from_where: string;
     private full_screen_mode: boolean;
     private detail_event: any;
@@ -73,6 +75,8 @@ export class AnototeEditor implements OnDestroy {
          */
         this.text = navParams.get('tote_txt');
         this.tote_id = navParams.get('anotote_id');
+        this.main_anotote_id = navParams.get('main_anotote_id');
+        this.tote_user_id = navParams.get('anotote_user_id');
         this.anotote_type = navParams.get('anotote_type');
         this.which_stream = navParams.get('which_stream');
         // this.from_where = navParams.get('from_where');
@@ -158,6 +162,29 @@ export class AnototeEditor implements OnDestroy {
         this.full_screen_mode = !this.full_screen_mode;
     }
 
+    add_to_me_stream() {
+        this.utilityMethods.show_loader('Please wait...');
+        var current_time = this.utilityMethods.get_php_wala_time();
+        var params = {
+            annotote_id: this.main_anotote_id,
+            user_id: this.tote_user_id,
+            created_at: current_time
+        };
+        this.searchService.save_anotote_to_me_stream(params)
+            .subscribe((res) => {
+                this.utilityMethods.hide_loader();
+                if (res.data.code == 444) {
+                    this.utilityMethods.doToast("This anotote is already added to your me stream.");
+                    return;
+                }
+                this.utilityMethods.doToast("This anotote is added to your me stream successfully.");
+                console.log(res);
+            }, (error) => {
+                this.utilityMethods.hide_loader();
+                console.log(error);
+            });
+    }
+
     private highlight_(type, identifier, comment) {
         try {
             var self = this;
@@ -184,6 +211,7 @@ export class AnototeEditor implements OnDestroy {
             selection.removeAllRanges();
         } catch (e) {
             console.log(e);
+            this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
         }
     }
 
@@ -286,9 +314,10 @@ export class AnototeEditor implements OnDestroy {
 
     remove_annotation_api(an_id, element) {
         this.utilityMethods.show_loader('Please wait...');
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
         var article_txt = document.getElementById('text_editor').innerHTML;
+        console.log(article_txt);
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
@@ -300,7 +329,7 @@ export class AnototeEditor implements OnDestroy {
     update_annotation_api(anotation_id, highlight_text, comment, identifier, element) {
         console.log(element);
         this.utilityMethods.show_loader('Please wait...');
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
         element.setAttribute("data-comment", comment);
         console.log(element);
@@ -315,7 +344,7 @@ export class AnototeEditor implements OnDestroy {
 
     add_annotation_api(type, comment) {
         // this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText, type: type });
-        var current_time = (new Date()).getTime() / 1000;
+        var current_time = this.utilityMethods.get_php_wala_time();
         var identifier = this.generate_dynamic_identifier(this.tote_id, this.authService.getUser().id, current_time);
         this.highlight_(type, identifier, comment);
         this.utilityMethods.show_loader('Please wait...');

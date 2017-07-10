@@ -109,6 +109,17 @@ export class SearchService {
     }
 
     /**
+    * Save Anotote to ME Stream API
+    * type: {POST}
+    * params: [annotote_id, user_id, created_at]
+    */
+    public save_anotote_to_me_stream(params) {
+        var url = this.constants.API_BASEURL + '/save-annotote';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
     * Create Anotation on Anotote API
     * type: {POST}
     * params: [url, created_at]
