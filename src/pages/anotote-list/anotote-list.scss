@@ -96,12 +96,14 @@ page-anotote-list {
                 .label-md {
                     margin: 0px;
                     >div {
-                        display: table;
+                        display: block;
+						overflow: hidden;
                         width: 100%;
                         border-bottom: 1px solid #CCC;
                         .img-holder {
-                            display: table-cell;
-                            width: 20%;
+                            float: left;
+                            width: 60px;
+							margin-right: 10px;
                             vertical-align: middle;
                             img {
                                 vertical-align: middle;
@@ -114,8 +116,6 @@ page-anotote-list {
                             text-align: center;
                         }
                         .txt {
-                            display: table-cell;
-                            width: 80%;
                             vertical-align: middle;
                             padding: 0px 10px;
                             position: relative;
@@ -152,8 +152,6 @@ page-anotote-list {
                             margin: 0px;
                             padding: 0px;
                             list-style: none;
-                            display: inline-block;
-                            width: 10%;
                             vertical-align: top;
                             padding-top: 25px;
                             img {
@@ -164,29 +162,25 @@ page-anotote-list {
                     .activeTote {
                         .options {
                             height: 74px;
-                            display: inline-block;
+                            float: left;
                             vertical-align: middle;
-                            width: 15vw;
+                            width: 60px;
                             background-image: url(../assets/img/option-icon.png);
                             background-position: center center;
                             background-repeat: no-repeat;
                             background-size: 8px;
-                        }
-                        .txt {
-                            width: 85%;
                         }
                     }
                     .ng-trigger {
                         .details-list {
                             .item {
                                 .item-inner {
-                                    .label-ios {
+                                    ion-label {
                                         padding: 15px 0px 0 20px;
-                                        display: table;
+                                        display: block;
                                         width: 100%;
                                         figure {
-                                            display: table-cell;
-                                            vertical-align: top;
+                                            float: left;
                                             padding: 3px 0 0;
                                         }
                                         .check-text {
@@ -228,7 +222,7 @@ page-anotote-list {
                         .underlist-items {
                             .item-inner {
                                 .input-wrapper {
-                                    .label-ios {
+                                    ion-label {
                                         padding: 10px 0px 10px 20px;
                                         .txt {
                                             border-bottom: 0px;

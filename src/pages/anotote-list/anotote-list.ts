@@ -405,7 +405,7 @@ export class AnototeList {
   openSearchPopup() {
     var url = null;
     console.log(this.current_active_anotote);
-    if (this.current_active_anotote != null)
+    if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote)
       url = this.current_active_anotote.userAnnotote.annotote.link;
     let searchModal = this.modalCtrl.create(Search, { link: url });
     searchModal.onDidDismiss(data => {
