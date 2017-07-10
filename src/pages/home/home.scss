@@ -196,11 +196,19 @@ page-home {
             padding: 0px;
             .item-inner {
                 padding: 0px;
-                .label-ios {
+                ion-label{
                     margin: 0px;
                     .txt {
                         position: relative;
                         padding: 10px 20px;
+						strong{
+							width: 85%;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							display: -webkit-box;
+							-webkit-box-orient: vertical;
+							-webkit-line-clamp: 1;
+						}
                         .time {
                             color: #969696;
                         }

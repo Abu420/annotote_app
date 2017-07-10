@@ -80,7 +80,8 @@
     "description": "Anotot: An Ionic project",
     "cordova": {
         "platforms": [
-            "android"
+            "android",
+            "ios"
         ],
         "plugins": {
             "cordova-plugin-console": {},

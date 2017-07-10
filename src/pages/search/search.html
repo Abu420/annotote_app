@@ -23,11 +23,11 @@
             <span>New search or address</span>
         </ion-item>
         <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
-            <ion-icon name="search"></ion-icon>
+            <img src="assets/img/searchBlack.png" alt="">
             <span>No results</span>
         </ion-item>
         <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length>0 && !search_loading" class="searchFilter">
-            <ion-icon name="search"></ion-icon>
+            <img src="assets/img/searchBlack.png" alt="">
             <span>Search (enter)</span>
         </ion-item>
         <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length>0 && entering_url" class="searchFilter">
