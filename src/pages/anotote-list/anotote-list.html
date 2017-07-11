@@ -52,8 +52,8 @@
 <ion-content swipe-vertical padding>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0" class="product-list">
-            <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
-                <div [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
+            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
+                <div (press)="bulkAction(anotote)" [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
+                <div (press)="enable_list_reorder(anotote)" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
                     <header class="listHeader">
                         <div class="underlist-text">
                             <div class="btns-area">

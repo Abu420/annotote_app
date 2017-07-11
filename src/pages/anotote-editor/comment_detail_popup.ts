@@ -29,7 +29,8 @@ export class CommentDetailPopup {
   }
 
   share() {
-    this.viewCtrl.dismiss({ share: true, delete: false, update: false, comment: '' });
+    var share_txt = this.anotote_txt;
+    this.viewCtrl.dismiss({ share: true, delete: false, update: false, comment: share_txt });
   }
 
   update_comment() {

@@ -103,6 +103,20 @@ page-follows {
         padding: 0px !important;
     }
     #wrapper {
+        .follows_spinner {
+            position: relative;
+            width: 100%;
+            ion-spinner {
+                position: absolute;
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                right: 0;
+                left: 0;
+                top: 10px;
+                margin: auto;
+            }
+        }
         box-shadow: none;
         .product-list {
             margin-top: 0px !important;

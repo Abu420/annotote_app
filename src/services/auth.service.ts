@@ -89,6 +89,17 @@ export class AuthenticationService {
    * type: {POST}
    * params: [], 
    */
+  public get_follows() {
+    var url = this.constants.API_BASEURL + '/get-follows?user_id=' + this._user.id;
+    var response = this.http.get(url, {}).map(res => res.json());
+    return response;
+  }
+
+  /**
+   * Get User Follows API
+   * type: {POST}
+   * params: [], 
+   */
   public logout() {
     var url = this.constants.API_BASEURL + '/logout';
     var response = this.http.get(url, {}).map(res => res.json());

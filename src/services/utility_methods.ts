@@ -28,6 +28,7 @@ export class UtilityMethods {
      * Native Share
      */
     share_content_native(message, subject, file, url) {
+        console.log(message);
         this.socialSharing.share(message, subject, file, url).then(() => {
             // Sharing via email is possible
         }).catch(() => {

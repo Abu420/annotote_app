@@ -53,7 +53,7 @@ export class InterceptedHttp extends Http {
             options.headers.set('Authorization', _token);
 
         options.headers.set("Cache-Control", "no-cache");
-        options.headers.set("Pragma", "no-cache");
+        // options.headers.set("Pragma", "no-cache");
         return options;
     }
 }

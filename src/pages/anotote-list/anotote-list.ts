@@ -112,16 +112,6 @@ export class AnototeList {
         this.utilityMethods.internet_connection_error();
       }
     });
-
-    /**
-     * Anotation List Reorder Check
-     */
-    console.log(this.whichStream)
-    if (this.whichStream == 'me')
-      this.reorder_highlights = true;
-    else
-      this.reorder_highlights = false;
-
   }
 
   ionViewWillLeave() {
@@ -208,6 +198,12 @@ export class AnototeList {
     }, 500);
   }
 
+  follows(event) {
+    console.log(event)
+    event.stopPropagation();
+    this.navCtrl.push(Follows, {});
+  }
+
   open_follows_popup(event) {
     if (this.current_active_anotote.followers.length == 0)
       return false;
@@ -272,6 +268,7 @@ export class AnototeList {
   }
 
   openAnototeDetail(anotote: ListTotesModel) {
+    this.reorder_highlights = false;
     if (!this.edit_mode) {
       if (this.current_active_anotote) {
         if (this.current_active_anotote.type == 2)
@@ -331,6 +328,11 @@ export class AnototeList {
       }
       this.utilityMethods.doToast("Couldn't load chat history.");
     });
+  }
+
+  enable_list_reorder() {
+    if (this.whichStream == 'me')
+      this.reorder_highlights = true;
   }
 
   public setSimpleToteDetails(user_id, tote_id) {

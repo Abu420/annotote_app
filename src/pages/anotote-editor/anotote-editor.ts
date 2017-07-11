@@ -209,9 +209,11 @@ export class AnototeEditor implements OnDestroy {
 
             range.surroundContents(newNode);
             selection.removeAllRanges();
+            return true;
         } catch (e) {
             console.log(e);
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
+            return false;
         }
     }
 
@@ -283,6 +285,8 @@ export class AnototeEditor implements OnDestroy {
                 this.remove_annotation_api(highlight.identifier, element);
             } else if (data.update) {
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
+            } else if (data.share) {
+                this.utilityMethods.share_content_native('Deep Link', highlight.txt, null, null);
             }
         });
         commentDetailModal.present();
@@ -346,7 +350,8 @@ export class AnototeEditor implements OnDestroy {
         // this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText, type: type });
         var current_time = this.utilityMethods.get_php_wala_time();
         var identifier = this.generate_dynamic_identifier(this.tote_id, this.authService.getUser().id, current_time);
-        this.highlight_(type, identifier, comment);
+        if (!this.highlight_(type, identifier, comment))
+            return;
         this.utilityMethods.show_loader('Please wait...');
         var article_txt = document.getElementById('text_editor').innerHTML;
         this.searchService.create_anotation({ identifier: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, created_at: current_time, file_text: article_txt, comment: comment })
