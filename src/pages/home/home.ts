@@ -3,6 +3,7 @@ import { App, IonicPage, Events, NavController, NavParams, ModalController, Plat
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
+import { MeOptions } from '../home/me_options';
 import { TopInterests } from '../home/top_interests';
 import { TopOptions } from '../home/top_options';
 import { Search } from '../search/search';
@@ -168,8 +169,20 @@ export class Home {
     searchModal.present();
   }
 
-  presentSettingsModal(event) {
+  presentMeOptionsModal(event) {
     event.stopPropagation();
+    let self = this;
+    let meOptionsModal = this.modalCtrl.create(MeOptions, null);
+    meOptionsModal.onDidDismiss(data => {
+      console.log(data);
+      if (data == 'settings') {
+        this.presentSettingsModal();
+      }
+    });
+    meOptionsModal.present();
+  }
+
+  presentSettingsModal() {
     let self = this;
     let settingsModal = this.modalCtrl.create(Settings, null);
     settingsModal.onDidDismiss(data => {

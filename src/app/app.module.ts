@@ -16,6 +16,7 @@ import { Chat } from '../pages/chat/chat';
 import { SearchResults } from '../pages/search-results/search-results';
 import { Home } from '../pages/home/home';
 import { Settings } from '../pages/home/settings';
+import { MeOptions } from '../pages/home/me_options';
 import { AnototeOptions } from '../pages/anotote-list/tote_options';
 import { CommentDetailPopup } from '../pages/anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../pages/anotote-editor/create_anotation';
@@ -109,6 +110,7 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     CreateAnotationPopup,
     CommentDetailPopup,
     Settings,
+    MeOptions,
     Search,
     TextEditor,
     SearchField,
@@ -158,6 +160,7 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     Follows,
     Profile,
     Settings,
+    MeOptions,
     TopOptions,
     FollowsPopup,
     ViewOptions,
