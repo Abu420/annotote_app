@@ -22,10 +22,10 @@
         <div class="pop_txt">
             <p [innerText]="anotote_txt"></p>
         </div>
+        <button type="submit" style="opacity:0;"></button>
         <div *ngIf="anotote_type=='highlight_comment'" class="threeDosts">
             <ion-textarea [value]="anotote_comment" (input)="doTextareaValueChange($event)" placeholder="Enter Text"></ion-textarea>
             <img src="assets/img/option-msg.png" alt="">
-            <img (click)="update_comment()" src="assets/img/option-msg.png" alt="">
         </div>
     </form>
 </div>

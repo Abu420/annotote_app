@@ -314,6 +314,8 @@ export class AnototeEditor implements OnDestroy {
      * Create Anotation Comment Type
      */
     private create_anotation(comment) {
+        if (!comment)
+            comment = '';
         this.add_annotation_api('comment', comment);
     }
 
