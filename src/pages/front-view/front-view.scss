@@ -1,4 +1,13 @@
 page-front-view {
+	.scroll-content{
+		padding: 10px 16px 16px !important;
+	}
+	ion-buttons{
+		img{
+			width: 30px;
+			margin: 11px 0px 11px 25px;
+		}
+	}
     #header button {
         font-size: 28px;
         line-height: 32px;
@@ -38,6 +47,7 @@ page-front-view {
     }
     .user-controls button span {
         padding-left: 18px;
+		font-weight: bold;
         display: inline-block;
         vertical-align: middle;
     }
@@ -72,7 +82,7 @@ page-front-view {
         background: gray;
     }
     .product-list .txt {
-        padding: 14px 10px 5px 20px;
+        padding: 24px 10px 5px 20px;
         color: #cbcbcb;
         overflow: hidden;
     }
@@ -80,7 +90,7 @@ page-front-view {
         margin: 0 0 8px;
         color: #0f000f;
         display: block;
-        margin: 0 0 8px;
+        margin: 0;
         color: #0f000f;
         display: block;
         white-space: nowrap;
@@ -99,6 +109,7 @@ page-front-view {
         padding: 0;
         float: right;
         background: none;
+		margin-top: 2px !important;
     }
     .product-list .txt span {
         overflow: hidden;

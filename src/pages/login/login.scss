@@ -1,4 +1,13 @@
 page-login {
+	.scroll-content{
+		padding: 10px 16px 16px !important;	
+	}
+	ion-buttons{
+		img{
+			width: 30px;
+			margin: 11px 0px 11px 25px;
+		}
+	}
     .fixed-content {
         margin-bottom: $toolbar-snakebar-bottom !important;
     }
