@@ -42,6 +42,10 @@ export class Settings {
       });
   }
 
+  open_annotote_site() {
+    this.utilityMethods.launch('https://annotote.wordpress.com');
+  }
+
   dismiss(action) {
     if (action)
       this.viewCtrl.dismiss(action);

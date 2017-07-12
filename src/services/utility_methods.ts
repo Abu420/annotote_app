@@ -29,10 +29,28 @@ export class UtilityMethods {
      */
     share_content_native(message, subject, file, url) {
         console.log(message);
-        this.socialSharing.share(message, subject, file, url).then(() => {
+        this.socialSharing.share(message, subject, file, url).then((res) => {
             // Sharing via email is possible
         }).catch(() => {
             // Sharing via email is not possible
+        });
+    }
+
+    share_via_facebook(msg, image, url) {
+        this.socialSharing.shareViaFacebook(msg, image, url).then((res) => {
+        }).catch(() => {
+        });
+    }
+
+    share_via_twitter(msg, image, url) {
+        this.socialSharing.shareViaTwitter(msg, image, url).then((res) => {
+        }).catch(() => {
+        });
+    }
+
+    share_via_email(msg, subject, to) {
+        this.socialSharing.shareViaEmail(msg, subject, to).then((res) => {
+        }).catch(() => {
         });
     }
 

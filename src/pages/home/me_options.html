@@ -1,0 +1,31 @@
+<div class="top_empty_box" (tap)="dismiss()">
+</div>
+<div class="content_follows_profile">
+    <div class="pop_heading">Settings</div>
+    <ul no-lines class="sharing_pop bottom-border">
+        <li>
+            <ion-icon name="person"></ion-icon>
+            <span>Share</span>
+        </li>
+        <li (click)="share_me_tote('facebook')">
+            <span>Facebook</span>
+        </li>
+        <li (click)="share_me_tote('email')">
+            <span>Email</span>
+        </li>
+        <li (click)="share_me_tote('twitter')">
+            <span>Twitter</span>
+        </li>
+        <li (click)="share_me_tote('link')">
+            <span>...</span>
+        </li>
+    </ul>
+    <ul no-lines class="sharing_pop add">
+        <li>
+            <ion-icon name="settings"></ion-icon>
+        </li>
+        <li (click)="open_settings_menu()">
+            <em>Settings</em>
+        </li>
+    </ul>
+</div>
