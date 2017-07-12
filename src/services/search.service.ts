@@ -109,6 +109,17 @@ export class SearchService {
     }
 
     /**
+    * Save Anotote to ME Stream API
+    * type: {POST}
+    * params: [annotote_id, user_id, created_at]
+    */
+    public save_anotote_to_me_stream(params) {
+        var url = this.constants.API_BASEURL + '/save-annotote';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
     * Create Anotation on Anotote API
     * type: {POST}
     * params: [url, created_at]
@@ -126,6 +137,28 @@ export class SearchService {
     */
     public remove_anotation(params) {
         var url = this.constants.API_BASEURL + '/delete-user-annotation';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+    * Update Anotation API
+    * type: {POST}
+    * params: [annotation_id, highlight_text, file_text, comment, identifier, updated_at]
+    */
+    public update_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/update';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+    * Reorder Anotation API
+    * type: {POST}
+    * params: [annotation_ids, order]
+    */
+    public reorder_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/updateOrder';
         var response = this.http.post(url, params).map(res => res.json());
         return response;
     }

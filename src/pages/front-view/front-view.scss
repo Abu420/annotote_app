@@ -17,6 +17,14 @@ page-front-view {
         text-align: left;
         background: none;
         border-bottom: 1px solid #f7f4f4;
+		&:focus{
+			background: #f1f1f1;
+		}
+		img{
+			width: 20px;
+			display: inline-block;
+			vertical-align: middle;
+		}
     }
     .user-controls .item:first-child button {
         border-bottom: 2px solid #f0f0f0;
@@ -50,6 +58,11 @@ page-front-view {
     .product-list .item {
         border-top: 2px solid #f0f0f0 !important;
         overflow: hidden;
+		padding: 0px;
+		margin: 0px;
+		ion-label{
+			margin: 0 0 -2px;	
+		}
     }
     .product-list .img-holder,
     .product-list .img-holder img {
@@ -80,7 +93,6 @@ page-front-view {
     }
     .product-list em {
         float: right;
-        width: 56px;
         font-style: normal;
     }
     .product-list button {
@@ -90,5 +102,6 @@ page-front-view {
     }
     .product-list .txt span {
         overflow: hidden;
+		padding-right: 5px;
     }
 }

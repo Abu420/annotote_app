@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
 import { Home } from '../home/home';
 import { ForgotPassword } from '../forgot-password/forgot-password';
@@ -25,6 +25,7 @@ export class Login {
   public user: User;
   public focus_field: string;
   public device_id: string;
+  @ViewChild('useremail') useremail;
 
   /**
    * Constructor
@@ -117,7 +118,7 @@ export class Login {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
-      }else if (error.status == 404)
+      } else if (error.status == 404)
         this.utilityMethods.message_alert('Error', 'Invalid email or password.');
       else if (error.status == 400)
         this.utilityMethods.message_alert('Error', 'Your account is not verified. Verification email has already been sent.');

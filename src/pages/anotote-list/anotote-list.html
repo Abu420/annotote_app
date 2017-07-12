@@ -6,10 +6,7 @@
             </button>
         </ion-buttons>
         <ion-title *ngIf="!edit_mode">
-            <div class="dots_box">
-                <span class="un_active_dot"></span>
-                <span class="dot"></span>
-            </div>
+            <dot-navigation dots="3"></dot-navigation>
         </ion-title>
         <ion-buttons *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
@@ -52,8 +49,8 @@
 <ion-content swipe-vertical padding>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0" class="product-list">
-            <ion-item (press)="bulkAction(anotote)" *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
-                <div [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
+            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
+                <div (press)="bulkAction(anotote)" [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
@@ -92,7 +89,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
+                <div (press)="enable_list_reorder(anotote)" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
                     <header class="listHeader">
                         <div class="underlist-text">
                             <div class="btns-area">
@@ -103,7 +100,7 @@
                         </div>
                     </header>
                     <div class="quotes layout message-underlist">
-                        <ion-list (ionItemReorder)="reorderItems($event)" reorder="true" no-lines class="details-list layout">
+                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout">
                             <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
@@ -222,7 +219,7 @@
             </ion-item>
         </ion-list>-->
     </div>
-    <ion-fab *ngIf="!current_active_anotote" bottom right>
+    <ion-fab bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
             <img src="assets/img/tot_icon_white.png" />
         </button>

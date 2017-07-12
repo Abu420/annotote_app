@@ -13,97 +13,23 @@
         </ion-buttons>
     </ion-toolbar>
     <ion-toolbar class="follows_header" color="light" no-border>
-        <ion-title>Follows (47)</ion-title>
+        <ion-title>Follows ({{followings.length}})</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content swipe-vertical padding>
+<ion-content padding>
     <div id="wrapper">
+        <div *ngIf="!_loading" class="follows_spinner">
+            <ion-spinner name="ios"></ion-spinner>
+        </div>
         <ion-list no-lines class="product-list follows">
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
+            <ion-item *ngFor="let follower of followings" (click)="showProfile(follower)">
+                <!--<div class="img-holder"><img src="assets/img/img3.jpg"></div>-->
+                <ion-avatar item-start>
+                    <img src="assets/img/img3.jpg">
+                </ion-avatar>
                 <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <img src="assets/img/star-gray.png" alt="">
-                </div>
-            </ion-item>
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                    <img src="assets/img/star-gray.png" alt="">
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <img src="assets/img/star-gray.png" alt="">
-                </div>
-            </ion-item>
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                </div>
-            </ion-item>
-            <ion-item (click)="presentProfileModal()">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Alicia Marie</strong>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
+                    <strong [innerText]="follower.firstName + ' ' + follower.lastName" class="follow-name"></strong>
+                    <img *ngIf="follower.verified==1" src="assets/img/star-gray.png" alt="">
                 </div>
             </ion-item>
         </ion-list>

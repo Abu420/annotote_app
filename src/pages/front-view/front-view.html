@@ -21,11 +21,11 @@
     <div id="wrapper">
         <div no-lines class="user-controls layout">
             <button (tap)="login()" class="layout" type="button">
-                <ion-icon name="unlock"></ion-icon>
+                <img src="assets/img/lock.png" alt="">
                 <span>SIGN IN</span>
             </button>
             <button (tap)="signup()" class="layout" type="button">
-                <ion-icon name="person"></ion-icon>
+                <img src="assets/img/user.png" alt="">
                 <span>REGISTER</span>
             </button>
         </div>
@@ -37,7 +37,7 @@
                     <div class="time">
                         <em>
                       <button type="button"><ion-icon name="apps"></ion-icon></button>
-                      <span>{{(anotote.annotote.createdAt*1000) | amTimeAgo}}</span>
+                      <span>{{anotote.formated_time | amTimeAgo}}</span>
                     </em>
                         <span [innerText]="anotote.annotote.source"></span>
                     </div>

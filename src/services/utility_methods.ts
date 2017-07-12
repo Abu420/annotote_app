@@ -28,10 +28,29 @@ export class UtilityMethods {
      * Native Share
      */
     share_content_native(message, subject, file, url) {
-        this.socialSharing.share(message, subject, file, url).then(() => {
+        console.log(message);
+        this.socialSharing.share(message, subject, file, url).then((res) => {
             // Sharing via email is possible
         }).catch(() => {
             // Sharing via email is not possible
+        });
+    }
+
+    share_via_facebook(msg, image, url) {
+        this.socialSharing.shareViaFacebook(msg, image, url).then((res) => {
+        }).catch(() => {
+        });
+    }
+
+    share_via_twitter(msg, image, url) {
+        this.socialSharing.shareViaTwitter(msg, image, url).then((res) => {
+        }).catch(() => {
+        });
+    }
+
+    share_via_email(msg, subject, to) {
+        this.socialSharing.shareViaEmail(msg, subject, to).then((res) => {
+        }).catch(() => {
         });
     }
 
@@ -114,6 +133,15 @@ export class UtilityMethods {
     }
 
     /**
+     * Get PHP Wala tame
+     */
+    get_php_wala_time() {
+        var current_time = (new Date()).getTime() / 1000;
+        current_time = Math.round(current_time);
+        return current_time;
+    }
+
+    /**
      * Message alert to show just alert message without any callback etc
      */
     message_alert(title, msg) {
@@ -142,7 +170,7 @@ export class UtilityMethods {
         alert.present();
     }
 
-    confirmation_message(title,msg,callback){
+    confirmation_message(title, msg, callback) {
         let alert = this.alertCtrl.create({
             title: title,
             subTitle: msg,
@@ -151,10 +179,10 @@ export class UtilityMethods {
                 handler: () => {
                     callback();
                 }
-            },{
+            }, {
                 text: 'Cancel',
-                role:'cancel',
-                handler: () => {}
+                role: 'cancel',
+                handler: () => { }
             }]
         });
         alert.present();

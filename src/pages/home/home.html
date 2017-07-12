@@ -21,10 +21,10 @@
     <div id="wrapper">
         <ion-list class="home-list layout">
             <ion-item (click)="openAnototeList('me')" class="green">
-                <button clear="true" (click)="presentSettingsModal($event)" ion-button icon-only><img src="assets/img/bg-header_white.png"></button>
+                <button clear="true" (click)="presentMeOptionsModal($event)" ion-button icon-only><img src="assets/img/bg-header_white.png"></button>
                 <span class="txt">ME</span>
             </ion-item>
-            <ion-item (tap)="openAnototeList('follow')" class="yellow">
+            <ion-item (click)="openAnototeList('follow')" class="yellow">
                 <button clear="true" (click)="follows($event)" ion-button icon-only><img src="assets/img/bg-header_white.png"></button>
                 <span class="txt">FOLLOWS</span>
             </ion-item>

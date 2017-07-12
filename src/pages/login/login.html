@@ -24,10 +24,10 @@
         <form name="login_form" class="form-area">
             <div class="input-holder layout" [ngClass]="focus_field=='email'?'active':''">
                 <ion-icon name="mail"></ion-icon>
-                <ion-input [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email"></ion-input>
+                <ion-input #useremail [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':''">
-                <ion-icon name="unlock"></ion-icon>
+                <img src="assets/img/lock.png" alt="">
                 <input style="background: transparent;border: 0px;" [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
             </div>
             <button [ngClass]="(user.email.length>0 && user.password.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>

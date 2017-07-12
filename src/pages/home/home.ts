@@ -3,6 +3,7 @@ import { App, IonicPage, Events, NavController, NavParams, ModalController, Plat
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
 import { Settings } from '../home/settings';
+import { MeOptions } from '../home/me_options';
 import { TopInterests } from '../home/top_interests';
 import { TopOptions } from '../home/top_options';
 import { Search } from '../search/search';
@@ -79,7 +80,11 @@ export class Home {
 
   follows(event) {
     event.stopPropagation();
-    this.navCtrl.push(Follows, {});
+    let follows = this.modalCtrl.create(Follows, null);
+    follows.onDidDismiss(data => {
+    });
+    follows.present();
+    // this.navCtrl.push(Follows, {});
   }
 
   open_this_search(search) {
@@ -91,7 +96,7 @@ export class Home {
       .subscribe((response) => {
         this.latest_searches_firstTime_loading = false;
         this.searches = response.data.searches;
-      },(error)=>{
+      }, (error) => {
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
@@ -164,8 +169,20 @@ export class Home {
     searchModal.present();
   }
 
-  presentSettingsModal(event) {
+  presentMeOptionsModal(event) {
     event.stopPropagation();
+    let self = this;
+    let meOptionsModal = this.modalCtrl.create(MeOptions, null);
+    meOptionsModal.onDidDismiss(data => {
+      console.log(data);
+      if (data == 'settings') {
+        this.presentSettingsModal();
+      }
+    });
+    meOptionsModal.present();
+  }
+
+  presentSettingsModal() {
     let self = this;
     let settingsModal = this.modalCtrl.create(Settings, null);
     settingsModal.onDidDismiss(data => {
