@@ -2,7 +2,8 @@
     <ion-toolbar color="homeheader">
         <ion-buttons start>
             <button class="search_icon" ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
+               	<img src="assets/img/search.png" alt="" />
+                <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
         <ion-title>
@@ -27,15 +28,18 @@
                 <ion-input [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
-                <ion-icon name="person"></ion-icon>
+               	<img src="assets/img/user.png" alt="" />
+                <!--<ion-icon name="person"></ion-icon>-->
                 <ion-input [value]="user.firstName" (input)="value_updating_first_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="First Name"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
-                <ion-icon name="person"></ion-icon>
+               	<img src="assets/img/user.png" alt="" />
+                <!--<ion-icon name="person"></ion-icon>-->
                 <ion-input [value]="user.lastName" (input)="value_updating_last_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('last_name')" type="text" placeholder="Last Name"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':(field_error.password?'invalid_field':'')">
-                <ion-icon name="unlock"></ion-icon>
+               	<img src="assets/img/lock.png" alt="" />
+                <!--<ion-icon name="unlock"></ion-icon>-->
                 <input style="background: transparent;border: 0px;" [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
             </div>
             <button [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.password.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>
