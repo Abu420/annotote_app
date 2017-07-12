@@ -3,20 +3,21 @@
 <div class="content_follows_profile">
     <div class="follow_details">
         <div class="follow_head">
-            <img class="overflow_menu" src="assets/img/bg-header.png">
-            <strong [innerText]="profileData.user.firstName + ' ' + profileData.user.lastName"> <em><</em></strong>
+            <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
+            <strong>{{profileData.user.firstName + ' ' + profileData.user.lastName}}<em *ngIf="profileData.user.isFollowed==1"> <</em></strong>
             <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
-            <span (click)="unFollowUser()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="unFollow_user"></span>
         </div>
-        <button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>
-        <div class="img-holder">
-            <img src="assets/img/cover_image.jpg">
+        <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
+        <div (click)="presentProfilePictureActionSheet()" class="img-holder">
+            <img *ngIf="profileData.user.photo==null" src="assets/img/cover_image.jpg">
+            <img *ngIf="profileData.user.photo" [src]="profileData.user.photo">
         </div>
         <ion-list class="follow_list">
             <ion-item>
                 <button ion-button icon-only><img src="assets/img/img5.png"></button>
                 <div class="txt">
-                    <strong [innerText]="profileData.user.description"></strong>
+                    <strong>Description</strong>
+                    <p [innerText]="profileData.user.description"></p>
                 </div>
             </ion-item>
             <ion-item>

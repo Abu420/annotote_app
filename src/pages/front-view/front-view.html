@@ -37,7 +37,7 @@
                     <div class="time">
                         <em>
                       <button type="button"><ion-icon name="apps"></ion-icon></button>
-                      <span>{{(anotote.annotote.createdAt*1000) | amTimeAgo}}</span>
+                      <span>{{anotote.formated_time | amTimeAgo}}</span>
                     </em>
                         <span [innerText]="anotote.annotote.source"></span>
                     </div>

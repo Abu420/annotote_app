@@ -47,10 +47,15 @@ export class FrontViewPage {
             this.latest_anototes_firstTime_loading = true;
             let self = this;
             this.page++;
-            this.anototeService.fetchLatestTotes(this.page)
+            this.latest_anototes = [];
+            var current_time = this.utilityMethods.get_php_wala_time();
+            this.anototeService.fetchLatestTotes(this.page, current_time)
                   .subscribe((response) => {
-                        console.log(response);
-                        this.latest_anototes = response.data.annototes;
+                        for (let ano_ of response.data.annototes) {
+                              ano_.formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
+                              console.log(ano_)
+                              this.latest_anototes.push(ano_);
+                        }
                         this.latest_anototes_firstTime_loading = false;
                   }, (error) => {
                         this.latest_anototes_firstTime_loading = false;
@@ -75,7 +80,8 @@ export class FrontViewPage {
       doInfinite(infiniteScroll) {
             let self = this;
             this.page++;
-            this.anototeService.fetchLatestTotes(this.page)
+            var current_time = this.utilityMethods.get_php_wala_time();
+            this.anototeService.fetchLatestTotes(this.page, current_time)
                   .subscribe((response) => {
                         //console.log(response);
                         if (response.data.annototes.length % 10 != 0 || response.data.annototes.length == 0)

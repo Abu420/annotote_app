@@ -6,6 +6,8 @@ import { MyApp } from './app.component';
 
 import { Login } from '../pages/login/login';
 import { ForgotPassword } from '../pages/forgot-password/forgot-password';
+import { ChangePassword } from '../pages/change-password/change-password';
+import { EditProfile } from '../pages/edit-profile/edit-profile';
 import { Signup } from '../pages/signup/signup';
 import { FrontViewPage } from '../pages/front-view/front-view';
 import { Profile } from '../pages/follows/follows_profile';
@@ -38,9 +40,11 @@ import { MomentModule } from 'angular2-moment';
  * Directives
  */
 import { PressDirective } from '../directives/longPress';
+import { DotNavigation } from '../directives/dot-navigation';
 import { TextEditor } from '../directives/editor';
 import { SearchField } from '../directives/search-field';
 import { SwipeVertical } from '../directives/swipe-vertical';
+import { DragVertical } from '../directives/drag-vertical';
 import { DclWrapper } from '../directives/dcl';
 import { AbsoluteDrag } from '../directives/absolute-drag';
 
@@ -49,8 +53,12 @@ import { Network } from '@ionic-native/network';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
-//import { ActionSheet } from '@ionic-native/action-sheet';
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
+import { Camera } from '@ionic-native/camera';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Deeplinks } from '@ionic-native/deeplinks';
 
 /**
  * Services
@@ -83,6 +91,8 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     Login,
     Signup,
     ForgotPassword,
+    ChangePassword,
+    EditProfile,
     Home,
     Chat,
     SanitizeHtmlPipe,
@@ -103,6 +113,8 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     TextEditor,
     SearchField,
     SwipeVertical,
+    DotNavigation,
+    DragVertical,
     TopOptions,
     FollowsPopup,
     TopInterests,
@@ -140,6 +152,8 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     Login,
     Signup,
     ForgotPassword,
+    ChangePassword,
+    EditProfile,
     Home,
     Follows,
     Profile,
@@ -181,6 +195,11 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     Network,
     InAppBrowser,
     SocialSharing,
+    Deeplinks,
+    Transfer,
+    File,
+    Camera,
+    FilePath,
     SplashScreen,
     UtilityMethods,
     { provide: ErrorHandler, useClass: IonicErrorHandler }

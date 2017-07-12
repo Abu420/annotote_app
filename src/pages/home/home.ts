@@ -79,7 +79,11 @@ export class Home {
 
   follows(event) {
     event.stopPropagation();
-    this.navCtrl.push(Follows, {});
+    let follows = this.modalCtrl.create(Follows, null);
+    follows.onDidDismiss(data => {
+    });
+    follows.present();
+    // this.navCtrl.push(Follows, {});
   }
 
   open_this_search(search) {
@@ -91,7 +95,7 @@ export class Home {
       .subscribe((response) => {
         this.latest_searches_firstTime_loading = false;
         this.searches = response.data.searches;
-      },(error)=>{
+      }, (error) => {
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }

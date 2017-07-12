@@ -25,6 +25,16 @@ export class AuthenticationService {
   }
 
   /**
+   * Update User to Native Storage
+   */
+  public updateUser(user: User) {
+    if (this._storage_ready) {
+      this.storage.set('_user', user);
+    }
+    this._user = user;
+  }
+
+  /**
    * Set User to Native Storage
    */
   public setUser(user: User) {
@@ -103,6 +113,28 @@ export class AuthenticationService {
   public logout() {
     var url = this.constants.API_BASEURL + '/logout';
     var response = this.http.get(url, {}).map(res => res.json());
+    return response;
+  }
+
+  /**
+   * Update Profile API
+   * type: {POST}
+   * params: [first_name, last_name, description, updated_at], 
+   */
+  public update_profile(params) {
+    var url = this.constants.API_BASEURL + '/update-profile';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+
+  /**
+   * Reset Password API
+   * type: {POST}
+   * params: [old_password, new_password], 
+   */
+  public reset_password(params) {
+    var url = this.constants.API_BASEURL + '/reset-password';
+    var response = this.http.post(url, params, {}).map(res => res.json());
     return response;
   }
 

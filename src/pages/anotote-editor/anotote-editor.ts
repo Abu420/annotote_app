@@ -113,6 +113,10 @@ export class AnototeEditor implements OnDestroy {
         this.ionScroll = this.myElement.nativeElement.getElementsByClassName('scroll-content')[0];
         // On scroll function
         this.ionScroll.addEventListener("scroll", () => {
+            if (!this.full_screen_mode) {
+                this.slideHeaderPrevious = 0;
+                return;
+            }
             if (this.ionScroll.scrollTop - this.start > this.threshold) {
                 this.showheader = true;
                 this.hideheader = false;
@@ -144,7 +148,6 @@ export class AnototeEditor implements OnDestroy {
             }
         });
         this.events.subscribe('show_anotation_details', (data) => {
-            console.log(data)
             this.presentCommentDetailModal(data.txt);
         });
     }
@@ -178,10 +181,8 @@ export class AnototeEditor implements OnDestroy {
                     return;
                 }
                 this.utilityMethods.doToast("This anotote is added to your me stream successfully.");
-                console.log(res);
             }, (error) => {
                 this.utilityMethods.hide_loader();
-                console.log(error);
             });
     }
 
@@ -211,7 +212,6 @@ export class AnototeEditor implements OnDestroy {
             selection.removeAllRanges();
             return true;
         } catch (e) {
-            console.log(e);
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
             return false;
         }
@@ -277,11 +277,9 @@ export class AnototeEditor implements OnDestroy {
     }
 
     presentCommentDetailModal(highlight, element?) {
-        console.log(highlight)
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment });
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
-                console.log(highlight)
                 this.remove_annotation_api(highlight.identifier, element);
             } else if (data.update) {
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
@@ -320,8 +318,7 @@ export class AnototeEditor implements OnDestroy {
         this.utilityMethods.show_loader('Please wait...');
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
-        var article_txt = document.getElementById('text_editor').innerHTML;
-        console.log(article_txt);
+        var article_txt = document.getElementById('text_editor').innerHTML;        
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
@@ -331,14 +328,12 @@ export class AnototeEditor implements OnDestroy {
     }
 
     update_annotation_api(anotation_id, highlight_text, comment, identifier, element) {
-        console.log(element);
         this.utilityMethods.show_loader('Please wait...');
         var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
         element.setAttribute("data-comment", comment);
-        console.log(element);
         var article_txt = document.getElementById('text_editor').innerHTML;
-        this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
+        this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: this.tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
             }, (error) => {
@@ -349,7 +344,7 @@ export class AnototeEditor implements OnDestroy {
     add_annotation_api(type, comment) {
         // this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText, type: type });
         var current_time = this.utilityMethods.get_php_wala_time();
-        var identifier = this.generate_dynamic_identifier(this.tote_id, this.authService.getUser().id, current_time);
+        var identifier = this.generate_dynamic_identifier(current_time);
         if (!this.highlight_(type, identifier, comment))
             return;
         this.utilityMethods.show_loader('Please wait...');
@@ -368,8 +363,11 @@ export class AnototeEditor implements OnDestroy {
             });
     }
 
-    generate_dynamic_identifier(anotote_id, user_id, time) {
-        return anotote_id + '_' + user_id + '_' + time;
+    generate_dynamic_identifier(time) {
+        var S4 = function () {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        };
+        return (S4() + S4() + "-" + S4() + "-" + time);
     }
 
     presentCreateAnotationOptionsModal() {

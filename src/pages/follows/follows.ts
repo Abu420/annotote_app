@@ -5,6 +5,7 @@ import { Profile } from '../follows/follows_profile';
 
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from "../../services/auth.service";
+import { SearchService } from '../../services/search.service';
 /**
  * Generated class for the Follows page.
  *
@@ -20,7 +21,7 @@ export class Follows {
   private followings: any;
   private _loading: boolean;
 
-  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
+  constructor(public navCtrl: NavController, public searchService: SearchService, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
     this.followings = [];
   }
 
@@ -29,9 +30,28 @@ export class Follows {
     this.load_follows_list();
   }
 
-  presentProfileModal() {
-    let profileModal = this.modalCtrl.create(Profile, { userId: 8675309 });
-    profileModal.present();
+  showProfile(follower) {
+    this.utilityMethods.show_loader('Please wait...');
+    this.searchService.get_user_profile_info(follower.id)
+      .subscribe((response) => {
+        this.utilityMethods.hide_loader();
+        this.presentProfileModal(response);
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      });
+  }
+
+  presentProfileModal(response) {
+    let profile = this.modalCtrl.create(Profile, {
+      data: response.data,
+      from_page: 'search_results'
+    });
+    profile.onDidDismiss(data => {
+    });
+    profile.present();
   }
 
   load_follows_list() {

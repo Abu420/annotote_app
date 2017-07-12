@@ -133,12 +133,12 @@ comment_detail_popup {
 
 page-anotote-editor {
     .scroll-content {
-        top: -72px !important;
-        padding-top: 72px !important;
+        top: $bar_button_custom_negative_height !important;
+        padding-top: $bar_button_custom_height !important;
     }
     .hide-header {
         transition: top 0.25s ease;
-        top: -72px;
+        top: $bar_button_custom_negative_height;
     }
     .show-header {
         transition: top 0.25s ease;
@@ -147,6 +147,7 @@ page-anotote-editor {
     .toolbar {
         contain: none;
         overflow: visible;
+        height: $bar_button_custom_height;
     }
     .boxIcon {
         margin: 0px;

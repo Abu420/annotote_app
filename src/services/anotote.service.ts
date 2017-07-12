@@ -21,15 +21,15 @@ export class AnototeService {
     });
   }
 
-  public fetchLatestTotes(page) {
-    var url = this.constants.API_BASEURL + '/totes/fetch?dateTime=1496279585&page=' + page;
+  public fetchLatestTotes(page, current_time) {
+    var url = this.constants.API_BASEURL + '/totes/fetch?dateTime=' + current_time + '&page=' + page;
     var response = this.http.get(url, {}).map(res => res.json());
     return response;
   }
 
 
   public fetchToteDetails(user_id: number, anotote_id: number) {
-    return this.http.get(this.constants.API_BASEURL+'/get-annotote-detail?user_id=' + user_id + '&user_annotote_id=' + anotote_id)
+    return this.http.get(this.constants.API_BASEURL + '/get-annotote-detail?user_id=' + user_id + '&user_annotote_id=' + anotote_id)
   }
 
   public mapAnototeListing(totes: Array<any>) {
@@ -37,8 +37,8 @@ export class AnototeService {
     return [];
   }
 
-  public quickChat(id){
-    var url = this.constants.API_BASEURL + '/chat-quick-detail?second_person='+id;
+  public quickChat(id) {
+    var url = this.constants.API_BASEURL + '/chat-quick-detail?second_person=' + id;
     var response = this.http.get(url).map(res => res.json())
     return response;
   }
