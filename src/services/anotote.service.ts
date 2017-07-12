@@ -42,4 +42,8 @@ export class AnototeService {
     var response = this.http.get(url).map(res => res.json())
     return response;
   }
+
+  public delete_bulk_totes(){
+
+  }
 }

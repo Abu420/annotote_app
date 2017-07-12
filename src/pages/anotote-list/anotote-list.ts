@@ -210,6 +210,7 @@ export class AnototeList {
     if(this.edit_mode == false){
       this.edit_mode = true;
       anotote.checked = !anotote.checked;
+      this.selected_totes.push(anotote);
     }else{
       if(anotote.chatGroup != null){
         this.utilityMethods.confirmation_message("Are you sure?","Do you really want to delete this chat group",function(){
@@ -395,7 +396,11 @@ export class AnototeList {
   }
 
   delete_totes(){
+    if(this.selected_totes.length > 1){
+      
+    }else if(this.selected_totes.length == 1){
 
+    }
   }
 
 }
