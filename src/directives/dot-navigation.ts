@@ -6,23 +6,28 @@ import { NavController } from 'ionic-angular';
     templateUrl: 'dot-navigation.html',
 })
 export class DotNavigation implements OnInit {
-    @Input() un_active_dots: Number;
+    @Input() unactivedots: number;
     private un_active_dots_array: any;
 
     ngOnInit(): void {
-        this.un_active_dots_array = [];
-        for (let i = 0; i < this.un_active_dots; i++) {
-            this.un_active_dots_array.push(i);
-        }
+        var that = this;
+        setTimeout(function () {
+            that.un_active_dots_array = [];
+            for (let i = 0; i < that.navCtrl.getActive().index; i++) {
+                that.un_active_dots_array.push(i);
+            }
+        }, 500);
     }
 
     constructor(public navCtrl: NavController) {
     }
 
+    remove_current_page() {
+        this.navCtrl.pop();
+    }
+
     remove_page(dot) {
-        console.log(dot);
-        console.log(this.navCtrl.getViews());
-        this.navCtrl.remove(1, 1);
+        this.navCtrl.popTo(this.navCtrl.getByIndex(dot));
     }
 
 

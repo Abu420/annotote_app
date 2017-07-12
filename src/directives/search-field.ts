@@ -5,14 +5,17 @@ import { Events } from 'ionic-angular';
     selector: '[search-field]'
 })
 export class SearchField {
+    @Input() selection: boolean;
 
     constructor(public renderer: Renderer, public elementRef: ElementRef) {
     }
 
     ngAfterViewInit() {
         setTimeout(() => {
+            console.log(this.elementRef.nativeElement);
             this.renderer.invokeElementMethod(this.elementRef.nativeElement, 'focus', []);
-            this.elementRef.nativeElement.setSelectionRange(0, 10000);
+            if (!this.selection)
+                this.elementRef.nativeElement.setSelectionRange(0, 10000);
         }, 1000);
     }
 }

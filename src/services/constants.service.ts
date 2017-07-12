@@ -8,6 +8,7 @@ import { User } from "../models/user";
 export class Constants {
 
 	public API_BASEURL: string = "http://139.162.37.73/anotote/api";
+	public IMAGE_BASEURL: string = "http://139.162.37.73/anotote";
 	public AUTHORIZATION_HEADER: string = "$2y$10$XLoU25gEWjCk/iDgJpHHcekPts9Shfn3hyJvrzOFFpY2zeg/kedeC";
 
 }

@@ -5,12 +5,14 @@ import { Signup } from '../signup/signup';
 import { NavController, NavParams, ToastController, Toast } from 'ionic-angular';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { StatusBar } from '@ionic-native/status-bar';
+import { OnlyTime } from '../../directives/date_pipe';
 /**
  * Services
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { AnototeService } from '../../services/anotote.service';
 
+declare var moment: any;
 @Component({
       selector: 'page-front-view',
       templateUrl: 'front-view.html',
@@ -52,8 +54,14 @@ export class FrontViewPage {
             this.anototeService.fetchLatestTotes(this.page, current_time)
                   .subscribe((response) => {
                         for (let ano_ of response.data.annototes) {
-                              ano_.formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
-                              console.log(ano_)
+                              var current_date = new Date();
+                              var formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
+                              var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
+                              var difference = timeDiff / (1000 * 3600 * 24);
+                              ano_.is_today = difference < 1 ? true : false;
+                              ano_.formated_time = formated_time;
+                              console.log(formated_time)
+                              console.log(difference)
                               this.latest_anototes.push(ano_);
                         }
                         this.latest_anototes_firstTime_loading = false;
@@ -78,6 +86,8 @@ export class FrontViewPage {
       }
 
       doInfinite(infiniteScroll) {
+            this.showFabButton = false;
+            this.presentToast();
             let self = this;
             this.page++;
             var current_time = this.utilityMethods.get_php_wala_time();
@@ -86,8 +96,17 @@ export class FrontViewPage {
                         //console.log(response);
                         if (response.data.annototes.length % 10 != 0 || response.data.annototes.length == 0)
                               infiniteScroll.enable(false);
-                        for (let ano of response.data.annototes) {
-                              this.latest_anototes.push(ano);
+                        for (let ano_ of response.data.annototes) {
+                              var current_date = new Date();
+                              var formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
+                              var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
+                              var difference = timeDiff / (1000 * 3600 * 24);
+                              ano_.is_today = difference < 1 ? true : false;
+                              ano_.formated_time = formated_time;
+                              console.log(formated_time)
+                              console.log(difference)
+                              this.latest_anototes.push(ano_);
+                              this.latest_anototes.push(ano_);
                         }
                         infiniteScroll.complete();
                   }, (error) => {

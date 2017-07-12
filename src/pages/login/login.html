@@ -6,10 +6,7 @@
             </button>
         </ion-buttons>
         <ion-title>
-            <div class="dots_box">
-                <span class="un_active_dot"></span>
-                <span class="dot"></span>
-            </div>
+            <dot-navigation unactivedots="1"></dot-navigation>
         </ion-title>
         <ion-buttons end>
             <button (tap)="open_annotote_site()" ion-button icon-only>
@@ -21,16 +18,16 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding>
     <div id="wrapper">
-        <form name="login_form" class="form-area">
+        <form (ngSubmit)="go_home()" name="login_form" class="form-area">
             <div class="input-holder layout" [ngClass]="focus_field=='email'?'active':''">
                 <ion-icon name="mail"></ion-icon>
-                <ion-input #useremail [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email"></ion-input>
+                <input search-field selection="true" [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email" />
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':''">
                 <img src="assets/img/lock.png" alt="">
                 <input style="background: transparent;border: 0px;" [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
             </div>
-            <button [ngClass]="(user.email.length>0 && user.password.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>
+            <button ion-button type="submit" [ngClass]="(user.email.length>0 && user.password.length>0)?'green':''" block>Go</button>
         </form>
     </div>
 </ion-content>

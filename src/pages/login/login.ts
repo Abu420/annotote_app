@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
+import { IonicPage, App, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
 import { Home } from '../home/home';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { User } from '../../models/user';
@@ -25,13 +25,12 @@ export class Login {
   public user: User;
   public focus_field: string;
   public device_id: string;
-  @ViewChild('useremail') useremail;
 
   /**
    * Constructor
    */
 
-  constructor(public platform: Platform, public navCtrl: NavController, public storage: Storage, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
+  constructor(private appCtrl: App, public platform: Platform, public navCtrl: NavController, public storage: Storage, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
     this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
@@ -113,10 +112,10 @@ export class Login {
       this.utilityMethods.hide_loader();
       response.data.user.access_token = response.access_token;
       this.authService.setUser(response.data.user);
-      this.navCtrl.push(Home, {});
+      this.appCtrl.getRootNav().setRoot(Home);
     }, (error) => {
       this.utilityMethods.hide_loader();
-      if (error.code == -1) {
+      if (error.code == -1 || error.code == -2) {
         this.utilityMethods.internet_connection_error();
       } else if (error.status == 404)
         this.utilityMethods.message_alert('Error', 'Invalid email or password.');

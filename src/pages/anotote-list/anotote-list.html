@@ -6,7 +6,7 @@
             </button>
         </ion-buttons>
         <ion-title *ngIf="!edit_mode">
-            <dot-navigation dots="3"></dot-navigation>
+            <dot-navigation unactivedots="1"></dot-navigation>
         </ion-title>
         <ion-buttons *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>

@@ -17,11 +17,7 @@
             </button>
         </ion-buttons>
         <ion-title *ngIf="!full_screen_mode">
-            <div class="dots_box">
-                <span class="un_active_dot"></span>
-                <span class="un_active_dot"></span>
-                <span class="dot"></span>
-            </div>
+            <dot-navigation unactivedots="2"></dot-navigation>
         </ion-title>
         <ion-buttons *ngIf="which_stream!='me' && !full_screen_mode" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>
