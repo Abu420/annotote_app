@@ -60,8 +60,8 @@ export class FrontViewPage {
                               var difference = timeDiff / (1000 * 3600 * 24);
                               ano_.is_today = difference < 1 ? true : false;
                               ano_.formated_time = formated_time;
-                              console.log(formated_time)
-                              console.log(difference)
+                              // console.log(formated_time)
+                              // console.log(difference)
                               this.latest_anototes.push(ano_);
                         }
                         this.latest_anototes_firstTime_loading = false;

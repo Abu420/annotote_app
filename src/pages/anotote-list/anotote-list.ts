@@ -62,6 +62,7 @@ export class AnototeList {
   private reorder_highlights: boolean;
   public user: any;
   public selected_totes: Array<ListTotesModel> = [];
+  public can_load_more:boolean=true;
   /**
    * Constructor
    */
@@ -176,26 +177,23 @@ export class AnototeList {
   }
 
   doInfinite(infiniteScroll) {
-    //console.log('Begin async operation');
-
-    setTimeout(() => {
-      //console.log('Async operation has ended');
-      this.anototeService.fetchTotes(this.whichStream, ++this.current_page).subscribe((data: any) => {
-        let stream = data.json().data.annototes;
-        for (let entry of stream) {
-          this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
-        }
-        infiniteScroll.complete();
-        if (stream.length <= 0) {
-          infiniteScroll.enable(false);
-        }
-      }, (error) => {
-        this.utilityMethods.hide_loader();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
-    }, 500);
+    this.anototeService.fetchTotes(this.whichStream, ++this.current_page).subscribe((data: any) => {
+      let stream = data.json().data.annototes;
+      for (let entry of stream) {
+        this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+      }
+      infiniteScroll.complete();
+      if (stream.length < 10) {
+        this.can_load_more=false;
+        infiniteScroll.enable(false);
+      }
+    }, (error) => {
+      this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    });
+  
   }
 
   follows(event) {
@@ -432,11 +430,29 @@ export class AnototeList {
   }
 
   delete_totes(){
-    if(this.selected_totes.length > 1){
-      
-    }else if(this.selected_totes.length == 1){
-
+    console.log(this.selected_totes);
+    var ids='';
+    for(let anotote of this.selected_totes){
+      if(ids == '')
+        ids += anotote.userAnnotote.id
+      else
+        ids += ',' + anotote.userAnnotote.id 
     }
+    var params={
+      userAnnotote_ids:ids,
+      delete:1
+    }
+    this.utilityMethods.show_loader('');
+    this.anototeService.delete_bulk_totes(params).subscribe((result)=>{
+      this.utilityMethods.hide_loader();
+      if(result.data.annotote.length == this.selected_totes.length){
+        for(let tote of this.selected_totes){
+          this.anototes.splice(this.anototes.indexOf(tote),1);
+        }
+        this.utilityMethods.doToast("Deleted Successfully.")
+        this.close_bulk_actions();
+      }
+    })
   }
 
 }

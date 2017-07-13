@@ -5,7 +5,7 @@ import { Pipe } from '@angular/core';
 })
 export class OnlyTime {
     transform(value, args) {
-        console.log(value);
+        //console.log(value);
         return "08:30PM";
     }
 }

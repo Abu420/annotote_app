@@ -85,6 +85,7 @@ import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
 import { Highlight } from "../directives/highlight";
 import { Safe } from "../services/SafeHtml";
 import { AnototeContentOptions } from "../pages/home/content_options";
+import { OnlyTime } from "../directives/date_pipe";
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { AnototeContentOptions } from "../pages/home/content_options";
     PressDirective,
     AnototeEditor,
     ChatHeads,
+    OnlyTime,
     DclWrapper,
     Highlight,
     Safe,

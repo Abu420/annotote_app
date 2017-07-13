@@ -43,7 +43,9 @@ export class AnototeService {
     return response;
   }
 
-  public delete_bulk_totes(){
-
+  public delete_bulk_totes(params){
+    var url = this.constants.API_BASEURL +'/delete-bulk-annototes';
+    var response = this.http.post(url,params,{}).map(res => res.json());
+    return response;
   }
 }
