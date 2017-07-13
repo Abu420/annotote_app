@@ -104,6 +104,9 @@ export class AnototeEditor implements OnDestroy {
                 events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
             }
         });
+        /**
+         * Content Scroll hide/show header
+         */
         this.showheader = false;
         this.hideheader = true;
     }
@@ -311,6 +314,8 @@ export class AnototeEditor implements OnDestroy {
      * Create Anotation Comment Type
      */
     private create_anotation(comment) {
+        if (!comment)
+            comment = '';
         this.add_annotation_api('comment', comment);
     }
 
@@ -318,7 +323,7 @@ export class AnototeEditor implements OnDestroy {
         this.utilityMethods.show_loader('Please wait...');
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
-        var article_txt = document.getElementById('text_editor').innerHTML;        
+        var article_txt = document.getElementById('text_editor').innerHTML;
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();

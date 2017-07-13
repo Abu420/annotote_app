@@ -84,7 +84,7 @@ export class MyApp {
           },
           ios: {
             alert: 'true',
-            badge: false,
+            badge: 'false',
             sound: 'false'
           },
           windows: {}
@@ -103,6 +103,8 @@ export class MyApp {
         });
 
         pushObject.on('registration').subscribe((registration: any) => {
+          console.log(registration);
+          pushObject.setApplicationIconBadgeNumber(0);
           localStorage.setItem('device_id', registration.registrationId);
         });
 

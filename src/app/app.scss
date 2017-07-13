@@ -37,10 +37,11 @@ body {
 }
 
 .wedge_icon {
-    background-image: url(../assets/img/wedge.png);
-    background-size: contain;
-    width: 35px;
-    height: 35px;
+	width: 0;
+	height: 0;
+	border-top: 25px solid transparent;
+	border-left: 12px solid #bebebe;
+	border-bottom: 25px solid transparent;
     display: inline-block;
     position: absolute;
     left: 0;
@@ -57,7 +58,8 @@ body {
 span.dot,
 span.un_active_dot {
     border-radius: 50%;
-    display: table-cell;
+    display: inline-block;
+	width: 20px;
     text-align: center;
     position: relative;
     height: 20px;
@@ -66,7 +68,8 @@ span.un_active_dot {
 .dots_box {
     width: 100%;
     height: 100%;
-    display: table;
+    display: block;
+	text-align: center;
 }
 
 span.dot:after {
@@ -118,7 +121,6 @@ span.un_active_dot:after {
 .green {
     background-color: #3bde00;
 }
-
 .yellow {
     background-color: #f4e300;
 }
@@ -208,6 +210,7 @@ search_page {
 				margin: 0px;
 				font-size: 4vw;
 				width: 20%;
+				color: #b3b3b3;
 			}
 			ul{
 				display: table-cell;
@@ -284,7 +287,7 @@ search_page {
 	}
 	.searchPage{
 		padding: 0px !important;
-		background: rgba(255, 255, 255, 0.58);
+		background: rgba(121, 121, 121, 0.58);
 		.scroll-content{
 			padding: 0px 0px 16px !important;
 			.searchFilter{
@@ -299,22 +302,25 @@ search_page {
 							display: table-cell;
 							vertical-align: middle;
 							width: 20%;
+							color: #ababab;
 							padding: 20px;
 							font-size: 30px;
 							text-align: center;
 						}
 						img{
-							width: 30px;
-							margin: 18px 0 14px 35px;
+							width: 25px;
+							margin: 18px 0 14px 25px;
 							display: table-cell;
 							vertical-align: middle;
+							opacity: .35;
 						}
 						>span{
 							padding: 20px 10px;
 							display: table-cell;
 							vertical-align: middle;
-							border-bottom: 1px solid #CCC;
+							border-top: 1px solid #CCC;
 							width: 80%;
+							color: #ababab;
 						}
 					}
 				}
@@ -345,6 +351,7 @@ search_page {
 							padding-left: 20px;
 							border-bottom: 1px solid #CCC;
 							float: none;
+							color: #ababab;
 							&.un_follow_btn{
 								width: 10% !important;
 								padding: 20px;
@@ -387,6 +394,8 @@ search_page {
         height: $bar_button_custom_height;
 		&.green{
 			background: #3bde00;
+			padding-top: 14px;
+			height: 70px;
 			.search_button{
 				background-color: #2ba600;
 				box-shadow: 0px 0px 10px #3a3a3a;
@@ -407,8 +416,18 @@ search_page {
 			}
 			.search_field{
 				width: calc(100% - 118px);
+				border-radius: 0px;
 			}
 		}
+		img{
+			margin: 0;
+			float: left;
+			padding: 10px;
+			background: transparent;
+			height: 56px;
+			width: 56px;
+		}
+
         .options {
             height: $bar_button_custom_height;
             float: left;
@@ -440,6 +459,9 @@ search_page {
             width: calc(100% - 142px);
             display: inline-block;
             float: left;
+			border-radius: 5px;
+			border: 0px;
+			padding: 10px;
             height: 100%;
             input {
                 padding: 0;

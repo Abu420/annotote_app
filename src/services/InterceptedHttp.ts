@@ -13,9 +13,10 @@ export class InterceptedHttp extends Http {
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         if (!this.utils.isOffline())
             return super.request(url, options)
-                .timeout(60000).catch(err => {
-                    if (err.name !== "TimeoutError") {
-                        return Observable.throw({ "error": "Timeout has occurred", "code": -2 });
+                .timeout(20000)
+                .catch(err => {
+                    if (err.name == "TimeoutError") {
+                        return Observable.throw({ "error": "timeout_error", "code": -2 });
                     }
                     return Observable.throw(err);
                 });

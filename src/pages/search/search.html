@@ -2,7 +2,7 @@
     <ion-toolbar color="homeheader">
         <div [ngClass]="{'black': current_url == null, 'green':current_url != null}" class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
-            <span class="search_button"></span>
+            <img src="assets/img/search.png" alt="" />
             <input search-field id="search_field_id" class="search_field" [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss()" class="clear_button"></span>
         </div>
@@ -15,11 +15,11 @@
             <ion-spinner name="ios"></ion-spinner>
         </ion-item>
         <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
-            <img src="assets/img/shareC.png" alt="">
+            <img src="assets/img/shareBlack.png" alt="" />
             <span>Share this link (enter)</span>
         </ion-item>
         <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter">
-            <ion-icon name="search"></ion-icon>
+            <img src="assets/img/searchBlack.png" alt="" />
             <span>New search or address</span>
         </ion-item>
         <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">

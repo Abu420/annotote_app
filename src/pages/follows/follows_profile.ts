@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams, Events, Platform, Loading, ActionSheetController } from 'ionic-angular';
 import { Chat } from '../chat/chat';
 import { ChangePassword } from '../change-password/change-password';
@@ -30,9 +30,9 @@ export class Profile {
   public is_it_me: boolean;
   private lastImage: string = null;
 
-  constructor(private camera: Camera, private transfer: Transfer, public modalCtrl: ModalController, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public constants: Constants, params: NavParams, public navCtrl: NavController, public authService: AuthenticationService, public events: Events, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, public searchService: SearchService, private platform: Platform) {
+  constructor(private zone: NgZone, private camera: Camera, private transfer: Transfer, public modalCtrl: ModalController, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public constants: Constants, params: NavParams, public navCtrl: NavController, public authService: AuthenticationService, public events: Events, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, public searchService: SearchService, private platform: Platform) {
 
-    this.image_base_path = this.constants.API_BASEURL;
+    this.image_base_path = this.constants.IMAGE_BASEURL;
     var user = this.authService.getUser();
     if (params.get('is_it_me')) {
       this.profileData = user;
@@ -258,7 +258,7 @@ export class Profile {
       this.presentToast('Image succesful uploaded.');
       var response = JSON.parse(data.response);
       this.authService.updateUser(response.data.user);
-      console.log(response);
+      this.profileData.user = response.data.user;
     }, err => {
       this.utilityMethods.hide_loader();
       this.presentToast('Error while uploading file.');

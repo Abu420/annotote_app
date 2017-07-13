@@ -16,22 +16,41 @@ top_options {
     .sharing_pop {
         padding: 8px 20px !important;
         position: relative;
+		margin: 10px 0 0;
     }
     ul.sharing_pop {
         text-decoration: none;
     }
     ul.sharing_pop li {
         display: inline-block;
-        width: 25%;
+        width: 19%;
+		text-align: center;
         vertical-align: middle;
         letter-spacing: 0px;
     }
+	ul.sharing_pop li.shareIcon img{
+		width: 40px;
+	}
+	
+	ul.sharing_pop li.userPro img{
+		width: 20px;
+	}
+	
+	ul.sharing_pop li.helpIcon ion-icon{
+		font-size: 50px;
+	}
+	ul.sharing_pop li.userPro span{
+		display: block;
+	}
+	ul.sharing_pop li img{
+		width: 30px;	
+	}
     .sharing_pop.bottom-border:after {
         height: 1px;
         position: absolute;
         content: '';
         top: 100%;
-        left: 15%;
+        left: 22%;
         right: 0;
         background: #e3e3e3;
     }
@@ -54,13 +73,13 @@ top_options {
     }
     .sharing_pop span,
     .sharing_pop em {
-        font-size: 15px;
+        font-size: 12px;
         line-height: 19px;
         font-style: normal;
         color: #cecece;
     }
     .sharing_pop ion-icon {
-        padding-left: 10px;
+        padding-left: 0;
         font-size: 30px;
         line-height: 34px;
         color: #cdcdcd;
@@ -70,6 +89,7 @@ top_options {
     .sharing_pop.add em {
         display: inline-block;
         vertical-align: middle;
+		margin: 0px !important;
     }
     .sharing_pop.add em {
         margin-left: 30%;
@@ -81,7 +101,7 @@ top_options {
         padding: 13px;
         text-align: center;
         color: #b7b7b7;
-        box-shadow: 0 1px 12px -4px #000;
+        box-shadow: 0 1px 4px 0px #b5b5b5;
         background: #e0e0e0;
         z-index: 5;
         overflow: hidden;
@@ -295,6 +315,17 @@ page-home {
     }*/
 }
 
+.scroll-content{
+	padding: 10px 16px 16px !important;
+}
+
+ion-buttons{
+	img{
+		width: 30px;
+		margin: 11px 0px 11px 25px;
+	}
+}
+
 .home-list ion-item {
     height: 78px;
     padding-left: 0px;
@@ -313,7 +344,7 @@ page-home {
 //     background: none !important;
 // }
 .home-list ion-item button img {
-    height: 40px;
+    height: 30px;
 }
 
 .home-list .green {

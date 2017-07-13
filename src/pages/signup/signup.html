@@ -2,14 +2,12 @@
     <ion-toolbar color="homeheader">
         <ion-buttons start>
             <button class="search_icon" ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
+               	<img src="assets/img/search.png" alt="" />
+                <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
         <ion-title>
-            <div class="dots_box">
-                <span class="un_active_dot"></span>
-                <span class="dot"></span>
-            </div>
+            <dot-navigation unactivedots="1"></dot-navigation>
         </ion-title>
         <ion-buttons end>
             <button (tap)="open_annotote_site()" ion-button icon-only>
@@ -21,24 +19,27 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding>
     <div id="wrapper">
-        <form name="login_form" class="form-area">
+        <form (ngSubmit)="go_home()" name="login_form" class="form-area">
             <div class="input-holder layout" [ngClass]="focus_field=='email' && !field_error.email ?'active':(field_error.email?'invalid_field':'')">
                 <ion-icon name="mail"></ion-icon>
-                <ion-input [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email"></ion-input>
+                <input search-field selection="true" [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email" />
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
-                <ion-icon name="person"></ion-icon>
+               	<img src="assets/img/user.png" alt="" />
+                <!--<ion-icon name="person"></ion-icon>-->
                 <ion-input [value]="user.firstName" (input)="value_updating_first_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="First Name"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
-                <ion-icon name="person"></ion-icon>
+               	<img src="assets/img/user.png" alt="" />
+                <!--<ion-icon name="person"></ion-icon>-->
                 <ion-input [value]="user.lastName" (input)="value_updating_last_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('last_name')" type="text" placeholder="Last Name"></ion-input>
             </div>
             <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':(field_error.password?'invalid_field':'')">
-                <ion-icon name="unlock"></ion-icon>
+               	<img src="assets/img/lock.png" alt="" />
+                <!--<ion-icon name="unlock"></ion-icon>-->
                 <input style="background: transparent;border: 0px;" [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
             </div>
-            <button [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.password.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>
+            <button type="submit" [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.password.length>0)?'green':''" ion-button>Go</button>
         </form>
     </div>
 </ion-content>

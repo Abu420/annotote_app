@@ -4,6 +4,65 @@
     color: #ff001d;
 }
 
+.top_empty_box{
+	height: 60%;
+	background: rgba(0, 0, 0, .5);
+}
+
+.sharing_pop {
+	ion-item{
+		padding: 3.2vw 20px;
+		position: relative;
+		&:after{
+			content: "";
+			bottom: 0px;
+			position: absolute;
+			right: 0px;
+			width: 85%;
+			border-bottom: 1px solid #CCC;
+		}
+		.item-inner{
+			padding: 0px;
+			ion-label{
+				margin: 0px;
+				.aling-left{
+					display: inline-block;
+					width: 20px;
+					margin-right: 10px;
+					vertical-align: top;
+					padding-top: 3px;
+				}
+				.txt{
+					display: inline-block;
+					width: 80vw;
+					vertical-align: top;
+				}
+				.aling-left{
+					position: relative;
+					ion-icon{
+						font-size: 30px;
+						color: #bdbdbd;
+					}
+					em{
+						position: absolute;
+						width: 20px;
+						text-align: center;
+						height: 20px;
+						font-size: 12px;
+						font-style: normal;
+						padding: 2px;
+						background: red;
+						border-radius: 50%;
+						color: #FFF;
+						right: -10px;
+						top: 0px;
+					}
+				}
+			}
+		}
+	}
+}
+
 .fancy-bars {
     width: 10px;
     position: fixed;
@@ -85,6 +144,13 @@ tags_popup {
 }
 
 page-anotote-list {
+	.toolbar-ios-follow{
+		ion-buttons{
+			button {
+				color: #FFF !important;
+			}
+		}
+	}
     .scroll-content {
         padding: 20px 16px 16px !important;
         .item {
@@ -102,7 +168,7 @@ page-anotote-list {
                         border-bottom: 1px solid #CCC;
                         .img-holder {
                             float: left;
-                            width: 60px;
+                            width: 64px;
 							margin-right: 10px;
                             vertical-align: middle;
                             img {
@@ -110,15 +176,17 @@ page-anotote-list {
                             }
                         }
                         .check {
-                            display: table-cell;
-                            width: 100%;
+                            float: left;
+							padding: 15px;
                             vertical-align: middle;
                             text-align: center;
                         }
                         .txt {
-                            vertical-align: middle;
-                            padding: 0px 10px;
-                            position: relative;
+							vertical-align: middle;
+							padding: 10px 10px 9px;
+							width: 69vw;
+							position: relative;
+							display: inline-block;
                             strong {
                                 font-weight: normal;
                                 font-size: 16px;
@@ -141,6 +209,7 @@ page-anotote-list {
                                 button {
                                     //margin-left: 10px !important;
                                     display: inline-block;
+									background: transparent;
                                 }
                                 span {
                                     display: inline-block;
@@ -225,16 +294,18 @@ page-anotote-list {
                                     ion-label {
                                         padding: 10px 0px 10px 20px;
                                         .txt {
-                                            border-bottom: 0px;
-                                            display: inline-block;
-                                            vertical-align: top;
+												border-bottom: 0px;
+												display: inline-block;
+												vertical-align: top;
+												width: 90%;
+												padding: 0 10px;
                                             p {
                                                 font-size: 18px;
                                                 text-overflow: ellipsis;
                                                 display: -webkit-box;
                                                 -webkit-box-orient: vertical;
                                                 -webkit-line-clamp: 1;
-                                                width: 78vw;
+                                                width: 75vw;
                                             }
                                         }
                                         .status {

@@ -2,7 +2,8 @@
     <ion-toolbar color="homeheader">
         <ion-buttons start>
             <button class="search_icon" ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
+               	<img src="assets/img/search.png" alt="" />
+                <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
         <ion-title>
@@ -37,7 +38,8 @@
                     <div class="time">
                         <em>
                       <button type="button"><ion-icon name="apps"></ion-icon></button>
-                      <span>{{anotote.formated_time | amTimeAgo}}</span>
+                      <span *ngIf="anotote.is_today">{{ anotote.formated_time | amDateFormat:'hh:mm'}}</span>
+                      <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span>
                     </em>
                         <span [innerText]="anotote.annotote.source"></span>
                     </div>
