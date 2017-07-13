@@ -5,13 +5,13 @@
 }
 
 .top_empty_box{
-	height: 60%;
-	background: rgba(0, 0, 0, .5);
+    height: calc(100vh - 251px);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .sharing_pop {
 	ion-item{
-		padding: 3.2vw 20px;
+		padding: 3vw 20px;
 		position: relative;
 		&:after{
 			content: "";
@@ -34,8 +34,19 @@
 				}
 				.txt{
 					display: inline-block;
-					width: 80vw;
+					width: calc(100% - 25px);
 					vertical-align: top;
+					span{
+						color: #8e9093;	
+					}
+					p{
+						overflow: inherit;
+						margin: 0 0 2px;
+						font-size: 1.4rem;
+						line-height: normal;
+						text-overflow: inherit;
+						color: #8e9093;	
+					}
 				}
 				.aling-left{
 					position: relative;
@@ -161,6 +172,9 @@ page-anotote-list {
                 .label-ios,
                 .label-md {
                     margin: 0px;
+					.ng-trigger-enterAnimation{
+						margin-top: -1px;	
+					}
                     >div {
                         display: block;
 						overflow: hidden;
@@ -168,8 +182,7 @@ page-anotote-list {
                         border-bottom: 1px solid #CCC;
                         .img-holder {
                             float: left;
-                            width: 64px;
-							margin-right: 10px;
+                            width: 64px;							
                             vertical-align: middle;
                             img {
                                 vertical-align: middle;
@@ -184,7 +197,7 @@ page-anotote-list {
                         .txt {
 							vertical-align: middle;
 							padding: 10px 10px 9px;
-							width: 69vw;
+							width: calc(100% - 64px);
 							position: relative;
 							display: inline-block;
                             strong {
@@ -195,7 +208,7 @@ page-anotote-list {
                                 display: -webkit-box;
                                 -webkit-box-orient: vertical;
                                 -webkit-line-clamp: 1;
-                                width: 66vw;
+                                width: 100%;
                                 overflow: hidden;
                             }
                             p {
@@ -214,6 +227,7 @@ page-anotote-list {
                                 span {
                                     display: inline-block;
                                     margin-right: 5px !important;
+									font-size: 12px;
                                 }
                             }
                         }
@@ -253,10 +267,12 @@ page-anotote-list {
                                             padding: 3px 0 0;
                                         }
                                         .check-text {
-                                            display: table-cell;
-                                            vertical-align: top;
-                                            padding: 0 10px 0 12px;
-                                            border: 0px;
+											vertical-align: top;
+											padding: 0 10px 0 12px;
+											border: 0px;
+											width: calc(100% - 15px);
+											margin: 0;
+											display: inline-block;
                                             .name-time {
                                                 font-size: 13px;
                                                 color: #888;
@@ -279,8 +295,8 @@ page-anotote-list {
                         }
                     }
                     .listHeader {
-                        padding: 10px 20px 10px 60px;
-                        margin-top: -1px;
+                        padding: 0px 20px 0 71px;
+                        margin-top: -5px;
                         background: #FFF;
                         .btns-area {
                             padding: 0px;
@@ -294,18 +310,18 @@ page-anotote-list {
                                     ion-label {
                                         padding: 10px 0px 10px 20px;
                                         .txt {
-												border-bottom: 0px;
-												display: inline-block;
-												vertical-align: top;
-												width: 90%;
-												padding: 0 10px;
+											border-bottom: 0px;
+											display: inline-block;
+											vertical-align: top;
+											width: calc(100% - 30px);
+											padding: 0 0px 0 10px;
                                             p {
                                                 font-size: 18px;
                                                 text-overflow: ellipsis;
                                                 display: -webkit-box;
                                                 -webkit-box-orient: vertical;
                                                 -webkit-line-clamp: 1;
-                                                width: 75vw;
+												width: 100%;
                                             }
                                         }
                                         .status {
@@ -325,20 +341,27 @@ page-anotote-list {
         overflow: visible;
     }
     .topList {
-        margin: 0;
-        padding: 0px;
+		margin: 0;
+        padding: 0 25px 0 0;
         list-style: none;
-    }
-    .topList li {
-        float: right;
-        padding: 3px 10px;
-    }
-    .topList li.leftIcon {
-        float: left;
-        padding: 0px 10px;
-        position: absolute;
-        left: 30px;
-        top: 8px;
+		overflow: hidden;
+		li {
+			float: right;
+			padding: 13px 15px 0;
+			img{
+				width: 38px;
+			}
+			&.leftIcon{
+				float: left;
+				padding: 0px 10px;
+				position: absolute;
+				left: 0;
+				top: 12px;
+				img{
+					width: auto;
+				}
+			}
+		}
     }
     /*#wrapper{
 		box-shadow: none;
