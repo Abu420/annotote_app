@@ -4,13 +4,8 @@
     color: #ff001d;
 }
 
-<<<<<<< HEAD
 .top_empty_box {
-    height: calc(100vh - 251px);
-=======
-.top_empty_box{
     height: calc(100vh - 40%);
->>>>>>> 6823b35b2ee2a774b9bb157ef44ed5671abb1b05
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -159,38 +154,35 @@ tags_popup {
     }
 }
 
-anotote_options{
-	.content_follows_profile{
-		height: calc(100% - 60%);
-		background: #FFF;
-		.sharing_pop{
-			overflow: hidden;
-			padding: 10px 20px;
-			.main_label{
-				display: inline-block;
-				vertical-align: middle;
-				padding: 0 10px;
-			}
-			ul{
-				margin: 0px;
-				padding: 0px;
-				list-style: none;
-				display: inline-block;
-				vertical-align: middle;
-				li{
-					display: inline-block;
-					vertical-align: middle;
-					padding: 0 10px;
-				}
-			}
-		}
-	}
-	
+anotote_options {
+    .content_follows_profile {
+        height: calc(100% - 60%);
+        background: #FFF;
+        .sharing_pop {
+            overflow: hidden;
+            padding: 10px 20px;
+            .main_label {
+                display: inline-block;
+                vertical-align: middle;
+                padding: 0 10px;
+            }
+            ul {
+                margin: 0px;
+                padding: 0px;
+                list-style: none;
+                display: inline-block;
+                vertical-align: middle;
+                li {
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding: 0 10px;
+                }
+            }
+        }
+    }
 }
 
-
 page-anotote-list {
-<<<<<<< HEAD
     .toolbar-ios-follow {
         ion-buttons {
             button {
@@ -198,16 +190,6 @@ page-anotote-list {
             }
         }
     }
-=======
-	.toolbar-ios-follow{
-		ion-buttons{
-			button {
-				color: #FFF !important;
-			}
-		}
-	}
-	
->>>>>>> 6823b35b2ee2a774b9bb157ef44ed5671abb1b05
     .scroll-content {
         padding: 20px 16px 16px !important;
         .item {
