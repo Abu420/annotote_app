@@ -5,7 +5,7 @@
 }
 
 .top_empty_box {
-    height: calc(100vh - 40%);
+    height: calc(100% - 40%);
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -155,30 +155,41 @@ tags_popup {
 }
 
 anotote_options {
+	.top_empty_box{
+		height: calc(100% - 43%);
+	}
     .content_follows_profile {
-        height: calc(100% - 60%);
+        height: calc(100% - 56.5%);
         background: #FFF;
-        .sharing_pop {
-            overflow: hidden;
-            padding: 10px 20px;
-            .main_label {
-                display: inline-block;
-                vertical-align: middle;
-                padding: 0 10px;
-            }
-            ul {
-                margin: 0px;
-                padding: 0px;
-                list-style: none;
-                display: inline-block;
-                vertical-align: middle;
-                li {
-                    display: inline-block;
-                    vertical-align: middle;
-                    padding: 0 10px;
-                }
-            }
-        }
+		padding-top: 10px;
+        .sharing_pop{
+			padding: 0 10px 10px;
+			.main_label{
+				display: inline-block;
+				vertical-align: middle;
+				width: 60px;
+				text-align: center;
+				img{
+					width: 45px;
+					opacity: .4;
+				}
+			}
+			ul{
+				display: inline-block;
+				vertical-align: middle;
+				width: calc(100% - 22%);
+				margin: 0px;
+				padding: 12px 0 20px;
+				list-style: none;
+				border-bottom: 1px solid #CCC;
+				li{
+					display: table-cell;
+					padding: 0 10px;
+					vertical-align: middle;
+					color: #797979;
+				}
+			}
+		}
     }
 }
 
@@ -369,6 +380,15 @@ page-anotote-list {
         contain: none;
         overflow: visible;
     }
+	.toolbar-ios{
+		.topList {
+			li {
+				&.leftIcon {
+					top: 24px;
+				}
+			}
+		}
+	}
     .topList {
         margin: 0;
         padding: 0 25px 0 0;
