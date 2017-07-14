@@ -4,74 +4,74 @@
     color: #ff001d;
 }
 
-.top_empty_box{
+.top_empty_box {
     height: calc(100vh - 251px);
     background: rgba(0, 0, 0, 0.5);
 }
 
 .sharing_pop {
-	ion-item{
-		padding: 3vw 20px;
-		position: relative;
-		&:after{
-			content: "";
-			bottom: 0px;
-			position: absolute;
-			right: 0px;
-			width: 85%;
-			border-bottom: 1px solid #CCC;
-		}
-		.item-inner{
-			padding: 0px;
-			ion-label{
-				margin: 0px;
-				.aling-left{
-					display: inline-block;
-					width: 20px;
-					margin-right: 10px;
-					vertical-align: top;
-					padding-top: 3px;
-				}
-				.txt{
-					display: inline-block;
-					width: calc(100% - 25px);
-					vertical-align: top;
-					span{
-						color: #8e9093;	
-					}
-					p{
-						overflow: inherit;
-						margin: 0 0 2px;
-						font-size: 1.4rem;
-						line-height: normal;
-						text-overflow: inherit;
-						color: #8e9093;	
-					}
-				}
-				.aling-left{
-					position: relative;
-					ion-icon{
-						font-size: 30px;
-						color: #bdbdbd;
-					}
-					em{
-						position: absolute;
-						width: 20px;
-						text-align: center;
-						height: 20px;
-						font-size: 12px;
-						font-style: normal;
-						padding: 2px;
-						background: red;
-						border-radius: 50%;
-						color: #FFF;
-						right: -10px;
-						top: 0px;
-					}
-				}
-			}
-		}
-	}
+    ion-item {
+        padding: 3vw 20px;
+        position: relative;
+        &:after {
+            content: "";
+            bottom: 0px;
+            position: absolute;
+            right: 0px;
+            width: 85%;
+            border-bottom: 1px solid #CCC;
+        }
+        .item-inner {
+            padding: 0px;
+            ion-label {
+                margin: 0px;
+                .aling-left {
+                    display: inline-block;
+                    width: 20px;
+                    margin-right: 10px;
+                    vertical-align: top;
+                    padding-top: 3px;
+                }
+                .txt {
+                    display: inline-block;
+                    width: calc(100% - 25px);
+                    vertical-align: top;
+                    span {
+                        color: #8e9093;
+                    }
+                    p {
+                        overflow: inherit;
+                        margin: 0 0 2px;
+                        font-size: 1.4rem;
+                        line-height: normal;
+                        text-overflow: inherit;
+                        color: #8e9093;
+                    }
+                }
+                .aling-left {
+                    position: relative;
+                    ion-icon {
+                        font-size: 30px;
+                        color: #bdbdbd;
+                    }
+                    em {
+                        position: absolute;
+                        width: 20px;
+                        text-align: center;
+                        height: 20px;
+                        font-size: 12px;
+                        font-style: normal;
+                        padding: 2px;
+                        background: red;
+                        border-radius: 50%;
+                        color: #FFF;
+                        right: -10px;
+                        top: 0px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .fancy-bars {
@@ -155,13 +155,13 @@ tags_popup {
 }
 
 page-anotote-list {
-	.toolbar-ios-follow{
-		ion-buttons{
-			button {
-				color: #FFF !important;
-			}
-		}
-	}
+    .toolbar-ios-follow {
+        ion-buttons {
+            button {
+                color: #FFF !important;
+            }
+        }
+    }
     .scroll-content {
         padding: 20px 16px 16px !important;
         .item {
@@ -172,17 +172,17 @@ page-anotote-list {
                 .label-ios,
                 .label-md {
                     margin: 0px;
-					.ng-trigger-enterAnimation{
-						margin-top: -1px;	
-					}
+                    .ng-trigger-enterAnimation {
+                        margin-top: -1px;
+                    }
                     >div {
                         display: block;
-						overflow: hidden;
+                        overflow: hidden;
                         width: 100%;
                         border-bottom: 1px solid #CCC;
                         .img-holder {
                             float: left;
-                            width: 64px;							
+                            width: 64px;
                             vertical-align: middle;
                             img {
                                 vertical-align: middle;
@@ -190,16 +190,16 @@ page-anotote-list {
                         }
                         .check {
                             float: left;
-							padding: 15px;
+                            padding: 15px;
                             vertical-align: middle;
                             text-align: center;
                         }
                         .txt {
-							vertical-align: middle;
-							padding: 10px 10px 9px;
-							width: calc(100% - 64px);
-							position: relative;
-							display: inline-block;
+                            vertical-align: middle;
+                            padding: 10px 10px 9px;
+                            width: calc(100% - 64px);
+                            position: relative;
+                            display: inline-block;
                             strong {
                                 font-weight: normal;
                                 font-size: 16px;
@@ -222,12 +222,12 @@ page-anotote-list {
                                 button {
                                     //margin-left: 10px !important;
                                     display: inline-block;
-									background: transparent;
+                                    background: transparent;
                                 }
                                 span {
                                     display: inline-block;
                                     margin-right: 5px !important;
-									font-size: 12px;
+                                    font-size: 12px;
                                 }
                             }
                         }
@@ -252,6 +252,7 @@ page-anotote-list {
                             background-position: center center;
                             background-repeat: no-repeat;
                             background-size: 8px;
+                            z-index: 9999999;
                         }
                     }
                     .ng-trigger {
@@ -267,12 +268,12 @@ page-anotote-list {
                                             padding: 3px 0 0;
                                         }
                                         .check-text {
-											vertical-align: top;
-											padding: 0 10px 0 12px;
-											border: 0px;
-											width: calc(100% - 15px);
-											margin: 0;
-											display: inline-block;
+                                            vertical-align: top;
+                                            padding: 0 10px 0 12px;
+                                            border: 0px;
+                                            width: calc(100% - 15px);
+                                            margin: 0;
+                                            display: inline-block;
                                             .name-time {
                                                 font-size: 13px;
                                                 color: #888;
@@ -310,18 +311,18 @@ page-anotote-list {
                                     ion-label {
                                         padding: 10px 0px 10px 20px;
                                         .txt {
-											border-bottom: 0px;
-											display: inline-block;
-											vertical-align: top;
-											width: calc(100% - 30px);
-											padding: 0 0px 0 10px;
+                                            border-bottom: 0px;
+                                            display: inline-block;
+                                            vertical-align: top;
+                                            width: calc(100% - 30px);
+                                            padding: 0 0px 0 10px;
                                             p {
                                                 font-size: 18px;
                                                 text-overflow: ellipsis;
                                                 display: -webkit-box;
                                                 -webkit-box-orient: vertical;
                                                 -webkit-line-clamp: 1;
-												width: 100%;
+                                                width: 100%;
                                             }
                                         }
                                         .status {
@@ -341,27 +342,27 @@ page-anotote-list {
         overflow: visible;
     }
     .topList {
-		margin: 0;
+        margin: 0;
         padding: 0 25px 0 0;
         list-style: none;
-		overflow: hidden;
-		li {
-			float: right;
-			padding: 13px 15px 0;
-			img{
-				width: 38px;
-			}
-			&.leftIcon{
-				float: left;
-				padding: 0px 10px;
-				position: absolute;
-				left: 0;
-				top: 12px;
-				img{
-					width: auto;
-				}
-			}
-		}
+        overflow: hidden;
+        li {
+            float: right;
+            padding: 13px 15px 0;
+            img {
+                width: 38px;
+            }
+            &.leftIcon {
+                float: left;
+                padding: 0px 10px;
+                position: absolute;
+                left: 0;
+                top: 12px;
+                img {
+                    width: auto;
+                }
+            }
+        }
     }
     /*#wrapper{
 		box-shadow: none;

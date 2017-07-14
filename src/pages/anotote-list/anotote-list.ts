@@ -62,7 +62,6 @@ export class AnototeList {
   private reorder_highlights: boolean;
   public user: any;
   public selected_totes: Array<ListTotesModel> = [];
-  public can_load_more:boolean=true;
   /**
    * Constructor
    */
@@ -96,7 +95,7 @@ export class AnototeList {
     this.edit_mode = false;
     let anototes: Array<ListTotesModel> = [];
 
-    this.utilityMethods.show_loader('');
+    this.utilityMethods.show_loader('',false);
     this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
       let stream = data.json().data.annototes;
       for (let entry of stream) {
@@ -184,7 +183,6 @@ export class AnototeList {
       }
       infiniteScroll.complete();
       if (stream.length < 10) {
-        this.can_load_more=false;
         infiniteScroll.enable(false);
       }
     }, (error) => {
@@ -203,9 +201,9 @@ export class AnototeList {
   }
 
   open_follows_popup(event) {
+    event.stopPropagation();
     if (this.current_active_anotote.followers.length == 0)
       return false;
-    event.stopPropagation();
     let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: this.current_active_anotote.followers });
     anototeOptionsModal.onDidDismiss(data => {
       if (data != null) {
@@ -430,7 +428,6 @@ export class AnototeList {
   }
 
   delete_totes(){
-    console.log(this.selected_totes);
     var ids='';
     for(let anotote of this.selected_totes){
       if(ids == '')
@@ -444,6 +441,31 @@ export class AnototeList {
     }
     this.utilityMethods.show_loader('');
     this.anototeService.delete_bulk_totes(params).subscribe((result)=>{
+      this.utilityMethods.hide_loader();
+      if(result.data.annotote.length == this.selected_totes.length){
+        for(let tote of this.selected_totes){
+          this.anototes.splice(this.anototes.indexOf(tote),1);
+        }
+        this.utilityMethods.doToast("Deleted Successfully.")
+        this.close_bulk_actions();
+      }
+    })
+  }
+
+  tote_privacy(){
+    var ids='';
+    for(let anotote of this.selected_totes){
+      if(ids == '')
+        ids += anotote.userAnnotote.id
+      else
+        ids += ',' + anotote.userAnnotote.id 
+    }
+    var params={
+      userAnnotote_ids:ids,
+      privacy: 1
+    }
+    this.utilityMethods.show_loader('');
+    this.anototeService.privatize_bulk_totes(params).subscribe((result)=>{
       this.utilityMethods.hide_loader();
       if(result.data.annotote.length == this.selected_totes.length){
         for(let tote of this.selected_totes){

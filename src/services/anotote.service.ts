@@ -48,4 +48,10 @@ export class AnototeService {
     var response = this.http.post(url,params,{}).map(res => res.json());
     return response;
   }
+
+  public privatize_bulk_totes(params){
+    var url = this.constants.API_BASEURL +'/privacy-bulk-annototes';
+    var response = this.http.post(url,params,{}).map(res => res.json());
+    return response;
+  }
 }
