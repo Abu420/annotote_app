@@ -1,5 +1,5 @@
 import { Component, ViewChild, trigger, transition, style, animate } from '@angular/core';
-import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams, AlertController } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
@@ -65,7 +65,7 @@ export class AnototeList {
   /**
    * Constructor
    */
-  constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController) {
+  constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, private alertCtrl: AlertController) {
     this.current_color = navParams.get('color');
     this.setStreamType(navParams.get('color'));
     this.reply_box_on = false;
@@ -95,7 +95,7 @@ export class AnototeList {
     this.edit_mode = false;
     let anototes: Array<ListTotesModel> = [];
 
-    this.utilityMethods.show_loader('',false);
+    this.utilityMethods.show_loader('', false);
     this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
       let stream = data.json().data.annototes;
       for (let entry of stream) {
@@ -106,7 +106,6 @@ export class AnototeList {
       }
       this.utilityMethods.hide_loader();
     }, (error) => {
-      console.log(error);
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
@@ -191,7 +190,7 @@ export class AnototeList {
         this.utilityMethods.internet_connection_error();
       }
     });
-  
+
   }
 
   follows(event) {
@@ -237,9 +236,9 @@ export class AnototeList {
       this.edit_mode = true;
       anotote.checked = !anotote.checked;
       this.selected_totes.push(anotote);
-    }else{
-      if(anotote.chatGroup != null){
-        this.utilityMethods.confirmation_message("Are you sure?","Do you really want to delete this chat group",function(){
+    } else {
+      if (anotote.chatGroup != null) {
+        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", function () {
           console.log('deleted');
         })
       }
@@ -427,54 +426,106 @@ export class AnototeList {
     this.utilityMethods.share_content_native(message, '', '', '');
   }
 
-  delete_totes(){
-    var ids='';
-    for(let anotote of this.selected_totes){
-      if(ids == '')
-        ids += anotote.userAnnotote.id
-      else
-        ids += ',' + anotote.userAnnotote.id 
-    }
-    var params={
-      userAnnotote_ids:ids,
-      delete:1
-    }
-    this.utilityMethods.show_loader('');
-    this.anototeService.delete_bulk_totes(params).subscribe((result)=>{
-      this.utilityMethods.hide_loader();
-      if(result.data.annotote.length == this.selected_totes.length){
-        for(let tote of this.selected_totes){
-          this.anototes.splice(this.anototes.indexOf(tote),1);
-        }
-        this.utilityMethods.doToast("Deleted Successfully.")
-        this.close_bulk_actions();
+  delete_totes() {
+    if (this.selected_totes.length > 0) {
+      var message = '';
+      if (this.selected_totes.length == 1) {
+        message = "Do you really want to delete this anotation?"
+      } else {
+        message = "Do you really want to delete these anotation?"
       }
-    })
+      let alert = this.alertCtrl.create({
+        title: "Are you sure?",
+        subTitle: message,
+        buttons: [{
+          text: 'OK',
+          handler: () => {
+            var ids = '';
+            for (let anotote of this.selected_totes) {
+              if (ids == '')
+                ids += anotote.userAnnotote.id
+              else
+                ids += ',' + anotote.userAnnotote.id
+            }
+            var params = {
+              userAnnotote_ids: ids,
+              delete: 1
+            }
+            this.utilityMethods.show_loader('');
+            this.anototeService.delete_bulk_totes(params).subscribe((result) => {
+              this.utilityMethods.hide_loader();
+              if (result.data.annotote.length == this.selected_totes.length) {
+                for (let tote of this.selected_totes) {
+                  this.anototes.splice(this.anototes.indexOf(tote), 1);
+                }
+                this.utilityMethods.doToast("Deleted Successfully.")
+                this.close_bulk_actions();
+              }
+            }, (error) => {
+              this.utilityMethods.hide_loader();
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            })
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => { }
+        }]
+      });
+      alert.present();
+    } else {
+      this.utilityMethods.doToast("Please, select an anotote first.");
+    }
   }
 
-  tote_privacy(){
-    var ids='';
-    for(let anotote of this.selected_totes){
-      if(ids == '')
-        ids += anotote.userAnnotote.id
-      else
-        ids += ',' + anotote.userAnnotote.id 
+  public tote_privacy() {
+    if (this.selected_totes.length > 0) {
+      let alert = this.alertCtrl.create({
+        title: "Are you sure?",
+        subTitle: "Do you really want to change privacy?",
+        buttons: [{
+          text: 'OK',
+          handler: () => {
+            var ids = '';
+            for (let anotote of this.selected_totes) {
+              if (ids == '')
+                ids += anotote.userAnnotote.id
+              else
+                ids += ',' + anotote.userAnnotote.id
+            }
+            var params = {
+              userAnnotote_ids: ids,
+              privacy: 1
+            }
+            this.utilityMethods.show_loader('', false);
+            this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
+              this.utilityMethods.hide_loader();
+              if (result.data.annotote.length == this.selected_totes.length) {
+                for (let tote of this.selected_totes) {
+                  tote.userAnnotote.privacy = 1;
+                }
+                this.utilityMethods.doToast("Privacy successfully updated.");
+                this.close_bulk_actions();
+              }
+            }, (error) => {
+              this.utilityMethods.hide_loader();
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            })
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => { }
+        }]
+      });
+      alert.present();
+    } else {
+      this.utilityMethods.doToast("Please, select an anotote first.");
     }
-    var params={
-      userAnnotote_ids:ids,
-      privacy: 1
-    }
-    this.utilityMethods.show_loader('');
-    this.anototeService.privatize_bulk_totes(params).subscribe((result)=>{
-      this.utilityMethods.hide_loader();
-      if(result.data.annotote.length == this.selected_totes.length){
-        for(let tote of this.selected_totes){
-          this.anototes.splice(this.anototes.indexOf(tote),1);
-        }
-        this.utilityMethods.doToast("Deleted Successfully.")
-        this.close_bulk_actions();
-      }
-    })
   }
 
 }
