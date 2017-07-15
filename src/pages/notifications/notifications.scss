@@ -1,4 +1,16 @@
 page-notifications {
+	.notifications_header {
+		min-height: 45px;
+		.toolbar-background{
+			border-bottom: 0px;
+			box-shadow: 0 0 20px #CCC;
+		}
+	}
+	.toolbar-title{
+		font-size: 14px;
+		color: #8e8e8e !important;
+		font-weight: normal;
+	}
     .scroll-content {
         padding: 8px 16px 16px !important;
         #wrapper {
@@ -23,15 +35,18 @@ page-notifications {
                     padding: 0px !important;
                     .item-inner {
                         padding: 0px;
-                        .label-ios {
+                        ion-label {
                             margin: 0px;
-                            display: table;
+                            display: block;
                             width: 100%;
                             .img-holder {
-                                display: table-cell;
-                                vertical-align: middle;
-                                width: 20%;
-                                height: auto;
+								float: left;
+								width: 50px;
+								height: 50px;
+								overflow: hidden;
+								vertical-align: middle;
+								margin-right: 0px;
+								margin: 10px;
                                 img {
                                     width: 100%;
                                     height: auto;
@@ -39,9 +54,9 @@ page-notifications {
                                 }
                             }
                             .txt {
-                                display: table-cell;
+                                display: inline-block;
                                 vertical-align: middle;
-                                width: 80%;
+                                width: calc(100% - 60px);
                                 padding: 20px 0px 8px 10px;
                                 .follow-name {
                                     font-size: 18px;
