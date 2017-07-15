@@ -156,6 +156,9 @@ page-anotote-editor {
     }
     .boxIcon {
         margin: 0px;
+		button{
+			height: 114px;
+		}
         span {
             padding: 17px;
             display: block;
@@ -166,7 +169,7 @@ page-anotote-editor {
         }
     }
 	.downImage{
-		margin-bottom: -40px;
+		margin-bottom: -6;
 		margin-top: 33px;
 		margin-right: -4px;
 		padding: 0px !important;
