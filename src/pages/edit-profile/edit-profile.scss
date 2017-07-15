@@ -57,4 +57,17 @@ page-edit-profile {
             font-size: 12px;
         }
     }
+	.userInput{
+		img{
+			float: left;
+			width: 20px;
+			margin-right: 10px;
+		}
+	}
+	.userDesc {
+		@extend .userInput;
+		img{
+			opacity: .4;	
+		}
+	}
 }

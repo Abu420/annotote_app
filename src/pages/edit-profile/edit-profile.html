@@ -22,16 +22,16 @@
                 <ion-icon name="mail"></ion-icon>
                 <ion-input [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email"></ion-input>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
-                <ion-icon name="person"></ion-icon>
+            <div class="input-holder userInput layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
+               	<img src="assets/img/user.png" />
                 <ion-input [value]="user.firstName" (input)="value_updating_first_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="First Name"></ion-input>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
-                <ion-icon name="person"></ion-icon>
+            <div class="input-holder userInput layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
+                <img src="assets/img/user.png" />
                 <ion-input [value]="user.lastName" (input)="value_updating_last_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('last_name')" type="text" placeholder="Last Name"></ion-input>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='description'?'active':(field_error.description?'invalid_field':'')">
-                <ion-icon name="unlock"></ion-icon>
+            <div class="input-holder userDesc layout" [ngClass]="focus_field=='description'?'active':(field_error.description?'invalid_field':'')">
+                <img src="assets/img/desc.png" />
                 <input style="background: transparent;border: 0px;" [value]="user.description" (input)="value_updating_description($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('description')" type="text" placeholder="Description" />
             </div>
             <button [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.description.length>0)?'green':''" (tap)="go_home()" ion-button>Go</button>
