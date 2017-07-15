@@ -57,11 +57,11 @@ export class UtilityMethods {
     /**
      * Show Loader for Async Tasks
      */
-    public show_loader(msg,backdrop:boolean=true) {
+    public show_loader(msg, backdrop: boolean = true) {
         this.loading = this.loadingCtrl.create({
-            spinner:'bubbles',
+            spinner: 'bubbles',
             content: msg,
-            showBackdrop:backdrop
+            showBackdrop: backdrop
         });
 
         this.loading.present();
