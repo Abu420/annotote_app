@@ -18,7 +18,7 @@
         <ul class="topList" *ngIf="edit_mode">
             <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
             <li class="delete" (tap)="delete_totes()"><img src="assets/img/delete.png" alt=""></li>
-            <li class="privacy" *ngIf="selected_totes.length < 1"><img src="assets/img/privacy.png" alt=""></li>
+            <li class="privacy" (tap)="tote_privacy()"><img src="assets/img/privacy.png" alt=""></li>
             <li class="share" (tap)="share_totes()"><img src="assets/img/share.png" alt=""></li>
         </ul>
     </ion-toolbar>
@@ -52,7 +52,7 @@
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0" class="product-list">
             <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
-                <div (press)="bulkAction(anotote)" [ngClass]="current_active_anotote==anotote?'activeTote':''" (tap)="openAnototeDetail(anotote)">
+                <div (press)="bulkAction(anotote)" [ngClass]="current_active_anotote==anotote?'activeTote':''" (click)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
@@ -63,7 +63,7 @@
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">
                         <img *ngIf="anotote.checked" src="assets/img/check2.png">
                     </div>
-                    <span class="options" *ngIf="anotote.active"></span>
+                    <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event)"></span>
                     <div class="txt" *ngIf="anotote.type ==1">
                         <strong [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">
@@ -170,10 +170,6 @@
         <div class="no_totes" [hidden]="has_totes">
             <p [ngClass]="{'green': current_color == 'me', 'yellow':current_color == 'follow', 'pink':current_color == 'top' }">No totes found.</p>
         </div>
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="anototes.length > 0 && anototes.length % 10 == 0">
-            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-            </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
         <!-- Working for annotote long press -->
         <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">
             <ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;" [ngClass]="anotote.checked?'even':''">
@@ -221,6 +217,10 @@
             </ion-item>
         </ion-list>-->
     </div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
     <ion-fab bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
             <img src="assets/img/tot_icon_white.png" />

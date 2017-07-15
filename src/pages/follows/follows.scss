@@ -163,7 +163,7 @@ page-follows {
         .txt {
             display: inline-block;
             vertical-align: middle;
-            width: 80%;
+            width: calc(100% - 45px);
         }
     }
 }
