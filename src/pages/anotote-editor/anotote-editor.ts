@@ -41,6 +41,10 @@ export class AnototeEditor implements OnDestroy {
     /**
      * Reg Scroll Hide/Show Header
      */
+    private ANOTOTE: any;
+    private WHICH_STREAM: string;
+    private FROM: string;
+    private HIGHLIGHT_RECEIVED: any;
     public start = 0;
     public threshold = 100;
     public slideHeaderPrevious = 0;
@@ -55,7 +59,6 @@ export class AnototeEditor implements OnDestroy {
     private highlight: any;
     private selected_highlight: { txt: '', identifier: '', type: '', comment: '', from_where: '' };
     private selection_lock: boolean;
-    private anotote_type: string; // 'me' for Me type, then 'follows' && 'top'
     private text: string; // Anotote article whole text
     private tote_id: string;
     private main_anotote_id: string;
@@ -73,23 +76,22 @@ export class AnototeEditor implements OnDestroy {
         /**
          * Get Page Params
          */
-        this.text = navParams.get('tote_txt');
-        this.tote_id = navParams.get('anotote_id');
-        this.main_anotote_id = navParams.get('main_anotote_id');
-        this.tote_user_id = navParams.get('anotote_user_id');
-        this.anotote_type = navParams.get('anotote_type');
-        this.which_stream = navParams.get('which_stream');
-        // this.from_where = navParams.get('from_where');
-        if (navParams.get('from_where') == 'anotote_list')
+        this.ANOTOTE = navParams.get('ANOTOTE');
+        this.FROM = navParams.get('FROM');
+        this.WHICH_STREAM = navParams.get('WHICH_STREAM');
+        this.which_stream = this.WHICH_STREAM;
+        this.HIGHLIGHT_RECEIVED = navParams.get('HIGHLIGHT_RECEIVED');
+        this.tote_id = this.ANOTOTE.userAnnotote.id;
+        this.main_anotote_id = this.ANOTOTE.annototeId;
+        this.tote_user_id = this.ANOTOTE.userAnnotote.userId;
+        if (this.FROM == 'anotote_list')
             this.from_where = 'anotote_list';
         else
             this.from_where = 'new_anotote';
-        this.highlight = navParams.get('highlight');
         this.full_screen_mode = false;
-        if (this.from_where == 'anotote_list')
-            setTimeout(function () {
-                that.scrollTo(that.highlight.identifier);
-            }, 1000);
+
+        this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
+
         /**
          * Document Selection Listner
          */
@@ -162,6 +164,28 @@ export class AnototeEditor implements OnDestroy {
     ngOnDestroy() {
         this.events.unsubscribe('show_anotation_details');
         this.events.unsubscribe('show_tote_options');
+    }
+
+    /**
+     * Scrap anotote
+     */
+    scrape_anotote(file_path) {
+        this.utilityMethods.show_loader('');
+        this.searchService.get_anotote_content(file_path)
+            .subscribe((response_content) => {
+                this.utilityMethods.hide_loader();
+                this.text = response_content.text();
+                var that = this;
+                if (this.from_where == 'anotote_list')
+                    setTimeout(function () {
+                        that.scrollTo(that.HIGHLIGHT_RECEIVED.identifier);
+                    }, 1000);
+            }, (error) => {
+                this.utilityMethods.hide_loader();
+                if (error.code == -1 || error.code == -2) {
+                    this.utilityMethods.internet_connection_error();
+                }
+            });
     }
 
     change_full_screen_mode() {

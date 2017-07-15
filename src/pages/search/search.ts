@@ -203,20 +203,8 @@ export class Search {
          */
         this.searchService.create_anotote({ url: this.search_txt, created_at: current_time })
             .subscribe((response) => {
-                /**
-                * Get Anotote Content API
-                */
-                this.searchService.get_anotote_content(response.data.annotote.localLink)
-                    .subscribe((response_content) => {
-                        this.utilityMethods.hide_loader();
-                        this.go_to_browser(response_content.text(), response.data.userAnnotote.id);
-                    }, (error) => {
-                        this.utilityMethods.hide_loader();
-                        this.search_loading = false;
-                        if (error.code == -1) {
-                            this.utilityMethods.internet_connection_error();
-                        }
-                    });
+                this.utilityMethods.hide_loader();
+                this.go_to_browser(response.data);
             }, (error) => {
                 this.utilityMethods.hide_loader();
                 this.search_loading = false;
@@ -230,8 +218,8 @@ export class Search {
             });
     }
 
-    go_to_browser(scrapped_txt, anotote_id) {
-        this.navCtrl.push(AnototeEditor, { tote_txt: scrapped_txt, anotote_id: anotote_id, which_stream: 'me' });
+    go_to_browser(anotote) {
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'me' });
         this.dismiss()
     }
 
