@@ -32,6 +32,22 @@ page-notifications {
             .product-list {
                 margin-top: 0px !important;
                 .item {
+					&.active{
+						.item-inner{
+							ion-label{
+								.txt{
+									strong{
+										color: #ff2600;
+									}
+									.time{
+										span{
+											color: #ff2600;
+										}
+									}
+								}
+							}
+						}
+					}
                     padding: 0px !important;
                     .item-inner {
                         padding: 0px;
