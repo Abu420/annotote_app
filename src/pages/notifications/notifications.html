@@ -19,7 +19,7 @@
         <ion-list no-lines class="product-list follows notifications">
             <ion-item (click)="read_notification(notification)" *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus==0}">
                 <div class="img-holder">
-                    <img *ngIf="notification.sender.photo!=null" [src]="img.src">
+                    <img *ngIf="notification.sender.photo!=null" [src]="image_base_path + notification.sender.photo">
                     <img *ngIf="notification.sender.photo==null" src="assets/img/img2.png">
                 </div>
                 <div class="txt">

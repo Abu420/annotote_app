@@ -11,7 +11,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 /**
  * Services
  */
-import { Constants } from '../../services/constants.service'
+import { Constants } from '../../services/constants.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';

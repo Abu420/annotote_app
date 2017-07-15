@@ -5,6 +5,7 @@ import { Chat } from '../chat/chat';
 /**
  * Services
  */
+import { Constants } from '../../services/constants.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { NotificationService } from '../../services/notifications.service';
 import { SearchService } from '../../services/search.service';
@@ -26,12 +27,14 @@ export class Notifications {
   private _notifications: any;
   private _loading: boolean;
   private _unread: number;
+  private image_base_path: string;
   private _reload: boolean;
 
-  constructor(public params: NavParams, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
+  constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
     this._notifications = [];
     this._loading = false;
     this._unread = 0;
+    this.image_base_path = this.constants.IMAGE_BASEURL;
 
     this._reload = this.params.get('reload');
   }
@@ -46,7 +49,7 @@ export class Notifications {
       .subscribe((response) => {
         notification.readStatus = 1;
         this._unread = this.notificationService.decrement_notification();
-      },(error)=>{
+      }, (error) => {
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
@@ -93,6 +96,7 @@ export class Notifications {
       this._notifications = data.notifications;
       this._unread = data.unread;
       this._loading = true;
+      console.log(data);
     } else {
       this.notificationService.get_notifications(user_id)
         .subscribe((response) => {
@@ -100,6 +104,7 @@ export class Notifications {
           var data = this.notificationService.get_notification_data();
           this._notifications = data.notifications;
           this._unread = data.unread;
+          console.log(data)
         }, (error) => {
           this._loading = true;
           if (error.code == -1) {
