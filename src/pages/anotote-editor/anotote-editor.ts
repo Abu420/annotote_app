@@ -12,6 +12,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
+import { AnototeService } from '../../services/anotote.service';
 import { AuthenticationService } from '../../services/auth.service';
 
 @Pipe({
@@ -45,6 +46,11 @@ export class AnototeEditor implements OnDestroy {
     private WHICH_STREAM: string;
     private FROM: string;
     private HIGHLIGHT_RECEIVED: any;
+    private ANOTOTE_LOADED: boolean;
+    private ANOTOTE_LOADING_ERROR: boolean;
+    private SAVED_ANOTOTES_LOCALLY: any;
+    private SAVED_ANOTOTES_LOCALLY_CURRENT: any;
+
     public start = 0;
     public threshold = 100;
     public slideHeaderPrevious = 0;
@@ -69,28 +75,36 @@ export class AnototeEditor implements OnDestroy {
     private which_stream: string;
     private show_anotation_details: (txt: string) => void;
 
-    constructor(public myElement: ElementRef, private _sanitizer: DomSanitizer, private authService: AuthenticationService, private socialSharing: SocialSharing, private events: Events, private searchService: SearchService, private navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private utilityMethods: UtilityMethods) {
+    constructor(public myElement: ElementRef,
+        private _sanitizer: DomSanitizer,
+        private authService: AuthenticationService,
+        private socialSharing: SocialSharing,
+        private events: Events,
+        private searchService: SearchService,
+        private navCtrl: NavController,
+        private navParams: NavParams,
+        private anotote_service: AnototeService,
+        private modalCtrl: ModalController,
+        private utilityMethods: UtilityMethods) {
+
         var that = this;
         this.toggle_annotation_option = false;
         this.selection_lock = false;
-        /**
-         * Get Page Params
-         */
-        this.ANOTOTE = navParams.get('ANOTOTE');
-        this.FROM = navParams.get('FROM');
-        this.WHICH_STREAM = navParams.get('WHICH_STREAM');
-        this.which_stream = this.WHICH_STREAM;
-        this.HIGHLIGHT_RECEIVED = navParams.get('HIGHLIGHT_RECEIVED');
-        this.tote_id = this.ANOTOTE.userAnnotote.id;
-        this.main_anotote_id = this.ANOTOTE.annototeId;
-        this.tote_user_id = this.ANOTOTE.userAnnotote.userId;
-        if (this.FROM == 'anotote_list')
-            this.from_where = 'anotote_list';
-        else
-            this.from_where = 'new_anotote';
-        this.full_screen_mode = false;
 
-        this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
+        /**
+         * Assigning Values
+         */
+        var anotote_from_params = {
+            ANOTOTE: navParams.get('ANOTOTE'),
+            FROM: navParams.get('FROM'),
+            WHICH_STREAM: navParams.get('WHICH_STREAM'),
+            HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED')
+        };
+        this.anotote_service.add_page_locally(anotote_from_params);
+        this.SAVED_ANOTOTES_LOCALLY = this.anotote_service.get_saved_pages_locally();
+        this.SAVED_ANOTOTES_LOCALLY_CURRENT = this.SAVED_ANOTOTES_LOCALLY.length - 1;
+
+        this.load_new_anotote(anotote_from_params, true);
 
         /**
          * Document Selection Listner
@@ -107,11 +121,54 @@ export class AnototeEditor implements OnDestroy {
             }
         });
         /**
+         * Default Full Screen Mode Off
+         */
+        this.full_screen_mode = false;
+        /**
          * Content Scroll hide/show header
          */
         this.showheader = false;
         this.hideheader = true;
     }
+
+    load_previous_page() {
+        if (this.SAVED_ANOTOTES_LOCALLY.length > 1 && this.SAVED_ANOTOTES_LOCALLY_CURRENT > 0) {
+            this.SAVED_ANOTOTES_LOCALLY_CURRENT--;
+            this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
+        }
+    }
+
+    load_next_page() {
+        if (this.SAVED_ANOTOTES_LOCALLY.length > 1 && this.SAVED_ANOTOTES_LOCALLY_CURRENT < this.SAVED_ANOTOTES_LOCALLY.length - 1) {
+            this.SAVED_ANOTOTES_LOCALLY_CURRENT++;
+            this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
+        }
+    }
+
+    load_new_anotote(ANOTOTE_OBJECT, move_to_highlight_flag?) {
+        this.utilityMethods.show_loader('');
+        this.ANOTOTE = ANOTOTE_OBJECT.ANOTOTE;
+        this.FROM = ANOTOTE_OBJECT.FROM;
+        this.WHICH_STREAM = ANOTOTE_OBJECT.WHICH_STREAM
+        this.which_stream = this.WHICH_STREAM;
+        if (move_to_highlight_flag)
+            this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
+        else
+            this.HIGHLIGHT_RECEIVED = null;
+
+        this.ANOTOTE_LOADED = false;
+        this.ANOTOTE_LOADING_ERROR = false;
+        this.tote_id = this.ANOTOTE.userAnnotote.id;
+        this.main_anotote_id = this.ANOTOTE.annototeId;
+        this.tote_user_id = this.ANOTOTE.userAnnotote.userId;
+        if (this.FROM == 'anotote_list')
+            this.from_where = 'anotote_list';
+        else
+            this.from_where = 'new_anotote';
+
+        this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
+    }
+
 
     ngOnInit() {
         // Ionic scroll element
@@ -170,18 +227,21 @@ export class AnototeEditor implements OnDestroy {
      * Scrap anotote
      */
     scrape_anotote(file_path) {
-        this.utilityMethods.show_loader('');
         this.searchService.get_anotote_content(file_path)
             .subscribe((response_content) => {
                 this.utilityMethods.hide_loader();
                 this.text = response_content.text();
                 var that = this;
-                if (this.from_where == 'anotote_list')
+                if (this.from_where == 'anotote_list' && this.HIGHLIGHT_RECEIVED != null)
                     setTimeout(function () {
                         that.scrollTo(that.HIGHLIGHT_RECEIVED.identifier);
                     }, 1000);
+                this.ANOTOTE_LOADED = true;
+                this.ANOTOTE_LOADING_ERROR = false;
             }, (error) => {
                 this.utilityMethods.hide_loader();
+                this.ANOTOTE_LOADED = true;
+                this.ANOTOTE_LOADING_ERROR = true;
                 if (error.code == -1 || error.code == -2) {
                     this.utilityMethods.internet_connection_error();
                 }

@@ -2,8 +2,8 @@
     <ion-toolbar color="commonheader">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
-                <span><img src="assets/img/new2.png"></span>
-                <span><img src="assets/img/new1.png"></span>
+                <span (click)="load_previous_page()"><img src="assets/img/new2.png"></span>
+                <span (tap)="load_next_page()"><img src="assets/img/new1.png"></span>
             </div>
         </ion-title>
         <ion-buttons *ngIf="full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
@@ -35,7 +35,7 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding>
     <div id="wrapper">
-        <div class="editor-area layout">
+        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">
             <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
             <!--<dcl-wrapper [type]="tab"></dcl-wrapper>-->
             <div [ngClass]="which_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>

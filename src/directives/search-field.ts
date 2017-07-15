@@ -12,7 +12,6 @@ export class SearchField {
 
     ngAfterViewInit() {
         setTimeout(() => {
-            console.log(this.elementRef.nativeElement);
             this.renderer.invokeElementMethod(this.elementRef.nativeElement, 'focus', []);
             if (!this.selection)
                 this.elementRef.nativeElement.setSelectionRange(0, 10000);

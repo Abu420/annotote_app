@@ -24,6 +24,7 @@ declare var cordova: any;
 })
 export class Profile {
 
+  private img_loaded: boolean;
   private image_base_path: string;
   public profileData: any;
   public from_page: string;
@@ -33,6 +34,7 @@ export class Profile {
   constructor(private zone: NgZone, private camera: Camera, private transfer: Transfer, public modalCtrl: ModalController, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public constants: Constants, params: NavParams, public navCtrl: NavController, public authService: AuthenticationService, public events: Events, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, public searchService: SearchService, private platform: Platform) {
 
     this.image_base_path = this.constants.IMAGE_BASEURL;
+    this.img_loaded = false;
     var user = this.authService.getUser();
     if (params.get('is_it_me')) {
       this.profileData = user;

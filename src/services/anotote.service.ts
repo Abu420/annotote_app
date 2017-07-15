@@ -10,8 +10,11 @@ import { AuthenticationService } from "./auth.service";
 @Injectable()
 
 export class AnototeService {
+  private BROWSER_PAGES: any;
 
-  public constructor(public http: Http, public constants: Constants, public authService: AuthenticationService) { }
+  public constructor(public http: Http, public constants: Constants, public authService: AuthenticationService) {
+    this.BROWSER_PAGES = [];
+  }
 
   public fetchTotes(whichStream, page = 1) {
     let headers = new Headers();
@@ -41,5 +44,22 @@ export class AnototeService {
     var url = this.constants.API_BASEURL + '/chat-quick-detail?second_person=' + id;
     var response = this.http.get(url).map(res => res.json())
     return response;
+  }
+
+  /**
+   * Anotote Editor BROWSED Pages
+   */
+  public add_page_locally(item) {
+    for (let i = 0; i < this.BROWSER_PAGES.length; i++) {
+      if (this.BROWSER_PAGES[i].ANOTOTE.userAnnotote.id == item.ANOTOTE.userAnnotote.id) {
+        this.BROWSER_PAGES.splice(i, 1);
+        break;
+      }
+    }
+    this.BROWSER_PAGES.push(item);
+  }
+
+  public get_saved_pages_locally() {
+    return this.BROWSER_PAGES;
   }
 }

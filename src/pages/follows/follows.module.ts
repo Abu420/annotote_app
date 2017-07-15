@@ -7,10 +7,10 @@ import { Follows } from './follows';
     // Follows,
   ],
   imports: [
-    IonicPageModule.forChild(Follows),
+    IonicPageModule.forChild(Follows)
   ],
   exports: [
     // Follows
   ]
 })
-export class FollowsModule {}
+export class FollowsModule { }

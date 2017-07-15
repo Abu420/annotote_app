@@ -60,8 +60,6 @@ export class FrontViewPage {
                               var difference = timeDiff / (1000 * 3600 * 24);
                               ano_.is_today = difference < 1 ? true : false;
                               ano_.formated_time = formated_time;
-                              console.log(formated_time)
-                              console.log(difference)
                               this.latest_anototes.push(ano_);
                         }
                         this.latest_anototes_firstTime_loading = false;
@@ -103,8 +101,6 @@ export class FrontViewPage {
                               var difference = timeDiff / (1000 * 3600 * 24);
                               ano_.is_today = difference < 1 ? true : false;
                               ano_.formated_time = formated_time;
-                              console.log(formated_time)
-                              console.log(difference)
                               this.latest_anototes.push(ano_);
                               this.latest_anototes.push(ano_);
                         }
@@ -130,19 +126,20 @@ export class FrontViewPage {
 
       presentToast() {
             if (this.toast != null) {
-                  this.toast.dismiss();
+                  return;
             }
             this.toast = this.toastCtrl.create({
                   message: 'Register or sign in',
                   position: 'bottom',
                   dismissOnPageChange: true,
                   showCloseButton: false,
-                  duration: 1000,
+                  duration: 2000,
                   cssClass: 'bottom_snakbar'
             });
 
             this.toast.onDidDismiss(() => {
                   this.showFabButton = true;
+                  this.toast = null;
             });
 
             this.toast.present();

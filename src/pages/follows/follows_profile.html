@@ -9,8 +9,9 @@
         </div>
         <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
         <div (click)="presentProfilePictureActionSheet()" class="img-holder">
-            <img *ngIf="profileData.user.photo==null" src="assets/img/cover_image.jpg">
-            <img *ngIf="profileData.user.photo" [src]="image_base_path + profileData.user.photo">
+            <img (load)="img_loaded = true" [ngClass]="{'img-loaded':img_loaded}" [hidden]="!img_loaded" *ngIf="profileData.user.photo==null" src="assets/img/cover_image.jpg">
+            <img (load)="img_loaded = true" [ngClass]="{'img-loaded':img_loaded}" [hidden]="!img_loaded" *ngIf="profileData.user.photo" [src]="image_base_path + profileData.user.photo">
+            <ion-spinner [ngClass]="{'center':true}" *ngIf="!img_loaded"></ion-spinner>
         </div>
         <ion-list class="follow_list">
             <ion-item>
