@@ -227,7 +227,24 @@ export class AnototeList {
     } else {
       if (anotote.chatGroup != null) {
         this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-
+          // var params = {
+          //   userAnnotote_ids: anotote.userAnnotote.id,
+          //   delete: 1
+          // }
+          // this.utilityMethods.show_loader('');
+          // this.anototeService.delete_bulk_totes(params).subscribe((result) => {
+          //   this.utilityMethods.hide_loader();
+          //   if (result.data.annotote.length == 1) {
+          //     this.anototes.splice(this.anototes.indexOf(anotote), 1);
+          //     this.utilityMethods.doToast("Chat tote deleted Successfully.")
+          //     this.close_bulk_actions();
+          //   }
+          // }, (error) => {
+          //   this.utilityMethods.hide_loader();
+          //   if (error.code == -1) {
+          //     this.utilityMethods.internet_connection_error();
+          //   }
+          // })
         })
       }
     }
@@ -395,6 +412,10 @@ export class AnototeList {
       url = this.current_active_anotote.userAnnotote.annotote.link;
     let searchModal = this.modalCtrl.create(Search, { link: url });
     searchModal.onDidDismiss(data => {
+      if (data != undefined || data != null) {
+        this.anototes.push(data);
+      }
+      console.log(data);
     });
     searchModal.present();
   }

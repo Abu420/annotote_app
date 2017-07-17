@@ -51,13 +51,13 @@
 <ion-content swipe-vertical padding>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0" class="product-list">
-            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
-                <div (press)="bulkAction(anotote)" [ngClass]="current_active_anotote==anotote?'activeTote':''" (click)="openAnototeDetail(anotote)">
+            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type == 2 ? 'active':''">
+                <div (press)="bulkAction(anotote)" [ngClass]="anotote.checked == true ? 'bulkActive':'active'" (click)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
-                        <img [src]="(anotote.annotote.photo != null)?anotote.annotote.photo:'assets/img/avatar.png'">
+                        <img [src]="(anotote.annotote.photo != null)? anotote.annotote.photo:'assets/img/avatar.png'">
                     </div>
                     <div class="check" [hidden]="!edit_mode">
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">

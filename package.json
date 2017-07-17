@@ -32,6 +32,7 @@
         "@ionic-native/file-path": "^3.14.0",
         "@ionic-native/file-transfer": "^4.0.0",
         "@ionic-native/in-app-browser": "^3.14.0",
+        "@ionic-native/keyboard": "^4.0.1",
         "@ionic-native/network": "^3.14.0",
         "@ionic-native/push": "^3.14.0",
         "@ionic-native/social-sharing": "^3.14.0",
