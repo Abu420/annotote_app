@@ -51,8 +51,8 @@
 <ion-content swipe-vertical padding>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0" class="product-list">
-            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type == 2 ? 'active':''">
-                <div (press)="bulkAction(anotote)" [ngClass]="anotote.checked == true ? 'bulkActive':'active'" (click)="openAnototeDetail(anotote)">
+            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
+                <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
