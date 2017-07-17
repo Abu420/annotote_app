@@ -206,6 +206,8 @@ export class Search {
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.new_tote.active = false;
+                this.new_tote.userAnnotote = response.data.userAnnotote;
+                this.new_tote.userAnnotote.annotote = response.data.annotote;
                 this.go_to_browser(response.data);
             }, (error) => {
                 this.utilityMethods.hide_loader();
