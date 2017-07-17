@@ -22,6 +22,7 @@ export class Search {
     public current_url: string;
     public filter_mode: boolean;
     public search_loading: boolean;
+    public new_tote: any = {};
 
     constructor(public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
         this.search_results = [];
@@ -69,7 +70,7 @@ export class Search {
     dismiss() {
         this.events.unsubscribe('user:followed');
         this.events.unsubscribe('user:unFollowed');
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(this.new_tote);
     }
 
     presentTopInterestsModal() {
@@ -204,11 +205,12 @@ export class Search {
         this.searchService.create_anotote({ url: this.search_txt, created_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
+                this.new_tote.active = false;
                 this.go_to_browser(response.data);
             }, (error) => {
                 this.utilityMethods.hide_loader();
                 this.search_loading = false;
-                console.log(error);
+
                 if (error.status == 500) {
                     this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
                 }

@@ -57,7 +57,7 @@
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
-                        <img [src]="(anotote.annotote.photo != null)?anotote.annotote.photo:'assets/img/avatar.png'">
+                        <img [src]="(anotote.annotote.photo != null)? anotote.annotote.photo:'assets/img/avatar.png'">
                     </div>
                     <div class="check" [hidden]="!edit_mode">
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">
