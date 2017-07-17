@@ -215,6 +215,9 @@ page-anotote-list {
                         margin-top: -1px;
                     }
                     >div {
+						&.bulkActive{
+							background: #e0e0e0;
+						}
                         display: block;
                         overflow: hidden;
                         width: 100%;
@@ -371,9 +374,6 @@ page-anotote-list {
                                 }
                             }
                         }
-                    }
-                    .bulkActive {
-                        color: blue;
                     }
                 }
             }
