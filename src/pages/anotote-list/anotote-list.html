@@ -17,8 +17,8 @@
         </ion-buttons>
         <ul class="topList" *ngIf="edit_mode">
             <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
-            <li class="delete" (tap)="delete_totes()"><img src="assets/img/delete.png" alt=""></li>
-            <li class="privacy" (tap)="tote_privacy()"><img src="assets/img/privacy.png" alt=""></li>
+            <li class="delete" (tap)="confirm_popUp('delete')"><img src="assets/img/delete.png" alt=""></li>
+            <li class="privacy" (tap)="confirm_popUp('privacy')"><img src="assets/img/privacy.png" alt=""></li>
             <li class="share" (tap)="share_totes()"><img src="assets/img/share.png" alt=""></li>
         </ul>
     </ion-toolbar>
