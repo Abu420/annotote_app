@@ -32,7 +32,8 @@
                         <em>
                             <button *ngIf="notification.type=='user:follwowed_by'" type="button"><ion-icon name="at"></ion-icon></button>
                             <img *ngIf="notification.type=='user:message'" class="chat-icon" src="assets/img/chat-red.png" alt="">
-                            <span>{{(notification.createdAt*1000) | amTimeAgo}}</span>
+                            <span *ngIf="notification.is_today">{{ anotote.formated_time | amDateFormat:'hh:mm'}}</span>
+                            <span *ngIf="!notification.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span>
                         </em>
                         <span *ngIf="notification.type=='user:mentioned_you'">Mentioned you</span>
                         <span *ngIf="notification.type=='user:message'">Message</span>
