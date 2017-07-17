@@ -96,7 +96,6 @@ export class Notifications {
       this._notifications = data.notifications;
       this._unread = data.unread;
       this._loading = true;
-      console.log(data);
     } else {
       this.notificationService.get_notifications(user_id)
         .subscribe((response) => {

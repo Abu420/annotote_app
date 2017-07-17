@@ -76,8 +76,8 @@ export class NotificationService {
                 var difference = timeDiff / (1000 * 3600 * 24);
                 notif.is_today = difference < 1 ? true : false;
                 notif.formated_time = formated_time;
+                this._notifications.push(notif);
             }
-            this._notifications = res.data.notifications;
             this._unread = res.data.unread;
         }, (error) => {
             this._loaded_once_flag = true;
