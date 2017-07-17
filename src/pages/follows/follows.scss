@@ -81,6 +81,15 @@ follow_profile {
     }
     .follow_list {
         overflow: hidden;
+		ion-item{
+			.item-inner{
+				ion-label{
+					font-size: inherit;
+					text-overflow: clip;
+					white-space: normal;
+				}
+			}
+		}
     }
     .follow_list button {
         float: left;
