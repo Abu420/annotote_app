@@ -16,9 +16,13 @@
             </button>
         </ion-buttons>
         <ul class="topList" *ngIf="edit_mode">
-            <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
-            <li class="delete" (tap)="confirm_popUp('delete')"><img src="assets/img/delete.png" alt=""></li>
-            <li class="privacy" (tap)="confirm_popUp('privacy')"><img src="assets/img/privacy.png" alt=""></li>
+            <li class="leftIcon"><img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
+            <li class="leftIcon"><img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/follows_cancel.png" alt=""></li>
+            <li class="leftIcon"><img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/top_cancel.png" alt=""></li>
+            <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')"><img src="assets/img/delete.png" alt=""></li>
+            <li class="delete" *ngIf="current_color == 'follows'"><img src="assets/img/bookmark.png" alt=""></li>
+            <li class="privacy" *ngIf="current_color == 'me'" (tap)="confirm_popUp('privacy')"><img src="assets/img/privacy.png" alt=""></li>
+            <li class="privacy" *ngIf="current_color == 'follows'" (tap)="confirm_popUp('privacy')"><img src="assets/img/save.png" alt=""></li>
             <li class="share" (tap)="share_totes()"><img src="assets/img/share.png" alt=""></li>
         </ul>
     </ion-toolbar>
@@ -53,7 +57,7 @@
         <ion-list *ngIf="anototes.length > 0" class="product-list">
             <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
-                    <div *ngIf="!anotote.active && current_color == 'me' || current_color == 'follow'" [hidden]="edit_mode" class="img-holder">
+                    <div *ngIf="!anotote.active && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder">
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
@@ -61,16 +65,17 @@
                     </div>
                     <div class="check" [hidden]="!edit_mode">
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">
-                        <img *ngIf="anotote.checked" src="assets/img/check2.png">
+                        <img *ngIf="anotote.checked && current_color == 'me'" src="assets/img/check2.png">
+                        <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
                     </div>
                     <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event)"></span>
-                    <div class="txt" *ngIf="anotote.type ==1">
-                        <strong [innerText]="anotote.userAnnotote.annotote.title"></strong>
+                    <div class="txt" *ngIf="anotote.type == 1">
+                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">
                             <em>
-								<span [innerText]="anotote.createdAt"></span>
+								<span [innerText]="anotote.createdAt * 1000 | date:'shortTime'"></span>
                                 <button type="button">
-									<ion-icon name="text"></ion-icon>
+									<ion-icon name="menu"></ion-icon>
 								</button>
                         	</em>
                         </div>
@@ -108,8 +113,8 @@
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
-                                <span class="status" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                <span class="status" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                <span class="status" [ngClass]="{'quotes_follows': current_color == 'follows','quotes_top': current_color == 'top' }" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                <span class="status" [ngClass]="{'quotes_follows': current_color == 'follows','quotes_top': current_color == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                             </ion-item>
                         </ion-list>
                     </div>
@@ -168,7 +173,7 @@
             </ion-item>
         </ion-list>
         <div class="no_totes" [hidden]="has_totes">
-            <p [ngClass]="{'green': current_color == 'me', 'yellow':current_color == 'follow', 'pink':current_color == 'top' }">No totes found.</p>
+            <p [ngClass]="{'green': current_color == 'me', 'yellow':current_color == 'follows', 'pink':current_color == 'top' }">No totes found.</p>
         </div>
         <!-- Working for annotote long press -->
         <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">

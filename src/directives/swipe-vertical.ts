@@ -37,11 +37,11 @@ export class SwipeVertical implements OnInit, OnDestroy {
         });
         this.swipeGesture.listen()
         this.swipeGesture.on('swipeleft', e => {
-            console.log('left');
+            // console.log('left');
         })
         this.swipeGesture.on('swiperight', e => {
             this.navCtrl.pop();
-            console.log('right');
+            // console.log('right');
         })
     }
 

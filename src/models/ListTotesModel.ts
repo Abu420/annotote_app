@@ -1,59 +1,59 @@
-import {ListTotesUserToteModel} from "./ListTotesUserToteModel";
-import {ListTotesUserGroupModel} from "./ListTotesUserGroupModel";
-import {User} from "./user";
-import {UtilityMethods} from "../services/utility_methods";
-import {DatetimeService} from "../services/datetime.service";
+import { ListTotesUserToteModel } from "./ListTotesUserToteModel";
+import { ListTotesUserGroupModel } from "./ListTotesUserGroupModel";
+import { User } from "./user";
+import { UtilityMethods } from "../services/utility_methods";
+import { DatetimeService } from "../services/datetime.service";
 /**
  * Created by nomantufail on 30/05/2017.
  */
 
-export class ListTotesModel{
-  public id:number = 0;
-  public type:number = 1;
-  public userToteId:number = 0;
-  public chatGroupId:number = 0;
-  public userAnnotote:any = null;
-  public highlights:Array<any> = [];
-  public followers:Array<User> = [];
-  public firstFollowerName:string = '';
-  public chatGroup:any = null;
-  public createdAt:string = '';
-  public updatedAt:string = '';
-  public active:boolean = false;
-  public activeParty:number = 1; //1:me, 2:follows, 3:top
-  private datetimeService:DatetimeService = null;
-  public checked:boolean;
-  public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt){
-    this.datetimeService = new DatetimeService();
+export class ListTotesModel {
+  public id: number = 0;
+  public type: number = 1;
+  public userToteId: number = 0;
+  public chatGroupId: number = 0;
+  public userAnnotote: any = null;
+  public highlights: Array<any> = [];
+  public followers: Array<User> = [];
+  public firstFollowerName: string = '';
+  public chatGroup: any = null;
+  public createdAt: string = '';
+  public updatedAt: string = '';
+  public active: boolean = false;
+  public activeParty: number = 1; //1:me, 2:follows, 3:top
+  private datetimeService: DatetimeService = null;
+  public checked: boolean;
+  public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt) {
+    //this.datetimeService = new DatetimeService();
     this.id = id;
     this.type = type;
     this.userToteId = userToteId;
     this.chatGroupId = chatGroupId;
     this.userAnnotote = userAnnotote;
     this.chatGroup = chatGroup;
-    this.createdAt = this.datetimeService.convertTimeFormat(createdAt);
-    this.updatedAt = this.datetimeService.convertTimeFormat(updatedAt);
-    this.checked=false;
-    if(this.userAnnotote != null){
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.checked = false;
+    if (this.userAnnotote != null) {
       this.setHighlights(this.userAnnotote.annototeHeighlights);
     }
   }
 
-  public setHighlights(highlights:Array<any>){
+  public setHighlights(highlights: Array<any>) {
     this.highlights = highlights;
   }
 
-  public setFollowers(followers:Array<User>){
+  public setFollowers(followers: Array<User>) {
     this.followers = followers;
-    if(this.followers.length > 0){
+    if (this.followers.length > 0) {
       this.setFirstFollowerName(this.followers[0].full_name);
     }
   }
-  public setFirstFollowerName(name:string){
+  public setFirstFollowerName(name: string) {
     this.firstFollowerName = name;
   }
 
-  public setFollowerHighlights(highlights:Array<null>){
+  public setFollowerHighlights(highlights: Array<null>) {
     this.activeParty = 2;
     this.setHighlights(highlights);
   }

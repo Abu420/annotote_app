@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
+import { NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { AnototeOptions } from '../anotote-list/tote_options';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -206,6 +206,8 @@ export class Search {
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.new_tote.active = false;
+                this.new_tote.type = 1;
+                this.new_tote.createdAt = response.data.userAnnotote.createdAt
                 this.new_tote.userAnnotote = response.data.userAnnotote;
                 this.new_tote.userAnnotote.annotote = response.data.annotote;
                 this.go_to_browser(response.data);
