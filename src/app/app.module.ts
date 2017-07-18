@@ -86,6 +86,7 @@ import { Highlight } from "../directives/highlight";
 import { Safe } from "../services/SafeHtml";
 import { AnototeContentOptions } from "../pages/home/content_options";
 import { OnlyTime } from "../directives/date_pipe";
+import { Keyboard } from "@ionic-native/keyboard";
 
 @NgModule({
   declarations: [
@@ -206,6 +207,7 @@ import { OnlyTime } from "../directives/date_pipe";
     Camera,
     FilePath,
     SplashScreen,
+    Keyboard,
     UtilityMethods,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]

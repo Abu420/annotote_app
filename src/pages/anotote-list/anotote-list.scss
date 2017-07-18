@@ -231,6 +231,9 @@ page-anotote-list {
                         margin-top: -1px;
                     }
                     >div {
+                        &.bulkActive {
+                            background: #e0e0e0;
+                        }
                         display: block;
                         overflow: hidden;
                         width: 100%;
@@ -258,13 +261,16 @@ page-anotote-list {
                             strong {
                                 font-weight: normal;
                                 font-size: 16px;
-                                display: block;
                                 text-overflow: ellipsis;
                                 display: -webkit-box;
                                 -webkit-box-orient: vertical;
                                 -webkit-line-clamp: 1;
                                 width: 100%;
                                 overflow: hidden;
+                                white-space: normal;
+                            }
+                            .opened {
+                                -webkit-line-clamp: 2;
                             }
                             p {
                                 font-size: 12px;
@@ -383,6 +389,12 @@ page-anotote-list {
                                         .status {
                                             margin-top: 4px;
                                         }
+                                        .quotes_follows {
+                                            background: #f4e300;
+                                        }
+                                        .quotes_top {
+                                            background: #fb9df0;
+                                        }
                                     }
                                 }
                             }
@@ -396,11 +408,11 @@ page-anotote-list {
         contain: none;
         overflow: visible;
     }
-    .toolbar-ios {
+    .platform-ios {
         .topList {
             li {
                 &.leftIcon {
-                    top: 24px;
+                    top: 35px;
                 }
             }
         }
@@ -428,460 +440,4 @@ page-anotote-list {
             }
         }
     }
-    /*#wrapper{
-		box-shadow: none;
-	}
-	.details-list{
-		padding: 0px 15px !important;	
-		.item-block{
-			&:after{
-				display: none;
-			}
-			border: 0px;
-			.item-inner{
-				border: 0px;
-				.label-ios{
-					p{
-						width: 100% !important;
-						font-weight: bold;
-						font-size: 16px !important;
-					}
-
-				}
-			}
-		}
-	}
-	.listHeader{
-		padding-left: 19vw;
-		margin-top: -28px;
-		margin-bottom: 10px;
-		.btns-area {
-			button{
-				float: left;
-			}
-		}
-	}
-	
-	.scroll-content{
-		padding-top: 5px !important;
-		box-shadow: 0 0px 11px 0px #bdbdbd;
-		padding: 0px !important;
-		margin-left: 15px;
-		margin-right: 15px;
-		margin-top: 70px !important;
-		height: calc(100vh - 100px);
-	}
-    .toolbar {
-        overflow: visible;
-        contain: none;
-    }
-    .close_icon_overflowing {
-        background-image: url(../assets/img/cancel.png);
-        background-size: contain;
-        width: 60px;
-        height: 60px;
-        display: inline-block;
-        position: absolute;
-        top: 25px;
-    }
-    .aling-left {
-        float: left;
-    }
-    .header-socials {
-        width: 100%;
-        padding: 10px 0 0 !important;
-        text-align: center;
-        background: none;
-    }
-    .header-socials .item:first-child {
-        width: 38px;
-    }
-    .first-btn {
-        height: 65px !important;
-    }
-    .first-btn:hover {
-        background: none !important;
-    }
-    .align-left {
-        float: left;
-    }
-    .header-socials .item {
-        width: 25%;
-        display: inline-block;
-        vertical-align: top;
-        color: #fff;
-        text-align: center;
-        background: none;
-    }
-    .header-socials .item span {
-        font-size: 15px;
-        line-height: 19px;
-        color: #fff;
-        display: block;
-    }
-    .header-socials .item ion-icon {
-        font-size: 25px;
-        line-height: 29px;
-        color: #fff;
-        display: block;
-    }
-    .header-socials .item button {
-        background: none;
-        box-shadow: none;
-    }
-    .product-list {
-        .item {
-            overflow: hidden;
-			padding-left: 0px;
-			border: 0px !important;
-			&:after{
-				content: "";
-				width: 72vw;
-				position: absolute;
-				right: 0px;
-				bottom: 0px;
-				z-index: 10;
-				height: 1px;
-				background: #CCC;
-			}
-			.item-inner{
-				padding: 0px;
-				.label-ios{
-					margin: 0px;
-					.img-holder{
-						display: inline-block;
-						vertical-align: middle;
-						float: none;
-						width: 20vw;
-						height: 20vw;
-					}
-					.txt{
-						display: inline-block;
-						vertical-align: middle;
-						float: none;
-						width: 69vw;
-						padding: 0 0 0 10px;
-						strong{
-							font-size: 5vw;
-							margin: 0px;
-						}
-						p{
-							font-size: 3vw;
-							width: 68%;
-						}
-						.time{
-							position: absolute;
-							right: 10px;
-							bottom: 8px;
-							em{
-								width: auto;
-								font-size: 11px;
-							}
-							span{
-								float: right;
-							}
-						}
-					}
-				}
-			}
-        }
-        .img-holder {
-            width: 74px;
-            height: 72px;
-            float: left;
-            text-align: center;
-            img {
-                height: 100%;
-            }
-        }
-        .options {
-            height: 74px;
-            display: inline-block;
-			vertical-align: middle;
-            width: 15vw;
-            background-image: url(../assets/img/option-icon.png);
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: 8px;
-        }
-        .txt {
-            padding: 14px 10px 5px 20px;
-            color: #cbcbcb;
-            overflow: hidden;
-        }
-        strong {
-            margin: 0 0 8px;
-            color: #0f000f;
-            display: block;
-            margin: 0 0 8px;
-            color: #0f000f;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .time {
-            font-size: 13px;
-            overflow: hidden;
-        }
-        em {
-            float: right;
-            width: 56px;
-            font-style: normal;
-        }
-        button {
-            padding: 0;
-            float: right;
-            background: none;
-        }
-        .txt span {
-            overflow: hidden;
-			display: inline-block;
-        }
-        .check {
-            width: 17px;
-            height: 18px;
-            padding: 15px 0 0;
-            float: left;
-        }
-        .txt strong,
-        .item.active .txt strong {
-            font-size: 14px;
-            line-height: 20px;
-            font-weight: normal;
-            display: block;
-            color: #000;
-        }
-        .item .time {
-            float: right;
-        }
-        .item.active .time span,
-        .item.active .time ion-icon {
-            margin-left: 4px;
-            color: #cbcbcb;
-        }
-        .txt-holder {
-            overflow: hidden;
-        }
-        .profile-wrap {
-            padding: 10px 5px !important;
-            &.even {
-                background: #CCC;
-            }
-            .item-inner {
-                padding: 0px;
-                width: 100%;
-            }
-            .label-ios {
-                margin: 0px;
-                display: table;
-                width: 100%;
-                >div {
-                    display: table-cell;
-                    float: none;
-                    vertical-align: middle;
-                    padding: 0px;
-                    &.check {
-                        width: 15%;
-                        text-align: center;
-                        padding-right: 10px;
-                    }
-                    .time {
-                        float: left;
-                        width: 100%;
-                    }
-                    .txt-holder {
-                        strong {
-                            margin: 0px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .no_totes {
-        width: 100%;
-        text-align: center;
-        padding: 1%;
-        font-weight: bold;
-        p {
-            font-size: 4vw;
-        }
-        p.green {
-            color: #3bde00;
-        }
-        p.yellow {
-            color: #f4e300;
-        }
-        p.pink {
-            color: #fb9df0;
-        }
-    }
-    .header {
-        padding: 0;
-        text-align: right;
-        figure {
-            margin: 0px;
-            display: inline-block;
-            width: 9%;
-            text-align: left;
-            vertical-align: middle;
-            img {
-                width: 6px;
-            }
-        }
-        .underlist-text {
-            display: inline-block;
-            width: 100%;
-            text-align: right;
-            vertical-align: middle;
-            strong {
-                display: -webkit-inline-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
-                overflow: hidden;
-            }
-            h4 {
-                font-size: 5vw;
-                font-weight: 600;
-            }
-            .time {
-                float: left;
-                width: 100%;
-                margin-bottom: 10px;
-                em {
-                    width: 60px;
-                    img {
-                        width: 16px;
-                        float: right;
-                        margin-left: 5px;
-                    }
-                }
-            }
-            .btns-area {
-                button {
-                    float: left;
-                    font-size: 12px !important;
-                    background: #e0e0e0;
-                    margin-right: 5vw !important;
-                    &.me-tab {
-                        background: #2ba600;
-                    }
-                }
-            }
-        }
-    }
-    .message-underlist {
-        .underlist-items {
-            padding: 0px;
-            border: 0px !important;
-            .item-inner {
-                padding: 0px;
-                .label-ios {
-                    margin: 0px;
-                    padding: 15px 0px;
-                    .status {
-                        width: 22px;
-                        height: 22px;
-                        font-size: 30px;
-                        line-height: 1;
-                    }
-                    .txt {
-                        margin: 0px;
-                        padding: 0px;
-                        float: right;
-                        width: 88%;
-                    }
-                    figure {
-                        margin: 0px;
-                        padding: 0px;
-                        list-style: none;
-                        display: inline-block;
-                        width: 10%;
-                        vertical-align: top;
-                        padding-top: 25px;
-                        img {
-                            width: 15px;
-                        }
-                    }
-                    .check-text {
-                        display: inline-block;
-                        vertical-align: top;
-                        width: 89%;
-                        .name-time {
-                            color: #bfbfbf;
-                            font-size: 16px;
-                            .msg-time {
-                                float: right;
-                            }
-                        }
-                        p {
-                            font-size: 18px;
-                            font-weight: 600;
-                            word-wrap: normal;
-                            white-space: normal;
-                            color: #000;
-                            word-break: normal;
-                            letter-spacing: 1px;
-                        }
-                        img {
-                            width: 30px;
-                        }
-                    }
-                }
-            }
-            &.unread-msg {
-                .item-inner {
-					padding: 0px;
-                    .label-ios {
-                        .check-text {
-                            .name-time {
-                                color: #ff2600;
-                            }
-                            p {
-                                color: #ff2600;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .message-bottom {
-        .toolbar {
-            overflow: visible;
-            contain: none;
-        }
-    }
-    .send-btn {
-        position: relative;
-        img {
-            display: inline-block;
-            vertical-align: middle;
-        }
-        input[type="text"] {
-            display: inline-block;
-            vertical-align: middle;
-            padding: 5px;
-            width: 70vw;
-            background: #222;
-            border: 0px;
-            color: #FFF;
-        }
-        input[type="submit"] {
-            background: #CCC;
-            color: #FFF;
-            width: 60px;
-            height: 60px;
-            overflow: hidden;
-            border-radius: 50%;
-            text-align: center;
-            padding: 15px 0px;
-            text-transform: uppercase;
-            position: absolute;
-            right: -20px;
-            top: -33px;
-            border: 0;
-        }
-    }*/
 }

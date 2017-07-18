@@ -67,20 +67,20 @@ export class AnototeList {
    */
   constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, private alertCtrl: AlertController) {
     this.current_color = navParams.get('color');
-    this.setStreamType(navParams.get('color'));
+    this.whichStream = navParams.get('color');
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
     this.user = authService.getUser();
     this.reorder_highlights = false;
   }
 
-  public setStreamType(streamType) {
-    if (streamType == 'follow') {
-      this.whichStream = streamType + 's';
-    } else {
-      this.whichStream = streamType;
-    }
-  }
+  // public setStreamType(streamType) {
+  //   if (streamType == 'follow') {
+  //     this.whichStream = streamType;
+  //   } else {
+  //     this.whichStream = streamType;
+  //   }
+  // }
 
   /**
    * View LifeCycle Events
@@ -165,7 +165,7 @@ export class AnototeList {
         this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
       }
       infiniteScroll.complete();
-      if (stream.length < 10) {
+      if (stream.length < 5) {
         infiniteScroll.enable(false);
       }
     }, (error) => {
@@ -227,7 +227,24 @@ export class AnototeList {
     } else {
       if (anotote.chatGroup != null) {
         this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-
+          // var params = {
+          //   userAnnotote_ids: anotote.userAnnotote.id,
+          //   delete: 1
+          // }
+          // this.utilityMethods.show_loader('');
+          // this.anototeService.delete_bulk_totes(params).subscribe((result) => {
+          //   this.utilityMethods.hide_loader();
+          //   if (result.data.annotote.length == 1) {
+          //     this.anototes.splice(this.anototes.indexOf(anotote), 1);
+          //     this.utilityMethods.doToast("Chat tote deleted Successfully.")
+          //     this.close_bulk_actions();
+          //   }
+          // }, (error) => {
+          //   this.utilityMethods.hide_loader();
+          //   if (error.code == -1) {
+          //     this.utilityMethods.internet_connection_error();
+          //   }
+          // })
         })
       }
     }
@@ -391,11 +408,15 @@ export class AnototeList {
 
   openSearchPopup() {
     var url = null;
-    console.log(this.current_active_anotote);
+    //console.log(this.current_active_anotote);
     if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote)
       url = this.current_active_anotote.userAnnotote.annotote.link;
     let searchModal = this.modalCtrl.create(Search, { link: url });
     searchModal.onDidDismiss(data => {
+      if (data != undefined || data != null) {
+        this.anototes.unshift(data);
+      }
+      console.log(data);
     });
     searchModal.present();
   }

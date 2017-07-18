@@ -19,7 +19,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { Storage } from '@ionic/storage';
 import { Deeplinks } from '@ionic-native/deeplinks';
-
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
   templateUrl: 'app.html',
@@ -33,7 +33,7 @@ export class MyApp {
   public rootPage: any;
   pages: Array<{ title: string, component: any }>;
 
-  constructor(private deeplinks: Deeplinks, public modalCtrl: ModalController, public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen, private push: Push, public storage: Storage) {
+  constructor(public keyboard: Keyboard, private deeplinks: Deeplinks, public modalCtrl: ModalController, public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen, private push: Push, public storage: Storage) {
     this.initializeApp();
   }
 
@@ -42,11 +42,13 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       // let status bar overlay webview
-      this.statusBar.overlaysWebView(true);
+      this.statusBar.overlaysWebView(false);
 
       // set status bar to white
       this.statusBar.backgroundColorByHexString('#000000');
-
+      //keyboard
+      // Keyboard.hideKeyboardAccessoryBar(false);
+      // Keyboard.disableScroll(true)
       /**
        * Sync user from Native storage if any
        */

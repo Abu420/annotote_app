@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
+import { NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { AnototeOptions } from '../anotote-list/tote_options';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -24,6 +24,7 @@ export class Search {
     public current_url: string;
     public filter_mode: boolean;
     public search_loading: boolean;
+    public new_tote: any = {};
 
     constructor(public constants: Constants, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
         this.search_results = [];
@@ -71,7 +72,7 @@ export class Search {
     dismiss() {
         this.events.unsubscribe('user:followed');
         this.events.unsubscribe('user:unFollowed');
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss(this.new_tote);
     }
 
     presentTopInterestsModal() {
@@ -206,11 +207,16 @@ export class Search {
         this.searchService.create_anotote({ url: this.search_txt, created_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
+                this.new_tote.active = false;
+                this.new_tote.type = 1;
+                this.new_tote.createdAt = response.data.userAnnotote.createdAt
+                this.new_tote.userAnnotote = response.data.userAnnotote;
+                this.new_tote.userAnnotote.annotote = response.data.annotote;
                 this.go_to_browser(response.data);
             }, (error) => {
                 this.utilityMethods.hide_loader();
                 this.search_loading = false;
-                console.log(error);
+
                 if (error.status == 500) {
                     this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
                 }
