@@ -6,6 +6,7 @@ import { Profile } from '../follows/follows_profile';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from "../../services/auth.service";
 import { SearchService } from '../../services/search.service';
+import { Constants } from '../../services/constants.service';
 /**
  * Generated class for the Follows page.
  *
@@ -20,9 +21,11 @@ import { SearchService } from '../../services/search.service';
 export class Follows {
   private followings: any;
   private _loading: boolean;
+  private image_base_path: string;
 
-  constructor(public navCtrl: NavController, public searchService: SearchService, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
+  constructor(public constants: Constants, public navCtrl: NavController, public searchService: SearchService, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
     this.followings = [];
+    this.image_base_path = this.constants.IMAGE_BASEURL;
   }
 
   ionViewDidLoad() {

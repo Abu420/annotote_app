@@ -6,16 +6,16 @@
             <img src="assets/img/shareIcon.png" />
         </div>
         <ul>
-            <li>
+            <li (tap)="share('facebook')">
                 <span>Link</span>
             </li>
-            <li>
+            <li (tap)="share('email')">
                 <span>Email</span>
             </li>
-            <li>
+            <li (tap)="share('twitter')">
                 <span>Twitter</span>
             </li>
-            <li>
+            <li (tap)="share('all')">
                 <ion-icon name="more"></ion-icon>
             </li>
         </ul>
@@ -38,7 +38,7 @@
     </div>
     <div *ngIf="share_type!='search'" no-lines class="sharing_pop two bottom-border">
         <div class="main_label">
-           	<img src="assets/img/privacyIcon.png" />
+            <img src="assets/img/privacyIcon.png" />
         </div>
         <ul>
             <li>
@@ -51,7 +51,7 @@
     </div>
     <div *ngIf="share_type!='search'" no-lines class="sharing_pop four bottom-border">
         <div class="main_label">
-           	<img src="assets/img/deleteIcon.png" />
+            <img src="assets/img/deleteIcon.png" />
         </div>
         <ul>
             <li>

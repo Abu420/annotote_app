@@ -22,11 +22,11 @@
             <img src="assets/img/searchBlack.png" alt="" />
             <span>New search or address</span>
         </ion-item>
-        <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
+        <!-- <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
             <img src="assets/img/searchBlack.png" alt="">
             <span>No results</span>
-        </ion-item>
-        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length>0 && !search_loading" class="searchFilter">
+        </ion-item> -->
+        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
             <img src="assets/img/searchBlack.png" alt="">
             <span>Search (enter)</span>
         </ion-item>
@@ -43,7 +43,10 @@
         </ion-item>-->
         <div *ngIf="search_txt.length>0" class="searchResult">
             <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
-                <figure><img src="assets/img/avatar.png" alt=""></figure>
+                <ion-avatar item-start>
+                    <img *ngIf="search_result.photo==null" src="assets/img/img3.jpg">
+                    <img *ngIf="search_result.photo!=null" [src]="image_base_path + search_result.photo">
+                </ion-avatar>
                 <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
                 <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
                 <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>

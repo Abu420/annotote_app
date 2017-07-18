@@ -1,29 +1,33 @@
 <div class="tag-panel">
-	<div class="top_empty_box" (tap)="dismiss()">
-	</div>
-	<div class="tags-panel">
-		<h3>Tags</h3>
-		<ul class="tag-list">
-			<li>
-				<img class="play-icon" src="assets/img/top-arrow.png" alt="">
-				<span>Stratfor: Middle East Security Update </span>
-			</li>
-			<li>
-				<img class="play-icon" src="assets/img/@icon-gray.png" alt="">
-				<span>StKen Mastrocola</span>
-			</li>
-			<li>
-				<img class="play-icon" src="assets/img/hash-gray.png" alt="">
-				<span>StKen Mastrocola</span>
-			</li>
-			<li>
-				<img class="play-icon" src="assets/img/hash-gray.png" alt="">
-				<span>Geopolitics </span>
-			</li>
-			<li>
-				<img class="play-icon" src="assets/img/dollar-gray.png" alt="">
-				<span>XOM </span>
-			</li>
-		</ul>
-	</div>
+    <div class="top_empty_box" (tap)="dismiss()">
+    </div>
+    <div class="tags-panel">
+        <h3>Tags</h3>
+        <div class="tag_input">
+            <input (input)="value_updating_tag($event.target.value)" [value]="tag_input" type="text" placeholder="Enter tag" />
+            <button (tap)="add_tag()">Add</button>
+        </div>
+        <ul class="tag-list">
+            <li>
+                <img class="play-icon" src="assets/img/top-arrow.png" alt="">
+                <span>Stratfor: Middle East Security Update </span>
+            </li>
+            <li>
+                <img class="play-icon" src="assets/img/@icon-gray.png" alt="">
+                <span>StKen Mastrocola</span>
+            </li>
+            <li>
+                <img class="play-icon" src="assets/img/hash-gray.png" alt="">
+                <span>StKen Mastrocola</span>
+            </li>
+            <li>
+                <img class="play-icon" src="assets/img/hash-gray.png" alt="">
+                <span>Geopolitics </span>
+            </li>
+            <li>
+                <img class="play-icon" src="assets/img/dollar-gray.png" alt="">
+                <span>XOM </span>
+            </li>
+        </ul>
+    </div>
 </div>
