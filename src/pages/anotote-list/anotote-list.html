@@ -16,14 +16,30 @@
             </button>
         </ion-buttons>
         <ul class="topList" *ngIf="edit_mode">
-            <li class="leftIcon"><img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
-            <li class="leftIcon"><img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/follows_cancel.png" alt=""></li>
-            <li class="leftIcon"><img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/top_cancel.png" alt=""></li>
-            <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')"><img src="assets/img/delete.png" alt=""></li>
-            <li class="delete" *ngIf="current_color == 'follows'"><img src="assets/img/bookmark.png" alt=""></li>
-            <li class="privacy" *ngIf="current_color == 'me'" (tap)="confirm_popUp('privacy')"><img src="assets/img/privacy.png" alt=""></li>
-            <li class="privacy" *ngIf="current_color == 'follows'" (tap)="confirm_popUp('privacy')"><img src="assets/img/save.png" alt=""></li>
-            <li class="share" (tap)="share_totes()"><img src="assets/img/share.png" alt=""></li>
+            <li class="leftIcon">
+            	<img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt="">
+            </li>
+            <li class="followLeft leftIcon">
+            	<img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/follows_cancel.png" alt="">
+            </li>
+            <li class="leftIcon">
+            	<img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/pinkCancel.png" alt="">
+            </li>
+            <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')">
+            	<img src="assets/img/deleteWhite.png" alt="">
+            </li>
+            <li class="bookmark" *ngIf="current_color == 'follows'">
+            	<img src="assets/img/bookmarkWhite.png" alt="">
+            </li>
+            <li class="privacy" *ngIf="current_color == 'me'" (tap)="confirm_popUp('privacy')">
+            	<img src="assets/img/privicyWhite.png" alt="">
+            </li>
+            <li class="followSave" *ngIf="current_color == 'follows'" (tap)="confirm_popUp('privacy')">
+            	<img src="assets/img/cloudWhite.png" alt="">
+            </li>
+            <li class="followSave share" (tap)="share_totes()">
+            	<img src="assets/img/shareWhite.png" alt="">
+            </li>
         </ul>
     </ion-toolbar>
     <!--<ion-toolbar *ngIf="edit_mode" [color]="current_color">
@@ -61,12 +77,14 @@
                         <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
-                        <img [src]="(anotote.annotote.photo != null)? anotote.annotote.photo:'assets/img/avatar.png'">
+<!--                        <img [src]="(anotote.annotote.photo != null)? anotote.annotote.photo:'assets/img/avatar.png'">-->
+                   <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
                     </div>
                     <div class="check" [hidden]="!edit_mode">
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">
                         <img *ngIf="anotote.checked && current_color == 'me'" src="assets/img/check2.png">
                         <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
+                        <img *ngIf="anotote.checked && current_color == 'top'" src="assets/img/img6.png">
                     </div>
                     <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
                     <div class="txt" *ngIf="anotote.type == 1">
