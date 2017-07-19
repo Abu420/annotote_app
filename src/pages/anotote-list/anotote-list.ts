@@ -432,8 +432,9 @@ export class AnototeList {
     console.log(anotote);
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
-      if (data == 'tags') {
-        let tagsModal = this.modalCtrl.create(TagsPopUp, null);
+      if (data.tags) {
+        console.log(this.current_active_anotote)
+        let tagsModal = this.modalCtrl.create(TagsPopUp, { user_tote_id: this.current_active_anotote.userAnnotote.id, tags: this.current_active_anotote.userAnnotote.annototeTags });
         tagsModal.present();
       }
     });
