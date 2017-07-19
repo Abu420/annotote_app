@@ -68,7 +68,7 @@
                         <img *ngIf="anotote.checked && current_color == 'me'" src="assets/img/check2.png">
                         <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
                     </div>
-                    <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event)"></span>
+                    <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
                     <div class="txt" *ngIf="anotote.type == 1">
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">

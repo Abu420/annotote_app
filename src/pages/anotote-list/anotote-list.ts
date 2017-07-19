@@ -62,6 +62,7 @@ export class AnototeList {
   private reorder_highlights: boolean;
   public user: any;
   public selected_totes: Array<ListTotesModel> = [];
+  public infinite_scroll: any;
   /**
    * Constructor
    */
@@ -87,13 +88,48 @@ export class AnototeList {
    */
   ionViewDidLoad() {
     // set status bar to green
-    this.statusBar.backgroundColorByHexString('#3bde00');
+    if (this.current_color == 'me')
+      this.statusBar.backgroundColorByHexString('#3bde00');
+    else if (this.current_color == 'follows')
+      this.statusBar.backgroundColorByHexString('#f4e300');
+    else
+      this.statusBar.backgroundColorByHexString('#fb9df0');
+    // this.anototes = [];
+
+    // this.edit_mode = false;
+    // let anototes: Array<ListTotesModel> = [];
+
+    // this.utilityMethods.show_loader('', false);
+    // this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
+    //   let stream = data.json().data.annototes;
+    //   for (let entry of stream) {
+    //     this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+    //   }
+    //   if (this.anototes.length == 0) {
+    //     this.has_totes = false;
+    //   }
+    //   this.utilityMethods.hide_loader();
+    // }, (error) => {
+    //   this.utilityMethods.hide_loader();
+    //   if (error.code == -1) {
+    //     this.utilityMethods.internet_connection_error();
+    //   }
+    // });
+  }
+
+  ionViewDidLeave() {
     this.anototes = [];
+  }
+  ionViewDidEnter() {
+    this.anototes = [];
+    if (this.infinite_scroll)
+      this.infinite_scroll.enable(true);
     /**
      * Set default mode to list not the edit one
      */
     this.edit_mode = false;
     let anototes: Array<ListTotesModel> = [];
+    this.current_page = 1;
 
     this.utilityMethods.show_loader('', false);
     this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
@@ -111,9 +147,6 @@ export class AnototeList {
         this.utilityMethods.internet_connection_error();
       }
     });
-  }
-
-  ionViewWillLeave() {
   }
 
   /**
@@ -159,6 +192,7 @@ export class AnototeList {
   }
 
   doInfinite(infiniteScroll) {
+    this.infinite_scroll = infiniteScroll;
     this.anototeService.fetchTotes(this.whichStream, ++this.current_page).subscribe((data: any) => {
       let stream = data.json().data.annototes;
       for (let entry of stream) {
@@ -287,12 +321,12 @@ export class AnototeList {
 
       if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
         this.current_active_anotote.activeParty = 1;
-        this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.id);
+        //this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.id);
       } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
         this.current_active_anotote.activeParty = 2;
-        this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.id);
+        //this.setSimpleToteDetails(this.current_active_anotote.userAnnotote.userId, this.current_active_anotote.userAnnotote.id);
       } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
-        this.getQuickChatHistory(anotote);
+        //this.getQuickChatHistory(anotote);
       }
     } else {
       if (anotote.active) {
@@ -337,7 +371,7 @@ export class AnototeList {
   }
 
   public setSimpleToteDetails(user_id, tote_id) {
-    this.utilityMethods.show_loader('');
+    this.utilityMethods.show_loader('', false);
     this.anototeService.fetchToteDetails(user_id, tote_id).subscribe((data) => {
       let annotote = data.json().data.annotote;
       let followers: Array<any> = [];
@@ -393,8 +427,9 @@ export class AnototeList {
     this.navCtrl.push(Chat, { secondUser: secondUser.user });
   }
 
-  presentAnototeOptionsModal(event) {
+  presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
+    console.log(anotote);
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
       if (data == 'tags') {
@@ -407,15 +442,13 @@ export class AnototeList {
 
   openSearchPopup() {
     var url = null;
-    //console.log(this.current_active_anotote);
     if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote)
       url = this.current_active_anotote.userAnnotote.annotote.link;
     let searchModal = this.modalCtrl.create(Search, { link: url });
     searchModal.onDidDismiss(data => {
-      if (data != undefined || data != null) {
-        this.anototes.unshift(data);
-      }
-      console.log(data);
+      // if ((data != undefined || data != null) && data.type != undefined && this.current_color == 'me') {
+      //   this.anototes.unshift(data);
+      // }
     });
     searchModal.present();
   }
