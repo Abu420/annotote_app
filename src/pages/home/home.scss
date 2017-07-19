@@ -45,7 +45,7 @@ top_options {
 	ul.sharing_pop li img{
 		width: 30px;	
 	}
-    .sharing_pop.bottom-border:after {
+    /*.sharing_pop.bottom-border:after {
         height: 1px;
         position: absolute;
         content: '';
@@ -53,7 +53,7 @@ top_options {
         left: 22%;
         right: 0;
         background: #e3e3e3;
-    }
+    }*/
     .sharing_pop .item {
         width: 18%;
         display: inline-block;
@@ -393,6 +393,15 @@ ion-buttons{
     top: -10px;
     right: -1px;
 }
+.sharing_pop ion-item:after{
+	content: "";
+    bottom: 0px;
+    position: absolute;
+    left: 60px;
+    width: 70%;
+	right: auto;
+    border-bottom: 1px solid #CCC;	
+}
 
 .notice-btn {
     margin-top: 40px !important;
@@ -406,7 +415,7 @@ ion-buttons{
     box-shadow: 0 0 5px 0;
 }
 
-.latest_searches_spinner {
+.latest_searches_spinner{
     position: relative;
     width: 100%;
     ion-spinner {
