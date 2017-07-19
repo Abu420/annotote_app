@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
+import { NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { AnototeOptions } from '../anotote-list/tote_options';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -7,6 +7,7 @@ import { SearchResults } from '../search-results/search-results';
 /**
  * Services
  */
+import { Constants } from '../../services/constants.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 
@@ -16,6 +17,7 @@ import { SearchService } from '../../services/search.service';
 })
 export class Search {
 
+    private image_base_path: string;
     public search_txt: string;
     public search_results: any;
     public entering_url: boolean;
@@ -24,12 +26,12 @@ export class Search {
     public search_loading: boolean;
     public new_tote: any = {};
 
-    constructor(public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
+    constructor(public constants: Constants, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;
         this.filter_mode = false;
-
+        this.image_base_path = this.constants.IMAGE_BASEURL;
         /**
          * Set Current Active Anotote Link in search field
          */
@@ -206,6 +208,8 @@ export class Search {
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.new_tote.active = false;
+                this.new_tote.type = 1;
+                this.new_tote.createdAt = response.data.userAnnotote.createdAt
                 this.new_tote.userAnnotote = response.data.userAnnotote;
                 this.new_tote.userAnnotote.annotote = response.data.annotote;
                 this.go_to_browser(response.data);

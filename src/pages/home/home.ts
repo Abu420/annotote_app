@@ -17,6 +17,7 @@ import { NotificationService } from '../../services/notifications.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
+import { StatusBar } from "@ionic-native/status-bar";
 /**
  * Generated class for the Home page.
  *
@@ -34,7 +35,7 @@ export class Home {
   public searches: any;
   public latest_searches_firstTime_loading: boolean;
 
-  constructor(public platform: Platform, private events: Events, public searchService: SearchService, public notificationService: NotificationService, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService) {
+  constructor(public platform: Platform, private events: Events, public searchService: SearchService, public notificationService: NotificationService, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public statusBar: StatusBar) {
     this._unread = 0;
     this.searches = [];
     this.latest_searches_firstTime_loading = true;
@@ -66,6 +67,7 @@ export class Home {
     /**
      * Load Notifications Count
      */
+    this.statusBar.backgroundColorByHexString('#000000');
     this.loadNotifications();
     this.get_search_entries();
   }

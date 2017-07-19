@@ -120,6 +120,40 @@ export class SearchService {
     }
 
     /**
+    * Add Tag to Anotote API
+    * type: {POST}
+    * params: [user_tote_id, tag_text, created_at]
+    */
+    public add_tag_to_anotote(params) {
+        var url = this.constants.API_BASEURL + '/annotote/createTag';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+    * Add Tag to Anotote API
+    * type: {POST}
+    * params: [tag_id, annotation_id, text, created_at]
+    */
+    public add_tag_to_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/createTag';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+
+    /**
+    * Load advance search results  API
+    * type: {GET}
+    * params: [text_string]
+    */
+    public get_search_results(txt_string) {
+        var url = this.constants.SEARCH_API_BASEURL + '/select?indent=on&wt=json&q=type:annotote&fq=LaFerrari';
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    /**
     * Create Anotation on Anotote API
     * type: {POST}
     * params: [url, created_at]

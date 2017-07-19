@@ -25,7 +25,8 @@
             <ion-item *ngFor="let follower of followings" (click)="showProfile(follower)">
                 <!--<div class="img-holder"><img src="assets/img/img3.jpg"></div>-->
                 <ion-avatar item-start>
-                    <img src="assets/img/img3.jpg">
+                    <img *ngIf="follower.photo==null" src="assets/img/img3.jpg">
+                    <img *ngIf="follower.photo!=null" [src]="image_base_path+follower.photo">
                 </ion-avatar>
                 <div class="txt">
                     <strong [innerText]="follower.firstName + ' ' + follower.lastName" class="follow-name"></strong>
