@@ -132,7 +132,7 @@ export class AnototeList {
     this.current_page = 1;
 
     this.utilityMethods.show_loader('', false);
-    this.anototeService.fetchTotes('me').subscribe((data) => {
+    this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
       let stream = data.json().data.annototes;
       for (let entry of stream) {
         this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
