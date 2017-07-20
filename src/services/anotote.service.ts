@@ -19,7 +19,7 @@ export class AnototeService {
   public fetchTotes(whichStream, page = 1) {
     let headers = new Headers();
     headers.append('Authorization', this.authService.getUser().access_token);
-    return this.http.get('http://139.162.37.73/anotote/api/totes/' + whichStream + '?page=' + page, {
+    return this.http.get(this.constants.API_BASEURL + '/totes/' + whichStream + '?page=' + page, {
       headers: headers
     });
   }
@@ -67,10 +67,24 @@ export class AnototeService {
     var response = this.http.post(url, params, {}).map(res => res.json());
     return response;
   }
-
   public privatize_bulk_totes(params) {
     var url = this.constants.API_BASEURL + '/privacy-bulk-annototes';
     var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+  public save_totes(params) {
+    var url = this.constants.API_BASEURL + '/save-annotote';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+  public bookmark_totes(params) {
+    var url = this.constants.API_BASEURL + '/bookmark-annotote';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+  public top_totes(params) {
+    var url = this.constants.API_BASEURL + '/totes/top?time=' + params.time;
+    var response = this.http.get(url).map(res => res.json());
     return response;
   }
 }

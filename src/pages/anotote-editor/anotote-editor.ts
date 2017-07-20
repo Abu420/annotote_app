@@ -14,6 +14,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AnototeService } from '../../services/anotote.service';
 import { AuthenticationService } from '../../services/auth.service';
+import { StatusBar } from "@ionic-native/status-bar";
 
 @Pipe({
     name: 'sanitizeHtml'
@@ -85,7 +86,8 @@ export class AnototeEditor implements OnDestroy {
         private navParams: NavParams,
         private anotote_service: AnototeService,
         private modalCtrl: ModalController,
-        private utilityMethods: UtilityMethods) {
+        private utilityMethods: UtilityMethods,
+        public statusBar: StatusBar) {
 
         var that = this;
         this.toggle_annotation_option = false;
@@ -198,6 +200,12 @@ export class AnototeEditor implements OnDestroy {
      * Page LifeCycle Events
      */
     ionViewDidLoad() {
+        if (this.navParams.get('WHICH_STREAM') == 'me')
+            this.statusBar.backgroundColorByHexString('#3bde00');
+        else if (this.navParams.get('WHICH_STREAM') == 'follows')
+            this.statusBar.backgroundColorByHexString('#f4e300');
+        else
+            this.statusBar.backgroundColorByHexString('#fb9df0');
         this.events.subscribe('show_tote_options', (data) => {
             if (this.which_stream == 'me') {
                 this.toggle_annotation_option = data.flag;

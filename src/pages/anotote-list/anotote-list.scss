@@ -403,6 +403,24 @@ page-anotote-list {
                 }
             }
         }
+        .no_totes {
+            width: 100%;
+            text-align: center;
+            padding: 1%;
+            font-weight: bold;
+            p {
+                font-size: 4vw;
+            }
+            p.me {
+                color: #3bde00;
+            }
+            p.follows {
+                color: #f4e300;
+            }
+            p.top {
+                color: #fb9df0;
+            }
+        }
     }
     .toolbar-ios {
         contain: none;
