@@ -16,59 +16,47 @@
             </button>
         </ion-buttons>
         <ul class="topList" *ngIf="edit_mode">
-            <li class="leftIcon"><img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
-            <li class="leftIcon"><img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/follows_cancel.png" alt=""></li>
-            <li class="leftIcon"><img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/top_cancel.png" alt=""></li>
-            <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')"><img src="assets/img/delete.png" alt=""></li>
-            <li class="delete" *ngIf="current_color == 'follows'"><img src="assets/img/bookmark.png" alt=""></li>
-            <li class="privacy" *ngIf="current_color == 'me'" (tap)="confirm_popUp('privacy')"><img src="assets/img/privacy.png" alt=""></li>
-            <li class="privacy" *ngIf="current_color == 'follows'" (tap)="confirm_popUp('privacy')"><img src="assets/img/save.png" alt=""></li>
-            <li class="share" (tap)="share_totes()"><img src="assets/img/share.png" alt=""></li>
+            <li class="leftIcon">
+                <img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt="">
+            </li>
+            <li class="followLeft leftIcon">
+                <img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/follows_cancel.png" alt="">
+            </li>
+            <li class="leftIcon">
+                <img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/pinkCancel.png" alt="">
+            </li>
+            <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')">
+                <img src="assets/img/deleteWhite.png" alt="">
+            </li>
+            <li class="bookmark" *ngIf="current_color == 'follows' || current_color == 'top'" (tap)="confirm_popUp('bookmark')">
+                <img src="assets/img/bookmarkWhite.png" alt="">
+            </li>
+            <li class="privacy" *ngIf="current_color == 'me'" (tap)="confirm_popUp('privacy')">
+                <img src="assets/img/privicyWhite.png" alt="">
+            </li>
+            <li class="followSave" *ngIf="current_color == 'follows' || current_color == 'top'" (tap)="confirm_popUp('save')">
+                <img src="assets/img/cloudWhite.png" alt="">
+            </li>
+            <li class="followSave share" (tap)="share_totes()">
+                <img src="assets/img/shareWhite.png" alt="">
+            </li>
         </ul>
     </ion-toolbar>
-    <!--<ion-toolbar *ngIf="edit_mode" [color]="current_color">
-        <ul class="topList">
-            <li class="leftIcon"><img (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt=""></li>
-            <li class="delete"><img src="assets/img/delete.png" alt=""></li>
-            <li class="privacy"><img src="assets/img/privacy.png" alt=""></li>
-            <li class="share"><img src="assets/img/share.png" alt=""></li>
-        </ul>
-        <ion-buttons start>
-            <button (tap)="close_bulk_actions()" ion-button icon-only>
-                <ion-icon name="close"></ion-icon>
-                <span class="close_icon_overflowing"></span>
-            </button>
-        </ion-buttons>
-        <ion-buttons end>
-            <button ion-button icon-only>
-                <ion-icon name="share"></ion-icon>
-            </button>
-            <button ion-button icon-only>
-                <ion-icon name="lock"></ion-icon>
-            </button>
-            <button ion-button icon-only>
-                <ion-icon name="trash"></ion-icon>
-            </button>
-        </ion-buttons>
-    </ion-toolbar>-->
 </ion-header>
 <ion-content swipe-vertical padding>
     <div id="wrapper">
-        <ion-list *ngIf="anototes.length > 0" class="product-list">
+        <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
             <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <div *ngIf="!anotote.active && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder">
-                        <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img2.png'">
-                    </div>
-                    <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
-                        <img [src]="(anotote.annotote.photo != null)? anotote.annotote.photo:'assets/img/avatar.png'">
+                        <img [src]="(anotote.userAnnotote != null && anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != '')?anotote.userAnnotote.annotote.photo:'assets/img/img1.png'">
                     </div>
                     <div class="check" [hidden]="!edit_mode">
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">
                         <img *ngIf="anotote.checked && current_color == 'me'" src="assets/img/check2.png">
                         <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
                     </div>
-                    <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event)"></span>
+                    <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
                     <div class="txt" *ngIf="anotote.type == 1">
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">
@@ -86,7 +74,7 @@
                         <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
                         <div class="time">
                             <em>
-							  <span [innerText]="anotote.createdAt"></span>
+							  <span [innerText]="anotote.createdAt * 1000 | date:'shortTime'"></span>
                               <button type="button">
 								<ion-icon name="chatbubbles"></ion-icon>
 							  </button>
@@ -172,57 +160,64 @@
                 <!-- anatote detail -->
             </ion-item>
         </ion-list>
-        <div class="no_totes" [hidden]="has_totes">
-            <p [ngClass]="{'green': current_color == 'me', 'yellow':current_color == 'follows', 'pink':current_color == 'top' }">No totes found.</p>
-        </div>
-        <!-- Working for annotote long press -->
-        <!--<ion-list *ngIf="edit_mode" no-lines class="product-list show">
-            <ion-item (tap)="bulkAction(anotote)" class="profile-wrap" *ngFor="let anotote of anototes;let index=index; let odd=odd; let even=even;" [ngClass]="anotote.checked?'even':''">
-                <div class="check">
-                    <img *ngIf="!anotote.checked" src="assets/img/check1.png">
-                    <img *ngIf="anotote.checked" src="assets/img/check2.png">
-                </div>
-                <div class="txt" *ngIf="anotote.type ==1">
-                    <div class="txt-holder">
-                        <strong [innerText]="anotote.title"></strong>
+        <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
+            <ion-item *ngFor="let anotote of top_anototes">
+                <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
+                    <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
+                        <img [src]="(anotote.annotote.photo != null  && anotote.annotote.photo != '') ? anotote.annotote.photo:'assets/img/img1.png'">
                     </div>
-                    <div class="time">
-                        <em>
-                            <button type="button">
-                            <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
-                            </button>
-                            <span [innerText]="anotote.time"></span>
-                         </em>
-                        <p [innerText]="anotote.short_text"></p>
+                    <div class="check" [hidden]="!edit_mode">
+                        <img *ngIf="!anotote.checked" src="assets/img/check1.png">
+                        <img *ngIf="anotote.checked" src="assets/img/img6.png">
+                    </div>
+                    <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
+                    <div class="txt">
+                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.annotote.title"></strong>
+                        <div class="time">
+                            <em>
+								<span [innerText]="anotote.annotote.createdAt * 1000 | date:'shortTime'"></span>
+                                <button type="button">
+									<ion-icon name="menu"></ion-icon>
+								</button>
+                        	</em>
+                        </div>
+                        <p [innerText]="anotote.annotote.source"></p>
                     </div>
                 </div>
-                <div class="txt" *ngIf="anotote.type == 2">
-                    <div class="txt-holder">
-                        <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
-                        <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
-                    </div>
-                    <div class="time">
-                        <em>
-                            <button type="button">
-                            <ion-icon *ngIf="anotote.type=='message'" name="chatbubbles"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_txt'" name="text"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_video'" name="videocam"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_image'" name="image"></ion-icon>
-                            <ion-icon *ngIf="anotote.type=='anotote_audio'" name="musical-notes"></ion-icon>
-                            </button>
-                            <span [innerText]="anotote.createdAt"></span>
-                         </em>
-                        <p>Message</p>
+                <!-- anatote detail -->
+                <div (press)="enable_list_reorder(anotote)" *ngIf="anotote.active" [@enterAnimation]>
+                    <header class="listHeader">
+                        <div class="underlist-text">
+                            <div class="btns-area">
+                                <button (click)="showMeHighlights()" ion-button class="active me-tab">Me</button>
+                                <button (click)="open_follows_popup($event)" ion-button class="active bardaro-tab">Follow</button>
+                                <button ion-button class="active top-tab">Top</button>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="quotes layout message-underlist">
+                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout">
+                            <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                                <div class="txt">
+                                    <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
+                                    <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                </div>
+                                <span class="status" [ngClass]="{'quotes_follows': current_color == 'follows','quotes_top': current_color == 'top' }" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                <span class="status" [ngClass]="{'quotes_follows': current_color == 'follows','quotes_top': current_color == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                            </ion-item>
+                        </ion-list>
                     </div>
                 </div>
             </ion-item>
-        </ion-list>-->
+        </ion-list>
+        <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
+            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
+        </div>
+        <div class="no_totes" [hidden]="has_totes" *ngIf="current_color == 'top'">
+            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
+        </div>
     </div>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="current_color != 'top'">
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
