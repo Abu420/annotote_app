@@ -63,7 +63,7 @@ export class AnototeList {
   public user: User;
   public selected_totes: any = [];
   public infinite_scroll: any;
-  public top_anototes: any = []
+  public top_anototes: any = [];
   /**
    * Constructor
    */

@@ -1,5 +1,5 @@
 <ion-header [ngClass]="{'hide-header':showheader,'show-header':hideheader,'!full_screen_mode':'showheader'}">
-    <ion-toolbar color="commonheader">
+    <ion-toolbar [color]="which_stream">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
                 <span (click)="load_previous_page()"><img src="assets/img/new2.png"></span>
@@ -47,6 +47,11 @@
             </button>
     </ion-fab>-->
 </ion-content>
+<ion-footer class="inline_tote_options" *ngIf="tote_saved">
+    <ion-toolbar color="dark">
+        Tote saved
+    </ion-toolbar>
+</ion-footer>
 <ion-footer class="inline_tote_options" *ngIf="toggle_annotation_option">
     <ion-toolbar color="dark">
         <span (click)="comment_it()" class="comment"></span>

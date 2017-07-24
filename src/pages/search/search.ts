@@ -98,7 +98,7 @@ export class Search {
         this.filter_mode = !this.filter_mode;
     }
 
-    save_search_entry() {
+    save_search_entry(show_success_msg) {
         let self = this;
         var current_time = this.utilityMethods.get_php_wala_time();
         this.searchService.save_search_entry({
@@ -108,7 +108,8 @@ export class Search {
         }).subscribe((response) => {
             this.utilityMethods.hide_loader();
             console.log(response);
-            this.utilityMethods.doToast("Saved to search stream successfully !");
+            if (show_success_msg)
+                this.utilityMethods.doToast("Saved to search stream successfully !");
             this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
@@ -119,7 +120,7 @@ export class Search {
     }
 
     get_search_results() {
-        this.save_search_entry();
+        this.save_search_entry(false);
         this.navCtrl.push(SearchResults, { search_term: this.search_txt });
         this.dismiss();
     }
