@@ -85,16 +85,20 @@
                 </div>
                 <!-- anatote detail -->
                 <div (press)="enable_list_reorder(anotote)" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
-                    <header class="listHeader">
+                    <div class="loading" [hidden]="spinner_for_active == false">
+                        <ion-spinner></ion-spinner>
+                    </div>
+                    <header class="listHeader" [hidden]="spinner_for_active == true">
                         <div class="underlist-text">
                             <div class="btns-area">
-                                <button (click)="showMeHighlights()" ion-button class="active me-tab">Me</button>
-                                <button (click)="open_follows_popup($event)" ion-button class="active bardaro-tab">{{current_active_anotote.firstFollowerName}} ({{current_active_anotote.followers.length}})</button>
-                                <button ion-button class="active top-tab">Top</button>
+                                <button (click)="showMeHighlights()" ion-button class="me-tab" [ngClass]="{'active_me': current_color == 'me'}">Me</button>
+                                <!-- <button ion-button class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">Me</button> -->
+                                <button (click)="open_follows_popup($event,anotote)" ion-button class="me-tab">{{current_active_anotote.firstFollowerName}} ({{anotote.followers.length}})</button>
+                                <button ion-button class="me-tab">Top</button>
                             </div>
                         </div>
                     </header>
-                    <div class="quotes layout message-underlist">
+                    <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout">
                             <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
@@ -110,6 +114,9 @@
                 <!-- Anotote Message Detail Section -->
                 <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
+                        <div class="loading" [hidden]="spinner_for_active == false">
+                            <ion-spinner></ion-spinner>
+                        </div>
                         <ion-list no-lines class="details-list layout">
                             <ion-item class="underlist-items" *ngFor="let message of messages">
                                 <figure>
@@ -119,8 +126,8 @@
                                 <div class="check-text">
                                     <div class="name-time">
                                         <span class="user" *ngIf="message.senderId == user.id">Me</span>
-                                        <span class="user" *ngIf="message.senderId != user.id">{{anotote.chatGroup.groupUsers[1].user.firstName}} {{anotote.chatGroup.groupUsers[1].user.lastName}}</span>
-                                        <span class="msg-time">{{message.createdAt | date: 'hh:mm'}}</span>
+                                        <span class="user" *ngIf="message.senderId != user.id">{{anotote.chatGroup.groupUsers | chat_name}}</span>
+                                        <span class="msg-time">{{message.createdAt * 1000 | date: 'shortTime'}}</span>
                                     </div>
                                     <p [ngStyle]="{'color': 'red'}" *ngIf="message.read == 0 && user.id != message.senderId">{{message.text}}</p>
                                     <p *ngIf="message.read != 0 && user.id != message.senderId">{{message.text}}</p>
@@ -128,32 +135,6 @@
                                     <img src="assets/img/option-msg.png" alt="">
                                 </div>
                             </ion-item>
-                            <!--<ion-item class="underlist-items">
-                                <figure>
-                                    <img src="assets/img/check-yellow.png" alt="">
-                                </figure>
-                                <div class="check-text">
-                                    <div class="name-time">
-                                        <span class="user">Chantel Bardaro</span>
-                                        <span class="msg-time">11:22</span>
-                                    </div>
-                                    <p>Agreed, but review the other background research I’ve gathered</p>
-                                    <img src="assets/img/option-msg.png" alt="">
-                                </div>
-                            </ion-item>
-                            <ion-item class="underlist-items unread-msg">
-                                <figure>
-                                    <img src="assets/img/check-red.png" alt="">
-                                </figure>
-                                <div class="check-text">
-                                    <div class="name-time">
-                                        <span class="user">Chantel Bardaro</span>
-                                        <span class="msg-time">11:22</span>
-                                    </div>
-                                    <p>Agreed, but review the other background research I’ve gathered</p>
-                                    <img src="assets/img/option-msg.png" alt="">
-                                </div>
-                            </ion-item>-->
                         </ion-list>
                     </div>
                 </div>
@@ -217,7 +198,7 @@
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
         </div>
     </div>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="current_color != 'top'">
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>

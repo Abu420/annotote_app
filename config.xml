@@ -19,6 +19,7 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="SplashScreen" value="screen" />
+    <preference name="orientation" value="portrait" />
     <preference name="SplashScreenDelay" value="30000" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />

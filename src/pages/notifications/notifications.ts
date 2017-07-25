@@ -57,7 +57,7 @@ export class Notifications {
     if (notification.type != 'user:message')
       this.showProfile(notification.sender.id);
     else if (notification.type == 'user:message')
-      this.go_to_chat_thread(notification);
+      this.go_to_chat_thread(notification.sender);
   }
 
   go_to_chat_thread(user) {

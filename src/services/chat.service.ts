@@ -2,49 +2,47 @@
  * Created by nomantufail on 18/05/2017.
  */
 import { Injectable } from '@angular/core';
-import {User} from "../models/user";
-import {Http, RequestOptions, Headers} from "@angular/http";
-import {AuthenticationService} from "./auth.service";
+import { User } from "../models/user";
+import { Http, RequestOptions, Headers } from "@angular/http";
+import { AuthenticationService } from "./auth.service";
 import { Constants } from '../services/constants.service';
-declare var io:any;
+declare var io: any;
 @Injectable()
 
 export class ChatService {
 
-  public socket:any = null;
-  public threadingUser:User;
-  public socketUrl:string = "http://139.162.37.73:5000";
-  constructor(public http:Http, public authService:AuthenticationService,public constant:Constants){
+  public socket: any = null;
+  public threadingUser: User;
+  public socketUrl: string = "http://139.162.37.73:5000";
+  constructor(public http: Http, public authService: AuthenticationService, public constants: Constants) {
 
   }
-  public listenForGlobalMessages(){
+  public listenForGlobalMessages() {
     this.socket = io(this.socketUrl);
-    this.socket.on('receive_message', (msg:any)=>{
-      if(msg.receiverId == this.getLoggedInUserId()){
-        console.log('listening for global messages');
+    this.socket.on('receive_message', (msg: any) => {
+      if (msg.receiverId == this.getLoggedInUserId()) {
+        //console.log('listening for global messages');
       }
     });
   }
 
-  public getLoggedInUserId(){
+  public getLoggedInUserId() {
     return 2;
   }
 
-  public fetchHistory(firstUser:number, secondUser:number, page=1){
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':this.authService.getUser().access_token });
-    let options = new RequestOptions({ headers: headers });
-    return this.http.get('http://139.162.37.73/anotote/api/chat-history?second_person='+secondUser+'&page='+page, options);
+  public fetchHistory(firstUser: number, secondUser: number, page = 1) {
+    var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&page=' + page;
+    var response = this.http.get(url).map(res => res.json())
+    return response;
   }
 
-  public saveMessage(params:any){
-    // let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization':this.authService.getUser().access_token });
-    // let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.constant.API_BASEURL+"/send-message",params, {}).map(res => res.json());
+  public saveMessage(params: any) {
+    return this.http.post(this.constants.API_BASEURL + "/send-message", params, {}).map(res => res.json());
   }
 
-  public currentUnixTimestamp(){
-    return Math.round((new Date()).getTime() / 1000);
-  }
+  // public currentUnixTimestamp() {
+  //   return Math.round((new Date()).getTime() / 1000);
+  // }
 
   public checkTime(i) {
     if (i < 10) {

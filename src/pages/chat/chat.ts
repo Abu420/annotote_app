@@ -1,5 +1,5 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {IonicPage, NavController, ModalController, NavParams, Content} from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonicPage, NavController, ModalController, NavParams, Content } from 'ionic-angular';
 /**
  * Services
  */
@@ -7,7 +7,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { ChatService } from "../../services/chat.service";
 import { ChatMessage } from "../../models/ChatMessage";
 import { User } from "../../models/user";
-import {AuthenticationService} from "../../services/auth.service";
+import { AuthenticationService } from "../../services/auth.service";
 
 declare var io: any;
 
@@ -30,18 +30,20 @@ export class Chat {
   public conversation: Array<ChatMessage> = [];
   public textMessage: string = "";
   public secondUser: User = null;
-  public loggedInUser: User = null;
-  public current_page:number = 1;
-  public scrollPosition:string = 'top';
+  public current_page: number = 1;
+  public scrollPosition: string = 'top';
+  public user: User;
+  public infinite_completed = false;
+  public send_message_loader = false;
 
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController,public authService:AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService) {
+  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService) {
     this.reply_box_on = false;
     this.secondUser = navParams.get('secondUser');
-    this.loggedInUser = this.authService.getUser();
     this.chatService.threadingUser = this.secondUser;
+    this.user = this.authService.getUser();
     this.connectionToSocket();
     this.chatService.listenForGlobalMessages();
   }
@@ -49,63 +51,46 @@ export class Chat {
   public connectionToSocket() {
     this.socket = io(this.chatService.socketUrl);
     this.socket.on('receive_message', (msg: any) => {
-      if ((msg.receiverId == this.getLoggedInUserId() && msg.senderId == this.secondUser.id)) {
-        let message:ChatMessage = new ChatMessage(1, this.secondUser.firstName+' '+this.secondUser.lastName, msg.time, msg.message);
-        message.time = msg.time;
-        this.conversation.push(message);
+      if (msg.receiverId == this.user.id && msg.senderId == this.secondUser.id) {
+        let just_recieved: ChatMessage = new ChatMessage(Math.random(), msg.senderId, msg.time, msg.message, 1);
+        this.conversation.push(just_recieved);
         this.autoScroll();
-      }else if(msg.receiverId == this.secondUser.id && msg.senderId == this.getLoggedInUserId()){
-        let message:ChatMessage = new ChatMessage(1, this.loggedInUser.firstName+' '+this.loggedInUser.lastName, msg.time, msg.message);
-        message.time = msg.time;
-        this.conversation.push(message);
-        this.autoScroll();
-      }
-    });
-  }
-
-  public getLoggedInUserId() {
-    return this.loggedInUser.id;
-  }
-
-  doRefresh(refresher) {
-    this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id).subscribe((data)=>{
-      let messages:Array<any> = data.json().data.messages;
-      this.conversation = this.mapChatHistory(messages);
-      refresher.complete();
-    },(error)=>{
-      if (error.code == -1) {
-        this.utilityMethods.internet_connection_error();
       }
     });
   }
 
   public sendMessage() {
     if (this.textMessage != "") {
-      this.chatService.saveMessage({second_person:this.secondUser.id, message:this.textMessage, created_at:this.chatService.currentUnixTimestamp()}).subscribe((result)=>{
-        this.conversation.unshift(result.data[0]);
-      }, (error)=>{
+      this.send_message_loader = true;
+      this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time() }).subscribe((result) => {
+        this.send_message_loader = false;
+        this.conversation.push(result.data.messages);
+        this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
+        this.textMessage = "";
+        this.autoScroll();
+      }, (error) => {
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
-      this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.loggedInUser.id, this.chatService.currentTime());
-      this.textMessage = "";
-      this.autoScroll();
     }
   }
 
   doInfinite(infiniteScroll) {
-    //console.log('Begin async operation');
-    this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id, ++this.current_page).subscribe((data)=>{
-      let messages:Array<any> = data.json().data.messages;
-      for(let message of this.mapChatHistory(messages)){
-        this.conversation.unshift(message);
+    this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++).subscribe((result) => {
+      if (this.conversation.length == 0)
+        this.conversation = result.data.messages.reverse();
+      else {
+        for (let msg of result.data.messages) {
+          this.conversation.unshift(msg);
+        }
       }
       infiniteScroll.complete();
-      if(messages.length <= 0){
+      if (result.data.messages.length < 10) {
         infiniteScroll.enable(false);
+        this.infinite_completed = true;
       }
-    },(error)=>{
+    }, (error) => {
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
@@ -116,35 +101,13 @@ export class Chat {
   * View LifeCycle Events
   */
 
-  ionViewDidLoad() {
-    this.utilityMethods.show_loader('loading previous messages...');
-    this.chatService.fetchHistory(this.getLoggedInUserId(),this.secondUser.id).subscribe((data)=>{
-      let messages:Array<any> = data.json().data.messages;
-      this.conversation = this.mapChatHistory(messages);
-      this.autoScroll();
-      this.utilityMethods.hide_loader();
-    },(error)=>{
-      this.utilityMethods.hide_loader();
-      if (error.code == -1) {
-        this.utilityMethods.internet_connection_error();
-      }
-    });
-  }
+  ionViewDidLoad() { }
 
   autoScroll() {
-    setTimeout(()=>{
-      if(this.content != null)
+    setTimeout(() => {
+      if (this.content != null)
         this.content.scrollToBottom();
-    },100);
-  }
-
-  mapChatHistory(messages:Array<any>){
-    let conversation:Array<ChatMessage> = [];
-    for (let element of messages) {
-      let sender = (parseInt(element.senderId) == this.getLoggedInUserId())?this.loggedInUser.firstName+' '+this.loggedInUser.lastName:this.secondUser.firstName+' '+this.secondUser.lastName;
-      conversation.unshift(new ChatMessage(element.id, sender, element.createdAt, element.text));
-    }
-    return conversation;
+    }, 100);
   }
 
   ionViewWillLeave() { }

@@ -1,9 +1,9 @@
 <ion-header>
     <ion-toolbar color="commonheader">
         <ion-buttons start>
-            <button class="search_icon" ion-button icon-only>
+            <!-- <button class="search_icon" ion-button icon-only>
                 <ion-icon name="search"></ion-icon>
-            </button>
+            </button> -->
         </ion-buttons>
         <ion-title>
             <dot-navigation unactivedots="2"></dot-navigation>
@@ -18,32 +18,36 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding #scrollMe>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" *ngIf="infinite_completed == false">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-list no-lines class="details-list layout" id="chat-listing-area">
         <ion-item *ngFor="let message of conversation" class="underlist-items">
             <figure>
-                <img *ngIf="message.sender != loggedInUser.firstName+' '+loggedInUser.lastName" src="assets/img/check-yellow.png" alt="">
-                <img *ngIf="message.sender == loggedInUser.firstName+' '+loggedInUser.lastName" src="assets/img/check-green.png" alt="">
+                <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
+                <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
             </figure>
             <div class="check-text">
                 <div class="name-time">
-                    <span class="user">{{message.sender}}</span>
-                    <span class="msg-time">{{message.time}}</span>
+                    <span class="user" *ngIf="message.senderId == user.id">Me</span>
+                    <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} {{secondUser.lastName}}</span>
+                    <span class="msg-time">{{message.createdAt  * 1000 | date:'shortTime'}}</span>
                 </div>
-                <p>{{message.message}}</p>
+                <p>{{message.text}}</p>
             </div>
         </ion-item>
     </ion-list>
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to Chantel Bardaro</p>
+        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} {{secondUser.lastName}}</p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply">
-            <input type="submit" value="Send" (click)="sendMessage()" name="send">
+            <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
+            <span class="loading" *ngIf="send_message_loader">
+                <ion-spinner></ion-spinner>
+            </span>
         </div>
     </ion-toolbar>
 </ion-footer>

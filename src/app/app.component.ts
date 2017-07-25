@@ -47,8 +47,7 @@ export class MyApp {
       // set status bar to white
       this.statusBar.backgroundColorByHexString('#000000');
       //keyboard
-      // Keyboard.hideKeyboardAccessoryBar(false);
-      // Keyboard.disableScroll(true)
+      this.keyboard.hideKeyboardAccessoryBar(false);
       /**
        * Sync user from Native storage if any
        */

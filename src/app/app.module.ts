@@ -74,7 +74,7 @@ import { Constants } from "../services/constants.service";
 import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
-import { ChatHeads } from "../services/pipes"
+import { ChatHeads, chatName } from "../services/pipes"
 import { HttpFactory } from "../services/httpFactory"
 import { Push } from '@ionic-native/push';
 
@@ -127,6 +127,7 @@ import { Keyboard } from "@ionic-native/keyboard";
     PressDirective,
     AnototeEditor,
     ChatHeads,
+    chatName,
     OnlyTime,
     DclWrapper,
     Highlight,

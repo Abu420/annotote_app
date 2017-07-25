@@ -362,6 +362,14 @@ page-anotote-list {
                         background: #FFF;
                         .btns-area {
                             padding: 0px;
+                            .me-tab {
+                                padding: 0 .5em !important;
+                                background: #bdbdbd;
+                                color: white;
+                            }
+                            .active_me {
+                                background: $me_app_color;
+                            }
                         }
                     }
                     .message-underlist {
@@ -420,6 +428,9 @@ page-anotote-list {
             p.top {
                 color: #fb9df0;
             }
+        }
+        .loading {
+            text-align: center;
         }
     }
     .toolbar-ios {

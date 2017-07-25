@@ -112,9 +112,11 @@ page-chat {
     }
     .send-btn {
         position: relative;
+        margin-left: 5vw;
         img {
             display: inline-block;
             vertical-align: middle;
+            width: 15px;
         }
         input[type="text"] {
             display: inline-block;
@@ -136,9 +138,25 @@ page-chat {
             padding: 15px 0px;
             text-transform: uppercase;
             position: absolute;
-            right: -20px;
             top: -33px;
             border: 0;
+        }
+        .loading {
+            background: $me_app_color;
+            color: #FFF;
+            width: 60px;
+            height: 60px;
+            overflow: hidden;
+            border-radius: 50%;
+            text-align: center;
+            padding: 15px 0px;
+            text-transform: uppercase;
+            position: absolute;
+            top: -33px;
+            border: 0;
+        }
+        .green {
+            background: $me_app_color !important;
         }
     }
 }
