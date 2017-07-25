@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
+import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
  * Services
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
+import { AuthenticationService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -13,11 +15,15 @@ import { SearchService } from '../../services/search.service';
 })
 export class SearchResults {
   private search_term: string;
-  private loading: boolean;
+  private _loading: boolean;
+  private search_results: any;
+  private user_id: number;
 
-  constructor(public search_service: SearchService, private params: NavParams, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
+  constructor(public authService: AuthenticationService, public search_service: SearchService, private params: NavParams, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
     this.search_term = params.get('search_term');
-    this.loading = false;
+    this._loading = false;
+    this.search_results = [];
+    this.user_id = this.authService.getUser().id;
   }
 
   open_annotote_site() {
@@ -28,14 +34,31 @@ export class SearchResults {
     this.load_search_results();
   }
 
+  go_to_browser(result) {
+    var anotote = {
+      userAnnotote: {
+        id: result.userAnnotote[0],
+        annototeId: result.userAnnotote[2],
+        userId: result.userAnnotote[1],
+        filePath: result.userAnnotote[6]
+      }
+    }
+    var from;
+    if (this.user_id == result.userAnnotote[1])
+      from = "me";
+    else
+      from = "follows";
+    this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: from });
+  }
+
   load_search_results() {
-    console.log(this.search_term);
     this.search_service.get_search_results(this.search_term)
       .subscribe((res) => {
-        this.loading = true;
-        console.log(res);
+        this._loading = true;
+        this.search_results = res.response.docs;
+        console.log(this.search_results[0]);
       }, (err) => {
-        this.loading = true;
+        this._loading = true;
         console.log(err);
       });
   }

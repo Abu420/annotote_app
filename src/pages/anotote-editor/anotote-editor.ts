@@ -58,6 +58,7 @@ export class AnototeEditor implements OnDestroy {
     public ionScroll: any;
     public showheader: boolean;
     public hideheader: boolean;
+    public tote_saved: boolean;
     public headercontent: any;
     public toggle_annotation_option: boolean;
     public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
@@ -161,7 +162,7 @@ export class AnototeEditor implements OnDestroy {
         this.ANOTOTE_LOADED = false;
         this.ANOTOTE_LOADING_ERROR = false;
         this.tote_id = this.ANOTOTE.userAnnotote.id;
-        this.main_anotote_id = this.ANOTOTE.annototeId;
+        this.main_anotote_id = this.ANOTOTE.userAnnotote.annototeId;
         this.tote_user_id = this.ANOTOTE.userAnnotote.userId;
         if (this.FROM == 'anotote_list')
             this.from_where = 'anotote_list';
@@ -271,11 +272,16 @@ export class AnototeEditor implements OnDestroy {
         this.searchService.save_anotote_to_me_stream(params)
             .subscribe((res) => {
                 this.utilityMethods.hide_loader();
-                if (res.data.code == 444) {
+                if (res.data.exist_count == 1) {
                     this.utilityMethods.doToast("This anotote is already added to your me stream.");
                     return;
                 }
-                this.utilityMethods.doToast("This anotote is added to your me stream successfully.");
+                this.tote_saved = true;
+                this.content.resize();
+                var that = this;
+                setTimeout(function () {
+                    that.tote_saved = false;
+                }, 2000);
             }, (error) => {
                 this.utilityMethods.hide_loader();
             });

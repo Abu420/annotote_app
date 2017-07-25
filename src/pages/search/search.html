@@ -34,7 +34,7 @@
             <ion-icon name="eye"></ion-icon>
             <span>View (enter)</span>
         </ion-item>
-        <ion-item (click)="save_search_entry()" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
+        <ion-item (click)="save_search_entry(true)" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
             <ion-icon name="ios-cloud"></ion-icon>
             <span>Save</span>
         </ion-item>

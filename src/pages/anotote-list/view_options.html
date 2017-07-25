@@ -28,10 +28,10 @@
                 <span>Top</span>
             </div>
         </ion-item>
-        <ion-item>
+        <ion-item (tap)="show_notifications()">
             <div class="aling-left">
                 <ion-icon name="notifications"></ion-icon>
-                <em class="counter">1</em>
+                <em [innerText]="un_read" class="counter"></em>
             </div>
             <div class="txt">
                 <span>Notifiacation</span>
