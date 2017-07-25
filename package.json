@@ -120,7 +120,7 @@
             "ionic-plugin-deeplinks": {
                 "URL_SCHEME": "anotote",
                 "DEEPLINK_SCHEME": "https",
-                "DEEPLINK_HOST": "taperup.com/anotote",
+                "DEEPLINK_HOST": "taperup.com",
                 "ANDROID_PATH_PREFIX": "/",
                 "ANDROID_2_PATH_PREFIX": "/",
                 "ANDROID_3_PATH_PREFIX": "/",
