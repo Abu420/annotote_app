@@ -91,24 +91,35 @@
                     <header class="listHeader" [hidden]="spinner_for_active == true">
                         <div class="underlist-text">
                             <div class="btns-area">
-                                <button (click)="showMeHighlights()" ion-button class="me-tab" [ngClass]="{'active_me': current_color == 'me'}">Me</button>
+                                <button (click)="showMeHighlights(anotote)" ion-button class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">Me</button>
                                 <!-- <button ion-button class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">Me</button> -->
-                                <button (click)="open_follows_popup($event,anotote)" ion-button class="me-tab">{{current_active_anotote.firstFollowerName}} ({{anotote.followers.length}})</button>
-                                <button ion-button class="me-tab">Top</button>
+                                <button (click)="open_follows_popup($event,anotote)" class="me-tab" ion-button [ngClass]="{'active_follows': anotote.active_tab == 'follows'}" *ngIf="anotote.followers.length > 0">{{anotote.selected_follower_name}} ({{anotote.followers.length}})</button>
+                                <button ion-button class="me-tab" *ngIf="anotote.isTop == 1">Top
+                                    <ion-spinner class="loader" [hidden]="top_spinner == false"></ion-spinner>
+                                </button>
                             </div>
                         </div>
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
-                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout">
+                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
                             <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
-                                <span class="status" [ngClass]="{'quotes_follows': current_color == 'follows','quotes_top': current_color == 'top' }" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                <span class="status" [ngClass]="{'quotes_follows': current_color == 'follows','quotes_top': current_color == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                <span class="status" [ngClass]="{'quotes_follows': (current_color == 'follows' || anotote.active_tab == 'follows'),'quotes_top': (current_color == 'top' || anotote.active_tab == 'top')}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                <span class="status" [ngClass]="{'quotes_follows': (current_color == 'follows' || anotote.active_tab == 'follows'),'quotes_top': (current_color == 'top'  || anotote.active_tab == 'top') }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                             </ion-item>
                         </ion-list>
+                        <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me' && current_color == 'me'">
+                            <p>No anotations to show. Click the below button to create annotation</p>
+                            <div class="butt">
+                                <p>Create annotation</p>
+                            </div>
+                        </div>
+                        <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'follows'">
+                            <p>No anotations to created yet.</p>
+                        </div>
                     </div>
                 </div>
                 <!-- Anotote Message Detail Section -->

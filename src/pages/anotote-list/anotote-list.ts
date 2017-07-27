@@ -65,6 +65,8 @@ export class AnototeList {
   public infinite_scroll: any;
   public top_anototes: any = []
   public spinner_for_active: boolean = false;
+  public top_spinner: boolean = false;
+
   /**
    * Constructor
    */
@@ -76,14 +78,6 @@ export class AnototeList {
     this.user = authService.getUser();
     this.reorder_highlights = false;
   }
-
-  // public setStreamType(streamType) {
-  //   if (streamType == 'follow') {
-  //     this.whichStream = streamType;
-  //   } else {
-  //     this.whichStream = streamType;
-  //   }
-  // }
 
   /**
    * View LifeCycle Events
@@ -176,10 +170,11 @@ export class AnototeList {
    * Methods
    */
 
-  // showMeHighlights() {
-  //   this.current_active_anotote.activeParty = 1;
-  //   this.setSimpleToteDetails(this.getLoggedInUserId(), this.current_active_anotote.userAnnotote.id);
-  // }
+  showMeHighlights(anotote) {
+    this.current_active_anotote.activeParty = 1;
+    anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+    anotote.active_tab = 'me'
+  }
 
   // showTopHighlights() {
   //   this.current_active_anotote.activeParty = 3;
@@ -249,35 +244,48 @@ export class AnototeList {
   }
 
   follows(event) {
-    console.log(event)
     event.stopPropagation();
     this.navCtrl.push(Follows, {});
   }
 
   open_follows_popup(event, anotote) {
     event.stopPropagation();
-    console.log(anotote);
     if (anotote.followers.length > 0) {
-      let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: this.current_active_anotote.followers });
+      let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: anotote.followers });
       anototeOptionsModal.onDidDismiss(data => {
         if (data != null) {
-          console.log(data);
-          // this.utilityMethods.show_loader('loading follows totes...')
-          // this.anototeService.fetchToteDetails(data.user.id, this.current_active_anotote.userAnnotote.annotote.id).subscribe((data) => {
-          //   this.current_active_anotote.setFollowerHighlights(data.json().data.annotote.highlights);
-          //   this.utilityMethods.hide_loader()
-          // }, (error) => {
-          //   this.utilityMethods.hide_loader();
-          //   if (error.code == -1) {
-          //     this.utilityMethods.internet_connection_error();
-          //   }
-          // });
+          anotote.selected_follower_name = data.user.firstName;
+          anotote.active_tab = 'follows'
+          if (data.user.anotote == null) {
+            this.spinner_for_active = true;
+            var params = {
+              user_id: data.user.id,
+              anotote_id: anotote.userAnnotote.id,
+              time: this.utilityMethods.get_php_wala_time()
+            }
+            this.anototeService.fetchToteDetails(params).subscribe((result) => {
+              this.spinner_for_active = false;
+              data.user.anotote = result.data.annotote;
+              anotote.highlights = Object.assign(result.data.annotote.highlights);
+            }, (error) => {
+              this.utilityMethods.hide_loader();
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            });
+          } else {
+            anotote.highlights = Object.assign(data.user.anotote.highlights);
+          }
         }
       });
       anototeOptionsModal.present();
     } else {
       this.utilityMethods.doToast('No one follows this anotote.');
     }
+
+  }
+
+  show_top_tab() {
 
   }
 
@@ -474,20 +482,10 @@ export class AnototeList {
     }
     this.anototeService.fetchToteDetails(params).subscribe((result) => {
       this.spinner_for_active = false;
+      if (result.data.annotote.follows.length > 0)
+        anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
       anotote.followers = result.data.annotote.follows;
       anotote.isTop = result.data.annotote.isTop;
-      // let followers: Array<any> = [];
-      // for (let highlight of annotote.highlights) {
-      //   if (highlight.deleted == 1) {
-      //     annotote.highlights.splice(annotote.highlights.indexOf(highlight), 1);
-      //   }
-      // }
-      // this.current_active_anotote.setHighlights(annotote.highlights);
-      // for (let follower of annotote.follows) {
-      //   followers.push(new User(follower.id, follower.firstName, follower.lastName, follower.email, follower.password, follower.photo));
-      // }
-      // this.current_active_anotote.setFollowers(followers);
-      this.utilityMethods.hide_loader();
     }, (error) => {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
@@ -496,10 +494,6 @@ export class AnototeList {
       }
     });
   }
-
-  // public getLoggedInUserId() {
-  //   return this.authService.getUser().id;
-  // }
 
   presentToast() {
     if (this.toast != null) {

@@ -1,18 +1,28 @@
-<ion-header>
-    <ion-toolbar class="follows_header" color="light" no-border>
-        <ion-title>Follows ({{follows.length}})</ion-title>
-    </ion-toolbar>
-</ion-header>
-<ion-content padding>
-    <div id="wrapper">
-        <ion-list no-lines class="product-list follows_popup">
-            <ion-item *ngFor="let user of follows" (click)="choose_this_user(user)">
-                <div class="img-holder" *ngIf="user.photo != null && user.photo != '' && user.photo != undefined"><img src="{{user.photo}}"></div>
-              <div class="img-holder" *ngIf="user.photo == null || user.photo == '' || user.photo == undefined"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">{{user.full_name}}</strong>
+<div class="top_empty_box" (tap)="dismiss()" *ngIf="follows.length < 4">
+</div>
+
+<ion-toolbar class="follows_header" color="light" no-border>
+    <ion-buttons start>
+        <button navPop ion-button icon-only>
+                <ion-icon name="close"></ion-icon>
+            </button>
+    </ion-buttons>
+    <ion-title>Follows ({{follows.length}})</ion-title>
+</ion-toolbar>
+
+<ion-content [ngClass]="{'pop_wrapper': follows.length < 4, 'pop_wrapper_full': follows.length > 3}" class="pop_wrapper" padding>
+    <div class="wrapper">
+        <ul no-lines class="content">
+            <li *ngFor="let user of follows" (click)="choose_this_user(user)">
+                <div class="image_holder">
+                    <img *ngIf="user.photo != '' && user.photo != null" src="{{user.photo | image_base_path}}">
+                    <img *ngIf="user.photo == '' || user.photo == null" src="assets/img/img3.jpg">
                 </div>
-            </ion-item>
-        </ion-list>
+                <div class="name">
+                    <p>{{user.firstName}} {{user.lastName}}</p>
+                </div>
+
+            </li>
+        </ul>
     </div>
 </ion-content>

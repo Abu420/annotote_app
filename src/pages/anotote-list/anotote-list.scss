@@ -209,6 +209,57 @@ anotote_options {
     }
 }
 
+follows_popup {
+    .top_empty_box {
+        height: calc(100% - (40% + 45px));
+    }
+    .pop_wrapper {
+        top: 60%;
+        .wrapper {
+            width: 100%;
+            ul {
+                list-style: none;
+                -webkit-margin-before: 0;
+                -webkit-padding-start: 0;
+                li {
+                    padding: 10px;
+                    height: 90px;
+                    overflow: hidden;
+                    .image_holder {
+                        width: 20%;
+                        float: left;
+                        height: 100%;
+                        overflow: hidden;
+                        img {
+                            height: 100%;
+                        }
+                    }
+                    .name {
+                        float: right;
+                        width: 78.5%;
+                        height: 100%;
+                        padding: 3vw;
+                        border-bottom: 1px solid black;
+                        p {
+                            width: 100%;
+                            margin: 0;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 1;
+                            overflow: hidden;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .pop_wrapper_full {
+        top: 45px;
+        @extend .pop_wrapper;
+    }
+}
+
 page-anotote-list {
     .toolbar-ios-follow {
         ion-buttons {
@@ -366,9 +417,16 @@ page-anotote-list {
                                 padding: 0 .5em !important;
                                 background: #bdbdbd;
                                 color: white;
+                                .loader {
+                                    width: 10px;
+                                    height: 10px;
+                                }
                             }
                             .active_me {
                                 background: $me_app_color;
+                            }
+                            .active_follows {
+                                background: $follow_app_color;
                             }
                         }
                     }
@@ -404,6 +462,22 @@ page-anotote-list {
                                             background: #fb9df0;
                                         }
                                     }
+                                }
+                            }
+                        }
+                        .no_anotation {
+                            text-align: center;
+                            padding: 5%;
+                            p {
+                                white-space: normal;
+                            }
+                            .butt {
+                                width: 60%;
+                                display: inline-block;
+                                padding: 5%;
+                                background: $me_app_color;
+                                p {
+                                    color: white;
                                 }
                             }
                         }
