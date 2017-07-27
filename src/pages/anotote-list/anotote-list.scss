@@ -428,6 +428,9 @@ page-anotote-list {
                             .active_follows {
                                 background: $follow_app_color;
                             }
+                            .active_top {
+                                background: $top_app_color;
+                            }
                         }
                     }
                     .message-underlist {
@@ -456,10 +459,10 @@ page-anotote-list {
                                             margin-top: 4px;
                                         }
                                         .quotes_follows {
-                                            background: #f4e300;
+                                            background: $follow_app_color;
                                         }
                                         .quotes_top {
-                                            background: #fb9df0;
+                                            background: $top_app_color;
                                         }
                                     }
                                 }
