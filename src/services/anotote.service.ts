@@ -85,7 +85,7 @@ export class AnototeService {
     return response;
   }
   public top_totes(params) {
-    var url = this.constants.API_BASEURL + '/totes/top?time=' + params.time;
+    var url = this.constants.API_BASEURL + '/totes/top?time=' + params.time + '&page=' + params.number;
     var response = this.http.get(url).map(res => res.json());
     return response;
   }

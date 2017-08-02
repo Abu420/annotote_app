@@ -15,14 +15,14 @@ export class ListTotesModel {
   public userAnnotote: any = null;
   public highlights: Array<any> = [];
   public followers: Array<User> = [];
-  public firstFollowerName: string = '';
+  public selected_follower_name: string = '';
   public chatGroup: any = null;
   public createdAt: string = '';
   public updatedAt: string = '';
   public active: boolean = false;
   public activeParty: number = 1; //1:me, 2:follows, 3:top
-  private datetimeService: DatetimeService = null;
   public checked: boolean;
+  public isTop: number = 0;
   public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt) {
     //this.datetimeService = new DatetimeService();
     this.id = id;
@@ -40,7 +40,7 @@ export class ListTotesModel {
   }
 
   public setHighlights(highlights: Array<any>) {
-    this.highlights = highlights;
+    this.highlights = Object.assign(highlights);
   }
 
   public setFollowers(followers: Array<User>) {
@@ -50,7 +50,7 @@ export class ListTotesModel {
     }
   }
   public setFirstFollowerName(name: string) {
-    this.firstFollowerName = name;
+    this.selected_follower_name = name;
   }
 
   public setFollowerHighlights(highlights: Array<null>) {

@@ -1,5 +1,6 @@
 import { Pipe } from '@angular/core';
 import { AuthenticationService } from "./auth.service";
+import { Constants } from "./constants.service";
 
 @Pipe({
   name: 'chatHeads'
@@ -36,5 +37,18 @@ export class chatName {
       return input[0].user.firstName + ' ' + input[0].user.lastName;
     else
       return input[1].user.firstName + ' ' + input[0].user.lastName;
+  }
+}
+
+@Pipe({
+  name: 'image_base_path'
+})
+
+export class basePath {
+  constructor(public constants: Constants) { }
+
+  transform(input) {
+    var url = this.constants.IMAGE_BASEURL + '/' + input;
+    return url;
   }
 }
