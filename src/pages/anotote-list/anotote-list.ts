@@ -546,7 +546,13 @@ export class AnototeList {
           anotote.checked = true;
         }
       } else {
-        this.current_active_anotote.active = false;
+        if (this.current_active_anotote) {
+          this.current_active_anotote.active = false;
+          if (this.current_active_anotote.id == anotote.id) {
+            this.current_active_anotote = null;
+            return;
+          }
+        }
         if (anotote.active)
           anotote.active = false;
         else
