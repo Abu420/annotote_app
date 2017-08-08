@@ -165,6 +165,8 @@ export class Home {
   }
 
   openSearchPopup(data) {
+    if (!data)
+      data = {}
     let searchModal = this.modalCtrl.create(Search, data);
     searchModal.onDidDismiss(data => {
     });

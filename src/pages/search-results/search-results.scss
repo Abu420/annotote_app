@@ -1,4 +1,28 @@
 search-results {
+    .resultHead {
+        overflow: visible;
+        contain: none;
+        .toolbar-background {
+            background: #444444;
+        }
+    }
+    .searchBtn {
+        overflow: visible;
+        margin-left: 20px;
+        background: #000;
+        box-shadow: 0 0 10px #232323;
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 0px;
+            width: 0;
+            height: 0;
+            border-left: 28px solid transparent;
+            border-right: 28px solid transparent;
+            border-top: 15px solid black;
+        }
+    }
     .scroll-content {
         padding-top: 20px !important;
         background: #f0f0f0;
@@ -27,44 +51,44 @@ search-results {
                     border-bottom: 1px solid #CCC;
                     figure {
                         display: inline-block;
-                        width: 23vw;
-                        margin: 0px;
                         vertical-align: middle;
+                        width: 70px;
+                        height: 58px;
+                        padding-right: 10px;
+                        margin: 0px;
                         img {
                             width: 100%;
                         }
                     }
-                    .search-text {
-                        display: inline-block;
-                        width: 65vw;
-                        vertical-align: middle;
-                        padding: 0 10px;
+                    figcaption {
+                        @extend figure;
+                        width: calc(100% - 74px);
+                        margin: 0px;
+                        padding: 5px 10px 8px 0;
+                        float: none;
+                        height: auto;
+                        color: #ababab;
                         h4 {
-                            font-size: 5vw;
-                            font-weight: bold;
-                            margin: 0 0 5px;
+                            font-size: 15px;
+                            color: #000;
+                            margin: 0;
                         }
-                        .detail {
-                            color: #a0a0a0;
-                            overflow: hidden;
-                            font-size: 3.5vw;
-                            .right-text {
+                        span {
+                            display: block;
+                            font-size: 12px;
+                            b {
                                 float: right;
-                                img {
-                                    width: 3vw;
-                                    vertical-align: middle;
-                                }
+                                font-weight: normal;
                             }
-                        }
-                        p {
-                            margin: 0px;
-                            color: #a0a0a0;
-                            font-size: 3.5vw;
-                            overflow: hidden;
-                            -webkit-line-clamp: 1;
-                            line-height: 40px;
-                            text-overflow: ellipsis;
-                            height: 40px;
+                            &.excerptTxt {
+                                font-size: 11px;
+                                text-overflow: ellipsis;
+                                display: -webkit-box;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 1;
+                                white-space: nowrap;
+                                width: 100%;
+                            }
                         }
                     }
                 }

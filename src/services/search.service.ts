@@ -148,7 +148,7 @@ export class SearchService {
     * params: [text_string]
     */
     public get_search_results(txt_string) {
-        var url = this.constants.SEARCH_API_BASEURL + '/select?indent=on&wt=json&q=type:annotote&fq=LaFerrari';
+        var url = this.constants.SEARCH_API_BASEURL + '/select?indent=on&wt=json&q=type:annotote&fq=' + txt_string;
         var response = this.http.get(url).map(res => res.json());
         return response;
     }

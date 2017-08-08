@@ -261,6 +261,15 @@ follows_popup {
 }
 
 page-anotote-list {
+    .img-loaded+ion-spinner {
+        display: none;
+    } // .center in my case to make the spinner at the center
+    .center {
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
     .toolbar-ios-follow {
         ion-buttons {
             button {
@@ -292,6 +301,8 @@ page-anotote-list {
                         .img-holder {
                             float: left;
                             width: 64px;
+                            height: 62px;
+                            background: rgba(128, 128, 128, 0.3);
                             vertical-align: middle;
                             img {
                                 vertical-align: middle;

@@ -91,9 +91,6 @@ export class FrontViewPage {
             var current_time = this.utilityMethods.get_php_wala_time();
             this.anototeService.fetchLatestTotes(this.page, current_time)
                   .subscribe((response) => {
-                        //console.log(response);
-                        if (response.data.annototes.length % 10 != 0 || response.data.annototes.length == 0)
-                              infiniteScroll.enable(false);
                         for (let ano_ of response.data.annototes) {
                               var current_date = new Date();
                               var formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
@@ -105,17 +102,14 @@ export class FrontViewPage {
                               this.latest_anototes.push(ano_);
                         }
                         infiniteScroll.complete();
+                        if (response.data.annototes.length < 10)
+                              infiniteScroll.enable(false);
                   }, (error) => {
                         infiniteScroll.complete();
                         if (error.code == -1) {
                               this.utilityMethods.internet_connection_error();
                         }
                   });
-            // setTimeout(() => {
-            //       console.log('Async operation has ended');
-            //       infiniteScroll.complete();
-            //       infiniteScroll.enable(false);
-            // }, 500);
       }
 
       openAnototeList(event) {

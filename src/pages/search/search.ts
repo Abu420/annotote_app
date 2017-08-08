@@ -17,7 +17,6 @@ import { SearchService } from '../../services/search.service';
 })
 export class Search {
 
-    private image_base_path: string;
     public search_txt: string;
     public search_results: any;
     public entering_url: boolean;
@@ -32,7 +31,6 @@ export class Search {
         this.search_txt = "";
         this.entering_url = false;
         this.filter_mode = false;
-        this.image_base_path = this.constants.IMAGE_BASEURL;
         /**
          * Set Current Active Anotote Link in search field
          */
@@ -41,14 +39,13 @@ export class Search {
         if (this.current_url != '' && this.current_url != undefined)
             this.search_txt = this.current_url;
         var saved_search_txt = params.get('saved_searched_txt');
-        if (saved_search_txt != null) {
-            this.value_updating_search(saved_search_txt);
+        if (saved_search_txt != null)
             this.search_txt = saved_search_txt;
-        }
+
 
         /**
-         * User followed Event Subscriber
-         */
+             * User followed Event Subscriber
+             */
         events.subscribe('user:followed', (id) => {
             for (let user of this.search_results) {
                 if (user.id == id) {
@@ -100,18 +97,24 @@ export class Search {
         this.filter_mode = !this.filter_mode;
     }
 
-    save_search_entry(show_success_msg) {
+    save_search_entry(save_or_bookmark) {
         let self = this;
         var current_time = this.utilityMethods.get_php_wala_time();
-        this.searchService.save_search_entry({
-            created_at: current_time,
-            book_marked: 0,
-            searched_term: this.search_txt
-        }).subscribe((response) => {
+        var params = {
+            created_at: this.utilityMethods.get_php_wala_time(),
+            searched_term: this.search_txt,
+            book_marked: 0
+        }
+        if (save_or_bookmark == 'save_entry')
+            params.book_marked = 0;
+        else if (save_or_bookmark == 'bookmark_entry')
+            params.book_marked = 1;
+        this.searchService.save_search_entry(params).subscribe((response) => {
             this.utilityMethods.hide_loader();
-            console.log(response);
-            if (show_success_msg)
+            if (save_or_bookmark == 'save_entry')
                 this.utilityMethods.doToast("Saved to search stream successfully!");
+            else if (save_or_bookmark == 'bookmark_entry')
+                this.utilityMethods.doToast("Bookmarked successfully!");
             this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
@@ -122,7 +125,7 @@ export class Search {
     }
 
     get_search_results() {
-        this.save_search_entry(false);
+        this.save_search_entry('save_entry');
         this.navCtrl.push(SearchResults, { search_term: this.search_txt });
         this.dismiss();
     }
@@ -170,7 +173,7 @@ export class Search {
     /**
      * Text field value updating event
      */
-    value_updating_search(value) {
+    value_updating_search() {
         // this.search_txt = value;
         this.search_results = [];
         if (this.search_txt.length == 0) {
@@ -187,8 +190,16 @@ export class Search {
             this.entering_url = false;
             this.searchService.general_search(this.search_txt)
                 .subscribe((response) => {
-                    if (response.data.annotote)
-                        this.search_results = response.data.annotote;
+                    for (let tote of response.data.annotote) {
+                        if (tote.annotote) {
+                            tote.is_tote = true;
+                            this.search_results.push(tote);
+                        }
+                    }
+                    for (let user of response.data.user) {
+                        user.is_tote = false;
+                        this.search_results.push(user);
+                    }
                     this.search_loading = false;
                 }, (error) => {
                     this.search_results = [];
@@ -235,18 +246,22 @@ export class Search {
         this.dismiss()
     }
 
-    showProfile(user_id) {
-        this.utilityMethods.show_loader('Please wait...');
-        this.searchService.get_user_profile_info(user_id)
-            .subscribe((response) => {
-                this.utilityMethods.hide_loader();
-                this.presentProfileModal(response);
-            }, (error) => {
-                this.utilityMethods.hide_loader();
-                if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                }
-            });
+    showProfile(search_result) {
+        if (search_result.is_tote) {
+
+        } else {
+            this.utilityMethods.show_loader('Please wait...');
+            this.searchService.get_user_profile_info(search_result.id)
+                .subscribe((response) => {
+                    this.utilityMethods.hide_loader();
+                    this.presentProfileModal(response);
+                }, (error) => {
+                    this.utilityMethods.hide_loader();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                });
+        }
     }
 
     presentProfileModal(response) {

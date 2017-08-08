@@ -26,7 +26,7 @@
             <img src="assets/img/searchBlack.png" alt="">
             <span>No results</span>
         </ion-item> -->
-        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
+        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && !search_loading" class="searchFilter">
             <img src="assets/img/searchBlack.png" alt="">
             <span>Search (enter)</span>
         </ion-item>
@@ -34,26 +34,31 @@
             <ion-icon name="eye"></ion-icon>
             <span>View (enter)</span>
         </ion-item>
-        <ion-item (click)="save_search_entry(true)" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
+        <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
             <ion-icon name="ios-cloud"></ion-icon>
             <span>Save</span>
         </ion-item>
-        <ion-item (click)="save_search_entry(true)" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
+        <ion-item (click)="save_search_entry('bookmark_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
             <ion-icon name="ios-bookmark"></ion-icon>
             <span>Bookmark</span>
         </ion-item>
-        <!--<ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
-            Bookmark
-        </ion-item>-->
         <div *ngIf="search_txt.length>0" class="searchResult">
-            <ion-item (click)="showProfile(search_result.id)" class="user_list_item" *ngFor="let search_result of search_results">
-                <ion-avatar item-start>
-                    <img *ngIf="search_result.photo==null" src="assets/img/img3.jpg">
-                    <img *ngIf="search_result.photo!=null" [src]="image_base_path + search_result.photo">
-                </ion-avatar>
-                <span [innerText]="search_result.firstName + ' ' + search_result.lastName"></span>
-                <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
-                <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span>
+            <ion-item *ngFor="let search_result of search_results" (click)="showProfile(search_result)" class="user_list_item">
+                <figure>
+                    <img *ngIf="search_result.annotote.photo==null || search_result.annotote.photo==''" src="assets/img/img3.jpg">
+                    <img *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [src]="search_result.annotote.photo | image_base_path">
+                </figure>
+                <figcaption>
+                    <h4 [innerText]="search_result.annotote.title"></h4>
+                    <span>{{search_result.annotote.source}}</span>
+                    <span class="rightContent">
+                       {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}<ion-icon class="lines" name="menu"></ion-icon>
+                    </span>
+                    <!-- <span class="rightAdd"><ion-icon name="add"></ion-icon></span> -->
+                </figcaption>
+
+                <!-- <span *ngIf="search_result.isFollowed==0" (click)="followUser($event, search_result)" class="follow_btn"></span>
+                <span *ngIf="search_result.isFollowed==1" (click)="unFollowUser($event, search_result)" class="un_follow_btn"></span> -->
             </ion-item>
         </div>
     </ion-list>

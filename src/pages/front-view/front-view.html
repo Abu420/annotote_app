@@ -34,7 +34,7 @@
                 <div class="img-holder">
                     <img src="assets/img/img1.png" *ngIf="anotote.annotote.photo == '' || anotote.annotote.photo == null">
                     <img [src]="anotote.annotote.photo" (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="anotote.annotote.photo != '' && anotote.annotote.photo != null" />
-                    <ion-spinner [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
+                    <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.annotote.photo != '' && anotote.annotote.photo != null"></ion-spinner>
                 </div>
                 <div class="txt">
                     <strong [innerText]="anotote.annotote.title"></strong>
@@ -52,11 +52,11 @@
         <div *ngIf="latest_anototes_firstTime_loading" class="latest_totes_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </div>
-        <ion-infinite-scroll *ngIf="!latest_anototes_firstTime_loading" (ionInfinite)="doInfinite($event)">
-            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-            </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
     </div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
     <ion-fab *ngIf="showFabButton" (tap)="open_annotote_site()" bottom right>
         <button ion-fab color="dark">
             <img src="assets/img/tot_icon_white.png" />

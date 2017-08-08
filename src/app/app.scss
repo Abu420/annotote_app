@@ -337,7 +337,7 @@ search_page {
                             padding: 20px 10px;
                             display: table-cell;
                             vertical-align: middle;
-                            border-top: 1px solid #CCC;
+                            border-bottom: 1px solid #CCC;
                             width: 80%;
                             color: #ababab;
                         }
@@ -346,6 +346,8 @@ search_page {
             }
         }
         .searchResult {
+            padding-top: 10px;
+            background: #FFF;
             >.user_list_item {
                 padding: 0px;
                 line-height: normal;
@@ -353,24 +355,46 @@ search_page {
                 .item-inner {
                     padding: 0px;
                     ion-label {
-                        display: table;
+                        display: block;
                         width: 100%;
+                        padding: 2% 5%;
                         margin: 0px;
-                        padding: 0 0 0 10px;
+                        overflow: hidden;
                         figure {
-                            display: table-cell;
+                            display: inline-block;
                             vertical-align: middle;
-                            width: 15%;
+                            width: 55px;
+                            height: 55px;
                             padding-right: 10px;
-                        }
-                        >span {
-                            @extend figure;
-                            width: 60%;
                             margin: 0px;
-                            padding-left: 20px;
+                            img {
+                                width: 100%;
+                            }
+                        }
+                        >figcaption {
+                            @extend figure;
+                            width: 80%;
+                            margin: 0px;
+                            padding: 0px 0 8px;
                             border-bottom: 1px solid #CCC;
                             float: none;
+                            height: auto;
                             color: #ababab;
+                            >span {
+                                font-size: 12px;
+                                &.rightContent {
+                                    float: right;
+                                    .lines {
+                                        margin-left: 5px;
+                                    }
+                                }
+                                &.rightAdd {
+                                    float: right;
+                                    ion-icon {
+                                        font-size: 25px;
+                                    }
+                                }
+                            }
                             &.un_follow_btn {
                                 width: 10% !important;
                                 padding: 20px;
