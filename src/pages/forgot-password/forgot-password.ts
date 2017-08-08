@@ -21,6 +21,9 @@ export class ForgotPassword {
    */
   public forgot_password_email: string;
   public focus_field: string;
+  public field_error = {
+    email: false
+  };
 
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
@@ -39,12 +42,12 @@ export class ForgotPassword {
     this.navCtrl.pop();
   }
 
-  value_updating_email(value) {
-    this.forgot_password_email = value;
-  }
-
   changeColor(field) {
     this.focus_field = field;
+    if (field != '') {
+      if (field == 'email')
+        this.field_error.email = false;
+    }
   }
 
   go_home() {
@@ -55,9 +58,10 @@ export class ForgotPassword {
     var _error = false;
     if (_.isEmpty(this.forgot_password_email) || !this.utilityMethods.validate_email(this.forgot_password_email)) {
       _error = true;
+      this.field_error.email = true;
     }
     if (_error) {
-      this.utilityMethods.message_alert('Error', 'Please enter valid email.');
+      //this.utilityMethods.message_alert('Error', 'Please enter valid email.');
       return;
     }
 
@@ -79,7 +83,7 @@ export class ForgotPassword {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
-      }else if (error.status == 451)
+      } else if (error.status == 451)
         this.utilityMethods.message_alert('Error', 'Your email is not verified yet.');
       else
         this.utilityMethods.message_alert('Error', 'No account matches to: ' + this.forgot_password_email);

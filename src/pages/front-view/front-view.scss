@@ -1,13 +1,22 @@
 page-front-view {
-	.scroll-content{
-		padding: 10px 16px 16px !important;
-	}
-	ion-buttons{
-		img{
-			width: 30px;
-			margin: 11px 0px 11px 25px;
-		}
-	}
+    .img-loaded+ion-spinner {
+        display: none;
+    }
+    // .center in my case to make the spinner at the center
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    .scroll-content {
+        padding: 10px 16px 16px !important;
+    }
+    ion-buttons {
+        img {
+            width: 30px;
+            margin: 11px 0px 11px 25px;
+        }
+    }
     #header button {
         font-size: 28px;
         line-height: 32px;
@@ -26,14 +35,14 @@ page-front-view {
         text-align: left;
         background: none;
         border-bottom: 1px solid #f7f4f4;
-		&:focus{
-			background: #f1f1f1;
-		}
-		img{
-			width: 20px;
-			display: inline-block;
-			vertical-align: middle;
-		}
+        &:focus {
+            background: #f1f1f1;
+        }
+        img {
+            width: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
     }
     .user-controls .item:first-child button {
         border-bottom: 2px solid #f0f0f0;
@@ -47,7 +56,7 @@ page-front-view {
     }
     .user-controls button span {
         padding-left: 18px;
-		font-weight: bold;
+        font-weight: bold;
         display: inline-block;
         vertical-align: middle;
     }
@@ -68,11 +77,11 @@ page-front-view {
     .product-list .item {
         border-top: 2px solid #f0f0f0 !important;
         overflow: hidden;
-		padding: 0px;
-		margin: 0px;
-		ion-label{
-			margin: 0 0 -2px;	
-		}
+        padding: 0px;
+        margin: 0px;
+        ion-label {
+            margin: 0 0 -2px;
+        }
     }
     .product-list .img-holder,
     .product-list .img-holder img {
@@ -109,10 +118,10 @@ page-front-view {
         padding: 0;
         float: right;
         background: none;
-		margin-top: 2px !important;
+        margin-top: 2px !important;
     }
     .product-list .txt span {
         overflow: hidden;
-		padding-right: 5px;
+        padding-right: 5px;
     }
 }

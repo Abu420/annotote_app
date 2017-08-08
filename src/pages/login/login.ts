@@ -25,6 +25,10 @@ export class Login {
   public user: User;
   public focus_field: string;
   public device_id: string;
+  public field_error = {
+    email: false,
+    password: false
+  };
 
   /**
    * Constructor
@@ -56,19 +60,11 @@ export class Login {
   }
 
   go_back(ev) {
-    console.log("DIRECTION " + ev.direction);
+    //console.log("DIRECTION " + ev.direction);
   }
 
   popView() {
     this.navCtrl.pop();
-  }
-
-  value_updating_email(value) {
-    this.user.email = value;
-  }
-
-  value_updating_password(value) {
-    this.user.password = value;
   }
 
   open_forgot_password() {
@@ -77,6 +73,12 @@ export class Login {
 
   changeColor(field) {
     this.focus_field = field;
+    if (field != '') {
+      if (field == 'email')
+        this.field_error.email = false;
+      else if (field == 'password')
+        this.field_error.password = false;
+    }
   }
 
   go_home() {
@@ -87,12 +89,13 @@ export class Login {
     var _error = false;
     if (_.isEmpty(this.user.email) || !this.utilityMethods.validate_email(this.user.email)) {
       _error = true;
+      this.field_error.email = true;
     }
     if (_.isEmpty(this.user.password)) {
       _error = true;
+      this.field_error.password = true;
     }
     if (_error) {
-      this.utilityMethods.message_alert('Error', 'Please enter valid email and password.');
       return;
     }
 

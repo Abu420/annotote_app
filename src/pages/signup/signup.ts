@@ -114,33 +114,23 @@ export class Signup {
       self.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
-      }else if (error.status == 400)
+      } else if (error.status == 400)
         self.utilityMethods.message_alert('Error', 'This email has already been taken.');
     });
   }
 
-  value_updating_email(value) {
-    this.user.email = value;
-    this.field_error.email = false;
-  }
-
-  value_updating_first_name(value) {
-    this.user.firstName = value;
-    this.field_error.first_name = false;
-  }
-
-  value_updating_last_name(value) {
-    this.user.lastName = value;
-    this.field_error.last_name = false;
-  }
-
-  value_updating_password(value) {
-    this.user.password = value;
-    this.field_error.password = false;
-  }
-
   changeColor(field) {
     this.focus_field = field;
+    if (field != '') {
+      if (field == 'email')
+        this.field_error.email = false;
+      else if (field == 'first_name')
+        this.field_error.first_name = false;
+      else if (field == 'last_name')
+        this.field_error.last_name = false;
+      else if (field == 'password')
+        this.field_error.password = false;
+    }
   }
 
 }

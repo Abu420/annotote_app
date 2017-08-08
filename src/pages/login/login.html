@@ -1,11 +1,10 @@
 <ion-header>
     <ion-toolbar color="homeheader">
-        <ion-buttons start>
+        <!-- <ion-buttons start>
             <button class="search_icon" ion-button icon-only>
                	<img src="assets/img/search.png" alt="" />
-                <!--<ion-icon name="search"></ion-icon>-->
             </button>
-        </ion-buttons>
+        </ion-buttons> -->
         <ion-title>
             <dot-navigation unactivedots="1"></dot-navigation>
         </ion-title>
@@ -20,13 +19,13 @@
 <ion-content swipe-vertical padding>
     <div id="wrapper">
         <form (ngSubmit)="go_home()" name="login_form" class="form-area">
-            <div class="input-holder layout" [ngClass]="focus_field=='email'?'active':''">
+            <div class="input-holder layout" [ngClass]="focus_field=='email'?'active':(field_error.email?'invalid_field':'')">
                 <ion-icon name="mail"></ion-icon>
-                <input search-field selection="true" [value]="user.email" (input)="value_updating_email($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email" />
+                <input search-field selection="true" [(ngModel)]="user.email" name="email" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email" />
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':''">
+            <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':(field_error.password?'invalid_field':'')">
                 <img src="assets/img/lock.png" alt="">
-                <input style="background: transparent;border: 0px;" [value]="user.password" (input)="value_updating_password($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
+                <input style="background: transparent;border: 0px;" [(ngModel)]="user.password" name="password" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
             </div>
             <button ion-button type="submit" [ngClass]="(user.email.length>0 && user.password.length>0)?'green':''" block>Go</button>
         </form>

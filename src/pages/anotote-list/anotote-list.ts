@@ -51,7 +51,7 @@ export class AnototeList {
   @ViewChild(Content) content: Content;
   public anototes: Array<ListTotesModel>;
   public edit_mode: boolean; // True for edit list mode while false for simple list
-  public current_active_anotote: ListTotesModel;
+  public current_active_anotote: any;
   public toast: Toast;
   public current_color: string;
   public reply_box_on: boolean;
@@ -128,6 +128,7 @@ export class AnototeList {
     this.edit_mode = false;
     let anototes: Array<ListTotesModel> = [];
     this.current_page = 1;
+    this.current_active_anotote = null;
 
     if (this.current_color != 'top') {
       this.utilityMethods.show_loader('', false);
@@ -677,7 +678,7 @@ export class AnototeList {
   go_to_chat_thread(groupUsers: Array<any>) {
     let secondUser: any = null;
     for (let group of groupUsers) {
-      if (group.id != this.user.id) {
+      if (group.user.id != this.user.id) {
         secondUser = group.user;
       }
     }
@@ -699,14 +700,24 @@ export class AnototeList {
   }
 
   openSearchPopup() {
-    var url = null;
-    if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote)
+    var url = '';
+    if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
       url = this.current_active_anotote.userAnnotote.annotote.link;
-    let searchModal = this.modalCtrl.create(Search, { link: url });
+    else if (this.current_active_anotote != null && this.current_color == 'top') {
+      url = this.current_active_anotote.annotote.link;
+    } else {
+      this.statusBar.backgroundColorByHexString('#252525');
+    }
+    let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color });
     searchModal.onDidDismiss(data => {
-      // if ((data != undefined || data != null) && data.type != undefined && this.current_color == 'me') {
-      //   this.anototes.unshift(data);
-      // }
+      if (this.current_active_anotote == null) {
+        if (this.current_color == 'me')
+          this.statusBar.backgroundColorByHexString('#3bde00');
+        else if (this.current_color == 'follows')
+          this.statusBar.backgroundColorByHexString('#f4e300');
+        else
+          this.statusBar.backgroundColorByHexString('#fb9df0');
+      }
     });
     searchModal.present();
   }

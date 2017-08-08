@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { MyApp } from './app.component';
 
 import { Login } from '../pages/login/login';
@@ -138,6 +139,7 @@ import { Keyboard } from "@ionic-native/keyboard";
   imports: [
     BrowserModule,
     HttpModule,
+    FormsModule,
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     MomentModule,

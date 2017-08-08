@@ -51,7 +51,8 @@ export class Chat {
   public connectionToSocket() {
     this.socket = io(this.chatService.socketUrl);
     this.socket.on('receive_message', (msg: any) => {
-      if (msg.receiverId == this.user.id && msg.senderId == this.secondUser.id) {
+      // service called because in socket user becomes undefined
+      if (msg.receiverId == this.authService.getUser().id && msg.senderId == this.secondUser.id) {
         let just_recieved: ChatMessage = new ChatMessage(Math.random(), msg.senderId, msg.time, msg.message, 1);
         this.conversation.push(just_recieved);
         this.autoScroll();
@@ -69,6 +70,7 @@ export class Chat {
         this.textMessage = "";
         this.autoScroll();
       }, (error) => {
+        this.send_message_loader = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }

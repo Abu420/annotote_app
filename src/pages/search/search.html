@@ -1,9 +1,9 @@
 <ion-header class="searchHeader">
     <ion-toolbar color="homeheader">
-        <div [ngClass]="{'black': current_url == null, 'green':current_url != null}" class="search_header">
+        <div [ngClass]="{'black': current_url == '', 'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}" class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
             <img src="assets/img/search.png" alt="" />
-            <input search-field id="search_field_id" class="search_field" [value]="search_txt" (input)="value_updating_search($event.target.value)" type="text" placeholder="Search or enter address" />
+            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss()" class="clear_button"></span>
         </div>
     </ion-toolbar>
@@ -30,13 +30,17 @@
             <img src="assets/img/searchBlack.png" alt="">
             <span>Search (enter)</span>
         </ion-item>
-        <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length>0 && entering_url" class="searchFilter">
+        <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
             <ion-icon name="eye"></ion-icon>
             <span>View (enter)</span>
         </ion-item>
         <ion-item (click)="save_search_entry(true)" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
             <ion-icon name="ios-cloud"></ion-icon>
             <span>Save</span>
+        </ion-item>
+        <ion-item (click)="save_search_entry(true)" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
+            <ion-icon name="ios-bookmark"></ion-icon>
+            <span>Bookmark</span>
         </ion-item>
         <!--<ion-item *ngIf="!current_url && search_txt.length>0 && entering_url">
             Bookmark

@@ -55,7 +55,7 @@ export class Home {
   }
 
   mySwipeUpAction() {
-    console.log('left')
+    // console.log('left')
   }
 
   mySwipeDownAction() {
@@ -67,7 +67,7 @@ export class Home {
     /**
      * Load Notifications Count
      */
-    this.statusBar.backgroundColorByHexString('#000000');
+    this.statusBar.backgroundColorByHexString('#252525');
     this.loadNotifications();
     this.get_search_entries();
   }
@@ -110,7 +110,7 @@ export class Home {
     this.utilityMethods.show_loader('');
     this.searchService.remove_search_id(id)
       .subscribe((response) => {
-        console.log(response);
+        // console.log(response);
         for (var i = 0; i < this.searches.length; i++) {
           if (this.searches[i].id == id) {
             this.searches.splice(i, 1);
@@ -176,7 +176,7 @@ export class Home {
     let self = this;
     let meOptionsModal = this.modalCtrl.create(MeOptions, null);
     meOptionsModal.onDidDismiss(data => {
-      console.log(data);
+      // console.log(data);
       if (data == 'settings') {
         this.presentSettingsModal();
       }

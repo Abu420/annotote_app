@@ -20,7 +20,7 @@ export class ChatService {
   public listenForGlobalMessages() {
     this.socket = io(this.socketUrl);
     this.socket.on('receive_message', (msg: any) => {
-      if (msg.receiverId == this.getLoggedInUserId()) {
+      if (msg.receiverId == this.authService.getUser().id) {
         //console.log('listening for global messages');
       }
     });

@@ -24,6 +24,7 @@ export class Search {
     public current_url: string;
     public filter_mode: boolean;
     public search_loading: boolean;
+    public stream_color: string;
     public new_tote: any = {};
 
     constructor(public constants: Constants, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
@@ -35,8 +36,9 @@ export class Search {
         /**
          * Set Current Active Anotote Link in search field
          */
+        this.stream_color = params.get('stream');
         this.current_url = params.get('link');
-        if (this.current_url != null && this.current_url != undefined)
+        if (this.current_url != '' && this.current_url != undefined)
             this.search_txt = this.current_url;
         var saved_search_txt = params.get('saved_searched_txt');
         if (saved_search_txt != null) {
@@ -109,7 +111,7 @@ export class Search {
             this.utilityMethods.hide_loader();
             console.log(response);
             if (show_success_msg)
-                this.utilityMethods.doToast("Saved to search stream successfully !");
+                this.utilityMethods.doToast("Saved to search stream successfully!");
             this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
@@ -169,10 +171,10 @@ export class Search {
      * Text field value updating event
      */
     value_updating_search(value) {
-        this.search_txt = value;
+        // this.search_txt = value;
         this.search_results = [];
-        if (value.length == 0) {
-            this.current_url = null;
+        if (this.search_txt.length == 0) {
+            this.current_url = '';
             this.search_results = [];
             return;
         }
@@ -185,7 +187,8 @@ export class Search {
             this.entering_url = false;
             this.searchService.general_search(this.search_txt)
                 .subscribe((response) => {
-                    this.search_results = response.data.users;
+                    if (response.data.annotote)
+                        this.search_results = response.data.annotote;
                     this.search_loading = false;
                 }, (error) => {
                     this.search_results = [];

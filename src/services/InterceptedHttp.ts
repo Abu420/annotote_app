@@ -16,7 +16,7 @@ export class InterceptedHttp extends Http {
                 .timeout(20000)
                 .catch(err => {
                     if (err.name == "TimeoutError") {
-                        return Observable.throw({ "error": "timeout_error", "code": -2 });
+                        return Observable.throw({ "error": "timeout_error", "code": -1 });
                     }
                     return Observable.throw(err);
                 });
