@@ -2,6 +2,12 @@ follow_profile {
     .img-loaded+ion-spinner {
         display: none;
     }
+    .center {
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
     .top_empty_box {
         width: 100%;
         height: 35%;
@@ -71,9 +77,11 @@ follow_profile {
         background: #fff;
     }
     .img-holder {
-        padding: 25px;
         text-align: center;
         overflow: hidden;
+        width: 100%;
+        height: 110px;
+        background: rgba(128, 128, 128, 0.3);
     }
     .img-holder img {
         display: inline-block;
@@ -81,15 +89,15 @@ follow_profile {
     }
     .follow_list {
         overflow: hidden;
-		ion-item{
-			.item-inner{
-				ion-label{
-					font-size: inherit;
-					text-overflow: clip;
-					white-space: normal;
-				}
-			}
-		}
+        ion-item {
+            .item-inner {
+                ion-label {
+                    font-size: inherit;
+                    text-overflow: clip;
+                    white-space: normal;
+                }
+            }
+        }
     }
     .follow_list button {
         float: left;
@@ -115,9 +123,9 @@ page-follows {
     .scroll-content {
         padding: 0px !important;
     }
-	.toolbar-background{
-		background: #f4f4f4 !important;	
-	}
+    .toolbar-background {
+        background: #f4f4f4 !important;
+    }
     #wrapper {
         .follows_spinner {
             position: relative;

@@ -134,14 +134,16 @@ export class Search {
         event.stopPropagation();
         let self = this;
         var current_time = this.utilityMethods.get_php_wala_time();
-        this.utilityMethods.show_loader('Please wait...');
+        person.follow_loading = true;
         this.searchService.follow_user({
             created_at: current_time,
             follows_id: person.id
         }).subscribe((response) => {
-            this.utilityMethods.hide_loader();
-            person.isFollowed = 1;
-            console.log(response);
+            person.follow_loading = false;
+            if (response.status == 1)
+                person.isFollowed = 1;
+            else
+                this.utilityMethods.doToast("Couldn't follow.");
         }, (error) => {
             this.utilityMethods.hide_loader();
             if (error.code == -1) {
@@ -198,6 +200,7 @@ export class Search {
                     }
                     for (let user of response.data.user) {
                         user.is_tote = false;
+                        user.follow_loading = false;
                         this.search_results.push(user);
                     }
                     this.search_loading = false;
@@ -250,11 +253,14 @@ export class Search {
         if (search_result.is_tote) {
 
         } else {
-            this.utilityMethods.show_loader('Please wait...');
+            this.utilityMethods.show_loader('');
             this.searchService.get_user_profile_info(search_result.id)
                 .subscribe((response) => {
                     this.utilityMethods.hide_loader();
-                    this.presentProfileModal(response);
+                    if (response.data.user != null)
+                        this.presentProfileModal(response);
+                    else
+                        this.utilityMethods.doToast("Couldn't load user.");
                 }, (error) => {
                     this.utilityMethods.hide_loader();
                     if (error.code == -1) {

@@ -6,6 +6,24 @@ search-results {
             background: #444444;
         }
     }
+    .searchFiels {
+        display: inline-block;
+        width: calc(100% - 20px);
+        position: relative;
+        input {
+            width: 100%;
+            padding: 10px;
+        }
+        .ion-icon {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translate(0%, -50%);
+            z-index: 99;
+            color: #000;
+            font-size: 30px;
+        }
+    }
     .searchBtn {
         overflow: visible;
         margin-left: 20px;

@@ -206,6 +206,15 @@ button,
 
 search_page {
     background: rgba(0, 0, 0, 0.3);
+    .img-loaded+ion-spinner {
+        display: none;
+    } // .center in my case to make the spinner at the center
+    .center {
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
     .toolbar {
         contain: none;
         overflow: visible;
@@ -367,6 +376,14 @@ search_page {
                             height: 55px;
                             padding-right: 10px;
                             margin: 0px;
+                            overflow: hidden;
+                            position: relative;
+                            ion-spinner {
+                                position: absolute;
+                                top: 40%;
+                                left: 40%;
+                                transform: translate(-50%, -50%);
+                            }
                             img {
                                 width: 100%;
                             }
@@ -380,6 +397,11 @@ search_page {
                             float: none;
                             height: auto;
                             color: #ababab;
+                            &.followUser {
+                                span {
+                                    line-height: 3;
+                                }
+                            }
                             >span {
                                 font-size: 12px;
                                 &.rightContent {
