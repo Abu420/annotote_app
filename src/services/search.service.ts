@@ -58,8 +58,14 @@ export class SearchService {
      * type: {GET}
      * params: [term], 
      */
-    public general_search(term) {
-        var url = this.constants.API_BASEURL + '/search?term=' + term;
+    public general_search(params) {
+        var url = this.constants.API_BASEURL + '/search?term=' + params.term;
+        if (params.type != '')
+            url = url + '&type=' + params.type;
+        if (params.annotote_type != '')
+            url = url + '&annotote_type=' + params.annotote_type;
+        if (params.time != 0)
+            url = url + '&time=' + params.time;
         var response = this.http.get(url).map(res => res.json());
         return response;
     }

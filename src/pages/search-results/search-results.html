@@ -1,54 +1,60 @@
 <ion-header>
-    <ion-toolbar class="resultHead" color="homeheader">
+    <ion-toolbar class="resultHead">
         <ion-buttons class="searchBtn" start>
-            <button class="search_icon" ion-button icon-only>
+            <button class="search_icon" (click)="show_search()" ion-button icon-only>
                 <ion-icon name="search"></ion-icon>
             </button>
         </ion-buttons>
-        <div class="searchFiels">
-            <input type="text" name="search" placeholder="Search">
-            <ion-icon name="close"></ion-icon>
+        <div class="searchFiels" [ngClass]="show_search_field ? 'active':''">
+            <form (ngSubmit)="load_search_results()" name="login_form">
+                <input type="text" [(ngModel)]="search_term" class="searchTxt" name="search" placeholder="Search">
+            </form>
+            <ion-icon name="close" class="icon" (click)="show_search()"></ion-icon>
         </div>
-        <!-- <ion-title>
+        <ion-title *ngIf="hide_header_contents == false">
             <div class="dots_box">
                 <span class="un_active_dot"></span>
                 <span class="dot"></span>
             </div>
         </ion-title>
-        <ion-buttons end>
+        <ion-buttons *ngIf="hide_header_contents == false" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
                 <ion-icon name="add"></ion-icon>
             </button>
-        </ion-buttons> -->
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding>
+    <div class="no_search" *ngIf="no_search == true">
+        <p>Nothing matched your search.</p>
+    </div>
     <div class="search-panel">
-        <div *ngIf="!_loading" class="_spinner">
+        <div *ngIf="_loading" class="_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </div>
         <ul class="search-result">
-            <li (click)="go_to_browser(result)" *ngFor="let result of search_results">
-                <figure>
-                    <img src="assets/img/img1.png">
+            <li (click)="showProfile(search_result)" *ngFor="let search_result of search_results; let i = index">
+                <figure *ngIf="search_result.is_tote == true">
+                    <img *ngIf="search_result.annotote.photo==null || search_result.annotote.photo==''" src="assets/img/img3.jpg">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [hidden]="!loaded" [src]="search_result.annotote.photo | image_base_path">
+                    <ion-spinner *ngIf="!loaded && search_result.annotote.photo != null && search_result.annotote.photo != ''"></ion-spinner>
                 </figure>
-                <figcaption>
-                    <h4>Search result 0</h4>
-                    <span>Source <b>Date <ion-icon name="menu"></ion-icon></b></span>
-                    <span class="excerptTxt">excerpt containing search keyword</span>
+                <figcaption *ngIf="search_result.is_tote == true">
+                    <h4>Search result {{i+1}}</h4>
+                    <span>{{search_result.annotote.source}} <b>{{search_result.annotote.createdAt * 1000 | date:'shortTime'}} <ion-icon name="menu"></ion-icon></b></span>
+                    <span class="excerptTxt">{{search_result.userAnnotote.fileText}}</span>
                 </figcaption>
-                <!-- <div class="search-text">
-                    <h4 [innerText]="result.annotote[3]"></h4>
-                    <div class="detail">
-                        <span [innerText]="result.annotote[4]"></span>
-                        <span class="right-text">
-                            {{(result.userAnnotote[11]*1000) | amDateFormat:'dddd, MMMM Do'}}
-                            <img src="assets/img/tag-arrow.png">
-                        </span>
-                    </div>
-                    <p [innerText]="result.userAnnotote[7]"></p>
-                </div> -->
+                <figure *ngIf="search_result.is_tote == false">
+                    <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
+                    <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
+                </figure>
+                <figcaption *ngIf="search_result.is_tote == false">
+                    <h4>Search result {{i+1}}</h4>
+                    <span>{{search_result.firstName}} {{search_result.lastName}} <i *ngIf="search_result.isFollowed == 1"><</i> <b> <ion-icon *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)" name="add"></ion-icon> <i *ngIf="search_result.isFollowed == 1">@</i> </b></span>
+                    <span class="excerptTxt">{{search_result.description}}</span>
+                </figcaption>
             </li>
         </ul>
     </div>

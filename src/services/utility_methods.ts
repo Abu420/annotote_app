@@ -144,6 +144,15 @@ export class UtilityMethods {
     }
 
     /**
+     * Time for date filter
+     */
+    get_time(date) {
+        var current_time = (new Date(date)).getTime() / 1000;
+        current_time = Math.round(current_time);
+        return current_time;
+    }
+
+    /**
      * Message alert to show just alert message without any callback etc
      */
     message_alert(title, msg) {
