@@ -1,4 +1,4 @@
-<ion-header [ngClass]="{'hide-header':showheader,'show-header':hideheader,'!full_screen_mode':'showheader'}">
+<ion-header class="topHeader" [ngClass]="{'hide-header':showheader,'show-header':hideheader,'!full_screen_mode':'showheader'}">
     <ion-toolbar [color]="which_stream">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
@@ -13,7 +13,7 @@
         </ion-buttons>
         <ion-buttons start>
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
-               	<img src="assets/img/search.png" alt="" />
+                <img src="assets/img/searchIcon.png" alt="" />
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
@@ -22,7 +22,8 @@
         </ion-title>
         <ion-buttons *ngIf="which_stream!='me' && !full_screen_mode" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>
-                <ion-icon name="md-add"></ion-icon>
+                    <img src="assets/img/plusIcon.png" alt="" />
+                <!-- <ion-icon name="md-add"></ion-icon> -->
             </button>
         </ion-buttons>
         <ion-buttons *ngIf="!full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">

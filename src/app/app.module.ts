@@ -85,7 +85,6 @@ import { Push } from '@ionic-native/push';
 import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
 import { Highlight } from "../directives/highlight";
 import { Safe } from "../services/SafeHtml";
-import { AnototeContentOptions } from "../pages/home/content_options";
 import { OnlyTime } from "../directives/date_pipe";
 import { Keyboard } from "@ionic-native/keyboard";
 
@@ -133,8 +132,7 @@ import { Keyboard } from "@ionic-native/keyboard";
     OnlyTime,
     DclWrapper,
     Highlight,
-    Safe,
-    AnototeContentOptions
+    Safe
   ],
   imports: [
     BrowserModule,

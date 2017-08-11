@@ -10,6 +10,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { NotificationService } from '../../services/notifications.service';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
+import { User } from "../../models/user";
 
 /**
  * Generated class for the Notifications page.
@@ -29,13 +30,14 @@ export class Notifications {
   private _unread: number;
   private image_base_path: string;
   private _reload: boolean;
+  private user: User;
 
   constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
     this._notifications = [];
     this._loading = false;
     this._unread = 0;
     this.image_base_path = this.constants.IMAGE_BASEURL;
-
+    this.user = this.authService.getUser();
     this._reload = this.params.get('reload');
   }
 
@@ -88,29 +90,44 @@ export class Notifications {
     profile.present();
   }
 
-
   loadNotifications() {
-    var user_id = this.authService.getUser().id;
     if (this.notificationService.loaded_once() && (this._reload == null || this._reload == undefined)) {
       var data = this.notificationService.get_notification_data();
       this._notifications = data.notifications;
       this._unread = data.unread;
       this._loading = true;
     } else {
-      this.notificationService.get_notifications(user_id)
-        .subscribe((response) => {
-          this._loading = true;
-          var data = this.notificationService.get_notification_data();
-          this._notifications = data.notifications;
-          this._unread = data.unread;
-          console.log(data)
-        }, (error) => {
-          this._loading = true;
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          }
-        });
+      // this.notificationService.get_notifications(user_id)
+      //   .subscribe((response) => {
+      //     this._loading = true;
+      //     var data = this.notificationService.get_notification_data();
+      //     this._notifications = data.notifications;
+      //     this._unread = data.unread;
+      //     console.log(data)
+      //   }, (error) => {
+      //     this._loading = true;
+      //     if (error.code == -1) {
+      //       this.utilityMethods.internet_connection_error();
+      //     }
+      //   });
     }
+  }
+
+  doInfinite(infinte) {
+    this.notificationService.get_notifications(this.user.id)
+      .subscribe((response) => {
+        this._loading = true;
+        // var data = this.notificationService.get_notification_data();
+        // this._notifications = data.notifications;
+        // this._unread = data.unread;
+        console.log(response)
+        infinte.complete();
+      }, (error) => {
+        this._loading = true;
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      });
   }
 
 }

@@ -17,7 +17,7 @@
             <ion-spinner name="ios"></ion-spinner>
         </div>
         <ion-list no-lines class="product-list follows notifications">
-            <ion-item (click)="read_notification(notification)" *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus==0}">
+            <ion-item (click)="read_notification(notification)" *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus == 0}">
                 <div class="img-holder">
                     <img *ngIf="notification.sender.photo!=null" [src]="image_base_path + notification.sender.photo">
                     <img *ngIf="notification.sender.photo==null" src="assets/img/img2.png">
@@ -41,95 +41,10 @@
                     </div>
                 </div>
             </ion-item>
-            <!--<ion-item class="active">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">
-                        Mark Camerata
-                        <img class="star-icon" src="assets/img/star-gray.png" alt="">
-                        <img class="arrow-icon" src="assets/img/arrow-gray.png" alt="">
-                    </strong>
-                    <div class="time">
-                        <em>
-                            <img class="play-icon" src="assets/img/play-red.png" alt="">
-                            <span>10:31</span>
-                        </em>
-                        <span>Message</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item class="active">
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">
-                        Mark Camerata
-                        <img class="star-icon" src="assets/img/star-gray.png" alt="">
-                        <img class="arrow-icon" src="assets/img/arrow-gray.png" alt="">
-                    </strong>
-                    <div class="time">
-                        <img class="play-icon" src="assets/img/@icon.png" alt="">
-                        <em>
-                            <span>10:31</span>
-                        </em>
-                        <span>Message</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">
-                        Mark Camerata
-                        <img class="star-icon" src="assets/img/star-gray.png" alt="">
-                    </strong>
-                    <div class="time">
-                        <em>
-                            <img class="play-icon" src="assets/img/tile-gray.png" alt="">
-                            <span>10:31</span>
-                        </em>
-                        <span>Followed you</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <div class="time">
-                        <em>
-                      <button type="button"><ion-icon name="at"></ion-icon></button>
-                      <span>10:31</span>
-                    </em>
-                        <span>Followed you</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <div class="time">
-                        <em>
-                      <button type="button"><ion-icon name="at"></ion-icon></button>
-                      <span>10:31</span>
-                    </em>
-                        <span>Followed you</span>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div class="img-holder"><img src="assets/img/img3.jpg"></div>
-                <div class="txt">
-                    <strong class="follow-name">Mark Camerata</strong>
-                    <div class="time">
-                        <em>
-                      <button type="button"><ion-icon name="at"></ion-icon></button>
-                      <span>10:31</span>
-                    </em>
-                        <span>Followed you</span>
-                    </div>
-                </div>
-            </ion-item>-->
         </ion-list>
     </div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

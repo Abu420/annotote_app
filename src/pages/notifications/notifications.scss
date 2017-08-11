@@ -1,16 +1,16 @@
 page-notifications {
-	.notifications_header {
-		min-height: 45px;
-		.toolbar-background{
-			border-bottom: 0px;
-			box-shadow: 0 0 20px #CCC;
-		}
-	}
-	.toolbar-title{
-		font-size: 14px;
-		color: #8e8e8e !important;
-		font-weight: normal;
-	}
+    .notifications_header {
+        min-height: 45px;
+        .toolbar-background {
+            border-bottom: 0px;
+            box-shadow: 0 0 20px #CCC;
+        }
+    }
+    .toolbar-title {
+        font-size: 14px;
+        color: #8e8e8e !important;
+        font-weight: normal;
+    }
     .scroll-content {
         padding: 8px 16px 16px !important;
         #wrapper {
@@ -32,22 +32,22 @@ page-notifications {
             .product-list {
                 margin-top: 0px !important;
                 .item {
-					&.active{
-						.item-inner{
-							ion-label{
-								.txt{
-									strong{
-										color: #ff2600;
-									}
-									.time{
-										span{
-											color: #ff2600;
-										}
-									}
-								}
-							}
-						}
-					}
+                    &.active {
+                        .item-inner {
+                            ion-label {
+                                .txt {
+                                    strong {
+                                        color: #ff2600;
+                                    }
+                                    .time {
+                                        span {
+                                            color: #ff2600;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     padding: 0px !important;
                     .item-inner {
                         padding: 0px;
@@ -56,13 +56,13 @@ page-notifications {
                             display: block;
                             width: 100%;
                             .img-holder {
-								float: left;
-								width: 50px;
-								height: 50px;
-								overflow: hidden;
-								vertical-align: middle;
-								margin-right: 0px;
-								margin: 10px;
+                                float: left;
+                                width: 50px;
+                                height: 50px;
+                                overflow: hidden;
+                                vertical-align: middle;
+                                margin-right: 0px;
+                                margin: 10px;
                                 img {
                                     width: 100%;
                                     height: auto;
@@ -72,10 +72,10 @@ page-notifications {
                             .txt {
                                 display: inline-block;
                                 vertical-align: middle;
-                                width: calc(100% - 60px);
+                                width: calc(100% - 72px);
                                 padding: 20px 0px 8px 10px;
                                 .follow-name {
-                                    font-size: 18px;
+                                    font-size: 15px;
                                     color: #000;
                                     img {
                                         display: inline-block;
@@ -93,6 +93,7 @@ page-notifications {
                                     em {
                                         font-size: 12px;
                                         width: auto;
+                                        float: right;
                                         img {
                                             width: 12px;
                                             display: inline-block;

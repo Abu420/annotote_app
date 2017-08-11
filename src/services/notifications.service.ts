@@ -64,7 +64,7 @@ export class NotificationService {
      * params: [user_id], 
      */
     public get_notifications(user_id) {
-        var url = this.constants.API_BASEURL + '/get-notifications?user_id=' + user_id + '&page=' + this._page;
+        var url = this.constants.API_BASEURL + '/get-notifications?user_id=' + user_id + '&page=' + this._page++;
         var response = this.http.get(url).map(res => res.json());
         response.subscribe((res) => {
             this._loaded_once_flag = true;
@@ -80,7 +80,7 @@ export class NotificationService {
             }
             this._unread = res.data.unread;
         }, (error) => {
-            this._loaded_once_flag = true;
+            this._loaded_once_flag = false;
         });
         return response;
     }

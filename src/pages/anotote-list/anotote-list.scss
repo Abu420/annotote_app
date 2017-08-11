@@ -38,11 +38,12 @@
                     vertical-align: top;
                     span {
                         color: #8e9093;
+                        font-size: 14px;
                     }
                     p {
                         overflow: inherit;
                         margin: 0 0 2px;
-                        font-size: 1.4rem;
+                        font-size: 12px;
                         line-height: normal;
                         text-overflow: inherit;
                         color: #8e9093;
@@ -222,24 +223,25 @@ follows_popup {
                 -webkit-margin-before: 0;
                 -webkit-padding-start: 0;
                 li {
-                    padding: 10px;
-                    height: 90px;
+                    padding: 10px 0;
                     overflow: hidden;
                     .image_holder {
-                        width: 20%;
-                        float: left;
-                        height: 100%;
+                        width: 68px;
+                        height: 60px;
+                        display: inline-block;
+                        vertical-align: middle;
                         overflow: hidden;
+                        padding-right: 8px;
                         img {
                             height: 100%;
                         }
                     }
                     .name {
-                        float: right;
-                        width: 78.5%;
-                        height: 100%;
-                        padding: 3vw;
-                        border-bottom: 1px solid black;
+                        display: inline-block;
+                        width: calc(100% - 73px);
+                        border-bottom: 1px solid #bdbdbd;
+                        padding: 21px 0;
+                        vertical-align: middle;
                         p {
                             width: 100%;
                             margin: 0;
@@ -278,7 +280,7 @@ page-anotote-list {
         }
     }
     .scroll-content {
-        padding: 20px 16px 16px !important;
+        padding: 8px 16px 16px !important;
         .item {
             padding: 0px;
             .item-inner {
@@ -291,6 +293,9 @@ page-anotote-list {
                         margin-top: -1px;
                     }
                     >div {
+                        &.toteActive {
+                            overflow: visible;
+                        }
                         &.bulkActive {
                             background: #e0e0e0;
                         }
@@ -299,7 +304,7 @@ page-anotote-list {
                         width: 100%;
                         border-bottom: 1px solid #CCC;
                         .img-holder {
-                            float: left;
+                            display: inline-block;
                             width: 64px;
                             height: 62px;
                             background: rgba(128, 128, 128, 0.3);
@@ -316,19 +321,20 @@ page-anotote-list {
                         }
                         .txt {
                             vertical-align: middle;
-                            padding: 10px 10px 9px;
+                            padding: 10px 10px 9px 5px;
                             width: calc(100% - 64px);
                             position: relative;
                             display: inline-block;
                             strong {
                                 font-weight: normal;
-                                font-size: 16px;
+                                font-size: 14px;
                                 text-overflow: ellipsis;
                                 display: -webkit-box;
                                 -webkit-box-orient: vertical;
                                 -webkit-line-clamp: 1;
                                 width: 100%;
                                 overflow: hidden;
+                                margin-bottom: 5px;
                                 white-space: normal;
                             }
                             .opened {
@@ -341,6 +347,10 @@ page-anotote-list {
                                 float: right;
                                 em {
                                     width: 70px;
+                                    color: #8e9093;
+                                    button {
+                                        color: #8e9093;
+                                    }
                                 }
                                 button {
                                     //margin-left: 10px !important;
@@ -367,15 +377,18 @@ page-anotote-list {
                     }
                     .activeTote {
                         .options {
-                            height: 74px;
+                            height: 70px;
                             float: left;
                             vertical-align: middle;
-                            width: 60px;
+                            width: 50px;
                             background-image: url(../assets/img/option-icon.png);
-                            background-position: center center;
+                            background-position: 25px center;
                             background-repeat: no-repeat;
-                            background-size: 8px;
+                            background-size: 5px;
                             z-index: 9999999;
+                        }
+                        .txt {
+                            width: calc(100% - 45px);
                         }
                     }
                     .ng-trigger {
@@ -419,22 +432,28 @@ page-anotote-list {
                         }
                     }
                     .listHeader {
-                        padding: 0px 20px 0 71px;
+                        padding: 0px 20px 0 50px;
                         margin-top: -5px;
                         background: #FFF;
                         .btns-area {
                             padding: 0px;
                             .me-tab {
-                                padding: 0 .5em !important;
-                                background: #bdbdbd;
+                                padding: 0 5px !important;
+                                background: #e0e0e0;
                                 color: white;
+                                border-radius: 3px;
+                                margin: 0 5px !important;
+                                i {
+                                    font-style: normal;
+                                }
                                 .loader {
                                     width: 10px;
                                     height: 10px;
                                 }
                             }
                             .active_me {
-                                background: $me_app_color;
+                                background: #2ba600;
+                                box-shadow: 0 0 3px #848484;
                             }
                             .active_follows {
                                 background: $follow_app_color;
@@ -454,16 +473,17 @@ page-anotote-list {
                                         .txt {
                                             border-bottom: 0px;
                                             display: inline-block;
-                                            vertical-align: top;
+                                            vertical-align: middle;
                                             width: calc(100% - 30px);
                                             padding: 0 0px 0 10px;
                                             p {
-                                                font-size: 18px;
+                                                font-size: 14px;
                                                 text-overflow: ellipsis;
-                                                display: -webkit-box;
+                                                display: inline-block;
                                                 -webkit-box-orient: vertical;
                                                 -webkit-line-clamp: 1;
                                                 width: 100%;
+                                                color: #000;
                                             }
                                         }
                                         .status {

@@ -128,19 +128,19 @@ export class Home {
 
   loadNotifications() {
     var user_id = this.authService.getUser().id;
-    // if (this.notificationService.loaded_once()) {
-    //   var data = this.notificationService.get_notification_data();
-    //   this._unread = data.unread;
-    // } else {
-    this.notificationService.get_notifications(user_id)
-      .subscribe((response) => {
-        this._unread = response.data.unread;
-      }, (error) => {
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
-    // }
+    if (this.notificationService.loaded_once()) {
+      var data = this.notificationService.get_notification_data();
+      this._unread = data.unread;
+    } else {
+      this.notificationService.get_notifications(user_id)
+        .subscribe((response) => {
+          this._unread = response.data.unread;
+        }, (error) => {
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
+    }
   }
 
   presentTopOptionsModal(event) {

@@ -101,9 +101,9 @@
         <div class="dateMode" *ngIf="search_filters.media.user == false">
             <h4>Date</h4>
             <ul>
-                <li><input type="text" [(ngModel)]="search_filters.date.year" name="year" placeholder="YYYY"></li>
-                <li><input type="text" [(ngModel)]="search_filters.date.month" name="month" placeholder="MM"></li>
-                <li><input type="text" [(ngModel)]="search_filters.date.day" name="day" placeholder="DD"></li>
+                <li><input type="number" [(ngModel)]="search_filters.date.year" name="year" placeholder="YYYY"></li>
+                <li><input type="number" [(ngModel)]="search_filters.date.month" name="month" placeholder="MM"></li>
+                <li><input type="number" [(ngModel)]="search_filters.date.day" name="day" placeholder="DD"></li>
             </ul>
         </div>
     </ion-list>

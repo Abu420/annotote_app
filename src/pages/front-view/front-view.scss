@@ -1,5 +1,9 @@
 page-front-view {
-    // .img-loaded+ion-spinner {
+    .item-block {
+        .item-inner {
+            padding-right: 5px !important;
+        }
+    } // .img-loaded+ion-spinner {
     //     display: none;
     // } // .center in my case to make the spinner at the center
     .center {
@@ -34,7 +38,7 @@ page-front-view {
         color: #0f000f;
         text-align: left;
         background: none;
-        border-bottom: 1px solid #f7f4f4;
+        border-bottom: 1px solid #eaeaea;
         &:focus {
             background: #f1f1f1;
         }
@@ -56,9 +60,10 @@ page-front-view {
     }
     .user-controls button span {
         padding-left: 18px;
-        font-weight: bold;
+        font-weight: normal;
         display: inline-block;
         vertical-align: middle;
+        font-size: 13px;
     }
     .latest_totes_spinner {
         position: relative;
@@ -91,28 +96,32 @@ page-front-view {
         background: rgba(128, 128, 128, 0.3);
     }
     .product-list .txt {
-        padding: 24px 10px 5px 20px;
+        padding: 18px 0px 5px 10px;
         color: #cbcbcb;
         overflow: hidden;
     }
     .product-list strong {
-        margin: 0 0 8px;
-        color: #0f000f;
-        display: block;
         margin: 0;
         color: #0f000f;
         display: block;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 4px;
     }
     .product-list .time {
         font-size: 13px;
         overflow: hidden;
+        color: #afafaf;
     }
     .product-list em {
         float: right;
         font-style: normal;
+    }
+    .product-list em button {
+        color: #afafaf;
     }
     .product-list button {
         padding: 0;

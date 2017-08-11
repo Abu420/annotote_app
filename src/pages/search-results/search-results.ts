@@ -41,6 +41,10 @@ export class SearchResults {
     // this.load_search_results();
   }
 
+  ionViewDidEnter() {
+    this.statusBar.backgroundColorByHexString('#252525');
+  }
+
   show_search() {
     if (this.show_search_field) {
       this.show_search_field = false;

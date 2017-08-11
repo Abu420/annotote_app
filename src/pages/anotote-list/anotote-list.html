@@ -1,8 +1,8 @@
-<ion-header>
+<ion-header class="topHeader">
     <ion-toolbar [color]="current_color">
         <ion-buttons *ngIf="!edit_mode" start>
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
-               	<img src="assets/img/search.png" alt="" />
+                    <img src="assets/img/searchIcon.png" alt="" />
                	
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
@@ -12,7 +12,8 @@
         </ion-title>
         <ion-buttons *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
-                <ion-icon name="add"></ion-icon>
+                    <img src="assets/img/plusIcon.png" alt="" />
+                <!-- <ion-icon name="add"></ion-icon> -->
             </button>
         </ion-buttons>
         <ul class="topList" *ngIf="edit_mode">
@@ -98,7 +99,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div (press)="enable_list_reorder(anotote)" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
+                <div class="toteActive" (press)="enable_list_reorder(anotote)" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
                     <div class="loading" [hidden]="spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
@@ -131,9 +132,9 @@
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me' && current_color == 'me'">
                             <p>No anotations to show. Click the below button to create annotation</p>
-                            <div class="butt">
+                            <!-- <div class="butt">
                                 <p>Create annotation</p>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && (anotote.active_tab == 'follows' || anotote.active_tab == 'top')">
                             <p>No anotations created yet.</p>
@@ -197,7 +198,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div (press)="enable_list_reorder(anotote)" *ngIf="anotote.active" [@enterAnimation]>
+                <div class="toteActive" (press)="enable_list_reorder(anotote)" *ngIf="anotote.active" [@enterAnimation]>
                     <div class="loading" [hidden]="spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>

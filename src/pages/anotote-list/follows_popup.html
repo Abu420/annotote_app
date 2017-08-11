@@ -10,7 +10,7 @@
     <ion-title>Follows ({{follows.length}})</ion-title>
 </ion-toolbar>
 
-<ion-content [ngClass]="{'pop_wrapper': follows.length < 4, 'pop_wrapper_full': follows.length > 3}" class="pop_wrapper" padding>
+<ion-content class="followWidget" [ngClass]="{'pop_wrapper': follows.length < 4, 'pop_wrapper_full': follows.length > 3}" class="pop_wrapper" padding>
     <div class="wrapper">
         <ul no-lines class="content">
             <li *ngFor="let user of follows" (click)="choose_this_user(user)">

@@ -267,21 +267,22 @@ export class Search {
                 time: 0
             }
             //type filter
-            if (this.search_filters.media.tote)
+            if (this.search_filters.media.tote) {
                 params.type = 'annotote';
-            else if (this.search_filters.media.user)
+                //stream filter
+                if (this.search_filters.category.me)
+                    params.annotote_type = 'me';
+                else if (this.search_filters.category.follows)
+                    params.annotote_type = 'follows';
+                else if (this.search_filters.category.top)
+                    params.annotote_type = 'top';
+
+                //date filter
+                if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
+                    params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+                }
+            } else if (this.search_filters.media.user)
                 params.type = 'user';
-            //stream filter
-            if (this.search_filters.category.me)
-                params.annotote_type = 'me';
-            else if (this.search_filters.category.follows)
-                params.annotote_type = 'follows';
-            else if (this.search_filters.category.top)
-                params.annotote_type = 'top';
-            //date filter
-            if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
-                params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
-            }
 
             this.searchService.general_search(params)
                 .subscribe((response) => {
