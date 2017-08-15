@@ -1,13 +1,18 @@
 <ion-header>
-    <ion-toolbar color="commonheader">
+    <!-- <ion-toolbar color="commonheader">
         <ion-buttons start>
             <button navPop ion-button icon-only>
                 <ion-icon name="arrow-round-back"></ion-icon>
             </button>
         </ion-buttons>
         <ion-title></ion-title>
-    </ion-toolbar>
+    </ion-toolbar> -->
     <ion-toolbar class="notifications_header" color="light" no-border>
+        <ion-buttons start>
+            <button navPop ion-button icon-only>
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </button>
+        </ion-buttons>
         <ion-title>Notifications ({{_unread}})</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -19,11 +24,12 @@
         <ion-list no-lines class="product-list follows notifications">
             <ion-item (click)="read_notification(notification)" *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus == 0}">
                 <div class="img-holder">
-                    <img *ngIf="notification.sender.photo!=null" [src]="image_base_path + notification.sender.photo">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="notification.sender.photo!=null" [hidden]="!loaded" [src]="notification.sender.photo| image_base_path">
+                    <ion-spinner *ngIf="!loaded && notification.sender.photo != null"></ion-spinner>
                     <img *ngIf="notification.sender.photo==null" src="assets/img/img2.png">
                 </div>
                 <div class="txt">
-                    <strong class="follow-name">
+                    <strong class="follow-name" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">
                         {{notification.sender.firstName + " "+ notification.sender.lastName}}
                         <img *ngIf="notification.sender.verified==1" class="star-icon" src="assets/img/star-gray.png" alt="">
                         <img *ngIf="notification.sender.isFollowed==1" class="arrow-icon" src="assets/img/arrow-gray.png" alt="">
@@ -31,13 +37,14 @@
                     <div class="time">
                         <em>
                             <button *ngIf="notification.type=='user:follwowed_by'" type="button"><ion-icon name="at"></ion-icon></button>
-                            <img *ngIf="notification.type=='user:message'" class="chat-icon" src="assets/img/chat-red.png" alt="">
-                            <span *ngIf="notification.is_today">{{ notification.formated_time | amDateFormat:'hh:mm'}}</span>
-                            <span *ngIf="!notification.is_today">{{ notification.formated_time | amDateFormat: 'DD/MM'}}</span>
+                            <img *ngIf="notification.type=='user:message' && notification.readStatus == 0" class="chat-icon" src="assets/img/chat-red.png" alt="">
+                            <img *ngIf="notification.type=='user:message' && notification.readStatus == 1" class="chat-icon" src="assets/img/chat-gray.png" alt="">
+                            <span *ngIf="notification.is_today" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.formated_time | amDateFormat:'hh:mm'}}</span>
+                            <span *ngIf="!notification.is_today" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.formated_time | amDateFormat: 'DD/MM'}}</span>
                         </em>
-                        <span *ngIf="notification.type=='user:mentioned_you'">Mentioned you</span>
-                        <span *ngIf="notification.type=='user:message'">Message</span>
-                        <span *ngIf="notification.type=='user:followed_by'">Followed you</span>
+                        <span *ngIf="notification.type=='user:mentioned_you'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Mentioned you</span>
+                        <span *ngIf="notification.type=='user:message'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Message</span>
+                        <span *ngIf="notification.type=='user:followed_by'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Followed you</span>
                     </div>
                 </div>
             </ion-item>

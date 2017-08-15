@@ -120,8 +120,10 @@ export class Notifications {
         // var data = this.notificationService.get_notification_data();
         // this._notifications = data.notifications;
         // this._unread = data.unread;
-        console.log(response)
         infinte.complete();
+        if (response.data.notifications.length < 6) {
+          infinte.enable(false);
+        }
       }, (error) => {
         this._loading = true;
         if (error.code == -1) {

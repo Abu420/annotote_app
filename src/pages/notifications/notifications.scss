@@ -1,4 +1,13 @@
 page-notifications {
+    .img-loaded+ion-spinner {
+        display: none;
+    } // .center in my case to make the spinner at the center
+    .center {
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
     .notifications_header {
         min-height: 45px;
         .toolbar-background {

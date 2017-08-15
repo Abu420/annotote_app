@@ -63,7 +63,7 @@
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null || anotote.chatGroup.groupUsers[0].user.photo != '')"></ion-spinner>
                         <!-- For picture of second group member, if he is not the current logged in user -->
                         <img src="assets/img/img1.png" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo == null || anotote.chatGroup.groupUsers[1].user.photo == '')">
-                        <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null || anotote.chatGroup.groupUsers[1].user.photo != '')" [src]="anotote.chatGroup.groupUsers[1].user.photo | image_base_path">
+                        <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null || anotote.chatGroup.groupUsers[1].user.photo != '')" [hidden]="!loaded" [src]="anotote.chatGroup.groupUsers[1].user.photo | image_base_path">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null || anotote.chatGroup.groupUsers[1].user.photo != '')"></ion-spinner>
                     </div>
                     <div class="check" [hidden]="!edit_mode">
