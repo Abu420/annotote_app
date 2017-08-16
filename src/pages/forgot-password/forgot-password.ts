@@ -27,7 +27,7 @@ export class ForgotPassword {
 
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
-    this.statusBar.backgroundColorByHexString('000000');
+    // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.forgot_password_email = '';
   }

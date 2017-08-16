@@ -34,7 +34,7 @@
             <ion-item *ngFor="let anotote of latest_anototes" (tap)="openAnototeList()">
                 <div class="img-holder">
                     <img src="assets/img/img1.png" *ngIf="anotote.annotote.photo == '' || anotote.annotote.photo == null">
-                    <img [src]="anotote.annotote.photo" (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="anotote.annotote.photo != '' && anotote.annotote.photo != null" />
+                    <img [src]="anotote.annotote.photo" (load)="loaded = true" [hidden]="!loaded" *ngIf="anotote.annotote.photo != '' && anotote.annotote.photo != null" />
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.annotote.photo != '' && anotote.annotote.photo != null"></ion-spinner>
                 </div>
                 <div class="txt">

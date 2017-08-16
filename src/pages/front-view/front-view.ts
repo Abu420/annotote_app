@@ -34,7 +34,7 @@ export class FrontViewPage {
        * View Events
        */
       ionViewDidLoad() {
-            this.statusBar.backgroundColorByHexString('000000');
+            // this.statusBar.backgroundColorByHexString('#252525');
             this.fetch_latest_annototes();
       }
 

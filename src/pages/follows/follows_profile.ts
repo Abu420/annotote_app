@@ -43,8 +43,8 @@ export class Profile {
       this.profileData = params.get('data');
       this.from_page = params.get('from_page');
     }
-    var current_user = this.authService.getUser();
-    if (this.profileData.user.id == current_user.id)
+    // var current_user = this.authService.getUser();
+    if (this.profileData.user.id == user.id)
       this.is_it_me = true;
     else
       this.is_it_me = false;

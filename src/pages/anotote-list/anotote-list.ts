@@ -211,19 +211,24 @@ export class AnototeList {
   }
 
   open_browser(anotote, highlight) {
-    if (this.current_color != 'top')
-      this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
-    else {
-      let tote = {
-        active: anotote.active,
-        checked: false,
-        userAnnotote: anotote.userAnnotote,
-        followers: anotote.follows,
-        highlights: anotote.highlights,
-        annototeId: anotote.annotote.id
+    if (anotote.userAnnotote.filePath != '') {
+      if (this.current_color != 'top') {
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
+      } else {
+
+        let tote = {
+          active: anotote.active,
+          userAnnotote: anotote.userAnnotote,
+          followers: anotote.follows,
+          highlights: anotote.highlights,
+          annototeId: anotote.annotote.id
+        }
+        tote.userAnnotote.annotote = anotote.annotote;
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
+
       }
-      tote.userAnnotote.annotote = anotote.annotote;
-      this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
+    } else {
+      this.utilityMethods.doToast("Couldn't load as no file was found.");
     }
 
   }

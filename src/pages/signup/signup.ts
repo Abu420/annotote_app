@@ -34,7 +34,7 @@ export class Signup {
    * Constructor
    */
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
-    this.statusBar.backgroundColorByHexString('000000');
+    // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.user = new User("", "", "", "", "");
   }
@@ -106,16 +106,16 @@ export class Signup {
       password: this.user.password,
       created_at: current_time
     }).subscribe((response) => {
-      self.utilityMethods.hide_loader();
-      self.utilityMethods.message_alert_with_callback('Registration', 'You have successfully registered. We have sent you a verification email.', function () {
-        self.navCtrl.pop();
+      this.utilityMethods.hide_loader();
+      this.utilityMethods.message_alert_with_callback('Registration', 'You have successfully registered. We have sent you a verification email.', () => {
+        this.navCtrl.pop();
       });
     }, (error) => {
-      self.utilityMethods.hide_loader();
+      this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else if (error.status == 400)
-        self.utilityMethods.message_alert('Error', 'This email has already been taken.');
+        this.utilityMethods.message_alert('Error', 'This email has already been taken.');
     });
   }
 
