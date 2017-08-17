@@ -111,11 +111,11 @@ tags_popup {
     .tag-panel {
         height: 100%;
         .top_empty_box {
-            height: 60%;
+            height: 45%;
             background: rgba(0, 0, 0, .6);
         }
         .tags-panel {
-            height: 40%;
+            height: 65%;
             background: #FFF;
             h3 {
                 text-align: center;
@@ -132,32 +132,33 @@ tags_popup {
                 overflow: hidden;
                 background: #efefef;
                 padding: 10px;
-                position: absolute;
+                position: relative;
                 input {
                     width: 100%;
-                    padding: 0px 50px 0 10px;
-                    line-height: 45px;
+                    padding: 0px 78px 0 10px;
+                    line-height: 35px;
                     float: left;
                 }
                 button {
-                    height: 45px;
+                    height: 40px;
                     width: 80px;
-                    float: right;
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
                 }
             }
             .tag-list {
                 margin: 0px;
-                padding: 0px;
                 list-style: none;
-                padding: 20px;
-                height: calc(100% - 50px);
+                padding: 5px 15px 15px;
+                height: calc(100% - 166px);
                 overflow: auto;
                 li {
                     display: block;
                     padding: 10px 0px;
                     img {
                         width: 20px;
-                        display: inline-block;
+                        float: left;
                         vertical-align: middle;
                         margin-right: 15px;
                     }
@@ -165,6 +166,7 @@ tags_popup {
                         display: inline-block;
                         vertical-align: middle;
                         font-size: 14px;
+                        width: calc(100% - 35px);
                     }
                 }
             }
@@ -352,6 +354,11 @@ page-anotote-list {
                                     font-style: normal;
                                     button {
                                         color: #8e9093;
+                                        img {
+                                            display: inline-block;
+                                            vertical-align: middle;
+                                            width: 14px;
+                                        }
                                     }
                                 }
                                 button {
