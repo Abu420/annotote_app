@@ -7,8 +7,14 @@
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
-        <ion-title *ngIf="!edit_mode">
-            <dot-navigation unactivedots="1"></dot-navigation>
+        <ion-title *ngIf="!edit_mode && current_color == 'me'">
+            <dot-navigation class="meDot" unactivedots="1"></dot-navigation>
+        </ion-title>
+        <ion-title *ngIf="!edit_mode && current_color == 'follows'">
+            <dot-navigation class="followDot" unactivedots="1"></dot-navigation>
+        </ion-title>
+        <ion-title *ngIf="!edit_mode && current_color == 'top'">
+            <dot-navigation class="topDot" unactivedots="1"></dot-navigation>
         </ion-title>
         <ion-buttons *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
@@ -128,6 +134,11 @@
                                 </div>
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                 <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                <div class="editAntotion">
+                                    <textarea></textarea>
+                                    <img src="assets/img/option-msg-white.png" alt="">
+                                    <img class="closeIcon" src="assets/img/cross.png" alt="">
+                                </div>
                             </ion-item>
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me' && current_color == 'me'">

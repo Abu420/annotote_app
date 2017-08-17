@@ -116,13 +116,13 @@ span.dot:after {
 
 span.un_active_dot:after {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: #b7b7b7;
+    background: #2ba600;
     border-radius: 50%;
 }
 
@@ -202,9 +202,21 @@ button,
     padding: 0 !important;
 }
 
+.followDot {
+    span.un_active_dot:after {
+        background: #e9ca00;
+    }
+}
+
+.topDot {
+    span.un_active_dot:after {
+        background: #bc73b3;
+    }
+}
+
 .fab {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     .button-inner {
         padding: 7px;
     }

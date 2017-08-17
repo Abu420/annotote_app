@@ -1,4 +1,7 @@
 page-front-view {
+    .user-controls {
+        margin-bottom: -1px;
+    }
     .item-block {
         .item-inner {
             padding-right: 5px !important;
@@ -96,7 +99,7 @@ page-front-view {
         background: rgba(128, 128, 128, 0.3);
     }
     .product-list .txt {
-        padding: 18px 0px 5px 10px;
+        padding: 20px 0px 10px 10px;
         color: #cbcbcb;
         overflow: hidden;
     }

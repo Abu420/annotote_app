@@ -9,10 +9,13 @@ page-notifications {
         display: block;
     }
     .notifications_header {
-        min-height: 45px;
+        min-height: 45px !important;
         .toolbar-background {
             border-bottom: 0px;
             box-shadow: 0 0 20px #CCC;
+        }
+        ion-title {
+            padding: 0 90px 1px !important;
         }
     }
     .toolbar-title {
@@ -103,6 +106,8 @@ page-notifications {
                                         font-size: 12px;
                                         width: auto;
                                         float: right;
+                                        font-style: normal;
+                                        padding-top: 3px;
                                         img {
                                             width: 12px;
                                             display: inline-block;

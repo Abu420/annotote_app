@@ -347,6 +347,7 @@ page-anotote-list {
                                 em {
                                     width: 70px;
                                     color: #8e9093;
+                                    font-style: normal;
                                     button {
                                         color: #8e9093;
                                     }
@@ -477,12 +478,41 @@ page-anotote-list {
                                             padding: 0 0px 0 10px;
                                             p {
                                                 font-size: 14px;
-                                                text-overflow: ellipsis;
-                                                display: inline-block;
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 4;
                                                 -webkit-box-orient: vertical;
-                                                -webkit-line-clamp: 1;
+                                                white-space: normal;
                                                 width: 100%;
                                                 color: #000;
+                                            }
+                                        }
+                                        figure {
+                                            float: left;
+                                            padding: 20px 0 0;
+                                        }
+                                        .check-text {
+                                            vertical-align: top;
+                                            padding: 0 10px 0 20px;
+                                            border: 0px;
+                                            width: calc(100% - 15px);
+                                            margin: 0;
+                                            display: inline-block;
+                                            .name-time {
+                                                font-size: 13px;
+                                                color: #888;
+                                                .msg-time {
+                                                    float: right;
+                                                }
+                                            }
+                                            p {
+                                                font-size: 18px;
+                                                color: #222;
+                                                margin: 3px 0 8px;
+                                            }
+                                            img {
+                                                width: 25px;
+                                                display: inline-block;
+                                                vertical-align: top;
                                             }
                                         }
                                         .status {
@@ -493,6 +523,28 @@ page-anotote-list {
                                         }
                                         .quotes_top {
                                             background: $top_app_color;
+                                        }
+                                        .editAntotion {
+                                            margin-left: -20px;
+                                            background: #CCC;
+                                            width: 108%;
+                                            padding: 10px 30px 10px 54px;
+                                            margin-top: 10px;
+                                            textarea {
+                                                width: 100%;
+                                                background: #CCC;
+                                                border: 0px;
+                                            }
+                                            img {
+                                                float: left;
+                                                width: 25px;
+                                                margin-top: 5px;
+                                                &.closeIcon {
+                                                    float: right;
+                                                    width: 20px;
+                                                    margin: 0px;
+                                                }
+                                            }
                                         }
                                     }
                                 }
