@@ -17,6 +17,9 @@ page-notifications {
         ion-title {
             padding: 0 90px 1px !important;
         }
+        .bar-button {
+            height: 45px;
+        }
     }
     .toolbar-title {
         font-size: 14px;
@@ -24,7 +27,7 @@ page-notifications {
         font-weight: normal;
     }
     .scroll-content {
-        padding: 8px 16px 16px !important;
+        padding: 0px 16px 16px !important;
         #wrapper {
             .notifications_spinner {
                 position: relative;
