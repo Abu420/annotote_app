@@ -42,8 +42,8 @@
                     <div class="time">
                         <em>
                       <button type="button"><ion-icon name="menu"></ion-icon></button>
-                      <span *ngIf="anotote.is_today">{{ anotote.formated_time | amDateFormat:'hh:mm'}}</span>
-                      <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span>
+                      <span >{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
+                      <!-- <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span> -->
                     </em>
                         <span [innerText]="anotote.annotote.source"></span>
                     </div>

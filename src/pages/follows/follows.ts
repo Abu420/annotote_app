@@ -62,10 +62,8 @@ export class Follows {
       .subscribe((res) => {
         this._loading = true;
         this.followings = res.data.user;
-        console.log(res);
       }, (error) => {
         this._loading = true;
-        console.log(error);
       });
   }
 

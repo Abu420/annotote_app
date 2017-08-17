@@ -21,7 +21,7 @@ export class NotificationService {
     private _loaded_once_flag: boolean;
 
     public constructor(public http: Http, public constants: Constants, public storage: Storage) {
-        this._page = 0;
+        this._page = 1;
         this._notifications = [];
         this._unread = 0;
         this._loaded_once_flag = false;
@@ -52,8 +52,8 @@ export class NotificationService {
      * type: {GET}
      * params: [notification_id]
      */
-    read_notificaton(notification_id) {
-        var url = this.constants.API_BASEURL + '/read-notification?notification_id=' + notification_id;
+    read_notificaton(params) {
+        var url = this.constants.API_BASEURL + '/read-notification?sender_id=' + params.sender_id;
         var response = this.http.get(url).map(res => res.json());
         return response;
     }
@@ -68,16 +68,17 @@ export class NotificationService {
         var response = this.http.get(url).map(res => res.json());
         response.subscribe((res) => {
             this._loaded_once_flag = true;
-            for (let i = 0; i < res.data.notifications.length; i++) {
-                var notif = res.data.notifications[i];
-                var current_date = new Date();
-                var formated_time = new Date(notif.createdAt * 1000);
-                var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
-                var difference = timeDiff / (1000 * 3600 * 24);
-                notif.is_today = difference < 1 ? true : false;
-                notif.formated_time = formated_time;
-                this._notifications.push(notif);
-            }
+            // for (let i = 0; i < res.data.notifications.length; i++) {
+            //     var notif = res.data.notifications[i];
+            //     var current_date = new Date();
+            //     var formated_time = new Date(notif.createdAt * 1000);
+            //     var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
+            //     var difference = timeDiff / (1000 * 3600 * 24);
+            //     notif.is_today = difference < 1 ? true : false;
+            //     notif.formated_time = formated_time;
+            //     this._notifications.push(notif);
+            // }
+            this._notifications = res.data.notifications;
             this._unread = res.data.unread;
         }, (error) => {
             this._loaded_once_flag = false;

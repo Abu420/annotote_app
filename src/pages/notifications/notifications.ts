@@ -47,7 +47,10 @@ export class Notifications {
   }
 
   read_notification(notification) {
-    this.notificationService.read_notificaton(notification.id)
+    var params = {
+      sender_id: notification.senderId
+    }
+    this.notificationService.read_notificaton(params)
       .subscribe((response) => {
         notification.readStatus = 1;
         this._unread = this.notificationService.decrement_notification();

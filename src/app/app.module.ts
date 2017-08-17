@@ -75,7 +75,7 @@ import { Constants } from "../services/constants.service";
 import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
-import { ChatHeads, chatName, basePath } from "../services/pipes"
+import { ChatHeads, chatName, basePath, timeStamp } from "../services/pipes"
 import { HttpFactory } from "../services/httpFactory"
 import { Push } from '@ionic-native/push';
 
@@ -87,6 +87,7 @@ import { Highlight } from "../directives/highlight";
 import { Safe } from "../services/SafeHtml";
 import { OnlyTime } from "../directives/date_pipe";
 import { Keyboard } from "@ionic-native/keyboard";
+import { DatePipe } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { Keyboard } from "@ionic-native/keyboard";
     AnototeEditor,
     ChatHeads,
     chatName,
+    timeStamp,
     basePath,
     OnlyTime,
     DclWrapper,
@@ -211,6 +213,7 @@ import { Keyboard } from "@ionic-native/keyboard";
     SplashScreen,
     Keyboard,
     UtilityMethods,
+    DatePipe,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

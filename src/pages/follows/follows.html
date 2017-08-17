@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="follow">
+    <!-- <ion-toolbar color="follow">
         <ion-buttons start>
             <button navPop ion-button icon-only>
                 <ion-icon name="arrow-round-back"></ion-icon>
@@ -11,8 +11,13 @@
                 <img src="assets/img/qIcon.png" alt="">
             </button>
         </ion-buttons>
-    </ion-toolbar>
-    <ion-toolbar class="follows_header" color="light" no-border>
+    </ion-toolbar> -->
+    <ion-toolbar class="follows_header" color="light">
+        <ion-buttons start>
+            <button navPop ion-button icon-only>
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </button>
+        </ion-buttons>
         <ion-title>Follows ({{followings.length}})</ion-title>
     </ion-toolbar>
 </ion-header>
@@ -25,8 +30,10 @@
             <ion-item *ngFor="let follower of followings" (click)="showProfile(follower)">
                 <!--<div class="img-holder"><img src="assets/img/img3.jpg"></div>-->
                 <ion-avatar item-start>
-                    <img *ngIf="follower.photo==null" src="assets/img/img3.jpg">
+                    <img *ngIf="follower.photo == '' && follower.photo == null" src="assets/img/img3.jpg">
                     <img *ngIf="follower.photo!=null" [src]="image_base_path+follower.photo">
+                    <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="follower.photo != null && follower.photo != ''" [src]="follower.photo | image_base_path">
+                    <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && follower.photo != '' && follower.photo != null"></ion-spinner>
                 </ion-avatar>
                 <div class="txt">
                     <strong [innerText]="follower.firstName + ' ' + follower.lastName" class="follow-name"></strong>

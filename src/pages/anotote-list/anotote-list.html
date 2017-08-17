@@ -76,7 +76,7 @@
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">
                             <em>
-								<span [innerText]="anotote.createdAt * 1000 | date:'shortTime'"></span>
+								<span [innerText]="anotote.createdAt | time_stamp"></span>
                                 <button type="button">
 									<ion-icon name="menu"></ion-icon>
 								</button>
@@ -89,7 +89,7 @@
                         <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
                         <div class="time">
                             <em>
-							  <span [innerText]="anotote.createdAt * 1000 | date:'shortTime'"></span>
+							  <span [innerText]="anotote.createdAt | time_stamp"></span>
                               <button type="button">
 								<ion-icon name="chatbubbles"></ion-icon>
 							  </button>
@@ -157,7 +157,7 @@
                                     <div class="name-time">
                                         <span class="user" *ngIf="message.senderId == user.id">Me</span>
                                         <span class="user" *ngIf="message.senderId != user.id">{{anotote.chatGroup.groupUsers | chat_name}}</span>
-                                        <span class="msg-time">{{message.createdAt * 1000 | date: 'shortTime'}}</span>
+                                        <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                                     </div>
                                     <p [ngStyle]="{'color': 'red'}" *ngIf="message.read == 0 && user.id != message.senderId">{{message.text}}</p>
                                     <p *ngIf="message.read != 0 && user.id != message.senderId">{{message.text}}</p>
@@ -168,7 +168,6 @@
                         </ion-list>
                     </div>
                 </div>
-                <!-- anatote detail -->
             </ion-item>
         </ion-list>
         <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
@@ -188,7 +187,7 @@
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.annotote.title"></strong>
                         <div class="time">
                             <em>
-								<span [innerText]="anotote.annotote.createdAt * 1000 | date:'shortTime'"></span>
+								<span [innerText]="anotote.annotote.createdAt | time_stamp"></span>
                                 <button type="button">
 									<ion-icon name="menu"></ion-icon>
 								</button>

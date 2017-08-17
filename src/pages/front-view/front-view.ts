@@ -53,15 +53,16 @@ export class FrontViewPage {
             var current_time = this.utilityMethods.get_php_wala_time();
             this.anototeService.fetchLatestTotes(this.page, current_time)
                   .subscribe((response) => {
-                        for (let ano_ of response.data.annototes) {
-                              var current_date = new Date();
-                              var formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
-                              var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
-                              var difference = timeDiff / (1000 * 3600 * 24);
-                              ano_.is_today = difference < 1 ? true : false;
-                              ano_.formated_time = formated_time;
-                              this.latest_anototes.push(ano_);
-                        }
+                        // for (let ano_ of response.data.annototes) {
+                        //       var current_date = new Date();
+                        //       var formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
+                        //       var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
+                        //       var difference = timeDiff / (1000 * 3600 * 24);
+                        //       ano_.is_today = difference < 1 ? true : false;
+                        //       ano_.formated_time = formated_time;
+                        //       this.latest_anototes.push(ano_);
+                        // }
+                        this.latest_anototes = response.data.annototes;
                         this.latest_anototes_firstTime_loading = false;
                   }, (error) => {
                         this.latest_anototes_firstTime_loading = false;

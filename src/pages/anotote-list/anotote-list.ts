@@ -418,19 +418,15 @@ export class AnototeList {
     if (this.current_color != 'top') {
       if (anotote.active)
         return;
-      if (this.edit_mode == false) {
+      if (this.edit_mode == false && anotote.chatGroup == null) {
         this.edit_mode = true;
-        if (anotote.chatGroup == null) {
-          anotote.checked = !anotote.checked;
-          this.selected_totes.push(anotote);
-        } else {
-          this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.");
-        }
+        anotote.checked = !anotote.checked;
+        this.selected_totes.push(anotote);
       } else {
         if (anotote.chatGroup != null) {
           this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
             // var params = {
-            //   userAnnotote_ids: anotote.userAnnotote.id,
+            //   userAnnotote_ids: anotote.chatGroupId,
             //   delete: 1
             // }
             // this.utilityMethods.show_loader('');
