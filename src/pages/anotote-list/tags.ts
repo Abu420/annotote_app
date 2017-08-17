@@ -28,10 +28,6 @@ export class TagsPopUp {
             });
     }
 
-    value_updating_tag(value) {
-        this.tag_input = value;
-    }
-
     dismiss() {
         this.viewCtrl.dismiss();
     }

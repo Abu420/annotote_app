@@ -86,10 +86,18 @@
         "cordova-plugin-statusbar",
         "cordova-plugin-device",
         "cordova-plugin-splashscreen",
-        "ionic-plugin-keyboard"
+        "ionic-plugin-keyboard",
+        "cordova-sqlite-storage",
+        "cordova-plugin-x-socialsharing",
+        "cordova-plugin-network-information",
+        "cordova-plugin-camera",
+        "cordova-plugin-file-transfer",
+        "cordova-plugin-filepath",
+        "ionic-plugin-deeplinks"
     ],
     "cordovaPlatforms": [
-        "ios"
+        "ios",
+        "android"
     ],
     "description": "Anotot: An Ionic project",
     "cordova": {

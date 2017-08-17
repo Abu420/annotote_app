@@ -69,6 +69,11 @@ export class AnototeService {
     var response = this.http.post(url, params, {}).map(res => res.json());
     return response;
   }
+  public delete_chat_tote(params) {
+    var url = this.constants.API_BASEURL + '/delete-chat-tote?group_id=' + params.group_id;
+    var response = this.http.get(url).map(res => res.json());
+    return response;
+  }
   public privatize_bulk_totes(params) {
     var url = this.constants.API_BASEURL + '/privacy-bulk-annototes';
     var response = this.http.post(url, params, {}).map(res => res.json());

@@ -4,7 +4,7 @@
     <div class="tags-panel">
         <h3>Tags</h3>
         <div class="tag_input">
-            <input (input)="value_updating_tag($event.target.value)" [value]="tag_input" type="text" placeholder="Enter tag" />
+            <input name="tagsInput" [(ngModel)]="tag_input" type="text" placeholder="Enter tag" />
             <button (tap)="add_tag()">Add</button>
         </div>
         <ul class="tag-list">

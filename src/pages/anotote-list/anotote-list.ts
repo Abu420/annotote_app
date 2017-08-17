@@ -425,24 +425,21 @@ export class AnototeList {
       } else {
         if (anotote.chatGroup != null) {
           this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-            // var params = {
-            //   userAnnotote_ids: anotote.chatGroupId,
-            //   delete: 1
-            // }
-            // this.utilityMethods.show_loader('');
-            // this.anototeService.delete_bulk_totes(params).subscribe((result) => {
-            //   this.utilityMethods.hide_loader();
-            //   if (result.data.annotote.length == 1) {
-            //     this.anototes.splice(this.anototes.indexOf(anotote), 1);
-            //     this.utilityMethods.doToast("Chat tote deleted Successfully.")
-            //     this.close_bulk_actions();
-            //   }
-            // }, (error) => {
-            //   this.utilityMethods.hide_loader();
-            //   if (error.code == -1) {
-            //     this.utilityMethods.internet_connection_error();
-            //   }
-            // })
+            var params = {
+              group_id: anotote.chatGroupId
+            }
+            this.utilityMethods.show_loader('');
+            this.anototeService.delete_chat_tote(params).subscribe((result) => {
+              this.utilityMethods.hide_loader();
+              this.anototes.splice(this.anototes.indexOf(anotote), 1);
+              this.utilityMethods.doToast("Chat tote deleted Successfully.")
+              this.close_bulk_actions();
+            }, (error) => {
+              this.utilityMethods.hide_loader();
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            })
           })
         }
       }
@@ -688,12 +685,10 @@ export class AnototeList {
 
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
-    console.log(anotote);
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
-        console.log(this.current_active_anotote)
-        let tagsModal = this.modalCtrl.create(TagsPopUp, { user_tote_id: this.current_active_anotote.userAnnotote.id, tags: this.current_active_anotote.userAnnotote.annototeTags });
+        let tagsModal = this.modalCtrl.create(TagsPopUp, { user_tote_id: anotote.userAnnotote.id, tags: anotote.userAnnotote.annototeTags });
         tagsModal.present();
       }
     });
