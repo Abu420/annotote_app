@@ -104,8 +104,8 @@
                         <p>Message</p>
                     </div>
                 </div>
-                <!-- anatote detail -->
-                <div class="toteActive" (press)="enable_list_reorder(anotote)" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
+                <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
+                <div class="toteActive" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
                     <div class="loading" [hidden]="spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
@@ -127,14 +127,14 @@
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
-                            <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (press)="edit_annotation(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                 <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
-                                <div class="editAntotion">
+                                <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
                                     <textarea></textarea>
                                     <img src="assets/img/option-msg-white.png" alt="">
                                     <img class="closeIcon" src="assets/img/cross.png" alt="">

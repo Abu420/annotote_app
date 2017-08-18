@@ -618,6 +618,14 @@ export class AnototeList {
       this.reorder_highlights = true;
   }
 
+  edit_annotation(highlight) {
+    console.log(highlight);
+    if (highlight.edit)
+      highlight.edit = false;
+    else
+      highlight.edit = true;
+  }
+
   //me stream anotote detail calls
   public setSimpleToteDetails(anotote) {
     if (anotote.followers.length == 0) {
