@@ -2,7 +2,7 @@
     <ion-toolbar color="homeheader">
         <div [ngClass]="{'black': current_url == '', 'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}" class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
-            <img src="assets/img/search.png" alt="" />
+            <img src="assets/img/searchIcon.png" alt="" />
             <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss()" class="clear_button"></span>
         </div>
@@ -10,7 +10,7 @@
 </ion-header>
 <ion-content swipe-vertical padding class="searchPage">
     <!-- content-->
-    <ion-list *ngIf="!filter_mode">
+    <ion-list class="searchItems" *ngIf="!filter_mode">
         <ion-item *ngIf="search_loading" class="search_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </ion-item>
@@ -19,7 +19,7 @@
             <span>Share this link (enter)</span>
         </ion-item>
         <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter">
-            <img src="assets/img/searchBlack.png" alt="" />
+            <img src="assets/img/searchIcon.png" alt="" />
             <span>New search or address</span>
         </ion-item>
         <!-- <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
@@ -31,7 +31,7 @@
             <span>Search (enter)</span>
         </ion-item>
         <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
-            <ion-icon name="eye"></ion-icon>
+            <img src="assets/img/viewIcon.svg" alt="">
             <span>View (enter)</span>
         </ion-item>
         <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">

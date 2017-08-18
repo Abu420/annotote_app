@@ -371,13 +371,13 @@ search_page {
                             vertical-align: middle;
                             width: 20%;
                             color: #ababab;
-                            padding: 20px;
-                            font-size: 30px;
+                            padding: 10px;
+                            font-size: 35px;
                             text-align: center;
                         }
                         img {
-                            width: 25px;
-                            margin: 18px 0 14px 25px;
+                            width: 35px;
+                            margin: 18px 0 16px 15px;
                             display: table-cell;
                             vertical-align: middle;
                             opacity: .35;
@@ -453,7 +453,7 @@ search_page {
                                 &.rightAdd {
                                     float: right;
                                     ion-icon {
-                                        font-size: 25px;
+                                        font-size: 35px;
                                     }
                                 }
                             }
@@ -519,7 +519,7 @@ search_page {
                 background-size: 18px;
             }
             .search_field {
-                width: calc(100% - 118px);
+                width: calc(100% - 122px);
                 border-radius: 0px;
             }
         }
@@ -545,7 +545,7 @@ search_page {
                 background-size: 18px;
             }
             .search_field {
-                width: calc(100% - 118px);
+                width: calc(100% - 122px);
                 border-radius: 0px;
             }
         }
@@ -571,7 +571,7 @@ search_page {
                 background-size: 18px;
             }
             .search_field {
-                width: calc(100% - 118px);
+                width: calc(100% - 122px);
                 border-radius: 0px;
             }
         }
@@ -598,26 +598,27 @@ search_page {
                 background-size: 18px;
             }
             .search_field {
-                width: calc(100% - 118px);
+                width: calc(100% - 122px);
                 border-radius: 0px;
             }
         }
         img {
             margin: 0;
             float: left;
-            padding: 10px;
+            padding: 12px;
             background: transparent;
             height: 56px;
             width: 56px;
+            margin-left: 3px;
         }
         .options {
             height: $bar_button_custom_height;
             float: left;
             width: 30px;
-            background-image: url(../assets/img/option-icon.png);
+            background-image: url(../assets/img/bg-header_white.png);
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 5px;
+            background-size: 35px;
         }
         .search_button {
             height: $bar_button_custom_height;
@@ -630,21 +631,22 @@ search_page {
         }
         .clear_button {
             height: $bar_button_custom_height;
+            height: 56px;
             float: right;
-            width: $bar_button_custom_height;
+            width: 36px;
             background-image: url(../assets/img/cross.png);
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 25px;
+            background-size: 15px;
         }
         .search_field {
-            width: calc(100% - 142px);
+            width: calc(100% - 128px);
             display: inline-block;
             float: left;
-            border-radius: 5px;
             border: 0px;
             padding: 10px;
             height: 100%;
+            margin-left: 3px;
             input {
                 padding: 0;
                 width: calc(100% - 8px);

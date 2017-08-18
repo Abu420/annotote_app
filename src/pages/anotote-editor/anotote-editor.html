@@ -2,13 +2,23 @@
     <ion-toolbar [color]="which_stream">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
-                <span (click)="load_previous_page()"><img src="assets/img/new2.png"></span>
-                <span (tap)="load_next_page()"><img src="assets/img/new1.png"></span>
+                <span *ngIf="which_stream == 'me'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'me'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowGreen.svg"></span>
+
+                <span *ngIf="which_stream == 'follows'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'follows'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowYellow.svg"></span>
+
+                <span *ngIf="which_stream == 'top'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'top'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowPink.svg"></span>
             </div>
         </ion-title>
         <ion-buttons *ngIf="full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
             <button style="background: transparent;">
-                <span class="downImage"><img src="assets/img/new3.png" alt=""></span>
+                <span *ngIf="which_stream == 'me'" class="downImage"><img src="assets/img/toteBox.svg" alt=""></span>
+
+                <span *ngIf="which_stream == 'follows'" class="downImage"><img src="assets/img/toteBoxYellow.svg" alt=""></span>
+
+                <span *ngIf="which_stream == 'top'" class="downImage"><img src="assets/img/toteBoxPink.svg" alt=""></span>
             </button>
         </ion-buttons>
         <ion-buttons start>
@@ -17,8 +27,14 @@
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
-        <ion-title *ngIf="!full_screen_mode">
-            <dot-navigation unactivedots="2"></dot-navigation>
+        <ion-title *ngIf="!full_screen_mode && which_stream == 'me'">
+            <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
+        </ion-title>
+        <ion-title *ngIf="!full_screen_mode && which_stream == 'follows'">
+            <dot-navigation class="followDot" unactivedots="2"></dot-navigation>
+        </ion-title>
+        <ion-title *ngIf="!full_screen_mode && which_stream == 'top'">
+            <dot-navigation class="topDot" unactivedots="2"></dot-navigation>
         </ion-title>
         <ion-buttons *ngIf="which_stream!='me' && !full_screen_mode" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>

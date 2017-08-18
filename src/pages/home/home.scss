@@ -17,6 +17,15 @@ top_options {
         padding: 8px 0px !important;
         position: relative;
         margin: 10px 0 0;
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            background: #e0e0e0;
+            height: 1px;
+            width: calc(100% - 65px);
+        }
     }
     ul.sharing_pop {
         text-decoration: none;
@@ -29,7 +38,7 @@ top_options {
         letter-spacing: 0px;
     }
     ul.sharing_pop li.shareIcon img {
-        width: 40px;
+        width: 48px;
     }
     ul.sharing_pop li.userPro img {
         width: 20px;
@@ -71,14 +80,14 @@ top_options {
     }
     .sharing_pop span,
     .sharing_pop em {
-        font-size: 12px;
-        line-height: 19px;
+        font-size: 14px;
+        line-height: 14px;
         font-style: normal;
-        color: #cecece;
+        color: #b3b3b3;
     }
     .sharing_pop ion-icon {
         padding-left: 0;
-        font-size: 30px;
+        font-size: 40px;
         line-height: 34px;
         color: #cdcdcd;
         display: block;

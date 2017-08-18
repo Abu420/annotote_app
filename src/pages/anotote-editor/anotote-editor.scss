@@ -15,7 +15,7 @@ create_anotation_popup {
             margin: auto;
             width: 90%;
             margin-bottom: 10px;
-			margin-top: 10px;
+            margin-top: 10px;
         }
         textarea {
             width: 90%;
@@ -27,7 +27,7 @@ create_anotation_popup {
             height: 40px;
             width: 100%;
             display: block;
-			overflow: hidden;
+            overflow: hidden;
             .close {
                 width: calc(100%/3);
                 height: $bar_button_custom_height;
@@ -45,14 +45,14 @@ create_anotation_popup {
                 background-image: url(../assets/img/shareC.png);
                 background-size: 25px;
             }
-			.shareBtn{
-				float: right;
-			}
-			.done {
+            .shareBtn {
+                float: right;
+            }
+            .done {
                 @extend .close;
                 background-image: url(../assets/img/tick.png);
             }
-		}
+        }
     }
 }
 
@@ -156,29 +156,43 @@ page-anotote-editor {
     }
     .boxIcon {
         margin: 0px;
-		button{
-			height: 114px;
-		}
+        button {
+            height: 114px;
+        }
         span {
             padding: 17px;
             display: block;
-			img{
-				margin: 0px;
-				width: auto;
-			}
+            img {
+                margin: 0px;
+                width: 22px;
+            }
         }
     }
-	.downImage{
-		margin-bottom: -6;
-		margin-top: 33px;
-		margin-right: -4px;
-		padding: 0px !important;
-		img{
-			margin: 0px !important;
-			width: 55px !important;
-			margin-right: -6px !important;
-		}
-	}
+    .toolbar-title {
+        .leftArrow {
+            padding: 0 15px;
+            img {
+                width: 20px;
+            }
+        }
+        .rightArrow {
+            padding: 0 15px;
+            img {
+                width: 21px;
+            }
+        }
+    }
+    .downImage {
+        margin-bottom: -6;
+        margin-top: 33px;
+        margin-right: -4px;
+        padding: 0px !important;
+        img {
+            margin: 0px !important;
+            width: 55px !important;
+            margin-right: -6px !important;
+        }
+    }
     .inline_tote_options {
         position: absolute;
         bottom: 0;
@@ -280,14 +294,14 @@ page-anotote-editor {
             padding-right: 5px;
         }
         .highlight_comment:before {
-			content: "*";
-			width: 18px;
-			height: 18px;
-			display: inline-block;
-			text-align: center;
-			color: #FFF;
-			line-height: 1.4;
-			border-radius: 3px;
+            content: "*";
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            text-align: center;
+            color: #FFF;
+            line-height: 1.4;
+            border-radius: 3px;
         }
         .highlight_quote:before {
             content: '"';
@@ -296,7 +310,7 @@ page-anotote-editor {
             display: inline-block;
             text-align: center;
             vertical-align: top;
-			border-radius: 3px;
+            border-radius: 3px;
             line-height: 1.2;
             color: #FFF;
             margin-top: 3px;
