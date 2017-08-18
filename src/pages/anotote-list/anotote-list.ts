@@ -67,6 +67,7 @@ export class AnototeList {
   public spinner_for_active: boolean = false;
   public top_spinner: boolean = false;
   public me_spinner: boolean = false;
+  public current_active_highlight: any = null;
 
   /**
    * Constructor
@@ -212,20 +213,23 @@ export class AnototeList {
 
   open_browser(anotote, highlight) {
     if (anotote.userAnnotote.filePath != '') {
-      if (this.current_color != 'top') {
-        this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
-      } else {
+      if (this.current_active_highlight == null || this.current_active_highlight.edit == false) {
+        if (this.current_color != 'top') {
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
+        } else {
 
-        let tote = {
-          active: anotote.active,
-          userAnnotote: anotote.userAnnotote,
-          followers: anotote.follows,
-          highlights: anotote.highlights,
-          annototeId: anotote.annotote.id
+          let tote = {
+            active: anotote.active,
+            userAnnotote: anotote.userAnnotote,
+            followers: anotote.follows,
+            highlights: anotote.highlights,
+            annototeId: anotote.annotote.id
+          }
+          tote.userAnnotote.annotote = anotote.annotote;
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
         }
-        tote.userAnnotote.annotote = anotote.annotote;
-        this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
-
+      } else {
+        this.current_active_highlight.edit = false;
       }
     } else {
       this.utilityMethods.doToast("Couldn't load as no file was found.");
@@ -613,17 +617,44 @@ export class AnototeList {
     });
   }
 
+  annotation_options(highlight) {
+    this.utilityMethods.reorder_or_edit((prefrence) => {
+      if (prefrence == 'reorder') {
+        this.enable_list_reorder()
+      } else {
+        this.edit_annotation(highlight);
+      }
+    })
+  }
+
   enable_list_reorder() {
     if (this.whichStream == 'me')
       this.reorder_highlights = true;
   }
 
   edit_annotation(highlight) {
-    console.log(highlight);
-    if (highlight.edit)
-      highlight.edit = false;
-    else
-      highlight.edit = true;
+    if (this.current_active_highlight != null) {
+      if (this.current_active_highlight.id != highlight.id) {
+        this.current_active_highlight.edit = false;
+        if (highlight.edit)
+          highlight.edit = false;
+        else
+          highlight.edit = true;
+        this.current_active_highlight = highlight;
+      } else {
+        if (highlight.edit)
+          highlight.edit = false;
+        else
+          highlight.edit = true;
+      }
+    } else {
+      if (highlight.edit)
+        highlight.edit = false;
+      else
+        highlight.edit = true;
+      this.current_active_highlight = highlight;
+    }
+
   }
 
   //me stream anotote detail calls

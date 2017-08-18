@@ -199,6 +199,26 @@ export class UtilityMethods {
         alert.present();
     }
 
+    reorder_or_edit(callback) {
+        let alert = this.alertCtrl.create({
+            title: "Preference",
+            subTitle: "Do you want to edit annotation or reorder it.",
+            buttons: [{
+                text: 'Reorder',
+                handler: () => {
+                    callback('reorder');
+                }
+            }, {
+                text: 'Edit',
+                role: 'cancel',
+                handler: () => {
+                    callback('edit');
+                }
+            }]
+        });
+        alert.present();
+    }
+
     /**
      * Internet Connection Error
      */

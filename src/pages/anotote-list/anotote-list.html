@@ -128,7 +128,7 @@
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
-                            <ion-item (press)="edit_annotation(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
