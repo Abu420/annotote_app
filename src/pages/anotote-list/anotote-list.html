@@ -136,7 +136,9 @@
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                 <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                                 <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
-                                    <textarea></textarea>
+                                    <form (ngSubmit)="save_edited_annotation(highlight)">
+                                        <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
+                                    </form>
                                     <img src="assets/img/option-msg-white.png" alt="">
                                     <img class="closeIcon" src="assets/img/cross.png" alt="">
                                 </div>

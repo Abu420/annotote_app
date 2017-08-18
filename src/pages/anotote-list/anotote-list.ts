@@ -68,6 +68,7 @@ export class AnototeList {
   public top_spinner: boolean = false;
   public me_spinner: boolean = false;
   public current_active_highlight: any = null;
+  public edit_highlight_text: string = '';
 
   /**
    * Constructor
@@ -229,7 +230,7 @@ export class AnototeList {
           this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
         }
       } else {
-        this.current_active_highlight.edit = false;
+        // this.current_active_highlight.edit = false;
       }
     } else {
       this.utilityMethods.doToast("Couldn't load as no file was found.");
@@ -618,13 +619,18 @@ export class AnototeList {
   }
 
   annotation_options(highlight) {
-    this.utilityMethods.reorder_or_edit((prefrence) => {
-      if (prefrence == 'reorder') {
-        this.enable_list_reorder()
-      } else {
-        this.edit_annotation(highlight);
-      }
-    })
+    if (highlight.edit == undefined || highlight.edit == false) {
+      this.utilityMethods.reorder_or_edit((prefrence) => {
+        if (prefrence == 'reorder') {
+          this.enable_list_reorder()
+        } else {
+          this.edit_annotation(highlight);
+        }
+      })
+    } else {
+      highlight.edit = false;
+    }
+
   }
 
   enable_list_reorder() {
@@ -638,23 +644,33 @@ export class AnototeList {
         this.current_active_highlight.edit = false;
         if (highlight.edit)
           highlight.edit = false;
-        else
+        else {
           highlight.edit = true;
+          this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+        }
         this.current_active_highlight = highlight;
       } else {
         if (highlight.edit)
           highlight.edit = false;
-        else
+        else {
           highlight.edit = true;
+          this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+        }
       }
     } else {
       if (highlight.edit)
         highlight.edit = false;
-      else
+      else {
         highlight.edit = true;
+        this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+      }
       this.current_active_highlight = highlight;
     }
 
+  }
+
+  save_edited_annotation(highlight) {
+    console.log(this.edit_highlight_text);
   }
 
   //me stream anotote detail calls
