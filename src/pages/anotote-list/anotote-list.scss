@@ -547,11 +547,17 @@ page-anotote-list {
                                             img {
                                                 float: left;
                                                 width: 25px;
-                                                margin-top: 5px;
+                                                margin-top: 8px;
                                                 &.closeIcon {
                                                     float: right;
                                                     width: 20px;
                                                     margin: 0px;
+                                                }
+                                                &.doneIcon {
+                                                    width: 22px;
+                                                    margin: auto;
+                                                    display: block;
+                                                    float: none;
                                                 }
                                             }
                                         }
