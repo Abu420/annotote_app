@@ -94,4 +94,14 @@ export class AnototeService {
     var response = this.http.get(url).map(res => res.json());
     return response;
   }
+  public update_annotation(params) {
+    var url = this.constants.API_BASEURL + '/annotote/highlight/update';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+  public delete_annotation(params) {
+    var url = this.constants.API_BASEURL + '/delete-user-annotation';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
 }

@@ -128,20 +128,22 @@
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
-                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
-                                <div class="txt">
-                                    <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
-                                    <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
-                                </div>
-                                <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
-                                <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
-                                    <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
-                                    <img src="assets/img/option-msg-white.png" alt="">
-                                    <img class="closeIcon" src="assets/img/cross.png" alt="">
-                                    <img class="doneIcon" src="assets/img/tick.png" alt="">
-                                </div>
-                            </ion-item>
+                            <ng-container *ngFor="let highlight of anotote.highlights">
+                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
+                                    <div class="txt">
+                                        <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
+                                        <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                    </div>
+                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                    <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                    <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
+                                        <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
+                                        <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation(highlight)">
+                                        <img class="closeIcon" src="assets/img/cross.png" alt="" (click)="delete_annotation(highlight)">
+                                        <img class="doneIcon" src="assets/img/tick.png" (click)="save_edited_annotation(highlight)" alt="">
+                                    </div>
+                                </ion-item>
+                            </ng-container>
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me' && current_color == 'me'">
                             <p>No anotations to show. Click the + button in the upper right corner to create annotation</p>

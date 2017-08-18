@@ -3,16 +3,70 @@
     </div>
     <div class="tags-panel">
         <h3>Tags</h3>
-        <div class="tag_input">
-            <input name="tagsInput" [(ngModel)]="tag_input" type="text" placeholder="Enter tag" />
+        <div class="tag_input" *ngIf="stream == 'me'">
+            <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" />
+            <ul class="tagList">
+                <li>
+                    <figure>
+                        <img src="assets/img/img1.png" alt="">
+                    </figure>
+                    <figcaption>
+                        <span>Alex Parrish</span>
+                    </figcaption>
+                </li>
+                <li>
+                    <figure>
+                        <img src="assets/img/img1.png" alt="">
+                    </figure>
+                    <figcaption>
+                        <span>Alex Parrish</span>
+                    </figcaption>
+                </li>
+                <li>
+                    <figure>
+                        <img src="assets/img/img1.png" alt="">
+                    </figure>
+                    <figcaption>
+                        <span>Alex Parrish</span>
+                    </figcaption>
+                </li>
+                <li>
+                    <figure>
+                        <img src="assets/img/img1.png" alt="">
+                    </figure>
+                    <figcaption>
+                        <span>Alex Parrish</span>
+                    </figcaption>
+                </li>
+                <li>
+                    <figure>
+                        <img src="assets/img/img1.png" alt="">
+                    </figure>
+                    <figcaption>
+                        <span>Alex Parrish</span>
+                    </figcaption>
+                </li>
+            </ul>
             <button (tap)="add_tag()">Add</button>
+            <ion-item *ngIf="anotation_or_anotote == false">
+                <ion-label>Type of Tag</ion-label>
+                <ion-select [(ngModel)]="tags_type">
+                    <ion-option value="1" selected>^</ion-option>
+                    <ion-option value="2">@</ion-option>
+                    <ion-option value="3">#</ion-option>
+                    <ion-option value="4">$</ion-option>
+                </ion-select>
+            </ion-item>
         </div>
         <ul class="tag-list">
-            <li>
-                <img class="play-icon" src="assets/img/top-arrow.png" alt="">
-                <span>Stratfor: Middle East Security Update </span>
+            <li *ngFor="let tag of tags">
+                <img class="play-icon" *ngIf="tag.tagId == 1" src="assets/img/top-arrow.png" alt="">
+                <img class="play-icon" *ngIf="tag.tagId == 2" src="assets/img/icon-gray.png" alt="">
+                <img class="play-icon" *ngIf="tag.tagId == 3 || anotation_or_anotote == true" src="assets/img/hash-gray.png" alt="">
+                <img class="play-icon" *ngIf="tag.tagId == 4" src="assets/img/dollar-gray.png" alt="">
+                <span>{{tag.tagText}}</span>
             </li>
-            <li>
+            <!-- <li>
                 <img class="play-icon" src="assets/img/@icon-gray.png" alt="">
                 <span>StKen Mastrocola</span>
             </li>
@@ -27,7 +81,7 @@
             <li>
                 <img class="play-icon" src="assets/img/dollar-gray.png" alt="">
                 <span>XOM </span>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>

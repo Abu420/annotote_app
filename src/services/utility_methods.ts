@@ -210,7 +210,6 @@ export class UtilityMethods {
                 }
             }, {
                 text: 'Edit',
-                role: 'cancel',
                 handler: () => {
                     callback('edit');
                 }

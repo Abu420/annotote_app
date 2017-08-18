@@ -10,22 +10,57 @@ export class TagsPopUp {
     private tag_input: string;
     private tags: any;
     private user_tote_id: string;
-
+    private stream: string;
+    private annotation_id;
+    private tags_type: any;
+    private anotation_or_anotote: boolean;
 
     constructor(private utilityMethods: UtilityMethods, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
         this.tag_input = "";
+        this.stream = params.get('whichStream');
         this.tags = params.get('tags');
-        this.user_tote_id = params.get('user_tote_id');
+        console.log(this.tags);
+        this.anotation_or_anotote = params.get('annotote');
+        if (this.anotation_or_anotote) {
+            this.user_tote_id = params.get('user_tote_id');
+        } else {
+            this.annotation_id = params.get('annotation_id');
+        }
     }
 
     add_tag() {
-        var current_time = this.utilityMethods.get_php_wala_time();
-        this.searchService.add_tag_to_anotote({ user_tote_id: this.user_tote_id, tag_text: this.tag_input, created_at: current_time })
-            .subscribe((res) => {
-                console.log(res);
-            }, (err) => {
-                console.log(err);
-            });
+        if (this.anotation_or_anotote) {
+            var current_time = this.utilityMethods.get_php_wala_time();
+            this.searchService.add_tag_to_anotote({ user_tote_id: this.user_tote_id, tag_text: this.tag_input, created_at: current_time })
+                .subscribe((res) => {
+                    console.log(res);
+                }, (err) => {
+                    console.log(err);
+                });
+        } else {
+            var params = {
+                tag_id: this.tags_type,
+                annotation_id: this.annotation_id,
+                text: this.tag_input,
+                created_at: this.utilityMethods.get_php_wala_time()
+            }
+            this.searchService.add_tag_to_anotation(params).subscribe((result) => {
+                this.tags.push(result.data.annotation_tag);
+            }, (error) => {
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                } else {
+                    this.utilityMethods.doToast("Couldn't update annotation.");
+                }
+            })
+        }
+
+    }
+
+    tag_user() {
+        if (!this.anotation_or_anotote && this.tags_type == 2) {
+
+        }
     }
 
     dismiss() {

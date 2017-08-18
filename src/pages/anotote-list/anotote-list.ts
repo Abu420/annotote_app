@@ -619,18 +619,20 @@ export class AnototeList {
   }
 
   annotation_options(highlight) {
-    if (highlight.edit == undefined || highlight.edit == false) {
-      this.utilityMethods.reorder_or_edit((prefrence) => {
-        if (prefrence == 'reorder') {
-          this.enable_list_reorder()
-        } else {
-          this.edit_annotation(highlight);
-        }
-      })
-    } else {
-      highlight.edit = false;
+    if (this.current_color == 'me') {
+      this.reorder_highlights = false;
+      if (highlight.edit == undefined || highlight.edit == false) {
+        this.utilityMethods.reorder_or_edit((prefrence) => {
+          if (prefrence == 'reorder') {
+            this.enable_list_reorder()
+          } else {
+            this.edit_annotation(highlight);
+          }
+        })
+      } else {
+        highlight.edit = false;
+      }
     }
-
   }
 
   enable_list_reorder() {
@@ -669,8 +671,67 @@ export class AnototeList {
 
   }
 
+  delete_annotation(annotation) {
+    this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this annotation?", () => {
+      var params = {
+        user_annotate_id: this.current_active_anotote.userAnnotote.id,
+        identifier: annotation.identifier,
+        file_text: this.current_active_anotote.userAnnotote.fileText,
+        delete: 1
+      }
+      this.anototeService.delete_annotation(params).subscribe((result) => {
+        this.current_active_anotote.highlights.splice(this.current_active_anotote.highlights.indexOf(annotation), 1);
+      }, (error) => {
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else {
+          this.utilityMethods.doToast("Couldn't delete annotation.");
+        }
+      })
+    })
+  }
+
+  show_tags_for_annotation(annotation) {
+    if (this.current_color != 'me' && annotation.tags.length == 0) {
+      this.utilityMethods.doToast("This annotation does not contain any tags.");
+      return;
+    }
+    var params = {
+      annotation_id: annotation.id,
+      tags: annotation.tags,
+      whichStream: this.current_color,
+      annotote: false
+    }
+    let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+    tagsModal.present();
+
+  }
+
   save_edited_annotation(highlight) {
-    console.log(this.edit_highlight_text);
+    if (this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') {
+      this.spinner_for_active = true;
+      var params = {
+        highlight_text: highlight.highlightText,
+        updated_at: this.utilityMethods.get_php_wala_time(),
+        file_text: this.current_active_anotote.userAnnotote.fileText,
+        comment: this.edit_highlight_text,
+        identifier: highlight.identifier,
+        user_tote_id: this.current_active_anotote.userAnnotote.id
+      }
+      this.anototeService.update_annotation(params).subscribe((result) => {
+        this.spinner_for_active = false;
+        highlight.comment = result.data.highlight.comment;
+        highlight.edit = false;
+      }, (error) => {
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else {
+          this.utilityMethods.doToast("Couldn't update annotation.");
+        }
+      })
+    } else {
+      this.utilityMethods.doToast("Please update annotation and then submit.");
+    }
   }
 
   //me stream anotote detail calls
@@ -743,7 +804,13 @@ export class AnototeList {
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
-        let tagsModal = this.modalCtrl.create(TagsPopUp, { user_tote_id: anotote.userAnnotote.id, tags: anotote.userAnnotote.annototeTags });
+        var params = {
+          user_tote_id: anotote.userAnnotote.id,
+          tags: anotote.userAnnotote.annototeTags,
+          whichStream: this.current_color,
+          annotote: true
+        }
+        let tagsModal = this.modalCtrl.create(TagsPopUp, params);
         tagsModal.present();
       }
     });
