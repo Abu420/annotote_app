@@ -5,45 +5,18 @@
         <h3>Tags</h3>
         <div class="tag_input" *ngIf="stream == 'me'">
             <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" />
-            <ul class="tagList">
-                <li>
-                    <figure>
-                        <img src="assets/img/img1.png" alt="">
-                    </figure>
-                    <figcaption>
-                        <span>Alex Parrish</span>
-                    </figcaption>
+            <ul class="tagList" *ngIf="show_autocomplete == true">
+                <li *ngIf="search_user == true" text-center>
+                    <ion-spinner></ion-spinner>
                 </li>
-                <li>
+                <li *ngFor="let user of users" (click)="selected_user(user)">
                     <figure>
-                        <img src="assets/img/img1.png" alt="">
+                        <img *ngIf="user.photo== null || user.photo==''" src="assets/img/img3.jpg">
+                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="user.photo != null && user.photo != ''" [hidden]="!loaded" [src]="user.photo | image_base_path">
+                        <ion-spinner *ngIf="!loaded && user.photo != null && user.photo != ''"></ion-spinner>
                     </figure>
                     <figcaption>
-                        <span>Alex Parrish</span>
-                    </figcaption>
-                </li>
-                <li>
-                    <figure>
-                        <img src="assets/img/img1.png" alt="">
-                    </figure>
-                    <figcaption>
-                        <span>Alex Parrish</span>
-                    </figcaption>
-                </li>
-                <li>
-                    <figure>
-                        <img src="assets/img/img1.png" alt="">
-                    </figure>
-                    <figcaption>
-                        <span>Alex Parrish</span>
-                    </figcaption>
-                </li>
-                <li>
-                    <figure>
-                        <img src="assets/img/img1.png" alt="">
-                    </figure>
-                    <figcaption>
-                        <span>Alex Parrish</span>
+                        <span>{{user.firstName}} {{user.lastName}}</span>
                     </figcaption>
                 </li>
             </ul>
@@ -66,22 +39,6 @@
                 <img class="play-icon" *ngIf="tag.tagId == 4" src="assets/img/dollar-gray.png" alt="">
                 <span>{{tag.tagText}}</span>
             </li>
-            <!-- <li>
-                <img class="play-icon" src="assets/img/@icon-gray.png" alt="">
-                <span>StKen Mastrocola</span>
-            </li>
-            <li>
-                <img class="play-icon" src="assets/img/hash-gray.png" alt="">
-                <span>StKen Mastrocola</span>
-            </li>
-            <li>
-                <img class="play-icon" src="assets/img/hash-gray.png" alt="">
-                <span>Geopolitics </span>
-            </li>
-            <li>
-                <img class="play-icon" src="assets/img/dollar-gray.png" alt="">
-                <span>XOM </span>
-            </li> -->
         </ul>
     </div>
 </div>

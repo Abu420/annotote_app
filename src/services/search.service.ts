@@ -147,6 +147,12 @@ export class SearchService {
         return response;
     }
 
+    public autocomplete_users(params) {
+        var url = this.constants.API_BASEURL + '/search/followers?name_like=' + params.name;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
 
     /**
     * Load advance search results  API

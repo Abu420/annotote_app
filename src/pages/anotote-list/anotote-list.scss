@@ -147,7 +147,7 @@ tags_popup {
                 }
                 .tagList {
                     position: absolute;
-                    top: 59px;
+                    top: 50px;
                     height: 180px;
                     left: 0px;
                     background: #FFF;
@@ -155,6 +155,8 @@ tags_popup {
                     padding: 0px;
                     width: 100%;
                     overflow: auto;
+                    z-index: 1;
+                    border: 1px solid #e0e0e0;
                     li {
                         display: block;
                         padding: 10px;
@@ -191,7 +193,7 @@ tags_popup {
                 margin: 0px;
                 list-style: none;
                 padding: 5px 15px 15px;
-                height: calc(100% - 166px);
+                height: calc(65% - 70px);
                 overflow: auto;
                 li {
                     display: block;
