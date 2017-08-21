@@ -1,68 +1,8 @@
 page-signup {
-    .scroll-content {
-        padding: 10px 16px 16px !important;
-    }
     ion-buttons {
         img {
             width: 30px;
             margin: 11px 0px 11px 25px;
         }
-    }
-    .form-area:after {
-        display: block;
-        clear: both;
-        content: '';
-    }
-    .form-area {
-        position: relative;
-    }
-    .input-holder {
-        padding: 16px 10px;
-        border-bottom: 1px solid #d9d9d9;
-        overflow: hidden;
-    }
-    .full_name {
-        border-bottom: 0px;
-    }
-    .input-holder.active {
-        background: #e0e0e0;
-    }
-    .form-area ion-icon {
-        margin-right: 10px;
-        font-size: 28px;
-        line-height: 32px;
-        color: #bebebe;
-        float: left;
-    }
-    .form-area input {
-        width: 87%;
-        float: left;
-        color: #0f0f10;
-        height: 30px;
-        padding: 4px 10px;
-        margin: 0;
-        background: transparent;
-        border: 0px;
-    }
-    .form-area button {
-        width: 50px;
-        height: 50px;
-        border-radius: 100%;
-        color: #fff;
-        background: #cbcbcb;
-        text-transform: uppercase;
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        font-weight: normal;
-        box-shadow: 2px 4px 9px #a0a0a0;
-    }
-    .form-area button.green {
-        background: $me_app_color;
-    }
-    .form-area img {
-        float: left;
-        margin-right: 10px;
-        width: 20px;
     }
 }
