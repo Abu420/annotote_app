@@ -18,6 +18,7 @@ export class TagsPopUp {
     private search_user: boolean = false;
     private show_autocomplete: boolean = false;
     private one_selected: any;
+    private no_user_found: boolean = false;
 
     constructor(private utilityMethods: UtilityMethods, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
         this.tag_input = "";
@@ -85,11 +86,15 @@ export class TagsPopUp {
             var params = {
                 name: this.tag_input
             }
+            this.no_user_found = false;
             this.show_autocomplete = true;
             this.search_user = true;
             this.searchService.autocomplete_users(params).subscribe((result) => {
                 this.search_user = false;
                 this.users = result.data.users;
+                if (this.users.length == 0) {
+                    this.no_user_found = true;
+                }
             }, (error) => {
                 if (error.code == -1) {
                     this.utilityMethods.internet_connection_error();

@@ -9,6 +9,9 @@
                 <li *ngIf="search_user == true" text-center>
                     <ion-spinner></ion-spinner>
                 </li>
+                <li *ngIf="no_user_found == true" text-center>
+                    No Users found.
+                </li>
                 <li *ngFor="let user of users" (click)="selected_user(user)">
                     <figure>
                         <img *ngIf="user.photo== null || user.photo==''" src="assets/img/img3.jpg">
