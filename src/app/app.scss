@@ -221,8 +221,10 @@ button,
 }
 
 .fab {
-    width: 65px;
-    height: 65px;
+    width: 70px;
+    height: 70px;
+    box-shadow: 0 6px 10px 0px #a7a7a7;
+    padding: 2px;
     .button-inner {
         padding: 7px;
     }

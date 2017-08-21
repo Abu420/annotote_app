@@ -308,6 +308,36 @@ follows_popup {
 }
 
 page-anotote-list {
+    .fab {
+        overflow: visible;
+        contain: layout;
+        .meNote {
+            width: 22px;
+            height: 22px;
+            background: #3DDE00;
+            position: absolute;
+            right: -6px;
+            top: -5px;
+            border-radius: 50%;
+            z-index: 10;
+            padding: 0;
+            font-size: 11px;
+            line-height: 2;
+        }
+        .notiNote {
+            @extend .meNote;
+            top: auto;
+            bottom: -5px;
+            background: red;
+        }
+        .followNote {
+            @extend .meNote;
+            right: 0px;
+            top: -1px;
+            z-index: 22;
+            background: #fb9df0;
+        }
+    }
     .img-loaded+ion-spinner {
         display: none;
     } // .center in my case to make the spinner at the center
@@ -325,7 +355,8 @@ page-anotote-list {
         }
     }
     .scroll-content {
-        padding: 8px 16px 16px !important;
+        padding: 8px 20px 16px !important;
+        background: #F5F5F5;
         .item {
             padding: 0px;
             .item-inner {
@@ -350,8 +381,8 @@ page-anotote-list {
                         border-bottom: 1px solid #CCC;
                         .img-holder {
                             display: inline-block;
-                            width: 64px;
-                            height: 62px;
+                            width: 72px;
+                            height: 72px;
                             background: rgba(128, 128, 128, 0.3);
                             vertical-align: middle;
                             img {
@@ -366,8 +397,8 @@ page-anotote-list {
                         }
                         .txt {
                             vertical-align: middle;
-                            padding: 10px 10px 9px 5px;
-                            width: calc(100% - 64px);
+                            padding: 20px 10px 9px 5px;
+                            width: calc(100% - 77px);
                             position: relative;
                             display: inline-block;
                             strong {
