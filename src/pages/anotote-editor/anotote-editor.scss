@@ -300,8 +300,10 @@ page-anotote-editor {
             display: inline-block;
             text-align: center;
             color: #FFF;
-            line-height: 1.4;
-            border-radius: 3px;
+            line-height: 1.2;
+            border-radius: 4px;
+            font-size: 22px;
+            vertical-align: middle;
         }
         .highlight_quote:before {
             content: '"';
