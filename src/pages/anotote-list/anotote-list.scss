@@ -314,7 +314,7 @@ page-anotote-list {
         .meNote {
             width: 22px;
             height: 22px;
-            background: #3DDE00;
+            background: color($colors, me);
             position: absolute;
             right: -6px;
             top: -5px;
@@ -335,7 +335,22 @@ page-anotote-list {
             right: 0px;
             top: -1px;
             z-index: 22;
-            background: #fb9df0;
+            background: color($colors, follows);
+        }
+        .topNote {
+            @extend .meNote;
+            right: 0px;
+            right: -6px;
+            top: -5px;
+            z-index: 22;
+            background: color($colors, top);
+        }
+        .topAheadNote {
+            @extend .meNote;
+            right: 0px;
+            top: -1px;
+            z-index: 22;
+            background: color($colors, top);
         }
     }
     .img-loaded+ion-spinner {

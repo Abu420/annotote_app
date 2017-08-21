@@ -22,6 +22,7 @@ import { Follows } from "../follows/follows";
 import { User } from "../../models/user";
 import { AuthenticationService } from "../../services/auth.service";
 import { ChatHeads } from "../../services/pipes"
+import { NotificationService } from "../../services/notifications.service";
 
 @IonicPage()
 @Component({
@@ -69,17 +70,20 @@ export class AnototeList {
   public me_spinner: boolean = false;
   public current_active_highlight: any = null;
   public edit_highlight_text: string = '';
+  public unread_notification_count: any = 0;
 
   /**
    * Constructor
    */
-  constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, private alertCtrl: AlertController) {
+  constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, private alertCtrl: AlertController, public notificationService: NotificationService) {
     this.current_color = navParams.get('color');
     this.whichStream = navParams.get('color');
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
     this.user = authService.getUser();
     this.reorder_highlights = false;
+    var data = notificationService.get_notification_data()
+    this.unread_notification_count = data.unread;
   }
 
   /**
@@ -93,27 +97,6 @@ export class AnototeList {
       this.statusBar.backgroundColorByHexString('#f4e300');
     else
       this.statusBar.backgroundColorByHexString('#fb9df0');
-    // this.anototes = [];
-
-    // this.edit_mode = false;
-    // let anototes: Array<ListTotesModel> = [];
-
-    // this.utilityMethods.show_loader('', false);
-    // this.anototeService.fetchTotes(this.whichStream).subscribe((data) => {
-    //   let stream = data.json().data.annototes;
-    //   for (let entry of stream) {
-    //     this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
-    //   }
-    //   if (this.anototes.length == 0) {
-    //     this.has_totes = false;
-    //   }
-    //   this.utilityMethods.hide_loader();
-    // }, (error) => {
-    //   this.utilityMethods.hide_loader();
-    //   if (error.code == -1) {
-    //     this.utilityMethods.internet_connection_error();
-    //   }
-    // });
   }
 
   ionViewDidLeave() {
@@ -511,6 +494,7 @@ export class AnototeList {
 
   //generic for all three streams
   openAnototeDetail(anotote) {
+    // console.log(anotote);
     this.reorder_highlights = false;
     if (this.current_color != 'top') {
       if (!this.edit_mode) {
