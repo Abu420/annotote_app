@@ -26,12 +26,13 @@
         <div *ngIf="!_loading" class="follows_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </div>
+        <div *ngIf="no_followers_found == true" padding text-center>
+            You don't follow anyone.
+        </div>
         <ion-list no-lines class="product-list follows">
             <ion-item *ngFor="let follower of followings" (click)="showProfile(follower)">
-                <!--<div class="img-holder"><img src="assets/img/img3.jpg"></div>-->
                 <ion-avatar item-start>
-                    <img *ngIf="follower.photo == '' && follower.photo == null" src="assets/img/img3.jpg">
-                    <img *ngIf="follower.photo!=null" [src]="image_base_path+follower.photo">
+                    <img *ngIf="follower.photo == '' || follower.photo == null" src="assets/img/img3.jpg">
                     <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="follower.photo != null && follower.photo != ''" [src]="follower.photo | image_base_path">
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && follower.photo != '' && follower.photo != null"></ion-spinner>
                 </ion-avatar>

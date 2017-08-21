@@ -484,9 +484,28 @@ export class AnototeList {
   }
 
   go_to_editor() {
-    if (this.current_active_anotote != null)
+    if (this.current_active_anotote != null && this.current_color == 'me')
       this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
-    else
+    else if (this.current_active_anotote != null && (this.current_color == 'follows' || this.current_color == 'top')) {
+      var params = {
+        annotote_id: this.current_active_anotote.userAnnotote.annotote.id,
+        user_id: this.user.id,
+        created_at: this.utilityMethods.get_php_wala_time()
+      }
+      this.utilityMethods.show_loader('', false);
+      this.anototeService.save_totes(params).subscribe((result) => {
+        this.utilityMethods.hide_loader();
+        if (result.status == 1) {
+          this.utilityMethods.doToast("Saved to Me stream");
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: 'me', HIGHLIGHT_RECEIVED: null });
+        }
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    } else
       this.utilityMethods.doToast("Please select an annotote whose annotations you want to make.");
   }
 

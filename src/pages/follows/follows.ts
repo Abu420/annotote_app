@@ -21,11 +21,10 @@ import { Constants } from '../../services/constants.service';
 export class Follows {
   private followings: any;
   private _loading: boolean;
-  private image_base_path: string;
+  private no_followers_found: boolean = false;
 
   constructor(public constants: Constants, public navCtrl: NavController, public searchService: SearchService, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
     this.followings = [];
-    this.image_base_path = this.constants.IMAGE_BASEURL;
   }
 
   ionViewDidLoad() {
@@ -62,6 +61,9 @@ export class Follows {
       .subscribe((res) => {
         this._loading = true;
         this.followings = res.data.user;
+        if (this.followings.length == 0) {
+          this.no_followers_found = true;
+        }
       }, (error) => {
         this._loading = true;
       });
