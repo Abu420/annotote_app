@@ -35,6 +35,9 @@
             </ion-item>
         </div>
         <ul class="tag-list">
+            <li *ngIf="no_tags_found == true" text-center>
+                No Tags found.
+            </li>
             <li *ngFor="let tag of tags">
                 <img class="play-icon" *ngIf="tag.tagId == 1" src="assets/img/top-arrow.png" alt="">
                 <img class="play-icon" *ngIf="tag.tagId == 2" src="assets/img/icon-gray.png" alt="">

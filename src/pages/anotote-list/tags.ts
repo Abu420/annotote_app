@@ -19,11 +19,14 @@ export class TagsPopUp {
     private show_autocomplete: boolean = false;
     private one_selected: any;
     private no_user_found: boolean = false;
+    private no_tags_found: boolean = false;
 
     constructor(private utilityMethods: UtilityMethods, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
         this.tag_input = "";
         this.stream = params.get('whichStream');
         this.tags = params.get('tags');
+        if (this.tags.length == 0)
+            this.no_tags_found = true;
         this.anotation_or_anotote = params.get('annotote');
         if (this.anotation_or_anotote) {
             this.user_tote_id = params.get('user_tote_id');

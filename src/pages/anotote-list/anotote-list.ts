@@ -218,7 +218,6 @@ export class AnototeList {
         if (this.current_color != 'top') {
           this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight });
         } else {
-
           let tote = {
             active: anotote.active,
             userAnnotote: anotote.userAnnotote,
@@ -484,8 +483,11 @@ export class AnototeList {
     this.navCtrl.pop();
   }
 
-  go_to_editor(event) {
-    // this.navCtrl.push(AnototeEditor, {});
+  go_to_editor() {
+    if (this.current_active_anotote != null)
+      this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
+    else
+      this.utilityMethods.doToast("Please select an annotote whose annotations you want to make.");
   }
 
   //generic for all three streams

@@ -154,10 +154,11 @@ export class AnototeEditor implements OnDestroy {
         this.FROM = ANOTOTE_OBJECT.FROM;
         this.WHICH_STREAM = ANOTOTE_OBJECT.WHICH_STREAM
         this.which_stream = this.WHICH_STREAM;
-        if (move_to_highlight_flag)
-            this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
-        else
-            this.HIGHLIGHT_RECEIVED = null;
+        this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
+        // if (move_to_highlight_flag)
+        //     this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
+        // else
+        //     this.HIGHLIGHT_RECEIVED = null;
 
         this.ANOTOTE_LOADED = false;
         this.ANOTOTE_LOADING_ERROR = false;
