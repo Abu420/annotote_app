@@ -10,6 +10,7 @@ page-notifications {
     }
     .notifications_header {
         min-height: 45px !important;
+        box-shadow: 0 0 10px 1px #CCC;
         .toolbar-background {
             border-bottom: 0px;
             box-shadow: 0 0 20px #CCC;
@@ -28,6 +29,7 @@ page-notifications {
     }
     .scroll-content {
         padding: 0px 16px 16px !important;
+        background: #FFF;
         #wrapper {
             .notifications_spinner {
                 position: relative;
@@ -113,7 +115,9 @@ page-notifications {
                                         padding-top: 3px;
                                         img {
                                             width: 12px;
-                                            display: inline-block;
+                                            float: right;
+                                            margin-left: 5px;
+                                            margin-top: 2px;
                                             vertical-align: middle;
                                         }
                                         span {

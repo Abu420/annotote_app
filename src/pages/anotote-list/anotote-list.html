@@ -33,19 +33,19 @@
                 <img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/pinkCancel.png" alt="">
             </li>
             <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')">
-                <img src="assets/img/deleteWhite.png" alt="">
+                <img src="assets/img/deleteIcon.svg" alt="">
             </li>
             <li class="bookmark" *ngIf="current_color == 'follows' || current_color == 'top'" (tap)="confirm_popUp('bookmark')">
-                <img src="assets/img/bookmarkWhite.png" alt="">
+                <img src="assets/img/bookIcon.svg" alt="">
             </li>
             <li class="privacy" *ngIf="current_color == 'me'" (tap)="confirm_popUp('privacy')">
-                <img src="assets/img/privicyWhite.png" alt="">
+                <img src="assets/img/privacyIcon.svg" alt="">
             </li>
             <li class="followSave" *ngIf="current_color == 'follows' || current_color == 'top'" (tap)="confirm_popUp('save')">
-                <img src="assets/img/cloudWhite.png" alt="">
+                <img src="assets/img/cloudIcon.svg" alt="">
             </li>
             <li class="followSave share" (tap)="share_totes()">
-                <img src="assets/img/shareWhite.png" alt="">
+                <img src="assets/img/shareIcon.svg" alt="">
             </li>
         </ul>
     </ion-toolbar>
@@ -78,19 +78,19 @@
                         <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
                     </div>
                     <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
-                    <div class="txt" *ngIf="anotote.type == 1">
+                    <div class="txt" *ngIf="anotote.type == 1" [ngClass]="{'txtToto': edit_mode == true}">
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">
                             <em>
 								<span [innerText]="anotote.createdAt | time_stamp"></span>
                                 <button type="button">
-									<ion-icon name="menu"></ion-icon>
+									<img src="assets/img/lineIcon.svg" alt="">
 								</button>
                         	</em>
                         </div>
                         <p [innerText]="anotote.userAnnotote.annotote.source"></p>
                     </div>
-                    <div class="txt" *ngIf="anotote.type ==2">
+                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
                         <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
                         <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
                         <div class="time">
@@ -198,13 +198,13 @@
                         <img *ngIf="anotote.checked" src="assets/img/img6.png">
                     </div>
                     <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
-                    <div class="txt">
+                    <div class="txt" [ngClass]="{'txtToto': edit_mode}">
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.annotote.title"></strong>
                         <div class="time">
                             <em>
 								<span [innerText]="anotote.annotote.createdAt | time_stamp"></span>
                                 <button type="button">
-									<ion-icon name="menu"></ion-icon>
+                                    <img src="assets/img/lineIcon.svg" alt="">
 								</button>
                         	</em>
                         </div>

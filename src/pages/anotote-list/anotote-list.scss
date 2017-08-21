@@ -406,7 +406,7 @@ page-anotote-list {
                         }
                         .check {
                             float: left;
-                            padding: 15px;
+                            padding: 22px 15px 15px;
                             vertical-align: middle;
                             text-align: center;
                         }
@@ -416,6 +416,9 @@ page-anotote-list {
                             width: calc(100% - 77px);
                             position: relative;
                             display: inline-block;
+                            &.txtToto {
+                                width: calc(100% - 46px);
+                            }
                             strong {
                                 font-weight: normal;
                                 font-size: 14px;
@@ -718,15 +721,26 @@ page-anotote-list {
         overflow: hidden;
         li {
             float: right;
-            padding: 3px 9px 0;
+            padding: 6px 18px 0;
             img {
-                width: 50px;
+                width: 39px;
+            }
+            &.followSave {
+                img {
+                    width: 32px;
+                    margin-top: 1px;
+                }
+            }
+            &.delete {
+                img {
+                    width: 36px;
+                }
             }
             &.leftIcon {
                 float: left;
                 padding: 0px 3px;
                 position: absolute;
-                left: 0;
+                left: 2px;
                 top: 2px;
                 img {
                     width: 75px;
