@@ -16,7 +16,14 @@ page-front-view {
         display: block;
     }
     .scroll-content {
-        padding: 10px 16px 16px !important;
+        padding: 10px 25px 16px !important;
+        background: #F5F5F5;
+    }
+    ion-fab {
+        bottom: 30px !important;
+        .fab {
+            box-shadow: 0 4px 11px 2px #828282;
+        }
     }
     ion-buttons {
         img {
@@ -36,12 +43,13 @@ page-front-view {
     }
     .user-controls button {
         width: 100%;
-        padding: 23px 35px !important;
+        padding: 23px 20px !important;
         display: block;
         color: #0f000f;
         text-align: left;
         background: none;
         border-bottom: 1px solid #eaeaea;
+        background: #FFF;
         &:focus {
             background: #f1f1f1;
         }
@@ -49,6 +57,14 @@ page-front-view {
             width: 20px;
             display: inline-block;
             vertical-align: middle;
+        }
+        &.active {
+            .activeIcon {
+                display: inline-block;
+            }
+        }
+        .activeIcon {
+            display: none;
         }
     }
     .user-controls .item:first-child button {
@@ -62,11 +78,11 @@ page-front-view {
         color: #cbcbcb;
     }
     .user-controls button span {
-        padding-left: 18px;
+        padding-left: 22px;
         font-weight: normal;
         display: inline-block;
         vertical-align: middle;
-        font-size: 13px;
+        font-size: 15px;
     }
     .latest_totes_spinner {
         position: relative;

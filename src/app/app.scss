@@ -122,7 +122,7 @@ span.un_active_dot:after {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: #2ba600;
+    background: #6C6C6C;
     border-radius: 50%;
 }
 
@@ -202,6 +202,12 @@ button,
     padding: 0 !important;
 }
 
+.meDot {
+    span.un_active_dot:after {
+        background: #2ba600;
+    }
+}
+
 .followDot {
     span.un_active_dot:after {
         background: #e9ca00;
@@ -241,6 +247,78 @@ button,
         img {
             margin: 0px;
         }
+    }
+}
+
+//Login register and page css
+page-signup,
+page-login {
+    .scroll-content {
+        padding: 10px 25px 16px !important;
+        background: #F5F5F5;
+    }
+    .input-holder {
+        padding: 21px 20px;
+        border-bottom: 1px solid #e8e8e8;
+        overflow: hidden;
+        background: #FFF;
+        &.msgIcon {
+            .iconImg {
+                padding: 8px 0px 0;
+            }
+        }
+        &.passIcon {
+            .iconImg {
+                img {
+                    width: 20px;
+                }
+            }
+        }
+        .iconImg {
+            float: left;
+            width: 23px;
+            text-align: center;
+            margin-right: 8px;
+        }
+        &.loginIcon {
+            img {
+                width: 20px;
+            }
+        }
+        &.active {
+            background: #d9d9d9;
+            img {
+                display: none;
+            }
+            .activeIcon {
+                display: inline-block;
+            }
+        }
+        .activeIcon {
+            display: none;
+        }
+    }
+    .form-area input {
+        width: calc(100% - 36px);
+        color: #0f0f10;
+        height: 30px;
+        padding: 4px 10px;
+        margin: 0;
+        background: transparent;
+        border: 0px;
+        font-size: 18px;
+    }
+    .form-area button {
+        width: 70px;
+        height: 70px;
+        border-radius: 100%;
+        color: #fff;
+        background: #CBCBCB;
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        font-weight: normal;
+        box-shadow: 0 6px 10px 0px #a7a7a7;
     }
 }
 

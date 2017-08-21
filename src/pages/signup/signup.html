@@ -19,24 +19,33 @@
 <ion-content swipe-vertical padding>
     <div id="wrapper">
         <form (ngSubmit)="go_home()" name="login_form" class="form-area">
-            <div class="input-holder layout" [ngClass]="focus_field=='email' && !field_error.email ?'active':(field_error.email?'invalid_field':'')">
-                <ion-icon name="mail"></ion-icon>
+            <div class="input-holder msgIcon layout" [ngClass]="focus_field=='email' && !field_error.email ?'active':(field_error.email?'invalid_field':'')">
                 <input search-field selection="true" [(ngModel)]="user.email" name="email" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email" />
+                <div class="iconImg">
+                    <img src="assets/img/msgIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/msgActiveIcon.svg" alt="">
+                </div>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
-                <img src="assets/img/user.png" alt="" />
+            <div class="input-holder loginIcon layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
                 <input [(ngModel)]="user.firstName" name="firstName" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="First Name">
+                <div class="iconImg">
+                    <img src="assets/img/userIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">
+                </div>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
-                <img src="assets/img/user.png" alt="" />
-                <!--<ion-icon name="person"></ion-icon>-->
-                <!-- <ion-input [value]="user.lastName" (input)="value_updating_last_name($event.target.value)" (blur)="changeColor('')" (focus)="changeColor('last_name')" type="text" placeholder="Last Name"></ion-input> -->
+            <div class="input-holder loginIcon layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
                 <input [(ngModel)]="user.lastName" name="lastName" (blur)="changeColor('')" (focus)="changeColor('last_name')" type="text" placeholder="Last Name">
+                <div class="iconImg">
+                    <img src="assets/img/userIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">
+                </div>
             </div>
-            <div class="input-holder layout" [ngClass]="focus_field=='password'?'active':(field_error.password?'invalid_field':'')">
-                <img src="assets/img/lock.png" alt="" />
-                <!--<ion-icon name="unlock"></ion-icon>-->
+            <div class="input-holder passIcon layout" [ngClass]="focus_field=='password'?'active':(field_error.password?'invalid_field':'')">
                 <input style="background: transparent;border: 0px;" [(ngModel)]="user.password" name="password" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
+                <div class="iconImg">
+                    <img src="assets/img/lockIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
+                </div>
             </div>
             <button type="submit" [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.password.length>0)?'green':''" ion-button>Go</button>
         </form>
