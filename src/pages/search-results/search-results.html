@@ -36,13 +36,16 @@
         <ul class="search-result">
             <li (click)="showProfile(search_result)" *ngFor="let search_result of search_results; let i = index">
                 <figure *ngIf="search_result.is_tote == true">
-                    <img *ngIf="search_result.annotote.photo==null || search_result.annotote.photo==''" src="assets/img/img3.jpg">
+                    <img *ngIf="search_result.annotote.photo==null || search_result.annotote.photo==''" src="assets/img/Default.svg">
                     <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [hidden]="!loaded" [src]="search_result.annotote.photo | image_base_path">
                     <ion-spinner *ngIf="!loaded && search_result.annotote.photo != null && search_result.annotote.photo != ''"></ion-spinner>
                 </figure>
                 <figcaption *ngIf="search_result.is_tote == true">
                     <h4>Search result {{i+1}}</h4>
-                    <span>{{search_result.annotote.source}} <b>{{search_result.annotote.createdAt * 1000 | date:'shortTime'}} <ion-icon name="menu"></ion-icon></b></span>
+                    <span>
+                        <span class="searchTote">{{search_result.annotote.source}} </span>
+                    <b>{{search_result.annotote.createdAt * 1000 | date:'shortTime'}} <ion-icon name="menu"></ion-icon></b>
+                    </span>
                     <span class="excerptTxt">{{search_result.userAnnotote.fileText}}</span>
                 </figcaption>
                 <figure *ngIf="search_result.is_tote == false">

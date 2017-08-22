@@ -30,28 +30,32 @@ search-results {
         }
     }
     .searchFiels.active {
-        width: calc(100% - 20px);
+        width: calc(100% - 25px);
         opacity: 1;
     }
     .searchBtn {
         overflow: visible;
-        margin-left: 20px;
+        margin-left: 25px;
         background: #000;
         box-shadow: 0 0 10px #232323;
         &:after {
             content: "";
             position: absolute;
-            bottom: -15px;
+            bottom: -17px;
             left: 0px;
             width: 0;
             height: 0;
-            border-left: 28px solid transparent;
-            border-right: 28px solid transparent;
-            border-top: 15px solid black;
+            border-left: 33px solid transparent;
+            border-right: 33px solid transparent;
+            border-top: 18px solid black;
+        }
+        .bar-button {
+            height: 56px;
+            width: 68px;
         }
     }
     .scroll-content {
-        padding-top: 20px !important;
+        padding-top: 10px !important;
         background: #f0f0f0;
         .no_search {
             text-align: center;
@@ -83,13 +87,12 @@ search-results {
                 padding: 0px;
                 list-style: none;
                 li {
-                    border-bottom: 1px solid #CCC;
+                    border-bottom: 1px solid #e4e4e4;
                     figure {
                         display: inline-block;
                         vertical-align: middle;
-                        width: 85px;
+                        width: 72px;
                         height: 72px;
-                        padding-right: 10px;
                         margin: 0px;
                         img {
                             width: 100%;
@@ -97,7 +100,7 @@ search-results {
                     }
                     figcaption {
                         @extend figure;
-                        width: calc(100% - 90px);
+                        width: calc(100% - 77px);
                         margin: 0px;
                         padding: 5px 10px 8px 0;
                         float: none;
@@ -106,12 +109,27 @@ search-results {
                         h4 {
                             font-size: 15px;
                             color: #000;
-                            margin: 0 0 5px;
+                            margin: 0 0 7px;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 1;
+                            overflow: hidden;
                         }
                         span {
                             display: block;
                             font-size: 12px;
-                            margin: 0 0 5px;
+                            margin: 0;
+                            span {
+                                width: calc(100% - 70px);
+                                display: inline-block;
+                                text-overflow: ellipsis;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 1;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                margin-bottom: 0px;
+                            }
                             b {
                                 float: right;
                                 font-weight: normal;

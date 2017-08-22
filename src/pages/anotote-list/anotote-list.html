@@ -24,13 +24,13 @@
         </ion-buttons>
         <ul class="topList" *ngIf="edit_mode">
             <li class="leftIcon">
-                <img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/cancel.png" alt="">
+                <img *ngIf="current_color == 'me'" (tap)="close_bulk_actions()" src="assets/img/closeGreenIcon.svg" alt="">
             </li>
             <li class="followLeft leftIcon">
-                <img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/follows_cancel.png" alt="">
+                <img *ngIf="current_color == 'follows'" (tap)="close_bulk_actions()" src="assets/img/closeYellowIcon.svg" alt="">
             </li>
             <li class="leftIcon">
-                <img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/pinkCancel.png" alt="">
+                <img *ngIf="current_color == 'top'" (tap)="close_bulk_actions()" src="assets/img/closePinkIcon.svg" alt="">
             </li>
             <li class="delete" *ngIf="current_color == 'me'" (tap)="confirm_popUp('delete')">
                 <img src="assets/img/deleteIcon.svg" alt="">
@@ -57,18 +57,18 @@
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
                     <div *ngIf="!anotote.active && anotote.type == 1 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder">
-                        <img src="assets/img/img1.png" *ngIf="anotote.userAnnotote.annotote.photo == null || anotote.userAnnotote.annotote.photo == ''">
+                        <img src="assets/img/Default.svg" *ngIf="anotote.userAnnotote.annotote.photo == null || anotote.userAnnotote.annotote.photo == ''">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != ''" [src]="anotote.userAnnotote.annotote.photo">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.userAnnotote.annotote.photo != '' && anotote.userAnnotote.annotote.photo != null"></ion-spinner>
                     </div>
                     <!-- Images for chat totes -->
                     <div *ngIf="!anotote.active && anotote.type == 2 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder">
                         <!-- For picture of first group member, if he is not the current logged in user -->
-                        <img src="assets/img/img1.png" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo == null || anotote.chatGroup.groupUsers[0].user.photo == '')">
+                        <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo == null || anotote.chatGroup.groupUsers[0].user.photo == '')">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null || anotote.chatGroup.groupUsers[0].user.photo != '')" [src]="anotote.chatGroup.groupUsers[0].user.photo | image_base_path">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null || anotote.chatGroup.groupUsers[0].user.photo != '')"></ion-spinner>
                         <!-- For picture of second group member, if he is not the current logged in user -->
-                        <img src="assets/img/img1.png" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo == null || anotote.chatGroup.groupUsers[1].user.photo == '')">
+                        <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo == null || anotote.chatGroup.groupUsers[1].user.photo == '')">
                         <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null || anotote.chatGroup.groupUsers[1].user.photo != '')" [hidden]="!loaded" [src]="anotote.chatGroup.groupUsers[1].user.photo | image_base_path">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null || anotote.chatGroup.groupUsers[1].user.photo != '')"></ion-spinner>
                     </div>
@@ -189,7 +189,7 @@
             <ion-item *ngFor="let anotote of top_anototes">
                 <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
                     <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder">
-                        <img src="assets/img/img1.png" *ngIf="anotote.annotote.photo == null || anotote.annotote.photo == ''">
+                        <img src="assets/img/Default.svg" *ngIf="anotote.annotote.photo == null || anotote.annotote.photo == ''">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.annotote.photo != null && anotote.annotote.photo != ''" [src]="anotote.annotote.photo">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.annotote.photo != '' && anotote.annotote.photo != null"></ion-spinner>
                     </div>

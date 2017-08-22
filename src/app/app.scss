@@ -441,6 +441,15 @@ search_page {
             padding: 0px 0px 16px !important;
             .searchFilter {
                 padding: 0px;
+                &.searchIcon {
+                    >.item-inner {
+                        ion-label {
+                            >span {
+                                border-bottom: 0px;
+                            }
+                        }
+                    }
+                }
                 >.item-inner {
                     padding: 0px;
                     ion-label {
@@ -461,13 +470,12 @@ search_page {
                             margin: 18px 0 16px 15px;
                             display: table-cell;
                             vertical-align: middle;
-                            opacity: .35;
                         }
                         >span {
                             padding: 20px 10px;
                             display: table-cell;
                             vertical-align: middle;
-                            border-bottom: 1px solid #CCC;
+                            border-bottom: 1px solid #e8e8e8;
                             width: 80%;
                             color: #ababab;
                         }
@@ -487,7 +495,7 @@ search_page {
                     ion-label {
                         display: block;
                         width: 100%;
-                        padding: 2% 5%;
+                        padding: 9px 20px;
                         margin: 0px;
                         overflow: hidden;
                         figure {
@@ -511,9 +519,9 @@ search_page {
                         }
                         >figcaption {
                             @extend figure;
-                            width: 80%;
+                            width: calc(100% - 40px);
                             margin: 0px;
-                            padding: 0px 0 8px;
+                            padding: 0px 15px 17px 0;
                             border-bottom: 1px solid #CCC;
                             float: none;
                             height: auto;
@@ -527,6 +535,7 @@ search_page {
                                 font-size: 12px;
                                 &.rightContent {
                                     float: right;
+                                    margin-top: 5px;
                                     .lines {
                                         margin-left: 5px;
                                     }

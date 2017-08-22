@@ -24,14 +24,14 @@ create_anotation_popup {
             min-height: 100px;
         }
         ._buttons {
-            height: 40px;
+            height: 50px;
             width: 100%;
             display: block;
             overflow: hidden;
             .close {
                 width: calc(100%/3);
                 height: $bar_button_custom_height;
-                background-image: url(../assets/img/cross.png);
+                background-image: url(../assets/img/croseIcon.svg);
                 display: inline-block;
                 background-size: 20px;
                 margin: 0px;
@@ -42,7 +42,7 @@ create_anotation_popup {
             }
             .share {
                 @extend .close;
-                background-image: url(../assets/img/shareC.png);
+                background-image: url(../assets/img/shareIcon.svg);
                 background-size: 25px;
             }
             .shareBtn {
@@ -79,12 +79,17 @@ comment_detail_popup {
         background: #313131;
         overflow: hidden;
     }
-    .pop_heading .col {
-        width: 33.3%;
-        display: inline-block;
-        vertical-align: top;
-        text-align: center;
-        letter-spacing: 0;
+    .pop_heading {
+        .col {
+            width: 33.3%;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            letter-spacing: 0;
+            img {
+                width: 28px;
+            }
+        }
     }
     .pop_heading ion-icon {
         display: inline-block;
@@ -203,7 +208,7 @@ page-anotote-editor {
         .quote {
             width: calc(100%/3);
             height: $bar_button_custom_height;
-            background-image: url(../assets/img/quote.png);
+            background-image: url(../assets/img/quoteIcon.svg);
             display: inline-block;
             background-size: 30px;
             margin: 0px;
@@ -214,12 +219,12 @@ page-anotote-editor {
         }
         .comment {
             @extend .quote;
-            background-image: url(../assets/img/comment.png);
+            background-image: url(../assets/img/commentWhiteIcon.svg);
             background-size: 45px;
         }
         .cross {
             @extend .quote;
-            background-image: url(../assets/img/shareC.png);
+            background-image: url(../assets/img/shareIcon.svg);
         }
     }
 }

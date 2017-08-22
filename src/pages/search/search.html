@@ -15,11 +15,11 @@
             <ion-spinner name="ios"></ion-spinner>
         </ion-item>
         <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
-            <img src="assets/img/shareBlack.png" alt="" />
+            <img src="assets/img/simpleShare.svg" alt="" />
             <span>Share this link (enter)</span>
         </ion-item>
-        <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter">
-            <img src="assets/img/searchIcon.png" alt="" />
+        <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter searchIcon">
+            <img src="assets/img/searchIcon.svg" alt="" />
             <span>New search or address</span>
         </ion-item>
         <!-- <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">

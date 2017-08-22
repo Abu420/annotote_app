@@ -9,15 +9,16 @@
 </style>
 <g>
 	<g>
-		<defs>
-			<rect id="SVGID_1_" width="46.5" height="65.8"/>
-		</defs>
-		<clipPath id="SVGID_2_">
-			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-		</clipPath>
-		<g class="st0">
-			
-				<image style="overflow:visible;enable-background:new    ;" width="147" height="205" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJMAAADNCAYAAAC8YUKSAAAACXBIWXMAACHVAAAh1QEEnLSdAAAA
+		<g>
+			<defs>
+				<rect id="SVGID_1_" width="46.5" height="65.8"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+			</clipPath>
+			<g class="st0">
+				
+					<image style="overflow:visible;enable-background:new    ;" width="147" height="205" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJMAAADNCAYAAAC8YUKSAAAACXBIWXMAACHVAAAh1QEEnLSdAAAA
 GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAC0JJREFUeNrsnYmOg7gSRW3D/P8H
 N+DRSInk51erF5Zwr2SFJN3pYA63ymVDhwBBEARBEARBEARB0IsVX/I336z8SwcW8LwErngDiADb
 dbDku8MUAdjtwMlnQBVPgCh2vAb1gZUd4OS7wGSBIxq2AdYYZ8rO7SFQxQkgadBwj4BpvBtl5dHr
@@ -70,7 +71,8 @@ qa27sv7bDgtA+ckQ/QpMPS5lvT2i5V5SnhUJjyhAvhWmFpcKCkgh2FaEWlYtWN3o0SD9Gkwel+LC
 YAh9C/ZeCdGvwuR1KcujBpMHnp/+R4y//O9JtQV4FsCs5YqWexzlN3Q4oNL7x3LrHwmY/JaOftN+
 RufPtVze/vMQfbWEdyl2nli58f389s5983733OT1dRC9HabZ+5/RmQALAEGngIYTD4IgCIIgCIIg
 CIIgCIIg6En6V4ABAIaDhd4mbWY7AAAAAElFTkSuQmCC" transform="matrix(0.3162 0 0 0.3209 0 0)">
-			</image>
+				</image>
+			</g>
 		</g>
 	</g>
 </g>
