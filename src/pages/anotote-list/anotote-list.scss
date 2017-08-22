@@ -8,6 +8,22 @@
     background: rgba(0, 0, 0, 0.5);
 }
 
+view_options {
+    .top_empty_box {
+        height: calc(100% - 44%);
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .content_follows_profile {
+        height: calc(100% - 56%);
+        background: #FFF;
+    }
+    .notiFaction {
+        &:after {
+            display: none;
+        }
+    }
+}
+
 .sharing_pop {
     ion-item {
         padding: 3vw 20px;
