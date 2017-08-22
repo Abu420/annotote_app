@@ -16,7 +16,7 @@
                 <span>Twitter</span>
             </li>
             <li class="tabOption" (tap)="share('all')">
-                <img src="assets/img/option-msg.png" />
+                <img src="assets/img/dotsOption.svg" />
             </li>
         </ul>
     </div>
@@ -33,8 +33,8 @@
                     <span>{{tag.tagText}}</span>
                 </li>
             </ng-container>
-            <li (tap)="presentTagsModal()">
-                <ion-icon name="more"></ion-icon>
+            <li class="tabOption" (tap)="presentTagsModal()">
+                <img src="assets/img/dotsOption.svg" />
             </li>
         </ul>
     </div>
