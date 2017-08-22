@@ -218,14 +218,14 @@ tags_popup {
 
 anotote_options {
     .top_empty_box {
-        height: calc(100% - 43%);
+        height: calc(100% - 55%);
     }
     .content_follows_profile {
-        height: calc(100% - 56.5%);
+        height: calc(100% - 43%);
         background: #FFF;
         padding-top: 10px;
         .sharing_pop {
-            padding: 0 10px 10px;
+            padding: 0 0px 0px 15px;
             &.four {
                 ul {
                     border-bottom: 0px;
@@ -236,24 +236,39 @@ anotote_options {
                 vertical-align: middle;
                 width: 60px;
                 text-align: center;
+                padding: 10px 12px;
                 img {
                     width: 45px;
-                    opacity: .4;
                 }
             }
             ul {
                 display: inline-block;
                 vertical-align: middle;
-                width: calc(100% - 22%);
+                width: calc(100% - 65px);
                 margin: 0px;
-                padding: 12px 0 20px;
+                padding: 28px 30px 28px 0;
                 list-style: none;
                 border-bottom: 1px solid #CCC;
                 li {
-                    display: table-cell;
-                    padding: 0 10px;
+                    float: left;
+                    padding: 0 2.4vw;
                     vertical-align: middle;
                     color: #797979;
+                    &.tabOption {
+                        padding: 0 7px;
+                        text-align: right;
+                        float: right;
+                        img {
+                            width: 36px;
+                        }
+                    }
+                }
+            }
+            &.three {
+                ul {
+                    li {
+                        padding: 0 1.5vw;
+                    }
                 }
             }
         }
