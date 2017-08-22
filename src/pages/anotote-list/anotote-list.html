@@ -258,13 +258,22 @@
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <ion-fab bottom right>
+    <ion-fab bottom right *ngIf="current_color != 'top'">
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
             <img src="assets/img/tot_icon_white.png" />
             <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote':current_active_anotote.isTop && current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
             <span class="notiNote" *ngIf="unread_notification_count != 0">{{unread_notification_count}}</span>
             <span [ngClass]="{'followNote': current_active_anotote.followers.length > 0 && (current_active_anotote.active_tab == 'me' || current_active_anotote.active_tab == 'top')}" *ngIf="current_active_anotote != null && current_active_anotote.followers.length > 0 && current_active_anotote.active_tab != 'follows'">{{current_active_anotote.followers.length}}</span>
             <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null && current_active_anotote.isTop == true"></span>
+        </button>
+    </ion-fab>
+    <ion-fab bottom right *ngIf="current_color == 'top'">
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
+            <img src="assets/img/tot_icon_white.png" />
+            <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote': current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
+            <span class="notiNote" *ngIf="unread_notification_count != 0">{{unread_notification_count}}</span>
+            <span [ngClass]="{'followNote': current_active_anotote.follows.length > 0 && (current_active_anotote.active_tab == 'me' || current_active_anotote.active_tab == 'top')}" *ngIf="current_active_anotote != null && current_active_anotote.follows.length > 0 && current_active_anotote.active_tab != 'follows'">{{current_active_anotote.follows.length}}</span>
+            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null"></span>
         </button>
     </ion-fab>
 </ion-content>

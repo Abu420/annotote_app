@@ -467,34 +467,41 @@ export class AnototeList {
   }
 
   go_to_editor() {
-    if (this.current_active_anotote != null && this.current_color == 'me')
-      this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
-    else if (this.current_active_anotote != null && (this.current_color == 'follows' || this.current_color == 'top')) {
-      var params = {
-        annotote_id: this.current_active_anotote.userAnnotote.annotote.id,
-        user_id: this.user.id,
-        created_at: this.utilityMethods.get_php_wala_time()
+    if (this.current_active_anotote != null && this.current_color == 'me') {
+      if (this.current_active_anotote.userAnnotote.filePath != '')
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
+      else
+        this.utilityMethods.doToast("Couldn't load as no file was found.");
+    } else if (this.current_active_anotote != null && (this.current_color == 'follows' || this.current_color == 'top')) {
+      if (this.current_active_anotote.userAnnotote.filePath != '') {
+        var params = {
+          annotote_id: this.current_active_anotote.userAnnotote.annotote.id,
+          user_id: this.user.id,
+          created_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.utilityMethods.show_loader('', false);
+        this.anototeService.save_totes(params).subscribe((result) => {
+          this.utilityMethods.hide_loader();
+          if (result.status == 1) {
+            this.utilityMethods.doToast("Saved to Me stream");
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: 'me', HIGHLIGHT_RECEIVED: null });
+          }
+        }, (error) => {
+          this.utilityMethods.hide_loader();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        })
+      } else {
+        this.utilityMethods.doToast("Couldn't load as no file was found.");
       }
-      this.utilityMethods.show_loader('', false);
-      this.anototeService.save_totes(params).subscribe((result) => {
-        this.utilityMethods.hide_loader();
-        if (result.status == 1) {
-          this.utilityMethods.doToast("Saved to Me stream");
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: 'me', HIGHLIGHT_RECEIVED: null });
-        }
-      }, (error) => {
-        this.utilityMethods.hide_loader();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      })
+
     } else
       this.utilityMethods.doToast("Please select an annotote whose annotations you want to make.");
   }
 
   //generic for all three streams
   openAnototeDetail(anotote) {
-    // console.log(anotote);
     this.reorder_highlights = false;
     if (this.current_color != 'top') {
       if (!this.edit_mode) {
@@ -806,7 +813,10 @@ export class AnototeList {
 
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
-    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, null);
+    var params = {
+      anotote: anotote
+    }
+    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
         var params = {
