@@ -111,11 +111,11 @@ tags_popup {
     .tag-panel {
         height: 100%;
         .top_empty_box {
-            height: 45%;
+            height: calc(100vh - 45%);
             background: rgba(0, 0, 0, .6);
         }
         .tags-panel {
-            height: 65%;
+            height: calc(100vh - 55%);
             background: #FFF;
             h3 {
                 text-align: center;
@@ -193,7 +193,7 @@ tags_popup {
                 margin: 0px;
                 list-style: none;
                 padding: 5px 15px 15px;
-                height: calc(65% - 70px);
+                height: calc(100% - 109px);
                 overflow: auto;
                 li {
                     display: block;
@@ -211,6 +211,10 @@ tags_popup {
                         width: calc(100% - 35px);
                     }
                 }
+            }
+            .tag_list_anotote {
+                @extend .tag-list;
+                height: calc(65% - 30px);
             }
         }
     }

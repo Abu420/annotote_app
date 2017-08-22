@@ -25,12 +25,14 @@
             <img src="assets/img/tagIcon.png" />
         </div>
         <ul>
-            <li>
-                <span>Technology</span>
+            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0">
+                <span>No tags added.</span>
             </li>
-            <li>
-                <span>Geopolitics</span>
-            </li>
+            <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
+                <li *ngIf="i < 2">
+                    <span>{{tag.tagText}}</span>
+                </li>
+            </ng-container>
             <li (tap)="presentTagsModal()">
                 <ion-icon name="more"></ion-icon>
             </li>

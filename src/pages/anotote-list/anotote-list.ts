@@ -502,6 +502,7 @@ export class AnototeList {
 
   //generic for all three streams
   openAnototeDetail(anotote) {
+    console.log(anotote);
     this.reorder_highlights = false;
     if (this.current_color != 'top') {
       if (!this.edit_mode) {

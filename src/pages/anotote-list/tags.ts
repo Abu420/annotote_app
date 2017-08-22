@@ -44,6 +44,8 @@ export class TagsPopUp {
                     this.utilityMethods.hide_loader();
                     this.tags.push(res.data.annotote_tag);
                     this.tag_input = '';
+                    if (this.tags.length > 0)
+                        this.no_tags_found = false;
                 }, (error) => {
                     this.utilityMethods.hide_loader();
                     if (error.code == -1) {
@@ -67,6 +69,8 @@ export class TagsPopUp {
                 this.utilityMethods.hide_loader();
                 this.tags.push(result.data.annotation_tag);
                 this.tag_input = '';
+                if (this.tags.length > 0)
+                    this.no_tags_found = false;
             }, (error) => {
                 this.utilityMethods.hide_loader();
                 if (error.code == -1) {
