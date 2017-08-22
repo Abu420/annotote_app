@@ -117,6 +117,11 @@ tags_popup {
         .tags-panel {
             height: calc(100vh - 55%);
             background: #FFF;
+            &.tagTypes {
+                .tag-list {
+                    height: calc(100% - 153px);
+                }
+            }
             h3 {
                 text-align: center;
                 padding: 15px 0px;

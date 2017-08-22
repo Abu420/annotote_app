@@ -1,7 +1,7 @@
 <div class="tag-panel">
     <div class="top_empty_box" (tap)="dismiss()">
     </div>
-    <div class="tags-panel">
+    <div class="tags-panel" [ngClass]="{'tagTypes': anotation_or_anotote == false}">
         <h3>Tags</h3>
         <div class="tag_input" *ngIf="stream == 'me'">
             <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" />
