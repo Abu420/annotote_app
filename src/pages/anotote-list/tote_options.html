@@ -26,7 +26,7 @@
         </div>
         <ul>
             <li *ngIf="anotote.userAnnotote.annototeTags.length == 0">
-                <span>No tags added.</span>
+                <span>No tags added</span>
             </li>
             <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
                 <li *ngIf="i < 2">
@@ -43,11 +43,11 @@
             <img src="assets/img/privacyIconGray.svg" />
         </div>
         <ul>
-            <li>
-                <span>Public</span>
+            <li (click)="chnage_privacy('public')">
+                <span [ngClass]="{'high': anotote.userAnnotote.privacy == 0}">Public</span>
             </li>
-            <li>
-                <span>Private</span>
+            <li (click)="chnage_privacy('private')">
+                <span [ngClass]="{'high': anotote.userAnnotote.privacy == 1}">Private</span>
             </li>
         </ul>
     </div>

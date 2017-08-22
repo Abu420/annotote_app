@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
+import { AnototeService } from "../../services/anotote.service";
 @Component({
   selector: 'anotote_options',
   templateUrl: 'tote_options.html',
@@ -11,7 +12,7 @@ export class AnototeOptions {
   public share_content: string;
   public anotote: any;
 
-  constructor(public utilityMethods: UtilityMethods, params: NavParams, public viewCtrl: ViewController) {
+  constructor(public utilityMethods: UtilityMethods, params: NavParams, public viewCtrl: ViewController, public anototeService: AnototeService) {
     this.share_type = params.get('share_type');
     this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
@@ -30,6 +31,44 @@ export class AnototeOptions {
       this.utilityMethods.share_via_twitter("Anotote", "", this.anotote.userAnnotote.filePath);
     else
       this.utilityMethods.share_content_native("Anotote", null, null, this.anotote.userAnnotote.filePath);
+  }
+
+  chnage_privacy(privacy) {
+    if (privacy == 'public') {
+      if (this.anotote.userAnnotote.privacy != 0) {
+        var params = {
+          userAnnotote_ids: this.anotote.userAnnotote.id,
+          privacy: 0
+        }
+      } else {
+        this.utilityMethods.doToast("Anotote is already public.");
+        return;
+      }
+    } else if (privacy == 'private') {
+      if (this.anotote.userAnnotote.privacy != 1) {
+        var params = {
+          userAnnotote_ids: this.anotote.userAnnotote.id,
+          privacy: 1
+        }
+      } else {
+        this.utilityMethods.doToast("Anotote is already private.");
+        return;
+      }
+    }
+    this.utilityMethods.show_loader('', false);
+    this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
+      this.utilityMethods.hide_loader();
+      if (privacy == 'public')
+        this.anotote.userAnnotote.privacy = 0;
+      else
+        this.anotote.userAnnotote.privacy = 1;
+    }, (error) => {
+      this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    })
+
   }
 
   dismiss(data) {

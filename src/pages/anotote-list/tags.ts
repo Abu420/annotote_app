@@ -103,7 +103,7 @@ export class TagsPopUp {
                     this.no_user_found = true;
                 }
             }, (error) => {
-                this.search_user = true;
+                this.search_user = false;
                 this.show_autocomplete = true;
                 this.no_user_found = false;
                 if (error.code == -1) {
