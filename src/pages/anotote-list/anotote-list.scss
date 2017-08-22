@@ -217,10 +217,6 @@ tags_popup {
                     }
                 }
             }
-            .tag_list_anotote {
-                @extend .tag-list;
-                height: calc(65% - 30px);
-            }
         }
     }
 }
@@ -236,6 +232,9 @@ anotote_options {
         .sharing_pop {
             padding: 0 0px 0px 15px;
             &.four {
+                .main_label {
+                    padding: 17px;
+                }
                 ul {
                     border-bottom: 0px;
                 }
@@ -268,7 +267,7 @@ anotote_options {
                         text-align: right;
                         float: right;
                         img {
-                            width: 36px;
+                            width: 28px;
                         }
                     }
                     .high {
@@ -280,6 +279,14 @@ anotote_options {
                 ul {
                     li {
                         padding: 0 1.5vw;
+                        span {
+                            width: 21vw;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 1;
+                            overflow: hidden;
+                        }
                     }
                 }
             }
