@@ -3,7 +3,7 @@
 <div class="content_follows_profile">
     <div no-lines class="sharing_pop bottom-border">
         <div class="main_label">
-            <img src="assets/img/shareIcon.png" />
+            <img src="assets/img/shareIconGray.svg" />
         </div>
         <ul>
             <li (tap)="share('facebook')">
@@ -15,14 +15,14 @@
             <li (tap)="share('twitter')">
                 <span>Twitter</span>
             </li>
-            <li (tap)="share('all')">
-                <ion-icon name="more"></ion-icon>
+            <li class="tabOption" (tap)="share('all')">
+                <img src="assets/img/option-msg.png" />
             </li>
         </ul>
     </div>
     <div *ngIf="share_type!='search'" no-lines class="sharing_pop three bottom-border">
         <div class="main_label">
-            <img src="assets/img/tagIcon.png" />
+            <img src="assets/img/hashIconGray.svg" />
         </div>
         <ul>
             <li *ngIf="anotote.userAnnotote.annototeTags.length == 0">
@@ -40,7 +40,7 @@
     </div>
     <div *ngIf="share_type!='search'" no-lines class="sharing_pop two bottom-border">
         <div class="main_label">
-            <img src="assets/img/privacyIcon.png" />
+            <img src="assets/img/privacyIconGray.svg" />
         </div>
         <ul>
             <li>
@@ -53,7 +53,7 @@
     </div>
     <div *ngIf="share_type!='search'" no-lines class="sharing_pop four bottom-border">
         <div class="main_label">
-            <img src="assets/img/deleteIcon.png" />
+            <img src="assets/img/deleteIconGray.svg" />
         </div>
         <ul>
             <li>
