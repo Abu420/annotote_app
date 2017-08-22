@@ -33,28 +33,40 @@ export class AnototeOptions {
       this.utilityMethods.share_content_native("Anotote", null, null, this.anotote.userAnnotote.filePath);
   }
 
-  chnage_privacy(privacy) {
+  change_privacy(privacy) {
     if (privacy == 'public') {
       if (this.anotote.userAnnotote.privacy != 0) {
-        var params = {
-          userAnnotote_ids: this.anotote.userAnnotote.id,
-          privacy: 0
-        }
+        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to public?", () => {
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            privacy: 0
+          }
+          this.privacy(params, privacy);
+        })
+
       } else {
         this.utilityMethods.doToast("Anotote is already public.");
         return;
       }
     } else if (privacy == 'private') {
       if (this.anotote.userAnnotote.privacy != 1) {
-        var params = {
-          userAnnotote_ids: this.anotote.userAnnotote.id,
-          privacy: 1
-        }
+        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to private?", () => {
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            privacy: 1
+          }
+          this.privacy(params, privacy);
+        })
       } else {
         this.utilityMethods.doToast("Anotote is already private.");
         return;
       }
     }
+
+
+  }
+
+  privacy(params, privacy) {
     this.utilityMethods.show_loader('', false);
     this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
@@ -68,7 +80,6 @@ export class AnototeOptions {
         this.utilityMethods.internet_connection_error();
       }
     })
-
   }
 
   dismiss(data) {

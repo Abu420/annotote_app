@@ -43,10 +43,10 @@
             <img src="assets/img/privacyIconGray.svg" />
         </div>
         <ul>
-            <li (click)="chnage_privacy('public')">
+            <li (click)="change_privacy('public')">
                 <span [ngClass]="{'high': anotote.userAnnotote.privacy == 0}">Public</span>
             </li>
-            <li (click)="chnage_privacy('private')">
+            <li (click)="change_privacy('private')">
                 <span [ngClass]="{'high': anotote.userAnnotote.privacy == 1}">Private</span>
             </li>
         </ul>
