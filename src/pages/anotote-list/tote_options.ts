@@ -8,16 +8,17 @@ import { AnototeService } from "../../services/anotote.service";
 })
 export class AnototeOptions {
 
-  public share_type: any;
-  public share_content: string;
+  // public share_type: any;
+  // public share_content: string;
   public anotote: any;
+  public stream: any;
 
   constructor(public utilityMethods: UtilityMethods, params: NavParams, public viewCtrl: ViewController, public anototeService: AnototeService) {
-    this.share_type = params.get('share_type');
-    this.share_content = params.get('share_content');
+    // this.share_type = params.get('share_type');
+    // this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
+    this.stream = params.get('whichStream');
     console.log(this.anotote);
-
   }
 
   presentTagsModal() {

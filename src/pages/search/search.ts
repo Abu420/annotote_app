@@ -143,13 +143,14 @@ export class Search {
     }
 
     show_share_options() {
-        let toteOptions = this.modalCtrl.create(AnototeOptions, {
-            share_content: this.current_url,
-            share_type: 'search'
-        });
-        toteOptions.onDidDismiss(data => {
-        });
-        toteOptions.present();
+        // let toteOptions = this.modalCtrl.create(AnototeOptions, {
+        //     share_content: this.current_url,
+        //     share_type: 'search'
+        // });
+        // toteOptions.onDidDismiss(data => {
+        // });
+        // toteOptions.present();
+        this.utilityMethods.share_content_native("Anotote", null, null, this.current_url);
     }
 
     clear_deep_link() {

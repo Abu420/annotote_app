@@ -1,9 +1,9 @@
-<div class="top_empty_box" (tap)="dismiss()">
+<div [ngClass]="anotote != null ? 'top_empty_box':'top_empty_no_tote'" class="top_empty_box" (tap)="dismiss()">
 </div>
-<div class="content_follows_profile">
+<div [ngClass]="{'content_follows_profile': anotote != null}">
     <!--<div class="pop_heading">Settings</div>-->
     <ion-list no-lines class="sharing_pop bottom-border">
-        <ion-item>
+        <ion-item *ngIf="anotote != null && (anotote.isMe == 1 || stream == 'me')" [ngClass]="{'active': anotote.active_tab == 'me'}" (click)="change_tab('me')">
             <div class="aling-left">
                 <img src="assets/img/check2.png">
             </div>
@@ -11,16 +11,29 @@
                 <span>Me</span>
             </div>
         </ion-item>
-        <ion-item>
-            <div class="aling-left">
-                <img src="assets/img/img5.png">
-            </div>
-            <div class="txt">
-                <span>Follows</span>
-                <p>Chantel Bardao + 2 others</p>
-            </div>
-        </ion-item>
-        <ion-item>
+        <ng-container *ngIf="stream != 'top'">
+            <ion-item *ngIf="anotote != null && anotote.followers.length > 0" [ngClass]="{'active': anotote.active_tab == 'follows'}" (click)="change_tab('follows')">
+                <div class="aling-left">
+                    <img src="assets/img/img5.png">
+                </div>
+                <div class="txt">
+                    <span>Follows</span>
+                    <p> {{anotote.followers[0].firstName}} {{anotote.followers[0].lastName}} <i *ngIf="anotote.followers.length > 1">+ {{anotote.followers.length - 1}} others</i></p>
+                </div>
+            </ion-item>
+        </ng-container>
+        <ng-container *ngIf="stream == 'top'">
+            <ion-item *ngIf="anotote != null && anotote.follows.length > 0 " [ngClass]="{'active': anotote.active_tab == 'follows'}" (click)="change_tab('follows')">
+                <div class="aling-left">
+                    <img src="assets/img/img5.png">
+                </div>
+                <div class="txt">
+                    <span>Follows</span>
+                    <p> {{anotote.follows[0].firstName}} {{anotote.follows[0].lastName}} <i *ngIf="anotote.follows.length > 1">+ {{anotote.follows.length - 1}} others</i></p>
+                </div>
+            </ion-item>
+        </ng-container>
+        <ion-item *ngIf="anotote != null && (anotote.isTop == 1 || stream == 'top')" [ngClass]="{'active': anotote.active_tab == 'top'}" (click)="change_tab('top')">
             <div class="aling-left">
                 <img src="assets/img/img6.png">
             </div>

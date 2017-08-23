@@ -814,19 +814,32 @@ export class AnototeList {
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
     var params = {
-      anotote: anotote
+      anotote: anotote,
+      whichStream: this.current_color
     }
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
-        var params = {
-          user_tote_id: anotote.userAnnotote.id,
-          tags: anotote.userAnnotote.annototeTags,
-          whichStream: this.current_color,
-          annotote: true
+        if (this.current_color != 'top') {
+          var params = {
+            user_tote_id: anotote.userAnnotote.id,
+            tags: anotote.userAnnotote.annototeTags,
+            whichStream: this.current_color,
+            annotote: true
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+          tagsModal.present();
+        } else if (this.current_color == 'top') {
+          var params = {
+            user_tote_id: anotote.userAnnotote.id,
+            tags: anotote.tags,
+            whichStream: this.current_color,
+            annotote: true
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+          tagsModal.present();
         }
-        let tagsModal = this.modalCtrl.create(TagsPopUp, params);
-        tagsModal.present();
+
       } else if (data.delete == true) {
         this.current_active_anotote = null;
         this.anototes.splice(this.anototes.indexOf(anotote), 1);
@@ -859,7 +872,21 @@ export class AnototeList {
   }
 
   presentViewOptionsModal() {
-    let viewsOptionsModal = this.modalCtrl.create(ViewOptions, null);
+    var params = {
+      anotote: this.current_active_anotote,
+      stream: this.current_color
+    }
+    let viewsOptionsModal = this.modalCtrl.create(ViewOptions, params);
+    viewsOptionsModal.onDidDismiss((preference) => {
+      if (preference.tab_selected == 'me')
+        this.showMeHighlights(this.current_active_anotote);
+      else if (preference.tab_selected == 'follows' && this.current_color != 'top')
+        this.open_follows_popup(event, this.current_active_anotote);
+      else if (preference.tab_selected == 'follows' && this.current_color == 'top')
+        this.top_follows_popup(event, this.current_active_anotote);
+      else if (preference.tab_selected == 'top')
+        this.show_top_tab(this.current_active_anotote);
+    })
     viewsOptionsModal.present();
   }
 

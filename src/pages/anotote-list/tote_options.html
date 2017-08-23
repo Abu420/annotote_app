@@ -20,11 +20,11 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="share_type!='search'" no-lines class="sharing_pop three bottom-border">
+    <div no-lines class="sharing_pop three bottom-border">
         <div class="main_label">
             <img src="assets/img/hashIconGray.svg" />
         </div>
-        <ul>
+        <ul *ngIf="stream != 'top'">
             <li *ngIf="anotote.userAnnotote.annototeTags.length == 0">
                 <span>No tags added</span>
             </li>
@@ -37,8 +37,21 @@
                 <img src="assets/img/dotsOption.svg" />
             </li>
         </ul>
+        <ul *ngIf="stream == 'top'">
+            <li *ngIf="anotote.tags.length == 0">
+                <span>No tags added</span>
+            </li>
+            <ng-container *ngFor="let tag of anotote.tags; let i=index">
+                <li *ngIf="i < 2">
+                    <span>{{tag.tagText}}</span>
+                </li>
+            </ng-container>
+            <li class="tabOption" (tap)="presentTagsModal()">
+                <img src="assets/img/dotsOption.svg" />
+            </li>
+        </ul>
     </div>
-    <div *ngIf="share_type!='search'" no-lines class="sharing_pop two bottom-border">
+    <div *ngIf="stream == 'me'" no-lines class="sharing_pop two bottom-border">
         <div class="main_label">
             <img src="assets/img/privacyIconGray.svg" />
         </div>
@@ -51,7 +64,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="share_type!='search'" no-lines class="sharing_pop four bottom-border">
+    <div *ngIf="stream == 'me'" no-lines class="sharing_pop four bottom-border">
         <div class="main_label">
             <img src="assets/img/deleteIconGray.svg" />
         </div>

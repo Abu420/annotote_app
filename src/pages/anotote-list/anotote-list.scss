@@ -13,6 +13,10 @@ view_options {
         height: calc(100% - 44%);
         background: rgba(0, 0, 0, 0.5);
     }
+    .top_empty_no_tote {
+        @extend .top_empty_box;
+        height: 90%;
+    }
     .content_follows_profile {
         height: calc(100% - 56%);
         background: #FFF;
@@ -86,6 +90,12 @@ view_options {
                     }
                 }
             }
+        }
+    }
+    .active {
+        background: #e0e0e0;
+        &:after {
+            border-bottom: none;
         }
     }
 }
