@@ -16,10 +16,12 @@ export class AnototeOptions {
     this.share_type = params.get('share_type');
     this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
+    console.log(this.anotote);
+
   }
 
   presentTagsModal() {
-    this.dismiss({ tags: true, share: false, which_share: '' });
+    this.dismiss({ tags: true, share: false, which_share: '', delete: false });
   }
 
   share(which) {
@@ -82,11 +84,35 @@ export class AnototeOptions {
     })
   }
 
+  delete_anotote() {
+    this.utilityMethods.confirmation_message('Are you sure?', 'Do you really want to delete this anotote?', () => {
+      var params = {
+        userAnnotote_ids: this.anotote.userAnnotote.id,
+        delete: 1
+      }
+      this.utilityMethods.show_loader('');
+      this.anototeService.delete_bulk_totes(params).subscribe((result) => {
+        this.utilityMethods.hide_loader();
+        this.utilityMethods.doToast("Anotote deleted successfully.");
+        var params = {
+          tags: false,
+          delete: true
+        }
+        this.dismiss(params);
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    })
+  }
+
   dismiss(data) {
     if (data)
       this.viewCtrl.dismiss(data);
     else
-      this.viewCtrl.dismiss({ tags: false });
+      this.viewCtrl.dismiss({ tags: false, delete: false });
   }
 
 }

@@ -502,7 +502,6 @@ export class AnototeList {
 
   //generic for all three streams
   openAnototeDetail(anotote) {
-    console.log(anotote);
     this.reorder_highlights = false;
     if (this.current_color != 'top') {
       if (!this.edit_mode) {
@@ -828,6 +827,9 @@ export class AnototeList {
         }
         let tagsModal = this.modalCtrl.create(TagsPopUp, params);
         tagsModal.present();
+      } else if (data.delete == true) {
+        this.current_active_anotote = null;
+        this.anototes.splice(this.anototes.indexOf(anotote), 1);
       }
     });
     anototeOptionsModal.present();
