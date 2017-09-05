@@ -19,7 +19,11 @@ view_options {
     }
     .content_follows_profile {
         height: calc(100% - 56%);
-        background: #FFF;
+        background: transparent;
+        .sharing_pop {
+            background: #FFF;
+            height: 100vh;
+        }
     }
     .notiFaction {
         &:after {
@@ -460,12 +464,15 @@ page-anotote-list {
                         overflow: hidden;
                         width: 100%;
                         border-bottom: 1px solid #CCC;
+                        position: relative;
                         .img-holder {
-                            display: inline-block;
                             width: 72px;
                             height: 72px;
                             background: rgba(128, 128, 128, 0.3);
                             vertical-align: middle;
+                            position: absolute;
+                            left: 0px;
+                            top: 0px;
                             img {
                                 vertical-align: middle;
                             }
@@ -479,11 +486,13 @@ page-anotote-list {
                         .txt {
                             vertical-align: middle;
                             padding: 20px 10px 9px 5px;
-                            width: calc(100% - 77px);
+                            width: 100%;
                             position: relative;
+                            padding-left: 82px;
                             display: inline-block;
                             &.txtToto {
                                 width: calc(100% - 46px);
+                                padding-left: 5px;
                             }
                             strong {
                                 font-weight: normal;
@@ -542,6 +551,7 @@ page-anotote-list {
                         }
                     }
                     .activeTote {
+                        border: 0px;
                         .options {
                             height: 70px;
                             float: left;
@@ -555,6 +565,7 @@ page-anotote-list {
                         }
                         .txt {
                             width: calc(100% - 45px);
+                            padding-left: 5px;
                         }
                     }
                     .ng-trigger {

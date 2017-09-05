@@ -1,8 +1,8 @@
 <div [ngClass]="anotote != null ? 'top_empty_box':'top_empty_no_tote'" class="top_empty_box" (tap)="dismiss()">
 </div>
-<div [ngClass]="{'content_follows_profile': anotote != null}">
+<div [ngClass]="{'content_follows_profile': anotote != null, 'moadalView': un_read != null}">
     <!--<div class="pop_heading">Settings</div>-->
-    <ion-list no-lines class="sharing_pop bottom-border">
+    <ion-list no-lines class="sharing_pop bottom-border" [@enterAnimation] *ngIf="show == true">
         <ion-item *ngIf="anotote != null && (anotote.isMe == 1 || stream == 'me')" [ngClass]="{'active': anotote.active_tab == 'me'}" (click)="change_tab('me')">
             <div class="aling-left">
                 <img src="assets/img/check2.png">

@@ -39,6 +39,18 @@ import { NotificationService } from "../../services/notifications.service";
           animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
         ])
       ]
+    ),
+    trigger(
+      'leftAnimation', [
+        transition(':enter', [
+          style({ transform: 'translatex(-100%)', opacity: 0 }),
+          animate('500ms', style({ transform: 'translatex(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translatex(0)', opacity: 1 }),
+          animate('500ms', style({ left: '0', transform: 'translatex(-100%)', opacity: 0 }))
+        ])
+      ]
     )
   ],
   templateUrl: 'anotote-list.html',

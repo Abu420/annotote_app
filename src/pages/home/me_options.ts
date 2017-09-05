@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 /**
@@ -9,13 +9,30 @@ import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Constants } from '../../services/constants.service'
 
+
+
 @Component({
   selector: 'home_settings',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+        ])
+      ]
+    )
+  ],
   templateUrl: 'me_options.html',
+
 })
 export class MeOptions {
   public current_user: any;
-
+  public show: boolean = true;
   constructor(params: NavParams, public constants: Constants, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
     this.current_user = this.authService.getUser();
   }
@@ -38,10 +55,13 @@ export class MeOptions {
   }
 
   dismiss(action) {
-    if (action)
-      this.viewCtrl.dismiss(action);
-    else
-      this.viewCtrl.dismiss();
+    this.show = false;
+    setTimeout(() => {
+      if (action)
+        this.viewCtrl.dismiss(action);
+      else
+        this.viewCtrl.dismiss();
+    }, 300)
   }
 
 }

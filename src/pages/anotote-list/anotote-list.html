@@ -1,6 +1,6 @@
 <ion-header class="topHeader">
     <ion-toolbar [color]="current_color">
-        <ion-buttons *ngIf="!edit_mode" start>
+        <ion-buttons class="searchIcon" *ngIf="!edit_mode" start>
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
                     <img src="assets/img/searchIcon.png" alt="" />
                	
@@ -16,7 +16,7 @@
         <ion-title *ngIf="!edit_mode && current_color == 'top'">
             <dot-navigation class="topDot" unactivedots="1"></dot-navigation>
         </ion-title>
-        <ion-buttons *ngIf="!edit_mode" end>
+        <ion-buttons class="plusIcon" *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
                     <img src="assets/img/plusIcon.png" alt="" />
                 <!-- <ion-icon name="add"></ion-icon> -->
@@ -56,7 +56,7 @@
             <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
-                    <div *ngIf="!anotote.active && anotote.type == 1 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder">
+                    <div *ngIf="!anotote.active && anotote.type == 1 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder" [@leftAnimation]>
                         <img src="assets/img/Default.svg" *ngIf="anotote.userAnnotote.annotote.photo == null || anotote.userAnnotote.annotote.photo == ''">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != ''" [src]="anotote.userAnnotote.annotote.photo">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.userAnnotote.annotote.photo != '' && anotote.userAnnotote.annotote.photo != null"></ion-spinner>

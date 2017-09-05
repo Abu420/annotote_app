@@ -1,14 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, ModalController } from 'ionic-angular';
 import { NotificationService } from '../../services/notifications.service';
 import { Notifications } from '../notifications/notifications';
 
 @Component({
   selector: 'view_options',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+        ])
+      ]
+    )
+  ],
   templateUrl: 'view_options.html',
 })
 export class ViewOptions {
   private un_read: Number;
+  private show: boolean = true;
   private anotote: any;
   private stream: any;
 
@@ -49,8 +64,11 @@ export class ViewOptions {
   }
 
   dismiss() {
-    let data = { 'foo': 'bar' };
-    this.viewCtrl.dismiss(data);
+    this.show = false;
+    setTimeout(() => {
+      let data = { 'foo': 'bar' };
+      this.viewCtrl.dismiss(data);
+    }, 300)
   }
 
 }

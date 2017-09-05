@@ -1,9 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AnototeService } from "../../services/anotote.service";
 @Component({
   selector: 'anotote_options',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+        ])
+      ]
+    )
+  ],
   templateUrl: 'tote_options.html',
 })
 export class AnototeOptions {
@@ -12,6 +26,7 @@ export class AnototeOptions {
   // public share_content: string;
   public anotote: any;
   public stream: any;
+  public show: boolean = true;
 
   constructor(public utilityMethods: UtilityMethods, params: NavParams, public viewCtrl: ViewController, public anototeService: AnototeService) {
     // this.share_type = params.get('share_type');
@@ -110,10 +125,14 @@ export class AnototeOptions {
   }
 
   dismiss(data) {
-    if (data)
-      this.viewCtrl.dismiss(data);
-    else
-      this.viewCtrl.dismiss({ tags: false, delete: false });
+    this.show = false;
+    setTimeout(() => {
+      if (data)
+        this.viewCtrl.dismiss(data);
+      else
+        this.viewCtrl.dismiss({ tags: false, delete: false });
+    }, 300)
+
   }
 
 }
