@@ -31,12 +31,12 @@ import { NotificationService } from "../../services/notifications.service";
     trigger(
       'enterAnimation', [
         transition(':enter', [
-          style({ transform: 'translateY(100%)', opacity: 0 }),
+          style({ transform: 'translateY(-100%)', opacity: 0 }),
           animate('500ms', style({ transform: 'translateY(0)', opacity: 1 }))
         ]),
         transition(':leave', [
           style({ transform: 'translateY(0)', opacity: 1 }),
-          animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+          animate('500ms', style({ transform: 'translateY(-100%)', opacity: 0 }))
         ])
       ]
     ),
@@ -539,7 +539,7 @@ export class AnototeList {
 
         if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
           this.current_active_anotote.activeParty = 1;
-          this.setSimpleToteDetails(anotote);
+          // this.setSimpleToteDetails(anotote);
         } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
           this.current_active_anotote.activeParty = 2;
           this.setSimpleToteDetails(anotote);
