@@ -33,7 +33,6 @@ export class AnototeOptions {
     // this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
     this.stream = params.get('whichStream');
-    console.log(this.anotote);
   }
 
   presentTagsModal() {
