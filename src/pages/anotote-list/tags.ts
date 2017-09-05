@@ -1,9 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 import { SearchService } from '../../services/search.service';
 import { UtilityMethods } from '../../services/utility_methods';
 @Component({
     selector: 'tags_popup',
+    animations: [
+        trigger(
+            'enterAnimation', [
+                transition(':enter', [
+                    style({ transform: 'translateY(100%)', opacity: 0 }),
+                    animate('500ms', style({ transform: 'translateY(0)', opacity: 1 }))
+                ]),
+                transition(':leave', [
+                    style({ transform: 'translateY(0)', opacity: 1 }),
+                    animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+                ])
+            ]
+        )],
     templateUrl: 'tags.html',
 })
 export class TagsPopUp {
@@ -20,6 +33,7 @@ export class TagsPopUp {
     private one_selected: any;
     private no_user_found: boolean = false;
     private no_tags_found: boolean = false;
+    public show: boolean = true;
 
     constructor(private utilityMethods: UtilityMethods, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
         this.tag_input = "";
@@ -123,7 +137,10 @@ export class TagsPopUp {
     }
 
     dismiss() {
-        this.viewCtrl.dismiss();
+        this.show = false;
+        setTimeout(() => {
+            this.viewCtrl.dismiss();
+        })
     }
 
 }
