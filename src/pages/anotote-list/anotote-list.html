@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
-                <div class="toteActive" *ngIf="anotote.active && anotote.type!=2" [@enterAnimation]>
+                <div class="toteActive" [hidden]="!(anotote.active && anotote.type!=2)" [@enterAnimation]>
                     <div class="loading" [hidden]="spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <!-- Anotote Message Detail Section -->
-                <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" *ngIf="anotote.active && anotote.type==2" [@enterAnimation]>
+                <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" [hidden]="!(anotote.active && anotote.type==2)" [@enterAnimation]>
                     <div class="quotes layout message-underlist">
                         <div class="loading" [hidden]="spinner_for_active == false">
                             <ion-spinner></ion-spinner>
@@ -212,7 +212,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div class="toteActive" (press)="enable_list_reorder(anotote)" *ngIf="anotote.active" [@enterAnimation]>
+                <div class="toteActive" (press)="enable_list_reorder(anotote)" [hidden]="! anotote.active" [@enterAnimation]>
                     <div class="loading" [hidden]="spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
