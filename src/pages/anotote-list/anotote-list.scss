@@ -546,11 +546,17 @@ page-anotote-list {
                             }
                             .toteText {
                                 p {
-                                    width: calc(100% - 58px);
+                                    width: calc(100% - 70px);
                                     display: inline-block;
                                     vertical-align: top;
                                     padding-left: 5px;
                                     margin-top: -1px;
+                                    text-overflow: ellipsis;
+                                    -webkit-box-orient: vertical;
+                                    -webkit-line-clamp: 1;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    word-break: break-all;
                                 }
                                 button {
                                     color: #8e9093;
