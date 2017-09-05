@@ -491,14 +491,13 @@ page-anotote-list {
                         .txt {
                             vertical-align: middle;
                             padding: 20px 10px 9px 5px;
-                            width: 100%;
+                            width: calc(100% - 72px);
                             position: relative;
-                            padding-left: 82px;
-                            display: inline-block;
+                            float: right;
                             -webkit-transition: all 500ms ease-in-out;
                             transition: all 500ms ease-in-out;
                             &.txtToto {
-                                width: calc(100% - 46px);
+                                width: calc(100% - 50px);
                                 padding-left: 5px;
                             }
                             strong {
@@ -545,6 +544,25 @@ page-anotote-list {
                                     font-size: 12px;
                                 }
                             }
+                            .toteText {
+                                p {
+                                    width: calc(100% - 58px);
+                                    display: inline-block;
+                                    vertical-align: top;
+                                    padding-left: 5px;
+                                    margin-top: -1px;
+                                }
+                                button {
+                                    color: #8e9093;
+                                    background: transparent;
+                                    float: left;
+                                    img {
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        width: 14px;
+                                    }
+                                }
+                            }
                         }
                         figure {
                             margin: 0px;
@@ -571,7 +589,7 @@ page-anotote-list {
                             z-index: 9999999;
                         }
                         .txt {
-                            width: calc(100% - 45px);
+                            width: calc(100% - 50px);
                             padding-left: 5px;
                         }
                     }

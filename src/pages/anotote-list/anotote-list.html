@@ -83,12 +83,14 @@
                         <div class="time">
                             <em>
 								<span [innerText]="anotote.createdAt | time_stamp"></span>
-                                <button type="button">
-									<img src="assets/img/lineIcon.svg" alt="">
-								</button>
                         	</em>
                         </div>
-                        <p [innerText]="anotote.userAnnotote.annotote.source"></p>
+                        <div class="toteText">
+                            <p [innerText]="anotote.userAnnotote.annotote.source"></p>
+                            <button type="button">
+                                <img src="assets/img/lineIcon.svg" alt="">
+                            </button>
+                        </div>
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
                         <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
@@ -96,13 +98,15 @@
                         <div class="time">
                             <em>
 							  <span [innerText]="anotote.createdAt | time_stamp"></span>
-                              <button type="button">
-                                <img src="assets/img/commentIcon.svg" alt="">
-								<!-- <ion-icon name="chatbubbles"></ion-icon> -->
-							  </button>
 							</em>
                         </div>
-                        <p>Message</p>
+                        <div class="toteText">
+                            <p>Message</p>
+                            <button type="button">
+                                <img src="assets/img/commentIcon.svg" alt="">
+								<!-- <ion-icon name="chatbubbles"></ion-icon> -->
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
@@ -203,12 +207,14 @@
                         <div class="time">
                             <em>
 								<span [innerText]="anotote.annotote.createdAt | time_stamp"></span>
-                                <button type="button">
-                                    <img src="assets/img/lineIcon.svg" alt="">
-								</button>
                         	</em>
                         </div>
-                        <p [innerText]="anotote.annotote.source"></p>
+                        <div class="toteText">
+                            <p [innerText]="anotote.annotote.source"></p>
+                            <button type="button">
+                                <img src="assets/img/lineIcon.svg" alt="">
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <!-- anatote detail -->
