@@ -111,10 +111,10 @@
                 </div>
                 <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
                 <div class="toteActive" [ngClass]="{'toteTransition': anotote.active && anotote.type!=2}">
-                    <div class="loading" [hidden]="spinner_for_active == false">
+                    <div class="loading" [hidden]="anotote.spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
-                    <header class="listHeader" [hidden]="spinner_for_active == true">
+                    <header class="listHeader" [hidden]="anotote.spinner_for_active == true">
                         <div class="underlist-text">
                             <div class="btns-area">
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="current_color == 'me'" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">Me</button>
@@ -130,7 +130,7 @@
                             </div>
                         </div>
                     </header>
-                    <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
+                    <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.highlights">
                                 <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
@@ -218,11 +218,11 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div class="toteActive" (press)="enable_list_reorder(anotote)" [hidden]="! anotote.active" [@enterAnimation]>
-                    <div class="loading" [hidden]="spinner_for_active == false">
+                <div class="toteActive" (press)="enable_list_reorder(anotote)" [ngClass]="{'toteTransition': anotote.active}">
+                    <div class="loading" [hidden]="anotote.spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
-                    <header class="listHeader" [hidden]="spinner_for_active == true">
+                    <header class="listHeader" [hidden]="anotote.spinner_for_active == true">
                         <div class="underlist-text">
                             <div class="btns-area">
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="anotote.isMe == 1" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">
@@ -234,11 +234,12 @@
                             </div>
                         </div>
                     </header>
-                    <div class="quotes layout message-underlist" [hidden]="spinner_for_active == true">
+                    <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout">
                             <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
-                                    <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
+                                    <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p>
+                                    <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab != 'top'">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                 </div>
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
@@ -266,20 +267,27 @@
     </ion-infinite-scroll>
     <ion-fab bottom right *ngIf="current_color != 'top'">
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
-            <img src="assets/img/tot_icon_white.png" />
-            <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote':current_active_anotote.isTop && current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
+            <img *ngIf="current_active_anotote == null" src="assets/img/whiteTote.svg" />
+            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'me'" src="assets/img/greenTote.svg" />
+            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows'" src="assets/img/yellowTote.svg" />
+            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top'" src="assets/img/pinkTote.svg" />
+            <!-- <img src="assets/img/tot_icon_white.png" /> -->
+            <!-- <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote':current_active_anotote.isTop && current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
             <span class="notiNote" *ngIf="unread_notification_count != 0">{{unread_notification_count}}</span>
             <span [ngClass]="{'followNote': current_active_anotote.followers.length > 0 && (current_active_anotote.active_tab == 'me' || current_active_anotote.active_tab == 'top')}" *ngIf="current_active_anotote != null && current_active_anotote.followers.length > 0 && current_active_anotote.active_tab != 'follows'">{{current_active_anotote.followers.length}}</span>
-            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null && current_active_anotote.isTop == true"></span>
+            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null && current_active_anotote.isTop == true"></span> -->
         </button>
     </ion-fab>
     <ion-fab bottom right *ngIf="current_color == 'top'">
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
-            <img src="assets/img/tot_icon_white.png" />
-            <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote': current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
+            <img *ngIf="current_active_anotote == null" src="assets/img/whiteTote.svg" />
+            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'me'" src="assets/img/greenTote.svg" />
+            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows'" src="assets/img/yellowTote.svg" />
+            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top'" src="assets/img/pinkTote.svg" />
+            <!-- <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote': current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
             <span class="notiNote" *ngIf="unread_notification_count != 0">{{unread_notification_count}}</span>
             <span [ngClass]="{'followNote': current_active_anotote.follows.length > 0 && (current_active_anotote.active_tab == 'me' || current_active_anotote.active_tab == 'top')}" *ngIf="current_active_anotote != null && current_active_anotote.follows.length > 0 && current_active_anotote.active_tab != 'follows'">{{current_active_anotote.follows.length}}</span>
-            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null"></span>
+            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null"></span> -->
         </button>
     </ion-fab>
 </ion-content>

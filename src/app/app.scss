@@ -229,6 +229,11 @@ button,
     .button-inner {
         padding: 7px;
     }
+    .button-inner {
+        img {
+            width: 25px;
+        }
+    }
 }
 
 .fab-md-primary {

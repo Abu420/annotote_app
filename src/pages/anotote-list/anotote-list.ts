@@ -311,18 +311,18 @@ export class AnototeList {
           anotote.selected_follower_name = data.user.firstName;
           anotote.active_tab = 'follows'
           if (data.user.anotote == null) {
-            this.spinner_for_active = true;
+            anotote.spinner_for_active = true;
             var params = {
               user_id: data.user.id,
               anotote_id: anotote.userAnnotote.id,
               time: this.utilityMethods.get_php_wala_time()
             }
             this.anototeService.fetchToteDetails(params).subscribe((result) => {
-              this.spinner_for_active = false;
+              anotote.spinner_for_active = false;
               data.user.anotote = result.data.annotote;
               anotote.highlights = Object.assign(result.data.annotote.highlights);
             }, (error) => {
-              this.spinner_for_active = false;
+              anotote.spinner_for_active = false;
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
               }
@@ -348,18 +348,18 @@ export class AnototeList {
           anotote.selected_follower_name = data.user.firstName;
           anotote.active_tab = 'follows'
           if (data.user.anotote == null) {
-            this.spinner_for_active = true;
+            anotote.spinner_for_active = true;
             var params = {
               user_id: data.user.id,
               anotote_id: anotote.userAnnotote.id,
               time: this.utilityMethods.get_php_wala_time()
             }
             this.anototeService.fetchToteDetails(params).subscribe((result) => {
-              this.spinner_for_active = false;
+              anotote.spinner_for_active = false;
               data.user.anotote = result.data.annotote;
               anotote.highlights = Object.assign(result.data.annotote.highlights);
             }, (error) => {
-              this.spinner_for_active = false;
+              anotote.spinner_for_active = false;
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
               }
@@ -487,7 +487,7 @@ export class AnototeList {
     } else if (this.current_active_anotote != null && (this.current_color == 'follows' || this.current_color == 'top')) {
       if (this.current_active_anotote.userAnnotote.filePath != '') {
         var params = {
-          annotote_id: this.current_active_anotote.userAnnotote.annotote.id,
+          annotote_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.id : this.current_active_anotote.annotote.id,
           user_id: this.user.id,
           created_at: this.utilityMethods.get_php_wala_time()
         }
@@ -539,10 +539,10 @@ export class AnototeList {
 
         if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
           this.current_active_anotote.activeParty = 1;
-          // this.setSimpleToteDetails(anotote);
+          //this.setSimpleToteDetails(anotote);
         } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
           this.current_active_anotote.activeParty = 2;
-          this.setSimpleToteDetails(anotote);
+          //this.setSimpleToteDetails(anotote);
         } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
           this.getQuickChatHistory(anotote);
         }
@@ -587,6 +587,12 @@ export class AnototeList {
           anotote.active = true;
         anotote.active_tab = 'top';
         this.current_active_anotote = anotote;
+        if (anotote.anototeDetail.follows.length > 0)
+          anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
+        anotote.follows = anotote.anototeDetail.follows;
+        anotote.top_highlights = Object.assign(anotote.highlights);
+        anotote.isMe = anotote.anototeDetail.isMe;
+        anotote.spinner_for_active = false;
         //Details
         // this.spinner_for_active = true;
         // var params = {

@@ -23,6 +23,9 @@ export class ListTotesModel {
   public activeParty: number = 1; //1:me, 2:follows, 3:top
   public checked: boolean;
   public isTop: number = 0;
+  public isMe: number = 0;
+  public topUserToteId: number = 0
+  public spinner_for_active: boolean = false;
   public constructor(id, type, userToteId, chatGroupId, userAnnotote, chatGroup, createdAt, updatedAt) {
     //this.datetimeService = new DatetimeService();
     this.id = id;
@@ -36,6 +39,11 @@ export class ListTotesModel {
     this.checked = false;
     if (this.userAnnotote != null) {
       this.setHighlights(this.userAnnotote.annototeHeighlights);
+      this.setFollowers(this.userAnnotote.anototeDetail.follows);
+      this.isTop = this.userAnnotote.anototeDetail.isTop
+      this.isMe = this.userAnnotote.anototeDetail.isMe
+      if (this.isTop == 1)
+        this.topUserToteId = this.userAnnotote.anototeDetail.topUserToteId;
     }
   }
 
@@ -46,7 +54,7 @@ export class ListTotesModel {
   public setFollowers(followers: Array<User>) {
     this.followers = followers;
     if (this.followers.length > 0) {
-      this.setFirstFollowerName(this.followers[0].full_name);
+      this.setFirstFollowerName(this.followers[0].firstName);
     }
   }
   public setFirstFollowerName(name: string) {
