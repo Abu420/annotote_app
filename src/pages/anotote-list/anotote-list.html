@@ -218,7 +218,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div class="toteActive" (press)="enable_list_reorder(anotote)" [hidden]="! anotote.active" [@enterAnimation]>
+                <div class="toteActive" (press)="enable_list_reorder(anotote)" [ngClass]="{'toteTransition': anotote.active}">
                     <div class="loading" [hidden]="spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
