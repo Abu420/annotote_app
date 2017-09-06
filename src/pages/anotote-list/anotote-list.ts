@@ -594,32 +594,32 @@ export class AnototeList {
         anotote.isMe = anotote.anototeDetail.isMe;
         anotote.spinner_for_active = false;
         //Details
-        // this.spinner_for_active = true;
-        // var params = {
-        //   user_id: this.user.id,
-        //   anotote_id: anotote.userAnnotote.id,
-        //   time: this.utilityMethods.get_php_wala_time()
-        // }
-        // this.anototeService.fetchToteDetails(params).subscribe((result) => {
-        //   this.spinner_for_active = false;
-        //   if (result.status == 1) {
-        //     if (result.data.annotote.follows.length > 0)
-        //       anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
-        //     anotote.follows = result.data.annotote.follows;
-        //     anotote.top_highlights = Object.assign(result.data.annotote.highlights);
-        //     anotote.highlights = result.data.annotote.highlights;
-        //     anotote.isMe = result.data.annotote.isMe;
-        //   } else {
-        //     this.utilityMethods.doToast("Couldn't fetch annotations");
-        //     anotote.active = false;
-        //   }
-        // }, (error) => {
-        //   this.spinner_for_active = false;
-        //   if (error.code == -1) {
-        //     this.utilityMethods.internet_connection_error();
-        //     this.utilityMethods.doToast("Couldn't load chat history.");
-        //   }
-        // });
+        this.spinner_for_active = true;
+        var params = {
+          user_id: this.user.id,
+          anotote_id: anotote.userAnnotote.id,
+          time: this.utilityMethods.get_php_wala_time()
+        }
+        this.anototeService.fetchToteDetails(params).subscribe((result) => {
+          this.spinner_for_active = false;
+          if (result.status == 1) {
+            if (result.data.annotote.follows.length > 0)
+              anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
+            anotote.follows = result.data.annotote.follows;
+            anotote.top_highlights = Object.assign(result.data.annotote.highlights);
+            anotote.highlights = result.data.annotote.highlights;
+            anotote.isMe = result.data.annotote.isMe;
+          } else {
+            this.utilityMethods.doToast("Couldn't fetch annotations");
+            anotote.active = false;
+          }
+        }, (error) => {
+          this.spinner_for_active = false;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+            this.utilityMethods.doToast("Couldn't load chat history.");
+          }
+        });
       }
     }
   }
