@@ -292,15 +292,47 @@ export class AnototeEditor implements OnDestroy {
         try {
             var self = this;
             var selection = window.getSelection();
-            var range = document.createRange();
-            range.setStart(this.selection.startContainer, this.selection.startOffset);
-            range.setEnd(this.selection.endContainer, this.selection.endOffset);
-            var newNode = document.createElement("highlight_quote");
-            // newNode.onclick = function (this, evt) {
-            //     evt.stopPropagation();
-            //     var text = this.getAttribute('data-selectedtxt');
-            //     self.events.publish('show_anotation_details', { txt: text });
+            // var range = document.createRange();
+            var range = selection.getRangeAt(0);
+            // range.setStart(this.selection.startContainer, this.selection.startOffset);
+            // range.setEnd(this.selection.endContainer, this.selection.endOffset);
+
+            // var nodes = [];
+            // var node;
+            // for (node = range.startContainer; node; node = node.nextSibling) {
+            //     var tempStr = node.nodeValue;
+            //     if (node.nodeValue != null && tempStr.replace(/^\s+|\s+$/gm, '') != '')
+            //         nodes.push(node);
+            //     if (node == range.endContainer)
+            //         break;
             // }
+            // nodes.push(range.endContainer);
+
+            // for (var i = 0; i < nodes.length; i++) {
+            //     var newNode = document.createElement("highlight_quote");
+
+            //     newNode.setAttribute("data-selectedtxt", this.selectedText);
+            //     newNode.setAttribute("data-identifier", identifier);
+            //     if (type == 'comment') {
+            //         newNode.setAttribute("class", "highlight_comment");
+            //         newNode.setAttribute("data-comment", comment);
+            //     }
+            //     else {
+            //         if (i == 0)
+            //             newNode.setAttribute("class", "highlight_quote");
+            //         else
+            //             newNode.setAttribute("class", "only_light");
+            //     }
+
+            //     var sp1_content = document.createTextNode(nodes[i].nodeValue);
+            //     newNode.appendChild(range.extractContents());
+            //     var parentNode = nodes[i].parentNode;
+            //     parentNode.insertBefore(newNode, nodes[i]);
+            //     parentNode.replaceChild(newNode, nodes[i]);
+            // }
+
+            var newNode = document.createElement("highlight_quote");
+
             newNode.setAttribute("data-selectedtxt", this.selectedText);
             newNode.setAttribute("data-identifier", identifier);
             if (type == 'comment') {
@@ -309,14 +341,57 @@ export class AnototeEditor implements OnDestroy {
             }
             else
                 newNode.setAttribute("class", "highlight_quote");
-
-            range.surroundContents(newNode);
+            newNode.appendChild(range.extractContents());
+            var parentNode = range.startContainer.parentNode;
+            // parentNode.insertBefore(newNode, range.startContainer);
+            range.insertNode(newNode);
+            // range.surroundContents(newNode);
             selection.removeAllRanges();
-            return true;
+            // return true;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
             return false;
         }
+        // if (window.getSelection) {
+        //     var sel = window.getSelection();
+        //     if (!sel) {
+        //         return;
+        //     }
+        //     var range = sel.getRangeAt(0);
+        //     var start = range.startContainer;
+        //     var end = range.endContainer;
+        //     var commonAncestor = range.commonAncestorContainer;
+        //     var nodes = [];
+        //     var node;
+
+        //     for (node = start.parentNode; node; node = node.parentNode) {
+        //         var tempStr = node.nodeValue;
+        //         if (node.nodeValue != null && tempStr.replace(/^\s+|\s+$/gm, '') != '')
+        //             nodes.push(node);
+        //         if (node == commonAncestor)
+        //             break;
+        //     }
+        //     nodes.reverse();
+
+        //     for (node = start; node; node = node.nextSibling) {
+        //         var tempStr = node.nodeValue;
+        //         if (node.nodeValue != null && tempStr.replace(/^\s+|\s+$/gm, '') != '')
+        //             nodes.push(node);
+        //         if (node == end)
+        //             break;
+        //     }
+        //     nodes.push(end);
+
+        //     for (var i = 0; i < nodes.length; i++) {
+
+        //         var sp1 = document.createElement("span");
+        //         sp1.setAttribute("class", "highlight_comment");
+        //         var sp1_content = document.createTextNode(nodes[i].nodeValue);
+        //         sp1.appendChild(sp1_content);
+        //         var parentNode = nodes[i].parentNode;
+        //         parentNode.replaceChild(sp1, nodes[i]);
+        //     }
+        // }
     }
 
     scrollTo(identifier: string) {

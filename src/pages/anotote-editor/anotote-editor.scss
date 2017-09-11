@@ -263,36 +263,60 @@ page-anotote-editor {
             .highlight_quote,
             .highlight_comment {
                 background: #c3f5b2 !important;
+                p,
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6 {
+                    background: #c3f5b2 !important;
+                }
             }
             .highlight_comment:before {
                 background: #2ba600;
             }
             .highlight_quote:before {
                 background: #2ba600;
+            }
+            .only_light {
+                background: #c3f5b2 !important;
             }
         }
         &.follows {
             .highlight_quote,
             .highlight_comment {
                 background: #f4e300 !important;
+                p {
+                    background: #f4e300 !important;
+                }
             }
             .highlight_comment:before {
                 background: #f4e300;
             }
             .highlight_quote:before {
                 background: #f4e300;
+            }
+            .only_light {
+                background: #f4e300 !important;
             }
         }
         &.top {
             .highlight_quote,
             .highlight_comment {
                 background: #fb9df0 !important;
+                p {
+                    background: #fb9df0;
+                }
             }
             .highlight_comment:before {
                 background: #fb9df0;
             }
             .highlight_quote:before {
                 background: #fb9df0;
+            }
+            .only_light {
+                background: #fb9df0 !important;
             }
         }
         .highlight_quote,
