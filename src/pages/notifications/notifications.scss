@@ -103,10 +103,6 @@ page-notifications {
                                     }
                                 }
                                 .time {
-                                    span {
-                                        font-size: 14px;
-                                        color: #CCC;
-                                    }
                                     em {
                                         font-size: 12px;
                                         width: auto;
@@ -123,6 +119,43 @@ page-notifications {
                                         span {
                                             font-size: 12px;
                                         }
+                                    }
+                                }
+                                .toteText {
+                                    span {
+                                        width: calc(100% - 80px);
+                                        font-size: 14px;
+                                        color: #CCC;
+                                        display: inline-block;
+                                        vertical-align: top;
+                                        padding-left: 5px;
+                                        margin-top: -1px;
+                                        text-overflow: ellipsis;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 1;
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        word-break: break-all;
+                                    }
+                                    button {
+                                        color: #8e9093;
+                                        background: transparent;
+                                        float: left;
+                                        margin-top: 1px !important;
+                                        img {
+                                            display: inline-block;
+                                            vertical-align: middle;
+                                            width: 14px;
+                                        }
+                                    }
+                                    >img {
+                                        color: #8e9093;
+                                        background: transparent;
+                                        float: left;
+                                        margin-top: 1px !important;
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        width: 14px;
                                     }
                                 }
                             }

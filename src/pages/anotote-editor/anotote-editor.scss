@@ -81,13 +81,25 @@ comment_detail_popup {
     }
     .pop_heading {
         .col {
-            width: 33.3%;
-            display: inline-block;
+            width: 15%;
+            float: right;
             vertical-align: middle;
             text-align: center;
             letter-spacing: 0;
             img {
                 width: 28px;
+            }
+        }
+        .btnRow {
+            overflow: hidden;
+            padding: 12px 0px 12px 10px;
+            ;
+            span {
+                float: left;
+                width: auto;
+                letter-spacing: 0;
+                text-transform: uppercase;
+                margin-right: 10px;
             }
         }
     }
