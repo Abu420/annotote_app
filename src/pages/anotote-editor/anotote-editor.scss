@@ -229,8 +229,6 @@ page-anotote-editor {
     }
 }
 
-.me {}
-
 .status {
     width: 19px;
     height: 21px;
@@ -259,6 +257,8 @@ page-anotote-editor {
         box-shadow: 0 0px 11px 0px #bdbdbd;
         padding: 15px 20px;
         margin-top: 15px;
+        text-align: justify;
+        word-break: break-all;
         &.me {
             .highlight_quote,
             .highlight_comment {
@@ -269,7 +269,8 @@ page-anotote-editor {
                 h3,
                 h4,
                 h5,
-                h6 {
+                h6,
+                div {
                     background: #c3f5b2 !important;
                 }
             }
@@ -365,4 +366,8 @@ ion-fab {
 
 .boxIcon {
     margin-right: 20px;
+}
+
+.no_padding {
+    padding: 0;
 }

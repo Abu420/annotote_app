@@ -342,56 +342,16 @@ export class AnototeEditor implements OnDestroy {
             else
                 newNode.setAttribute("class", "highlight_quote");
             newNode.appendChild(range.extractContents());
-            var parentNode = range.startContainer.parentNode;
+            // var parentNode = range.startContainer.parentNode;
             // parentNode.insertBefore(newNode, range.startContainer);
             range.insertNode(newNode);
             // range.surroundContents(newNode);
             selection.removeAllRanges();
-            // return true;
+            return true;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
             return false;
         }
-        // if (window.getSelection) {
-        //     var sel = window.getSelection();
-        //     if (!sel) {
-        //         return;
-        //     }
-        //     var range = sel.getRangeAt(0);
-        //     var start = range.startContainer;
-        //     var end = range.endContainer;
-        //     var commonAncestor = range.commonAncestorContainer;
-        //     var nodes = [];
-        //     var node;
-
-        //     for (node = start.parentNode; node; node = node.parentNode) {
-        //         var tempStr = node.nodeValue;
-        //         if (node.nodeValue != null && tempStr.replace(/^\s+|\s+$/gm, '') != '')
-        //             nodes.push(node);
-        //         if (node == commonAncestor)
-        //             break;
-        //     }
-        //     nodes.reverse();
-
-        //     for (node = start; node; node = node.nextSibling) {
-        //         var tempStr = node.nodeValue;
-        //         if (node.nodeValue != null && tempStr.replace(/^\s+|\s+$/gm, '') != '')
-        //             nodes.push(node);
-        //         if (node == end)
-        //             break;
-        //     }
-        //     nodes.push(end);
-
-        //     for (var i = 0; i < nodes.length; i++) {
-
-        //         var sp1 = document.createElement("span");
-        //         sp1.setAttribute("class", "highlight_comment");
-        //         var sp1_content = document.createTextNode(nodes[i].nodeValue);
-        //         sp1.appendChild(sp1_content);
-        //         var parentNode = nodes[i].parentNode;
-        //         parentNode.replaceChild(sp1, nodes[i]);
-        //     }
-        // }
     }
 
     scrollTo(identifier: string) {

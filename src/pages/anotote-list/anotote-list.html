@@ -163,10 +163,10 @@
                 <!-- Anotote Message Detail Section -->
                 <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}">
                     <div class="quotes layout message-underlist">
-                        <div class="loading" [hidden]="spinner_for_active == false">
+                        <div class="loading" [hidden]="anotote.spinner_for_active == false">
                             <ion-spinner></ion-spinner>
                         </div>
-                        <ion-list no-lines class="details-list layout">
+                        <ion-list no-lines class="details-list layout" [hidden]="anotote.spinner_for_active == true">
                             <ion-item class="underlist-items" *ngFor="let message of messages">
                                 <figure>
                                     <img [src]="message | chatHeads" alt="">

@@ -625,7 +625,7 @@ export class AnototeList {
   }
 
   public getQuickChatHistory(tote) {
-    this.spinner_for_active = true;
+    tote.spinner_for_active = true;
     this.messages = [];
     var param;
     if (tote.chatGroup.groupUsers[0].user.id == this.user.id)
@@ -633,7 +633,7 @@ export class AnototeList {
     else
       param = tote.chatGroup.groupUsers[0].user.id;
     this.anototeService.quickChat(param).subscribe((result) => {
-      this.spinner_for_active = false;
+      tote.spinner_for_active = false;
       if (result.status == 1) {
         this.messages = result.data.messages;
       } else {
