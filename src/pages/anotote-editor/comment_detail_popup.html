@@ -15,14 +15,26 @@
             <div (tap)="delete()" class="col">
                 <img src="assets/img/deleteIcon.svg" alt="">
             </div> -->
+            <div class="downUp">
+                <img src="assets/img/upArrow.svg" alt="">
+                <span>83%</span>
+                <img src="assets/img/downIcon.svg" alt="">
+            </div>
+            <div class="topTab">
+                <span>Top</span>
+            </div>
             <div (tap)="share()" class="col">
+                <img src="assets/img/shareIconT.svg" alt="">
+            </div>
+
+            <!-- <div (tap)="share()" class="col">
                 <img src="assets/img/shareIcon.svg" alt="">
             </div>
             <div class="btnRow">
                 <span (tap)="dismiss()">Close</span>
                 <span (tap)="delete()">Delete</span>
                 <span>Save</span>
-            </div>
+            </div> -->
         </div>
         <div class="pop_txt">
             <p [innerText]="anotote_txt"></p>
