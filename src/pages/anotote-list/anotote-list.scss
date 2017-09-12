@@ -457,6 +457,7 @@ page-anotote-list {
                             transition: max-height 0.15s ease-out;
                             -webkit-transition: max-height 0.15s ease-out;
                             padding-right: 10px;
+                            border: 0px;
                             &.toteTransition {
                                 max-height: 500px;
                                 overflow: auto;
@@ -492,7 +493,7 @@ page-anotote-list {
                         }
                         .txt {
                             vertical-align: middle;
-                            padding: 20px 10px 9px 5px;
+                            padding: 20px 10px 10px 5px;
                             width: calc(100% - 72px);
                             position: relative;
                             float: right;
@@ -644,7 +645,7 @@ page-anotote-list {
                     }
                     .listHeader {
                         padding: 0px 20px 0 50px;
-                        margin-top: -5px;
+                        margin-top: 0;
                         background: #FFF;
                         .btns-area {
                             padding: 0px;
