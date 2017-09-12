@@ -288,7 +288,7 @@ export class AnototeEditor implements OnDestroy {
             });
     }
 
-    private highlight_(type, identifier, comment) {
+    private highlight_(com_or_quote, identifier, comment) {
         try {
             var self = this;
             var selection = window.getSelection();
@@ -335,7 +335,7 @@ export class AnototeEditor implements OnDestroy {
 
             newNode.setAttribute("data-selectedtxt", this.selectedText);
             newNode.setAttribute("data-identifier", identifier);
-            if (type == 'comment') {
+            if (com_or_quote == 'comment') {
                 newNode.setAttribute("class", "highlight_comment");
                 newNode.setAttribute("data-comment", comment);
             }
@@ -363,9 +363,6 @@ export class AnototeEditor implements OnDestroy {
     }
 
     editor_click(event) {
-        // console.log(event.target.getAttribute("class"));
-        // console.log(event.target.getAttribute("data-identifier"));
-        // console.log(event.target.getAttribute("data-selectedtxt"));
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
             this.selected_highlight = {
@@ -432,8 +429,11 @@ export class AnototeEditor implements OnDestroy {
             this.selection_lock = false;
             return;
         }
-        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText });
+        var selection = window.getSelection();
+        var range = selection.getRangeAt(0);
+        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: range, sel: selection });
         createAnotationModal.onDidDismiss(data => {
+            console.log(data);
             if (data.create) {
                 this.create_anotation(data.comment);
             } else if (data.share) {

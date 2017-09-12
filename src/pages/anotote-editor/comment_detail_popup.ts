@@ -17,7 +17,6 @@ export class CommentDetailPopup {
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment');
     this.which_stream = this.params.get('which_stream');
-    console.log(this.params.get('comment'))
   }
 
   dismiss() {

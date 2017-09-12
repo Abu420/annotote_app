@@ -9,7 +9,6 @@ export class CreateAnotationOptionsPopup {
 
     constructor(public params: NavParams, public viewCtrl: ViewController) {
         this.selectedTxt = this.params.get('selected_txt');
-        console.log(this.selectedTxt);
     }
 
     dismiss() {
