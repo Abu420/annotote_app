@@ -137,6 +137,9 @@
                                     <div class="txt">
                                         <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                         <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                        <div class="tagImage">
+                                            <img src="assets/img/dotsicon.svg" alt="">
+                                        </div>
                                     </div>
                                     <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                     <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
@@ -241,9 +244,13 @@
                                     <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p>
                                     <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab != 'top'">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+
                                 </div>
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                <div class="tagImage">
+                                    <img src="assets/img/dotsicon.svg" alt="">
+                                </div>
                             </ion-item>
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0">
