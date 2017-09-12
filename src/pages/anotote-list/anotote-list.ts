@@ -544,7 +544,7 @@ export class AnototeList {
           this.current_active_anotote.activeParty = 2;
           //this.setSimpleToteDetails(anotote);
         } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
-          this.getQuickChatHistory(anotote);
+          // this.getQuickChatHistory(anotote);
         }
       } else {
         if (anotote.active) {
