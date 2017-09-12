@@ -7,9 +7,13 @@ import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angul
 export class CreateAnotationPopup {
     private selectedTxt: string;
     private comment: string;
+    private range: string;
+    private sel: string;
 
     constructor(public params: NavParams, public viewCtrl: ViewController) {
         this.selectedTxt = this.params.get('selected_txt');
+        this.range = this.params.get('range');
+        this.sel = this.params.get('sel');
     }
 
     value_updating_comment(value) {
@@ -21,7 +25,7 @@ export class CreateAnotationPopup {
     }
 
     done() {
-        this.viewCtrl.dismiss({ create: true, comment: this.comment });
+        this.viewCtrl.dismiss({ create: true, comment: this.comment, range: this.range, selection: this.sel });
     }
 
     dismiss() {

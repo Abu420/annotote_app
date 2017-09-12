@@ -831,39 +831,58 @@ export class AnototeList {
 
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
-    var params = {
-      anotote: anotote,
-      whichStream: this.current_color
-    }
-    let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
-    anototeOptionsModal.onDidDismiss(data => {
-      if (data.tags) {
-        if (this.current_color != 'top') {
-          var params = {
-            user_tote_id: anotote.userAnnotote.id,
-            tags: anotote.userAnnotote.annototeTags,
-            whichStream: this.current_color,
-            annotote: true
-          }
-          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
-          tagsModal.present();
-        } else if (this.current_color == 'top') {
-          var params = {
-            user_tote_id: anotote.userAnnotote.id,
-            tags: anotote.tags,
-            whichStream: this.current_color,
-            annotote: true
-          }
-          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
-          tagsModal.present();
-        }
-
-      } else if (data.delete == true) {
-        this.current_active_anotote = null;
-        this.anototes.splice(this.anototes.indexOf(anotote), 1);
+    if (anotote.chatGroup == null) {
+      var params = {
+        anotote: anotote,
+        whichStream: this.current_color
       }
-    });
-    anototeOptionsModal.present();
+      let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
+      anototeOptionsModal.onDidDismiss(data => {
+        if (data.tags) {
+          if (this.current_color != 'top') {
+            var params = {
+              user_tote_id: anotote.userAnnotote.id,
+              tags: anotote.userAnnotote.annototeTags,
+              whichStream: this.current_color,
+              annotote: true
+            }
+            let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            tagsModal.present();
+          } else if (this.current_color == 'top') {
+            var params = {
+              user_tote_id: anotote.userAnnotote.id,
+              tags: anotote.tags,
+              whichStream: this.current_color,
+              annotote: true
+            }
+            let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            tagsModal.present();
+          }
+        } else if (data.delete == true) {
+          this.current_active_anotote = null;
+          this.anototes.splice(this.anototes.indexOf(anotote), 1);
+        }
+      });
+      anototeOptionsModal.present();
+    } else {
+      this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
+        var params = {
+          group_id: anotote.chatGroupId
+        }
+        this.utilityMethods.show_loader('');
+        this.anototeService.delete_chat_tote(params).subscribe((result) => {
+          this.utilityMethods.hide_loader();
+          this.anototes.splice(this.anototes.indexOf(anotote), 1);
+          this.utilityMethods.doToast("Chat tote deleted Successfully.")
+          this.close_bulk_actions();
+        }, (error) => {
+          this.utilityMethods.hide_loader();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        })
+      })
+    }
   }
 
   openSearchPopup() {
