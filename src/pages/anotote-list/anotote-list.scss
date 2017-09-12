@@ -456,7 +456,6 @@ page-anotote-list {
                             max-height: 0px;
                             transition: max-height 0.15s ease-out;
                             -webkit-transition: max-height 0.15s ease-out;
-                            padding-right: 10px;
                             border: 0px;
                             &.toteTransition {
                                 max-height: 500px;
@@ -745,7 +744,7 @@ page-anotote-list {
                                             margin-left: -20px;
                                             background: #CCC;
                                             width: 108%;
-                                            padding: 10px 30px 10px 54px;
+                                            padding: 10px 10px 10px 54px;
                                             margin-top: 10px;
                                             textarea {
                                                 width: 100%;
@@ -756,17 +755,12 @@ page-anotote-list {
                                                 float: left;
                                                 width: 25px;
                                                 margin-top: 8px;
-                                                &.closeIcon {
-                                                    float: right;
-                                                    width: 20px;
-                                                    margin: 0px;
-                                                }
-                                                &.doneIcon {
-                                                    width: 22px;
-                                                    margin: auto;
-                                                    display: block;
-                                                    float: none;
-                                                }
+                                            }
+                                            span {
+                                                font-size: 14px;
+                                                text-transform: uppercase;
+                                                float: right;
+                                                padding-left: 15px;
                                             }
                                         }
                                     }

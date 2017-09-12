@@ -7,16 +7,21 @@
 				<ion-icon name="ios-arrow-down-outline"></ion-icon>
 				<em>83%</em>
 				<ion-icon name="ios-arrow-up-outline"></ion-icon>
-			</div>-->
-            <div (tap)="dismiss()" class="col">
+            </div>-->
+            <!-- <div (tap)="dismiss()" class="col">
                 <img src="assets/img/croseIcon.svg" alt="">
             </div>
-            <!--<div class="col">Chantel Bardaro (3)</div>-->
+            <div class="col">Chantel Bardaro (3)</div
+            <div (tap)="delete()" class="col">
+                <img src="assets/img/deleteIcon.svg" alt="">
+            </div> -->
             <div (tap)="share()" class="col">
                 <img src="assets/img/shareIcon.svg" alt="">
             </div>
-            <div (tap)="delete()" class="col">
-                <img src="assets/img/deleteIcon.svg" alt="">
+            <div class="btnRow">
+                <span (tap)="dismiss()">Close</span>
+                <span (tap)="delete()">Delete</span>
+                <span>Save</span>
             </div>
         </div>
         <div class="pop_txt">
