@@ -456,8 +456,10 @@ page-anotote-list {
                             max-height: 0px;
                             transition: max-height 0.15s ease-out;
                             -webkit-transition: max-height 0.15s ease-out;
+                            padding-right: 10px;
                             &.toteTransition {
                                 max-height: 500px;
+                                overflow: auto;
                                 -webkit-transition: max-height 0.25s ease-in;
                                 transition: max-height 0.25s ease-in;
                             }
