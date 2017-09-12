@@ -161,13 +161,13 @@
                     </div>
                 </div>
                 <!-- Anotote Message Detail Section -->
-                <div (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}">
+                <div class="toteActive" (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
                     <div class="quotes layout message-underlist">
                         <div class="loading" [hidden]="anotote.spinner_for_active == false">
                             <ion-spinner></ion-spinner>
                         </div>
                         <ion-list no-lines class="details-list layout" [hidden]="anotote.spinner_for_active == true">
-                            <ion-item class="underlist-items" *ngFor="let message of messages">
+                            <ion-item class="underlist-items" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <img [src]="message | chatHeads" alt="">
                                     <!--<img [src]="assets/img/check-green.png" alt="">-->
