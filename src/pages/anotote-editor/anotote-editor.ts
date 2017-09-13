@@ -75,6 +75,9 @@ export class AnototeEditor implements OnDestroy {
     private full_screen_mode: boolean;
     private detail_event: any;
     private which_stream: string;
+    private sel: any;
+    private range: any;
+
     private show_anotation_details: (txt: string) => void;
 
     constructor(public myElement: ElementRef,
@@ -291,9 +294,14 @@ export class AnototeEditor implements OnDestroy {
     private highlight_(com_or_quote, identifier, comment) {
         try {
             var self = this;
-            var selection = window.getSelection();
-            // var range = document.createRange();
-            var range = selection.getRangeAt(0);
+            if (com_or_quote == 'comment') {
+                var selection = this.sel;
+                var range = this.range;
+            } else {
+                var selection: any = window.getSelection();
+                var range = selection.getRangeAt(0);
+            }
+
             // range.setStart(this.selection.startContainer, this.selection.startOffset);
             // range.setEnd(this.selection.endContainer, this.selection.endOffset);
 
@@ -429,11 +437,10 @@ export class AnototeEditor implements OnDestroy {
             this.selection_lock = false;
             return;
         }
-        var selection = window.getSelection();
-        var range = selection.getRangeAt(0);
-        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: range, sel: selection });
+        this.sel = window.getSelection();
+        this.range = this.sel.getRangeAt(0);
+        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel });
         createAnotationModal.onDidDismiss(data => {
-            console.log(data);
             if (data.create) {
                 this.create_anotation(data.comment);
             } else if (data.share) {
