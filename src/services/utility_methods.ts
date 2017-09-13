@@ -83,7 +83,7 @@ export class UtilityMethods {
     doToast(msg: string) {
         let toast = this.toastCtrl.create({
             message: msg,
-            duration: 25000,
+            duration: 2500,
             position: 'bottom'
         });
 

@@ -137,15 +137,15 @@
                                     <div class="txt">
                                         <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                         <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
-                                        <div class="tagImage">
-                                            <img src="assets/img/dotsicon.svg" alt="">
+                                        <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0">
+                                            <img src="assets/img/dotsicon.svg" (click)="show_tags_for_annotation(anotote.active_tab,highlight)" alt="">
                                         </div>
                                     </div>
                                     <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                     <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
                                         <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
-                                        <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation(highlight)">
+                                        <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation(anotote.active_tab,highlight)">
                                         <span class="closeIcon">Close</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
                                         <span class="doneIcon" (click)="save_edited_annotation(highlight)" alt="">Save</span>

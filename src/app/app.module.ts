@@ -88,6 +88,7 @@ import { Safe } from "../services/SafeHtml";
 import { OnlyTime } from "../directives/date_pipe";
 import { Keyboard } from "@ionic-native/keyboard";
 import { DatePipe } from "@angular/common";
+import { ChatToteOptions } from '../pages/anotote-list/chat_tote';
 
 @NgModule({
   declarations: [
@@ -134,7 +135,8 @@ import { DatePipe } from "@angular/common";
     OnlyTime,
     DclWrapper,
     Highlight,
-    Safe
+    Safe,
+    ChatToteOptions
   ],
   imports: [
     BrowserModule,
@@ -184,7 +186,8 @@ import { DatePipe } from "@angular/common";
     AnototeOptions,
     Chat,
     AnototeList,
-    AnototeEditor
+    AnototeEditor,
+    ChatToteOptions
   ],
 
   providers: [

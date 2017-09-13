@@ -23,6 +23,7 @@ import { User } from "../../models/user";
 import { AuthenticationService } from "../../services/auth.service";
 import { ChatHeads } from "../../services/pipes"
 import { NotificationService } from "../../services/notifications.service";
+import { ChatToteOptions } from './chat_tote';
 
 @IonicPage()
 @Component({
@@ -480,33 +481,38 @@ export class AnototeList {
 
   go_to_editor() {
     if (this.current_active_anotote != null && this.current_color == 'me') {
-      if (this.current_active_anotote.userAnnotote.filePath != '')
-        this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
-      else
+      if (this.current_active_anotote.userAnnotote.filePath != '') {
+        // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
+        let chatTote = this.modalCtrl.create(ChatToteOptions, {});
+        chatTote.onDidDismiss(() => {
+
+        })
+        chatTote.present();
+      } else
         this.utilityMethods.doToast("Couldn't load as no file was found.");
     } else if (this.current_active_anotote != null && (this.current_color == 'follows' || this.current_color == 'top')) {
-      if (this.current_active_anotote.userAnnotote.filePath != '') {
-        var params = {
-          annotote_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.id : this.current_active_anotote.annotote.id,
-          user_id: this.user.id,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.utilityMethods.show_loader('', false);
-        this.anototeService.save_totes(params).subscribe((result) => {
-          this.utilityMethods.hide_loader();
-          if (result.status == 1) {
-            this.utilityMethods.doToast("Saved to Me stream");
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: 'me', HIGHLIGHT_RECEIVED: null });
-          }
-        }, (error) => {
-          this.utilityMethods.hide_loader();
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          }
-        })
-      } else {
-        this.utilityMethods.doToast("Couldn't load as no file was found.");
-      }
+      // if (this.current_active_anotote.userAnnotote.filePath != '') {
+      //   var params = {
+      //     annotote_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.id : this.current_active_anotote.annotote.id,
+      //     user_id: this.user.id,
+      //     created_at: this.utilityMethods.get_php_wala_time()
+      //   }
+      //   this.utilityMethods.show_loader('', false);
+      //   this.anototeService.save_totes(params).subscribe((result) => {
+      //     this.utilityMethods.hide_loader();
+      //     if (result.status == 1) {
+      //       this.utilityMethods.doToast("Saved to Me stream");
+      //       this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: 'me', HIGHLIGHT_RECEIVED: null });
+      //     }
+      //   }, (error) => {
+      //     this.utilityMethods.hide_loader();
+      //     if (error.code == -1) {
+      //       this.utilityMethods.internet_connection_error();
+      //     }
+      //   })
+      // } else {
+      //   this.utilityMethods.doToast("Couldn't load as no file was found.");
+      // }
 
     } else
       this.utilityMethods.doToast("Please select an annotote whose annotations you want to make.");
@@ -721,15 +727,15 @@ export class AnototeList {
     })
   }
 
-  show_tags_for_annotation(annotation) {
-    if (this.current_color != 'me' && annotation.tags.length == 0) {
+  show_tags_for_annotation(activeTab, annotation) {
+    if (activeTab != 'me' && annotation.tags.length == 0) {
       this.utilityMethods.doToast("This annotation does not contain any tags.");
       return;
     }
     var params = {
       annotation_id: annotation.id,
       tags: annotation.tags,
-      whichStream: this.current_color,
+      whichStream: activeTab,
       annotote: false
     }
     let tagsModal = this.modalCtrl.create(TagsPopUp, params);
@@ -752,6 +758,7 @@ export class AnototeList {
         this.spinner_for_active = false;
         highlight.comment = result.data.highlight.comment;
         highlight.edit = false;
+        this.current_active_highlight = null;
       }, (error) => {
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
