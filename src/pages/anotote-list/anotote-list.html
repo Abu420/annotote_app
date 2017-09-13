@@ -247,7 +247,7 @@
                                     <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p>
                                     <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab != 'top'">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
-                                    <div class="tagImage">
+                                    <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation(anotote.active_tab,highlight)">
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div>
                                 </div>
@@ -263,6 +263,7 @@
                 </div>
             </ion-item>
         </ion-list>
+        <div id="text_editor" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
         </div>

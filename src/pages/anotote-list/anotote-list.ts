@@ -84,6 +84,7 @@ export class AnototeList {
   public current_active_highlight: any = null;
   public edit_highlight_text: string = '';
   public unread_notification_count: any = 0;
+  public text: any;
 
   /**
    * Constructor
@@ -482,12 +483,12 @@ export class AnototeList {
   go_to_editor() {
     if (this.current_active_anotote != null && this.current_color == 'me') {
       if (this.current_active_anotote.userAnnotote.filePath != '') {
-        // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
-        let chatTote = this.modalCtrl.create(ChatToteOptions, {});
-        chatTote.onDidDismiss(() => {
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
+        // let chatTote = this.modalCtrl.create(ChatToteOptions, {});
+        // chatTote.onDidDismiss(() => {
 
-        })
-        chatTote.present();
+        // })
+        // chatTote.present();
       } else
         this.utilityMethods.doToast("Couldn't load as no file was found.");
     } else if (this.current_active_anotote != null && (this.current_color == 'follows' || this.current_color == 'top')) {
@@ -600,32 +601,32 @@ export class AnototeList {
         anotote.isMe = anotote.anototeDetail.isMe;
         anotote.spinner_for_active = false;
         //Details
-        this.spinner_for_active = true;
-        var params = {
-          user_id: this.user.id,
-          anotote_id: anotote.userAnnotote.id,
-          time: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.fetchToteDetails(params).subscribe((result) => {
-          this.spinner_for_active = false;
-          if (result.status == 1) {
-            if (result.data.annotote.follows.length > 0)
-              anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
-            anotote.follows = result.data.annotote.follows;
-            anotote.top_highlights = Object.assign(result.data.annotote.highlights);
-            anotote.highlights = result.data.annotote.highlights;
-            anotote.isMe = result.data.annotote.isMe;
-          } else {
-            this.utilityMethods.doToast("Couldn't fetch annotations");
-            anotote.active = false;
-          }
-        }, (error) => {
-          this.spinner_for_active = false;
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-            this.utilityMethods.doToast("Couldn't load chat history.");
-          }
-        });
+        // this.spinner_for_active = true;
+        // var params = {
+        //   user_id: this.user.id,
+        //   anotote_id: anotote.userAnnotote.id,
+        //   time: this.utilityMethods.get_php_wala_time()
+        // }
+        // this.anototeService.fetchToteDetails(params).subscribe((result) => {
+        //   this.spinner_for_active = false;
+        //   if (result.status == 1) {
+        //     if (result.data.annotote.follows.length > 0)
+        //       anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
+        //     anotote.follows = result.data.annotote.follows;
+        //     anotote.top_highlights = Object.assign(result.data.annotote.highlights);
+        //     anotote.highlights = result.data.annotote.highlights;
+        //     anotote.isMe = result.data.annotote.isMe;
+        //   } else {
+        //     this.utilityMethods.doToast("Couldn't fetch annotations");
+        //     anotote.active = false;
+        //   }
+        // }, (error) => {
+        //   this.spinner_for_active = false;
+        //   if (error.code == -1) {
+        //     this.utilityMethods.internet_connection_error();
+        //     this.utilityMethods.doToast("Couldn't load chat history.");
+        //   }
+        // });
       }
     }
   }
@@ -715,7 +716,9 @@ export class AnototeList {
         file_text: this.current_active_anotote.userAnnotote.fileText,
         delete: 1
       }
+      this.utilityMethods.show_loader('Deleting')
       this.anototeService.delete_annotation(params).subscribe((result) => {
+        this.utilityMethods.hide_loader()
         this.current_active_anotote.highlights.splice(this.current_active_anotote.highlights.indexOf(annotation), 1);
       }, (error) => {
         if (error.code == -1) {
@@ -745,7 +748,7 @@ export class AnototeList {
 
   save_edited_annotation(highlight) {
     if (this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') {
-      this.spinner_for_active = true;
+      this.utilityMethods.show_loader("");
       var params = {
         highlight_text: highlight.highlightText,
         updated_at: this.utilityMethods.get_php_wala_time(),
@@ -755,7 +758,7 @@ export class AnototeList {
         user_tote_id: this.current_active_anotote.userAnnotote.id
       }
       this.anototeService.update_annotation(params).subscribe((result) => {
-        this.spinner_for_active = false;
+        this.utilityMethods.hide_loader();
         highlight.comment = result.data.highlight.comment;
         highlight.edit = false;
         this.current_active_highlight = null;

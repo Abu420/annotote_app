@@ -17,7 +17,7 @@ export class CommentDetailPopup {
     this.anotote_txt = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
-    this.anotote_comment = this.params.get('comment');
+    this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
     this.which_stream = this.params.get('which_stream');
     this.new_comment = Object.assign(this.anotote_comment);
   }
