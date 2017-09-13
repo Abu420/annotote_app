@@ -31,24 +31,24 @@ import { NotificationService } from "../../services/notifications.service";
     trigger(
       'enterAnimation', [
         transition(':enter', [
-          style({ transform: 'translateY(100%)', opacity: 0 }),
-          animate('500ms', style({ transform: 'translateY(0)', opacity: 1 }))
+          style({ webkitTransform: 'translateY(100%)', transform: 'translateY(100%)', opacity: 0 }),
+          animate('500ms', style({ webkitTransform: 'translateY(100%)', transform: 'translateY(0)', opacity: 1 }))
         ]),
         transition(':leave', [
-          style({ transform: 'translateY(0)', opacity: 1 }),
-          animate('500ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+          style({ webkitTransform: 'translateY(0)', transform: 'translateY(0)', opacity: 1 }),
+          animate('500ms', style({ webkitTransform: 'translateY(100%)', transform: 'translateY(100%)', opacity: 0 }))
         ])
       ]
     ),
     trigger(
       'leftAnimation', [
         transition(':enter', [
-          style({ transform: 'translatex(-100%)', opacity: 0 }),
-          animate('500ms', style({ transform: 'translatex(0)', opacity: 1 }))
+          style({ webkitTransform: 'translateY(-100%)', transform: 'translatex(-100%)', opacity: 0 }),
+          animate('500ms', style({ webkitTransform: 'translateY(0%)', transform: 'translatex(0)', opacity: 1 }))
         ]),
         transition(':leave', [
-          style({ transform: 'translatex(0)', opacity: 1 }),
-          animate('500ms', style({ left: '0', transform: 'translatex(-100%)', opacity: 0 }))
+          style({ webkitTransform: 'translateY(0)', transform: 'translatex(0)', opacity: 1 }),
+          animate('500ms', style({ left: '0', webkitTransform: 'translateY(-100%)', transform: 'translatex(-100%)', opacity: 0 }))
         ])
       ]
     )
