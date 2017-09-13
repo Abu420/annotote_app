@@ -1,15 +1,56 @@
-<ion-header class="searchHeader">
+<ion-header class="userHead">
     <ion-toolbar color="homeheader">
-        <div [ngClass]="{'black': current_url == '', 'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}" class="search_header">
-            <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
-            <img src="assets/img/searchIcon.png" alt="" />
+        <div class="resultUserHead">
+            <span><img src="assets/img/chatWhiteIcon.svg" alt="" /></span>
             <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
-            <span (click)="dismiss()" class="clear_button"></span>
+            <img src="assets/img/croseIcon.svg" alt="" />
         </div>
+        <!-- <div class="searchUserHead">
+            <img src="assets/img/croseIcon.svg" alt="" />
+            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
+            <span><img src="assets/img/plusIcon.svg" alt="" /></span>
+        </div> -->
     </ion-toolbar>
 </ion-header>
 <ion-content swipe-vertical padding class="searchPage">
-    <!-- content-->
-
-
+    <div class="resultWidget">
+        <ul>
+            <li>
+                <img src="assets/img/img1.png" alt="" />
+                <span>Save this (enter)</span>
+            </li>
+            <li>
+                <img src="assets/img/img1.png" alt="" />
+                <span>Bookmark this </span>
+            </li>
+            <li>
+                <img src="assets/img/img1.png" alt="" />
+                <span>Chat</span>
+            </li>
+            <li>
+                <img src="assets/img/img1.png" alt="" />
+                <span>Upload </span>
+            </li>
+        </ul>
+    </div>
+    <!-- <div class="userWidget">
+        <ul>
+            <li>
+                <img src="assets/img/cloudIconGray.svg" alt="" />
+                <span>Save this (enter)</span>
+            </li>
+            <li>
+                <img src="assets/img/bookmarkIconGray.svg" alt="" />
+                <span>Bookmark this </span>
+            </li>
+            <li>
+                <img src="assets/img/chatIcon.svg" alt="" />
+                <span>Chat</span>
+            </li>
+            <li>
+                <img src="assets/img/uploadIcon.svg" alt="" />
+                <span>Upload </span>
+            </li>
+        </ul>
+    </div> -->
 </ion-content>

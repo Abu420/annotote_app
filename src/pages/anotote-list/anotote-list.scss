@@ -376,7 +376,118 @@ follows_popup {
     }
 }
 
-chat_tote_page {}
+chat_tote_page {
+    .userHead {
+        .toolbar-background {
+            background: #3DDE00;
+        }
+        >.toolbar {
+            contain: none;
+            overflow: visible;
+        }
+    }
+    .searchPage {
+        background: rgba(121, 121, 121, 0.58);
+        .scroll-content {
+            background: transparent;
+            padding: 0px !important;
+            .userWidget {
+                background: #F5F5F5;
+                ul {
+                    margin: 0px;
+                    padding: 0px;
+                    li {
+                        padding: 0 0px 0 10px;
+                        img {
+                            width: 40px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-right: 15px;
+                        }
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: calc(100% - 60px);
+                            font-size: 16px;
+                            padding: 30px;
+                            padding-left: 0px;
+                            border-bottom: 1px solid #CCC;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .searchUserHead {
+        height: 56px;
+        >img {
+            width: 20px;
+            display: inline-block;
+            vertical-align: top;
+            margin: 18px 21px 18px 23px;
+        }
+        >input {
+            width: calc(100% - 160px);
+            padding: 19px;
+            display: inline-block;
+            vertical-align: top;
+            border: 0px;
+            box-shadow: 0px 0px 10px #103c00;
+        }
+        span {
+            display: inline-block;
+            vertical-align: top;
+            background: #2BA600;
+            padding: 14px 20px 10px 20px;
+            width: 70px;
+            margin-left: -8px;
+            position: relative;
+            box-shadow: 0px 0px 10px #3c3c3c;
+            &:after {
+                content: "";
+                position: absolute;
+                left: 0px;
+                bottom: -15px;
+                width: 0;
+                height: 0;
+                border-left: 35px solid transparent;
+                border-right: 35px solid transparent;
+                border-top: 15px solid #2BA600;
+            }
+        }
+    }
+    .resultUserHead {
+        height: 56px;
+        >span {
+            display: inline-block;
+            vertical-align: top;
+            background: #2BA600;
+            padding: 16px 20px 10px 20px;
+            width: 70px;
+            margin-left: 25px;
+            margin-right: -5px;
+            position: relative;
+            box-shadow: 0px 0px 10px #3c3c3c;
+        }
+        >img {
+            width: 15px;
+            display: inline-block;
+            vertical-align: top;
+            margin: 20px 7px;
+        }
+        >input {
+            width: calc(100% - 134px);
+            padding: 19px;
+            display: inline-block;
+            vertical-align: top;
+            border: 0px;
+            box-shadow: 0px 0px 10px #103c00;
+        }
+    }
+    .resultWidget {
+        @extend .userWidget;
+    }
+}
 
 page-anotote-list {
     .fab {
