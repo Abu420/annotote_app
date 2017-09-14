@@ -26,11 +26,15 @@ export class ChatToteOptions {
     public stream_color: string;
     public new_tote: any = {};
 
-    constructor(public constants: Constants, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
+    constructor(public params: NavParams, public navCtrl: NavController, public utilityMethods: UtilityMethods, public viewCtrl: ViewController) {
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;
         this.filter_mode = false;
 
+    }
+
+    dissmiss() {
+        this.viewCtrl.dismiss();
     }
 }

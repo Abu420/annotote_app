@@ -299,11 +299,11 @@ export class AnototeEditor implements OnDestroy {
                 var range = this.range;
             } else {
                 var selection: any = window.getSelection();
-                var range = selection.getRangeAt(0);
+                // var range = selection.getRangeAt(0);
+                var range: any = document.createRange();
+                range.setStart(this.selection.startContainer, this.selection.startOffset);
+                range.setEnd(this.selection.endContainer, this.selection.endOffset);
             }
-
-            // range.setStart(this.selection.startContainer, this.selection.startOffset);
-            // range.setEnd(this.selection.endContainer, this.selection.endOffset);
 
             // var nodes = [];
             // var node;
@@ -343,6 +343,7 @@ export class AnototeEditor implements OnDestroy {
 
             newNode.setAttribute("data-selectedtxt", this.selectedText);
             newNode.setAttribute("data-identifier", identifier);
+            newNode.id = identifier;
             if (com_or_quote == 'comment') {
                 newNode.setAttribute("class", "highlight_comment");
                 newNode.setAttribute("data-comment", comment);
@@ -438,7 +439,10 @@ export class AnototeEditor implements OnDestroy {
             return;
         }
         this.sel = window.getSelection();
-        this.range = this.sel.getRangeAt(0);
+        // this.range = this.sel.getRangeAt(0);
+        this.range = document.createRange();
+        this.range.setStart(this.selection.startContainer, this.selection.startOffset);
+        this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel });
         createAnotationModal.onDidDismiss(data => {
             if (data.create) {
@@ -477,6 +481,7 @@ export class AnototeEditor implements OnDestroy {
         this.utilityMethods.show_loader('Please wait...');
         var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
+        element.className = "highlight_comment"
         element.setAttribute("data-comment", comment);
         var article_txt = document.getElementById('text_editor').innerHTML;
         this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: this.tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })

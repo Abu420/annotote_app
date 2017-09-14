@@ -32,7 +32,6 @@ export class ViewOptions {
     var data = this.notificationService.get_notification_data();
     this.un_read = data.unread;
     this.stream = params.get('stream');
-    console.log(this.stream);
   }
 
   show_notifications() {
@@ -68,7 +67,7 @@ export class ViewOptions {
     setTimeout(() => {
       let data = { 'foo': 'bar' };
       this.viewCtrl.dismiss(data);
-    }, 300)
+    }, 100)
   }
 
 }

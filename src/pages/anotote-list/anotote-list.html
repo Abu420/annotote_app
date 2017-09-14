@@ -146,7 +146,7 @@
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
                                         <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
                                         <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation(anotote.active_tab,highlight)">
-                                        <span class="closeIcon">Close</span>
+                                        <span class="closeIcon" (click)="stop_editing($event,highlight)">Close</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
                                         <span class="doneIcon" (click)="save_edited_annotation(highlight)" alt="">Save</span>
                                         <!-- <img class="closeIcon" src="assets/img/cross.png" alt="" (click)="delete_annotation(highlight)"> -->
@@ -263,7 +263,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <div id="text_editor" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
+        <div id="temp_text_editor" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
         </div>

@@ -1,7 +1,7 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
-<div class="content_follows_profile">
-    <form (ngSubmit)="update_comment()" class="popupPanel">
+<div class="content_follows_profile" *ngIf="show == true">
+    <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation]>
         <div class="pop_heading">
             <!--<div class="col">
 				<ion-icon name="ios-arrow-down-outline"></ion-icon>
