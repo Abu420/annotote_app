@@ -93,15 +93,25 @@
                         </div>
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
-                        <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
-                        <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
+                        <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
+                            <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
+                            <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
+                        </ng-container>
+                        <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
+                            <strong [innerText]="anotote.chatGroup.messagesUser[0].subject"></strong>
+                        </ng-container>
                         <div class="time">
                             <em>
 							  <span [innerText]="anotote.createdAt | time_stamp"></span>
 							</em>
                         </div>
                         <div class="toteText">
-                            <p>Message</p>
+                            <p *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">Message</p>
+                            <p *ngIf="anotote.chatGroup.messagesUser == null">Message</p>
+                            <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
+                                <p [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></p>
+                                <p [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></p>
+                            </ng-container>
                             <button type="button">
                                 <img src="assets/img/commentIcon.svg" alt="">
 								<!-- <ion-icon name="chatbubbles"></ion-icon> -->
@@ -167,7 +177,7 @@
                     </div>
                 </div>
                 <!-- Anotote Message Detail Section -->
-                <div class="toteActive" (tap)="go_to_chat_thread(anotote.chatGroup.groupUsers)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
+                <div class="toteActive" (tap)="go_to_chat_thread(anotote)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
                     <div class="quotes layout message-underlist">
                         <div class="loading" [hidden]="anotote.spinner_for_active == false">
                             <ion-spinner></ion-spinner>

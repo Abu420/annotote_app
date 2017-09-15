@@ -35,6 +35,9 @@ export class Chat {
   public user: User;
   public infinite_completed = false;
   public send_message_loader = false;
+  public against_tote: boolean = false;
+  public anotote_id: any = 0;
+  public title = '';
 
   /**
    * Constructor
@@ -46,6 +49,11 @@ export class Chat {
     this.user = this.authService.getUser();
     this.connectionToSocket();
     this.chatService.listenForGlobalMessages();
+    if (navParams.get('against_anotote')) {
+      this.against_tote = true;
+      this.anotote_id = navParams.get('anotote_id');
+      this.title = navParams.get('title');
+    }
   }
 
   public connectionToSocket() {
@@ -62,48 +70,88 @@ export class Chat {
 
   public sendMessage() {
     if (this.textMessage != "") {
-      this.send_message_loader = true;
-      this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time() }).subscribe((result) => {
-        this.send_message_loader = false;
-        this.conversation.push(result.data.messages);
-        this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
-        this.textMessage = "";
-        this.autoScroll();
+      if (this.anotote_id == 0) {
+        this.send_message_loader = true;
+        this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time() }).subscribe((result) => {
+          this.send_message_loader = false;
+          this.conversation.push(result.data.messages);
+          this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
+          this.textMessage = "";
+          this.autoScroll();
+        }, (error) => {
+          this.send_message_loader = false;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
+      } else {
+        this.send_message_loader = true;
+        this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
+          this.send_message_loader = false;
+          this.conversation.push(result.data.messages);
+          this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
+          this.textMessage = "";
+          this.autoScroll();
+        }, (error) => {
+          this.send_message_loader = false;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
+      }
+
+    }
+  }
+
+  doInfinite(infiniteScroll) {
+    if (this.anotote_id == 0) {
+      this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
+        if (this.conversation.length == 0)
+          this.conversation = result.data.messages.reverse();
+        else {
+          for (let msg of result.data.messages) {
+            this.conversation.unshift(msg);
+          }
+        }
+        infiniteScroll.complete();
+        if (result.data.messages.length < 10) {
+          infiniteScroll.enable(false);
+          this.infinite_completed = true;
+        }
       }, (error) => {
-        this.send_message_loader = false;
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      });
+    } else {
+      this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
+        if (this.conversation.length == 0)
+          this.conversation = result.data.messages.reverse();
+        else {
+          for (let msg of result.data.messages) {
+            this.conversation.unshift(msg);
+          }
+        }
+        infiniteScroll.complete();
+        if (result.data.messages.length < 10) {
+          infiniteScroll.enable(false);
+          this.infinite_completed = true;
+        }
+      }, (error) => {
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
     }
-  }
 
-  doInfinite(infiniteScroll) {
-    this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++).subscribe((result) => {
-      if (this.conversation.length == 0)
-        this.conversation = result.data.messages.reverse();
-      else {
-        for (let msg of result.data.messages) {
-          this.conversation.unshift(msg);
-        }
-      }
-      infiniteScroll.complete();
-      if (result.data.messages.length < 10) {
-        infiniteScroll.enable(false);
-        this.infinite_completed = true;
-      }
-    }, (error) => {
-      if (error.code == -1) {
-        this.utilityMethods.internet_connection_error();
-      }
-    });
   }
 
   /**
   * View LifeCycle Events
   */
 
-  ionViewDidLoad() { }
+  ionViewDidLoad() {
+  }
 
   autoScroll() {
     setTimeout(() => {

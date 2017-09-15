@@ -30,8 +30,11 @@ export class ChatService {
     return 2;
   }
 
-  public fetchHistory(firstUser: number, secondUser: number, page = 1) {
-    var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&page=' + page;
+  public fetchHistory(firstUser: number, secondUser: number, page = 1, anotote_id) {
+    if (anotote_id == 0)
+      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&page=' + page;
+    else
+      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&anotote_id=' + anotote_id + '&page=' + page;
     var response = this.http.get(url).map(res => res.json())
     return response;
   }

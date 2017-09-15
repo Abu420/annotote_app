@@ -218,4 +218,10 @@ export class SearchService {
         var response = this.http.get(url);
         return response;
     }
+
+    public vote_anotation(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/vote';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
 }

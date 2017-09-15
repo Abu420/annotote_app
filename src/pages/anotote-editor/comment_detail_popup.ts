@@ -24,7 +24,7 @@ export class CommentDetailPopup {
   private anotote_type: string;
   private anotote_identifier: string;
   private anotote_comment: any;
-  private which_stream: string;
+  private stream: string;
   private new_comment: any = '';
   public show: boolean = true;
 
@@ -33,7 +33,7 @@ export class CommentDetailPopup {
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
-    this.which_stream = this.params.get('which_stream');
+    this.stream = this.params.get('stream');
     this.new_comment = Object.assign(this.anotote_comment);
   }
 
@@ -66,6 +66,20 @@ export class CommentDetailPopup {
         this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
       else
         this.utilityMethods.doToast("You didn't update any comment.");
+    }, 100)
+  }
+
+  upvote() {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: true });
+    }, 100)
+  }
+
+  downvote() {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, downvote: true });
     }, 100)
   }
 
