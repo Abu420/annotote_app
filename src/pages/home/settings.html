@@ -1,6 +1,6 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
-<div class="content_follows_profile">
+<div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
     <div class="pop_heading">Settings</div>
     <ul no-lines class="sharing_pop bottom-border">
         <li class="userPro">

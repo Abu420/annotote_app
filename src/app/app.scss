@@ -222,8 +222,8 @@ button,
 }
 
 .fab {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     box-shadow: 0 6px 10px 0px #a7a7a7;
     padding: 2px;
     .button-inner {
@@ -231,7 +231,7 @@ button,
     }
     .button-inner {
         img {
-            width: 25px;
+            width: 20px;
         }
     }
 }
@@ -285,7 +285,8 @@ button,
 
 //Login register and page css
 page-signup,
-page-login {
+page-login,
+page-forgotpassword {
     .bar-buttons {
         margin-right: 30px;
     }
@@ -294,21 +295,41 @@ page-login {
         background: #F5F5F5;
     }
     .input-holder {
-        padding: 21px 20px;
+        padding: 0;
         border-bottom: 1px solid #e8e8e8;
         overflow: hidden;
         background: #FFF;
         &.msgIcon {
             .iconImg {
-                padding: 8px 0px 0;
+                display: inline-block;
+                vertical-align: middle;
+                width: 73px;
+                height: 73px;
+                margin: 0px;
+                text-align: center;
+                line-height: 5;
+                img {
+                    width: 20px;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+                .activeIcon {
+                    display: none;
+                }
+            }
+            &.active {
+                background: #d9d9d9;
+                img {
+                    display: none;
+                }
+                .activeIcon {
+                    display: inline-block;
+                    box-shadow: 0px 5px 7px #999;
+                }
             }
         }
         &.passIcon {
-            .iconImg {
-                img {
-                    width: 20px;
-                }
-            }
+            @extend .msgIcon;
         }
         .iconImg {
             float: left;
@@ -317,36 +338,23 @@ page-login {
             margin-right: 8px;
         }
         &.loginIcon {
-            img {
-                width: 20px;
-            }
-        }
-        &.active {
-            background: #d9d9d9;
-            img {
-                display: none;
-            }
-            .activeIcon {
-                display: inline-block;
-            }
-        }
-        .activeIcon {
-            display: none;
+            @extend .msgIcon;
         }
     }
     .form-area input {
-        width: calc(100% - 36px);
+        width: calc(100% - 73px);
         color: #0f0f10;
-        height: 30px;
-        padding: 4px 10px;
+        height: 73px;
+        padding: 6px 10px 6px 0;
         margin: 0;
         background: transparent;
         border: 0px;
         font-size: 18px;
+        display: inline-block;
     }
     .form-area button {
-        width: 70px;
-        height: 70px;
+        width: 65px;
+        height: 65px;
         border-radius: 100%;
         color: #fff;
         text-transform: uppercase;

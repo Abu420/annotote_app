@@ -228,11 +228,7 @@ anotote_content_options {
 page-home {
     ion-fab {
         bottom: 20px !important;
-        .fab {
-            width: 70px;
-            height: 70px;
-            box-shadow: 0 6px 10px 0px #a7a7a7;
-        }
+        right: 15px !important;
     }
     .product-list {
         .item {
@@ -358,8 +354,8 @@ ion-buttons {
 }
 
 .home-list ion-item button {
-    width: 67px;
-    height: 70px !important;
+    width: 73px;
+    height: 73px !important;
     float: left;
     box-shadow: none !important;
     border: none !important;
@@ -386,7 +382,7 @@ ion-buttons {
 }
 
 .home-list span.txt {
-    padding: 25px 10px;
+    padding: 27px 10px 26px 0;
     font-size: 16px;
     line-height: 20px;
     color: #000;
