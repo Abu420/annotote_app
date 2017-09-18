@@ -391,9 +391,9 @@ follows_popup {
 
 chat_tote_page {
     .userHead {
-        .toolbar-background {
-            background: #3DDE00;
-        }
+        // .toolbar-background {
+        //     background: #3DDE00;
+        // }
         >.toolbar {
             contain: none;
             overflow: visible;
@@ -450,7 +450,6 @@ chat_tote_page {
         span {
             display: inline-block;
             vertical-align: top;
-            background: #2BA600;
             padding: 14px 20px 10px 20px;
             width: 70px;
             margin-left: -8px;
@@ -468,13 +467,27 @@ chat_tote_page {
                 border-top: 15px solid #2BA600;
             }
         }
+        span.me {
+            background: #2BA600;
+        }
+        span.follows {
+            background: #bdb222;
+            &:after {
+                border-top: 15px solid #bdb222;
+            }
+        }
+        span.top {
+            background: #ca6ebf;
+            &:after {
+                border-top: 15px solid #ca6ebf;
+            }
+        }
     }
     .resultUserHead {
         height: 56px;
         >span {
             display: inline-block;
             vertical-align: top;
-            background: #2BA600;
             padding: 16px 20px 10px 20px;
             width: 70px;
             margin-left: 25px;
@@ -496,9 +509,32 @@ chat_tote_page {
             border: 0px;
             box-shadow: 0px 0px 10px #103c00;
         }
+        span.me {
+            background: #2BA600;
+        }
+        span.follows {
+            background: #bdb222;
+        }
+        span.top {
+            background: #ca6ebf;
+        }
     }
     .resultWidget {
         @extend .userWidget;
+        ul {
+            li {
+                span {
+                    width: calc(100% - 115px) !important;
+                    padding-right: 0px !important;
+                    &.rightAdd {
+                        float: right !important;
+                        width: 45px !important;
+                        font-size: 20px !important;
+                        padding: 27px 0 28px !important;
+                    }
+                }
+            }
+        }
     }
 }
 

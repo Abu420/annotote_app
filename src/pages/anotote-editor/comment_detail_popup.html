@@ -1,7 +1,7 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile">
-    <form (ngSubmit)="update_comment()" class="popupPanel">
+    <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
         <div class="pop_heading">
             <!--<div class="col">
 				<ion-icon name="ios-arrow-down-outline"></ion-icon>
@@ -15,22 +15,22 @@
             <div (tap)="delete()" class="col">
                 <img src="assets/img/deleteIcon.svg" alt="">
             </div> -->
-            <!-- <div class="downUp">
-                <img src="assets/img/upArrow.svg" alt="">
+            <div class="downUp" *ngIf="stream != 'me'">
+                <img src="assets/img/upArrow.svg" (click)="upvote()" alt="">
                 <span>83%</span>
-                <img src="assets/img/downIcon.svg" alt="">
+                <img src="assets/img/downIcon.svg" (click)="downvote()" alt="">
             </div>
-            <div class="topTab">
+            <div class="topTab" *ngIf="stream != 'me'">
                 <span>Top</span>
             </div>
-            <div (tap)="share()" class="col">
+            <div (tap)="share()" class="col" *ngIf="stream != 'me'">
                 <img src="assets/img/shareIconT.svg" alt="">
-            </div> -->
+            </div>
 
-            <div (tap)="share()" class="col">
+            <div (tap)="share()" class="col" *ngIf="stream == 'me'">
                 <img src="assets/img/shareIcon.svg" alt="">
             </div>
-            <div class="btnRow">
+            <div class="btnRow" *ngIf="stream == 'me'">
                 <span (tap)="dismiss()">Close</span>
                 <span (tap)="delete()">Delete</span>
                 <span (tap)="updateComment()">Save</span>
@@ -40,7 +40,7 @@
             <p [innerText]="anotote_txt"></p>
         </div>
         <button type="submit" style="opacity:0;"></button>
-        <div class="threeDosts">
+        <div class="threeDosts" *ngIf="stream == 'me'">
             <ion-textarea [(ngModel)]="new_comment" name="comment" placeholder="Place your comment here"></ion-textarea>
             <img src="assets/img/option-msg.png" alt="">
         </div>

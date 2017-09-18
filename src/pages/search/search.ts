@@ -246,7 +246,6 @@ export class Search {
      */
     value_updating_search() {
         // this.search_txt = value;
-        console.log(this.search_filters.date);
         this.search_results = [];
         if (this.search_txt.length == 0) {
             this.current_url = '';

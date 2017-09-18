@@ -167,6 +167,33 @@ export class UtilityMethods {
         alert.present();
     }
 
+    prompt(callback) {
+        let alert = this.alertCtrl.create({
+            title: 'Initiate Discussion',
+            inputs: [
+                {
+                    name: 'Message',
+                    placeholder: 'Send message to start chat'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: data => {
+                    }
+                },
+                {
+                    text: 'Send',
+                    handler: data => {
+                        callback(data);
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
     /**
      *
      */

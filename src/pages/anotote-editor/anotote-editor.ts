@@ -77,6 +77,7 @@ export class AnototeEditor implements OnDestroy {
     private which_stream: string;
     private sel: any;
     private range: any;
+    private actual_stream: string;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -104,7 +105,8 @@ export class AnototeEditor implements OnDestroy {
             ANOTOTE: navParams.get('ANOTOTE'),
             FROM: navParams.get('FROM'),
             WHICH_STREAM: navParams.get('WHICH_STREAM'),
-            HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED')
+            HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
+            actual_stream: navParams.get('actual_stream')
         };
         this.anotote_service.add_page_locally(anotote_from_params);
         this.SAVED_ANOTOTES_LOCALLY = this.anotote_service.get_saved_pages_locally();
@@ -158,6 +160,7 @@ export class AnototeEditor implements OnDestroy {
         this.WHICH_STREAM = ANOTOTE_OBJECT.WHICH_STREAM
         this.which_stream = this.WHICH_STREAM;
         this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
+        this.actual_stream = ANOTOTE_OBJECT.actual_stream;
         // if (move_to_highlight_flag)
         //     this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
         // else
@@ -212,7 +215,7 @@ export class AnototeEditor implements OnDestroy {
         else
             this.statusBar.backgroundColorByHexString('#fb9df0');
         this.events.subscribe('show_tote_options', (data) => {
-            if (this.which_stream == 'me') {
+            if (this.actual_stream == 'me') {
                 this.toggle_annotation_option = data.flag;
                 this.content.resize();
                 if (data.flag && !this.selection_lock) {
@@ -299,11 +302,11 @@ export class AnototeEditor implements OnDestroy {
                 var range = this.range;
             } else {
                 var selection: any = window.getSelection();
-                var range = selection.getRangeAt(0);
+                // var range = selection.getRangeAt(0);
+                var range: any = document.createRange();
+                range.setStart(this.selection.startContainer, this.selection.startOffset);
+                range.setEnd(this.selection.endContainer, this.selection.endOffset);
             }
-
-            // range.setStart(this.selection.startContainer, this.selection.startOffset);
-            // range.setEnd(this.selection.endContainer, this.selection.endOffset);
 
             // var nodes = [];
             // var node;
@@ -343,6 +346,7 @@ export class AnototeEditor implements OnDestroy {
 
             newNode.setAttribute("data-selectedtxt", this.selectedText);
             newNode.setAttribute("data-identifier", identifier);
+            newNode.id = identifier;
             if (com_or_quote == 'comment') {
                 newNode.setAttribute("class", "highlight_comment");
                 newNode.setAttribute("data-comment", comment);
@@ -419,7 +423,7 @@ export class AnototeEditor implements OnDestroy {
     }
 
     presentCommentDetailModal(highlight, element?) {
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment });
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream });
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
                 this.remove_annotation_api(highlight.identifier, element);
@@ -427,6 +431,10 @@ export class AnototeEditor implements OnDestroy {
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Deep Link', highlight.txt, null, null);
+            } else if (data.upvote) {
+                this.upvote(element.id);
+            } else if (data.downvote) {
+                this.downvote(element.id)
             }
         });
         commentDetailModal.present();
@@ -438,7 +446,10 @@ export class AnototeEditor implements OnDestroy {
             return;
         }
         this.sel = window.getSelection();
-        this.range = this.sel.getRangeAt(0);
+        // this.range = this.sel.getRangeAt(0);
+        this.range = document.createRange();
+        this.range.setStart(this.selection.startContainer, this.selection.startOffset);
+        this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel });
         createAnotationModal.onDidDismiss(data => {
             if (data.create) {
@@ -477,6 +488,7 @@ export class AnototeEditor implements OnDestroy {
         this.utilityMethods.show_loader('Please wait...');
         var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
+        element.className = "highlight_comment"
         element.setAttribute("data-comment", comment);
         var article_txt = document.getElementById('text_editor').innerHTML;
         this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: this.tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
@@ -522,6 +534,36 @@ export class AnototeEditor implements OnDestroy {
             this.selection_lock = false;
         });
         createAnotationOptionsModal.present();
+    }
+
+    upvote(id) {
+        this.utilityMethods.show_loader('');
+        var params = {
+            annotation_id: id,
+            vote: 1,
+            created_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.searchService.vote_anotation(params).subscribe((data) => {
+            this.utilityMethods.hide_loader();
+            this.utilityMethods.doToast("Up voted")
+        }, () => {
+            this.utilityMethods.hide_loader();
+        });
+    }
+
+    downvote(id) {
+        this.utilityMethods.show_loader('');
+        var params = {
+            annotation_id: id,
+            vote: 0,
+            created_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.searchService.vote_anotation(params).subscribe((data) => {
+            this.utilityMethods.hide_loader();
+            this.utilityMethods.doToast("downvoted")
+        }, () => {
+            this.utilityMethods.hide_loader();
+        });
     }
 
 }

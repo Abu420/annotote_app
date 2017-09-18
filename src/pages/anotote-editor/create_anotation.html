@@ -1,10 +1,9 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
-<div class="create_anotation_content">
+<div class="create_anotation_content" [@enterAnimation] *ngIf="show == true">
     <div class="btnRow">
         <span (tap)="dismiss()">Close</span>
-        <span (tap)="delete()">Delete</span>
-        <span>Save</span>
+        <span (tap)="create()">Save</span>
     </div>
     <!-- <div class="_buttons">
         <span (tap)="dismiss()" class="close"></span>
@@ -12,5 +11,5 @@
         <span (tap)="done()" class="done"></span>
     </div> -->
     <p class="selected_txt" [innerText]="selectedTxt"></p>
-    <textarea (input)="value_updating_comment($event.target.value)" placeholder="..."></textarea>
+    <textarea [(ngModel)]="comment" name="comment" placeholder="Enter comment here.."></textarea>
 </div>
