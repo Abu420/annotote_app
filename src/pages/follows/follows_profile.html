@@ -1,25 +1,30 @@
 <div class="top_empty_box" (click)="dismiss()">
 </div>
-<div class="content_follows_profile">
+<div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
     <div class="follow_details">
         <div class="follow_head">
-            <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
-            <strong>{{profileData.user.firstName + ' ' + profileData.user.lastName}}<em *ngIf="profileData.user.isFollowed==1"> <</em></strong>
-            <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
+            <figure>
+                <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
+            </figure>
+            <div class="proName">
+                <strong>{{profileData.user.firstName + ' ' + profileData.user.lastName}}<em *ngIf="profileData.user.isFollowed==1"> <</em></strong>
+                <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
+                <div (click)="presentProfilePictureActionSheet()" class="img-holder">
+                    <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="profileData.user.photo != null" [src]="profileData.user.photo | image_base_path">
+                    <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
+                </div>
+            </div>
         </div>
         <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
-        <div (click)="presentProfilePictureActionSheet()" class="img-holder">
-            <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
-            <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="profileData.user.photo != null" [src]="profileData.user.photo | image_base_path">
-            <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
-        </div>
         <ion-list class="follow_list">
             <ion-item>
                 <button ion-button icon-only><img src="assets/img/img5.png"></button>
                 <div class="txt">
-                    <strong>Description</strong>
-                    <p *ngIf="profileData.user.description != null">{{profileData.user.description}}</p>
+                    <strong *ngIf="profileData.user.description != null">{{profileData.user.description}}</strong>
+                    <!-- <p *ngIf="profileData.user.description != null">{{profileData.user.description}}</p> -->
                     <p *ngIf="profileData.user.description == null">No description added by {{profileData.user.firstName}}.</p>
+                    <img src="assets/img/dotsicon.svg" alt="">
                 </div>
             </ion-item>
             <ion-item>

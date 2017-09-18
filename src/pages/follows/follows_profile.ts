@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, trigger, transition, style, animate, NgZone } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams, Events, Platform, Loading, ActionSheetController } from 'ionic-angular';
 import { Chat } from '../chat/chat';
 import { ChangePassword } from '../change-password/change-password';
@@ -20,11 +20,26 @@ declare var cordova: any;
 
 @Component({
   selector: 'follow_profile',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+        ])
+      ]
+    )
+  ],
   templateUrl: 'follows_profile.html',
 })
 export class Profile {
 
   private img_loaded: boolean;
+  public show: boolean = true;
   private image_base_path: string;
   public profileData: any;
   public from_page: string;
@@ -287,8 +302,11 @@ export class Profile {
     });
   }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
+  dismiss(action) {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss();
+    }, 300)
   }
 
 }

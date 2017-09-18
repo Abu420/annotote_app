@@ -22,13 +22,17 @@
     <div id="wrapper">
         <div no-lines class="user-controls layout">
             <button (tap)="login()" class="layout" type="button">
-                <img src="assets/img/lockIcon.svg" alt="">
-                <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
+                <figure>
+                    <img src="assets/img/lockIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
+                </figure>
                 <span>SIGN IN</span>
             </button>
             <button (tap)="signup()" class="layout" type="button">
-                <img src="assets/img/userIcon.svg" alt="">
-                <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">
+                <figure>
+                    <img src="assets/img/userIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">    
+                </figure>
                 <span>REGISTER</span>
             </button>
         </div>
@@ -43,11 +47,13 @@
                     <strong [innerText]="anotote.annotote.title"></strong>
                     <div class="time">
                         <em>
-                      <button type="button"><ion-icon name="menu"></ion-icon></button>
-                      <span >{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
+                            <span >{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
                       <!-- <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span> -->
-                    </em>
-                        <span [innerText]="anotote.annotote.source"></span>
+                        </em>
+                    </div>
+                    <div class="toteText">
+                        <p [innerText]="anotote.annotote.source"></p>
+                        <button type="button"><ion-icon name="menu"></ion-icon></button>
                     </div>
                 </div>
             </ion-item>

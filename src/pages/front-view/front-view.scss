@@ -7,7 +7,7 @@ page-front-view {
     }
     .item-block {
         .item-inner {
-            padding-right: 5px !important;
+            padding-right: 0px !important;
         }
     } // .img-loaded+ion-spinner {
     //     display: none;
@@ -44,22 +44,40 @@ page-front-view {
     .bar-buttons-md {
         order: 1;
     }
-    .user-controls button {
-        width: 100%;
-        padding: 23px 20px !important;
-        display: block;
-        color: #0f000f;
-        text-align: left;
-        background: none;
-        border-bottom: 1px solid #eaeaea;
-        background: #FFF;
-        &:focus {
-            background: #f1f1f1;
-        }
-        img {
-            width: 20px;
-            display: inline-block;
-            vertical-align: middle;
+    .user-controls {
+        button {
+            width: 100%;
+            padding: 0 !important;
+            display: block;
+            color: #0f000f;
+            text-align: left;
+            background: none;
+            border-bottom: 1px solid #eaeaea;
+            background: #FFF;
+            &:focus {
+                background: #f1f1f1;
+            }
+            figure {
+                display: inline-block;
+                vertical-align: middle;
+                width: 73px;
+                height: 72px;
+                margin: 0px;
+                text-align: center;
+                line-height: 6;
+                img {
+                    width: 20px;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+            span {
+                padding-left: 7px;
+                font-weight: normal;
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 15px;
+            }
         }
         &.active {
             .activeIcon {
@@ -79,14 +97,25 @@ page-front-view {
         display: inline-block;
         vertical-align: middle;
         color: #cbcbcb;
-    }
-    .user-controls button span {
-        padding-left: 22px;
-        font-weight: normal;
-        display: inline-block;
-        vertical-align: middle;
-        font-size: 15px;
-    }
+    } // .user-controls {
+    //     button {
+    //         padding: 0px;
+    //         figure {
+    //             display: inline-block;
+    //             vertical-align: middle;
+    //             width: 73px;
+    //             height: 73px;
+    //             margin: 0px;
+    //         }
+    //         span {
+    //             padding-left: 22px;
+    //             font-weight: normal;
+    //             display: inline-block;
+    //             vertical-align: middle;
+    //             font-size: 15px;
+    //         }
+    //     }
+    // }
     .latest_totes_spinner {
         position: relative;
         width: 100%;
@@ -102,7 +131,7 @@ page-front-view {
         }
     }
     .product-list .item {
-        border-top: 2px solid #f0f0f0 !important;
+        // border-top: 1px solid #f0f0f0 !important;
         overflow: hidden;
         padding: 0px;
         margin: 0px;
@@ -118,9 +147,10 @@ page-front-view {
         background: rgba(128, 128, 128, 0.3);
     }
     .product-list .txt {
-        padding: 20px 0px 10px 10px;
+        padding: 20px 5px 10px 10px;
         color: #cbcbcb;
         overflow: hidden;
+        border-top: 1px solid #f0f0f0 !important;
     }
     .product-list strong {
         margin: 0;
@@ -137,6 +167,38 @@ page-front-view {
         font-size: 13px;
         overflow: hidden;
         color: #afafaf;
+        float: right;
+    }
+    .product-list {
+        .toteText {
+            p {
+                width: calc(100% - 80px);
+                display: inline-block;
+                vertical-align: top;
+                padding-left: 5px;
+                margin-top: -1px;
+                text-overflow: ellipsis;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+                white-space: nowrap;
+                word-break: break-all;
+            }
+            button {
+                color: #8e9093;
+                background: transparent;
+                float: left;
+                margin-top: 1px !important;
+                img {
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 14px;
+                }
+                ion-icon {
+                    font-size: 16px;
+                }
+            }
+        }
     }
     .product-list em {
         float: right;
