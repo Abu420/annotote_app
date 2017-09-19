@@ -286,7 +286,8 @@ button,
 //Login register and page css
 page-signup,
 page-login,
-page-forgotpassword {
+page-forgotpassword,
+page-edit-profile {
     .bar-buttons {
         margin-right: 30px;
     }
@@ -458,7 +459,7 @@ search_page {
     }
     .searchHeader {
         .options {
-            background-color: #3c3c3c;
+            background-color: #313131;
             &.activeOption {
                 position: relative;
                 &:after {
@@ -484,6 +485,7 @@ search_page {
             background: transparent;
             .searchFilter {
                 padding: 0px;
+                margin-left: 0px;
                 &.searchIcon {
                     >.item-inner {
                         ion-label {
@@ -519,7 +521,7 @@ search_page {
                             display: table-cell;
                             vertical-align: middle;
                             border-bottom: 1px solid #e8e8e8;
-                            width: 80%;
+                            width: 76%;
                             color: #ababab;
                         }
                     }
@@ -527,80 +529,79 @@ search_page {
             }
         }
         .searchResult {
-            padding-top: 10px;
-            background: #FFF;
-            >.user_list_item {
+            ion-item {
                 padding: 0px;
-                line-height: normal;
-                height: auto;
                 .item-inner {
                     padding: 0px;
                     ion-label {
-                        display: block;
-                        width: 100%;
-                        padding: 9px 20px;
                         margin: 0px;
-                        overflow: hidden;
                         figure {
                             display: inline-block;
                             vertical-align: middle;
-                            width: 55px;
-                            height: 55px;
-                            padding-right: 10px;
-                            margin: 0px;
+                            width: 73px;
+                            height: 73px;
+                            padding: 10px;
+                            text-align: center;
+                            line-height: 3;
                             overflow: hidden;
-                            position: relative;
-                            ion-spinner {
-                                position: absolute;
-                                top: 40%;
-                                left: 40%;
-                                transform: translate(-50%, -50%);
-                            }
+                            margin: 0px;
                             img {
                                 width: 100%;
+                                height: 100%;
                             }
                         }
-                        >figcaption {
-                            @extend figure;
-                            width: calc(100% - 40px);
-                            margin: 0px;
-                            padding: 0px 15px 17px 0;
-                            border-bottom: 1px solid #CCC;
-                            float: none;
-                            height: auto;
-                            color: #ababab;
-                            &.followUser {
-                                span {
-                                    line-height: 3;
-                                }
-                            }
-                            >span {
+                        figcaption {
+                            padding: 10px 10px 10px 0;
+                            display: inline-block;
+                            width: calc(100% - 78px);
+                            vertical-align: middle;
+                            border-bottom: 1px solid #e8e8e8;
+                            height: 58px;
+                            .rightContent {
+                                float: right;
                                 font-size: 12px;
-                                &.rightContent {
-                                    float: right;
-                                    margin-top: 5px;
-                                    .lines {
-                                        margin-left: 5px;
-                                    }
-                                }
-                                &.rightAdd {
-                                    float: right;
-                                    ion-icon {
-                                        font-size: 35px;
-                                    }
+                                color: #9a9a9a;
+                            }
+                            .rightAdd {
+                                position: absolute;
+                                right: 10px;
+                                top: 38%;
+                                -webkit-transform: translate(0%, -50%);
+                                transform: translate(0%, -50%);
+                                color: #939598;
+                                ion-icon {
+                                    font-size: 30px;
+                                    color: #939598;
                                 }
                             }
-                            &.un_follow_btn {
-                                width: 10% !important;
-                                padding: 20px;
-                                background-size: 20px;
-                                background-image: url(../assets/img/remove.png);
-                                background-position: center;
-                                background-repeat: no-repeat;
+                            h4 {
+                                color: #9a9a9a;
                             }
-                            &.follow_btn {
-                                @extend .un_follow_btn;
-                                background-image: url(../assets/img/follow_friend.png) !important;
+                            .toteText {
+                                p {
+                                    width: calc(100% - 80px);
+                                    display: inline-block;
+                                    vertical-align: top;
+                                    padding-left: 5px;
+                                    margin-top: -1px;
+                                    text-overflow: ellipsis;
+                                    -webkit-box-orient: vertical;
+                                    -webkit-line-clamp: 1;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    word-break: break-all;
+                                }
+                                button {
+                                    color: #8e9093;
+                                    background: transparent;
+                                    float: left;
+                                    margin-top: 2px !important;
+                                    img {
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        width: 14px;
+                                    }
+                                }
                             }
                         }
                     }
@@ -620,12 +621,6 @@ search_page {
             left: 0;
             top: 10px;
             margin: auto;
-        }
-    }
-    ion-list {
-        .user_list_item {
-            height: 55px;
-            line-height: 55px;
         }
     }
     .search_header {
@@ -709,7 +704,7 @@ search_page {
             }
         }
         &.black {
-            background: #252525; // padding-top: 14px;
+            background: #303030; // padding-top: 14px;
             // height: 70px;
             img {
                 background-color: #000000;
@@ -726,7 +721,7 @@ search_page {
                 }
             }
             .clear_button {
-                background-color: #252525;
+                background-color: #000;
                 width: 30px;
                 background-size: 18px;
             }
@@ -739,7 +734,7 @@ search_page {
             margin: 0;
             float: left;
             padding: 12px;
-            background: transparent;
+            background: #000;
             height: 56px;
             width: 56px;
             margin-left: 3px;
@@ -780,6 +775,7 @@ search_page {
             padding: 10px;
             height: 100%;
             margin-left: 3px;
+            border-radius: 0px;
             input {
                 padding: 0;
                 width: calc(100% - 8px);

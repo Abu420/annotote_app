@@ -1,29 +1,39 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
-    <ul no-lines class="sharing_pop bottom-border">
-        <li class="shareIcon">
+    <div class="sharing_pop">
+        <div class="main_label">
             <img src="assets/img/shareIconGray.svg" alt="" />
-        </li>
-        <li (click)="share_me_tote('facebook')">
-            <span>Facebook</span>
-        </li>
-        <li (click)="share_me_tote('email')">
-            <span>Email</span>
-        </li>
-        <li (click)="share_me_tote('twitter')">
-            <span>Twitter</span>
-        </li>
-        <li (click)="share_me_tote('link')">
-            <span><img src="assets/img/option-msg.png" alt="" /></span>
-        </li>
-    </ul>
-    <ul no-lines class="sharing_pop add">
-        <li>
-            <ion-icon name="settings"></ion-icon>
-        </li>
-        <li (click)="open_settings_menu()">
-            <em>Settings</em>
-        </li>
-    </ul>
+        </div>
+        <ul no-lines class="sharing_pop bottom-border">
+            <!-- <li (click)="share_me_tote('facebook')">
+                <span>Facebook</span>
+            </li> -->
+            <li>
+                <span>Copy</span>
+            </li>
+            <li>
+                <span>Chat</span>
+            </li>
+            <li (click)="share_me_tote('email')">
+                <span>Email</span>
+            </li>
+            <li (click)="share_me_tote('twitter')">
+                <span>Twitter</span>
+            </li>
+            <li (click)="share_me_tote('link')" class="tabOption">
+                <img src="assets/img/dotsOption.svg" alt="" />
+            </li>
+        </ul>
+    </div>
+    <div class="sharing_pop borderNone">
+        <div class="main_label">
+            <img src="assets/img/settingGrayIcon.svg" alt="">
+        </div>
+        <ul no-lines class="sharing_pop add">
+            <li (click)="open_settings_menu()">
+                <em>Settings</em>
+            </li>
+        </ul>
+    </div>
 </div>
