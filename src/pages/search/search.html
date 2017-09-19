@@ -27,11 +27,11 @@
             <span>No results</span>
         </ion-item> -->
         <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && !search_loading" class="searchFilter">
-            <img src="assets/img/searchBlack.png" alt="">
+            <img src="assets/img/searchIcon.svg" alt="">
             <span>Search (enter)</span>
         </ion-item>
         <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
-            <img class="viewIcon" src="assets/img/viewIcon.svg" alt="">
+            <img class="viewIcon" src="assets/img/searchIcon.svg" alt="">
             <span>View (enter)</span>
         </ion-item>
         <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
@@ -44,35 +44,44 @@
         </ion-item>
         <div *ngIf="search_txt.length>0" class="searchResult">
             <ion-item *ngFor="let search_result of search_results" (click)="showProfile(search_result)" class="user_list_item">
-                <figure *ngIf="search_result.is_tote == true">
-                    <img *ngIf="search_result.annotote.photo==null || search_result.annotote.photo==''" src="assets/img/img3.jpg">
-                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [hidden]="!loaded" [src]="search_result.annotote.photo | image_base_path">
-                    <ion-spinner *ngIf="!loaded && search_result.annotote.photo != null && search_result.annotote.photo != ''"></ion-spinner>
-                </figure>
-                <figcaption *ngIf="search_result.is_tote == true">
-                    <h4 [innerText]="search_result.annotote.title"></h4>
-                    <span>{{search_result.annotote.source}}</span>
-                    <span class="rightContent">
-                       {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}<ion-icon class="lines" name="menu"></ion-icon>
-                    </span>
-                    <!-- <span class="rightAdd"><ion-icon name="add"></ion-icon></span> -->
-                </figcaption>
-                <figure *ngIf="search_result.is_tote == false">
-                    <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
-                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
-                    <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
-                </figure>
-                <figcaption class="followUser" *ngIf="search_result.is_tote == false">
-                    <span>{{search_result.firstName}} {{search_result.lastName}} <i *ngIf="search_result.isFollowed == 1"><</i></span>
-                    <!-- <span class="rightContent">
-                       {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}<ion-icon class="lines" name="menu"></ion-icon>
-                    </span> -->
-                    <span class="rightAdd" *ngIf="search_result.isFollowed == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)"><ion-icon name="add"></ion-icon></span>
-                    <span class="rightAdd" *ngIf="search_result.follow_loading == true">
-                        <ion-spinner name="bubbles"></ion-spinner>
-                    </span>
-                    <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span>
-                </figcaption>
+                <div class="totoField">
+                    <figure *ngIf="search_result.is_tote == true">
+                        <img *ngIf="search_result.annotote.photo==null || search_result.annotote.photo==''" src="assets/img/img3.jpg">
+                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [hidden]="!loaded" [src]="search_result.annotote.photo | image_base_path">
+                        <ion-spinner *ngIf="!loaded && search_result.annotote.photo != null && search_result.annotote.photo != ''"></ion-spinner>
+                    </figure>
+                    <figcaption *ngIf="search_result.is_tote == true">
+                        <h4 [innerText]="search_result.annotote.title"></h4>
+                        <span class="rightContent">
+                            {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}
+                        </span>
+                        <div class="toteText">
+                            <p>{{search_result.annotote.source}}</p>
+                            <button type="button" class="">
+                                <img alt="" src="assets/img/lineIcon.svg">
+                            </button>
+                        </div>
+                        <!-- <span class="rightAdd"><ion-icon name="add"></ion-icon></span> -->
+                    </figcaption>
+                </div>
+                <div class="userField">
+                    <figure *ngIf="search_result.is_tote == false">
+                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
+                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
+                        <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
+                    </figure>
+                    <figcaption class="followUser" *ngIf="search_result.is_tote == false">
+                        <h4>{{search_result.firstName}} {{search_result.lastName}} <i *ngIf="search_result.isFollowed == 1"><</i></h4>
+                        <!-- <span class="rightContent">
+                            {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}<ion-icon class="lines" name="menu"></ion-icon>
+                        </span> -->
+                        <span class="rightAdd" *ngIf="search_result.isFollowed == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)"><ion-icon name="add"></ion-icon></span>
+                        <span class="rightAdd" *ngIf="search_result.follow_loading == true">
+                            <ion-spinner name="bubbles"></ion-spinner>
+                        </span>
+                        <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span>
+                    </figcaption>
+                </div>
             </ion-item>
         </div>
     </ion-list>

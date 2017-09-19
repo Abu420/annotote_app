@@ -256,7 +256,12 @@ anotote_options {
         height: calc(100% - 55%);
     }
     .content_follows_profile {
-        height: calc(100% - 43%);
+        height: auto;
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        max-height: 110vw;
+        width: 100%;
         background: #FFF;
         padding-top: 10px;
         .sharing_pop {

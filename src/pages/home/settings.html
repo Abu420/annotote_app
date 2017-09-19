@@ -2,24 +2,30 @@
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
     <div class="pop_heading">Settings</div>
-    <ul no-lines class="sharing_pop bottom-border">
-        <li class="userPro">
-            <img src="assets/img/user.png" />
-            <span>User</span>
-        </li>
-        <li (tap)="showProfile()">
-            <span>Profile</span>
-        </li>
-        <li (tap)="logout()">
-            <span>Sign out</span>
-        </li>
-    </ul>
-    <ul no-lines class="sharing_pop helpIcon add">
-        <li class="helpIcon">
-            <img src="assets/img/helpIcon.svg" />
-        </li>
-        <li (click)="open_annotote_site()">
-            <em>Help</em>
-        </li>
-    </ul>
+    <div class="sharing_pop">
+        <div class="main_label userIcon">
+            <img src="assets/img/userIconGray.svg" />
+        </div>
+        <ul no-lines class="sharing_pop bottom-border">
+            <li (tap)="showProfile()">
+                <span>Profile</span>
+            </li>
+            <li (tap)="logout()">
+                <span>Sign out</span>
+            </li>
+        </ul>
+    </div>
+    <div class="sharing_pop">
+        <div class="main_label helpIcon">
+            <img src="assets/img/helpIconGray.svg" />
+        </div>
+        <ul no-lines class="sharing_pop helpIcon add">
+            <li class="helpIcon">
+                <img src="assets/img/helpIcon.svg" />
+            </li>
+            <li (click)="open_annotote_site()">
+                <em>Help</em>
+            </li>
+        </ul>
+    </div>
 </div>
