@@ -108,6 +108,7 @@ export class AnototeEditor implements OnDestroy {
             HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
             actual_stream: navParams.get('actual_stream')
         };
+        console.log(anotote_from_params);
         this.anotote_service.add_page_locally(anotote_from_params);
         this.SAVED_ANOTOTES_LOCALLY = this.anotote_service.get_saved_pages_locally();
         this.SAVED_ANOTOTES_LOCALLY_CURRENT = this.SAVED_ANOTOTES_LOCALLY.length - 1;
