@@ -82,15 +82,14 @@ export class Signup {
       _error = true;
       this.field_error.first_name = true;
     }
-    if (_.isEmpty(this.user.lastName)) {
-      _error = true;
-      this.field_error.last_name = true;
-    }
+    // if (_.isEmpty(this.user.lastName)) {
+    //   _error = true;
+    //   this.field_error.last_name = true;
+    // }
     if (_error) {
       // this.utilityMethods.message_alert('Error', 'Please enter complete details to register.');
       return;
     }
-
     /**
      * API call, after Successfull validation
      */

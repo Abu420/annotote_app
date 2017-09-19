@@ -433,9 +433,9 @@ export class AnototeEditor implements OnDestroy {
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Deep Link', highlight.txt, null, null);
             } else if (data.upvote) {
-                this.upvote(element.id);
+                this.upvote(element.getAttribute('data-identifier'));
             } else if (data.downvote) {
-                this.downvote(element.id)
+                this.downvote(element.getAttribute('data-identifier'))
             }
         });
         commentDetailModal.present();
@@ -540,7 +540,7 @@ export class AnototeEditor implements OnDestroy {
     upvote(id) {
         this.utilityMethods.show_loader('');
         var params = {
-            annotation_id: id,
+            annotation_id: this.get_highlight(id).id,
             vote: 1,
             created_at: this.utilityMethods.get_php_wala_time()
         }
@@ -555,8 +555,9 @@ export class AnototeEditor implements OnDestroy {
     downvote(id) {
         this.utilityMethods.show_loader('');
         var params = {
-            annotation_id: id,
+            annotation_id: this.get_highlight(id).id,
             vote: 0,
+            identifier: id,
             created_at: this.utilityMethods.get_php_wala_time()
         }
         this.searchService.vote_anotation(params).subscribe((data) => {
@@ -565,6 +566,15 @@ export class AnototeEditor implements OnDestroy {
         }, () => {
             this.utilityMethods.hide_loader();
         });
+    }
+
+    get_highlight(identifier) {
+        for (let highlight of this.ANOTOTE.anototeDetail.highlights) {
+            if (highlight.identifier == identifier) {
+                return highlight;
+            }
+        }
+        return null;
     }
 
 }

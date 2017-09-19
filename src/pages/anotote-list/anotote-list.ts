@@ -220,7 +220,8 @@ export class AnototeList {
             userAnnotote: anotote.userAnnotote,
             followers: anotote.follows,
             highlights: anotote.highlights,
-            annototeId: anotote.annotote.id
+            annototeId: anotote.annotote.id,
+            anototeDetail: anotote.anototeDetail
           }
           tote.userAnnotote.annotote = anotote.annotote;
           this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
@@ -389,6 +390,7 @@ export class AnototeList {
       this.anototeService.fetchToteDetails(params).subscribe((result) => {
         this.top_spinner = false;
         anotote.active_tab = 'top'
+        anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
         if (result.status == 1) {
           anotote.highlights = Object.assign(result.data.annotote.highlights);
           anotote.top_highlights = result.data.annotote.highlights;

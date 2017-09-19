@@ -27,19 +27,19 @@
                 </div>
             </div>
             <div class="input-holder loginIcon layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
-                <input [(ngModel)]="user.firstName" name="firstName" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="First Name">
+                <input [(ngModel)]="user.firstName" name="firstName" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="Full Name">
                 <div class="iconImg">
                     <img src="assets/img/userIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">
                 </div>
             </div>
-            <div class="input-holder loginIcon layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
+            <!-- <div class="input-holder loginIcon layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
                 <input [(ngModel)]="user.lastName" name="lastName" (blur)="changeColor('')" (focus)="changeColor('last_name')" type="text" placeholder="Last Name">
                 <div class="iconImg">
                     <img src="assets/img/userIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">
                 </div>
-            </div>
+            </div> -->
             <div class="input-holder passIcon layout" [ngClass]="focus_field=='password'?'active':(field_error.password?'invalid_field':'')">
                 <input style="background: transparent;border: 0px;" [(ngModel)]="user.password" name="password" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
                 <div class="iconImg">
@@ -47,7 +47,7 @@
                     <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
                 </div>
             </div>
-            <button type="submit" [ngClass]="(user.firstName.length>0 && user.lastName.length>0 && user.email.length>0 && user.password.length>0)?'green':''" ion-button>Go</button>
+            <button type="submit" [ngClass]="(user.firstName.length > 0 && user.email.length > 0 && user.password.length > 0) ? 'green':''" ion-button>Go</button>
         </form>
     </div>
 </ion-content>

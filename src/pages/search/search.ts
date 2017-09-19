@@ -338,7 +338,6 @@ export class Search {
     }
 
     go_to_browser(anotote) {
-        console.log(anotote);
         if (anotote.userAnnotote.anototeType == 'me')
             this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
         else
