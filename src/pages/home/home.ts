@@ -18,6 +18,8 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { StatusBar } from "@ionic-native/status-bar";
+import { ChatToteOptions } from '../anotote-list/chat_tote';
+import { Chat } from '../chat/chat';
 /**
  * Generated class for the Home page.
  *
@@ -214,5 +216,19 @@ export class Home {
       }
     });
     settingsModal.present();
+  }
+
+  addBtn() {
+    var params = {
+      anotote: null,
+      stream: 'homeheader'
+    }
+    let chatTote = this.modalCtrl.create(ChatToteOptions, params);
+    chatTote.onDidDismiss((data) => {
+      if (data.chat) {
+        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+      }
+    })
+    chatTote.present();
   }
 }

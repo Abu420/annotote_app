@@ -72,7 +72,7 @@ export class Chat {
     if (this.textMessage != "") {
       if (this.anotote_id == 0) {
         this.send_message_loader = true;
-        this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time() }).subscribe((result) => {
+        this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
           this.send_message_loader = false;
           this.conversation.push(result.data.messages);
           this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
