@@ -8,6 +8,7 @@ import { ChatService } from "../../services/chat.service";
 import { ChatMessage } from "../../models/ChatMessage";
 import { User } from "../../models/user";
 import { AuthenticationService } from "../../services/auth.service";
+import { Streams } from '../../services/stream.service';
 
 declare var io: any;
 
@@ -38,13 +39,15 @@ export class Chat {
   public against_tote: boolean = false;
   public anotote_id: any = 0;
   public title = '';
+  public tote: any;
 
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService) {
+  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService, public stream: Streams) {
     this.reply_box_on = false;
     this.secondUser = navParams.get('secondUser');
+    this.tote = navParams.get('full_tote');
     this.chatService.threadingUser = this.secondUser;
     this.user = this.authService.getUser();
     this.connectionToSocket();
@@ -70,79 +73,52 @@ export class Chat {
 
   public sendMessage() {
     if (this.textMessage != "") {
-      if (this.anotote_id == 0) {
-        this.send_message_loader = true;
-        this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
-          this.send_message_loader = false;
-          this.conversation.push(result.data.messages);
-          this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
-          this.textMessage = "";
-          this.autoScroll();
-        }, (error) => {
-          this.send_message_loader = false;
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
+      this.send_message_loader = true;
+      this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
+        this.send_message_loader = false;
+        if (this.conversation.length == 0) {
+          this.stream.me_first_load = false
+        } else {
+          if (this.tote.chatGroup.messagesUser.length < 3)
+            this.tote.chatGroup.messagesUser.push(result.data.messages)
+          else {
+            this.tote.chatGroup.messagesUser.splice(1, 1);
+            this.tote.chatGroup.messagesUser.push(result.data.messages);
           }
-        });
-      } else {
-        this.send_message_loader = true;
-        this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
-          this.send_message_loader = false;
-          this.conversation.push(result.data.messages);
-          this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
-          this.textMessage = "";
-          this.autoScroll();
-        }, (error) => {
-          this.send_message_loader = false;
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          }
-        });
-      }
-
+        }
+        this.conversation.push(result.data.messages);
+        this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
+        this.textMessage = "";
+        this.autoScroll();
+      }, (error) => {
+        this.send_message_loader = false;
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      });
     }
   }
 
   doInfinite(infiniteScroll) {
-    if (this.anotote_id == 0) {
-      this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
-        if (this.conversation.length == 0)
-          this.conversation = result.data.messages.reverse();
-        else {
-          for (let msg of result.data.messages) {
-            this.conversation.unshift(msg);
-          }
+    this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
+      if (this.conversation.length == 0)
+        this.conversation = result.data.messages.reverse();
+      else {
+        for (let msg of result.data.messages) {
+          this.conversation.unshift(msg);
         }
-        infiniteScroll.complete();
-        if (result.data.messages.length < 10) {
-          infiniteScroll.enable(false);
-          this.infinite_completed = true;
-        }
-      }, (error) => {
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
-    } else {
-      this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
-        if (this.conversation.length == 0)
-          this.conversation = result.data.messages.reverse();
-        else {
-          for (let msg of result.data.messages) {
-            this.conversation.unshift(msg);
-          }
-        }
-        infiniteScroll.complete();
-        if (result.data.messages.length < 10) {
-          infiniteScroll.enable(false);
-          this.infinite_completed = true;
-        }
-      }, (error) => {
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
-    }
+      }
+      infiniteScroll.complete();
+      if (result.data.messages.length < 10) {
+        infiniteScroll.enable(false);
+        this.infinite_completed = true;
+      }
+    }, (error) => {
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    });
+
 
   }
 

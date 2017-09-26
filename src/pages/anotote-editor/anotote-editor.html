@@ -1,4 +1,4 @@
-<ion-header class="topHeader" [ngClass]="{'hide-header':showheader,'show-header':hideheader,'!full_screen_mode':'showheader'}">
+<ion-header class="topHeader" [ngClass]="{'show-header':showheader,'hide-header':hideheader}">
     <ion-toolbar [color]="which_stream">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
@@ -36,7 +36,7 @@
         <ion-title *ngIf="!full_screen_mode && which_stream == 'top'">
             <dot-navigation class="topDot" unactivedots="2"></dot-navigation>
         </ion-title>
-        <ion-buttons *ngIf="which_stream!='me' && !full_screen_mode" class="plusBtn">
+        <ion-buttons *ngIf="!full_screen_mode" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>
                     <img src="assets/img/plusIcon.png" alt="" />
                 <!-- <ion-icon name="md-add"></ion-icon> -->
@@ -49,7 +49,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<span navPop class="wedge_icon"></span>
+<span (click)="popView()" class="wedge_icon"></span>
 <ion-content swipe-vertical>
     <div id="wrapper">
         <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">

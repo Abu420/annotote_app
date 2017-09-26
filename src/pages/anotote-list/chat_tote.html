@@ -34,11 +34,15 @@
     </div>
     <div class="userWidget" *ngIf="initiateChat == false">
         <ul>
-            <li *ngIf="anotote != null" (click)="saveThis()">
+            <li *ngIf="anotote != null && stream != 'anon'" (click)="saveThis()">
                 <img src="assets/img/cloudIconGray.svg" alt="" />
                 <span>Save this (enter)</span>
             </li>
-            <li *ngIf="anotote != null && stream != 'me'" (click)="bookmarkThis()">
+            <li *ngIf="anotote != null && stream == 'anon'" (click)="addToMeStream()">
+                <img src="assets/img/cloudIconGray.svg" alt="" />
+                <span>Add to me stream</span>
+            </li>
+            <li *ngIf="anotote != null && stream != 'me' && stream != 'anon'" (click)="bookmarkThis()">
                 <img src="assets/img/bookmarkIconGray.svg" alt="" />
                 <span>Bookmark this </span>
             </li>

@@ -20,6 +20,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { StatusBar } from "@ionic-native/status-bar";
 import { ChatToteOptions } from '../anotote-list/chat_tote';
 import { Chat } from '../chat/chat';
+import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
  * Generated class for the Home page.
  *
@@ -47,13 +48,13 @@ export class Home {
    * View Events
    */
   ionViewDidLoad() {
-    this.events.subscribe('new_search_added', (data) => {
-      this.searches.splice(0, 0, data.entry);
-    });
+    // this.events.subscribe('new_search_added', (data) => {
+    //   this.searches.splice(0, 0, data.entry);
+    // });
   }
 
   ionViewDidLeave() {
-    this.events.unsubscribe('new_search_added');
+    // this.events.unsubscribe('new_search_added');
   }
 
   mySwipeUpAction() {
@@ -91,20 +92,47 @@ export class Home {
     // this.navCtrl.push(Follows, {});
   }
 
+  //changed flow, if clicked on saved search it should scrap that url
   open_this_search(search) {
-    this.openSearchPopup({ saved_searched_txt: search.term });
+    if (this.utilityMethods.isWEBURL(search.term)) {
+      this.scrape_this_url(search);
+    } else {
+      this.openSearchPopup({ saved_searched_txt: search.term });
+    }
   }
 
-  get_search_entries() {
-    this.searchService.get_search_entries()
+  scrape_this_url(search) {
+    var current_time = this.utilityMethods.get_php_wala_time();
+    this.utilityMethods.show_loader('');
+    this.searchService.create_anotote({ url: search.term, created_at: current_time })
       .subscribe((response) => {
-        this.latest_searches_firstTime_loading = false;
-        this.searches = response.data.searches;
+        this.utilityMethods.hide_loader();
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
       }, (error) => {
-        if (error.code == -1) {
+        this.utilityMethods.hide_loader();
+        if (error.status == 500) {
+          this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+        } else if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
+  }
+
+  get_search_entries() {
+    if (this.searchService.saved_searches.length > 0) {
+      this.searches = this.searchService.saved_searches;
+    } else {
+      this.searchService.get_search_entries()
+        .subscribe((response) => {
+          this.latest_searches_firstTime_loading = false;
+          this.searchService.saved_searches = response.data.searches;
+          this.searches = response.data.searches;
+        }, (error) => {
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
+    }
   }
 
   remove_search_entry(id, event) {

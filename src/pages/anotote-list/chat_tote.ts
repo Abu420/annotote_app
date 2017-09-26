@@ -30,9 +30,9 @@ export class ChatToteOptions {
     constructor(public params: NavParams, public navCtrl: NavController, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService) {
         this.anotote = params.get('anotote');
         this.stream = params.get('stream');
-        if (this.anotote != null && this.stream != 'top')
+        if (this.anotote != null && this.stream != 'top' && this.stream != 'anon')
             this.search_txt = this.anotote.userAnnotote.annotote.title;
-        else if (this.anotote != null && this.stream == 'top')
+        else if (this.anotote != null && (this.stream == 'top' || this.stream == 'anon'))
             this.search_txt = this.anotote.annotote.title;
 
     }
@@ -69,6 +69,10 @@ export class ChatToteOptions {
 
     saveThis() {
         this.viewCtrl.dismiss({ chat: false, close: false, save: true })
+    }
+
+    addToMeStream() {
+        this.viewCtrl.dismiss({ chat: false, close: false, save: false, add: true })
     }
 
     bookmarkThis() {

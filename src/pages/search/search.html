@@ -30,7 +30,7 @@
             <img src="assets/img/searchIcon.svg" alt="">
             <span>Search (enter)</span>
         </ion-item>
-        <ion-item (click)="!current_url && scrape_this_url()" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
+        <ion-item (click)="!current_url && scrape_this_url(true)" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
             <img class="viewIcon" src="assets/img/searchIcon.svg" alt="">
             <span>View (enter)</span>
         </ion-item>

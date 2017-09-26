@@ -27,6 +27,16 @@ page-notifications {
         color: #8e8e8e !important;
         font-weight: normal;
     }
+    .no_totes {
+        width: 100%;
+        text-align: center;
+        padding: 1%;
+        font-weight: bold;
+        p {
+            font-size: 4vw;
+            color: color($colors, anon);
+        }
+    }
     .scroll-content {
         padding: 0px 16px 16px !important;
         background: #FFF;

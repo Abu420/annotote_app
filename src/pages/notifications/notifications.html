@@ -52,6 +52,9 @@
             </ion-item>
         </ion-list>
     </div>
+    <div class="no_totes" *ngIf="has_notifications == false">
+        <p>No new notifications.</p>
+    </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>

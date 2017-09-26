@@ -31,6 +31,7 @@ export class Notifications {
   private image_base_path: string;
   private _reload: boolean;
   private user: User;
+  public has_notifications: boolean = true;
 
   constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
     this._notifications = [];
@@ -99,6 +100,9 @@ export class Notifications {
       this._notifications = data.notifications;
       this._unread = data.unread;
       this._loading = true;
+      if (this._notifications.length == 0) {
+        this.has_notifications = false;
+      }
     } else {
       // this.notificationService.get_notifications(user_id)
       //   .subscribe((response) => {

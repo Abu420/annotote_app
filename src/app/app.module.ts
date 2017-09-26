@@ -72,7 +72,6 @@ import { AnototeService } from "../services/anotote.service";
 import { SearchService } from "../services/search.service";
 import { NotificationService } from "../services/notifications.service";
 import { Constants } from "../services/constants.service";
-import { DefaultRequestOptions } from '../services/http_interceptor';
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
 import { ChatHeads, chatName, basePath, timeStamp } from "../services/pipes"
@@ -89,6 +88,7 @@ import { OnlyTime } from "../directives/date_pipe";
 import { Keyboard } from "@ionic-native/keyboard";
 import { DatePipe } from "@angular/common";
 import { ChatToteOptions } from '../pages/anotote-list/chat_tote';
+import { Streams } from '../services/stream.service';
 
 @NgModule({
   declarations: [
@@ -217,6 +217,7 @@ import { ChatToteOptions } from '../pages/anotote-list/chat_tote';
     Keyboard,
     UtilityMethods,
     DatePipe,
+    Streams,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

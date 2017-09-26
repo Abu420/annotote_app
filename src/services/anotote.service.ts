@@ -17,11 +17,9 @@ export class AnototeService {
   }
 
   public fetchTotes(whichStream, page = 1) {
-    let headers = new Headers();
-    headers.append('Authorization', this.authService.getUser().access_token);
-    return this.http.get(this.constants.API_BASEURL + '/totes/' + whichStream + '?page=' + page, {
-      headers: headers
-    });
+    var url = this.constants.API_BASEURL + '/totes/' + whichStream + '?page=' + page
+    var response = this.http.get(url).map(res => res.json())
+    return response;
   }
 
   public fetchLatestTotes(page, current_time) {

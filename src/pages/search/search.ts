@@ -55,8 +55,10 @@ export class Search {
         if (this.current_url != '' && this.current_url != undefined)
             this.search_txt = this.current_url;
         var saved_search_txt = params.get('saved_searched_txt');
-        if (saved_search_txt != null)
+        if (saved_search_txt != null) {
             this.search_txt = saved_search_txt;
+            this.value_updating_search();
+        }
 
 
         /**
@@ -163,6 +165,7 @@ export class Search {
     }
 
     save_search_entry(save_or_bookmark) {
+        this.utilityMethods.show_loader('Please wait...');
         let self = this;
         var current_time = this.utilityMethods.get_php_wala_time();
         var params = {
@@ -175,12 +178,13 @@ export class Search {
         else if (save_or_bookmark == 'bookmark_entry')
             params.book_marked = 1;
         this.searchService.save_search_entry(params).subscribe((response) => {
-            this.utilityMethods.hide_loader();
-            if (save_or_bookmark == 'save_entry')
-                this.utilityMethods.doToast("Saved to search stream successfully!");
-            else if (save_or_bookmark == 'bookmark_entry')
-                this.utilityMethods.doToast("Bookmarked successfully!");
-            this.events.publish('new_search_added', { entry: response.data.search });
+            this.viewCtrl.dismiss();
+            this.searchService.saved_searches.unshift(response.data.search);
+            if (this.utilityMethods.isWEBURL(this.search_txt))
+                this.scrape_this_url(false, save_or_bookmark);
+            else
+                this.utilityMethods.hide_loader();
+            // this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
             if (error.code == -1) {
@@ -232,7 +236,6 @@ export class Search {
         }).subscribe((response) => {
             this.utilityMethods.hide_loader();
             person.isFollowed = 0;
-            console.log(response);
         }, (error) => {
             this.utilityMethods.hide_loader();
             if (error.code == -1) {
@@ -309,9 +312,10 @@ export class Search {
         }
     }
 
-    scrape_this_url() {
+    scrape_this_url(check, save_or_bookmark) {
         var current_time = this.utilityMethods.get_php_wala_time();
-        this.utilityMethods.show_loader('Please wait...');
+        if (check)
+            this.utilityMethods.show_loader('Please wait...');
         /**
          * Create Anotote API
          */
@@ -323,6 +327,10 @@ export class Search {
                 this.new_tote.createdAt = response.data.userAnnotote.createdAt
                 this.new_tote.userAnnotote = response.data.userAnnotote;
                 this.new_tote.userAnnotote.annotote = response.data.annotote;
+                if (save_or_bookmark == 'save_entry')
+                    this.utilityMethods.doToast("Saved to search stream successfully!");
+                else if (save_or_bookmark == 'bookmark_entry')
+                    this.utilityMethods.doToast("Bookmarked successfully!");
                 this.go_to_browser(response.data);
             }, (error) => {
                 this.utilityMethods.hide_loader();

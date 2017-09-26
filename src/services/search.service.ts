@@ -16,6 +16,7 @@ export class SearchService {
      * Variables
      */
     private _user: User;
+    public saved_searches = [];
 
     public constructor(public http: Http, public constants: Constants, public storage: Storage) {
     }
