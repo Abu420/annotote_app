@@ -71,7 +71,7 @@
                         <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                     </figure>
                     <figcaption class="followUser" *ngIf="search_result.is_tote == false">
-                        <h4>{{search_result.firstName}} {{search_result.lastName}} <i *ngIf="search_result.isFollowed == 1"><</i></h4>
+                        <h4>{{search_result.firstName}} <i *ngIf="search_result.isFollowed == 1"><</i></h4>
                         <!-- <span class="rightContent">
                             {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}<ion-icon class="lines" name="menu"></ion-icon>
                         </span> -->

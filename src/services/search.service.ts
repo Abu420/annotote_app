@@ -225,4 +225,10 @@ export class SearchService {
         var response = this.http.post(url, params).map(res => res.json());
         return response;
     }
+
+    public addToMeStream(params) {
+        var url = this.constants.API_BASEURL + '/annotote/addToMeStream';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
 }

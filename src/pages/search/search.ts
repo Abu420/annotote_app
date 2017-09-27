@@ -41,6 +41,7 @@ export class Search {
             day: ''
         }
     }
+    private from;
 
     constructor(public constants: Constants, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
         this.search_results = [];
@@ -58,6 +59,9 @@ export class Search {
         if (saved_search_txt != null) {
             this.search_txt = saved_search_txt;
             this.value_updating_search();
+        }
+        if (params.get('from')) {
+            this.from = params.get('from');
         }
 
 
@@ -137,7 +141,7 @@ export class Search {
     dismiss() {
         this.events.unsubscribe('user:followed');
         this.events.unsubscribe('user:unFollowed');
-        this.viewCtrl.dismiss(this.new_tote);
+        this.viewCtrl.dismiss();
     }
 
     presentTopInterestsModal() {
@@ -178,7 +182,6 @@ export class Search {
         else if (save_or_bookmark == 'bookmark_entry')
             params.book_marked = 1;
         this.searchService.save_search_entry(params).subscribe((response) => {
-            this.viewCtrl.dismiss();
             this.searchService.saved_searches.unshift(response.data.search);
             if (this.utilityMethods.isWEBURL(this.search_txt))
                 this.scrape_this_url(false, save_or_bookmark);
@@ -289,6 +292,7 @@ export class Search {
 
             this.searchService.general_search(params)
                 .subscribe((response) => {
+                    this.search_results = [];
                     for (let tote of response.data.annotote) {
                         if (tote.annotote) {
                             tote.is_tote = true;
@@ -322,11 +326,7 @@ export class Search {
         this.searchService.create_anotote({ url: this.search_txt, created_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
-                this.new_tote.active = false;
-                this.new_tote.type = 1;
-                this.new_tote.createdAt = response.data.userAnnotote.createdAt
-                this.new_tote.userAnnotote = response.data.userAnnotote;
-                this.new_tote.userAnnotote.annotote = response.data.annotote;
+                response.data.userAnnotote.annotote = response.data.annotote;
                 if (save_or_bookmark == 'save_entry')
                     this.utilityMethods.doToast("Saved to search stream successfully!");
                 else if (save_or_bookmark == 'bookmark_entry')
@@ -346,11 +346,15 @@ export class Search {
     }
 
     go_to_browser(anotote) {
-        if (anotote.userAnnotote.anototeType == 'me')
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
-        else
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-        this.dismiss()
+        if (this.from != 'list') {
+            if (anotote.userAnnotote.anototeType == 'me')
+                this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+            else
+                this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+            this.dismiss()
+        } else {
+            this.viewCtrl.dismiss(anotote);
+        }
     }
 
     showProfile(search_result) {

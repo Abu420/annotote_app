@@ -30,7 +30,7 @@
                 </div>
                 <div class="txt">
                     <strong class="follow-name" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">
-                        {{notification.sender.firstName + " "+ notification.sender.lastName}}
+                        {{notification.sender.firstName }}
                         <img *ngIf="notification.sender.verified==1" class="star-icon" src="assets/img/star-gray.png" alt="">
                         <img *ngIf="notification.sender.isFollowed==1" class="arrow-icon" src="assets/img/arrow-gray.png" alt="">
                     </strong>

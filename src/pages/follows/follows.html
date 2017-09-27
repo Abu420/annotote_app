@@ -37,7 +37,7 @@
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && follower.photo != '' && follower.photo != null"></ion-spinner>
                 </ion-avatar>
                 <div class="txt">
-                    <strong [innerText]="follower.firstName + ' ' + follower.lastName" class="follow-name"></strong>
+                    <strong [innerText]="follower.firstName" class="follow-name"></strong>
                     <img *ngIf="follower.verified==1" src="assets/img/star-gray.png" alt="">
                 </div>
             </ion-item>

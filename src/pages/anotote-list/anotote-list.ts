@@ -129,7 +129,7 @@ export class AnototeList {
      */
     this.edit_mode = false;
     let anototes: Array<ListTotesModel> = [];
-    // this.current_page = 1;
+    this.current_page = 1;
     this.anototes = [];
     this.current_active_anotote = null;
     if (this.current_color == 'me') {
@@ -524,7 +524,7 @@ export class AnototeList {
         } else
           this.utilityMethods.doToast("Couldn't load as no file was found.");
       else
-        this.go_to_chat_thread(this.current_active_anotote.chatGroup.groupUsers);
+        this.go_to_chat_thread(this.current_active_anotote);
     } else {
       this.go_to_chat_tote();
     }
@@ -538,7 +538,10 @@ export class AnototeList {
     let chatTote = this.modalCtrl.create(ChatToteOptions, params);
     chatTote.onDidDismiss((data) => {
       if (data.chat) {
-        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.current_active_anotote.userAnnotote.annototeId, title: data.title });
+        if (data.title)
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.current_active_anotote.userAnnotote.annototeId, title: data.title, full_tote: this.current_active_anotote });
+        else
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
       } else if (data.save) {
         if (this.current_color == 'me') {
           this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
@@ -1015,8 +1018,8 @@ export class AnototeList {
     } else {
       this.statusBar.backgroundColorByHexString('#252525');
     }
-    let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color });
-    searchModal.onDidDismiss(data => {
+    let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
+    searchModal.onDidDismiss((data) => {
       if (this.current_active_anotote == null) {
         if (this.current_color == 'me')
           this.statusBar.backgroundColorByHexString('#3bde00');
@@ -1025,6 +1028,11 @@ export class AnototeList {
         else
           this.statusBar.backgroundColorByHexString('#fb9df0');
       }
+      if (data)
+        if (data.userAnnotote.anototeType == 'me')
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: data.userAnnotote.anototeType, actual_stream: data.userAnnotote.anototeType });
+        else
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
     });
     searchModal.present();
   }

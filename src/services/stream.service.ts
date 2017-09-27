@@ -11,4 +11,12 @@ export class Streams {
     constructor() {
 
     }
+
+    clear() {
+        this.me_anototes = [];
+        this.me_page_no = 1;
+        this.me_first_load = false;
+        this.follows_anototes = [];
+        this.follows_page_no = 1;
+    }
 }

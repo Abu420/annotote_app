@@ -94,8 +94,8 @@
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
-                            <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
-                            <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
+                            <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
+                            <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
                         </ng-container>
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
                             <strong [innerText]="anotote.chatGroup.messagesUser[0].subject"></strong>
@@ -109,8 +109,8 @@
                             <p *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">Message</p>
                             <p *ngIf="anotote.chatGroup.messagesUser == null">Message</p>
                             <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
-                                <p [innerText]="anotote.chatGroup.groupUsers[0].user.firstName+' '+anotote.chatGroup.groupUsers[0].user.lastName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></p>
-                                <p [innerText]="anotote.chatGroup.groupUsers[1].user.firstName+' '+anotote.chatGroup.groupUsers[1].user.lastName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></p>
+                                <p [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></p>
+                                <p [innerText]="anotote.chatGroup.groupUsers[1].user.firstName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></p>
                             </ng-container>
                             <button type="button">
                                 <img src="assets/img/commentIcon.svg" alt="">

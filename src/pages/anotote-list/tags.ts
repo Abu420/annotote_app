@@ -130,7 +130,7 @@ export class TagsPopUp {
     }
 
     selected_user(user) {
-        this.tag_input = user.firstName + ' ' + user.lastName;
+        this.tag_input = user.firstName;
         this.show_autocomplete = false;
         this.users = [];
         this.one_selected = user;

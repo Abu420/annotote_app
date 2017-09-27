@@ -487,6 +487,12 @@ chat_tote_page {
                 border-top: 15px solid #ca6ebf;
             }
         }
+        span.anon {
+            background: #000000;
+            &:after {
+                border-top: 15px solid #000000;
+            }
+        }
     }
     .resultUserHead {
         height: 56px;

@@ -21,6 +21,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { ChatToteOptions } from '../anotote-list/chat_tote';
 import { Chat } from '../chat/chat';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
+import { Streams } from '../../services/stream.service';
 /**
  * Generated class for the Home page.
  *
@@ -38,7 +39,7 @@ export class Home {
   public searches: any;
   public latest_searches_firstTime_loading: boolean;
 
-  constructor(public platform: Platform, private events: Events, public searchService: SearchService, public notificationService: NotificationService, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public statusBar: StatusBar) {
+  constructor(public platform: Platform, private events: Events, public searchService: SearchService, public notificationService: NotificationService, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public statusBar: StatusBar, public stream: Streams) {
     this._unread = 0;
     this.searches = [];
     this.latest_searches_firstTime_loading = true;
@@ -231,6 +232,7 @@ export class Home {
           .subscribe((response) => {
             self.utilityMethods.hide_loader();
             self.authService.clear_user();
+            self.stream.clear();
             self.notificationService.clear_data();
             self.appCtrl.getRootNav().setRoot(FrontViewPage);
           }, (error) => {

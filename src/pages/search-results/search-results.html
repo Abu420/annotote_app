@@ -55,7 +55,7 @@
                 </figure>
                 <figcaption *ngIf="search_result.is_tote == false">
                     <h4>Search result {{i+1}}</h4>
-                    <span>{{search_result.firstName}} {{search_result.lastName}} <i *ngIf="search_result.isFollowed == 1"><</i> <b> <ion-icon *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)" name="add"></ion-icon> <i *ngIf="search_result.isFollowed == 1">@</i> </b></span>
+                    <span>{{search_result.firstName}} <i *ngIf="search_result.isFollowed == 1"><</i> <b> <ion-icon *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)" name="add"></ion-icon> <i *ngIf="search_result.isFollowed == 1">@</i> </b></span>
                     <span class="excerptTxt">{{search_result.description}}</span>
                 </figcaption>
             </li>

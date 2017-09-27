@@ -302,14 +302,32 @@ export class AnototeEditor implements OnDestroy {
         //     });
         var params = {
             anotote: this.ANOTOTE,
-            stream: this.actual_stream
+            stream: this.actual_stream,
+            from: 'editor'
         }
         let chatTote = this.modalCtrl.create(ChatToteOptions, params);
         chatTote.onDidDismiss((data) => {
             if (data.chat) {
                 this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.ANOTOTE.userAnnotote.id, title: data.title });
             } else if (data.add) {
-
+                this.utilityMethods.show_loader('');
+                var params = {
+                    user_tote_id: this.tote_id,
+                    created_at: this.utilityMethods.get_php_wala_time()
+                }
+                this.searchService.addToMeStream(params).subscribe((success) => {
+                    this.utilityMethods.hide_loader();
+                    this.actual_stream = 'me';
+                    this.which_stream = 'me';
+                    this.WHICH_STREAM = 'me';
+                    this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
+                    this.runtime.me_first_load = false;
+                }, (error) => {
+                    this.utilityMethods.hide_loader();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                })
             }
         })
         chatTote.present();

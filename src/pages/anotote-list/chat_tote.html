@@ -8,7 +8,7 @@
         <div class="searchUserHead" *ngIf="initiateChat == false">
             <img src="assets/img/croseIcon.svg" alt="" (click)="dissmiss()" />
             <input *ngIf="anotote != null" disabled search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" type="text" placeholder="Search or enter address" />
-            <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}" *ngIf="anotote != null"><img src="assets/img/plusIcon.svg" alt="" /></span>
+            <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top','anon':stream == 'anon'}" *ngIf="anotote != null"><img src="assets/img/plusIcon.svg" alt="" /></span>
         </div>
     </ion-toolbar>
 </ion-header>
@@ -25,7 +25,7 @@
                 <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                 <!-- </figure> -->
                 <!-- <figcaption class="followUser"> -->
-                <span>{{search_result.firstName}} {{search_result.lastName}} <i *ngIf="search_result.isFollowed == 1"><</i></span>
+                <span>{{search_result.firstName}} <i *ngIf="search_result.isFollowed == 1"><</i></span>
                 <span class="rightAdd" *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)"><ion-icon name="add"></ion-icon></span>
                 <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span>
                 <!-- </figcaption> -->
@@ -34,7 +34,7 @@
     </div>
     <div class="userWidget" *ngIf="initiateChat == false">
         <ul>
-            <li *ngIf="anotote != null && stream != 'anon'" (click)="saveThis()">
+            <li *ngIf="anotote != null && stream != 'anon' && from != 'editor'" (click)="saveThis()">
                 <img src="assets/img/cloudIconGray.svg" alt="" />
                 <span>Save this (enter)</span>
             </li>

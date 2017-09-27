@@ -26,10 +26,13 @@ export class ChatToteOptions {
     public anotote: any = null;
     public search_results: any = [];
     public stream: string = '';
+    public from;
 
     constructor(public params: NavParams, public navCtrl: NavController, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService) {
         this.anotote = params.get('anotote');
         this.stream = params.get('stream');
+        if (params.get('from'))
+            this.from = params.get('from');
         if (this.anotote != null && this.stream != 'top' && this.stream != 'anon')
             this.search_txt = this.anotote.userAnnotote.annotote.title;
         else if (this.anotote != null && (this.stream == 'top' || this.stream == 'anon'))
@@ -55,6 +58,7 @@ export class ChatToteOptions {
         }
         this.searchService.general_search(params)
             .subscribe((response) => {
+                this.search_results = [];
                 for (let user of response.data.user) {
                     this.search_results.push(user);
                 }

@@ -18,7 +18,7 @@
                 </div>
                 <div class="txt">
                     <span>Follows</span>
-                    <p> {{anotote.followers[0].firstName}} {{anotote.followers[0].lastName}} <i *ngIf="anotote.followers.length > 1">+ {{anotote.followers.length - 1}} others</i></p>
+                    <p> {{anotote.followers[0].firstName}} <i *ngIf="anotote.followers.length > 1">+ {{anotote.followers.length - 1}} others</i></p>
                 </div>
             </ion-item>
         </ng-container>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="txt">
                     <span>Follows</span>
-                    <p> {{anotote.follows[0].firstName}} {{anotote.follows[0].lastName}} <i *ngIf="anotote.follows.length > 1">+ {{anotote.follows.length - 1}} others</i></p>
+                    <p> {{anotote.follows[0].firstName}} <i *ngIf="anotote.follows.length > 1">+ {{anotote.follows.length - 1}} others</i></p>
                 </div>
             </ion-item>
         </ng-container>

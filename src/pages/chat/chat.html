@@ -30,7 +30,7 @@
             <div class="check-text">
                 <div class="name-time">
                     <span class="user" *ngIf="message.senderId == user.id">Me</span>
-                    <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} {{secondUser.lastName}}</span>
+                    <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
                     <span class="msg-time">{{message.createdAt  * 1000 | date:'shortTime'}}</span>
                 </div>
                 <p>{{message.text}}</p>
@@ -40,7 +40,7 @@
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} {{secondUser.lastName}}</p>
+        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply">
