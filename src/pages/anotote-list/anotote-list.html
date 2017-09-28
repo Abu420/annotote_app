@@ -158,7 +158,7 @@
                                         <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation(anotote.active_tab,highlight)">
                                         <span class="closeIcon" (click)="stop_editing($event,highlight)">Close</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
-                                        <span class="doneIcon" (click)="save_edited_annotation(highlight)" alt="">Save</span>
+                                        <span [ngClass]="{'save': edit_highlight_text != highlight.comment && edit_highlight_text != ''}" class="save" (click)="save_edited_annotation(highlight)" alt="">Save</span>
                                         <!-- <img class="closeIcon" src="assets/img/cross.png" alt="" (click)="delete_annotation(highlight)"> -->
                                         <!-- <img class="doneIcon" src="assets/img/tick.png" (click)="save_edited_annotation(highlight)" alt=""> -->
                                     </div>

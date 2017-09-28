@@ -58,6 +58,14 @@ ion-app.ios {
     }
 }
 
+.button-ios.activated {
+    background-color: #CBCBCB !important;
+}
+
+.button-ios.activated.green {
+    background-color: $me_app_color !important;
+}
+
 .tote_green_logo {
     background-image: url('..assets/img/tote_logo.png');
     background-size: contain;
@@ -287,7 +295,8 @@ button,
 page-signup,
 page-login,
 page-forgotpassword,
-page-edit-profile {
+page-edit-profile,
+page-changepassword {
     .bar-buttons {
         margin-right: 30px;
     }

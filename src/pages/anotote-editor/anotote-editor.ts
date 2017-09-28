@@ -277,29 +277,6 @@ export class AnototeEditor implements OnDestroy {
     }
 
     add_to_me_stream() {
-        // this.utilityMethods.show_loader('Please wait...');
-        // var current_time = this.utilityMethods.get_php_wala_time();
-        // var params = {
-        //     annotote_id: this.main_anotote_id,
-        //     user_id: this.tote_user_id,
-        //     created_at: current_time
-        // };
-        // this.searchService.save_anotote_to_me_stream(params)
-        //     .subscribe((res) => {
-        //         this.utilityMethods.hide_loader();
-        //         if (res.data.exist_count == 1) {
-        //             this.utilityMethods.doToast("This anotote is already added to your me stream.");
-        //             return;
-        //         }
-        //         this.tote_saved = true;
-        //         this.content.resize();
-        //         var that = this;
-        //         setTimeout(function () {
-        //             that.tote_saved = false;
-        //         }, 2000);
-        //     }, (error) => {
-        //         this.utilityMethods.hide_loader();
-        //     });
         var params = {
             anotote: this.ANOTOTE,
             stream: this.actual_stream,
@@ -322,6 +299,7 @@ export class AnototeEditor implements OnDestroy {
                     this.WHICH_STREAM = 'me';
                     this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
                     this.runtime.me_first_load = false;
+                    this.runtime.top_first_load = false;
                 }, (error) => {
                     this.utilityMethods.hide_loader();
                     if (error.code == -1) {
@@ -465,7 +443,9 @@ export class AnototeEditor implements OnDestroy {
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream });
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
-                this.remove_annotation_api(highlight.identifier, element);
+                this.utilityMethods.confirmation_message("Are you sure ?", "Do you really want to delete this annotation ?", () => {
+                    this.remove_annotation_api(highlight.identifier, element);
+                })
             } else if (data.update) {
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             } else if (data.share) {
@@ -518,6 +498,13 @@ export class AnototeEditor implements OnDestroy {
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
+                this.runtime.top_first_load = false;
+                for (var i = 0; i < this.ANOTOTE.userAnnotote.annototeHeighlights.length; i++) {
+                    if (this.ANOTOTE.userAnnotote.annototeHeighlights[i].id == response.data.annotote.id) {
+                        this.ANOTOTE.userAnnotote.annototeHeighlights.splice(i, 1);
+                        break;
+                    }
+                }
             }, (error) => {
                 this.utilityMethods.hide_loader();
             });
@@ -533,6 +520,13 @@ export class AnototeEditor implements OnDestroy {
         this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: this.tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
+                this.runtime.top_first_load = false;
+                for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
+                    if (highlight.id == response.data.highlight.id) {
+                        highlight.comment = response.data.highlight.comment;
+                        break;
+                    }
+                }
             }, (error) => {
                 this.utilityMethods.hide_loader();
             });
@@ -557,8 +551,10 @@ export class AnototeEditor implements OnDestroy {
                     this.WHICH_STREAM = 'me';
                     this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
                     this.runtime.me_first_load = false;
+                    this.runtime.top_first_load = false;
                 } else {
-
+                    this.ANOTOTE.userAnnotote.annototeHeighlights.push(response.data.annotation);
+                    // this.ANOTOTE.highlights.push(response.data.annotation);
                 }
             }, (error) => {
                 this.utilityMethods.hide_loader();

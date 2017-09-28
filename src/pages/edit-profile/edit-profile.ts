@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
 import { Home } from '../home/home';
 import * as _ from 'underscore/underscore';
-import { StatusBar } from '@ionic-native/status-bar';
 /**
  * Services
  */
@@ -33,16 +32,15 @@ export class EditProfile {
   };
   public focus_field: string;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
-    // set status bar to green
-    this.statusBar.backgroundColorByHexString('000000');
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
+    // // set status bar to green
+    // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     var user = this.authService.getUser();
     this.user.firstName = user.firstName;
     this.user.lastName = user.lastName;
     this.user.description = user.description ? user.description : '';
     this.user.email = user.email;
-    console.log(this.user);
   }
 
   open_annotote_site() {
@@ -87,20 +85,18 @@ export class EditProfile {
      * API call, after Successfull validation
      */
     let self = this;
-    var current_time = (new Date()).getTime() / 1000;
     this.utilityMethods.show_loader('Please wait...');
     this.authService.update_profile({
       email: this.user.email,
       first_name: this.user.firstName,
       last_name: this.user.lastName,
       description: this.user.description,
-      updated_at: current_time
+      updated_at: this.utilityMethods.get_php_wala_time()
     }).subscribe((response) => {
       self.utilityMethods.hide_loader();
       self.authService.updateUser(response.data.user);
-      self.utilityMethods.message_alert_with_callback('Update Profile', 'Profile updated successfully.', function () {
-        self.navCtrl.pop();
-      });
+      self.utilityMethods.doToast('Profile updated successfully.');
+      self.navCtrl.pop();
     }, (error) => {
       self.utilityMethods.hide_loader();
       if (error.code == -1) {
@@ -110,28 +106,16 @@ export class EditProfile {
     });
   }
 
-  value_updating_email(value) {
-    this.user.email = value;
-    this.field_error.email = false;
-  }
-
-  value_updating_first_name(value) {
-    this.user.firstName = value;
-    this.field_error.first_name = false;
-  }
-
-  value_updating_last_name(value) {
-    this.user.lastName = value;
-    this.field_error.last_name = false;
-  }
-
-  value_updating_description(value) {
-    this.user.description = value;
-    this.field_error.description = false;
-  }
-
   changeColor(field) {
     this.focus_field = field;
+    if (field != '') {
+      if (field == 'email')
+        this.field_error.email = false;
+      else if (field == 'first_name')
+        this.field_error.first_name = false;
+      else if (field == 'last_name')
+        this.field_error.last_name = false;
+    }
   }
 
 }

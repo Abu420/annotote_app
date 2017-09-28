@@ -38,7 +38,6 @@ export class MeOptions {
   }
 
   share_me_tote(type) {
-    console.log(type)
     var me_anotote_link = this.constants.API_BASEURL + this.current_user;
     if (type == 'link')
       this.utilityMethods.share_content_native("Me Tote", "Me tote", null, me_anotote_link);

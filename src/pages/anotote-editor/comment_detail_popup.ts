@@ -60,13 +60,13 @@ export class CommentDetailPopup {
   }
 
   updateComment() {
-    this.show = false;
-    setTimeout(() => {
-      if (this.new_comment != this.anotote_comment && this.new_comment != '')
+    if (this.new_comment != this.anotote_comment && this.new_comment != '') {
+      this.show = false;
+      setTimeout(() => {
         this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
-      else
-        this.utilityMethods.doToast("You didn't update any comment.");
-    }, 100)
+      }, 100)
+    } else
+      this.utilityMethods.doToast("You didn't update any comment.");
   }
 
   upvote() {

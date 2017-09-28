@@ -29,7 +29,7 @@ export class ChangePassword {
 
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
     // set status bar to green
-    this.statusBar.backgroundColorByHexString('000000');
+    // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.forgot_password_old = '';
     this.forgot_password_new = '';
@@ -46,20 +46,16 @@ export class ChangePassword {
     this.navCtrl.pop();
   }
 
-  value_updating_old(value) {
-    this.forgot_password_old = value;
-  }
-
-  value_updating_new(value) {
-    this.forgot_password_new = value;
-  }
-
-  value_updating_confirm(value) {
-    this.forgot_password_confirm = value;
-  }
-
   changeColor(field) {
     this.focus_field = field;
+    if (field != '') {
+      if (field == 'old_password')
+        this.forgot_password_old_error = false;
+      else if (field == 'new_password')
+        this.forgot_password_new_error = false;
+      else if (field == 'confirm_password')
+        this.forgot_password_confirm_error = false;
+    }
   }
 
   go_home() {
@@ -93,19 +89,17 @@ export class ChangePassword {
 
     /**
      * API call, after Successfull validation
-     */
-    var current_time = (new Date()).getTime() / 1000,
-      platform_name = this.platform.is('ios') ? 'ios' : 'android';
+    //  */
+    // var current_time = (new Date()).getTime() / 1000,
+    //   platform_name = this.platform.is('ios') ? 'ios' : 'android';
     this.utilityMethods.show_loader('Please wait...');
     this.authService.reset_password({
       old_password: this.forgot_password_old,
       new_password: this.forgot_password_new
     }).subscribe((response) => {
-      let self = this;
       this.utilityMethods.hide_loader();
-      this.utilityMethods.message_alert_with_callback('Reset Password', 'Password has been changed successfully.', function () {
-        self.navCtrl.pop();
-      });
+      this.utilityMethods.doToast('Password has been changed successfully.');
+      this.navCtrl.pop();
     }, (error) => {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {

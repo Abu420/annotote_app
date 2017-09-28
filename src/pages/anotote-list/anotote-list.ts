@@ -142,7 +142,11 @@ export class AnototeList {
     } else if (this.current_color == 'follows') {
       this.loadanototes();
     } else {
-      this.loadanototes();
+      if (this.stream.top_first_load) {
+        this.anototes = this.stream.top_anototes;
+        this.current_page = this.stream.top_page_no;
+      } else
+        this.loadanototes();
     }
   }
 
@@ -183,6 +187,9 @@ export class AnototeList {
         if (this.top_anototes.length == 0) {
           this.has_totes = false;
         }
+        this.stream.top_anototes = this.top_anototes;
+        this.stream.top_page_no = this.current_page;
+        this.stream.top_first_load = true;
       }, (error) => {
         this.utilityMethods.hide_loader();
         if (error.code == -1) {
@@ -414,28 +421,34 @@ export class AnototeList {
 
   show_top_tab(anotote) {
     if (anotote.top_highlights == undefined) {
-      this.top_spinner = true;
-      var params = {
-        user_id: this.user.id,
-        anotote_id: anotote.topUserToteId,
-        time: this.utilityMethods.get_php_wala_time()
+      if (anotote.userAnnotote.id != anotote.topUserToteId) {
+        this.top_spinner = true;
+        var params = {
+          user_id: this.user.id,
+          anotote_id: anotote.topUserToteId,
+          time: this.utilityMethods.get_php_wala_time()
+        }
+        this.anototeService.fetchToteDetails(params).subscribe((result) => {
+          this.top_spinner = false;
+          anotote.active_tab = 'top'
+          anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+          if (result.status == 1) {
+            anotote.highlights = Object.assign(result.data.annotote.highlights);
+            anotote.top_highlights = result.data.annotote.highlights;
+          } else {
+            this.utilityMethods.doToast("Could not fetch top data");
+          }
+        }, (error) => {
+          this.utilityMethods.hide_loader();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        })
+      } else {
+        anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
+        anotote.active_tab = 'top';
+        anotote.topFilePath = anotote.userAnnotote.filePath;
       }
-      this.anototeService.fetchToteDetails(params).subscribe((result) => {
-        this.top_spinner = false;
-        anotote.active_tab = 'top'
-        anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
-        if (result.status == 1) {
-          anotote.highlights = Object.assign(result.data.annotote.highlights);
-          anotote.top_highlights = result.data.annotote.highlights;
-        } else {
-          this.utilityMethods.doToast("Could not fetch top data");
-        }
-      }, (error) => {
-        this.utilityMethods.hide_loader();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      })
     } else {
       anotote.active_tab = 'top'
       anotote.highlights = Object.assign(anotote.top_highlights);
@@ -586,6 +599,8 @@ export class AnototeList {
           this.utilityMethods.hide_loader();
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
+          } else {
+            this.utilityMethods.doToast("Couldn't bookmark.");
           }
         })
       }
@@ -599,10 +614,12 @@ export class AnototeList {
     if (this.current_color != 'top') {
       if (!this.edit_mode) {
         //anotation tabs logic
-        if (this.current_color == 'me')
-          anotote.active_tab = 'me'
-        else if (this.current_color == 'follows')
+        if (this.current_color == 'me') {
+          anotote.active_tab = 'me';
+          anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+        } else if (this.current_color == 'follows') {
           anotote.active_tab = 'follows'
+        }
         //-----
         if (this.current_active_anotote) {
           if (this.current_active_anotote.type == 2)
@@ -806,6 +823,7 @@ export class AnototeList {
               this.utilityMethods.hide_loader()
               this.current_active_anotote.highlights.splice(this.current_active_anotote.highlights.indexOf(annotation), 1);
               this.current_active_highlight = null;
+              this.stream.top_first_load = false;
             }, (error) => {
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
@@ -865,6 +883,7 @@ export class AnototeList {
               highlight.edit = false;
               this.current_active_highlight = null;
               this.text = '';
+              this.stream.top_first_load = false;
             }, (error) => {
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
