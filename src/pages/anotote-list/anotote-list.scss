@@ -142,7 +142,7 @@ tags_popup {
         height: 100%;
         .top_empty_box {
             height: calc(100vh - 45%);
-            background: rgba(0, 0, 0, .6);
+            background: transparent;
         }
         .tags-panel {
             height: calc(100vh - 55%);
@@ -644,6 +644,11 @@ page-anotote-list {
                         }
                         &.bulkActive {
                             background: #e0e0e0;
+                            .check {
+                                img {
+                                    box-shadow: 0px 3px 4px #a7a7a7;
+                                }
+                            }
                         }
                         display: block;
                         overflow: hidden;
@@ -658,6 +663,8 @@ page-anotote-list {
                             position: absolute;
                             left: 0px;
                             top: 0px;
+                            text-align: center;
+                            line-height: 4;
                             img {
                                 vertical-align: middle;
                             }
