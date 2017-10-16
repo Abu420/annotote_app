@@ -7,9 +7,9 @@ import { SearchResults } from '../search-results/search-results';
 /**
  * Services
  */
-import { Constants } from '../../services/constants.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
+import { Streams } from '../../services/stream.service';
 
 @Component({
     selector: 'search_page',
@@ -43,7 +43,7 @@ export class Search {
     }
     private from;
 
-    constructor(public constants: Constants, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
+    constructor(public stream: Streams, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;
@@ -216,6 +216,9 @@ export class Search {
             follows_id: person.id
         }).subscribe((response) => {
             person.follow_loading = false;
+            this.stream.follow_first_load = false;
+            this.stream.me_first_load = false;
+            this.stream.top_first_load = false;
             if (response.status == 1)
                 person.isFollowed = 1;
             else
@@ -239,6 +242,9 @@ export class Search {
         }).subscribe((response) => {
             this.utilityMethods.hide_loader();
             person.isFollowed = 0;
+            this.stream.follow_first_load = false;
+            this.stream.me_first_load = false;
+            this.stream.top_first_load = false;
         }, (error) => {
             this.utilityMethods.hide_loader();
             if (error.code == -1) {

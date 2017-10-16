@@ -1,5 +1,4 @@
-import { Component, ElementRef, Input, Pipe, PipeTransform, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, ElementRef, Input, Pipe, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
@@ -18,20 +17,8 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { ChatToteOptions } from '../anotote-list/chat_tote';
 import { Chat } from '../chat/chat';
 import { Streams } from '../../services/stream.service';
-
-@Pipe({
-    name: 'sanitizeHtml'
-})
-export class SanitizeHtmlPipe implements PipeTransform {
-
-    constructor(private _sanitizer: DomSanitizer) {
-    }
-
-    transform(v: string): SafeHtml {
-        this._sanitizer.bypassSecurityTrustStyle(v);
-        return this._sanitizer.bypassSecurityTrustHtml(v);
-    }
-}
+import { TagsPopUp } from '../anotote-list/tags';
+import { User } from '../../models/user';
 
 @IonicPage()
 @Component({
@@ -82,11 +69,11 @@ export class AnototeEditor implements OnDestroy {
     private range: any;
     private actual_stream: string;
     private search_obj_to_be_deleted;
+    public user: User;
 
     private show_anotation_details: (txt: string) => void;
 
     constructor(public myElement: ElementRef,
-        private _sanitizer: DomSanitizer,
         private authService: AuthenticationService,
         private socialSharing: SocialSharing,
         private events: Events,
@@ -102,6 +89,7 @@ export class AnototeEditor implements OnDestroy {
         var that = this;
         this.toggle_annotation_option = false;
         this.selection_lock = false;
+        this.user = authService.getUser();
 
         /**
          * Assigning Values
@@ -279,7 +267,7 @@ export class AnototeEditor implements OnDestroy {
     add_to_me_stream() {
         var params = {
             anotote: this.ANOTOTE,
-            stream: this.actual_stream,
+            stream: this.WHICH_STREAM,
             from: 'editor'
         }
         let chatTote = this.modalCtrl.create(ChatToteOptions, params);
@@ -304,6 +292,31 @@ export class AnototeEditor implements OnDestroy {
                     this.utilityMethods.hide_loader();
                     if (error.code == -1) {
                         this.utilityMethods.internet_connection_error();
+                    }
+                })
+            } else if (data.bookmark) {
+                var link = [];
+                link.push(this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.link : this.ANOTOTE.annotote.link)
+                var paraams: any = {
+                    user_tote_id: this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.id : this.ANOTOTE.annotote.id,
+                    user_id: this.user.id,
+                    links: link,
+                    created_at: this.utilityMethods.get_php_wala_time()
+                }
+                this.utilityMethods.show_loader('Bookmarking', false);
+                this.anotote_service.bookmark_totes(paraams).subscribe((result) => {
+                    this.utilityMethods.hide_loader();
+                    if (result.status == 1) {
+                        if (result.data.bookmarks.length > 0)
+                            this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
+                        this.utilityMethods.doToast("Bookmarked.");
+                    }
+                }, (error) => {
+                    this.utilityMethods.hide_loader();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    } else {
+                        this.utilityMethods.doToast("Couldn't bookmark.");
                     }
                 })
             }
@@ -454,6 +467,8 @@ export class AnototeEditor implements OnDestroy {
                 this.upvote(element.getAttribute('data-identifier'));
             } else if (data.downvote) {
                 this.downvote(element.getAttribute('data-identifier'))
+            } else if (data.tags) {
+                this.show_annotation_tags(element.getAttribute('data-identifier'))
             }
         });
         commentDetailModal.present();
@@ -612,12 +627,33 @@ export class AnototeEditor implements OnDestroy {
     }
 
     get_highlight(identifier) {
-        for (let highlight of this.ANOTOTE.anototeDetail.highlights) {
-            if (highlight.identifier == identifier) {
-                return highlight;
+        if (this.actual_stream == 'top') {
+            for (let highlight of this.ANOTOTE.anototeDetail.highlights) {
+                if (highlight.identifier == identifier) {
+                    return highlight;
+                }
             }
+            return null;
+        } else {
+            for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
+                if (highlight.identifier == identifier) {
+                    return highlight;
+                }
+            }
+            return null;
         }
-        return null;
+
+    }
+
+    show_annotation_tags(id) {
+        var params = {
+            annotation_id: this.ANOTOTE.userAnnotote.id,
+            tags: this.get_highlight(id).tags,
+            whichStream: this.actual_stream,
+            annotote: false
+        }
+        let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+        tagsModal.present();
     }
 
 }

@@ -1,7 +1,8 @@
-import { Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AuthenticationService } from "./auth.service";
 import { Constants } from "./constants.service";
 import { DatePipe } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Pipe({
   name: 'chatHeads'
@@ -35,9 +36,9 @@ export class chatName {
   transform(input) {
     let user = this.auth.getUser();
     if (input[0].user.id != user.id)
-      return input[0].user.firstName + ' ' + input[0].user.lastName;
+      return input[0].user.firstName;
     else
-      return input[1].user.firstName + ' ' + input[0].user.lastName;
+      return input[1].user.firstName;
   }
 }
 
@@ -70,5 +71,19 @@ export class timeStamp {
       return this.date.transform(formated_time, 'shortTime');
     else
       return this.date.transform(formated_time, 'MM/dd');
+  }
+}
+
+@Pipe({
+  name: 'sanitizeHtml'
+})
+export class SanitizeHtmlPipe implements PipeTransform {
+
+  constructor(private _sanitizer: DomSanitizer) {
+  }
+
+  transform(v: string): SafeHtml {
+    this._sanitizer.bypassSecurityTrustStyle(v);
+    return this._sanitizer.bypassSecurityTrustHtml(v);
   }
 }

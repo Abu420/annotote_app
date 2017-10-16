@@ -87,4 +87,11 @@ export class CommentDetailPopup {
     this.viewCtrl.dismiss();
   }
 
+  showtags() {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true });
+    }, 100)
+  }
+
 }

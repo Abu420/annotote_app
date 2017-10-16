@@ -9,6 +9,7 @@ import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Profile } from "../follows/follows_profile";
 import { StatusBar } from "@ionic-native/status-bar";
+import { Streams } from '../../services/stream.service';
 
 @IonicPage()
 @Component({
@@ -24,7 +25,7 @@ export class SearchResults {
   private hide_header_contents: boolean = false;
   private no_search: boolean = false;
 
-  constructor(public authService: AuthenticationService, public searchService: SearchService, private params: NavParams, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public statusBar: StatusBar) {
+  constructor(public stream: Streams, public authService: AuthenticationService, public searchService: SearchService, private params: NavParams, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public statusBar: StatusBar) {
     this.search_term = params.get('search_term');
     this.search_results = params.get('results');
     this.user_id = this.authService.getUser().id;
@@ -102,6 +103,9 @@ export class SearchResults {
       follows_id: person.id
     }).subscribe((response) => {
       person.follow_loading = false;
+      this.stream.follow_first_load = false;
+      this.stream.me_first_load = false;
+      this.stream.top_first_load = false;
       if (response.status == 1)
         person.isFollowed = 1;
       else

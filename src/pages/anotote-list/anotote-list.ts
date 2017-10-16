@@ -140,10 +140,14 @@ export class AnototeList {
         this.loadanototes();
       }
     } else if (this.current_color == 'follows') {
-      this.loadanototes();
+      if (this.stream.follow_first_load) {
+        this.anototes = this.stream.follows_anototes;
+        this.current_page = this.stream.follows_page_no;
+      } else
+        this.loadanototes();
     } else {
       if (this.stream.top_first_load) {
-        this.anototes = this.stream.top_anototes;
+        this.top_anototes = this.stream.top_anototes;
         this.current_page = this.stream.top_page_no;
       } else
         this.loadanototes();
@@ -166,7 +170,9 @@ export class AnototeList {
           this.stream.me_anototes = this.anototes;
           this.stream.me_first_load = true;
         } else if (this.current_color == 'follows') {
-          this.stream.follows_page_no = 1;
+          this.stream.follows_page_no = this.current_page;
+          this.stream.follows_anototes = this.anototes;
+          this.stream.follow_first_load = true;
         }
         this.utilityMethods.hide_loader();
       }, (error) => {
@@ -205,7 +211,6 @@ export class AnototeList {
 
   showMeHighlights(anotote) {
     if (this.current_color == 'me') {
-      this.current_active_anotote.activeParty = 1;
       anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
       anotote.active_tab = 'me'
     } else if (this.current_color == 'follows' || this.current_color == 'top') {
@@ -230,7 +235,6 @@ export class AnototeList {
           this.me_spinner = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
-            this.utilityMethods.doToast("Couldn't load chat history.");
           }
         });
       } else {
@@ -257,7 +261,7 @@ export class AnototeList {
           }
           tote.userAnnotote.annotote = anotote.annotote;
           anotote.active = false;
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: tote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
         }
       } else {
         // this.current_active_highlight.edit = false;
@@ -569,6 +573,8 @@ export class AnototeList {
             this.anototeService.save_totes(params).subscribe((result) => {
               this.utilityMethods.hide_loader();
               if (result.status == 1) {
+                this.stream.me_first_load = false;
+                this.stream.top_first_load = false;
                 this.utilityMethods.doToast("Saved to Me stream");
                 this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
               }
@@ -583,16 +589,20 @@ export class AnototeList {
           }
         }
       } else if (data.bookmark) {
+        var link = [];
+        link.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.link : this.current_active_anotote.annotote.link)
         var params: any = {
-          user_tote_id: this.current_active_anotote.userAnnotote.id,
+          user_tote_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.id : this.current_active_anotote.annotote.id,
           user_id: this.user.id,
+          links: link,
           created_at: this.utilityMethods.get_php_wala_time()
         }
-
         this.utilityMethods.show_loader('Bookmarking', false);
         this.anototeService.bookmark_totes(params).subscribe((result) => {
           this.utilityMethods.hide_loader();
           if (result.status == 1) {
+            if (result.data.bookmarks.length > 0)
+              this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
             this.utilityMethods.doToast("Bookmarked.");
           }
         }, (error) => {
@@ -616,14 +626,13 @@ export class AnototeList {
         //anotation tabs logic
         if (this.current_color == 'me') {
           anotote.active_tab = 'me';
-          anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+          if (anotote.chatGroupId == null)
+            anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
         } else if (this.current_color == 'follows') {
           anotote.active_tab = 'follows'
         }
         //-----
         if (this.current_active_anotote) {
-          if (this.current_active_anotote.type == 2)
-            this.content.resize();
           this.current_active_anotote.active = false;
           if (this.current_active_anotote.id == anotote.id) {
             this.current_active_anotote = null;
@@ -632,8 +641,6 @@ export class AnototeList {
         }
         this.current_active_anotote = anotote;
         this.current_active_anotote.active = !this.current_active_anotote.active;
-        if (this.current_active_anotote.type == 2)
-          this.content.resize();
 
         // if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
         //   this.current_active_anotote.activeParty = 1;
@@ -842,7 +849,8 @@ export class AnototeList {
     })
   }
 
-  show_tags_for_annotation(activeTab, annotation) {
+  show_tags_for_annotation(event, activeTab, annotation) {
+    event.stopPropagation();
     if (activeTab != 'me' && annotation.tags.length == 0) {
       this.utilityMethods.doToast("This annotation does not contain any tags.");
       return;
@@ -1213,23 +1221,29 @@ export class AnototeList {
 
   bookmark_totes() {
     var ids = '';
+    var links = [];
     for (let anotote of this.selected_totes) {
       if (ids == '')
         ids += anotote.userAnnotote.id
       else
         ids += ',' + anotote.userAnnotote.id
+      links.push(this.current_color == 'follows' ? anotote.userAnnotote.annotote.link : anotote.annotote.link)
     }
     var params = {
       user_tote_id: ids,
       user_id: this.user.id,
+      links: links,
       created_at: this.utilityMethods.get_php_wala_time()
     }
-
     this.utilityMethods.show_loader('', false);
     this.anototeService.bookmark_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.status == 1) {
         this.utilityMethods.doToast("Bookmarked.");
+        if (result.data.bookmarks.length > 0)
+          for (let bookmark of result.data.bookmarks) {
+            this.searchService.saved_searches.unshift(bookmark);
+          }
         this.close_bulk_actions();
       }
     }, (error) => {
@@ -1238,7 +1252,6 @@ export class AnototeList {
         this.utilityMethods.internet_connection_error();
       }
     })
-
   }
 
 }

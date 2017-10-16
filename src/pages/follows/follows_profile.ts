@@ -15,6 +15,7 @@ import { Constants } from '../../services/constants.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
+import { Streams } from '../../services/stream.service';
 
 declare var cordova: any;
 
@@ -45,7 +46,7 @@ export class Profile {
   public is_it_me: boolean;
   private lastImage: string = null;
 
-  constructor(private zone: NgZone, private camera: Camera, private transfer: Transfer, public modalCtrl: ModalController, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public constants: Constants, params: NavParams, public navCtrl: NavController, public authService: AuthenticationService, public events: Events, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, public searchService: SearchService, private platform: Platform) {
+  constructor(public stream: Streams, private zone: NgZone, private camera: Camera, private transfer: Transfer, public modalCtrl: ModalController, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public constants: Constants, params: NavParams, public navCtrl: NavController, public authService: AuthenticationService, public events: Events, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, public searchService: SearchService, private platform: Platform) {
     var user = this.authService.getUser();
     this.profileData = params.get('data');
     this.from_page = params.get('from_page');
@@ -70,6 +71,9 @@ export class Profile {
     }).subscribe((response) => {
       this.utilityMethods.hide_loader();
       this.profileData.user.isFollowed = 1;
+      this.stream.follow_first_load = false;
+      this.stream.me_first_load = false;
+      this.stream.top_first_load = false;
       if (this.from_page == 'search_results')
         this.events.publish('user:followed', this.profileData.user.id);
     }, (error) => {
@@ -283,6 +287,9 @@ export class Profile {
     }).subscribe((response) => {
       this.utilityMethods.hide_loader();
       this.profileData.user.isFollowed = 0;
+      this.stream.follow_first_load = false;
+      this.stream.me_first_load = false;
+      this.stream.top_first_load = false;
       if (this.from_page == 'search_results')
         this.events.publish('user:unFollowed', this.profileData.user.id);
     }, (error) => {

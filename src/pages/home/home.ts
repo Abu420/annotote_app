@@ -233,6 +233,7 @@ export class Home {
             self.utilityMethods.hide_loader();
             self.authService.clear_user();
             self.stream.clear();
+            self.searchService.saved_searches = [];
             self.notificationService.clear_data();
             self.appCtrl.getRootNav().setRoot(FrontViewPage);
           }, (error) => {

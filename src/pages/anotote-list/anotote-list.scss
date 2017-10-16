@@ -953,6 +953,21 @@ page-anotote-list {
                             padding: 5%;
                             p {
                                 white-space: normal;
+                                position: relative;
+                                &.me {
+                                    &::after {
+                                        content: "";
+                                        background: url(../assets/img/check2.png);
+                                        background-position: left;
+                                        background-repeat: no-repeat;
+                                        background-size: 5vw;
+                                        position: absolute;
+                                        left: 10px;
+                                        top: 0px;
+                                        width: 17px;
+                                        height: 17px;
+                                    }
+                                }
                             }
                             .butt {
                                 width: 60%;

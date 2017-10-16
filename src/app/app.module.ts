@@ -74,14 +74,13 @@ import { NotificationService } from "../services/notifications.service";
 import { Constants } from "../services/constants.service";
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
-import { ChatHeads, chatName, basePath, timeStamp } from "../services/pipes"
+import { ChatHeads, chatName, basePath, timeStamp, SanitizeHtmlPipe } from "../services/pipes"
 import { HttpFactory } from "../services/httpFactory"
 import { Push } from '@ionic-native/push';
 
 /**
  * Pipes
  */
-import { SanitizeHtmlPipe } from '../pages/anotote-editor/anotote-editor';
 import { Highlight } from "../directives/highlight";
 import { Safe } from "../services/SafeHtml";
 import { OnlyTime } from "../directives/date_pipe";
