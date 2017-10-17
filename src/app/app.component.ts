@@ -45,7 +45,7 @@ export class MyApp {
       this.statusBar.overlaysWebView(false);
 
       // set status bar to white
-      this.statusBar.backgroundColorByHexString('#252525');
+      this.statusBar.backgroundColorByHexString('#323232');
       //keyboard
       this.keyboard.hideKeyboardAccessoryBar(false);
       /**

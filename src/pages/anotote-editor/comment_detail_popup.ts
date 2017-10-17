@@ -27,6 +27,7 @@ export class CommentDetailPopup {
   private stream: string;
   private new_comment: any = '';
   public show: boolean = true;
+  public annotation;
 
   constructor(public params: NavParams, public viewCtrl: ViewController, public utilityMethods: UtilityMethods) {
     this.anotote_txt = this.params.get('txt');
@@ -35,6 +36,7 @@ export class CommentDetailPopup {
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
     this.stream = this.params.get('stream');
     this.new_comment = Object.assign(this.anotote_comment);
+    this.annotation = params.get('anotation');
   }
 
   dismiss() {

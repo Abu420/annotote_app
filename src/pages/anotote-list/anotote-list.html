@@ -285,31 +285,70 @@
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <ion-fab bottom right *ngIf="current_color != 'top'">
+    <ion-fab bottom right>
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
+            <img *ngIf="current_active_anotote == null" src="assets/img/whiteTote.svg" />
+            <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/greenTote.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/greenTote2.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/greenTote3.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/greenTote4.svg" />
+                <!-- Active tab follows -->
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/yellowTote.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/yellowTote2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/yellowTote3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/yellowTote4.svg" />
+                <!-- Active tab top -->
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0" src="assets/img/pinkTote.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0" src="assets/img/pinkTote2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0" src="assets/img/pinkTote3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0" src="assets/img/pinkTote4.svg" />
+            </ng-container>
+            <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup != null">
+                <img src="assets/img/greenTote4.svg" />
+            </ng-container>
+            <ng-container *ngIf="current_color == 'follows'">
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/yellowTote.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/yellowTote2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/yellowTote3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/yellowTote4.svg" />
+                <!-- Active tab me -->
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/greenTote.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/greenTote2.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1" src="assets/img/greenTote3.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0" src="assets/img/greenTote4.svg" />
+                <!-- Active tab top -->
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0" src="assets/img/pinkTote.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0" src="assets/img/pinkTote2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0" src="assets/img/pinkTote3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0" src="assets/img/pinkTote4.svg" />
+            </ng-container>
+            <ng-container *ngIf="current_color == 'top'">
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.follows.length > 0" src="assets/img/pinkTote.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.follows.length > 0" src="assets/img/pinkTote2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.follows.length == 0" src="assets/img/pinkTote3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.follows.length == 0" src="assets/img/pinkTote4.svg" />
+                <!-- Active tab me -->
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.anototeDetail.follows.length > 0 && current_active_anotote.anototeDetail.isTop == 1" src="assets/img/greenTote.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.anototeDetail.follows.length > 0 && current_active_anotote.anototeDetail.isTop == 0" src="assets/img/greenTote2.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.anototeDetail.follows.length == 0 && current_active_anotote.anototeDetail.isTop == 1" src="assets/img/greenTote3.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.anototeDetail.follows.length == 0 && current_active_anotote.anototeDetail.isTop == 0" src="assets/img/greenTote4.svg" />
+                <!-- Active tab follows -->
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.isTop == 1" src="assets/img/yellowTote.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.isTop == 0" src="assets/img/yellowTote2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.isTop == 1" src="assets/img/yellowTote3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.isTop == 0" src="assets/img/yellowTote4.svg" />
+            </ng-container>
+        </button>
+    </ion-fab>
+    <!-- <ion-fab bottom right *ngIf="current_color == 'top'">
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
             <img *ngIf="current_active_anotote == null" src="assets/img/whiteTote.svg" />
             <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'me'" src="assets/img/greenTote.svg" />
             <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows'" src="assets/img/yellowTote.svg" />
             <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top'" src="assets/img/pinkTote.svg" />
-            <!-- <img src="assets/img/tot_icon_white.png" /> -->
-            <!-- <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote':current_active_anotote.isTop && current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
-            <span class="notiNote" *ngIf="unread_notification_count != 0">{{unread_notification_count}}</span>
-            <span [ngClass]="{'followNote': current_active_anotote.followers.length > 0 && (current_active_anotote.active_tab == 'me' || current_active_anotote.active_tab == 'top')}" *ngIf="current_active_anotote != null && current_active_anotote.followers.length > 0 && current_active_anotote.active_tab != 'follows'">{{current_active_anotote.followers.length}}</span>
-            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null && current_active_anotote.isTop == true"></span> -->
         </button>
-    </ion-fab>
-    <ion-fab bottom right *ngIf="current_color == 'top'">
-        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
-            <img *ngIf="current_active_anotote == null" src="assets/img/whiteTote.svg" />
-            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'me'" src="assets/img/greenTote.svg" />
-            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows'" src="assets/img/yellowTote.svg" />
-            <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top'" src="assets/img/pinkTote.svg" />
-            <!-- <span [ngClass]="{'meNote': current_active_anotote.isMe && (current_active_anotote.active_tab == 'top' || current_active_anotote.active_tab == 'follows'),'topNote': current_active_anotote.active_tab == 'me'}" *ngIf="current_active_anotote != null"></span>
-            <span class="notiNote" *ngIf="unread_notification_count != 0">{{unread_notification_count}}</span>
-            <span [ngClass]="{'followNote': current_active_anotote.follows.length > 0 && (current_active_anotote.active_tab == 'me' || current_active_anotote.active_tab == 'top')}" *ngIf="current_active_anotote != null && current_active_anotote.follows.length > 0 && current_active_anotote.active_tab != 'follows'">{{current_active_anotote.follows.length}}</span>
-            <span [ngClass]="{'topAheadNote': current_active_anotote.active_tab == 'follows'}" *ngIf="current_active_anotote != null"></span> -->
-        </button>
-    </ion-fab>
+    </ion-fab> -->
 </ion-content>
 <span navPop class="wedge_icon"></span>
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && (current_active_anotote.active && current_active_anotote.type == 'message')">

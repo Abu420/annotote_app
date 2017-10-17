@@ -101,6 +101,7 @@ export class AnototeEditor implements OnDestroy {
             HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
             actual_stream: navParams.get('actual_stream')
         };
+        console.log(anotote_from_params);
         if (anotote_from_params.actual_stream == 'anon') {
             this.search_obj_to_be_deleted = navParams.get('search_to_delete');
         }
@@ -172,7 +173,16 @@ export class AnototeEditor implements OnDestroy {
         else
             this.from_where = 'new_anotote';
 
-        this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
+
+        if (this.actual_stream == 'me') {
+            this.scrape_anotote(this.ANOTOTE.meFilePath);
+        } else if (this.actual_stream == 'follows') {
+            this.scrape_anotote(this.ANOTOTE.followerFilePath);
+        } else if (this.actual_stream == 'top') {
+            this.scrape_anotote(this.ANOTOTE.topFilePath);
+        }
+
+
     }
 
 
@@ -453,7 +463,7 @@ export class AnototeEditor implements OnDestroy {
     }
 
     presentCommentDetailModal(highlight, element?) {
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream });
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier) });
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
                 this.utilityMethods.confirmation_message("Are you sure ?", "Do you really want to delete this annotation ?", () => {
@@ -510,14 +520,29 @@ export class AnototeEditor implements OnDestroy {
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
         var article_txt = document.getElementById('text_editor').innerHTML;
-        this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: this.tote_id })
+        var tote_id = '';
+        if (this.WHICH_STREAM != 'me') {
+            tote_id = this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id;
+        } else {
+            tote_id = this.ANOTOTE.userAnnotote.id;
+        }
+        this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: tote_id })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.runtime.top_first_load = false;
-                for (var i = 0; i < this.ANOTOTE.userAnnotote.annototeHeighlights.length; i++) {
-                    if (this.ANOTOTE.userAnnotote.annototeHeighlights[i].id == response.data.annotote.id) {
-                        this.ANOTOTE.userAnnotote.annototeHeighlights.splice(i, 1);
-                        break;
+                if (this.WHICH_STREAM == 'me') {
+                    for (var i = 0; i < this.ANOTOTE.userAnnotote.annototeHeighlights.length; i++) {
+                        if (this.ANOTOTE.userAnnotote.annototeHeighlights[i].id == response.data.annotote.id) {
+                            this.ANOTOTE.userAnnotote.annototeHeighlights.splice(i, 1);
+                            break;
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < this.ANOTOTE.my_highlights.length; i++) {
+                        if (this.ANOTOTE.userAnnotote.annototeHeighlights[i].id == response.data.annotote.id) {
+                            this.ANOTOTE.userAnnotote.annototeHeighlights.splice(i, 1);
+                            break;
+                        }
                     }
                 }
             }, (error) => {
@@ -532,14 +557,29 @@ export class AnototeEditor implements OnDestroy {
         element.className = "highlight_comment"
         element.setAttribute("data-comment", comment);
         var article_txt = document.getElementById('text_editor').innerHTML;
-        this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: this.tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
+        var tote_id = '';
+        if (this.WHICH_STREAM != 'me') {
+            tote_id = this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id;
+        } else {
+            tote_id = this.ANOTOTE.userAnnotote.id;
+        }
+        this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.runtime.top_first_load = false;
-                for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
-                    if (highlight.id == response.data.highlight.id) {
-                        highlight.comment = response.data.highlight.comment;
-                        break;
+                if (this.which_stream == 'me') {
+                    for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
+                        if (highlight.id == response.data.highlight.id) {
+                            highlight.comment = response.data.highlight.comment;
+                            break;
+                        }
+                    }
+                } else {
+                    for (let highlight of this.ANOTOTE.my_highlights) {
+                        if (highlight.id == response.data.highlight.id) {
+                            highlight.comment = response.data.highlight.comment;
+                            break;
+                        }
                     }
                 }
             }, (error) => {
@@ -555,7 +595,13 @@ export class AnototeEditor implements OnDestroy {
             return;
         this.utilityMethods.show_loader('Please wait...');
         var article_txt = document.getElementById('text_editor').innerHTML;
-        this.searchService.create_anotation({ identifier: identifier, user_tote_id: this.tote_id, highlight_text: this.selectedText, created_at: current_time, file_text: article_txt, comment: comment })
+        var tote_id = '';
+        if (this.WHICH_STREAM != 'me') {
+            tote_id = this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id;
+        } else {
+            tote_id = this.ANOTOTE.userAnnotote.id;
+        }
+        this.searchService.create_anotation({ identifier: identifier, user_tote_id: tote_id, highlight_text: this.selectedText, created_at: current_time, file_text: article_txt, comment: comment })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
                 this.selectedText = '';
@@ -568,7 +614,10 @@ export class AnototeEditor implements OnDestroy {
                     this.runtime.me_first_load = false;
                     this.runtime.top_first_load = false;
                 } else {
-                    this.ANOTOTE.userAnnotote.annototeHeighlights.push(response.data.annotation);
+                    if (this.WHICH_STREAM == 'me')
+                        this.ANOTOTE.userAnnotote.annototeHeighlights.push(response.data.annotation);
+                    else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top')
+                        this.ANOTOTE.userAnnotote.my_highlights.push(response.data.annotation);
                     // this.ANOTOTE.highlights.push(response.data.annotation);
                 }
             }, (error) => {
@@ -597,14 +646,18 @@ export class AnototeEditor implements OnDestroy {
 
     upvote(id) {
         this.utilityMethods.show_loader('');
+        var currentHighlight = this.get_highlight(id)
         var params = {
-            annotation_id: this.get_highlight(id).id,
+            annotation_id: currentHighlight.id,
             vote: 1,
             created_at: this.utilityMethods.get_php_wala_time()
         }
-        this.searchService.vote_anotation(params).subscribe((data) => {
+        this.searchService.vote_anotation(params).subscribe((result) => {
             this.utilityMethods.hide_loader();
             this.utilityMethods.doToast("Up voted")
+            currentHighlight.isCurrentUserVote = 1;
+            currentHighlight.currentUserVote = 1;
+            currentHighlight.rating = result.data.annotation.rating;
         }, () => {
             this.utilityMethods.hide_loader();
         });
@@ -612,37 +665,90 @@ export class AnototeEditor implements OnDestroy {
 
     downvote(id) {
         this.utilityMethods.show_loader('');
+        var currentHighlight = this.get_highlight(id);
         var params = {
-            annotation_id: this.get_highlight(id).id,
+            annotation_id: currentHighlight.id,
             vote: 0,
             identifier: id,
             created_at: this.utilityMethods.get_php_wala_time()
         }
-        this.searchService.vote_anotation(params).subscribe((data) => {
+        this.searchService.vote_anotation(params).subscribe((result) => {
             this.utilityMethods.hide_loader();
-            this.utilityMethods.doToast("downvoted")
+            this.utilityMethods.doToast("downvoted");
+            currentHighlight.isCurrentUserVote = 1;
+            currentHighlight.currentUserVote = 0;
+            currentHighlight.rating = result.data.annotation.rating;
         }, () => {
             this.utilityMethods.hide_loader();
         });
     }
 
     get_highlight(identifier) {
-        if (this.actual_stream == 'top') {
-            for (let highlight of this.ANOTOTE.anototeDetail.highlights) {
-                if (highlight.identifier == identifier) {
-                    return highlight;
+        if (this.WHICH_STREAM == 'top') {
+            if (this.actual_stream == 'top') {
+                for (let highlight of this.ANOTOTE.anototeDetail.highlights) {
+                    if (highlight.identifier == identifier) {
+                        return highlight;
+                    }
                 }
+                return null;
+            } else if (this.actual_stream == 'follows') {
+                for (let user of this.ANOTOTE.follows) {
+                    if (user.followTote.filePath == this.ANOTOTE.followerFilePath) {
+                        for (let highlight of user.highlights) {
+                            if (highlight.identifier == identifier) {
+                                return highlight;
+                            }
+                        }
+                    }
+                }
+                return null;
+            } else if (this.actual_stream == 'me') {
+                for (let highlight of this.ANOTOTE.my_highlights) {
+                    if (highlight.identifier == identifier) {
+                        return highlight;
+                    }
+                }
+                return null;
             }
-            return null;
         } else {
-            for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
-                if (highlight.identifier == identifier) {
-                    return highlight;
+            if (this.actual_stream == 'me') {
+                if (this.WHICH_STREAM == 'me') {
+                    for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
+                        if (highlight.identifier == identifier) {
+                            return highlight;
+                        }
+                    }
+                    return null;
+                } else {
+                    for (let highlight of this.ANOTOTE.my_highlights) {
+                        if (highlight.identifier == identifier) {
+                            return highlight;
+                        }
+                    }
+                    return null;
                 }
+            } else if (this.actual_stream == 'follows') {
+                for (let user of this.ANOTOTE.followers) {
+                    if (user.followTote.filePath == this.ANOTOTE.followerFilePath) {
+                        for (let highlight of user.highlights) {
+                            if (highlight.identifier == identifier) {
+                                return highlight;
+                            }
+                        }
+                    }
+                }
+                return null;
+            } else if (this.actual_stream == 'top') {
+                for (let highlight of this.ANOTOTE.top_highlights) {
+                    if (highlight.identifier == identifier) {
+                        return highlight;
+                    }
+                }
+                return null;
             }
-            return null;
-        }
 
+        }
     }
 
     show_annotation_tags(id) {

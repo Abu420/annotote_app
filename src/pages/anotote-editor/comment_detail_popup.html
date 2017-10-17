@@ -16,10 +16,14 @@
                 <img src="assets/img/deleteIcon.svg" alt="">
             </div> -->
             <div class="downUp" *ngIf="stream != 'me'">
-                <img src="assets/img/upArrow.svg" (click)="upvote()" alt="">
+                <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="upvote()" alt="">
+                <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" alt="">
+                <img src="assets/img/upArrowgreen.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
                 <!-- <img src="assets/img/uparrowgreen.svg" (click)="upvote()" alt=""> -->
-                <span>83%</span>
-                <img src="assets/img/downIcon.svg" (click)="downvote()" alt="">
+                <span>{{annotation.rating}}%</span>
+                <img src="assets/img/downIcon.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" (click)="downvote()" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="downvote()" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
                 <!-- <img src="assets/img/downarrow.svg" (click)="downvote()" alt=""> -->
             </div>
             <div class="topTab" *ngIf="stream != 'me'">
