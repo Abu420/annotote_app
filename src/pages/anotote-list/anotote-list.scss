@@ -905,9 +905,9 @@ page-anotote-list {
                                             vertical-align: middle;
                                             width: calc(100% - 30px);
                                             padding: 0 0px 0 10px;
+                                            min-height: auto;
                                             p {
                                                 font-size: 14px;
-                                                display: -webkit-box;
                                                 -webkit-line-clamp: 4;
                                                 -webkit-box-orient: vertical;
                                                 white-space: normal;
