@@ -6,7 +6,7 @@
             </button> -->
         </ion-buttons>
         <ion-title>
-            <dot-navigation unactivedots="2"></dot-navigation>
+            <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
         </ion-title>
         <ion-buttons end>
             <button ion-button icon-only>
@@ -17,26 +17,29 @@
 </ion-header>
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding #scrollMe>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" *ngIf="infinite_completed == false">
-        </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    <ion-list no-lines class="details-list layout" id="chat-listing-area">
-        <ion-item *ngFor="let message of conversation" class="underlist-items">
-            <figure>
-                <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
-                <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
-            </figure>
-            <div class="check-text">
-                <div class="name-time">
-                    <span class="user" *ngIf="message.senderId == user.id">Me</span>
-                    <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
-                    <span class="msg-time">{{message.createdAt  * 1000 | date:'shortTime'}}</span>
+    <div id="wrapper">
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" *ngIf="infinite_completed == false">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+        <ion-list no-lines class="details-list layout" id="chat-listing-area">
+            <ion-item *ngFor="let message of conversation" class="underlist-items">
+                <figure>
+                    <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
+                    <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                </figure>
+                <div class="check-text">
+                    <div class="name-time">
+                        <span class="user" *ngIf="message.senderId == user.id">Me</span>
+                        <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
+                        <span class="msg-time">{{message.createdAt  * 1000 | date:'shortTime'}}</span>
+                    </div>
+                    <p>{{message.text}}</p>
+                    <img src="assets/img/dotsicon.svg" alt="">
                 </div>
-                <p>{{message.text}}</p>
-            </div>
-        </ion-item>
-    </ion-list>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">

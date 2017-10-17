@@ -32,10 +32,11 @@ page-chat {
         padding: 0px;
         border: 0px !important;
         .item-inner {
-            padding: 0px;
+            padding: 0px !important;
             .label-ios {
                 margin: 0px;
-                padding: 15px;
+                padding: 17px 15px 18px;
+                border-bottom: 1px solid #e8e8e8;
                 .status {
                     width: 22px;
                     height: 22px;
@@ -52,10 +53,11 @@ page-chat {
                     margin: 0px;
                     padding: 0px;
                     list-style: none;
-                    display: inline-block;
-                    width: 10%;
+                    float: left;
+                    width: 18px;
                     vertical-align: top;
-                    padding-top: 25px;
+                    margin-top: 19px;
+                    height: 18px;
                     img {
                         width: 15px;
                     }
@@ -63,17 +65,18 @@ page-chat {
                 .check-text {
                     display: inline-block;
                     vertical-align: top;
-                    width: 89%;
+                    width: calc(100% - 17px);
+                    padding-left: 10px;
                     .name-time {
                         color: #bfbfbf;
-                        font-size: 16px;
+                        font-size: 14px;
                         .msg-time {
                             float: right;
                         }
                     }
                     p {
-                        font-size: 18px;
-                        font-weight: 600;
+                        font-size: 17px;
+                        font-weight: 500;
                         word-wrap: normal;
                         white-space: normal;
                         color: #000;

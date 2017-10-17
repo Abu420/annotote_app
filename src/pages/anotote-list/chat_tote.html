@@ -19,16 +19,16 @@
                 <ion-spinner></ion-spinner>
             </li>
             <li *ngFor="let search_result of search_results" (click)="send_message(search_result)">
-                <!-- <figure> -->
-                <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
-                <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
-                <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
-                <!-- </figure> -->
-                <!-- <figcaption class="followUser"> -->
-                <span>{{search_result.firstName}} <i *ngIf="search_result.isFollowed == 1"><</i></span>
-                <span class="rightAdd" *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)"><ion-icon name="add"></ion-icon></span>
-                <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span>
-                <!-- </figcaption> -->
+                <figure>
+                    <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
+                    <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
+                </figure>
+                <figcaption class="followUser">
+                    <p>{{search_result.firstName}} <i *ngIf="search_result.isFollowed == 1"><</i></p>
+                    <span class="rightAdd" *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)"><ion-icon name="add"></ion-icon></span>
+                    <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span>
+                </figcaption>
             </li>
         </ul>
     </div>

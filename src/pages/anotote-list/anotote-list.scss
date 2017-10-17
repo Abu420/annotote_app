@@ -533,15 +533,45 @@ chat_tote_page {
     .resultWidget {
         @extend .userWidget;
         ul {
+            padding: 15px 0 0 !important;
             li {
-                span {
-                    width: calc(100% - 115px) !important;
-                    padding-right: 0px !important;
-                    &.rightAdd {
-                        float: right !important;
-                        width: 45px !important;
-                        font-size: 20px !important;
-                        padding: 27px 0 28px !important;
+                padding: 0 0px 0 10px;
+                overflow: hidden;
+                margin-bottom: 11px;
+                figure {
+                    float: left;
+                    width: 60px;
+                    height: 60px;
+                    margin: 0px;
+                    img {
+                        width: 100% !important;
+                        margin: 0px !important;
+                        vertical-align: middle !important;
+                    }
+                }
+                figcaption {
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: calc(100% - 70px);
+                    overflow: hidden;
+                    border-bottom: 1px solid #D2D2D2;
+                    padding: 27px 0px;
+                    margin-left: 10px;
+                    p {
+                        margin: 0px;
+                        width: calc(100% - 30px);
+                        display: inline-block;
+                    }
+                    span {
+                        float: right;
+                        margin-right: 10px;
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: auto !important;
+                        font-size: 16px;
+                        padding: 0px !important;
+                        padding-left: 0px;
+                        border-bottom: 0px !important;
                     }
                 }
             }
@@ -679,6 +709,7 @@ page-anotote-list {
                             vertical-align: middle;
                             padding: 20px 10px 10px 5px;
                             width: calc(100% - 72px);
+                            min-height: 72px;
                             position: relative;
                             float: right;
                             -webkit-transition: all 500ms ease-in-out;
