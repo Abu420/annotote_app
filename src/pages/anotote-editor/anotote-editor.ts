@@ -181,8 +181,6 @@ export class AnototeEditor implements OnDestroy {
         } else if (this.actual_stream == 'top') {
             this.scrape_anotote(this.ANOTOTE.topFilePath);
         }
-
-
     }
 
 

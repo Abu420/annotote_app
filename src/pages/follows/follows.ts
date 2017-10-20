@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
+import { Component, trigger, transition, style, animate, NgZone } from '@angular/core';
+import { IonicPage, ModalController, ViewController } from 'ionic-angular';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { Profile } from '../follows/follows_profile';
 
@@ -16,20 +16,47 @@ import { Constants } from '../../services/constants.service';
 @IonicPage()
 @Component({
   selector: 'page-follows',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+        ])
+      ]
+    )
+  ],
   templateUrl: 'follows.html',
 })
 export class Follows {
   private followings: any;
   private _loading: boolean;
   private no_followers_found: boolean = false;
+  public show: boolean = true;
 
-  constructor(public constants: Constants, public navCtrl: NavController, public searchService: SearchService, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods) {
+  constructor(public constants: Constants,
+    public viewCtrl: ViewController,
+    public searchService: SearchService,
+    public authService: AuthenticationService,
+    public modalCtrl: ModalController,
+    public utilityMethods: UtilityMethods) {
     this.followings = [];
   }
 
   ionViewDidLoad() {
     this._loading = false;
     this.load_follows_list();
+  }
+
+  dismiss(action) {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss();
+    }, 300)
   }
 
   showProfile(follower) {

@@ -142,7 +142,50 @@ follow_profile {
     // }
 }
 
+.modal-wrapper {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    transform: translateY(0%) !important;
+    -webkit-transform: translateY(0%) !important;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.5);
+    contain: strict;
+}
+
 page-follows {
+    .content_follows_profile {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        background-color: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding-top: 45px;
+        .follow_details {
+            overflow: auto;
+            position: relative;
+            bottom: 0px;
+            width: 100%;
+            max-height: calc(100vh - 45px);
+            height: auto;
+        }
+        .headFollow {
+            min-height: 45px;
+            background: #e0e0e0;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            left: 0px;
+            z-index: 10;
+            ion-title {
+                padding: 0 90px 1px;
+                .toolbar-title {
+                    color: #9a9a9a;
+                }
+            }
+        }
+    }
     .scroll-content {
         padding: 0px !important;
     }

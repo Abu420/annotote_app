@@ -275,6 +275,7 @@ export class AnototeList {
           }
           tote.userAnnotote.annotote = anotote.annotote;
           anotote.active = false;
+          anotote.topFilePath = anotote.userAnnotote.filePath;
           this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
         }
       } else {
