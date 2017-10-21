@@ -972,6 +972,20 @@ page-anotote-list {
                                             background: $top_app_color;
                                         }
                                         .editAntotion {
+                                            .moveBtn {
+                                                position: absolute;
+                                                left: 22px;
+                                                top: 10px;
+                                                button {
+                                                    display: block;
+                                                    background: transparent;
+                                                    border: 0px;
+                                                    padding: 2px 0px !important;
+                                                    img {
+                                                        width: 15px;
+                                                    }
+                                                }
+                                            }
                                             margin-left: -20px;
                                             background: #CCC;
                                             width: 108%;

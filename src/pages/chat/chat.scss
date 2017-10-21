@@ -1,8 +1,84 @@
 page-chat {
+    #wrapper {
+        background: #FFF;
+    }
     ion-content {
         background-color: #f5f5f5 !important;
         .scroll-content {
             padding: 20px 22px 16px !important;
+        }
+    }
+    .chatHead {
+        background: #FFF;
+        overflow: hidden;
+        >span {
+            height: 70px;
+            float: left;
+            vertical-align: middle;
+            width: 40px;
+            background-image: url(../assets/img/option-icon.png);
+            background-position: 20px center;
+            background-repeat: no-repeat;
+            background-size: 5px;
+            z-index: 9999999;
+        }
+        .txt {
+            vertical-align: middle;
+            padding: 20px 10px 10px 5px;
+            width: calc(100% - 40px);
+            padding-left: 5px;
+            min-height: 72px;
+            position: relative;
+            float: right;
+            -webkit-transition: all 500ms ease-in-out;
+            transition: all 500ms ease-in-out;
+            strong {
+                font-size: 17px;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                width: 100%;
+                overflow: hidden;
+                margin-bottom: 5px;
+                white-space: normal;
+                color: #000;
+                font-weight: 500;
+            }
+            .time {
+                float: right;
+                em {
+                    font-style: normal;
+                    color: #b5b5b5;
+                }
+            }
+            .toteText {
+                P {
+                    width: calc(100% - 80px);
+                    display: inline-block;
+                    vertical-align: middle;
+                    padding-left: 5px;
+                    margin-top: -1px;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    word-break: break-all;
+                    color: #b5b5b5;
+                }
+                button {
+                    color: #8e9093;
+                    background: transparent;
+                    float: left;
+                    margin-top: 2px;
+                    img {
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 14px;
+                    }
+                }
+            }
         }
     }
     .right-bar {
@@ -111,6 +187,24 @@ page-chat {
         .toolbar {
             overflow: visible;
             contain: none;
+            .toolbar-content {
+                padding: 0 20px !important;
+            }
+            p {
+                width: calc(100% - 60px);
+                color: #FFF;
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0px;
+                padding: 10px 0px;
+                font-weight: bold;
+            }
+            span {
+                float: right;
+                color: #3bde00;
+                padding: 10px 0px;
+                text-transform: uppercase;
+            }
         }
     }
     .send-btn {

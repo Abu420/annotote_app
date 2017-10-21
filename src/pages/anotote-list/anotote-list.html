@@ -154,6 +154,10 @@
                                     <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                     <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
+                                        <div class="moveBtn">
+                                            <button class="topIcon"><img src="assets/img/topIcon.svg" alt=""></button>
+                                            <button class="bottomIcon"><img src="assets/img/bottomIcon.svg" alt=""></button>
+                                        </div>
                                         <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
                                         <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                         <span class="closeIcon" (click)="stop_editing($event,highlight)">Close</span>

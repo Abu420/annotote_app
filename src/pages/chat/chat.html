@@ -18,6 +18,23 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding #scrollMe>
     <div id="wrapper">
+        <div class="chatHead">
+            <span class="chatOptions"></span>
+            <div class="txt">
+                <strong>[No subject]</strong>
+                <div class="time">
+                    <em>
+                        <span>10/18</span>
+                    </em>
+                </div>
+                <div class="toteText">
+                    <p>Chantel Bardaro</p>
+                    <button type="button">
+                        <img alt="" src="assets/img/commentIcon.svg">
+                    </button>
+                </div>
+            </div>
+        </div>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
             <ion-infinite-scroll-content loadingSpinner="bubbles" *ngIf="infinite_completed == false">
             </ion-infinite-scroll-content>
@@ -43,7 +60,9 @@
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p>
+        <p>“[No subject]”</p>
+        <span>Reply</span>
+        <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p>
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply">
@@ -51,6 +70,6 @@
             <span class="loading" *ngIf="send_message_loader">
                 <ion-spinner></ion-spinner>
             </span>
-        </div>
+        </div> -->
     </ion-toolbar>
 </ion-footer>
