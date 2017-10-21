@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, trigger, transition, style, animate, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { Chat } from '../chat/chat';
@@ -21,6 +21,20 @@ import { User } from "../../models/user";
 @IonicPage()
 @Component({
   selector: 'page-notifications',
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({ transform: 'translateY(100%)', opacity: 0 }),
+          animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        ]),
+        transition(':leave', [
+          style({ transform: 'translateY(0)', opacity: 1 }),
+          animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+        ])
+      ]
+    )
+  ],
   templateUrl: 'notifications.html',
 })
 export class Notifications {
@@ -32,6 +46,7 @@ export class Notifications {
   private _reload: boolean;
   private user: User;
   public has_notifications: boolean = true;
+  public show: boolean = true;
 
   constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
     this._notifications = [];
@@ -45,6 +60,13 @@ export class Notifications {
   ionViewDidLoad() {
     this._loading = false;
     this.loadNotifications();
+  }
+
+  dismiss(action) {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss();
+    }, 300)
   }
 
   read_notification(notification) {

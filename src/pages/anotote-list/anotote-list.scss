@@ -671,6 +671,9 @@ page-anotote-list {
                                 -webkit-transition: max-height 0.25s ease-in;
                                 transition: max-height 0.25s ease-in;
                             }
+                            .message-underlist {
+                                border-bottom: 1px solid #CCC;
+                            }
                         }
                         &.bulkActive {
                             background: #e0e0e0;
@@ -862,12 +865,13 @@ page-anotote-list {
                         padding: 0px 20px 0 50px;
                         margin-top: 0;
                         background: #FFF;
+                        height: 30px;
                         .btns-area {
                             padding: 0px;
                             .me-tab {
                                 background: #e0e0e0;
                                 color: white;
-                                border-radius: 3px;
+                                border-radius: 0px;
                                 margin: 0 5px !important;
                                 height: auto;
                                 padding: 5px !important;
@@ -886,9 +890,11 @@ page-anotote-list {
                             }
                             .active_follows {
                                 background: $follow_app_color;
+                                box-shadow: 0 0 3px #848484;
                             }
                             .active_top {
                                 background: $top_app_color;
+                                box-shadow: 0 0 3px #848484;
                             }
                         }
                     }

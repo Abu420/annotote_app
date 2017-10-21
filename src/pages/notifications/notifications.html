@@ -1,12 +1,4 @@
-<ion-header>
-    <!-- <ion-toolbar color="commonheader">
-        <ion-buttons start>
-            <button navPop ion-button icon-only>
-                <ion-icon name="arrow-round-back"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-title></ion-title>
-    </ion-toolbar> -->
+<!-- <ion-header>
     <ion-toolbar class="notifications_header" color="light" no-border>
         <ion-buttons start>
             <button navPop ion-button icon-only>
@@ -15,8 +7,8 @@
         </ion-buttons>
         <ion-title>Notifications ({{_unread}})</ion-title>
     </ion-toolbar>
-</ion-header>
-<ion-content swipe-vertical padding>
+</ion-header> -->
+<ion-content swipe-vertical [@enterAnimation] *ngIf="show == true" padding>
     <div id="wrapper">
         <div *ngIf="!_loading" class="notifications_spinner">
             <ion-spinner name="ios"></ion-spinner>

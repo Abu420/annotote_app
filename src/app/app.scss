@@ -23,13 +23,12 @@ body {
 }
 
 @font-face {
-    font-family: 'LucidaSans';
-    src: url("../assets/fonts/LucidaSans.eot");
-    src: url("../assets/fonts/LucidaSans.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/LucidaSans.woff") format("woff"), url("../assets/fonts/LucidaSans.ttf") format("truetype"), url("../assets/fonts/LucidaSans.svg#lovely") format("svg");
+    font-family: 'roboto'; // src: url("../assets/fonts/LucidaSans.eot");
+    // src: url("../assets/fonts/LucidaSans.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/LucidaSans.woff") format("woff"), url("../assets/fonts/LucidaSans.ttf") format("truetype"), url("../assets/fonts/LucidaSans.svg#lovely") format("svg");
 }
 
 ion-app.ios {
-    font-family: "LucidaSans" !important;
+    font-family: "Roboto" !important;
 }
 
 // .platform-ios .ios-header {
