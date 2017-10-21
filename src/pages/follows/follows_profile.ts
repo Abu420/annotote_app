@@ -16,6 +16,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Streams } from '../../services/stream.service';
+import { TagsForChat } from '../chat_profileTags/tags';
 
 declare var cordova: any;
 
@@ -59,6 +60,16 @@ export class Profile {
 
   go_to_thread() {
     this.navCtrl.push(Chat, { secondUser: this.profileData.user });
+  }
+
+  showTags() {
+    var params = {
+      profile: 'profile',
+      isMe: this.is_it_me,
+      tags: this.profileData.user.userTags
+    }
+    let tagsModal = this.modalCtrl.create(TagsForChat, params);
+    tagsModal.present();
   }
 
   followUser() {

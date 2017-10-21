@@ -231,4 +231,10 @@ export class SearchService {
         var response = this.http.post(url, params).map(res => res.json());
         return response;
     }
+
+    public add_tags_to_profile(params) {
+        var url = this.constants.API_BASEURL + '/user/createTag';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
 }

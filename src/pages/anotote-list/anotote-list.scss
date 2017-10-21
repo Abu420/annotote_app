@@ -251,6 +251,10 @@ tags_popup {
     }
 }
 
+tags_chat_profile {
+    @extend tags_popup;
+}
+
 anotote_options {
     .top_empty_box {
         height: calc(100% - 55%);

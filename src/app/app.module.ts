@@ -88,6 +88,7 @@ import { Keyboard } from "@ionic-native/keyboard";
 import { DatePipe } from "@angular/common";
 import { ChatToteOptions } from '../pages/anotote-list/chat_tote';
 import { Streams } from '../services/stream.service';
+import { TagsForChat } from '../pages/chat_profileTags/tags';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { Streams } from '../services/stream.service';
     DclWrapper,
     Highlight,
     Safe,
-    ChatToteOptions
+    ChatToteOptions,
+    TagsForChat
   ],
   imports: [
     BrowserModule,
@@ -173,6 +175,7 @@ import { Streams } from '../services/stream.service';
     FollowsPopup,
     ViewOptions,
     TagsPopUp,
+    TagsForChat,
     TopInterests,
     Search,
     SearchResults,

@@ -24,7 +24,7 @@
                     <strong *ngIf="profileData.user.description != null">{{profileData.user.description}}</strong>
                     <!-- <p *ngIf="profileData.user.description != null">{{profileData.user.description}}</p> -->
                     <p *ngIf="profileData.user.description == null">No description added by {{profileData.user.firstName}}.</p>
-                    <img src="assets/img/dotsicon.svg" alt="">
+                    <img src="assets/img/dotsicon.svg" *ngIf="is_it_me || profileData.user.userTags.length > 0" (click)="showTags()" alt="">
                 </div>
             </ion-item>
             <ion-item>

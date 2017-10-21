@@ -1,0 +1,20 @@
+<div class="tag-panel">
+    <div class="top_empty_box" (tap)="dismiss()">
+    </div>
+    <div class="tags-panel" *ngIf="show == true" [@enterAnimation]>
+        <h3>Tags</h3>
+        <div class="tag_input" *ngIf="isMe == true">
+            <input name="tagsInput" [(ngModel)]="tag_input" type="text" placeholder="Add tags" />
+            <button (tap)="addTags()">Add</button>
+        </div>
+        <ul class="tag-list">
+            <li *ngIf="no_tags_found == true" text-center>
+                No Tags found.
+            </li>
+            <li *ngFor="let tag of tags">
+                <img class="play-icon" src="assets/img/hash-gray.png" alt="">
+                <span>{{tag.tagText}}</span>
+            </li>
+        </ul>
+    </div>
+</div>

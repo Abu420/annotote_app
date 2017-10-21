@@ -544,15 +544,16 @@ export class AnototeEditor implements OnDestroy {
         var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me') {
-            tote_id = this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id;
+            tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
             tote_id = this.ANOTOTE.userAnnotote.id;
         }
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: tote_id })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
-                this.runtime.top_first_load = false;
                 if (this.WHICH_STREAM == 'me') {
+                    this.runtime.top_first_load = false;
+                    this.runtime.follow_first_load = false;
                     for (var i = 0; i < this.ANOTOTE.userAnnotote.annototeHeighlights.length; i++) {
                         if (this.ANOTOTE.userAnnotote.annototeHeighlights[i].id == response.data.annotote.id) {
                             this.ANOTOTE.userAnnotote.annototeHeighlights.splice(i, 1);
@@ -560,11 +561,17 @@ export class AnototeEditor implements OnDestroy {
                         }
                     }
                 } else {
+                    this.runtime.me_first_load = false;
                     for (var i = 0; i < this.ANOTOTE.my_highlights.length; i++) {
-                        if (this.ANOTOTE.userAnnotote.annototeHeighlights[i].id == response.data.annotote.id) {
-                            this.ANOTOTE.userAnnotote.annototeHeighlights.splice(i, 1);
+                        if (this.ANOTOTE.my_highlights[i].id == response.data.annotote.id) {
+                            this.ANOTOTE.my_highlights.splice(i, 1);
                             break;
                         }
+                    }
+                    if (this.WHICH_STREAM == 'follows') {
+                        this.ANOTOTE.top_highlights = null;
+                    } else {
+                        this.runtime.follow_first_load = false;
                     }
                 }
             }, (error) => {
@@ -641,12 +648,18 @@ export class AnototeEditor implements OnDestroy {
                     this.runtime.me_first_load = false;
                     this.runtime.top_first_load = false;
                 } else {
-                    if (this.WHICH_STREAM == 'me')
+                    if (this.WHICH_STREAM == 'me') {
+                        this.runtime.top_first_load = false;
+                        this.runtime.follow_first_load = false;
                         this.ANOTOTE.userAnnotote.annototeHeighlights.push(response.data.annotation);
-                    else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top') {
-                        this.ANOTOTE.userAnnotote.my_highlights.push(response.data.annotation);
+                    } else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top') {
+                        this.runtime.me_first_load = false;
+                        this.ANOTOTE.my_highlights.push(response.data.annotation);
                         if (this.WHICH_STREAM == 'follows') {
+                            this.runtime.top_first_load = false;
                             this.ANOTOTE.top_highlights = null;
+                        } else {
+                            this.runtime.follow_first_load = false;
                         }
                     }
                 }
