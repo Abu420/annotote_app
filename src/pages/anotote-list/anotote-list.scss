@@ -180,6 +180,11 @@ tags_popup {
                     clear: both;
                     width: 100%;
                 }
+                .input-wrapper {
+                    ion-label {
+                        font-size: 14px;
+                    }
+                }
                 .tagList {
                     position: absolute;
                     top: 50px;
@@ -234,8 +239,8 @@ tags_popup {
                     display: block;
                     padding: 10px 0px;
                     img {
-                        width: 20px;
-                        float: left;
+                        width: 12px;
+                        display: inline-block;
                         vertical-align: middle;
                         margin-right: 15px;
                     }
