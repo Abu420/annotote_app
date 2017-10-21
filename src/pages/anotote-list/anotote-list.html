@@ -51,6 +51,9 @@
     </ion-toolbar>
 </ion-header>
 <ion-content swipe-vertical padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
             <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2?'active':''">

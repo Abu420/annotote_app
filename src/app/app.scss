@@ -71,6 +71,8 @@ ion-app.ios {
     background-color: $me_app_color !important;
 }
 
+.bar-button {}
+
 .tote_green_logo {
     background-image: url('..assets/img/tote_logo.png');
     background-size: contain;
@@ -140,12 +142,11 @@ span.un_active_dot:after {
     border-radius: 50%;
 }
 
-.bar-button {
-    height: $bar_button_custom_height;
-    width: $bar_button_custom_height;
-    font-size: 2.7rem;
-}
-
+// .bar-button {
+//     height: $bar_button_custom_height;
+//     width: $bar_button_custom_height;
+//     font-size: 2.7rem;
+// }
 .search_icon {
     font-size: 2rem;
     color: white;

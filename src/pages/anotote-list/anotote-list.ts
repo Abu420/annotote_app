@@ -364,6 +364,17 @@ export class AnototeList {
     }
   }
 
+  doRefresh(refresher) {
+    this.current_page = 1;
+    this.anototes = [];
+    this.current_active_anotote = null;
+    this.follow_visited = false;
+    this.loadanototes();
+    refresher.complete();
+    if (this.infinite_scroll)
+      this.infinite_scroll.enable(true);
+  }
+
   follows(event) {
     event.stopPropagation();
     this.navCtrl.push(Follows, {});

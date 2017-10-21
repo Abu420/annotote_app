@@ -77,6 +77,7 @@ import { DatetimeService } from "../services/datetime.service";
 import { ChatHeads, chatName, basePath, timeStamp, SanitizeHtmlPipe } from "../services/pipes"
 import { HttpFactory } from "../services/httpFactory"
 import { Push } from '@ionic-native/push';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 /**
  * Pipes
@@ -146,6 +147,7 @@ import { TagsForChat } from '../pages/chat_profileTags/tags';
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     MomentModule,
+    IonicImageViewerModule,
     IonicModule.forRoot(MyApp, {
       backButtonText: 'Go Back',
       iconMode: 'ios',

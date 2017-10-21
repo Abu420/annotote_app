@@ -19,16 +19,18 @@
 <ion-content swipe-vertical padding #scrollMe>
     <div id="wrapper">
         <div class="chatHead">
-            <span class="chatOptions"></span>
+            <span class="chatOptions" (click)="deleteChat()"></span>
             <div class="txt">
-                <strong>[No subject]</strong>
+                <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null">[No subject]</strong>
+                <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null">[tote.chatGroup.messagesUser[0].subject]</strong>
                 <div class="time">
                     <em>
-                        <span>10/18</span>
+                        <span  [innerText]="tote.createdAt | time_stamp"></span>
                     </em>
                 </div>
                 <div class="toteText">
-                    <p>Chantel Bardaro</p>
+                    <p *ngIf="tote.chatGroup.groupUsers[0].user.id != user.id">{{tote.chatGroup.groupUsers[0].user.firstName}}</p>
+                    <p *ngIf="tote.chatGroup.groupUsers[1].user.id != user.id">{{tote.chatGroup.groupUsers[1].user.firstName}}</p>
                     <button type="button">
                         <img alt="" src="assets/img/commentIcon.svg">
                     </button>
@@ -56,13 +58,19 @@
                 </div>
             </ion-item>
         </ion-list>
+        <ion-fab bottom right>
+            <button (tap)="presentViewOptionsModal()" ion-fab [color]="me">
+                <img src="assets/img/whiteTote.svg" />
+            </button>
+        </ion-fab>
     </div>
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <p>“[No subject]”</p>
-        <span>Reply</span>
-        <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p>
+        <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
+        <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject != null">“[tote.chatGroup.messagesUser[0].subject]”</p>
+        <span *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply</span>
+        <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply">
@@ -70,6 +78,6 @@
             <span class="loading" *ngIf="send_message_loader">
                 <ion-spinner></ion-spinner>
             </span>
-        </div> -->
+        </div>
     </ion-toolbar>
 </ion-footer>

@@ -44,7 +44,7 @@
         <ion-item (tap)="show_notifications()" class="notiFaction">
             <div class="aling-left">
                 <ion-icon name="notifications"></ion-icon>
-                <em [innerText]="un_read" class="counter"></em>
+                <em *ngIf="un_read > 0" [innerText]="un_read" class="counter"></em>
             </div>
             <div class="txt">
                 <span>Notifiacation</span>

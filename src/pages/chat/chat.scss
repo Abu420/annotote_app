@@ -209,7 +209,6 @@ page-chat {
     }
     .send-btn {
         position: relative;
-        margin-left: 5vw;
         img {
             display: inline-block;
             vertical-align: middle;
@@ -237,6 +236,7 @@ page-chat {
             position: absolute;
             top: -33px;
             border: 0;
+            right: 0px;
         }
         .loading {
             background: $me_app_color;
@@ -251,6 +251,7 @@ page-chat {
             position: absolute;
             top: -33px;
             border: 0;
+            right: 0px;
         }
         .green {
             background: $me_app_color !important;

@@ -62,6 +62,7 @@
         "cordova-sqlite-storage": "^2.0.4",
         "es6-promise-plugin": "^4.1.0",
         "ionic-angular": "3.1.0",
+        "ionic-img-viewer": "^2.7.3",
         "ionic-plugin-deeplinks": "^1.0.15",
         "ionic-plugin-keyboard": "^2.2.1",
         "ionicons": "3.0.0",

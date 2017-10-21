@@ -66,7 +66,7 @@ export class Home {
 
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     //console.log('enter')
     /**
      * Load Notifications Count
@@ -236,6 +236,7 @@ export class Home {
             self.searchService.saved_searches = [];
             self.notificationService.clear_data();
             self.appCtrl.getRootNav().setRoot(FrontViewPage);
+            this.notificationService._loaded_once_flag = false;
           }, (error) => {
             this.utilityMethods.hide_loader();
             this.utilityMethods.message_alert('Error', 'Logout operation failed, please try again or later.');

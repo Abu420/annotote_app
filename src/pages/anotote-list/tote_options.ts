@@ -53,13 +53,13 @@ export class AnototeOptions {
   change_privacy(privacy) {
     if (privacy == 'public') {
       if (this.anotote.userAnnotote.privacy != 0) {
-        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to public?", () => {
-          var params = {
-            userAnnotote_ids: this.anotote.userAnnotote.id,
-            privacy: 0
-          }
-          this.privacy(params, privacy);
-        })
+        // this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to public?", () => {
+        var params = {
+          userAnnotote_ids: this.anotote.userAnnotote.id,
+          privacy: 0
+        }
+        this.privacy(params, privacy);
+        // })
 
       } else {
         this.utilityMethods.doToast("Anotote is already public.");
@@ -67,13 +67,13 @@ export class AnototeOptions {
       }
     } else if (privacy == 'private') {
       if (this.anotote.userAnnotote.privacy != 1) {
-        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to private?", () => {
-          var params = {
-            userAnnotote_ids: this.anotote.userAnnotote.id,
-            privacy: 1
-          }
-          this.privacy(params, privacy);
-        })
+        // this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to private?", () => {
+        var params = {
+          userAnnotote_ids: this.anotote.userAnnotote.id,
+          privacy: 1
+        }
+        this.privacy(params, privacy);
+        // })
       } else {
         this.utilityMethods.doToast("Anotote is already private.");
         return;
@@ -84,9 +84,9 @@ export class AnototeOptions {
   }
 
   privacy(params, privacy) {
-    this.utilityMethods.show_loader('', false);
+    // this.utilityMethods.show_loader('', false);
     this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
-      this.utilityMethods.hide_loader();
+      // this.utilityMethods.hide_loader();
       if (privacy == 'public')
         this.anotote.userAnnotote.privacy = 0;
       else

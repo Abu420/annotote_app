@@ -9,6 +9,8 @@ import { ChatMessage } from "../../models/ChatMessage";
 import { User } from "../../models/user";
 import { AuthenticationService } from "../../services/auth.service";
 import { Streams } from '../../services/stream.service';
+import { AnototeService } from '../../services/anotote.service';
+import { ViewOptions } from '../anotote-list/view_options';
 
 declare var io: any;
 
@@ -44,7 +46,7 @@ export class Chat {
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService, public stream: Streams) {
+  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService, public stream: Streams, public anototeService: AnototeService) {
     this.reply_box_on = false;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
@@ -99,6 +101,26 @@ export class Chat {
     }
   }
 
+  public deleteChat() {
+    this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
+      var params = {
+        group_id: this.tote.chatGroupId
+      }
+      this.utilityMethods.show_loader('');
+      this.anototeService.delete_chat_tote(params).subscribe((result) => {
+        this.utilityMethods.hide_loader();
+        this.stream.me_anototes.splice(this.stream.me_anototes.indexOf(this.tote), 1);
+        this.utilityMethods.doToast("Chat tote deleted Successfully.")
+        this.navCtrl.pop();
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    })
+  }
+
   doInfinite(infiniteScroll) {
     this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
       if (this.conversation.length == 0)
@@ -149,6 +171,17 @@ export class Chat {
 
   show_reply_box() {
     this.reply_box_on = true;
+  }
+
+  presentViewOptionsModal() {
+    var params = {
+      anotote: null,
+      stream: 'me'
+    }
+    let viewsOptionsModal = this.modalCtrl.create(ViewOptions, params);
+    viewsOptionsModal.onDidDismiss((preference) => {
+    })
+    viewsOptionsModal.present();
   }
 
   ionViewDidLeave() {

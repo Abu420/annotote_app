@@ -17,8 +17,8 @@ export class NotificationService {
      */
     private _notifications: any;
     private _page: number;
-    private _unread: number;
-    private _loaded_once_flag: boolean;
+    public _unread: number;
+    public _loaded_once_flag: boolean;
 
     public constructor(public http: Http, public constants: Constants, public storage: Storage) {
         this._page = 1;

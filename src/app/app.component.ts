@@ -20,6 +20,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { Storage } from '@ionic/storage';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { Keyboard } from '@ionic-native/keyboard';
+import { NotificationService } from '../services/notifications.service';
 
 @Component({
   templateUrl: 'app.html',
@@ -33,7 +34,17 @@ export class MyApp {
   public rootPage: any;
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public keyboard: Keyboard, private deeplinks: Deeplinks, public modalCtrl: ModalController, public platform: Platform, public menu: MenuController, public statusBar: StatusBar, public authService: AuthenticationService, public splashScreen: SplashScreen, private push: Push, public storage: Storage) {
+  constructor(public keyboard: Keyboard,
+    private deeplinks: Deeplinks,
+    public modalCtrl: ModalController,
+    public platform: Platform,
+    public menu: MenuController,
+    public statusBar: StatusBar,
+    public authService: AuthenticationService,
+    public splashScreen: SplashScreen,
+    private push: Push,
+    public storage: Storage,
+    public notificationService: NotificationService) {
     this.initializeApp();
   }
 
@@ -73,9 +84,9 @@ export class MyApp {
       if (this.platform.is('cordova')) {
         this.push.hasPermission().then((res: any) => {
           if (res.isEnabled) {
-            console.log('We have permission to send push notifications');
+            // console.log('We have permission to send push notifications');
           } else {
-            console.log('We do not have permission to send push notifications');
+            // console.log('We do not have permission to send push notifications');
           }
         });
 
@@ -94,17 +105,15 @@ export class MyApp {
         const pushObject: PushObject = this.push.init(options);
 
         pushObject.on('notification').subscribe((notification: any) => {
-          console.log(notification);
           notification.additionalData.payload.notification = JSON.parse(notification.additionalData.payload.notification);
           if (notification.additionalData.payload.notification.type == 'user:message' && notification.additionalData.foreground) {
-            console.log('message type notification');
             return;
           }
-          this.notification_handler();
+          // this.notification_handler();
+          this.notificationService._unread += 1;
         });
 
         pushObject.on('registration').subscribe((registration: any) => {
-          console.log(registration);
           pushObject.setApplicationIconBadgeNumber(0);
           localStorage.setItem('device_id', registration.registrationId);
         });

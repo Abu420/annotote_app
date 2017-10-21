@@ -9,9 +9,14 @@
             <div class="proName">
                 <strong>{{profileData.user.firstName}}<em *ngIf="profileData.user.isFollowed==1"> <</em></strong>
                 <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
-                <div (click)="presentProfilePictureActionSheet()" class="img-holder">
+                <div (click)="presentProfilePictureActionSheet()" *ngIf="is_it_me == true" class="img-holder">
                     <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
                     <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="profileData.user.photo != null" [src]="profileData.user.photo | image_base_path">
+                    <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
+                </div>
+                <div *ngIf="is_it_me == false" class="img-holder">
+                    <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="profileData.user.photo != null" [src]="profileData.user.photo | image_base_path" imageViewer>
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
                 </div>
             </div>
