@@ -101,7 +101,7 @@ export class AnototeEditor implements OnDestroy {
             HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
             actual_stream: navParams.get('actual_stream')
         };
-        console.log(anotote_from_params);
+        console.log(anotote_from_params.ANOTOTE);
         if (anotote_from_params.actual_stream == 'anon') {
             this.search_obj_to_be_deleted = navParams.get('search_to_delete');
         }
@@ -282,26 +282,50 @@ export class AnototeEditor implements OnDestroy {
         chatTote.onDidDismiss((data) => {
             if (data.chat) {
                 this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.ANOTOTE.userAnnotote.id, title: data.title });
-            } else if (data.add) {
-                this.utilityMethods.show_loader('');
-                var params = {
-                    user_tote_id: this.tote_id,
-                    created_at: this.utilityMethods.get_php_wala_time()
-                }
-                this.searchService.addToMeStream(params).subscribe((success) => {
-                    this.utilityMethods.hide_loader();
-                    this.actual_stream = 'me';
-                    this.which_stream = 'me';
-                    this.WHICH_STREAM = 'me';
-                    this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
-                    this.runtime.me_first_load = false;
-                    this.runtime.top_first_load = false;
-                }, (error) => {
-                    this.utilityMethods.hide_loader();
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
+            } else if (data.save) {
+                if (this.WHICH_STREAM == 'anon') {
+                    this.utilityMethods.show_loader('');
+                    var params = {
+                        user_tote_id: this.tote_id,
+                        created_at: this.utilityMethods.get_php_wala_time()
                     }
-                })
+                    this.searchService.addToMeStream(params).subscribe((success) => {
+                        this.utilityMethods.hide_loader();
+                        this.actual_stream = 'me';
+                        this.which_stream = 'me';
+                        this.WHICH_STREAM = 'me';
+                        this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
+                        this.runtime.me_first_load = false;
+                        this.runtime.top_first_load = false;
+                    }, (error) => {
+                        this.utilityMethods.hide_loader();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        }
+                    })
+                } else {
+                    var data: any = {
+                        annotote_id: this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.id : this.ANOTOTE.annotote.id,
+                        user_id: this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.user.id : this.ANOTOTE.anototeDetail.user.id,
+                        created_at: this.utilityMethods.get_php_wala_time()
+                    }
+                    this.utilityMethods.show_loader('', false);
+                    this.anotote_service.save_totes(data).subscribe((result) => {
+                        this.utilityMethods.hide_loader();
+                        if (result.status == 1) {
+                            this.runtime.me_first_load = false;
+                            this.runtime.top_first_load = false;
+                            this.runtime.follow_first_load = false;
+                            this.utilityMethods.doToast("Saved to Me stream");
+                        }
+                    }, (error) => {
+                        this.utilityMethods.hide_loader();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        }
+                    })
+                }
+
             } else if (data.bookmark) {
                 var link = [];
                 link.push(this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.link : this.ANOTOTE.annotote.link)
@@ -557,15 +581,16 @@ export class AnototeEditor implements OnDestroy {
         var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me') {
-            tote_id = this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id;
+            tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
             tote_id = this.ANOTOTE.userAnnotote.id;
         }
         this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
-                this.runtime.top_first_load = false;
-                if (this.which_stream == 'me') {
+                if (this.WHICH_STREAM == 'me') {
+                    this.runtime.top_first_load = false;
+                    this.runtime.follow_first_load = false;
                     for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
                         if (highlight.id == response.data.highlight.id) {
                             highlight.comment = response.data.highlight.comment;
@@ -573,11 +598,15 @@ export class AnototeEditor implements OnDestroy {
                         }
                     }
                 } else {
+                    this.runtime.me_first_load = false;
                     for (let highlight of this.ANOTOTE.my_highlights) {
                         if (highlight.id == response.data.highlight.id) {
                             highlight.comment = response.data.highlight.comment;
                             break;
                         }
+                    }
+                    if (this.WHICH_STREAM == 'follows') {
+                        this.ANOTOTE.top_highlights = null;
                     }
                 }
             }, (error) => {
@@ -595,7 +624,7 @@ export class AnototeEditor implements OnDestroy {
         var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me') {
-            tote_id = this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id;
+            tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
             tote_id = this.ANOTOTE.userAnnotote.id;
         }
@@ -614,9 +643,12 @@ export class AnototeEditor implements OnDestroy {
                 } else {
                     if (this.WHICH_STREAM == 'me')
                         this.ANOTOTE.userAnnotote.annototeHeighlights.push(response.data.annotation);
-                    else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top')
+                    else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top') {
                         this.ANOTOTE.userAnnotote.my_highlights.push(response.data.annotation);
-                    // this.ANOTOTE.highlights.push(response.data.annotation);
+                        if (this.WHICH_STREAM == 'follows') {
+                            this.ANOTOTE.top_highlights = null;
+                        }
+                    }
                 }
             }, (error) => {
                 this.utilityMethods.hide_loader();

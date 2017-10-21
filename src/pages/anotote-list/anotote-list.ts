@@ -217,7 +217,12 @@ export class AnototeList {
       anotote.meFilePath = anotote.userAnnotote.filePath;
       anotote.active_tab = 'me'
     } else if (this.current_color == 'follows' || this.current_color == 'top') {
-      if (anotote.my_highlights == undefined) {
+      if (this.current_color == 'top' && anotote.anototeDetail.meToteFollowTop.id == anotote.userAnnotote.id) {
+        anotote.my_highlights = anotote.top_highlights;
+        anotote.highlights = Object.assign(anotote.my_highlights);
+        anotote.active_tab = 'me'
+        anotote.meFilePath = anotote.anototeDetail.userAnnotote.filePath;
+      } else if (anotote.my_highlights == undefined) {
         this.me_spinner = true;
         var params = {
           user_id: this.user.id,
@@ -260,7 +265,7 @@ export class AnototeList {
             anotote.active = false;
             if (this.follow_visited == false) {
               anotote.followerFilePath = anotote.followers[0].followTote.filePath
-              anotote.followers[0].highlights = anotote.highlights;
+              anotote.followers[0].highlights = anotote.userAnnotote.annototeHeighlights;
             }
             this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
           }
@@ -370,6 +375,7 @@ export class AnototeList {
       anotote.selected_follower_name = anotote.followers[0].firstName;
       anotote.active_tab = 'follows';
       anotote.followerFilePath = anotote.followers[0].followTote.filePath;
+      this.follow_visited = true;
       this.loadFollower(anotote, anotote.followers[0])
     } else if (anotote.followers.length > 1) {
       if (this.follow_visited) {
@@ -386,6 +392,7 @@ export class AnototeList {
       } else {
         anotote.selected_follower_name = anotote.followers[0].firstName;
         anotote.active_tab = 'follows';
+        this.follow_visited = true;
         anotote.followerFilePath = anotote.followers[0].followTote.filePath;
         this.loadFollower(anotote, anotote.followers[0])
       }
@@ -601,6 +608,7 @@ export class AnototeList {
               if (result.status == 1) {
                 this.stream.me_first_load = false;
                 this.stream.top_first_load = false;
+                this.stream.follow_first_load = false;
                 this.utilityMethods.doToast("Saved to Me stream");
                 this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
               }
@@ -656,10 +664,14 @@ export class AnototeList {
             anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
         } else if (this.current_color == 'follows') {
           anotote.active_tab = 'follows'
+          anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
         }
         //-----
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;
+          if (this.current_active_highlight) {
+            this.current_active_highlight.edit = false;
+          }
           if (this.current_active_anotote.id == anotote.id) {
             this.current_active_anotote = null;
             return;
@@ -721,7 +733,8 @@ export class AnototeList {
         if (anotote.anototeDetail.follows.length > 0)
           anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
         anotote.follows = anotote.anototeDetail.follows;
-        anotote.top_highlights = Object.assign(anotote.highlights);
+        anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
+        anotote.highlights = anotote.top_highlights;
         anotote.isMe = anotote.anototeDetail.isMe;
         anotote.spinner_for_active = false;
         //Details

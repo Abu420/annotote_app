@@ -147,7 +147,7 @@
                                     <div class="txt">
                                         <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                         <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
-                                        <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
+                                        <div class="tagImage" *ngIf="highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                             <img src="assets/img/dotsicon.svg" alt="">
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
                                 </ion-item>
                             </ng-container>
                         </ion-list>
-                        <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me' && current_color == 'me'" (click)="open_browser(anotote,null)">
+                        <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me'" (click)="open_browser(anotote,null)">
                             <p class="me">Leave your mark>>></p>
                             <!-- <div class="butt">
                                 <p>Create annotation</p>
