@@ -71,13 +71,15 @@ follow_profile {
         }
         .follow_user {
             height: 45px;
-            float: left;
             width: 45px;
             float: right;
             background-image: url(../assets/img/follow_friend.png);
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 30px;
+            background-size: 20px;
+            position: absolute;
+            right: 0;
+            top: 20px;
         }
         .unFollow_user {
             height: 45px;

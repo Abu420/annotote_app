@@ -2,13 +2,13 @@
     <ion-toolbar [color]="which_stream">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
-                <span *ngIf="which_stream == 'me'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'me'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowWhite.svg"></span>
                 <span *ngIf="which_stream == 'me'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowGreen.svg"></span>
 
-                <span *ngIf="which_stream == 'follows'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'follows'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowWhite.svg"></span>
                 <span *ngIf="which_stream == 'follows'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowYellow.svg"></span>
 
-                <span *ngIf="which_stream == 'top'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'top'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowWhite.svg"></span>
                 <span *ngIf="which_stream == 'top'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowPink.svg"></span>
             </div>
         </ion-title>
