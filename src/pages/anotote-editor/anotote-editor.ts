@@ -71,6 +71,7 @@ export class AnototeEditor implements OnDestroy {
     private actual_stream: string;
     private search_obj_to_be_deleted;
     public user: User;
+    public moveFabUp: boolean = false;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -222,6 +223,7 @@ export class AnototeEditor implements OnDestroy {
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
                 this.toggle_annotation_option = data.flag;
+                this.moveFabUp = true;
                 this.content.resize();
                 if (data.flag && !this.selection_lock) {
                     this.selectedText = data.txt;
@@ -864,6 +866,42 @@ export class AnototeEditor implements OnDestroy {
                 anotote.active_tab = 'me';
                 anotote.highlights = Object.assign(anotote.my_highlights);
             }
+        }
+    }
+
+    show_top_tab(anotote) {
+        if (anotote.top_highlights == undefined) {
+            if (anotote.userAnnotote.id != anotote.topUserToteId) {
+                // this.top_spinner = true;
+                var params = {
+                    user_id: this.user.id,
+                    anotote_id: anotote.topUserToteId,
+                    time: this.utilityMethods.get_php_wala_time()
+                }
+                this.anotote_service.fetchToteDetails(params).subscribe((result) => {
+                    //   this.top_spinner = false;
+                    anotote.active_tab = 'top'
+                    anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+                    if (result.status == 1) {
+                        anotote.highlights = Object.assign(result.data.annotote.highlights);
+                        anotote.top_highlights = result.data.annotote.highlights;
+                    } else {
+                        this.utilityMethods.doToast("Could not fetch top data");
+                    }
+                }, (error) => {
+                    this.utilityMethods.hide_loader();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                })
+            } else {
+                anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
+                anotote.active_tab = 'top';
+                anotote.topFilePath = anotote.userAnnotote.filePath;
+            }
+        } else {
+            anotote.active_tab = 'top'
+            anotote.highlights = Object.assign(anotote.top_highlights);
         }
     }
 

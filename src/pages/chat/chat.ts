@@ -43,6 +43,7 @@ export class Chat {
   public anotote_id: any = 0;
   public title = '';
   public tote: any;
+  public move: boolean = false;
 
   /**
    * Constructor
@@ -171,6 +172,7 @@ export class Chat {
   }
 
   show_reply_box() {
+    this.move = true;
     this.reply_box_on = true;
   }
 

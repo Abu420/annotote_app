@@ -58,7 +58,7 @@
             <div [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         </div>
     </div>
-    <ion-fab bottom right>
+    <ion-fab [ngClass]="{'moveUp': moveFabUp == true}" bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="ANOTOTE == null ? WHICH_STREAM : ANOTOTE.active_tab">
             <img *ngIf="ANOTOTE == null" src="assets/img/whiteTote.svg" />
             <ng-container *ngIf="ANOTOTE != null && WHICH_STREAM == 'me' && ANOTOTE.chatGroup == null">
