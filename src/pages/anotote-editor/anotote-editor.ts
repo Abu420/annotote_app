@@ -223,7 +223,10 @@ export class AnototeEditor implements OnDestroy {
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
                 this.toggle_annotation_option = data.flag;
-                this.moveFabUp = true;
+                if (this.toggle_annotation_option)
+                    this.moveFabUp = true;
+                else
+                    this.moveFabUp = false;
                 this.content.resize();
                 if (data.flag && !this.selection_lock) {
                     this.selectedText = data.txt;
@@ -821,8 +824,8 @@ export class AnototeEditor implements OnDestroy {
             //     this.open_follows_popup(event, this.current_active_anotote);
             //   else if (preference.tab_selected == 'follows' && this.WHICH_STREAM == 'top')
             //     this.top_follows_popup(event, this.current_active_anotote);
-            // else if (preference.tab_selected == 'top')
-            //     this.show_top_tab(this.ANOTOTE);
+            else if (preference.tab_selected == 'top')
+                this.show_top_tab(this.ANOTOTE);
         })
         viewsOptionsModal.present();
     }
@@ -882,6 +885,8 @@ export class AnototeEditor implements OnDestroy {
                     //   this.top_spinner = false;
                     anotote.active_tab = 'top'
                     anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+                    this.actual_stream = anotote.active_tab;
+                    this.scrape_anotote(anotote.topFilePath);
                     if (result.status == 1) {
                         anotote.highlights = Object.assign(result.data.annotote.highlights);
                         anotote.top_highlights = result.data.annotote.highlights;
@@ -898,10 +903,14 @@ export class AnototeEditor implements OnDestroy {
                 anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
                 anotote.active_tab = 'top';
                 anotote.topFilePath = anotote.userAnnotote.filePath;
+                this.actual_stream = anotote.active_tab;
+                this.scrape_anotote(anotote.topFilePath);
             }
         } else {
             anotote.active_tab = 'top'
             anotote.highlights = Object.assign(anotote.top_highlights);
+            this.actual_stream = anotote.active_tab;
+            this.scrape_anotote(anotote.topFilePath);
         }
     }
 

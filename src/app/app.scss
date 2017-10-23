@@ -281,6 +281,17 @@ button,
     border: 1px solid #ff0000 !important;
 }
 
+.moveUp {
+    bottom: 35px !important;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    /** Chrome & Safari **/
+    -moz-transition: all .3s ease-in-out;
+    /** Firefox **/
+    -o-transition: all .3s ease-in-out;
+    /** Opera **/
+}
+
 
 /**
 * Search Popup CSS
