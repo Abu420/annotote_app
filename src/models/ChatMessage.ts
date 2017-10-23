@@ -9,13 +9,15 @@ export class ChatMessage {
   public text: string;
   public read: number;
   public senderId: number;
+  public groupId: number;
   //private datetimeService: DatetimeService;
-  constructor(id: any, senderId: number, time: string, text: string, read: number) {
+  constructor(id: any, senderId: number, time: string, text: string, read: number, groupId: number) {
     // this.datetimeService = new DatetimeService();
     this.id = id;
     this.createdAt = time;
     this.text = text;
     this.senderId = senderId;
     this.read = read;
+    this.groupId = groupId;
   }
 }

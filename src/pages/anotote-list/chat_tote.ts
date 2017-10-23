@@ -12,6 +12,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { ChatService } from '../../services/chat.service';
 import { AuthenticationService } from '../../services/auth.service';
+import { Streams } from '../../services/stream.service';
 
 @Component({
     selector: 'chat_tote_page',
@@ -28,7 +29,13 @@ export class ChatToteOptions {
     public stream: string = '';
     public from;
 
-    constructor(public params: NavParams, public navCtrl: NavController, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService) {
+    constructor(public runtime: Streams,
+        public params: NavParams,
+        public navCtrl: NavController,
+        public utilityMethods: UtilityMethods,
+        public viewCtrl: ViewController,
+        public searchService: SearchService,
+        public modalCtrl: ModalController) {
         this.anotote = params.get('anotote');
         this.stream = params.get('stream');
         if (params.get('from'))
@@ -60,6 +67,7 @@ export class ChatToteOptions {
             .subscribe((response) => {
                 this.search_results = [];
                 for (let user of response.data.user) {
+                    user.follow_loading = false;
                     this.search_results.push(user);
                 }
                 this.search_loading = false;
@@ -85,5 +93,52 @@ export class ChatToteOptions {
 
     send_message(user) {
         this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.search_txt })
+    }
+
+    followUser(event, person) {
+        event.stopPropagation();
+        var current_time = this.utilityMethods.get_php_wala_time();
+        person.follow_loading = true;
+        this.searchService.follow_user({
+            created_at: current_time,
+            follows_id: person.id
+        }).subscribe((response) => {
+            person.follow_loading = false;
+            this.runtime.follow_first_load = false;
+            this.runtime.me_first_load = false;
+            this.runtime.top_first_load = false;
+            if (response.status == 1)
+                person.isFollowed = 1;
+            else
+                this.utilityMethods.doToast("Couldn't follow.");
+        }, (error) => {
+            this.utilityMethods.hide_loader();
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            }
+        });
+    }
+
+    showProfile(search_result) {
+        this.utilityMethods.show_loader('');
+        this.searchService.get_user_profile_info(search_result.id)
+            .subscribe((response) => {
+                this.utilityMethods.hide_loader();
+                if (response.data.user != null) {
+                    let profile = this.modalCtrl.create(Profile, {
+                        data: response.data,
+                        from_page: 'search_results'
+                    });
+                    profile.onDidDismiss(data => {
+                    });
+                    profile.present();
+                } else
+                    this.utilityMethods.doToast("Couldn't load user.");
+            }, (error) => {
+                this.utilityMethods.hide_loader();
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                }
+            });
     }
 }

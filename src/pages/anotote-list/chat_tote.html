@@ -25,9 +25,12 @@
                     <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                 </figure>
                 <figcaption class="followUser">
-                    <p>{{search_result.firstName}} <i *ngIf="search_result.isFollowed == 1"><</i></p>
-                    <span class="rightAdd" *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)"><ion-icon name="add"></ion-icon></span>
-                    <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span>
+                    <p>{{search_result.firstName}} <img *ngIf="search_result.isFollowed == 1" class="star-icon" src="assets/img/star-gray.png" alt=""></p>
+                    <span class="rightAdd" *ngIf="search_result.isFollowed == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)">FOLLOW</span>
+                    <span class="rightAdd" *ngIf="search_result.follow_loading == true">
+                        <ion-spinner name="bubbles"></ion-spinner>
+                    </span>
+                    <!-- <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span> -->
                 </figcaption>
             </li>
         </ul>

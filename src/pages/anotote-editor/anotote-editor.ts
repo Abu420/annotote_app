@@ -19,6 +19,7 @@ import { Chat } from '../chat/chat';
 import { Streams } from '../../services/stream.service';
 import { TagsPopUp } from '../anotote-list/tags';
 import { User } from '../../models/user';
+import { ViewOptions } from '../anotote-list/view_options';
 
 @IonicPage()
 @Component({
@@ -803,6 +804,67 @@ export class AnototeEditor implements OnDestroy {
         }
         let tagsModal = this.modalCtrl.create(TagsPopUp, params);
         tagsModal.present();
+    }
+
+    presentViewOptionsModal() {
+        var params = {
+            anotote: this.ANOTOTE,
+            stream: this.WHICH_STREAM
+        }
+        let viewsOptionsModal = this.modalCtrl.create(ViewOptions, params);
+        viewsOptionsModal.onDidDismiss((preference) => {
+            if (preference.tab_selected == 'me')
+                this.showMeHighlights(this.ANOTOTE);
+            //   else if (preference.tab_selected == 'follows' && this.WHICH_STREAM != 'top')
+            //     this.open_follows_popup(event, this.current_active_anotote);
+            //   else if (preference.tab_selected == 'follows' && this.WHICH_STREAM == 'top')
+            //     this.top_follows_popup(event, this.current_active_anotote);
+            // else if (preference.tab_selected == 'top')
+            //     this.show_top_tab(this.ANOTOTE);
+        })
+        viewsOptionsModal.present();
+    }
+
+    showMeHighlights(anotote) {
+        if (this.WHICH_STREAM == 'me') {
+            anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+            anotote.meFilePath = anotote.userAnnotote.filePath;
+            anotote.active_tab = 'me'
+        } else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top') {
+            if (this.WHICH_STREAM == 'top' && anotote.anototeDetail.meToteFollowTop.id == anotote.userAnnotote.id) {
+                anotote.my_highlights = anotote.top_highlights;
+                anotote.highlights = Object.assign(anotote.my_highlights);
+                anotote.active_tab = 'me'
+                anotote.meFilePath = anotote.anototeDetail.userAnnotote.filePath;
+            } else if (anotote.my_highlights == undefined) {
+                // this.me_spinner = true;
+                var params = {
+                    user_id: this.user.id,
+                    anotote_id: this.WHICH_STREAM == 'follows' ? anotote.userAnnotote.anototeDetail.meToteFollowTop.id : anotote.anototeDetail.meToteFollowTop.id,
+                    time: this.utilityMethods.get_php_wala_time()
+                }
+                this.anotote_service.fetchToteDetails(params).subscribe((result) => {
+                    //   this.me_spinner = false;
+                    if (result.status == 1) {
+                        anotote.active_tab = 'me'
+                        anotote.highlights = Object.assign(result.data.annotote.highlights);
+                        anotote.my_highlights = result.data.annotote.highlights;
+                        anotote.meFilePath = result.data.annotote.userAnnotote.filePath;
+                    } else {
+                        this.utilityMethods.doToast("Couldn't fetch annotations");
+                        anotote.active = false;
+                    }
+                }, (error) => {
+                    //   this.me_spinner = false;
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                });
+            } else {
+                anotote.active_tab = 'me';
+                anotote.highlights = Object.assign(anotote.my_highlights);
+            }
+        }
     }
 
 }

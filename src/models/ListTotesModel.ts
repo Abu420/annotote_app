@@ -45,6 +45,10 @@ export class ListTotesModel {
       if (this.isTop == 1)
         this.topUserToteId = this.userAnnotote.anototeDetail.topUserToteId;
     }
+    if (this.chatGroup != null) {
+      if (this.chatGroup.messagesUser)
+        this.chatGroup.messagesUser.reverse();
+    }
   }
 
   public setHighlights(highlights: Array<any>) {

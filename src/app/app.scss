@@ -584,6 +584,7 @@ search_page {
                                 -webkit-transform: translate(0%, -50%);
                                 transform: translate(0%, -50%);
                                 color: #939598;
+                                font-size: 10px;
                                 ion-icon {
                                     font-size: 30px;
                                     color: #939598;
@@ -591,6 +592,13 @@ search_page {
                             }
                             h4 {
                                 color: #9a9a9a;
+                                img {
+                                    display: inline-block;
+                                    width: 12px;
+                                    &.star-icon {
+                                        width: 15px;
+                                    }
+                                }
                             }
                             .toteText {
                                 p {

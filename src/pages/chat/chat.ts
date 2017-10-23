@@ -35,6 +35,7 @@ export class Chat {
   public secondUser: User = null;
   public current_page: number = 1;
   public scrollPosition: string = 'top';
+  public fab_color: string = 'me';
   public user: User;
   public infinite_completed = false;
   public send_message_loader = false;
@@ -66,7 +67,7 @@ export class Chat {
     this.socket.on('receive_message', (msg: any) => {
       // service called because in socket user becomes undefined
       if (msg.receiverId == this.authService.getUser().id && msg.senderId == this.secondUser.id) {
-        let just_recieved: ChatMessage = new ChatMessage(Math.random(), msg.senderId, msg.time, msg.message, 1);
+        let just_recieved: ChatMessage = new ChatMessage(Math.random(), msg.senderId, msg.time, msg.message, 1, msg.groupId);
         this.conversation.push(just_recieved);
         this.autoScroll();
       }
@@ -78,7 +79,7 @@ export class Chat {
       this.send_message_loader = true;
       this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
         this.send_message_loader = false;
-        if (this.conversation.length == 0) {
+        if (this.conversation.length == 0 || this.tote == null) {
           this.stream.me_first_load = false
         } else {
           if (this.tote.chatGroup.messagesUser.length < 3)
@@ -104,7 +105,7 @@ export class Chat {
   public deleteChat() {
     this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
       var params = {
-        group_id: this.tote.chatGroupId
+        group_id: this.tote != null ? this.tote.chatGroupId : this.conversation[0].groupId
       }
       this.utilityMethods.show_loader('');
       this.anototeService.delete_chat_tote(params).subscribe((result) => {

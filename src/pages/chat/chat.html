@@ -8,11 +8,11 @@
         <ion-title>
             <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
         </ion-title>
-        <ion-buttons end>
+        <!-- <ion-buttons end>
             <button ion-button icon-only>
                 <ion-icon name="add"></ion-icon>
             </button>
-        </ion-buttons>
+        </ion-buttons> -->
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
@@ -21,16 +21,23 @@
         <div class="chatHead">
             <span class="chatOptions" (click)="deleteChat()"></span>
             <div class="txt">
-                <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null">[No subject]</strong>
-                <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null">[tote.chatGroup.messagesUser[0].subject]</strong>
-                <div class="time">
+                <ng-container *ngIf="tote != null">
+                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null">[No subject]</strong>
+                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null">[tote.chatGroup.messagesUser[0].subject]</strong>
+                </ng-container>
+                <ng-container *ngIf="tote == null">
+                    <strong>[No subject]</strong>
+                </ng-container>
+
+                <div class="time" *ngIf="tote != null">
                     <em>
                         <span  [innerText]="tote.createdAt | time_stamp"></span>
                     </em>
                 </div>
                 <div class="toteText">
-                    <p *ngIf="tote.chatGroup.groupUsers[0].user.id != user.id">{{tote.chatGroup.groupUsers[0].user.firstName}}</p>
-                    <p *ngIf="tote.chatGroup.groupUsers[1].user.id != user.id">{{tote.chatGroup.groupUsers[1].user.firstName}}</p>
+                    <!-- <p *ngIf="tote.chatGroup.groupUsers[0].user.id != user.id">{{tote.chatGroup.groupUsers[0].user.firstName}}</p>
+                    <p *ngIf="tote.chatGroup.groupUsers[1].user.id != user.id">{{tote.chatGroup.groupUsers[1].user.firstName}}</p> -->
+                    <p>{{secondUser.firstName}}</p>
                     <button type="button">
                         <img alt="" src="assets/img/commentIcon.svg">
                     </button>
@@ -51,24 +58,29 @@
                     <div class="name-time">
                         <span class="user" *ngIf="message.senderId == user.id">Me</span>
                         <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
-                        <span class="msg-time">{{message.createdAt  * 1000 | date:'shortTime'}}</span>
+                        <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                     </div>
                     <p>{{message.text}}</p>
                     <img src="assets/img/dotsicon.svg" alt="">
                 </div>
             </ion-item>
         </ion-list>
-        <ion-fab bottom right>
-            <button (tap)="presentViewOptionsModal()" ion-fab [color]="me">
+    </div>
+    <ion-fab bottom right>
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="fab_color">
                 <img src="assets/img/whiteTote.svg" />
             </button>
-        </ion-fab>
-    </div>
+    </ion-fab>
 </ion-content>
 <ion-footer class="message-bottom">
     <ion-toolbar color="dark">
-        <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
-        <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject != null">“[tote.chatGroup.messagesUser[0].subject]”</p>
+        <ng-container *ngIf="tote != null">
+            <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
+            <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject != null">“[tote.chatGroup.messagesUser[0].subject]”</p>
+        </ng-container>
+        <ng-container *ngIf="tote == null">
+            <p *ngIf="!reply_box_on">“[No subject]”</p>
+        </ng-container>
         <span *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply</span>
         <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
         <div *ngIf="reply_box_on" class="send-btn">

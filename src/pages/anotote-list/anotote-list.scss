@@ -568,8 +568,16 @@ chat_tote_page {
                     margin-left: 10px;
                     p {
                         margin: 0px;
-                        width: calc(100% - 30px);
+                        width: 65%;
+                        font-size: 16px;
                         display: inline-block;
+                        img {
+                            display: inline-block !important;
+                            width: 12px !important;
+                            &.star-icon {
+                                width: 15px !important;
+                            }
+                        }
                     }
                     span {
                         float: right;
@@ -577,7 +585,7 @@ chat_tote_page {
                         display: inline-block;
                         vertical-align: middle;
                         width: auto !important;
-                        font-size: 16px;
+                        font-size: 12px !important;
                         padding: 0px !important;
                         padding-left: 0px;
                         border-bottom: 0px !important;
