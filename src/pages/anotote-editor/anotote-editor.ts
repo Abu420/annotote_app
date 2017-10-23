@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Pipe, ViewChild, Output, Directive, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, Pipe, ViewChild, Output, Directive, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
@@ -20,6 +20,7 @@ import { Streams } from '../../services/stream.service';
 import { TagsPopUp } from '../anotote-list/tags';
 import { User } from '../../models/user';
 import { ViewOptions } from '../anotote-list/view_options';
+import { FollowsPopup } from '../anotote-list/follows_popup';
 
 @IonicPage()
 @Component({
@@ -72,6 +73,7 @@ export class AnototeEditor implements OnDestroy {
     private search_obj_to_be_deleted;
     public user: User;
     public moveFabUp: boolean = false;
+    public follow_visited = false;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -86,7 +88,8 @@ export class AnototeEditor implements OnDestroy {
         private modalCtrl: ModalController,
         private utilityMethods: UtilityMethods,
         public statusBar: StatusBar,
-        public runtime: Streams) {
+        public runtime: Streams,
+        public cd: ChangeDetectorRef) {
 
         var that = this;
         this.toggle_annotation_option = false;
@@ -182,6 +185,8 @@ export class AnototeEditor implements OnDestroy {
             this.scrape_anotote(this.ANOTOTE.followerFilePath);
         } else if (this.actual_stream == 'top') {
             this.scrape_anotote(this.ANOTOTE.topFilePath);
+        } else if (this.actual_stream == 'anon') {
+            this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
         }
     }
 
@@ -227,12 +232,12 @@ export class AnototeEditor implements OnDestroy {
                     this.moveFabUp = true;
                 else
                     this.moveFabUp = false;
-                this.content.resize();
                 if (data.flag && !this.selection_lock) {
                     this.selectedText = data.txt;
                     this.selection = data.selection;
-                    this.content.resize();
                 }
+                this.content.resize();
+                this.cd.detectChanges();
             }
         });
         this.events.subscribe('show_anotation_details', (data) => {
@@ -813,17 +818,17 @@ export class AnototeEditor implements OnDestroy {
 
     presentViewOptionsModal() {
         var params = {
-            anotote: this.ANOTOTE,
+            anotote: this.WHICH_STREAM == 'anon' ? this.ANOTOTE.userAnnotote : this.ANOTOTE,
             stream: this.WHICH_STREAM
         }
         let viewsOptionsModal = this.modalCtrl.create(ViewOptions, params);
         viewsOptionsModal.onDidDismiss((preference) => {
             if (preference.tab_selected == 'me')
                 this.showMeHighlights(this.ANOTOTE);
-            //   else if (preference.tab_selected == 'follows' && this.WHICH_STREAM != 'top')
-            //     this.open_follows_popup(event, this.current_active_anotote);
-            //   else if (preference.tab_selected == 'follows' && this.WHICH_STREAM == 'top')
-            //     this.top_follows_popup(event, this.current_active_anotote);
+            else if (preference.tab_selected == 'follows' && this.WHICH_STREAM != 'top')
+                this.open_follows_popup(event, this.ANOTOTE);
+            else if (preference.tab_selected == 'follows' && this.WHICH_STREAM == 'top')
+                this.top_follows_popup(event, this.ANOTOTE);
             else if (preference.tab_selected == 'top')
                 this.show_top_tab(this.ANOTOTE);
         })
@@ -831,30 +836,37 @@ export class AnototeEditor implements OnDestroy {
     }
 
     showMeHighlights(anotote) {
+        this.content.scrollToTop();
         if (this.WHICH_STREAM == 'me') {
             anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
             anotote.meFilePath = anotote.userAnnotote.filePath;
             anotote.active_tab = 'me'
+            this.actual_stream = anotote.active_tab;
+            this.scrape_anotote(anotote.meFilePath);
         } else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top') {
             if (this.WHICH_STREAM == 'top' && anotote.anototeDetail.meToteFollowTop.id == anotote.userAnnotote.id) {
                 anotote.my_highlights = anotote.top_highlights;
                 anotote.highlights = Object.assign(anotote.my_highlights);
                 anotote.active_tab = 'me'
                 anotote.meFilePath = anotote.anototeDetail.userAnnotote.filePath;
+                this.actual_stream = anotote.active_tab;
+                this.scrape_anotote(anotote.meFilePath);
             } else if (anotote.my_highlights == undefined) {
-                // this.me_spinner = true;
+                this.utilityMethods.show_loader('')
                 var params = {
                     user_id: this.user.id,
                     anotote_id: this.WHICH_STREAM == 'follows' ? anotote.userAnnotote.anototeDetail.meToteFollowTop.id : anotote.anototeDetail.meToteFollowTop.id,
                     time: this.utilityMethods.get_php_wala_time()
                 }
                 this.anotote_service.fetchToteDetails(params).subscribe((result) => {
-                    //   this.me_spinner = false;
+                    this.utilityMethods.hide_loader();
                     if (result.status == 1) {
                         anotote.active_tab = 'me'
                         anotote.highlights = Object.assign(result.data.annotote.highlights);
                         anotote.my_highlights = result.data.annotote.highlights;
                         anotote.meFilePath = result.data.annotote.userAnnotote.filePath;
+                        this.actual_stream = anotote.active_tab;
+                        this.scrape_anotote(anotote.meFilePath);
                     } else {
                         this.utilityMethods.doToast("Couldn't fetch annotations");
                         anotote.active = false;
@@ -868,21 +880,24 @@ export class AnototeEditor implements OnDestroy {
             } else {
                 anotote.active_tab = 'me';
                 anotote.highlights = Object.assign(anotote.my_highlights);
+                this.actual_stream = anotote.active_tab;
+                this.scrape_anotote(anotote.meFilePath);
             }
         }
     }
 
     show_top_tab(anotote) {
+        this.content.scrollToTop();
         if (anotote.top_highlights == undefined) {
             if (anotote.userAnnotote.id != anotote.topUserToteId) {
-                // this.top_spinner = true;
+                this.utilityMethods.show_loader('')
                 var params = {
                     user_id: this.user.id,
                     anotote_id: anotote.topUserToteId,
                     time: this.utilityMethods.get_php_wala_time()
                 }
                 this.anotote_service.fetchToteDetails(params).subscribe((result) => {
-                    //   this.top_spinner = false;
+                    this.utilityMethods.hide_loader();
                     anotote.active_tab = 'top'
                     anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
                     this.actual_stream = anotote.active_tab;
@@ -912,6 +927,96 @@ export class AnototeEditor implements OnDestroy {
             this.actual_stream = anotote.active_tab;
             this.scrape_anotote(anotote.topFilePath);
         }
+
+    }
+
+    open_follows_popup(event, anotote) {
+        event.stopPropagation();
+        if (anotote.followers.length == 1) {
+            anotote.selected_follower_name = anotote.followers[0].firstName;
+            anotote.active_tab = 'follows';
+            anotote.followerFilePath = anotote.followers[0].followTote.filePath;
+            this.follow_visited = true;
+            this.loadFollower(anotote, anotote.followers[0])
+        } else if (anotote.followers.length > 1) {
+            if (this.follow_visited) {
+                let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: anotote.followers });
+                anototeOptionsModal.onDidDismiss(data => {
+                    if (data != null) {
+                        anotote.selected_follower_name = data.user.firstName;
+                        anotote.active_tab = 'follows'
+                        anotote.followerFilePath = data.user.followTote.filePath;
+                        this.loadFollower(anotote, data.user);
+                    }
+                });
+                anototeOptionsModal.present();
+            } else {
+                anotote.selected_follower_name = anotote.followers[0].firstName;
+                anotote.active_tab = 'follows';
+                this.follow_visited = true;
+                anotote.followerFilePath = anotote.followers[0].followTote.filePath;
+                this.loadFollower(anotote, anotote.followers[0])
+            }
+        } else {
+            this.utilityMethods.doToast('No one follows this anotote.');
+        }
+
+    }
+
+    loadFollower(anotote, user) {
+        if (user.highlights == null) {
+            anotote.spinner_for_active = true;
+            var params = {
+                user_id: user.id,
+                anotote_id: user.followTote.id,
+                time: this.utilityMethods.get_php_wala_time()
+            }
+            this.anotote_service.fetchToteDetails(params).subscribe((result) => {
+                anotote.spinner_for_active = false;
+                user.highlights = result.data.annotote.highlights;
+                anotote.highlights = Object.assign(result.data.annotote.highlights);
+            }, (error) => {
+                anotote.spinner_for_active = false;
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                }
+            });
+        } else {
+            anotote.highlights = Object.assign(user.highlights);
+            this.actual_stream = anotote.active_tab;
+            this.scrape_anotote(anotote.followerFilePath);
+        }
+    }
+
+    top_follows_popup(event, anotote) {
+        event.stopPropagation();
+        if (anotote.follows.length == 1) {
+            anotote.selected_follower_name = anotote.follows[0].firstName;
+            anotote.active_tab = 'follows';
+            anotote.followerFilePath = anotote.follows[0].followTote.filePath;
+            this.loadFollower(anotote, anotote.follows[0])
+        } else if (anotote.follows.length > 1) {
+            if (this.follow_visited) {
+                let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: anotote.follows });
+                anototeOptionsModal.onDidDismiss(data => {
+                    if (data != null) {
+                        anotote.selected_follower_name = data.user.firstName;
+                        anotote.active_tab = 'follows'
+                        anotote.followerFilePath = data.user.followTote.filePath;
+                        this.loadFollower(anotote, data.user);
+                    }
+                });
+                anototeOptionsModal.present();
+            } else {
+                anotote.selected_follower_name = anotote.followers[0].firstName;
+                anotote.active_tab = 'follows';
+                anotote.followerFilePath = anotote.follows[0].followTote.filePath;
+                this.loadFollower(anotote, anotote.follows[0])
+            }
+        } else {
+            this.utilityMethods.doToast('No one follows this anotote.');
+        }
+
     }
 
 }

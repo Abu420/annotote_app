@@ -11,7 +11,7 @@
                 <span>Me</span>
             </div>
         </ion-item>
-        <ng-container *ngIf="stream != 'top'">
+        <ng-container *ngIf="stream != 'top' && stream != 'anon'">
             <ion-item *ngIf="anotote != null && anotote.followers.length > 0" [ngClass]="{'active': anotote.active_tab == 'follows'}" (click)="change_tab('follows')">
                 <div class="aling-left">
                     <img src="assets/img/img5.png">
@@ -22,7 +22,7 @@
                 </div>
             </ion-item>
         </ng-container>
-        <ng-container *ngIf="stream == 'top'">
+        <ng-container *ngIf="stream == 'top'  && stream == 'anon'">
             <ion-item *ngIf="anotote != null && anotote.follows.length > 0 " [ngClass]="{'active': anotote.active_tab == 'follows'}" (click)="change_tab('follows')">
                 <div class="aling-left">
                     <img src="assets/img/img5.png">

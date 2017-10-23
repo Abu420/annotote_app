@@ -111,10 +111,10 @@ export class Home {
         this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
       }, (error) => {
         this.utilityMethods.hide_loader();
-        if (error.status == 500) {
-          this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
-        } else if (error.code == -1) {
+        if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
+        } else {
+          this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
         }
       });
   }
