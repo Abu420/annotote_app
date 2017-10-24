@@ -3,11 +3,14 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 15.7 16.6" style="enable-background:new 0 0 15.7 16.6;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#279A00;}
-	.st1{font-family:'EuphemiaUCAS';}
-	.st2{font-size:25px;}
-	.st3{fill:none;stroke:#279A00;stroke-width:0.6;stroke-miterlimit:10;}
+	.st0{enable-background:new    ;}
+	.st1{fill:#279A00;}
+	.st2{fill:none;stroke:#279A00;stroke-width:0.6;stroke-miterlimit:10;}
 </style>
-<text transform="matrix(1.224647e-16 1 -1 1.224647e-16 -6.8359 0.3)" class="st0 st1 st2">^</text>
-<text transform="matrix(1.224647e-16 1 -1 1.224647e-16 -6.8359 0.2999)" class="st3 st1 st2">^</text>
+<g class="st0">
+	<path class="st1" d="M2.4,15.5v-2.3l8.4-4.8V8.3l-8.4-5V1.1l11.2,7.1v0.4L2.4,15.5z"/>
+</g>
+<g class="st0">
+	<path class="st2" d="M2.4,15.5v-2.3l8.4-4.8V8.3l-8.4-5V1.1l11.2,7.1v0.4L2.4,15.5z"/>
+</g>
 </svg>
