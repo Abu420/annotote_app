@@ -147,6 +147,8 @@ tags_popup {
         .tags-panel {
             height: calc(100vh - 55%);
             background: #FFF;
+            width: 80%;
+            margin: auto;
             &.tagTypes {
                 .tag-list {
                     height: calc(100% - 153px);

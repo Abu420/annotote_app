@@ -335,19 +335,19 @@ page-anotote-editor {
         &.follows {
             .highlight_quote,
             .highlight_comment {
-                background: #f4e300 !important;
+                background: #fff896 !important;
                 p {
-                    background: #f4e300 !important;
+                    background: #fff896 !important;
                 }
             }
             .highlight_comment:before {
-                background: #f4e300;
+                background: #fff896;
             }
             .highlight_quote:before {
-                background: #f4e300;
+                background: #fff896;
             }
             .only_light {
-                background: #f4e300 !important;
+                background: #fff896 !important;
             }
         }
         &.top {
