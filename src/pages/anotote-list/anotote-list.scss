@@ -141,14 +141,12 @@ tags_popup {
     .tag-panel {
         height: 100%;
         .top_empty_box {
-            height: calc(100vh - 45%);
+            height: calc(100vh - 47%);
             background: transparent;
         }
         .tags-panel {
-            height: calc(100vh - 55%);
+            height: calc(100vh - 53%);
             background: #FFF;
-            width: 80%;
-            margin: auto;
             &.tagTypes {
                 .tag-list {
                     height: calc(100% - 153px);
@@ -159,15 +157,15 @@ tags_popup {
                 padding: 15px 0px;
                 margin: 0px;
                 height: 50px;
-                background: #e0e0e0;
-                color: #a6a9b9;
+                background: #FFFFFF;
+                color: #000000;
                 font-size: 16px;
                 box-shadow: 0px 1px 2px #888;
             }
             .tag_input {
                 width: 100%;
                 background: #efefef;
-                padding: 10px;
+                padding: 20px 20px 10px;
                 position: relative;
                 z-index: 99;
                 &:after {
@@ -227,30 +225,35 @@ tags_popup {
                     height: 40px;
                     width: 80px;
                     position: absolute;
-                    right: 10px;
-                    top: 10px;
+                    right: 20px;
+                    top: 20px;
                 }
             }
-            .tag-list {
-                margin: 0px;
-                list-style: none;
-                padding: 5px 15px 15px;
-                height: calc(100% - 109px);
-                overflow: auto;
-                li {
-                    display: block;
-                    padding: 10px 0px;
-                    img {
-                        width: 12px;
-                        display: inline-block;
-                        vertical-align: middle;
-                        margin-right: 15px;
-                    }
-                    span {
-                        display: inline-block;
-                        vertical-align: middle;
-                        font-size: 14px;
-                        width: calc(100% - 35px);
+            .tabWidget {
+                background: #efefef;
+                padding: 10px 20px;
+                .tag-list {
+                    margin: 0px;
+                    padding: 0px 15px;
+                    list-style: none;
+                    background: #FFF;
+                    height: calc(100% - 109px);
+                    overflow: auto;
+                    li {
+                        display: block;
+                        padding: 10px 0px;
+                        img {
+                            width: 12px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-right: 15px;
+                        }
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                            font-size: 14px;
+                            width: calc(100% - 35px);
+                        }
                     }
                 }
             }
@@ -1108,8 +1111,14 @@ page-anotote-list {
             }
             &.followSave {
                 img {
-                    width: 32px;
-                    margin-top: 1px;
+                    width: 35px;
+                    margin-top: 2px;
+                }
+                &.share {
+                    img {
+                        width: 32px;
+                        margin-top: 1px;
+                    }
                 }
             }
             &.delete {
