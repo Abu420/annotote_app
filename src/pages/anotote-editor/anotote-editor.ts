@@ -236,7 +236,7 @@ export class AnototeEditor implements OnDestroy {
                     this.selection = data.selection;
                 }
                 this.content.resize();
-                this.cd.detectChanges();
+                // this.cd.detectChanges();
             }
         });
         this.events.subscribe('show_anotation_details', (data) => {
@@ -294,7 +294,7 @@ export class AnototeEditor implements OnDestroy {
                 this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.ANOTOTE.userAnnotote.id, title: data.title });
             } else if (data.save) {
                 if (this.WHICH_STREAM == 'anon') {
-                    this.utilityMethods.show_loader('');
+                    // this.utilityMethods.show_loader('');
                     var params = {
                         user_tote_id: this.tote_id,
                         created_at: this.utilityMethods.get_php_wala_time()
@@ -302,6 +302,8 @@ export class AnototeEditor implements OnDestroy {
                     this.searchService.addToMeStream(params).subscribe((success) => {
                         this.utilityMethods.hide_loader();
                         this.ANOTOTE.userAnnotote.anototeDetail = this.ANOTOTE.userAnnotote;
+                        this.ANOTOTE.active_tab = 'me';
+                        this.ANOTOTE.followers = this.ANOTOTE.follows;
                         this.actual_stream = 'me';
                         this.which_stream = 'me';
                         this.WHICH_STREAM = 'me';
@@ -653,6 +655,7 @@ export class AnototeEditor implements OnDestroy {
                 this.selection_lock = false;
                 if (this.actual_stream == 'anon') {
                     this.ANOTOTE.userAnnotote.anototeDetail = this.ANOTOTE.userAnnotote;
+                    this.ANOTOTE.active_tab = 'me';
                     this.actual_stream = 'me';
                     this.which_stream = 'me';
                     this.WHICH_STREAM = 'me';
@@ -1036,6 +1039,7 @@ export class AnototeEditor implements OnDestroy {
             anotote.active_tab = 'follows';
             if (this.WHICH_STREAM == 'anon') {
                 this.ANOTOTE.active_tab = 'follows'
+                this.ANOTOTE.followers = anotote.follows;
             }
             this.actual_stream = anotote.active_tab;
             anotote.followerFilePath = anotote.follows[0].followTote.filePath;
@@ -1048,7 +1052,8 @@ export class AnototeEditor implements OnDestroy {
                         anotote.selected_follower_name = data.user.firstName;
                         anotote.active_tab = 'follows'
                         if (this.WHICH_STREAM == 'anon') {
-                            this.ANOTOTE.active_tab = 'follows'
+                            this.ANOTOTE.active_tab = 'follows';
+                            this.ANOTOTE.followers = anotote.follows;
                         }
                         this.actual_stream = anotote.active_tab;
                         anotote.followerFilePath = data.user.followTote.filePath;
@@ -1061,6 +1066,7 @@ export class AnototeEditor implements OnDestroy {
                 anotote.active_tab = 'follows';
                 if (this.WHICH_STREAM == 'anon') {
                     this.ANOTOTE.active_tab = 'follows'
+                    this.ANOTOTE.followers = anotote.follows;
                 }
                 anotote.followerFilePath = anotote.follows[0].followTote.filePath;
                 this.loadFollower(anotote, anotote.follows[0])

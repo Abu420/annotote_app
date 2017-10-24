@@ -7,7 +7,7 @@
                 <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
             </figure>
             <div class="proName">
-                <strong>{{profileData.user.firstName}}<em *ngIf="profileData.user.isFollowed==1"> <</em></strong>
+                <strong>{{profileData.user.firstName}}<img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt=""></strong>
                 <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
                 <div (click)="presentProfilePictureActionSheet()" *ngIf="is_it_me == true" class="img-holder">
                     <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
@@ -24,7 +24,10 @@
         <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
         <ion-list class="follow_list">
             <ion-item>
-                <button ion-button icon-only><img src="assets/img/img5.png"></button>
+                <button ion-button icon-only>
+                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me == true" src="assets/img/check2.png">
+                </button>
                 <div class="txt">
                     <strong *ngIf="profileData.user.description != null">{{profileData.user.description}}</strong>
                     <!-- <p *ngIf="profileData.user.description != null">{{profileData.user.description}}</p> -->
@@ -33,21 +36,30 @@
                 </div>
             </ion-item>
             <ion-item>
-                <button ion-button icon-only><img src="assets/img/img5.png"></button>
-                <div class="txt">
+                <button ion-button icon-only>
+                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me == true" src="assets/img/check2.png">
+                </button>
+                <div class="txt" (tap)="go_to_stream()">
                     <strong>Totes</strong>
                     <p [innerText]="profileData.totes"></p>
                 </div>
             </ion-item>
             <ion-item>
-                <button ion-button icon-only><img src="assets/img/img5.png"></button>
+                <button ion-button icon-only>
+                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me == true" src="assets/img/check2.png">
+                </button>
                 <div class="txt">
                     <strong>Followers</strong>
                     <p [innerText]="profileData.followers"></p>
                 </div>
             </ion-item>
             <ion-item>
-                <button ion-button icon-only><img src="assets/img/img5.png"></button>
+                <button ion-button icon-only>
+                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me == true" src="assets/img/check2.png">
+                </button>
                 <div class="txt">
                     <strong>Follows</strong>
                     <p [innerText]="profileData.follows"></p>

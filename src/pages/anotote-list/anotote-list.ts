@@ -621,7 +621,8 @@ export class AnototeList {
                 this.stream.top_first_load = false;
                 this.stream.follow_first_load = false;
                 this.utilityMethods.doToast("Saved to Me stream");
-                this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
+                // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
+                this.open_browser(this.current_active_anotote, null);
               }
             }, (error) => {
               this.utilityMethods.hide_loader();

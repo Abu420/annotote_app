@@ -1,6 +1,30 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
 $font-path: "../assets/fonts";
+@font-face {
+    font-family: 'robotobold';
+    src: url('../assets/fonts/roboto-bold-webfont.eot');
+    src: url('../assets/fonts/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/roboto-bold-webfont.woff2') format('woff2'), url('../assets/fonts/roboto-bold-webfont.woff') format('woff'), url('../assets/fonts/roboto-bold-webfont.ttf') format('truetype'), url('../assets/fonts/roboto-bold-webfont.svg#robotobold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'robotolight';
+    src: url('../assets/fonts/roboto-light-webfont.eot');
+    src: url('../assets/fonts/roboto-light-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/roboto-light-webfont.woff2') format('woff2'), url('../assets/fonts/roboto-light-webfont.woff') format('woff'), url('../assets/fonts/roboto-light-webfont.ttf') format('truetype'), url('../assets/fonts/roboto-light-webfont.svg#robotolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'robotoregular';
+    src: url('../assets/fonts/roboto-regular-webfont.eot');
+    src: url('../assets/fonts/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/roboto-regular-webfont.woff2') format('woff2'), url('../assets/fonts/roboto-regular-webfont.woff') format('woff'), url('../assets/fonts/roboto-regular-webfont.ttf') format('truetype'), url('../assets/fonts/roboto-regular-webfont.svg#robotoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @import "ionic.globals";
 // Shared Variables
 // --------------------------------------------------
@@ -15,7 +39,19 @@ $font-path: "../assets/fonts";
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-$colors: ( me: #3bde00, follows: #f4e300, top: #fb9df0, anon: #323232, primary: #488aff, secondary: #32db64, danger: #f53d3d, light: #f4f4f4, dark: #222, homeheader: #323232, commonheader: #3bde00, yellowheader: #f4e300, pinkheader: #fb9df0);
+$colors: ( me: #3bde00,
+follows: #f4e300,
+top: #fb9df0,
+anon: #323232,
+primary: #488aff,
+secondary: #32db64,
+danger: #f53d3d,
+light: #f4f4f4,
+dark: #222,
+homeheader: #323232,
+commonheader: #3bde00,
+yellowheader: #f4e300,
+pinkheader: #fb9df0);
 //
 //
 //

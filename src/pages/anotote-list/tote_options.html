@@ -29,7 +29,7 @@
         </div>
         <ul *ngIf="stream != 'top'">
             <li *ngIf="anotote.userAnnotote.annototeTags.length == 0">
-                <span>No tags added</span>
+                <span>Add Tags</span>
             </li>
             <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
                 <li *ngIf="i < 2">

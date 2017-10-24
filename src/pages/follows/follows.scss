@@ -67,6 +67,14 @@ follow_profile {
                     font-style: normal;
                     color: #d0d0d0;
                 }
+                img {
+                    display: inline-block !important;
+                    width: 12px !important;
+                    &.star-icon {
+                        width: 15px !important;
+                        margin-left: 5px;
+                    }
+                }
             }
         }
         .follow_user {

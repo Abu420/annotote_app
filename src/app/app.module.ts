@@ -155,9 +155,10 @@ import { TagsForChat } from '../pages/chat_profileTags/tags';
       modalEnter: 'modal-slide-in',
       modalLeave: 'modal-slide-out',
       tabsPlacement: 'bottom',
-      pageTransition: 'ios-transition'
-    }
-    )
+      pageTransition: 'ios-transition',
+      toastEnter: 'toast-md-slide-in',
+      toastLeave: 'toast-md-slide-out'
+    })
   ],
   bootstrap: [IonicApp],
 

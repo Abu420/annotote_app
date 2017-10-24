@@ -37,32 +37,12 @@ strong:active {
 //     font-family: 'roboto'; // src: url("../assets/fonts/LucidaSans.eot");
 //     // src: url("../assets/fonts/LucidaSans.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/LucidaSans.woff") format("woff"), url("../assets/fonts/LucidaSans.ttf") format("truetype"), url("../assets/fonts/LucidaSans.svg#lovely") format("svg");
 // }
-@font-face {
-    font-family: 'robotobold';
-    src: url('../assets/fonts/roboto-bold-webfont.eot');
-    src: url('../assets/fonts/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/roboto-bold-webfont.woff2') format('woff2'), url('../assets/fonts/roboto-bold-webfont.woff') format('woff'), url('../assets/fonts/roboto-bold-webfont.ttf') format('truetype'), url('../assets/fonts/roboto-bold-webfont.svg#robotobold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'robotolight';
-    src: url('../assets/fonts/roboto-light-webfont.eot');
-    src: url('../assets/fonts/roboto-light-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/roboto-light-webfont.woff2') format('woff2'), url('../assets/fonts/roboto-light-webfont.woff') format('woff'), url('../assets/fonts/roboto-light-webfont.ttf') format('truetype'), url('../assets/fonts/roboto-light-webfont.svg#robotolight') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'robotoregular';
-    src: url('../assets/fonts/roboto-regular-webfont.eot');
-    src: url('../assets/fonts/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/roboto-regular-webfont.woff2') format('woff2'), url('../assets/fonts/roboto-regular-webfont.woff') format('woff'), url('../assets/fonts/roboto-regular-webfont.ttf') format('truetype'), url('../assets/fonts/roboto-regular-webfont.svg#robotoregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+body {
+    font-family: -apple-system, 'robotoregular' !important;
 }
 
 ion-app.ios {
-    font-family: 'robotoregular' !important;
+    font-family: -apple-system, 'robotoregular' !important;
 }
 
 // .platform-ios .ios-header {
@@ -331,7 +311,7 @@ button,
 }
 
 .searchIcon {
-    margin-left: 28px;
+    margin-left: 47px;
 }
 
 //Login register and page css
