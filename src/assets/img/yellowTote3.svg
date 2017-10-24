@@ -7,15 +7,24 @@
 	.st1{font-family:'EuphemiaUCAS';}
 	.st2{font-size:25px;}
 	.st3{display:none;fill:none;stroke:#E3C100;stroke-width:0.6;stroke-miterlimit:10;enable-background:new    ;}
-	.st4{fill:#E3C100;}
-	.st5{fill:none;stroke:#E3C100;stroke-width:0.6;stroke-miterlimit:10;}
-	.st6{fill:#FFFFFF;}
-	.st7{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
+	.st4{enable-background:new    ;}
+	.st5{fill:#E3C100;}
+	.st6{fill:none;stroke:#E3C100;stroke-width:0.6;stroke-miterlimit:10;}
+	.st7{fill:#FFFFFF;}
+	.st8{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
 </style>
 <text transform="matrix(1 0 0 1 0 21.9768)" class="st0 st1 st2">^</text>
 <text transform="matrix(1 0 0 1 0 21.9768)" class="st3 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 -8.422852e-02 43.4126)" class="st4 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 -8.422852e-02 43.4126)" class="st5 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 32.5796)" class="st6 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 32.5796)" class="st7 st1 st2">^</text>
+<g class="st4">
+	<path class="st5" d="M15.1,34.1h-2.3L8,25.8H7.9l-5,8.4H0.7l7.1-11.2h0.4L15.1,34.1z"/>
+</g>
+<g class="st4">
+	<path class="st6" d="M15.1,34.1h-2.3L8,25.8H7.9l-5,8.4H0.7l7.1-11.2h0.4L15.1,34.1z"/>
+</g>
+<g class="st4">
+	<path class="st7" d="M15.2,23.3H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,23.3z"/>
+</g>
+<g class="st4">
+	<path class="st8" d="M15.2,23.3H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,23.3z"/>
+</g>
 </svg>

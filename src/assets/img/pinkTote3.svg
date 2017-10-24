@@ -3,19 +3,28 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 16.2 34.5" style="enable-background:new 0 0 16.2 34.5;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#AC5BA4;}
-	.st1{font-family:'EuphemiaUCAS';}
-	.st2{font-size:25px;}
-	.st3{fill:none;stroke:#AC5BA4;stroke-width:0.6;stroke-miterlimit:10;}
-	.st4{fill:#FFFFFF;}
-	.st5{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
-	.st6{display:none;fill:#AC5BA4;enable-background:new    ;}
-	.st7{display:none;fill:none;stroke:#AC5BA4;stroke-width:0.6;stroke-miterlimit:10;enable-background:new    ;}
+	.st0{enable-background:new    ;}
+	.st1{fill:#AC5BA4;}
+	.st2{fill:none;stroke:#AC5BA4;stroke-width:0.6;stroke-miterlimit:10;}
+	.st3{fill:#FFFFFF;}
+	.st4{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
+	.st5{display:none;fill:#AC5BA4;enable-background:new    ;}
+	.st6{font-family:'EuphemiaUCAS';}
+	.st7{font-size:25px;}
+	.st8{display:none;fill:none;stroke:#AC5BA4;stroke-width:0.6;stroke-miterlimit:10;enable-background:new    ;}
 </style>
-<text transform="matrix(1 0 0 1 8.428955e-02 21.4935)" class="st0 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 8.428955e-02 21.4935)" class="st3 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 42.9293)" class="st4 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 42.9293)" class="st5 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 8.428955e-02 32.0963)" class="st6 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 8.428955e-02 32.0963)" class="st7 st1 st2">^</text>
+<g class="st0">
+	<path class="st1" d="M15.3,12.2H13L8.2,3.9H8.1l-5,8.4H0.9L8,1h0.4L15.3,12.2z"/>
+</g>
+<g class="st0">
+	<path class="st2" d="M15.3,12.2H13L8.2,3.9H8.1l-5,8.4H0.9L8,1h0.4L15.3,12.2z"/>
+</g>
+<g class="st0">
+	<path class="st3" d="M15.2,33.7H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,33.7z"/>
+</g>
+<g class="st0">
+	<path class="st4" d="M15.2,33.7H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,33.7z"/>
+</g>
+<text transform="matrix(1 0 0 1 8.428955e-02 32.0963)" class="st5 st6 st7">^</text>
+<text transform="matrix(1 0 0 1 8.428955e-02 32.0963)" class="st8 st6 st7">^</text>
 </svg>
