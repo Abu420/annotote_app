@@ -3,17 +3,28 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 16 35.6" style="enable-background:new 0 0 16 35.6;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#E3C100;}
-	.st1{font-family:'EuphemiaUCAS';}
-	.st2{font-size:25px;}
-	.st3{fill:none;stroke:#E3C100;stroke-width:0.6;stroke-miterlimit:10;}
-	.st4{fill:#FFFFFF;}
-	.st5{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
+	.st0{enable-background:new    ;}
+	.st1{fill:#E3C100;}
+	.st2{fill:none;stroke:#E3C100;stroke-width:0.6;stroke-miterlimit:10;}
+	.st3{fill:#FFFFFF;}
+	.st4{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
 </style>
-<text transform="matrix(1 0 0 1 0 21.9768)" class="st0 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 21.9768)" class="st3 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 -8.422852e-02 43.4126)" class="st0 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 -8.422852e-02 43.4126)" class="st3 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 32.5796)" class="st4 st1 st2">^</text>
-<text transform="matrix(1 0 0 1 0 32.5796)" class="st5 st1 st2">^</text>
+<g class="st0">
+	<path class="st1" d="M15.2,12.7H13L8.1,4.3H8l-5,8.4H0.8L7.9,1.5h0.4L15.2,12.7z"/>
+</g>
+<g class="st0">
+	<path class="st2" d="M15.2,12.7H13L8.1,4.3H8l-5,8.4H0.8L7.9,1.5h0.4L15.2,12.7z"/>
+</g>
+<g class="st0">
+	<path class="st1" d="M15.1,34.1h-2.3L8,25.8H7.9l-5,8.4H0.7l7.1-11.2h0.4L15.1,34.1z"/>
+</g>
+<g class="st0">
+	<path class="st2" d="M15.1,34.1h-2.3L8,25.8H7.9l-5,8.4H0.7l7.1-11.2h0.4L15.1,34.1z"/>
+</g>
+<g class="st0">
+	<path class="st3" d="M15.2,23.3H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,23.3z"/>
+</g>
+<g class="st0">
+	<path class="st4" d="M15.2,23.3H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,23.3z"/>
+</g>
 </svg>
