@@ -825,11 +825,14 @@ export class AnototeEditor implements OnDestroy {
         viewsOptionsModal.onDidDismiss((preference) => {
             if (preference.tab_selected == 'me')
                 this.showMeHighlights(this.ANOTOTE);
-            else if (preference.tab_selected == 'follows' && this.WHICH_STREAM != 'top')
+            else if (preference.tab_selected == 'follows' && this.WHICH_STREAM != 'top' && this.WHICH_STREAM != 'anon')
                 this.open_follows_popup(event, this.ANOTOTE);
-            else if (preference.tab_selected == 'follows' && this.WHICH_STREAM == 'top')
-                this.top_follows_popup(event, this.ANOTOTE);
-            else if (preference.tab_selected == 'top')
+            else if (preference.tab_selected == 'follows' && (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon')) {
+                if (this.WHICH_STREAM == 'anon')
+                    this.top_follows_popup(event, this.ANOTOTE.userAnnotote);
+                else
+                    this.top_follows_popup(event, this.ANOTOTE);
+            } else if (preference.tab_selected == 'top')
                 this.show_top_tab(this.ANOTOTE);
         })
         viewsOptionsModal.present();
@@ -888,12 +891,52 @@ export class AnototeEditor implements OnDestroy {
 
     show_top_tab(anotote) {
         this.content.scrollToTop();
-        if (anotote.top_highlights == undefined) {
-            if (anotote.userAnnotote.id != anotote.topUserToteId) {
+        if (this.WHICH_STREAM != 'anon') {
+            if (anotote.top_highlights == undefined) {
+                if (anotote.userAnnotote.id != anotote.topUserToteId) {
+                    this.utilityMethods.show_loader('')
+                    var params = {
+                        user_id: this.user.id,
+                        anotote_id: anotote.topUserToteId,
+                        time: this.utilityMethods.get_php_wala_time()
+                    }
+                    this.anotote_service.fetchToteDetails(params).subscribe((result) => {
+                        this.utilityMethods.hide_loader();
+                        anotote.active_tab = 'top'
+                        anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+                        this.actual_stream = anotote.active_tab;
+                        this.scrape_anotote(anotote.topFilePath);
+                        if (result.status == 1) {
+                            anotote.highlights = Object.assign(result.data.annotote.highlights);
+                            anotote.top_highlights = result.data.annotote.highlights;
+                        } else {
+                            this.utilityMethods.doToast("Could not fetch top data");
+                        }
+                    }, (error) => {
+                        this.utilityMethods.hide_loader();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        }
+                    })
+                } else {
+                    anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
+                    anotote.active_tab = 'top';
+                    anotote.topFilePath = anotote.userAnnotote.filePath;
+                    this.actual_stream = anotote.active_tab;
+                    this.scrape_anotote(anotote.topFilePath);
+                }
+            } else {
+                anotote.active_tab = 'top'
+                anotote.highlights = Object.assign(anotote.top_highlights);
+                this.actual_stream = anotote.active_tab;
+                this.scrape_anotote(anotote.topFilePath);
+            }
+        } else {
+            if (anotote.top_highlights == undefined) {
                 this.utilityMethods.show_loader('')
                 var params = {
                     user_id: this.user.id,
-                    anotote_id: anotote.topUserToteId,
+                    anotote_id: anotote.userAnnotote.topUserToteId,
                     time: this.utilityMethods.get_php_wala_time()
                 }
                 this.anotote_service.fetchToteDetails(params).subscribe((result) => {
@@ -915,19 +958,13 @@ export class AnototeEditor implements OnDestroy {
                     }
                 })
             } else {
-                anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
+                anotote.highlights = Object.assign(anotote.top_highlights);
                 anotote.active_tab = 'top';
                 anotote.topFilePath = anotote.userAnnotote.filePath;
                 this.actual_stream = anotote.active_tab;
                 this.scrape_anotote(anotote.topFilePath);
             }
-        } else {
-            anotote.active_tab = 'top'
-            anotote.highlights = Object.assign(anotote.top_highlights);
-            this.actual_stream = anotote.active_tab;
-            this.scrape_anotote(anotote.topFilePath);
         }
-
     }
 
     open_follows_popup(event, anotote) {
@@ -975,6 +1012,8 @@ export class AnototeEditor implements OnDestroy {
                 anotote.spinner_for_active = false;
                 user.highlights = result.data.annotote.highlights;
                 anotote.highlights = Object.assign(result.data.annotote.highlights);
+                this.actual_stream = anotote.active_tab;
+                this.scrape_anotote(anotote.followerFilePath);
             }, (error) => {
                 anotote.spinner_for_active = false;
                 if (error.code == -1) {
