@@ -8,6 +8,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Constants } from '../../services/constants.service'
+import { Clipboard } from '@ionic-native/clipboard';
 
 
 
@@ -33,12 +34,12 @@ import { Constants } from '../../services/constants.service'
 export class MeOptions {
   public current_user: any;
   public show: boolean = true;
-  constructor(params: NavParams, public constants: Constants, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
+  constructor(public clip: Clipboard, params: NavParams, public constants: Constants, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
     this.current_user = this.authService.getUser();
   }
 
   share_me_tote(type) {
-    var me_anotote_link = this.constants.API_BASEURL + this.current_user;
+    var me_anotote_link = this.constants.API_BASEURL + '/' + this.current_user.firstName.replace(" ", "") + '/' + this.current_user.id;
     if (type == 'link')
       this.utilityMethods.share_content_native("Me Tote", "Me tote", null, me_anotote_link);
     else if (type == 'facebook')
@@ -47,10 +48,22 @@ export class MeOptions {
       this.utilityMethods.share_via_twitter("Me Tote", null, me_anotote_link);
     else if (type == 'email')
       this.utilityMethods.share_via_email("Me Tote", null, me_anotote_link);
+    else if (type == 'copy') {
+      this.clip.copy(me_anotote_link).then((success) => {
+        this.utilityMethods.doToast("Link copied to clipboard");
+      }, (error) => {
+        this.utilityMethods.doToast("Couldn't copy");
+      });
+    }
+
   }
 
   open_settings_menu() {
     this.dismiss('settings');
+  }
+
+  open_chat() {
+    this.dismiss('chat');
   }
 
   dismiss(action) {

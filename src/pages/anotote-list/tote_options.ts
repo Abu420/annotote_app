@@ -2,6 +2,9 @@ import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AnototeService } from "../../services/anotote.service";
+import { Clipboard } from '@ionic-native/clipboard';
+import { AuthenticationService } from '../../services/auth.service';
+import { SearchService } from '../../services/search.service';
 @Component({
   selector: 'anotote_options',
   animations: [
@@ -27,12 +30,20 @@ export class AnototeOptions {
   public anotote: any;
   public stream: any;
   public show: boolean = true;
+  public user;
 
-  constructor(public utilityMethods: UtilityMethods, params: NavParams, public viewCtrl: ViewController, public anototeService: AnototeService) {
+  constructor(public clip: Clipboard,
+    public utilityMethods: UtilityMethods,
+    params: NavParams,
+    public viewCtrl: ViewController,
+    public anototeService: AnototeService,
+    public authService: AuthenticationService,
+    public searchService: SearchService) {
     // this.share_type = params.get('share_type');
     // this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
     this.stream = params.get('whichStream');
+    this.user = authService.getUser();
   }
 
   presentTagsModal() {
@@ -40,14 +51,21 @@ export class AnototeOptions {
   }
 
   share(which) {
+    var toBeShared: string = this.stream == 'top' ? this.anotote.annotote.link : this.anotote.userAnnotote.annotote.link;
     if (which == 'facebook')
-      this.utilityMethods.share_via_facebook("Anotote", null, this.anotote.userAnnotote.filePath);
+      this.utilityMethods.share_via_facebook("Anotote", null, toBeShared);
     else if (which == 'email')
-      this.utilityMethods.share_via_email(this.anotote.userAnnotote.filePath, "Anotote", "");
+      this.utilityMethods.share_via_email(toBeShared, "Anotote", "");
     else if (which == 'twitter')
-      this.utilityMethods.share_via_twitter("Anotote", "", this.anotote.userAnnotote.filePath);
-    else
-      this.utilityMethods.share_content_native("Anotote", null, null, this.anotote.userAnnotote.filePath);
+      this.utilityMethods.share_via_twitter("Anotote", "", toBeShared);
+    else if (which == 'copy') {
+      this.clip.copy(toBeShared).then((success) => {
+        this.utilityMethods.doToast("Link copied to clipboard");
+      }, (error) => {
+        this.utilityMethods.doToast("Couldn't copy");
+      });
+    } else
+      this.utilityMethods.share_content_native("Anotote", null, null, toBeShared);
   }
 
   change_privacy(privacy) {
@@ -123,6 +141,33 @@ export class AnototeOptions {
     })
   }
 
+  bookmarkTote() {
+    var links = [];
+    links.push(this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link)
+    var params = {
+      user_tote_id: this.anotote.userAnnotote.id,
+      user_id: this.user.id,
+      links: links,
+      created_at: this.utilityMethods.get_php_wala_time()
+    }
+    this.utilityMethods.show_loader('', false);
+    this.anototeService.bookmark_totes(params).subscribe((result) => {
+      this.utilityMethods.hide_loader();
+      if (result.status == 1) {
+        this.utilityMethods.doToast("Bookmarked.");
+        if (result.data.bookmarks.length > 0)
+          for (let bookmark of result.data.bookmarks) {
+            this.searchService.saved_searches.unshift(bookmark);
+          }
+      }
+    }, (error) => {
+      this.utilityMethods.hide_loader();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    })
+  }
+
   dismiss(data) {
     this.show = false;
     setTimeout(() => {
@@ -132,6 +177,13 @@ export class AnototeOptions {
         this.viewCtrl.dismiss({ tags: false, delete: false });
     }, 300)
 
+  }
+
+  chat() {
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss({ tags: false, delete: false, chat: true });
+    }, 300)
   }
 
 }

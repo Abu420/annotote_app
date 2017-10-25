@@ -87,6 +87,7 @@ export class AnototeList {
   public unread_notification_count: any = 0;
   public text: any;
   public follow_visited = false;
+  public move_fab: boolean = false;
 
   /**
    * Constructor
@@ -134,6 +135,7 @@ export class AnototeList {
     this.anototes = [];
     this.current_active_anotote = null;
     this.follow_visited = false;
+    this.move_fab = false;
     if (this.current_color == 'me') {
       if (this.stream.me_first_load) {
         this.anototes = this.stream.me_anototes;
@@ -672,8 +674,11 @@ export class AnototeList {
         //anotation tabs logic
         if (this.current_color == 'me') {
           anotote.active_tab = 'me';
-          if (anotote.chatGroupId == null)
+          if (anotote.chatGroupId == null) {
             anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+          } else {
+            this.move_fab = true;
+          }
         } else if (this.current_color == 'follows') {
           anotote.active_tab = 'follows'
           anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
@@ -681,10 +686,13 @@ export class AnototeList {
         //-----
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;
+          if (this.current_active_anotote.chatGroupId)
+            this.move_fab = false;
           if (this.current_active_highlight) {
             this.current_active_highlight.edit = false;
           }
           if (this.current_active_anotote.id == anotote.id) {
+
             this.current_active_anotote = null;
             return;
           }
@@ -731,7 +739,7 @@ export class AnototeList {
       } else {
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;
-          if (this.current_active_anotote.id == anotote.id) {
+          if (this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
             this.current_active_anotote = null;
             return;
           }
@@ -1063,6 +1071,22 @@ export class AnototeList {
         } else if (data.delete == true) {
           this.current_active_anotote = null;
           this.anototes.splice(this.anototes.indexOf(anotote), 1);
+        } else if (data.chat) {
+          var chatParams = {
+            anotote: anotote,
+            stream: this.current_color,
+            findChatter: true
+          }
+          let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
+          chatTote.onDidDismiss((data) => {
+            if (data.chat) {
+              if (data.title)
+                this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.current_active_anotote.userAnnotote.annototeId, title: data.title, full_tote: this.current_active_anotote });
+              else
+                this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+            }
+          })
+          chatTote.present();
         }
       });
       anototeOptionsModal.present();

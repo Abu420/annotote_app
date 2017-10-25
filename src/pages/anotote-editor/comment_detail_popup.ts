@@ -89,6 +89,19 @@ export class CommentDetailPopup {
     this.viewCtrl.dismiss();
   }
 
+  presentOptions() {
+    this.utilityMethods.tags_or_comment((choice) => {
+      if (choice == 'tags') {
+        this.showtags();
+      } else if (choice == 'comment') {
+        this.utilityMethods.comment(this.new_comment, (comment) => {
+          this.new_comment = comment.comment;
+          this.updateComment();
+        })
+      }
+    })
+  }
+
   showtags() {
     this.show = false;
     setTimeout(() => {

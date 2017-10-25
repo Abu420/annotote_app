@@ -275,6 +275,40 @@ button,
     /** Opera **/
 }
 
+.moveUpList {
+    @extend .moveUp;
+    bottom: 65px !important;
+}
+
+.message-bottom {
+    .toolbar {
+        overflow: visible;
+        contain: none;
+        .toolbar-content {
+            padding: 0 20px !important;
+        }
+        p {
+            width: calc(100% - 60px);
+            color: #FFF;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0px;
+            padding: 10px 0px;
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            -webkit-line-clamp: 2;
+        }
+        span {
+            float: right;
+            color: #3bde00;
+            padding: 10px 0px;
+            text-transform: uppercase;
+        }
+    }
+}
+
 
 /**
 * Search Popup CSS

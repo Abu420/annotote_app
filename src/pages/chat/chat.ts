@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams, Content } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, NavParams, Content, PopoverController } from 'ionic-angular';
 /**
  * Services
  */
@@ -11,6 +11,7 @@ import { AuthenticationService } from "../../services/auth.service";
 import { Streams } from '../../services/stream.service';
 import { AnototeService } from '../../services/anotote.service';
 import { ViewOptions } from '../anotote-list/view_options';
+import { EditDeleteMessage } from './editDelPop';
 
 declare var io: any;
 
@@ -48,7 +49,15 @@ export class Chat {
   /**
    * Constructor
    */
-  constructor(public navCtrl: NavController, public authService: AuthenticationService, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public chatService: ChatService, public stream: Streams, public anototeService: AnototeService) {
+  constructor(public navCtrl: NavController,
+    public authService: AuthenticationService,
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    public utilityMethods: UtilityMethods,
+    public chatService: ChatService,
+    public stream: Streams,
+    public anototeService: AnototeService,
+    public popoverCtrl: PopoverController) {
     this.reply_box_on = false;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
@@ -189,5 +198,52 @@ export class Chat {
 
   ionViewDidLeave() {
     this.chatService.threadingUser = null;
+  }
+
+  editOrDelete(myEvent, message) {
+    var params = {
+      message: message
+    }
+    let popover = this.popoverCtrl.create(EditDeleteMessage, params);
+    popover.onDidDismiss((data) => {
+      if (data) {
+        if (data.choice == 'share') {
+          this.utilityMethods.share_content_native(message.text, "Anotote Chat message", null, '')
+        } else if (data.choice == 'edit') {
+          var text = Object.assign(message.text);
+          this.utilityMethods.prompt(text, (data) => {
+            if (data.Message != message.text && data.Message != '') {
+              var params = {
+                message_id: message.id,
+                message_text: data.Message,
+                updated_at: this.utilityMethods.get_php_wala_time()
+              }
+              this.chatService.updateMessage(params).subscribe((result) => {
+                message.text = result.data.message.text;
+              }, (error) => {
+                if (error.code == -1) {
+                  this.utilityMethods.internet_connection_error();
+                }
+              })
+            } else {
+              this.utilityMethods.doToast("Message should be altered and it should not be blank.")
+            }
+          })
+        } else if (data.choice == 'delete') {
+          this.utilityMethods.confirmation_message("Are you sure?", "Do your really want to delete this message", () => {
+            this.chatService.deleteMessage({ id: message.id }).subscribe((data) => {
+              this.conversation.splice(this.conversation.indexOf(message), 1);
+            }, (err) => {
+              if (err.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            })
+          })
+        }
+      }
+    })
+    popover.present({
+      ev: myEvent
+    });
   }
 }

@@ -6,10 +6,10 @@
             <img src="assets/img/shareIconGray.svg" />
         </div>
         <ul>
-            <li (tap)="share('facebook')">
+            <li (tap)="share('copy')">
                 <span>Copy</span>
             </li>
-            <li>
+            <li (tap)="chat()">
                 <span>Chat</span>
             </li>
             <li (tap)="share('email')">
@@ -28,7 +28,7 @@
             <img src="assets/img/hashIconGray.svg" />
         </div>
         <ul *ngIf="stream != 'top'">
-            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0">
+            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0" (tap)="presentTagsModal()">
                 <span>Add Tags</span>
             </li>
             <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
@@ -74,6 +74,16 @@
         <ul>
             <li (click)="delete_anotote()">
                 <span>Delete</span>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="stream != 'me'" no-lines class="sharing_pop four bottom-border">
+        <div class="main_label">
+            <img style="width:20px" src="assets/img/bookmarkGrey.png" />
+        </div>
+        <ul>
+            <li (click)="bookmarkTote()">
+                <span>Bookmark</span>
             </li>
         </ul>
     </div>

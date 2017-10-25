@@ -120,4 +120,5 @@
     <plugin name="phonegap-plugin-push" spec="^1.10.5">
         <variable name="SENDER_ID" value="200726631075" />
     </plugin>
+    <plugin name="cordova-clipboard" spec="~1.1.0" />
 </widget>

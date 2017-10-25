@@ -167,13 +167,14 @@ export class UtilityMethods {
         alert.present();
     }
 
-    prompt(callback) {
+    prompt(message, callback) {
         let alert = this.alertCtrl.create({
-            title: 'Initiate Discussion',
+            title: 'Edit Message',
             inputs: [
                 {
                     name: 'Message',
-                    placeholder: 'Send message to start chat'
+                    placeholder: 'Message',
+                    value: message
                 }
             ],
             buttons: [
@@ -184,8 +185,36 @@ export class UtilityMethods {
                     }
                 },
                 {
-                    text: 'Send',
+                    text: 'Save',
+                    handler: (data) => {
+                        callback(data);
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    comment(message, callback) {
+        let alert = this.alertCtrl.create({
+            title: 'Comment',
+            inputs: [
+                {
+                    name: 'comment',
+                    placeholder: 'Place your comment here',
+                    value: message
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
                     handler: data => {
+                    }
+                },
+                {
+                    text: 'Save',
+                    handler: (data) => {
                         callback(data);
                     }
                 }
@@ -224,6 +253,24 @@ export class UtilityMethods {
                 text: 'Cancel',
                 role: 'cancel',
                 handler: () => { }
+            }]
+        });
+        alert.present();
+    }
+
+    tags_or_comment(callback) {
+        let alert = this.alertCtrl.create({
+            title: 'Please choose',
+            buttons: [{
+                text: 'Add tags',
+                handler: () => {
+                    callback('tags');
+                }
+            }, {
+                text: 'Comment',
+                handler: () => {
+                    callback('comment');
+                }
             }]
         });
         alert.present();

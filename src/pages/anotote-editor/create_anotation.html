@@ -3,7 +3,7 @@
 <div class="create_anotation_content" [@enterAnimation] *ngIf="show == true">
     <div class="btnRow">
         <span (tap)="dismiss()">Close</span>
-        <span (tap)="create()">Save</span>
+        <span (tap)="create()" [ngClass]="{'save': comment != '' && comment != null}">Save</span>
     </div>
     <!-- <div class="_buttons">
         <span (tap)="dismiss()" class="close"></span>

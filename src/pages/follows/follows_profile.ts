@@ -140,8 +140,8 @@ export class Profile {
         {
           text: 'Send Message',
           handler: () => {
-            if (this.profileData.user.isFollowed == 1)
-              this.go_to_thread();
+            // if (this.profileData.user.isFollowed == 1)
+            this.go_to_thread();
           }
         },
         {

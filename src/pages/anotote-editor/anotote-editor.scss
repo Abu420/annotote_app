@@ -274,6 +274,11 @@ page-anotote-editor {
             @extend .quote;
             background-image: url(../assets/img/shareIcon.svg);
         }
+        .messageLoading {
+            color: white;
+            font-weight: bolder;
+            text-align: center;
+        }
     }
 }
 

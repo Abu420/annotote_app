@@ -128,9 +128,9 @@
         </button>
     </ion-fab>
 </ion-content>
-<ion-footer class="inline_tote_options" *ngIf="tote_saved">
+<ion-footer class="inline_tote_options" *ngIf="loading_check">
     <ion-toolbar color="dark">
-        Tote saved
+        <p class="messageLoading">{{loading_message}}</p>
     </ion-toolbar>
 </ion-footer>
 <ion-footer class="inline_tote_options" *ngIf="toggle_annotation_option">

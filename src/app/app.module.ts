@@ -90,6 +90,8 @@ import { DatePipe } from "@angular/common";
 import { ChatToteOptions } from '../pages/anotote-list/chat_tote';
 import { Streams } from '../services/stream.service';
 import { TagsForChat } from '../pages/chat_profileTags/tags';
+import { Clipboard } from '@ionic-native/clipboard';
+import { EditDeleteMessage } from '../pages/chat/editDelPop';
 
 @NgModule({
   declarations: [
@@ -138,7 +140,8 @@ import { TagsForChat } from '../pages/chat_profileTags/tags';
     Highlight,
     Safe,
     ChatToteOptions,
-    TagsForChat
+    TagsForChat,
+    EditDeleteMessage
   ],
   imports: [
     BrowserModule,
@@ -192,7 +195,8 @@ import { TagsForChat } from '../pages/chat_profileTags/tags';
     Chat,
     AnototeList,
     AnototeEditor,
-    ChatToteOptions
+    ChatToteOptions,
+    EditDeleteMessage
   ],
 
   providers: [
@@ -223,6 +227,7 @@ import { TagsForChat } from '../pages/chat_profileTags/tags';
     UtilityMethods,
     DatePipe,
     Streams,
+    Clipboard,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

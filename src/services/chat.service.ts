@@ -42,6 +42,14 @@ export class ChatService {
   public saveMessage(params: any) {
     return this.http.post(this.constants.API_BASEURL + "/send-message", params, {}).map(res => res.json());
   }
+  public updateMessage(params: any) {
+    return this.http.post(this.constants.API_BASEURL + "/update-message", params, {}).map(res => res.json());
+  }
+
+  public deleteMessage(params: any) {
+    return this.http.get(this.constants.API_BASEURL + "/delete-message?message_id=" + params.id).map(res => res.json());
+  }
+
 
   // public currentUnixTimestamp() {
   //   return Math.round((new Date()).getTime() / 1000);
@@ -53,6 +61,8 @@ export class ChatService {
     }
     return i;
   }
+
+
 
   public currentTime() {
     let today = new Date();

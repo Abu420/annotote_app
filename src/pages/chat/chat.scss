@@ -183,30 +183,6 @@ page-chat {
     /**
         Chat Message Box CSS
     */
-    .message-bottom {
-        .toolbar {
-            overflow: visible;
-            contain: none;
-            .toolbar-content {
-                padding: 0 20px !important;
-            }
-            p {
-                width: calc(100% - 60px);
-                color: #FFF;
-                display: inline-block;
-                vertical-align: middle;
-                margin: 0px;
-                padding: 10px 0px;
-                font-weight: bold;
-            }
-            span {
-                float: right;
-                color: #3bde00;
-                padding: 10px 0px;
-                text-transform: uppercase;
-            }
-        }
-    }
     .send-btn {
         position: relative;
         img {
@@ -236,7 +212,7 @@ page-chat {
             position: absolute;
             top: -33px;
             border: 0;
-            right: 0px;
+            right: -10px;
         }
         .loading {
             background: $me_app_color;
@@ -251,7 +227,7 @@ page-chat {
             position: absolute;
             top: -33px;
             border: 0;
-            right: 0px;
+            right: -10px;
         }
         .green {
             background: $me_app_color !important;

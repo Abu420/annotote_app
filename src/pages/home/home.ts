@@ -212,6 +212,8 @@ export class Home {
       // console.log(data);
       if (data == 'settings') {
         this.presentSettingsModal();
+      } else if (data == 'chat') {
+        this.addBtn(true)
       }
     });
     meOptionsModal.present();
@@ -250,11 +252,13 @@ export class Home {
     settingsModal.present();
   }
 
-  addBtn() {
-    var params = {
+  addBtn(check = false) {
+    var params: any = {
       anotote: null,
       stream: 'homeheader'
     }
+    if (check)
+      params.findChatter = true;
     let chatTote = this.modalCtrl.create(ChatToteOptions, params);
     chatTote.onDidDismiss((data) => {
       if (data.chat) {

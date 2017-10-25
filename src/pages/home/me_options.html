@@ -9,19 +9,19 @@
             <!-- <li (click)="share_me_tote('facebook')">
                 <span>Facebook</span>
             </li> -->
-            <li>
+            <li (tap)="share_me_tote('copy')">
                 <span>Copy</span>
             </li>
-            <li>
+            <li (tap)="open_chat()">
                 <span>Chat</span>
             </li>
-            <li (click)="share_me_tote('email')">
+            <li (tap)="share_me_tote('email')">
                 <span>Email</span>
             </li>
-            <li (click)="share_me_tote('twitter')">
+            <li (tap)="share_me_tote('twitter')">
                 <span>Twitter</span>
             </li>
-            <li (click)="share_me_tote('link')" class="tabOption">
+            <li (tap)="share_me_tote('link')" class="tabOption">
                 <img src="assets/img/dotsOption.svg" alt="" />
             </li>
         </ul>
