@@ -1,1186 +1,1190 @@
-// .product-list .item.active strong,
-// .product-list .item.active ion-icon,
-// .product-list .item.active .time span {
-//     color: #ff001d;
-// }
-.top_empty_box {
-    height: calc(100% - 40%);
-    background: rgba(0, 0, 0, 0.5);
-}
-
-view_options {
-    .top_empty_box {
-        height: calc(100% - 44%);
-        background: rgba(0, 0, 0, 0.5);
-    }
-    .top_empty_no_tote {
-        @extend .top_empty_box;
-        height: 90%;
-    }
-    .content_follows_profile {
-        height: calc(100% - 56%);
-        background: transparent;
-        .sharing_pop {
-            background: #FFF;
-            height: 100vh;
-        }
-    }
-    .notiFaction {
-        &:after {
-            display: none;
-        }
-    }
-}
-
-.sharing_pop {
-    ion-item {
-        padding: 3vw 20px;
-        position: relative;
-        &:after {
-            content: "";
-            bottom: 0px;
-            position: absolute;
-            right: 0px;
-            width: 85%;
-            border-bottom: 1px solid #CCC;
-        }
-        .item-inner {
-            padding: 0px;
-            ion-label {
-                margin: 0px;
-                .aling-left {
-                    display: inline-block;
-                    width: 20px;
-                    margin-right: 10px;
-                    vertical-align: top;
-                    padding-top: 3px;
-                }
-                .txt {
-                    display: inline-block;
-                    width: calc(100% - 25px);
-                    vertical-align: top;
-                    span {
-                        color: #8e9093;
-                        font-size: 14px;
-                    }
-                    p {
-                        overflow: inherit;
-                        margin: 0 0 2px;
-                        font-size: 12px;
-                        line-height: normal;
-                        text-overflow: inherit;
-                        color: #8e9093;
-                    }
-                }
-                .aling-left {
-                    position: relative;
-                    ion-icon {
-                        font-size: 30px;
-                        color: #bdbdbd;
-                    }
-                    em {
-                        position: absolute;
-                        width: 20px;
-                        text-align: center;
-                        height: 20px;
-                        font-size: 12px;
-                        font-style: normal;
-                        padding: 2px;
-                        background: red;
-                        border-radius: 50%;
-                        color: #FFF;
-                        right: -10px;
-                        top: 0px;
-                    }
-                }
-            }
-        }
-    }
-    .active {
-        background: #e0e0e0;
-        &:after {
-            border-bottom: none;
-        }
-    }
-}
-
-.fancy-bars {
-    width: 10px;
-    position: fixed;
-    top: 92px;
-    right: 2px;
-    bottom: 36px;
-    overflow: hidden;
-}
-
-.fancy-bars span {
-    height: 2px;
-    margin: 0 0 5px;
-    font-size: 0;
-    display: block;
-    background: #b3b3b3;
-}
-
-.fancy-bars span.red {
-    background: red;
-}
-
-.fancy-bars span.green {
-    background: green;
-}
-
-.toolbar-content {
-    padding: 0 30px;
-}
-
-.bar-buttons-md {
-    order: 1;
-}
-
-tags_popup {
-    .tag-panel {
-        height: 100%;
+        // .product-list .item.active strong,
+        // .product-list .item.active ion-icon,
+        // .product-list .item.active .time span {
+        //     color: #ff001d;
+        // }
         .top_empty_box {
-            height: calc(100vh - 47%);
-            background: transparent;
+            height: calc(100% - 40%);
+            background: rgba(0, 0, 0, 0.5);
         }
-        .tags-panel {
-            height: calc(100vh - 53%);
-            background: #FFF;
-            &.tagTypes {
-                .tag-list {
-                    height: calc(100% - 153px);
+        
+        view_options {
+            .top_empty_box {
+                height: calc(100% - 44%);
+                background: rgba(0, 0, 0, 0.5);
+            }
+            .top_empty_no_tote {
+                @extend .top_empty_box;
+                height: 90%;
+            }
+            .content_follows_profile {
+                height: calc(100% - 56%);
+                background: transparent;
+                .sharing_pop {
+                    background: #FFF;
+                    height: 100vh;
                 }
             }
-            h3 {
-                text-align: center;
-                padding: 15px 0px;
-                margin: 0px;
-                height: 50px;
-                background: #FFFFFF;
-                color: #000000;
-                font-size: 16px;
-                box-shadow: 0px 1px 2px #888;
+            .notiFaction {
+                &:after {
+                    display: none;
+                }
             }
-            .tag_input {
-                width: 100%;
-                background: #efefef;
-                padding: 20px 20px 10px;
+        }
+        
+        .sharing_pop {
+            ion-item {
+                padding: 3vw 20px;
                 position: relative;
-                z-index: 99;
                 &:after {
                     content: "";
-                    display: table;
-                    clear: both;
-                    width: 100%;
+                    bottom: 0px;
+                    position: absolute;
+                    right: 0px;
+                    width: 85%;
+                    border-bottom: 1px solid #CCC;
                 }
-                &::before {
-                    content: "";
-                    display: table;
-                    clear: both;
-                    width: 100%;
-                }
-                .input-wrapper {
+                .item-inner {
+                    padding: 0px;
                     ion-label {
-                        font-size: 14px;
-                    }
-                }
-                .tagList {
-                    position: absolute;
-                    top: 50px;
-                    height: 180px;
-                    left: 0px;
-                    background: #FFF;
-                    margin: 0px;
-                    padding: 0px;
-                    width: 100%;
-                    overflow: auto;
-                    z-index: 1;
-                    border: 1px solid #e0e0e0;
-                    li {
-                        display: block;
-                        padding: 10px;
-                        border-bottom: 1px solid #ececec;
-                        overflow: hidden;
-                        figure {
-                            margin: 0px;
-                            float: left;
-                            width: 40px;
-                            height: 40px;
-                        }
-                        figcaption {
-                            width: calc(100% - 40px);
-                            display: inline-block;
-                            padding: 10px;
-                        }
-                    }
-                }
-                input {
-                    width: 100%;
-                    padding: 0px 78px 0 10px;
-                    line-height: 35px;
-                    float: left;
-                }
-                button {
-                    height: 40px;
-                    width: 80px;
-                    position: absolute;
-                    right: 20px;
-                    top: 20px;
-                }
-            }
-            .tabWidget {
-                background: #efefef;
-                padding: 10px 20px;
-                .tag-list {
-                    margin: 0px;
-                    padding: 0px 15px;
-                    list-style: none;
-                    background: #FFF;
-                    height: calc(100% - 109px);
-                    overflow: auto;
-                    li {
-                        display: block;
-                        padding: 10px 0px;
-                        img {
-                            width: 12px;
-                            display: inline-block;
-                            vertical-align: middle;
-                            margin-right: 15px;
-                        }
-                        span {
-                            display: inline-block;
-                            vertical-align: middle;
-                            font-size: 14px;
-                            width: calc(100% - 35px);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-tags_chat_profile {
-    @extend tags_popup;
-}
-
-anotote_options {
-    .top_empty_box {
-        height: calc(100% - 55%);
-    }
-    .content_follows_profile {
-        height: auto;
-        position: absolute;
-        left: 0px;
-        bottom: 0px;
-        max-height: 110vw;
-        width: 100%;
-        background: #FFF;
-        padding-top: 10px;
-        .sharing_pop {
-            padding: 0;
-            &.four {
-                .main_label {
-                    line-height: 7;
-                    img {
-                        width: 30px;
-                    }
-                }
-                ul {
-                    border-bottom: 0px;
-                }
-            }
-            &.two {
-                .main_label {
-                    img {
-                        width: 40px;
-                    }
-                }
-            }
-            .main_label {
-                display: inline-block;
-                vertical-align: middle;
-                width: 73px;
-                text-align: center;
-                padding: 0;
-                height: 73px;
-                line-height: 8;
-                img {
-                    width: 35px;
-                }
-            }
-            ul {
-                display: inline-block;
-                vertical-align: middle;
-                width: calc(100% - 78px);
-                margin: 0px;
-                padding: 28px 10px 28px 0;
-                list-style: none;
-                border-bottom: 1px solid #ececec;
-                li {
-                    float: left;
-                    padding: 0 2.1vw;
-                    vertical-align: middle;
-                    color: #797979;
-                    font-size: 4vw;
-                    &.tabOption {
-                        padding: 0 7px;
-                        text-align: right;
-                        float: right;
-                        img {
-                            width: 25px;
-                        }
-                    }
-                    .high {
-                        color: green;
-                    }
-                }
-            }
-            &.three {
-                ul {
-                    li {
-                        padding: 0 1.5vw;
-                        span {
-                            width: 21vw;
-                            text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 1;
-                            overflow: hidden;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-follows_popup {
-    .top_empty_box {
-        height: calc(100% - (40% + 45px));
-    }
-    .pop_wrapper {
-        top: 60%;
-        .wrapper {
-            width: 100%;
-            ul {
-                list-style: none;
-                -webkit-margin-before: 0;
-                -webkit-padding-start: 0;
-                li {
-                    padding: 10px 0;
-                    overflow: hidden;
-                    .image_holder {
-                        width: 68px;
-                        height: 60px;
-                        display: inline-block;
-                        vertical-align: middle;
-                        overflow: hidden;
-                        padding-right: 8px;
-                        img {
-                            height: 100%;
-                        }
-                    }
-                    .name {
-                        display: inline-block;
-                        width: calc(100% - 73px);
-                        border-bottom: 1px solid #bdbdbd;
-                        padding: 21px 0;
-                        vertical-align: middle;
-                        p {
-                            width: 100%;
-                            margin: 0;
-                            text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 1;
-                            overflow: hidden;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .pop_wrapper_full {
-        top: 45px;
-        @extend .pop_wrapper;
-    }
-}
-
-chat_tote_page {
-    .userHead {
-        // .toolbar-background {
-        //     background: #3DDE00;
-        // }
-        >.toolbar {
-            contain: none;
-            overflow: visible;
-        }
-    }
-    .searchPage {
-        background: rgba(121, 121, 121, 0.58);
-        .scroll-content {
-            background: transparent;
-            padding: 0px !important;
-            .userWidget {
-                background: #F5F5F5;
-                ul {
-                    margin: 0px;
-                    padding: 0px;
-                    li {
-                        padding: 0 0px 0 10px;
-                        img {
-                            width: 40px;
-                            display: inline-block;
-                            vertical-align: middle;
-                            margin-right: 15px;
-                        }
-                        span {
-                            display: inline-block;
-                            vertical-align: middle;
-                            width: calc(100% - 60px);
-                            font-size: 16px;
-                            padding: 30px;
-                            padding-left: 0px;
-                            border-bottom: 1px solid #CCC;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .searchUserHead {
-        height: 56px;
-        >img {
-            width: 20px;
-            display: inline-block;
-            vertical-align: top;
-            margin: 18px 21px 18px 23px;
-        }
-        >input {
-            width: calc(100% - 160px);
-            padding: 19px;
-            display: inline-block;
-            vertical-align: top;
-            border: 0px;
-            box-shadow: 0px 0px 10px #103c00;
-        }
-        span {
-            display: inline-block;
-            vertical-align: top;
-            padding: 14px 20px 10px 20px;
-            width: 70px;
-            margin-left: -8px;
-            position: relative;
-            box-shadow: 0px 0px 10px #3c3c3c;
-            &:after {
-                content: "";
-                position: absolute;
-                left: 0px;
-                bottom: -15px;
-                width: 0;
-                height: 0;
-                border-left: 35px solid transparent;
-                border-right: 35px solid transparent;
-                border-top: 15px solid #2BA600;
-            }
-        }
-        span.me {
-            background: #2BA600;
-        }
-        span.follows {
-            background: #bdb222;
-            &:after {
-                border-top: 15px solid #bdb222;
-            }
-        }
-        span.top {
-            background: #ca6ebf;
-            &:after {
-                border-top: 15px solid #ca6ebf;
-            }
-        }
-        span.anon {
-            background: #000000;
-            &:after {
-                border-top: 15px solid #000000;
-            }
-        }
-    }
-    .resultUserHead {
-        height: 56px;
-        >span {
-            display: inline-block;
-            vertical-align: top;
-            padding: 16px 20px 10px 20px;
-            width: 70px;
-            margin-left: 25px;
-            margin-right: -5px;
-            position: relative;
-            box-shadow: 0px 0px 10px #3c3c3c;
-        }
-        >img {
-            width: 15px;
-            display: inline-block;
-            vertical-align: top;
-            margin: 20px 7px;
-        }
-        >input {
-            width: calc(100% - 134px);
-            padding: 19px;
-            display: inline-block;
-            vertical-align: top;
-            border: 0px;
-            box-shadow: 0px 0px 10px #103c00;
-        }
-        span.me {
-            background: #2BA600;
-        }
-        span.follows {
-            background: #bdb222;
-        }
-        span.top {
-            background: #ca6ebf;
-        }
-    }
-    .resultWidget {
-        @extend .userWidget;
-        ul {
-            padding: 15px 0 0 !important;
-            li {
-                padding: 0 0px 0 10px;
-                overflow: hidden;
-                margin-bottom: 11px;
-                figure {
-                    float: left;
-                    width: 60px;
-                    height: 60px;
-                    margin: 0px;
-                    img {
-                        width: 100% !important;
-                        margin: 0px !important;
-                        vertical-align: middle !important;
-                    }
-                }
-                figcaption {
-                    display: inline-block;
-                    vertical-align: middle;
-                    width: calc(100% - 70px);
-                    overflow: hidden;
-                    border-bottom: 1px solid #D2D2D2;
-                    padding: 27px 0px;
-                    margin-left: 10px;
-                    p {
                         margin: 0px;
-                        width: 65%;
-                        font-size: 16px;
-                        display: inline-block;
-                        img {
-                            display: inline-block !important;
-                            width: 12px !important;
-                            &.star-icon {
-                                width: 15px !important;
-                            }
-                        }
-                    }
-                    span {
-                        float: right;
-                        margin-right: 10px;
-                        display: inline-block;
-                        vertical-align: middle;
-                        width: auto !important;
-                        font-size: 12px !important;
-                        padding: 0px !important;
-                        padding-left: 0px;
-                        border-bottom: 0px !important;
-                    }
-                }
-            }
-        }
-    }
-}
-
-page-anotote-list {
-    .fab {
-        overflow: visible;
-        contain: layout;
-        .meNote {
-            width: 22px;
-            height: 22px;
-            background: color($colors, me);
-            position: absolute;
-            right: -6px;
-            top: -5px;
-            border-radius: 50%;
-            z-index: 10;
-            padding: 0;
-            font-size: 11px;
-            line-height: 2;
-            font-weight: bold;
-        }
-        .notiNote {
-            @extend .meNote;
-            top: auto;
-            bottom: -5px;
-            background: red;
-        }
-        .followNote {
-            @extend .meNote;
-            right: 0px;
-            top: -1px;
-            z-index: 22;
-            background: color($colors, follows);
-        }
-        .topNote {
-            @extend .meNote;
-            right: 0px;
-            right: -6px;
-            top: -5px;
-            z-index: 22;
-            background: color($colors, top);
-        }
-        .topAheadNote {
-            @extend .meNote;
-            right: 0px;
-            top: -1px;
-            z-index: 22;
-            background: color($colors, top);
-        }
-    }
-    .img-loaded+ion-spinner {
-        display: none;
-    } // .center in my case to make the spinner at the center
-    .center {
-        height: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-    .not_to_show {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    .toolbar-ios-follow {
-        ion-buttons {
-            button {
-                color: #FFF !important;
-            }
-        }
-    }
-    .scroll-content {
-        padding: 8px 20px 16px !important;
-        background: #F5F5F5;
-        .item {
-            padding: 0px;
-            .item-inner {
-                padding: 0px;
-                ion-label,
-                .label-ios,
-                .label-md {
-                    margin: 0px;
-                    >div {
-                        &.toteActive {
-                            overflow: visible;
-                            max-height: 0px;
-                            transition: max-height 0.15s ease-out;
-                            -webkit-transition: max-height 0.15s ease-out;
-                            border: 0px;
-                            &.toteTransition {
-                                max-height: 500px;
-                                overflow: auto;
-                                -webkit-transition: max-height 0.25s ease-in;
-                                transition: max-height 0.25s ease-in;
-                            }
-                            .message-underlist {
-                                border-bottom: 1px solid #CCC;
-                            }
-                        }
-                        &.bulkActive {
-                            background: #e0e0e0;
-                            .check {
-                                img {
-                                    box-shadow: 0px 3px 4px #a7a7a7;
-                                }
-                            }
-                        }
-                        display: block;
-                        overflow: hidden;
-                        width: 100%;
-                        border-bottom: 1px solid #CCC;
-                        position: relative;
-                        .img-holder {
-                            width: 72px;
-                            height: 72px;
-                            background: rgba(128, 128, 128, 0.3);
-                            vertical-align: middle;
-                            position: absolute;
-                            left: 0px;
-                            top: 0px;
-                            text-align: center;
-                            line-height: 4;
-                            img {
-                                vertical-align: middle;
-                            }
-                        }
-                        .check {
-                            float: left;
-                            padding: 22px 15px 15px;
-                            vertical-align: middle;
-                            text-align: center;
+                        .aling-left {
+                            display: inline-block;
+                            width: 20px;
+                            margin-right: 10px;
+                            vertical-align: top;
+                            padding-top: 3px;
                         }
                         .txt {
-                            vertical-align: middle;
-                            padding: 20px 10px 5px 5px;
-                            width: calc(100% - 72px);
-                            min-height: 72px;
-                            position: relative;
-                            float: right;
-                            -webkit-transition: all 500ms ease-in-out;
-                            transition: all 500ms ease-in-out;
-                            &.txtToto {
-                                width: calc(100% - 50px);
-                                padding-left: 5px;
-                            }
-                            strong {
-                                font-weight: normal;
+                            display: inline-block;
+                            width: calc(100% - 25px);
+                            vertical-align: top;
+                            span {
+                                color: #8e9093;
                                 font-size: 14px;
-                                text-overflow: ellipsis;
-                                display: -webkit-box;
-                                -webkit-box-orient: vertical;
-                                -webkit-line-clamp: 1;
-                                width: 100%;
-                                overflow: hidden;
-                                margin-bottom: 5px;
-                                white-space: normal;
-                            }
-                            .opened {
-                                -webkit-line-clamp: 2;
                             }
                             p {
+                                overflow: inherit;
+                                margin: 0 0 2px;
                                 font-size: 12px;
+                                line-height: normal;
+                                text-overflow: inherit;
+                                color: #8e9093;
                             }
-                            .time {
-                                float: right;
-                                em {
-                                    width: 70px;
-                                    color: #8e9093;
-                                    font-style: normal;
-                                    button {
-                                        color: #8e9093;
-                                        img {
-                                            display: inline-block;
-                                            vertical-align: middle;
-                                            width: 14px;
-                                        }
-                                    }
+                        }
+                        .aling-left {
+                            position: relative;
+                            ion-icon {
+                                font-size: 30px;
+                                color: #bdbdbd;
+                            }
+                            em {
+                                position: absolute;
+                                width: 20px;
+                                text-align: center;
+                                height: 20px;
+                                font-size: 12px;
+                                font-style: normal;
+                                padding: 2px;
+                                background: red;
+                                border-radius: 50%;
+                                color: #FFF;
+                                right: -10px;
+                                top: 0px;
+                            }
+                        }
+                    }
+                }
+            }
+            .active {
+                background: #e0e0e0;
+                &:after {
+                    border-bottom: none;
+                }
+            }
+        }
+        
+        .fancy-bars {
+            width: 10px;
+            position: fixed;
+            top: 92px;
+            right: 2px;
+            bottom: 36px;
+            overflow: hidden;
+        }
+        
+        .fancy-bars span {
+            height: 2px;
+            margin: 0 0 5px;
+            font-size: 0;
+            display: block;
+            background: #b3b3b3;
+        }
+        
+        .fancy-bars span.red {
+            background: red;
+        }
+        
+        .fancy-bars span.green {
+            background: green;
+        }
+        
+        .toolbar-content {
+            padding: 0 30px;
+        }
+        
+        .bar-buttons-md {
+            order: 1;
+        }
+        
+        tags_popup {
+            .tag-panel {
+                height: 100%;
+                .top_empty_box {
+                    height: calc(100vh - 47%);
+                    background: transparent;
+                }
+                .tags-panel {
+                    height: calc(100vh - 53%);
+                    background: #FFF;
+                    &.tagTypes {
+                        .tag-list {
+                            height: calc(100% - 153px);
+                        }
+                    }
+                    h3 {
+                        text-align: center;
+                        padding: 15px 0px;
+                        margin: 0px;
+                        height: 50px;
+                        background: #FFFFFF;
+                        color: #000000;
+                        font-size: 16px;
+                        box-shadow: 0px 1px 2px #888;
+                    }
+                    .tag_input {
+                        width: 100%;
+                        background: #efefef;
+                        padding: 20px 20px 10px;
+                        position: relative;
+                        z-index: 99;
+                        &:after {
+                            content: "";
+                            display: table;
+                            clear: both;
+                            width: 100%;
+                        }
+                        &::before {
+                            content: "";
+                            display: table;
+                            clear: both;
+                            width: 100%;
+                        }
+                        .input-wrapper {
+                            ion-label {
+                                font-size: 14px;
+                            }
+                        }
+                        .tagList {
+                            position: absolute;
+                            top: 50px;
+                            height: 180px;
+                            left: 0px;
+                            background: #FFF;
+                            margin: 0px;
+                            padding: 0px;
+                            width: 100%;
+                            overflow: auto;
+                            z-index: 1;
+                            border: 1px solid #e0e0e0;
+                            li {
+                                display: block;
+                                padding: 10px;
+                                border-bottom: 1px solid #ececec;
+                                overflow: hidden;
+                                figure {
+                                    margin: 0px;
+                                    float: left;
+                                    width: 40px;
+                                    height: 40px;
                                 }
-                                button {
-                                    //margin-left: 10px !important;
+                                figcaption {
+                                    width: calc(100% - 40px);
                                     display: inline-block;
-                                    background: transparent;
+                                    padding: 10px;
+                                }
+                            }
+                        }
+                        input {
+                            width: 100%;
+                            padding: 0px 78px 0 10px;
+                            line-height: 35px;
+                            float: left;
+                        }
+                        button {
+                            height: 40px;
+                            width: 80px;
+                            position: absolute;
+                            right: 20px;
+                            top: 20px;
+                        }
+                    }
+                    .tabWidget {
+                        background: #efefef;
+                        padding: 10px 20px;
+                        .tag-list {
+                            margin: 0px;
+                            padding: 0px 15px;
+                            list-style: none;
+                            background: #FFF;
+                            height: calc(100% - 109px);
+                            overflow: auto;
+                            li {
+                                display: block;
+                                padding: 10px 0px;
+                                img {
+                                    width: 12px;
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    margin-right: 15px;
                                 }
                                 span {
                                     display: inline-block;
-                                    margin-right: 5px !important;
-                                    font-size: 12px;
+                                    vertical-align: middle;
+                                    font-size: 14px;
+                                    width: calc(100% - 35px);
                                 }
                             }
-                            .toteText {
-                                p {
-                                    width: calc(100% - 80px);
-                                    display: inline-block;
-                                    vertical-align: top;
-                                    padding-left: 5px;
-                                    margin-top: -1px;
+                        }
+                    }
+                }
+            }
+        }
+        
+        tags_chat_profile {
+            @extend tags_popup;
+        }
+        
+        anotote_options {
+            .top_empty_box {
+                height: calc(100% - 55%);
+            }
+            .content_follows_profile {
+                height: auto;
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                max-height: 110vw;
+                width: 100%;
+                background: #FFF;
+                padding-top: 10px;
+                .sharing_pop {
+                    padding: 0;
+                    &.four {
+                        .main_label {
+                            line-height: 7;
+                            img {
+                                width: 30px;
+                            }
+                        }
+                        ul {
+                            border-bottom: 0px;
+                        }
+                    }
+                    &.two {
+                        .main_label {
+                            img {
+                                width: 40px;
+                            }
+                        }
+                    }
+                    .main_label {
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 73px;
+                        text-align: center;
+                        padding: 0;
+                        height: 73px;
+                        line-height: 8;
+                        img {
+                            width: 35px;
+                        }
+                    }
+                    ul {
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: calc(100% - 78px);
+                        margin: 0px;
+                        padding: 28px 10px 28px 0;
+                        list-style: none;
+                        border-bottom: 1px solid #ececec;
+                        li {
+                            float: left;
+                            padding: 0 2.1vw;
+                            vertical-align: middle;
+                            color: #797979;
+                            font-size: 4vw;
+                            &.tabOption {
+                                padding: 0 7px;
+                                text-align: right;
+                                float: right;
+                                img {
+                                    width: 25px;
+                                }
+                            }
+                            .high {
+                                color: green;
+                            }
+                        }
+                    }
+                    &.three {
+                        ul {
+                            li {
+                                padding: 0 1.5vw;
+                                span {
+                                    width: 21vw;
                                     text-overflow: ellipsis;
+                                    display: -webkit-box;
                                     -webkit-box-orient: vertical;
                                     -webkit-line-clamp: 1;
                                     overflow: hidden;
-                                    white-space: nowrap;
-                                    word-break: break-all;
-                                }
-                                button {
-                                    color: #8e9093;
-                                    background: transparent;
-                                    float: left;
-                                    margin-top: 1px !important;
-                                    img {
-                                        display: inline-block;
-                                        vertical-align: middle;
-                                        width: 14px;
-                                    }
                                 }
                             }
                         }
-                        figure {
+                    }
+                }
+            }
+        }
+        
+        follows_popup {
+            .top_empty_box {
+                height: calc(100% - (40% + 45px));
+            }
+            .pop_wrapper {
+                top: 60%;
+                .wrapper {
+                    width: 100%;
+                    ul {
+                        list-style: none;
+                        -webkit-margin-before: 0;
+                        -webkit-padding-start: 0;
+                        li {
+                            padding: 10px 0;
+                            overflow: hidden;
+                            .image_holder {
+                                width: 68px;
+                                height: 60px;
+                                display: inline-block;
+                                vertical-align: middle;
+                                overflow: hidden;
+                                padding-right: 8px;
+                                img {
+                                    height: 100%;
+                                }
+                            }
+                            .name {
+                                display: inline-block;
+                                width: calc(100% - 73px);
+                                border-bottom: 1px solid #bdbdbd;
+                                padding: 21px 0;
+                                vertical-align: middle;
+                                p {
+                                    width: 100%;
+                                    margin: 0;
+                                    text-overflow: ellipsis;
+                                    display: -webkit-box;
+                                    -webkit-box-orient: vertical;
+                                    -webkit-line-clamp: 1;
+                                    overflow: hidden;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .pop_wrapper_full {
+                top: 45px;
+                @extend .pop_wrapper;
+            }
+        }
+        
+        chat_tote_page {
+            .userHead {
+                // .toolbar-background {
+                //     background: #3DDE00;
+                // }
+                >.toolbar {
+                    contain: none;
+                    overflow: visible;
+                }
+            }
+            .searchPage {
+                background: rgba(121, 121, 121, 0.58);
+                .scroll-content {
+                    background: transparent;
+                    padding: 0px !important;
+                    .userWidget {
+                        background: #F5F5F5;
+                        ul {
                             margin: 0px;
                             padding: 0px;
-                            list-style: none;
-                            vertical-align: top;
-                            padding-top: 25px;
-                            img {
-                                width: 15px;
+                            li {
+                                padding: 0 0px 0 10px;
+                                img {
+                                    width: 40px;
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    margin-right: 15px;
+                                }
+                                span {
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    width: calc(100% - 60px);
+                                    font-size: 16px;
+                                    padding: 30px;
+                                    padding-left: 0px;
+                                    border-bottom: 1px solid #CCC;
+                                }
                             }
                         }
                     }
-                    .activeTote {
-                        border: 0px;
-                        .options {
-                            height: 70px;
+                }
+            }
+            .searchUserHead {
+                height: 56px;
+                >img {
+                    width: 20px;
+                    display: inline-block;
+                    vertical-align: top;
+                    margin: 18px 21px 18px 23px;
+                }
+                >input {
+                    width: calc(100% - 160px);
+                    padding: 19px;
+                    display: inline-block;
+                    vertical-align: top;
+                    border: 0px;
+                    box-shadow: 0px 0px 10px #103c00;
+                }
+                span {
+                    display: inline-block;
+                    vertical-align: top;
+                    padding: 14px 20px 10px 20px;
+                    width: 70px;
+                    margin-left: -8px;
+                    position: relative;
+                    box-shadow: 0px 0px 10px #3c3c3c;
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        left: 0px;
+                        bottom: -15px;
+                        width: 0;
+                        height: 0;
+                        border-left: 35px solid transparent;
+                        border-right: 35px solid transparent;
+                        border-top: 15px solid #2BA600;
+                    }
+                }
+                span.me {
+                    background: #2BA600;
+                }
+                span.follows {
+                    background: #bdb222;
+                    &:after {
+                        border-top: 15px solid #bdb222;
+                    }
+                }
+                span.top {
+                    background: #ca6ebf;
+                    &:after {
+                        border-top: 15px solid #ca6ebf;
+                    }
+                }
+                span.anon {
+                    background: #000000;
+                    &:after {
+                        border-top: 15px solid #000000;
+                    }
+                }
+            }
+            .resultUserHead {
+                height: 56px;
+                >span {
+                    display: inline-block;
+                    vertical-align: top;
+                    padding: 16px 20px 10px 20px;
+                    width: 70px;
+                    margin-left: 25px;
+                    margin-right: -5px;
+                    position: relative;
+                    box-shadow: 0px 0px 10px #3c3c3c;
+                }
+                >img {
+                    width: 15px;
+                    display: inline-block;
+                    vertical-align: top;
+                    margin: 20px 7px;
+                }
+                >input {
+                    width: calc(100% - 134px);
+                    padding: 19px;
+                    display: inline-block;
+                    vertical-align: top;
+                    border: 0px;
+                    box-shadow: 0px 0px 10px #103c00;
+                }
+                span.me {
+                    background: #2BA600;
+                }
+                span.follows {
+                    background: #bdb222;
+                }
+                span.top {
+                    background: #ca6ebf;
+                }
+            }
+            .resultWidget {
+                @extend .userWidget;
+                ul {
+                    padding: 15px 0 0 !important;
+                    li {
+                        padding: 0 0px 0 10px;
+                        overflow: hidden;
+                        margin-bottom: 11px;
+                        figure {
                             float: left;
-                            vertical-align: middle;
-                            width: 50px;
-                            background-image: url(../assets/img/option-icon.png);
-                            background-position: 25px center;
-                            background-repeat: no-repeat;
-                            background-size: 5px;
-                            z-index: 9999999;
+                            width: 60px;
+                            height: 60px;
+                            margin: 0px;
+                            img {
+                                width: 100% !important;
+                                margin: 0px !important;
+                                vertical-align: middle !important;
+                            }
                         }
-                        .txt {
-                            width: calc(100% - 50px);
-                            padding-left: 5px;
+                        figcaption {
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: calc(100% - 70px);
+                            overflow: hidden;
+                            border-bottom: 1px solid #D2D2D2;
+                            padding: 27px 0px;
+                            margin-left: 10px;
+                            p {
+                                margin: 0px;
+                                width: 65%;
+                                font-size: 16px;
+                                display: inline-block;
+                                img {
+                                    display: inline-block !important;
+                                    width: 12px !important;
+                                    &.star-icon {
+                                        width: 15px !important;
+                                    }
+                                }
+                            }
+                            span {
+                                float: right;
+                                margin-right: 10px;
+                                display: inline-block;
+                                vertical-align: middle;
+                                width: auto !important;
+                                font-size: 12px !important;
+                                padding: 0px !important;
+                                padding-left: 0px;
+                                border-bottom: 0px !important;
+                            }
                         }
                     }
-                    .ng-trigger {
-                        .details-list {
-                            .item {
-                                .item-inner {
-                                    ion-label {
-                                        padding: 15px 0px 0 20px;
-                                        display: block;
-                                        width: 100%;
-                                        figure {
-                                            float: left;
-                                            padding: 3px 0 0;
+                }
+            }
+        }
+        
+        page-anotote-list {
+            .fab {
+                overflow: visible;
+                contain: layout;
+                .meNote {
+                    width: 22px;
+                    height: 22px;
+                    background: color($colors, me);
+                    position: absolute;
+                    right: -6px;
+                    top: -5px;
+                    border-radius: 50%;
+                    z-index: 10;
+                    padding: 0;
+                    font-size: 11px;
+                    line-height: 2;
+                    font-weight: bold;
+                }
+                .notiNote {
+                    @extend .meNote;
+                    top: auto;
+                    bottom: -5px;
+                    background: red;
+                }
+                .followNote {
+                    @extend .meNote;
+                    right: 0px;
+                    top: -1px;
+                    z-index: 22;
+                    background: color($colors, follows);
+                }
+                .topNote {
+                    @extend .meNote;
+                    right: 0px;
+                    right: -6px;
+                    top: -5px;
+                    z-index: 22;
+                    background: color($colors, top);
+                }
+                .topAheadNote {
+                    @extend .meNote;
+                    right: 0px;
+                    top: -1px;
+                    z-index: 22;
+                    background: color($colors, top);
+                }
+            }
+            .img-loaded+ion-spinner {
+                display: none;
+            } // .center in my case to make the spinner at the center
+            .center {
+                height: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+            .not_to_show {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .toolbar-ios-follow {
+                ion-buttons {
+                    button {
+                        color: #FFF !important;
+                    }
+                }
+            }
+            .scroll-content {
+                padding: 8px 20px 16px !important;
+                background: #F5F5F5;
+                .item {
+                    padding: 0px;
+                    .item-inner {
+                        padding: 0px;
+                        ion-label,
+                        .label-ios,
+                        .label-md {
+                            margin: 0px;
+                            >div {
+                                &.toteActive {
+                                    overflow: visible;
+                                    max-height: 0px;
+                                    transition: max-height 0.15s ease-out;
+                                    -webkit-transition: max-height 0.15s ease-out;
+                                    border: 0px;
+                                    &.toteTransition {
+                                        max-height: 500px;
+                                        overflow: auto;
+                                        -webkit-transition: max-height 0.25s ease-in;
+                                        transition: max-height 0.25s ease-in;
+                                    }
+                                    .message-underlist {
+                                        border-bottom: 1px solid #CCC;
+                                    }
+                                }
+                                &.bulkActive {
+                                    background: #e0e0e0;
+                                    .check {
+                                        img {
+                                            box-shadow: 0px 3px 4px #a7a7a7;
                                         }
-                                        .check-text {
-                                            vertical-align: top;
-                                            padding: 0 10px 0 12px;
-                                            border: 0px;
-                                            width: calc(100% - 15px);
-                                            margin: 0;
-                                            display: inline-block;
-                                            .name-time {
-                                                font-size: 13px;
-                                                color: #888;
-                                                .msg-time {
-                                                    float: right;
+                                    }
+                                }
+                                display: block;
+                                overflow: hidden;
+                                width: 100%;
+                                border-bottom: 1px solid #CCC;
+                                position: relative;
+                                .img-holder {
+                                    width: 72px;
+                                    height: 72px;
+                                    background: rgba(128, 128, 128, 0.3);
+                                    vertical-align: middle;
+                                    position: absolute;
+                                    left: 0px;
+                                    top: 0px;
+                                    text-align: center;
+                                    line-height: 4;
+                                    img {
+                                        vertical-align: middle;
+                                    }
+                                }
+                                .check {
+                                    float: left;
+                                    padding: 22px 15px 15px;
+                                    vertical-align: middle;
+                                    text-align: center;
+                                }
+                                .txt {
+                                    vertical-align: middle;
+                                    padding: 20px 10px 5px 5px;
+                                    width: calc(100% - 72px);
+                                    min-height: 72px;
+                                    position: relative;
+                                    float: right;
+                                    -webkit-transition: all 500ms ease-in-out;
+                                    transition: all 500ms ease-in-out;
+                                    &.txtToto {
+                                        width: calc(100% - 50px);
+                                        padding-left: 5px;
+                                    }
+                                    strong {
+                                        font-weight: normal;
+                                        font-size: 14px;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 1;
+                                        width: 100%;
+                                        overflow: hidden;
+                                        margin-bottom: 5px;
+                                        white-space: normal;
+                                    }
+                                    .opened {
+                                        -webkit-line-clamp: 2;
+                                    }
+                                    p {
+                                        font-size: 12px;
+                                    }
+                                    .time {
+                                        float: right;
+                                        em {
+                                            width: 70px;
+                                            color: #8e9093;
+                                            font-style: normal;
+                                            button {
+                                                color: #8e9093;
+                                                img {
+                                                    display: inline-block;
+                                                    vertical-align: middle;
+                                                    width: 14px;
                                                 }
                                             }
-                                            p {
-                                                font-size: 18px;
-                                            }
+                                        }
+                                        button {
+                                            //margin-left: 10px !important;
+                                            display: inline-block;
+                                            background: transparent;
+                                        }
+                                        span {
+                                            display: inline-block;
+                                            margin-right: 5px !important;
+                                            font-size: 12px;
+                                        }
+                                    }
+                                    .toteText {
+                                        p {
+                                            width: calc(100% - 80px);
+                                            display: inline-block;
+                                            vertical-align: top;
+                                            padding-left: 5px;
+                                            margin-top: -1px;
+                                            text-overflow: ellipsis;
+                                            -webkit-box-orient: vertical;
+                                            -webkit-line-clamp: 1;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            word-break: break-all;
+                                        }
+                                        button {
+                                            color: #8e9093;
+                                            background: transparent;
+                                            float: left;
+                                            margin-top: 1px !important;
                                             img {
-                                                width: 25px;
                                                 display: inline-block;
-                                                vertical-align: top;
+                                                vertical-align: middle;
+                                                width: 14px;
                                             }
                                         }
                                     }
                                 }
-                            }
-                        }
-                    }
-                    .listHeader {
-                        padding: 0px 20px 0 50px;
-                        margin-top: 0;
-                        background: #FFF;
-                        height: 30px;
-                        .btns-area {
-                            padding: 0px;
-                            .me-tab {
-                                background: #e0e0e0;
-                                color: white;
-                                border-radius: 0px;
-                                margin: 0 5px !important;
-                                height: auto;
-                                padding: 5px !important;
-                                font-size: 12px;
-                                i {
-                                    font-style: normal;
-                                }
-                                .loader {
-                                    width: 10px;
-                                    height: 10px;
+                                figure {
+                                    margin: 0px;
+                                    padding: 0px;
+                                    list-style: none;
+                                    vertical-align: top;
+                                    padding-top: 25px;
+                                    img {
+                                        width: 15px;
+                                    }
                                 }
                             }
-                            .active_me {
-                                background: #2ba600;
-                                box-shadow: 0 0 3px #848484;
+                            .activeTote {
+                                border: 0px;
+                                .options {
+                                    height: 70px;
+                                    float: left;
+                                    vertical-align: middle;
+                                    width: 50px;
+                                    background-image: url(../assets/img/option-icon.png);
+                                    background-position: 25px center;
+                                    background-repeat: no-repeat;
+                                    background-size: 5px;
+                                    z-index: 9999999;
+                                }
+                                .txt {
+                                    width: calc(100% - 50px);
+                                    padding-left: 5px;
+                                }
                             }
-                            .active_follows {
-                                background: $follow_app_color;
-                                box-shadow: 0 0 3px #848484;
-                            }
-                            .active_top {
-                                background: $top_app_color;
-                                box-shadow: 0 0 3px #848484;
-                            }
-                        }
-                    }
-                    .message-underlist {
-                        padding: 0;
-                        .underlist-items {
-                            .item-inner {
-                                .input-wrapper {
-                                    ion-label {
-                                        padding: 10px 0px 10px 20px;
-                                        .txt {
-                                            border-bottom: 0px;
-                                            display: inline-block;
-                                            vertical-align: middle;
-                                            width: calc(100% - 30px);
-                                            padding: 0 0px 0 10px;
-                                            min-height: auto;
-                                            p {
-                                                font-size: 14px;
-                                                -webkit-line-clamp: 4;
-                                                -webkit-box-orient: vertical;
-                                                white-space: normal;
+                            .ng-trigger {
+                                .details-list {
+                                    .item {
+                                        .item-inner {
+                                            ion-label {
+                                                padding: 15px 0px 0 20px;
+                                                display: block;
                                                 width: 100%;
-                                                color: #000;
-                                            }
-                                            img {
-                                                width: 25px;
-                                            }
-                                        }
-                                        figure {
-                                            float: left;
-                                            padding: 20px 0 0;
-                                        }
-                                        .check-text {
-                                            vertical-align: top;
-                                            padding: 0 10px 0 20px;
-                                            border: 0px;
-                                            width: calc(100% - 15px);
-                                            margin: 0;
-                                            display: inline-block;
-                                            .name-time {
-                                                font-size: 13px;
-                                                color: #888;
-                                                .msg-time {
-                                                    float: right;
+                                                figure {
+                                                    float: left;
+                                                    padding: 3px 0 0;
                                                 }
-                                            }
-                                            p {
-                                                font-size: 18px;
-                                                color: #222;
-                                                margin: 3px 0 8px;
-                                            }
-                                            img {
-                                                width: 25px;
-                                                display: inline-block;
-                                                vertical-align: top;
-                                            }
-                                        }
-                                        .status {
-                                            margin-top: 4px;
-                                        }
-                                        .quotes_follows {
-                                            background: $follow_app_color;
-                                        }
-                                        .quotes_top {
-                                            background: $top_app_color;
-                                        }
-                                        .editAntotion {
-                                            .moveBtn {
-                                                position: absolute;
-                                                left: 22px;
-                                                top: 10px;
-                                                button {
-                                                    display: block;
-                                                    background: transparent;
+                                                .check-text {
+                                                    vertical-align: top;
+                                                    padding: 0 10px 0 12px;
                                                     border: 0px;
-                                                    padding: 2px 0px !important;
+                                                    width: calc(100% - 15px);
+                                                    margin: 0;
+                                                    display: inline-block;
+                                                    .name-time {
+                                                        font-size: 13px;
+                                                        color: #888;
+                                                        .msg-time {
+                                                            float: right;
+                                                        }
+                                                    }
+                                                    p {
+                                                        font-size: 18px;
+                                                    }
                                                     img {
-                                                        width: 15px;
+                                                        width: 25px;
+                                                        display: inline-block;
+                                                        vertical-align: top;
                                                     }
                                                 }
                                             }
-                                            margin-left: -20px;
-                                            background: #CCC;
-                                            width: 108%;
-                                            padding: 10px 10px 10px 54px;
-                                            margin-top: 10px;
-                                            textarea {
-                                                width: 100%;
-                                                background: #CCC;
-                                                border: 0px;
+                                        }
+                                    }
+                                }
+                            }
+                            .listHeader {
+                                padding: 0px 20px 0 50px;
+                                margin-top: 0;
+                                background: #FFF;
+                                height: 30px;
+                                .btns-area {
+                                    padding: 0px;
+                                    .me-tab {
+                                        background: #e0e0e0;
+                                        color: white;
+                                        border-radius: 0px;
+                                        margin: 0 5px !important;
+                                        height: auto;
+                                        padding: 5px !important;
+                                        font-size: 12px;
+                                        i {
+                                            font-style: normal;
+                                        }
+                                        .loader {
+                                            width: 10px;
+                                            height: 10px;
+                                        }
+                                    }
+                                    .active_me {
+                                        background: #2ba600;
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                    .active_follows {
+                                        background: $follow_app_color;
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                    .active_top {
+                                        background: $top_app_color;
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                }
+                            }
+                            .message-underlist {
+                                padding: 0;
+                                .underlist-items {
+                                    .item-inner {
+                                        .input-wrapper {
+                                            ion-label {
+                                                padding: 10px 0px 10px 20px;
+                                                .txt {
+                                                    border-bottom: 0px;
+                                                    display: inline-block;
+                                                    vertical-align: middle;
+                                                    width: calc(100% - 30px);
+                                                    padding: 0 0px 0 10px;
+                                                    min-height: auto;
+                                                    p {
+                                                        font-size: 14px;
+                                                        -webkit-line-clamp: 4;
+                                                        -webkit-box-orient: vertical;
+                                                        white-space: normal;
+                                                        width: 100%;
+                                                        color: #000;
+                                                    }
+                                                    img {
+                                                        width: 25px;
+                                                    }
+                                                }
+                                                figure {
+                                                    float: left;
+                                                    padding: 20px 0 0;
+                                                }
+                                                .check-text {
+                                                    vertical-align: top;
+                                                    padding: 0 10px 0 20px;
+                                                    border: 0px;
+                                                    width: calc(100% - 15px);
+                                                    margin: 0;
+                                                    display: inline-block;
+                                                    .name-time {
+                                                        font-size: 13px;
+                                                        color: #888;
+                                                        .msg-time {
+                                                            float: right;
+                                                        }
+                                                    }
+                                                    p {
+                                                        font-size: 18px;
+                                                        color: #222;
+                                                        margin: 3px 0 8px;
+                                                    }
+                                                    img {
+                                                        width: 25px;
+                                                        display: inline-block;
+                                                        vertical-align: top;
+                                                    }
+                                                }
+                                                .status {
+                                                    margin-top: 4px;
+                                                }
+                                                .quotes_follows {
+                                                    background: $follow_app_color;
+                                                }
+                                                .quotes_top {
+                                                    background: $top_app_color;
+                                                }
+                                                .editAntotion {
+                                                    .moveBtn {
+                                                        position: absolute;
+                                                        left: 22px;
+                                                        top: 10px;
+                                                        button {
+                                                            display: block;
+                                                            background: transparent;
+                                                            border: 0px;
+                                                            padding: 2px 0px !important;
+                                                            img {
+                                                                width: 15px;
+                                                            }
+                                                        }
+                                                    }
+                                                    margin-left: -20px;
+                                                    background: #CCC;
+                                                    width: 108%;
+                                                    padding: 10px 10px 10px 54px;
+                                                    margin-top: 10px;
+                                                    textarea {
+                                                        width: 100%;
+                                                        background: #CCC;
+                                                        border: 0px;
+                                                    }
+                                                    img {
+                                                        float: left;
+                                                        width: 25px;
+                                                        margin-top: 8px;
+                                                    }
+                                                    span {
+                                                        font-size: 14px;
+                                                        text-transform: uppercase;
+                                                        float: right;
+                                                        padding-left: 15px;
+                                                    }
+                                                    span.save {
+                                                        color: #32ad05;
+                                                    }
+                                                }
                                             }
-                                            img {
-                                                float: left;
-                                                width: 25px;
-                                                margin-top: 8px;
+                                        }
+                                    }
+                                }
+                                .no_anotation {
+                                    text-align: center;
+                                    padding: 5%;
+                                    p {
+                                        white-space: normal;
+                                        position: relative;
+                                        &.me {
+                                            &::after {
+                                                content: "";
+                                                background: url(../assets/img/check2.png);
+                                                background-position: left;
+                                                background-repeat: no-repeat;
+                                                background-size: 5vw;
+                                                position: absolute;
+                                                left: 10px;
+                                                top: 0px;
+                                                width: 17px;
+                                                height: 17px;
                                             }
-                                            span {
-                                                font-size: 14px;
-                                                text-transform: uppercase;
-                                                float: right;
-                                                padding-left: 15px;
-                                            }
-                                            span.save {
-                                                color: #32ad05;
-                                            }
+                                        }
+                                    }
+                                    .butt {
+                                        width: 60%;
+                                        display: inline-block;
+                                        padding: 5%;
+                                        background: $me_app_color;
+                                        p {
+                                            color: white;
                                         }
                                     }
                                 }
                             }
                         }
-                        .no_anotation {
-                            text-align: center;
-                            padding: 5%;
-                            p {
-                                white-space: normal;
-                                position: relative;
-                                &.me {
-                                    &::after {
-                                        content: "";
-                                        background: url(../assets/img/check2.png);
-                                        background-position: left;
-                                        background-repeat: no-repeat;
-                                        background-size: 5vw;
-                                        position: absolute;
-                                        left: 10px;
-                                        top: 0px;
-                                        width: 17px;
-                                        height: 17px;
-                                    }
-                                }
-                            }
-                            .butt {
-                                width: 60%;
-                                display: inline-block;
-                                padding: 5%;
-                                background: $me_app_color;
-                                p {
-                                    color: white;
-                                }
-                            }
+                    }
+                }
+                .no_totes {
+                    width: 100%;
+                    text-align: center;
+                    padding: 1%;
+                    font-weight: bold;
+                    p {
+                        font-size: 4vw;
+                    }
+                    p.me {
+                        color: #3bde00;
+                    }
+                    p.follows {
+                        color: #f4e300;
+                    }
+                    p.top {
+                        color: #fb9df0;
+                    }
+                }
+                .loading {
+                    text-align: center;
+                }
+            }
+            .toolbar-ios {
+                contain: none;
+                overflow: visible;
+            }
+            .platform-ios {
+                .topList {
+                    li {
+                        &.leftIcon {
+                            top: 35px;
                         }
                     }
                 }
             }
-        }
-        .no_totes {
-            width: 100%;
-            text-align: center;
-            padding: 1%;
-            font-weight: bold;
-            p {
-                font-size: 4vw;
-            }
-            p.me {
-                color: #3bde00;
-            }
-            p.follows {
-                color: #f4e300;
-            }
-            p.top {
-                color: #fb9df0;
-            }
-        }
-        .loading {
-            text-align: center;
-        }
-    }
-    .toolbar-ios {
-        contain: none;
-        overflow: visible;
-    }
-    .platform-ios {
-        .topList {
-            li {
-                &.leftIcon {
-                    top: 35px;
-                }
-            }
-        }
-    }
-    .topList {
-        margin: 0;
-        padding: 0 25px 0 0;
-        list-style: none;
-        overflow: hidden;
-        li {
-            float: right;
-            padding: 6px 18px 0;
-            img {
-                width: 39px;
-            }
-            &.followSave {
-                img {
-                    width: 35px;
-                    margin-top: 2px;
-                }
-                &.share {
+            .topList {
+                margin: 0;
+                padding: 0 25px 0 0;
+                list-style: none;
+                overflow: hidden;
+                li {
+                    float: right;
+                    padding: 6px 18px 0;
                     img {
-                        width: 32px;
-                        margin-top: 1px;
+                        width: 39px;
+                    }
+                    &.followSave {
+                        img {
+                            width: 35px;
+                            margin-top: 2px;
+                        }
+                        &.share {
+                            img {
+                                width: 32px;
+                                margin-top: 1px;
+                            }
+                        }
+                    }
+                    &.delete {
+                        img {
+                            width: 36px;
+                        }
+                    }
+                    &.leftIcon {
+                        float: left;
+                        padding: 0px 3px;
+                        position: absolute;
+                        left: 15px;
+                        top: 2px;
+                        img {
+                            width: 50px;
+                        }
+                    }
+                    &.bookmark {
+                        padding-right: 8px;
+                        img {
+                            width: 57px;
+                        }
                     }
                 }
             }
-            &.delete {
+            .downUp {
+                display: inline-block;
+                vertical-align: middle;
+                width: 80px;
                 img {
-                    width: 36px;
+                    width: 15px;
+                    vertical-align: middle;
+                    display: inline-block;
+                }
+                span {
+                    display: inline-block;
+                    letter-spacing: 0px;
+                    vertical-align: middle;
+                    margin: 0 5px;
+                    float: none !important;
+                    padding: 0px !important;
+                    color: #FFFFFF !important;
                 }
             }
-            &.leftIcon {
-                float: left;
-                padding: 0px 3px;
-                position: absolute;
-                left: 15px;
-                top: 2px;
+            .col {
+                width: 15%;
+                float: right;
+                vertical-align: middle;
+                text-align: center;
+                letter-spacing: 0;
                 img {
-                    width: 50px;
+                    width: 28px;
                 }
             }
-            &.bookmark {
-                padding-right: 8px;
-                img {
-                    width: 57px;
+            .topTab {
+                display: inline-block;
+                vertical-align: middle;
+                width: calc(100% - 85px);
+                padding-left: 60px;
+                span {
+                    letter-spacing: 0px;
+                    font-size: 16px;
+                    padding: 0px !important;
+                    text-transform: capitalize !important;
+                    color: #FFFFFF !important;
+                    float: none !important;
                 }
             }
         }
-    }
-    .downUp {
-        float: left;
-        margin-top: 10px;
-        margin-left: 7px;
-        img {
-            width: 15px;
-            vertical-align: middle;
-            display: inline-block;
-        }
-        span {
-            display: inline-block;
-            letter-spacing: 0px;
-            vertical-align: middle;
-            margin: 0 5px;
-        }
-    }
-    .col {
-        width: 15%;
-        float: right;
-        vertical-align: middle;
-        text-align: center;
-        letter-spacing: 0;
-        img {
-            width: 28px;
-        }
-    }
-    .topTab {
-        width: 100px;
-        margin: auto;
-        text-align: center;
-        position: absolute;
-        left: 50%;
-        top: 20px;
-        transform: translate(-50%, 0);
-        span {
-            letter-spacing: 0px;
-            font-size: 16px;
-        }
-    }
-}
