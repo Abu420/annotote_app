@@ -365,7 +365,7 @@
         <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="current_active_anotote">
+<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.active_tab != 'me'">
     <ion-toolbar color="dark">
         <div class="downUp">
             <!-- <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="upvote()" alt="">
@@ -381,7 +381,8 @@
             <!-- <img src="assets/img/downarrow.svg" (click)="downvote()" alt=""> -->
         </div>
         <div class="topTab">
-            <span>Top</span>
+            <span *ngIf="current_active_anotote.active_tab == 'follows'">Follows</span>
+            <span *ngIf="current_active_anotote.active_tab == 'top'">TOP</span>
         </div>
     </ion-toolbar>
 </ion-footer>
