@@ -473,6 +473,8 @@ export class AnototeEditor implements OnDestroy {
     editor_click(event) {
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
+            var element = document.getElementById(identifier);
+            element.classList.add('greyOut');
             this.selected_highlight = {
                 txt: event.target.getAttribute("data-selectedtxt"),
                 identifier: event.target.getAttribute("data-identifier"),
