@@ -3,10 +3,10 @@
         <div class="resultUserHead" *ngIf="initiateChat == true">
             <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}"><img src="assets/img/chatWhiteIcon.svg" alt="" /></span>
             <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
-            <img src="assets/img/croseIcon.svg" alt="" (click)="dissmiss()" />
+            <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
         </div>
         <div class="searchUserHead" *ngIf="initiateChat == false">
-            <img src="assets/img/croseIcon.svg" alt="" (click)="dissmiss()" />
+            <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
             <input *ngIf="anotote != null" disabled search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" type="text" placeholder="Search or enter address" />
             <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top','anon':stream == 'anon'}" *ngIf="anotote != null"><img src="assets/img/plusIcon.svg" alt="" /></span>
         </div>

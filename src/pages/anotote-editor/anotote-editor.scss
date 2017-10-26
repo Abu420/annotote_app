@@ -147,12 +147,15 @@ comment_detail_popup {
     }
     .pop_txt {
         max-height: 298px;
-        padding: 20px;
+        padding: 0px 20px;
         font-size: 14px;
         line-height: 18px;
         color: #fff;
         overflow: auto;
         background: #313131;
+        p {
+            margin: 0px;
+        }
     }
     .content_follows_profile {
         overflow: hidden;
@@ -344,6 +347,12 @@ page-anotote-editor {
             }
             .highlight_quote:before {
                 background: #2ba600;
+            }
+            .greyOut:before {
+                background: #d4d4d4;
+            }
+            .greyOut {
+                background: #d4d4d4 !important;
             }
             .only_light {
                 background: #c3f5b2 !important;

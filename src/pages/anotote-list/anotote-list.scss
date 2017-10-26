@@ -13,6 +13,12 @@
                 height: calc(100% - 44%);
                 background: rgba(0, 0, 0, 0.5);
             }
+            .moadalView {
+                height: auto;
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+            }
             .top_empty_no_tote {
                 @extend .top_empty_box;
                 height: 90%;
@@ -34,65 +40,10 @@
         
         .sharing_pop {
             ion-item {
-                padding: 3vw 20px;
-                position: relative;
-                &:after {
-                    content: "";
-                    bottom: 0px;
-                    position: absolute;
-                    right: 0px;
-                    width: 85%;
-                    border-bottom: 1px solid #CCC;
-                }
                 .item-inner {
                     padding: 0px;
                     ion-label {
                         margin: 0px;
-                        .aling-left {
-                            display: inline-block;
-                            width: 20px;
-                            margin-right: 10px;
-                            vertical-align: top;
-                            padding-top: 3px;
-                        }
-                        .txt {
-                            display: inline-block;
-                            width: calc(100% - 25px);
-                            vertical-align: top;
-                            span {
-                                color: #8e9093;
-                                font-size: 14px;
-                            }
-                            p {
-                                overflow: inherit;
-                                margin: 0 0 2px;
-                                font-size: 12px;
-                                line-height: normal;
-                                text-overflow: inherit;
-                                color: #8e9093;
-                            }
-                        }
-                        .aling-left {
-                            position: relative;
-                            ion-icon {
-                                font-size: 30px;
-                                color: #bdbdbd;
-                            }
-                            em {
-                                position: absolute;
-                                width: 20px;
-                                text-align: center;
-                                height: 20px;
-                                font-size: 12px;
-                                font-style: normal;
-                                padding: 2px;
-                                background: red;
-                                border-radius: 50%;
-                                color: #FFF;
-                                right: -10px;
-                                top: 0px;
-                            }
-                        }
                     }
                 }
             }
@@ -267,7 +218,7 @@
         
         anotote_options {
             .top_empty_box {
-                height: calc(100% - 55%);
+                height: calc(100%);
             }
             .content_follows_profile {
                 height: auto;
@@ -282,9 +233,9 @@
                     padding: 0;
                     &.four {
                         .main_label {
-                            line-height: 7;
+                            line-height: 6;
                             img {
-                                width: 30px;
+                                width: 25px;
                             }
                         }
                         ul {
@@ -307,7 +258,7 @@
                         height: 73px;
                         line-height: 8;
                         img {
-                            width: 35px;
+                            width: 32px;
                         }
                     }
                     ul {
@@ -434,7 +385,9 @@
                                     width: 40px;
                                     display: inline-block;
                                     vertical-align: middle;
-                                    margin-right: 15px;
+                                    margin-right: 12px;
+                                    margin-left: 4px;
+                                    margin-top: 5px;
                                 }
                                 span {
                                     display: inline-block;
@@ -453,10 +406,10 @@
             .searchUserHead {
                 height: 56px;
                 >img {
-                    width: 20px;
+                    width: 22px;
                     display: inline-block;
                     vertical-align: top;
-                    margin: 18px 21px 18px 23px;
+                    margin: 17px 21px 16px 23px;
                 }
                 >input {
                     width: calc(100% - 160px);
@@ -763,6 +716,7 @@
                                     }
                                     .time {
                                         float: right;
+                                        margin-top: -5px;
                                         em {
                                             width: 70px;
                                             color: #8e9093;

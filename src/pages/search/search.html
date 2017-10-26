@@ -15,11 +15,13 @@
             <ion-spinner name="ios"></ion-spinner>
         </ion-item>
         <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
-            <img src="assets/img/simpleShare.svg" alt="" />
+            <figure>
+                <img src="assets/img/simpleShare.svg" alt="" />
+            </figure>
             <span>Share this link (enter)</span>
         </ion-item>
         <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter searchIcon">
-            <img src="assets/img/searchIcon.svg" alt="" />
+            <figure><img src="assets/img/searchIcon.svg" alt="" /></figure>
             <span>New search or address</span>
         </ion-item>
         <!-- <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
@@ -27,19 +29,19 @@
             <span>No results</span>
         </ion-item> -->
         <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && !search_loading" class="searchFilter">
-            <img src="assets/img/searchIcon.svg" alt="">
+            <figure><img src="assets/img/searchIcon.svg" alt=""></figure>
             <span>Search (enter)</span>
         </ion-item>
         <ion-item (click)="!current_url && scrape_this_url(true)" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
-            <img class="viewIcon" src="assets/img/searchIcon.svg" alt="">
+            <figure><img class="viewIcon" src="assets/img/searchIcon.svg" alt=""></figure>
             <span>View (enter)</span>
         </ion-item>
         <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
-            <ion-icon name="ios-cloud"></ion-icon>
+            <figure><img class="viewIcon" src="assets/img/cloudIconGray.svg" alt=""></figure>
             <span>Save</span>
         </ion-item>
         <ion-item (click)="save_search_entry('bookmark_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
-            <ion-icon name="ios-bookmark"></ion-icon>
+            <figure class="bookmarkIcon"><img src="assets/img/bookmark.svg" alt=""></figure>
             <span>Bookmark</span>
         </ion-item>
         <div *ngIf="search_txt.length>0" class="searchResult">

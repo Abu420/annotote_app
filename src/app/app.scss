@@ -345,7 +345,84 @@ button,
 }
 
 .searchIcon {
-    margin-left: 47px;
+    margin-left: 24px;
+}
+
+view_options {
+    .content_follows_profile {
+        width: 100%;
+        height: auto !important;
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        .sharing_pop {
+            height: auto !important;
+        }
+    }
+}
+
+.sharing_pop ion-item {
+    padding: 0px !important;
+    .item-inner {
+        padding: 0px !important;
+    }
+    &:after {
+        content: "";
+        bottom: 0px;
+        position: absolute;
+        right: 0px;
+        width: calc(100% - 70px);
+        border-bottom: 1px solid #e6e6e6;
+    }
+    .aling-left {
+        display: inline-block;
+        width: 73px;
+        height: 73px;
+        text-align: center;
+        line-height: 5;
+        vertical-align: middle;
+    }
+    .txt {
+        display: inline-block;
+        width: calc(100% - 77px);
+        vertical-align: middle;
+        span {
+            color: #8e9093;
+            font-size: 14px;
+        }
+        p {
+            overflow: inherit;
+            margin: 0 0 2px;
+            font-size: 12px;
+            line-height: normal;
+            text-overflow: inherit;
+            color: #8e9093;
+        }
+    }
+    .aling-left {
+        position: relative;
+        ion-icon {
+            font-size: 30px;
+            color: #bdbdbd;
+        }
+        em {
+            position: absolute;
+            width: 20px;
+            text-align: center;
+            height: 20px;
+            font-size: 12px;
+            font-style: normal;
+            padding: 2px;
+            background: red;
+            border-radius: 50%;
+            color: #FFF;
+            right: 16px;
+            top: 15px;
+        }
+    }
 }
 
 //Login register and page css
@@ -482,13 +559,16 @@ search_page {
                 li {
                     display: inline-block;
                     padding: 0px 10px;
+                    width: 32%;
                     vertical-align: middle;
                 }
             }
             &.mediaMode {
                 ul {
+                    padding-left: 5px;
                     li {
                         padding: 0 5px;
+                        width: auto;
                     }
                 }
             }
@@ -562,6 +642,16 @@ search_page {
                     }
                 }
                 >.item-inner {
+                    position: relative;
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        bottom: 0px;
+                        right: 0px;
+                        width: calc(100% - 80px);
+                        background: #e4e4e4;
+                        height: 1px;
+                    }
                     padding: 0px;
                     ion-label {
                         margin: 0px;
@@ -576,18 +666,28 @@ search_page {
                             font-size: 35px;
                             text-align: center;
                         }
-                        img {
-                            width: 35px;
-                            margin: 18px 0 16px 15px;
-                            display: table-cell;
+                        figure {
+                            margin: 0px;
+                            display: inline-block;
+                            width: 73px;
+                            height: 73px;
                             vertical-align: middle;
+                            text-align: center;
+                            line-height: 5.4;
+                            img {
+                                width: 30px;
+                            }
+                            &.bookmarkIcon {
+                                img {
+                                    width: 20px;
+                                }
+                            }
                         }
                         >span {
                             padding: 20px 10px;
-                            display: table-cell;
+                            display: inline-block;
                             vertical-align: middle;
-                            border-bottom: 1px solid #e8e8e8;
-                            width: 76%;
+                            width: calc(100% - 73px);
                             color: #ababab;
                         }
                     }
@@ -601,6 +701,18 @@ search_page {
                     padding: 0px;
                     ion-label {
                         margin: 0px;
+                        .userField {
+                            position: relative;
+                            &:after {
+                                content: "";
+                                position: absolute;
+                                bottom: 0px;
+                                right: 0px;
+                                width: calc(100% - 80px);
+                                background: #e4e4e4;
+                                height: 1px;
+                            }
+                        }
                         figure {
                             display: inline-block;
                             vertical-align: middle;
@@ -617,12 +729,9 @@ search_page {
                             }
                         }
                         figcaption {
-                            padding: 10px 10px 10px 0;
                             display: inline-block;
                             width: calc(100% - 78px);
                             vertical-align: middle;
-                            border-bottom: 1px solid #e8e8e8;
-                            height: 58px;
                             .rightContent {
                                 float: right;
                                 font-size: 12px;
@@ -648,6 +757,8 @@ search_page {
                                     width: 12px;
                                     &.star-icon {
                                         width: 15px;
+                                        vertical-align: top;
+                                        margin-top: 2px;
                                     }
                                 }
                             }

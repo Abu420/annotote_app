@@ -53,12 +53,13 @@ page-chat {
                 }
             }
             .toteText {
+                margin-top: -3px;
                 P {
                     width: calc(100% - 80px);
                     display: inline-block;
+                    margin: 0px;
                     vertical-align: middle;
                     padding-left: 5px;
-                    margin-top: -1px;
                     text-overflow: ellipsis;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 1;
@@ -70,12 +71,14 @@ page-chat {
                 button {
                     color: #8e9093;
                     background: transparent;
-                    float: left;
+                    display: inline-block;
+                    vertical-align: middle;
                     margin-top: 2px;
                     img {
                         display: inline-block;
                         vertical-align: middle;
                         width: 14px;
+                        margin-top: 3px;
                     }
                 }
             }
@@ -111,8 +114,7 @@ page-chat {
             padding: 0px !important;
             .label-ios {
                 margin: 0px;
-                padding: 17px 15px 18px;
-                border-bottom: 1px solid #e8e8e8;
+                padding: 10px 15px;
                 .status {
                     width: 22px;
                     height: 22px;
@@ -202,15 +204,15 @@ page-chat {
         input[type="submit"] {
             background: #CCC;
             color: #FFF;
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             overflow: hidden;
             border-radius: 50%;
             text-align: center;
             padding: 15px 0px;
             text-transform: uppercase;
             position: absolute;
-            top: -33px;
+            top: -36px;
             border: 0;
             right: -10px;
         }
