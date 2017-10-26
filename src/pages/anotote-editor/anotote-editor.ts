@@ -519,7 +519,10 @@ export class AnototeEditor implements OnDestroy {
     }
 
     presentCommentDetailModal(highlight, element?) {
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier) });
+        var opts = {
+            cssClass: 'noBackDrop'
+        }
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier) }, opts);
         commentDetailModal.onDidDismiss(data => {
             if (data.delete) {
                 this.utilityMethods.confirmation_message("Are you sure ?", "Do you really want to delete this annotation ?", () => {
