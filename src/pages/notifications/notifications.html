@@ -35,7 +35,7 @@
                         </strong>
                         <div class="time">
                             <em>
-                                <span [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.createdAt | time_stamp}}</span>
+                                <span [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.createdAt | notificationTimeStamp}}</span>
                             </em>
                             <div class="toteText">
                                 <button *ngIf="notification.type=='user:follwowed_by'" type="button"><ion-icon name="at"></ion-icon></button>

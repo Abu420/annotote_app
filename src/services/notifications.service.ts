@@ -53,7 +53,7 @@ export class NotificationService {
      * params: [notification_id]
      */
     read_notificaton(params) {
-        var url = this.constants.API_BASEURL + '/read-notification?sender_id=' + params.sender_id;
+        var url = this.constants.API_BASEURL + '/read-notification?sender_id=' + params.sender_id + '&&type=' + params.type;
         var response = this.http.get(url).map(res => res.json());
         return response;
     }
@@ -68,17 +68,16 @@ export class NotificationService {
         var response = this.http.get(url).map(res => res.json());
         response.subscribe((res) => {
             this._loaded_once_flag = true;
-            // for (let i = 0; i < res.data.notifications.length; i++) {
-            //     var notif = res.data.notifications[i];
-            //     var current_date = new Date();
-            //     var formated_time = new Date(notif.createdAt * 1000);
-            //     var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
-            //     var difference = timeDiff / (1000 * 3600 * 24);
-            //     notif.is_today = difference < 1 ? true : false;
-            //     notif.formated_time = formated_time;
-            //     this._notifications.push(notif);
-            // }
-            this._notifications = res.data.notifications;
+            for (let notif of res.data.notifications) {
+                // var notif = res.data.notifications[i];
+                // var current_date = new Date();
+                // var formated_time = new Date(notif.createdAt * 1000);
+                // var timeDiff = Math.abs(current_date.getTime() - formated_time.getTime());
+                // var difference = timeDiff / (1000 * 3600 * 24);
+                // notif.is_today = difference < 1 ? true : false;
+                // notif.formated_time = formated_time;
+                this._notifications.push(notif);
+            }
             this._unread = res.data.unread;
         }, (error) => {
             this._loaded_once_flag = false;

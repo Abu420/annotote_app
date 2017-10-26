@@ -71,7 +71,8 @@ export class Notifications {
 
   read_notification(notification) {
     var params = {
-      sender_id: notification.senderId
+      sender_id: notification.senderId,
+      type: notification.type
     }
     this.notificationService.read_notificaton(params)
       .subscribe((response) => {
@@ -150,7 +151,7 @@ export class Notifications {
         // this._notifications = data.notifications;
         // this._unread = data.unread;
         infinte.complete();
-        if (response.data.notifications.length < 6) {
+        if (response.data.notifications.length < 10) {
           infinte.enable(false);
         }
       }, (error) => {

@@ -95,7 +95,7 @@ export class Chat {
           if (this.tote.chatGroup.messagesUser.length < 3)
             this.tote.chatGroup.messagesUser.push(result.data.messages)
           else {
-            this.tote.chatGroup.messagesUser.splice(1, 1);
+            this.tote.chatGroup.messagesUser.splice(0, 1);
             this.tote.chatGroup.messagesUser.push(result.data.messages);
           }
         }
@@ -120,7 +120,10 @@ export class Chat {
       this.utilityMethods.show_loader('');
       this.anototeService.delete_chat_tote(params).subscribe((result) => {
         this.utilityMethods.hide_loader();
-        this.stream.me_anototes.splice(this.stream.me_anototes.indexOf(this.tote), 1);
+        if (this.tote != null)
+          this.stream.me_anototes.splice(this.stream.me_anototes.indexOf(this.tote), 1);
+        else
+          this.stream.me_first_load = false;
         this.utilityMethods.doToast("Chat tote deleted Successfully.")
         this.navCtrl.pop();
       }, (error) => {
@@ -220,6 +223,14 @@ export class Chat {
               }
               this.chatService.updateMessage(params).subscribe((result) => {
                 message.text = result.data.message.text;
+                if (this.tote == null) {
+                  this.stream.me_first_load = false;
+                } else {
+                  if (this.tote.chatGroup.messagesUser.indexOf(message) != -1) {
+                    this.tote.chatGroup.messagesUser[this.tote.chatGroup.messagesUser.indexOf(message)] = message;
+                  }
+                }
+
               }, (error) => {
                 if (error.code == -1) {
                   this.utilityMethods.internet_connection_error();
@@ -233,6 +244,14 @@ export class Chat {
           this.utilityMethods.confirmation_message("Are you sure?", "Do your really want to delete this message", () => {
             this.chatService.deleteMessage({ id: message.id }).subscribe((data) => {
               this.conversation.splice(this.conversation.indexOf(message), 1);
+              if (this.tote == null) {
+                this.stream.me_first_load = false;
+              } else {
+                this.tote.chatGroup.messagesUser = [];
+                this.tote.chatGroup.messagesUser.push(this.conversation[this.conversation.length - 3]);
+                this.tote.chatGroup.messagesUser.push(this.conversation[this.conversation.length - 2]);
+                this.tote.chatGroup.messagesUser.push(this.conversation[this.conversation.length - 1]);
+              }
             }, (err) => {
               if (err.code == -1) {
                 this.utilityMethods.internet_connection_error();

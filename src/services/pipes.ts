@@ -75,6 +75,23 @@ export class timeStamp {
 }
 
 @Pipe({
+  name: 'notificationTimeStamp'
+})
+
+export class notificationTime {
+  constructor(public date: DatePipe) { }
+
+  transform(input) {
+    var formated_time = new Date(input * 1000);
+    var today = new Date();
+    if (today.getDate() == formated_time.getDate())
+      return this.date.transform(formated_time, 'shortTime');
+    else
+      return this.date.transform(formated_time, 'MM/dd');
+  }
+}
+
+@Pipe({
   name: 'sanitizeHtml'
 })
 export class SanitizeHtmlPipe implements PipeTransform {
