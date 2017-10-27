@@ -214,6 +214,7 @@ export class AnototeList {
    */
 
   showMeHighlights(anotote) {
+    this.move_fab = false;
     if (this.current_color == 'me') {
       anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
       anotote.meFilePath = anotote.userAnnotote.filePath;
@@ -384,6 +385,7 @@ export class AnototeList {
 
   open_follows_popup(event, anotote) {
     event.stopPropagation();
+    this.move_fab = true;
     if (anotote.followers.length == 1) {
       anotote.selected_follower_name = anotote.followers[0].firstName;
       anotote.active_tab = 'follows';
@@ -440,6 +442,7 @@ export class AnototeList {
 
   top_follows_popup(event, anotote) {
     event.stopPropagation();
+    this.move_fab = true;
     if (anotote.follows.length == 1) {
       anotote.selected_follower_name = anotote.follows[0].firstName;
       anotote.active_tab = 'follows';
@@ -470,6 +473,7 @@ export class AnototeList {
   }
 
   show_top_tab(anotote) {
+    this.move_fab = true;
     if (anotote.top_highlights == undefined) {
       if (anotote.userAnnotote.id != anotote.topUserToteId) {
         this.top_spinner = true;
@@ -638,20 +642,26 @@ export class AnototeList {
         }
       } else if (data.bookmark) {
         var link = [];
+        var title = [];
         link.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.link : this.current_active_anotote.annotote.link)
+        title.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.title : this.current_active_anotote.annotote.title)
         var params: any = {
-          user_tote_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.id : this.current_active_anotote.annotote.id,
+          user_tote_id: this.current_active_anotote.userAnnotote.id,
           user_id: this.user.id,
           links: link,
+          tote_titles: title,
           created_at: this.utilityMethods.get_php_wala_time()
         }
         this.utilityMethods.show_loader('Bookmarking', false);
         this.anototeService.bookmark_totes(params).subscribe((result) => {
           this.utilityMethods.hide_loader();
           if (result.status == 1) {
-            if (result.data.bookmarks.length > 0)
+            if (result.data.bookmarks.length > 0) {
               this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
-            this.utilityMethods.doToast("Bookmarked.");
+              this.utilityMethods.doToast("Bookmarked");
+            } else if (result.data.exist_count == 1) {
+              this.utilityMethods.doToast("Already Bookmarked");
+            }
           }
         }, (error) => {
           this.utilityMethods.hide_loader();
@@ -680,8 +690,9 @@ export class AnototeList {
             this.move_fab = true;
           }
         } else if (this.current_color == 'follows') {
-          anotote.active_tab = 'follows'
+          anotote.active_tab = 'follows';
           anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+          this.move_fab = true;
         }
         //-----
         if (this.current_active_anotote) {
@@ -741,6 +752,7 @@ export class AnototeList {
       } else {
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;
+          this.move_fab = false;
           if (this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
             this.current_active_anotote = null;
             return;
@@ -752,6 +764,7 @@ export class AnototeList {
           anotote.active = true;
         anotote.active_tab = 'top';
         this.current_active_anotote = anotote;
+        this.move_fab = true;
         if (anotote.anototeDetail.follows.length > 0)
           anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
         anotote.follows = anotote.anototeDetail.follows;
@@ -1299,17 +1312,20 @@ export class AnototeList {
   bookmark_totes() {
     var ids = '';
     var links = [];
+    var titles = [];
     for (let anotote of this.selected_totes) {
       if (ids == '')
         ids += anotote.userAnnotote.id
       else
         ids += ',' + anotote.userAnnotote.id
-      links.push(this.current_color == 'follows' ? anotote.userAnnotote.annotote.link : anotote.annotote.link)
+      links.push(this.current_color == 'follows' ? anotote.userAnnotote.annotote.link : anotote.annotote.link);
+      titles.push(this.current_color == 'follows' ? anotote.userAnnotote.annotote.title : anotote.annotote.title);
     }
     var params = {
       user_tote_id: ids,
       user_id: this.user.id,
       links: links,
+      tote_titles: titles,
       created_at: this.utilityMethods.get_php_wala_time()
     }
     this.utilityMethods.show_loader('', false);
