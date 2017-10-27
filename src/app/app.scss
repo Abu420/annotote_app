@@ -413,14 +413,16 @@ view_options {
             width: 20px;
             text-align: center;
             height: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-style: normal;
-            padding: 2px;
+            padding: 0;
             background: red;
             border-radius: 50%;
-            color: #FFF;
+            color: #fff;
             right: 16px;
             top: 15px;
+            line-height: 1.7;
+            font-weight: bold;
         }
     }
 }
@@ -474,6 +476,24 @@ page-changepassword {
         }
         &.passIcon {
             @extend .msgIcon;
+            .iconImg {
+                img {
+                    width: 35px;
+                }
+                .activeIcon {
+                    display: none;
+                }
+            }
+            &.active {
+                background: #d9d9d9;
+                img {
+                    display: none;
+                }
+                .activeIcon {
+                    display: inline-block;
+                    box-shadow: none;
+                }
+            }
         }
         .iconImg {
             float: left;
@@ -483,6 +503,24 @@ page-changepassword {
         }
         &.loginIcon {
             @extend .msgIcon;
+            .iconImg {
+                img {
+                    width: 35px;
+                }
+                .activeIcon {
+                    display: none;
+                }
+            }
+            &.active {
+                background: #d9d9d9;
+                img {
+                    display: none;
+                }
+                .activeIcon {
+                    display: inline-block;
+                    box-shadow: none;
+                }
+            }
         }
     }
     .form-area input {
@@ -941,6 +979,7 @@ search_page {
         .search_field {
             width: calc(100% - 132px) !important;
             border-radius: 0px;
+            background: #FFF;
         }
         .search_button {
             height: $bar_button_custom_height;
