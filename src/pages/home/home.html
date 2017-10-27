@@ -37,7 +37,8 @@
         <ion-list style="margin-bottom: 50px !important;" class="product-list">
             <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
                 <div class="txt">
-                    <strong [innerText]="search.term"></strong>
+                    <strong *ngIf="search.linkTitle != null && search.linkTitle != ''" [innerText]="search.linkTitle"></strong>
+                    <strong *ngIf="search.linkTitle == null || search.linkTitle == ''" [innerText]="search.term"></strong>
                     <div class="time">
                         <span *ngIf="search.bookMarked == 0">Search</span>
                         <span *ngIf="search.bookMarked == 1">Bookmarked</span>

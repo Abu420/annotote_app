@@ -182,11 +182,12 @@ export class Search {
         else if (save_or_bookmark == 'bookmark_entry')
             params.book_marked = 1;
         this.searchService.save_search_entry(params).subscribe((response) => {
-            this.searchService.saved_searches.unshift(response.data.search);
             if (this.utilityMethods.isWEBURL(this.search_txt))
-                this.scrape_this_url(false, save_or_bookmark);
-            else
+                this.scrape_this_url(false, save_or_bookmark, response.data.search);
+            else {
+                this.searchService.saved_searches.unshift(response.data.search);
                 this.utilityMethods.hide_loader();
+            }
             // this.events.publish('new_search_added', { entry: response.data.search });
         }, (error) => {
             this.utilityMethods.hide_loader();
@@ -322,16 +323,21 @@ export class Search {
         }
     }
 
-    scrape_this_url(check, save_or_bookmark) {
+    scrape_this_url(check, save_or_bookmark, search) {
         var current_time = this.utilityMethods.get_php_wala_time();
+        var params = { url: this.search_txt, created_at: current_time }
         if (check)
             this.utilityMethods.show_loader('Please wait...');
+        else
+            params['search_id'] = search.id;
         /**
          * Create Anotote API
          */
-        this.searchService.create_anotote({ url: this.search_txt, created_at: current_time })
+        this.searchService.create_anotote(params)
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
+                search.linkTitle = response.data.annotote.title;
+                this.searchService.saved_searches.unshift(search);
                 response.data.userAnnotote.annotote = response.data.annotote;
                 if (save_or_bookmark == 'save_entry')
                     this.utilityMethods.doToast("Saved to search stream successfully!");
