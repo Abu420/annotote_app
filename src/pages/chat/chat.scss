@@ -24,7 +24,7 @@ page-chat {
         }
         .txt {
             vertical-align: middle;
-            padding: 20px 10px 10px 5px;
+            padding: 20px 15px 10px 5px;
             width: calc(100% - 40px);
             padding-left: 5px;
             min-height: 72px;
@@ -50,6 +50,7 @@ page-chat {
                 em {
                     font-style: normal;
                     color: #b5b5b5;
+                    font-size: 12px;
                 }
             }
             .toteText {
@@ -150,6 +151,7 @@ page-chat {
                         font-size: 14px;
                         .msg-time {
                             float: right;
+                            font-size: 12px;
                         }
                     }
                     p {
