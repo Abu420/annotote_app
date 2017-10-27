@@ -406,10 +406,10 @@
             .searchUserHead {
                 height: 56px;
                 >img {
-                    width: 22px;
+                    width: 24px;
                     display: inline-block;
                     vertical-align: top;
-                    margin: 17px 21px 16px 23px;
+                    margin: 15px 21px 16px 23px;
                 }
                 >input {
                     width: calc(100% - 160px);
@@ -417,6 +417,7 @@
                     display: inline-block;
                     vertical-align: top;
                     border: 0px;
+                    background: #FFF;
                     box-shadow: 0px 0px 10px #103c00;
                 }
                 span {
@@ -474,10 +475,12 @@
                     box-shadow: 0px 0px 10px #3c3c3c;
                 }
                 >img {
-                    width: 15px;
-                    display: inline-block;
-                    vertical-align: top;
-                    margin: 20px 7px;
+                    width: 24px;
+                    margin: 0;
+                    position: absolute;
+                    right: 8px;
+                    top: 50%;
+                    transform: translate(0%, -50%);
                 }
                 >input {
                     width: calc(100% - 134px);

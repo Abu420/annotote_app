@@ -732,6 +732,7 @@ search_page {
                             display: inline-block;
                             width: calc(100% - 78px);
                             vertical-align: middle;
+                            padding-right: 10px;
                             .rightContent {
                                 float: right;
                                 font-size: 12px;
@@ -828,11 +829,11 @@ search_page {
                 }
             }
             .clear_button {
-                width: 30px;
-                background-size: 18px;
+                width: 40px;
+                background-size: 24px;
             }
             .search_field {
-                width: calc(100% - 122px);
+                width: calc(100% - 132px);
                 border-radius: 0px;
             }
         }
@@ -854,11 +855,11 @@ search_page {
                 }
             }
             .clear_button {
-                width: 30px;
-                background-size: 18px;
+                width: 40px;
+                background-size: 24px;
             }
             .search_field {
-                width: calc(100% - 122px);
+                width: calc(100% - 132px);
                 border-radius: 0px;
             }
         }
@@ -880,11 +881,11 @@ search_page {
                 }
             }
             .clear_button {
-                width: 30px;
-                background-size: 18px;
+                width: 40px;
+                background-size: 24px;
             }
             .search_field {
-                width: calc(100% - 122px);
+                width: calc(100% - 132px);
                 border-radius: 0px;
             }
         }
@@ -907,11 +908,11 @@ search_page {
             }
             .clear_button {
                 background-color: #000;
-                width: 30px;
-                background-size: 18px;
+                width: 40px;
+                background-size: 24px;
             }
             .search_field {
-                width: calc(100% - 122px);
+                width: calc(100% - 132px);
                 border-radius: 0px;
             }
         }
@@ -933,6 +934,14 @@ search_page {
             background-repeat: no-repeat;
             background-size: 35px;
         }
+        .clear_button {
+            width: 40px !important;
+            background-size: 24px !important;
+        }
+        .search_field {
+            width: calc(100% - 132px) !important;
+            border-radius: 0px;
+        }
         .search_button {
             height: $bar_button_custom_height;
             float: left;
@@ -947,7 +956,7 @@ search_page {
             height: 56px;
             float: right;
             width: 36px;
-            background-image: url(../assets/img/cross.png);
+            background-image: url(../assets/img/closeIcon.svg);
             background-position: center;
             background-repeat: no-repeat;
             background-size: 15px;
