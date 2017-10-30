@@ -22,6 +22,25 @@ top_options {
         left: 0;
     }
     .sharing_pop {
+        &.interestTab {
+            .main_label {
+                text-align: center;
+                line-height: 8;
+                padding: 20px 0;
+                ion-icon {
+                    float: none !important;
+                }
+            }
+            span {
+                display: inline-block !important;
+                vertical-align: middle;
+                width: calc(100% - 78px);
+                margin: 0px;
+                padding: 28px 10px 28px 0px !important;
+                list-style: none;
+                border-bottom: 1px solid #ececec;
+            }
+        }
         &.borderNone {
             .main_label {
                 line-height: 7;

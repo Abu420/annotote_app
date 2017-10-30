@@ -2,9 +2,11 @@
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
     <!--<div class="pop_heading">Settings</div>-->
-    <ion-list no-lines class="sharing_pop fluid bottom-border">
+    <ion-list no-lines class="sharing_pop interestTab fluid bottom-border">
         <ion-item (tap)="presentTopInterestsModal()">
-            <ion-icon name="crop"></ion-icon>
+            <div class="main_label">
+                <ion-icon name="crop"></ion-icon>
+            </div>
             <span>My interest</span>
         </ion-item>
     </ion-list>
