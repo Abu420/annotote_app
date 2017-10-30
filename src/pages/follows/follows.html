@@ -12,7 +12,9 @@
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
     <div class="headFollow" (click)="dismiss()">
-        <ion-title>Follows ({{followings.length}})</ion-title>
+        <ion-title>Follows
+            <ng-container *ngIf="followings.length > 1">({{followings.length}})</ng-container>
+        </ion-title>
     </div>
     <div class="follow_details">
         <div id="wrapper">

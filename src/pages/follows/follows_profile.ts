@@ -138,7 +138,7 @@ export class Profile {
     } else {
       buttons = [
         {
-          text: 'Send Message',
+          text: 'Chat',
           handler: () => {
             // if (this.profileData.user.isFollowed == 1)
             this.go_to_thread();
@@ -162,7 +162,7 @@ export class Profile {
       ];
     }
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Select',
+      title: '',
       buttons: buttons
     });
 

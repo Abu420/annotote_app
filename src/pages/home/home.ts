@@ -255,7 +255,8 @@ export class Home {
   addBtn(check = false) {
     var params: any = {
       anotote: null,
-      stream: 'homeheader'
+      stream: 'homeheader',
+      findChatter: true
     }
     if (check)
       params.findChatter = true;

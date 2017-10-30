@@ -47,6 +47,7 @@ export class Notifications {
   private user: User;
   public has_notifications: boolean = true;
   public show: boolean = true;
+  public loadMore: boolean = true;
 
   constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
     this._notifications = [];
@@ -125,6 +126,9 @@ export class Notifications {
       this._loading = true;
       if (this._notifications.length == 0) {
         this.has_notifications = false;
+        this.loadMore = false;
+      } else if (this._notifications.length < 10) {
+        this.loadMore = false;
       }
     } else {
       // this.notificationService.get_notifications(user_id)
@@ -153,6 +157,7 @@ export class Notifications {
         infinte.complete();
         if (response.data.notifications.length < 10) {
           infinte.enable(false);
+          this.loadMore = false;
         }
       }, (error) => {
         this._loading = true;

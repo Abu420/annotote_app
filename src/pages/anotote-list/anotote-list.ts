@@ -473,7 +473,6 @@ export class AnototeList {
   }
 
   show_top_tab(anotote) {
-    this.move_fab = true;
     if (anotote.top_highlights == undefined) {
       if (anotote.userAnnotote.id != anotote.topUserToteId) {
         this.top_spinner = true;
@@ -484,8 +483,14 @@ export class AnototeList {
         }
         this.anototeService.fetchToteDetails(params).subscribe((result) => {
           this.top_spinner = false;
+          this.move_fab = true;
           anotote.active_tab = 'top'
           anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+          anotote.topVote = {
+            currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
+            rating: result.data.annotote.userAnnotote.rating,
+            isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
+          }
           if (result.status == 1) {
             anotote.highlights = Object.assign(result.data.annotote.highlights);
             anotote.top_highlights = result.data.annotote.highlights;
@@ -499,11 +504,18 @@ export class AnototeList {
           }
         })
       } else {
+        this.move_fab = true;
         anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
         anotote.active_tab = 'top';
         anotote.topFilePath = anotote.userAnnotote.filePath;
+        anotote.topVote = {
+          currentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.currentUserVote,
+          rating: anotote.userAnnotote.anototeDetail.userAnnotote.rating,
+          isCurrentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.isCurrentUserVote
+        }
       }
     } else {
+      this.move_fab = true;
       anotote.active_tab = 'top'
       anotote.highlights = Object.assign(anotote.top_highlights);
     }
@@ -600,8 +612,11 @@ export class AnototeList {
   go_to_chat_tote() {
     var params = {
       anotote: this.current_active_anotote,
-      stream: this.current_color
+      stream: this.current_color,
+      findChatter: this.current_active_anotote == null ? true : false
     }
+    if (this.current_color == 'me')
+      params.findChatter = true;
     let chatTote = this.modalCtrl.create(ChatToteOptions, params);
     chatTote.onDidDismiss((data) => {
       if (data.chat) {
@@ -1345,6 +1360,13 @@ export class AnototeList {
         this.utilityMethods.internet_connection_error();
       }
     })
+  }
+
+  upvote() {
+  }
+
+  downvote() {
+
   }
 
 }

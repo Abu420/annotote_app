@@ -86,7 +86,7 @@ export class FrontViewPage {
 
       doInfinite(infiniteScroll) {
             this.showFabButton = false;
-            this.presentToast();
+            this.hideMessage();
             let self = this;
             this.page++;
             var current_time = this.utilityMethods.get_php_wala_time();
@@ -116,27 +116,13 @@ export class FrontViewPage {
       openAnototeList(event) {
             // this.navCtrl.push(AnototeList, {});
             this.showFabButton = false;
-            this.presentToast();
+            this.hideMessage();
+
       }
 
-      presentToast() {
-            if (this.toast != null) {
-                  return;
-            }
-            this.toast = this.toastCtrl.create({
-                  message: 'Register or sign in',
-                  position: 'bottom',
-                  dismissOnPageChange: true,
-                  showCloseButton: false,
-                  duration: 2000,
-                  cssClass: 'bottom_snakbar'
-            });
-
-            this.toast.onDidDismiss(() => {
+      hideMessage() {
+            setTimeout(() => {
                   this.showFabButton = true;
-                  this.toast = null;
-            });
-
-            this.toast.present();
+            }, 2000)
       }
 }
