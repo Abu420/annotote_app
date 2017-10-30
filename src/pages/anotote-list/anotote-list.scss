@@ -270,7 +270,19 @@
                         text-align: center;
                         padding: 0;
                         height: 73px;
-                        line-height: 8;
+                        line-height: 7.5;
+                        &.bookmarkIcon {
+                            line-height: 7;
+                            img {
+                                width: 20px;
+                            }
+                        }
+                        &.helpIcon {
+                            line-height: 7.5;
+                            img {
+                                width: 24px;
+                            }
+                        }
                         img {
                             width: 32px;
                         }
@@ -705,7 +717,7 @@
                                 }
                                 .txt {
                                     vertical-align: middle;
-                                    padding: 20px 10px 5px 5px;
+                                    padding: 20px 10px 0px 5px;
                                     width: calc(100% - 72px);
                                     min-height: 72px;
                                     position: relative;
@@ -779,7 +791,7 @@
                                             color: #8e9093;
                                             background: transparent;
                                             float: left;
-                                            margin-top: 1px !important;
+                                            margin-top: 3px !important;
                                             img {
                                                 display: inline-block;
                                                 vertical-align: middle;
@@ -865,6 +877,7 @@
                                 height: 30px;
                                 .btns-area {
                                     padding: 0px;
+                                    line-height: .7;
                                     .me-tab {
                                         background: #e0e0e0;
                                         color: white;
@@ -907,7 +920,7 @@
                                                     display: inline-block;
                                                     vertical-align: middle;
                                                     width: calc(100% - 30px);
-                                                    padding: 0 0px 0 10px;
+                                                    padding: 0 5px 0 4px;
                                                     min-height: auto;
                                                     p {
                                                         font-size: 14px;
@@ -952,7 +965,7 @@
                                                     }
                                                 }
                                                 .status {
-                                                    margin-top: 4px;
+                                                    margin-top: 2px;
                                                 }
                                                 .quotes_follows {
                                                     background: $follow_app_color;

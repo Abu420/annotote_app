@@ -350,7 +350,7 @@ page-anotote-editor {
                 background: #2ba600;
             }
             .greyOut:before {
-                background: #d4d4d4;
+                background: #2ba600;
             }
             .greyOut {
                 background: #d4d4d4 !important;
@@ -411,6 +411,7 @@ page-anotote-editor {
             border-radius: 0px;
             font-size: 22px;
             vertical-align: middle;
+            margin-top: -4px;
         }
         .highlight_quote:before {
             content: '"';
