@@ -102,4 +102,9 @@ export class AnototeService {
     var response = this.http.post(url, params, {}).map(res => res.json());
     return response;
   }
+  public vote_anotote(params) {
+    var url = this.constants.API_BASEURL + '/annotote/vote';
+    var response = this.http.post(url, params).map(res => res.json());
+    return response;
+  }
 }

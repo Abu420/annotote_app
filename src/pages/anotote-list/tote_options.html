@@ -1,6 +1,16 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
+    <div *ngIf="stream != 'me'" no-lines class="sharing_pop four bottom-border">
+        <div class="main_label">
+            <img src="assets/img/bookmark.svg" />
+        </div>
+        <ul>
+            <li (click)="bookmarkTote()">
+                <span>Bookmark</span>
+            </li>
+        </ul>
+    </div>
     <div no-lines class="sharing_pop bottom-border">
         <div class="main_label">
             <img src="assets/img/shareIconGray.svg" />
@@ -28,8 +38,11 @@
             <img src="assets/img/hashIconGray.svg" />
         </div>
         <ul *ngIf="stream != 'top'">
-            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0" (tap)="presentTagsModal()">
+            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
                 <span>Add Tags</span>
+            </li>
+            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'follows'" (tap)="presentTagsModal()">
+                <span>No tags added</span>
             </li>
             <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
                 <li *ngIf="i < 2">
@@ -74,16 +87,6 @@
         <ul>
             <li (click)="delete_anotote()">
                 <span>Delete</span>
-            </li>
-        </ul>
-    </div>
-    <div *ngIf="stream != 'me'" no-lines class="sharing_pop four bottom-border">
-        <div class="main_label">
-            <img src="assets/img/bookmark.svg" />
-        </div>
-        <ul>
-            <li (click)="bookmarkTote()">
-                <span>Bookmark</span>
             </li>
         </ul>
     </div>
