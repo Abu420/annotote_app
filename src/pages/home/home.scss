@@ -72,9 +72,15 @@ top_options {
             text-align: center;
             padding: 0;
             height: 73px;
-            line-height: 8;
+            line-height: 7.5;
             img {
-                width: 32px;
+                width: 30px;
+            }
+            &.helpIcon {
+                line-height: 7;
+                img {
+                    width: 20px;
+                }
             }
         }
         ul {

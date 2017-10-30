@@ -915,6 +915,15 @@
                                         .input-wrapper {
                                             ion-label {
                                                 padding: 10px 0px 10px 20px;
+                                                &:focus {
+                                                    background: #CCC;
+                                                }
+                                                &:active {
+                                                    background: #CCC;
+                                                }
+                                                &:visited {
+                                                    background: #CCC;
+                                                }
                                                 .txt {
                                                     border-bottom: 0px;
                                                     display: inline-block;
