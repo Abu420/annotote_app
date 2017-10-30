@@ -517,11 +517,14 @@
             .resultWidget {
                 @extend .userWidget;
                 ul {
-                    padding: 15px 0 0 !important;
+                    padding: 0 !important;
                     li {
                         padding: 0 0px 0 10px;
                         overflow: hidden;
                         margin-bottom: 11px;
+                        &:first-child {
+                            padding-top: 15px !important;
+                        }
                         figure {
                             float: left;
                             width: 60px;
