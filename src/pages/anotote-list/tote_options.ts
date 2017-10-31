@@ -143,22 +143,26 @@ export class AnototeOptions {
 
   bookmarkTote() {
     var links = [];
-    links.push(this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link)
+    var title = [];
+    links.push(this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link);
+    title.push(this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title);
     var params = {
       user_tote_id: this.anotote.userAnnotote.id,
       user_id: this.user.id,
       links: links,
+      tote_titles: title,
       created_at: this.utilityMethods.get_php_wala_time()
     }
     this.utilityMethods.show_loader('', false);
     this.anototeService.bookmark_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.status == 1) {
-        this.utilityMethods.doToast("Bookmarked.");
-        if (result.data.bookmarks.length > 0)
-          for (let bookmark of result.data.bookmarks) {
-            this.searchService.saved_searches.unshift(bookmark);
-          }
+        if (result.data.bookmarks.length > 0) {
+          this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
+          this.utilityMethods.doToast("Bookmarked");
+        } else if (result.data.exist_count == 1) {
+          this.utilityMethods.doToast("Already Bookmarked");
+        }
       }
     }, (error) => {
       this.utilityMethods.hide_loader();

@@ -30,6 +30,9 @@
         <ion-title *ngIf="!full_screen_mode && which_stream == 'me'">
             <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
         </ion-title>
+        <ion-title *ngIf="!full_screen_mode && which_stream == 'anon'">
+            <dot-navigation class="anonDot" unactivedots="2"></dot-navigation>
+        </ion-title>
         <ion-title *ngIf="!full_screen_mode && which_stream == 'follows'">
             <dot-navigation class="followDot" unactivedots="2"></dot-navigation>
         </ion-title>
