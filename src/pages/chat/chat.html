@@ -68,7 +68,7 @@
             </ion-item>
         </ion-list>
     </div>
-    <ion-fab [ngClass]="{'moveUp': move == true}" bottom right>
+    <ion-fab [ngClass]="{'moveUp': move == true}" *ngIf="move == false" bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="fab_color">
                 <img src="assets/img/whiteTote.svg" />
             </button>
