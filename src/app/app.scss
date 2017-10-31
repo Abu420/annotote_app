@@ -37,14 +37,12 @@ strong:active {
 //     font-family: 'roboto'; // src: url("../assets/fonts/LucidaSans.eot");
 //     // src: url("../assets/fonts/LucidaSans.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/LucidaSans.woff") format("woff"), url("../assets/fonts/LucidaSans.ttf") format("truetype"), url("../assets/fonts/LucidaSans.svg#lovely") format("svg");
 // }
-body {
-    font-family: -apple-system, 'robotoregular' !important;
-}
-
-ion-app.ios {
-    font-family: -apple-system, 'robotoregular' !important;
-}
-
+// body {
+//     font-family: -apple-system, 'robotoregular' !important;
+// }
+// ion-app.ios {
+//     font-family: -apple-system, 'robotoregular' !important;
+// }
 // .platform-ios .ios-header {
 //     height: calc(56px + 20px);
 //     min-height: calc(56px + 20px);
@@ -299,6 +297,7 @@ button,
             text-overflow: ellipsis;
             white-space: nowrap;
             -webkit-line-clamp: 2;
+            font-weight: 500;
         }
         span {
             float: right;

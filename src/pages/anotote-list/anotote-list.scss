@@ -538,7 +538,8 @@
                             padding-top: 15px !important;
                         }
                         figure {
-                            float: left;
+                            display: inline-block;
+                            vertical-align: middle;
                             width: 60px;
                             height: 60px;
                             margin: 0px;
@@ -551,7 +552,7 @@
                         figcaption {
                             display: inline-block;
                             vertical-align: middle;
-                            width: calc(100% - 70px);
+                            width: calc(100% - 75px);
                             overflow: hidden;
                             border-bottom: 1px solid #D2D2D2;
                             padding: 27px 0px;
@@ -566,6 +567,7 @@
                                     width: 12px !important;
                                     &.star-icon {
                                         width: 15px !important;
+                                        margin: 0px !important;
                                     }
                                 }
                             }
