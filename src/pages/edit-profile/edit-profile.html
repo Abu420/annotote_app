@@ -29,7 +29,7 @@
                 <input [(ngModel)]="user.firstName" name="firstname" (blur)="changeColor('')" (focus)="changeColor('first_name')" type="text" placeholder="Full Name">
                 <div class="iconImg">
                     <img src="assets/img/userIcon.svg" alt="">
-                    <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/userIconActive.svg" alt="">
                 </div>
             </div>
             <!-- <div class="input-holder loginIcon userInput layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
@@ -42,8 +42,8 @@
             <div class="input-holder passIcon userDesc layout" [ngClass]="focus_field=='description'?'active':(field_error.description?'invalid_field':'')">
                 <input style="background: transparent;border: 0px;" [(ngModel)]="user.description" name="description" (blur)="changeColor('')" (focus)="changeColor('description')" type="text" placeholder="Description" />
                 <div class="iconImg">
-                    <img src="assets/img/lockIcon.svg" alt="">
-                    <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
+                    <img src="assets/img/userIcon.svg" alt="">
+                    <img class="activeIcon" src="assets/img/userIconActive.svg" alt="">
                 </div>
             </div>
             <button [ngClass]="(user.firstName.length > 0  && user.email.length > 0)?'green':''" (tap)="go_home()" ion-button>Go</button>
