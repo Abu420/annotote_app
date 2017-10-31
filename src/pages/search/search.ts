@@ -336,8 +336,10 @@ export class Search {
         this.searchService.create_anotote(params)
             .subscribe((response) => {
                 this.utilityMethods.hide_loader();
-                search.linkTitle = response.data.annotote.title;
-                this.searchService.saved_searches.unshift(search);
+                if (search) {
+                    search.linkTitle = response.data.annotote.title;
+                    this.searchService.saved_searches.unshift(search);
+                }
                 response.data.userAnnotote.annotote = response.data.annotote;
                 if (save_or_bookmark == 'save_entry')
                     this.utilityMethods.doToast("Saved to search stream successfully!");

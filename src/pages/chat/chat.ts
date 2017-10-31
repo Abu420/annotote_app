@@ -58,7 +58,7 @@ export class Chat {
     public stream: Streams,
     public anototeService: AnototeService,
     public popoverCtrl: PopoverController) {
-    this.reply_box_on = false;
+    this.reply_box_on = true;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
     this.chatService.threadingUser = this.secondUser;

@@ -140,6 +140,8 @@ export class AnototeList {
       if (this.stream.me_first_load) {
         this.anototes = this.stream.me_anototes;
         this.current_page = this.stream.me_page_no;
+        if (this.anototes.length == 0)
+          this.has_totes = false;
       } else {
         this.loadanototes();
       }
@@ -147,12 +149,16 @@ export class AnototeList {
       if (this.stream.follow_first_load) {
         this.anototes = this.stream.follows_anototes;
         this.current_page = this.stream.follows_page_no;
+        if (this.anototes.length == 0)
+          this.has_totes = false;
       } else
         this.loadanototes();
     } else {
       if (this.stream.top_first_load) {
         this.top_anototes = this.stream.top_anototes;
         this.current_page = this.stream.top_page_no;
+        if (this.anototes.length == 0)
+          this.has_totes = false;
       } else
         this.loadanototes();
     }
@@ -638,10 +644,22 @@ export class AnototeList {
             this.anototeService.save_totes(params).subscribe((result) => {
               this.utilityMethods.hide_loader();
               if (result.status == 1) {
-                this.stream.me_first_load = false;
-                this.stream.top_first_load = false;
-                this.stream.follow_first_load = false;
-                this.utilityMethods.doToast("Saved to Me stream");
+                if (result.data.save_count == 1) {
+                  this.current_active_anotote.isMe = 1;
+                  if (this.current_color == 'top') {
+                    this.current_active_anotote.anototeDetail.isMe = 1;
+                    this.current_active_anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                  } else {
+                    this.current_active_anotote.userAnnotote.anototeDetail.isMe = 1;
+                    this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                  }
+                  this.stream.me_first_load = false;
+                  this.stream.top_first_load = false;
+                  this.stream.follow_first_load = false;
+                  this.utilityMethods.doToast("Saved to Me stream");
+                } else {
+                  this.utilityMethods.doToast("Already Saved");
+                }
                 // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
                 this.open_browser(this.current_active_anotote, null);
               }
@@ -720,7 +738,6 @@ export class AnototeList {
             this.current_active_highlight.edit = false;
           }
           if (this.current_active_anotote.id == anotote.id) {
-
             this.current_active_anotote = null;
             return;
           }
@@ -1289,37 +1306,61 @@ export class AnototeList {
 
   save_totes() {
     var ids = '';
+    var userIds = '';
     if (this.current_color == 'follows')
       for (let anotote of this.selected_totes) {
-        if (ids == '')
+        if (ids == '') {
           ids += anotote.userAnnotote.annotote.id
-        else
+          userIds += anotote.userAnnotote.anototeDetail.user.id
+        } else {
           ids += ',' + anotote.userAnnotote.annotote.id
+          userIds += ',' + anotote.userAnnotote.anototeDetail.user.id
+        }
       }
     else if (this.current_color == 'top')
       for (let anotote of this.selected_totes) {
-        if (ids == '')
-          ids += anotote.annotote.id
-        else
-          ids += ',' + anotote.annotote.id
+        if (ids == '') {
+          ids += anotote.annotote.id;
+          userIds += anotote.anototeDetail.user.id;
+        } else {
+          ids += ',' + anotote.annotote.id;
+          userIds += ',' + anotote.anototeDetail.user.id;
+        }
       }
 
     var params = {
       annotote_id: ids,
-      user_id: this.user.id,
+      user_id: userIds,
       created_at: this.utilityMethods.get_php_wala_time()
     }
     this.utilityMethods.show_loader('', false);
     this.anototeService.save_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.status == 1) {
-        this.utilityMethods.doToast("Saved.");
+        for (var i = 0; i < this.selected_totes.length; i++) {
+          if (this.current_color == 'top') {
+            if (this.selected_totes[i].anototeDetail.meToteFollowTop == null) {
+              this.selected_totes[i].isMe = 1;
+              this.selected_totes[i].anototeDetail.isMe = 1;
+              this.selected_totes[i].anototeDetail.meToteFollowTop = result.data.meToteFollowTop[i];
+            }
+          } else {
+            if (this.selected_totes[i].userAnnotote.anototeDetail.meToteFollowTop == null) {
+              this.selected_totes[i].isMe = 1;
+              this.selected_totes[i].userAnnotote.anototeDetail.isMe = 1;
+              this.selected_totes[i].userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[i];
+            }
+          }
+        }
         this.close_bulk_actions();
       }
     }, (error) => {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
+      } else {
+        this.utilityMethods.doToast("Couldn't save totes");
+        this.close_bulk_actions();
       }
     })
   }
@@ -1347,7 +1388,7 @@ export class AnototeList {
     this.anototeService.bookmark_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.status == 1) {
-        this.utilityMethods.doToast("Bookmarked.");
+        this.utilityMethods.doToast("Bookmarked");
         if (result.data.bookmarks.length > 0)
           for (let bookmark of result.data.bookmarks) {
             this.searchService.saved_searches.unshift(bookmark);
@@ -1358,6 +1399,9 @@ export class AnototeList {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
+      } else {
+        this.utilityMethods.doToast("Couldn't bookmark totes")
+        this.close_bulk_actions();
       }
     })
   }

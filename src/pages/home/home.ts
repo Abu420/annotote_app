@@ -71,7 +71,7 @@ export class Home {
     /**
      * Load Notifications Count
      */
-    this.statusBar.backgroundColorByHexString('#252525');
+    this.statusBar.backgroundColorByHexString('#323232');
     this.loadNotifications();
     this.get_search_entries();
   }
