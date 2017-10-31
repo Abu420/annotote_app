@@ -366,6 +366,9 @@ page-anotote-editor {
                 p {
                     background: #fff896 !important;
                 }
+                &.greyOut {
+                    background: #d4d4d4 !important;
+                }
             }
             .highlight_comment:before {
                 background: #fff896;
@@ -383,6 +386,9 @@ page-anotote-editor {
                 background: #fb9df0 !important;
                 p {
                     background: #fb9df0;
+                }
+                &.greyOut {
+                    background: #d4d4d4 !important;
                 }
             }
             .highlight_comment:before {
