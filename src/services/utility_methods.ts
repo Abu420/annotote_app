@@ -84,7 +84,8 @@ export class UtilityMethods {
         let toast = this.toastCtrl.create({
             message: msg,
             duration: 2500,
-            position: 'bottom'
+            position: 'bottom',
+            cssClass: 'bottom_snakbar'
         });
 
         toast.onDidDismiss(() => {
