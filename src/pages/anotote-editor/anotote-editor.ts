@@ -107,6 +107,7 @@ export class AnototeEditor implements OnDestroy {
             HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
             actual_stream: navParams.get('actual_stream')
         };
+        console.log(anotote_from_params.ANOTOTE);
         if (anotote_from_params.actual_stream == 'anon') {
             this.search_obj_to_be_deleted = navParams.get('search_to_delete');
         }
@@ -320,6 +321,7 @@ export class AnototeEditor implements OnDestroy {
                     this.anotote_service.save_totes(data).subscribe((result) => {
                         this.utilityMethods.hide_loader();
                         if (result.status == 1) {
+                            this.ANOTOTE.isMe = 1;
                             this.runtime.me_first_load = false;
                             this.runtime.top_first_load = false;
                             this.runtime.follow_first_load = false;
@@ -375,6 +377,8 @@ export class AnototeEditor implements OnDestroy {
             this.ANOTOTE.userAnnotote.anototeDetail = result.data.annotote;
             this.ANOTOTE.userAnnotote.annototeHeighlights = result.data.annotote.highlights;
             this.ANOTOTE.active_tab = 'me';
+            this.ANOTOTE.isMe = 1;
+            this.ANOTOTE.userAnnotote.isMe = 1;
             this.ANOTOTE.followers = this.ANOTOTE.follows;
             this.actual_stream = 'me';
             this.which_stream = 'me';

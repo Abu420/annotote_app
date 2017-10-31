@@ -29,13 +29,13 @@
             <div class="topTab" *ngIf="stream != 'me'">
                 <span>Top</span>
             </div>
-            <div (tap)="share()" class="col" *ngIf="stream != 'me'">
+            <!-- <div (tap)="share()" class="col" *ngIf="stream != 'me'">
                 <img src="assets/img/shareIcon.svg" alt="">
             </div>
 
             <div (tap)="share()" class="col" *ngIf="stream == 'me'">
                 <img src="assets/img/shareIcon.svg" alt="">
-            </div>
+            </div> -->
             <div class="btnRow" *ngIf="stream == 'me'">
                 <span (tap)="dismiss()">Close</span>
                 <span (tap)="delete()">Delete</span>

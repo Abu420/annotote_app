@@ -123,7 +123,7 @@
                     </div>
                 </div>
                 <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
-                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active && anotote.type!=2}">
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active && anotote.type!=2}" *ngIf="anotote.type != 2">
                     <div class="loading" [hidden]="anotote.spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
