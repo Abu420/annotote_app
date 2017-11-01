@@ -1,5 +1,5 @@
 import { Component, trigger, transition, style, animate } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams, Events } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 @Component({
   selector: 'comment_detail_popup',
@@ -29,7 +29,7 @@ export class CommentDetailPopup {
   public show: boolean = true;
   public annotation;
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public utilityMethods: UtilityMethods) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, private events: Events) {
     this.anotote_txt = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
@@ -37,6 +37,9 @@ export class CommentDetailPopup {
     this.stream = this.params.get('stream');
     this.new_comment = Object.assign(this.anotote_comment);
     this.annotation = params.get('anotation');
+    this.events.subscribe('closeModal', () => {
+      this.dismiss();
+    })
   }
 
   dismiss() {

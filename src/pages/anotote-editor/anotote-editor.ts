@@ -75,6 +75,10 @@ export class AnototeEditor implements OnDestroy {
     public moveFabUp: boolean = false;
     public follow_visited = false;
     public loading_message: string = '';
+    public commentDetailModalIsOpen: { check: boolean, comment: any } = {
+        check: false,
+        comment: null
+    };
 
     private show_anotation_details: (txt: string) => void;
 
@@ -247,7 +251,10 @@ export class AnototeEditor implements OnDestroy {
         });
     }
 
-    ionViewDidLeave() {
+    ionViewWillLeave() {
+        if (this.commentDetailModalIsOpen.check) {
+            this.events.publish('closeModal');
+        }
     }
 
 
@@ -495,6 +502,20 @@ export class AnototeEditor implements OnDestroy {
     editor_click(event) {
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
+            if (this.commentDetailModalIsOpen.check) {
+                if (this.commentDetailModalIsOpen.comment.identifier == identifier) {
+                    var element = document.getElementById(identifier);
+                    element.classList.remove('greyOut');
+                    this.events.publish('closeModal');
+                    this.commentDetailModalIsOpen.check = false;
+                    this.commentDetailModalIsOpen.comment = null;
+                    return;
+                } else {
+                    var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
+                    element.classList.remove('greyOut');
+                    this.events.publish('closeModal');
+                }
+            }
             var element = document.getElementById(identifier);
             element.classList.add('greyOut');
             this.selected_highlight = {
@@ -504,6 +525,8 @@ export class AnototeEditor implements OnDestroy {
                 from_where: '',
                 comment: event.target.getAttribute("data-comment")
             };
+            this.commentDetailModalIsOpen.check = true;
+            this.commentDetailModalIsOpen.comment = this.selected_highlight;
             this.presentCommentDetailModal(this.selected_highlight, event.target);
         }
 
@@ -545,13 +568,19 @@ export class AnototeEditor implements OnDestroy {
     presentCommentDetailModal(highlight, element?) {
         var opts = {
             cssClass: 'noBackDrop',
-            enableBackdropDismiss: true
+            enableBackdropDismiss: true,
+            showBackdrop: true
         }
         if (this.ANOTOTE.active_tab != 'me') {
             opts.cssClass = ''
         }
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier) }, opts);
         commentDetailModal.onDidDismiss(data => {
+            element.classList.remove('greyOut');
+            if (this.commentDetailModalIsOpen.check && this.commentDetailModalIsOpen.comment.identifier == highlight.identifier) {
+                this.commentDetailModalIsOpen.check = false;
+                this.commentDetailModalIsOpen.comment = null;
+            }
             if (data.delete) {
                 this.utilityMethods.confirmation_message("Are you sure ?", "Do you really want to delete this annotation ?", () => {
                     this.remove_annotation_api(highlight.identifier, element);
@@ -976,6 +1005,11 @@ export class AnototeEditor implements OnDestroy {
                         anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
                         this.actual_stream = anotote.active_tab;
                         this.scrape_anotote(anotote.topFilePath);
+                        anotote.topVote = {
+                            currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
+                            rating: result.data.annotote.userAnnotote.rating,
+                            isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
+                        }
                         if (result.status == 1) {
                             anotote.highlights = Object.assign(result.data.annotote.highlights);
                             anotote.top_highlights = result.data.annotote.highlights;
@@ -993,6 +1027,11 @@ export class AnototeEditor implements OnDestroy {
                     anotote.active_tab = 'top';
                     anotote.topFilePath = anotote.userAnnotote.filePath;
                     this.actual_stream = anotote.active_tab;
+                    anotote.topVote = {
+                        currentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.currentUserVote,
+                        rating: anotote.userAnnotote.anototeDetail.userAnnotote.rating,
+                        isCurrentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.isCurrentUserVote
+                    }
                     this.scrape_anotote(anotote.topFilePath);
                 }
             } else {
