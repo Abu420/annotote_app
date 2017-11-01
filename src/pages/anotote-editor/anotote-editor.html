@@ -1,4 +1,5 @@
-<ion-header class="topHeader" [ngClass]="{'show-header':showheader,'hide-header':hideheader}">
+<!-- <ion-header class="topHeader" [ngClass]="{'show-header':showheader,'hide-header':hideheader}"> -->
+<ion-header class="topHeader">
     <ion-toolbar [color]="which_stream">
         <ion-title *ngIf="full_screen_mode">
             <div class="arrows">
@@ -53,7 +54,7 @@
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
-<ion-content swipe-vertical>
+<ion-content [ngClass]="{'fullScreen': full_screen_mode == true}" swipe-vertical>
     <div id="wrapper">
         <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">
             <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
