@@ -18,7 +18,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content (ionScrollEnd)="onScroll($event)" padding>
     <div id="wrapper">
         <div no-lines class="user-controls layout">
             <button (tap)="login()" class="layout" type="button">
@@ -71,9 +71,9 @@
             <img src="assets/img/whiteTote.svg" />
         </button>
     </ion-fab>
-    <ion-footer class="message-bottom" *ngIf="!showFabButton" (tap)="signup()">
-        <ion-toolbar color="dark" text-center>
-            <p>Register or Sign In</p>
-        </ion-toolbar>
-    </ion-footer>
 </ion-content>
+<ion-footer class="message-bottom" *ngIf="!showFabButton" (tap)="signup()">
+    <ion-toolbar color="dark" text-center>
+        <p>Register or Sign In</p>
+    </ion-toolbar>
+</ion-footer>

@@ -216,6 +216,7 @@ page-follows {
         .follows_spinner {
             position: relative;
             width: 100%;
+            height: 50px;
             ion-spinner {
                 position: absolute;
                 display: inline-block;

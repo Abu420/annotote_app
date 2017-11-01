@@ -107,7 +107,6 @@ export class AnototeEditor implements OnDestroy {
             HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
             actual_stream: navParams.get('actual_stream')
         };
-        console.log(anotote_from_params.ANOTOTE);
         if (anotote_from_params.actual_stream == 'anon') {
             this.search_obj_to_be_deleted = navParams.get('search_to_delete');
         }
@@ -545,7 +544,11 @@ export class AnototeEditor implements OnDestroy {
 
     presentCommentDetailModal(highlight, element?) {
         var opts = {
-            cssClass: 'noBackDrop'
+            cssClass: 'noBackDrop',
+            enableBackdropDismiss: true
+        }
+        if (this.ANOTOTE.active_tab != 'me') {
+            opts.cssClass = ''
         }
         let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier) }, opts);
         commentDetailModal.onDidDismiss(data => {

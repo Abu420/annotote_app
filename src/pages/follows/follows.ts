@@ -1,4 +1,4 @@
-import { Component, trigger, transition, style, animate, NgZone } from '@angular/core';
+import { Component, trigger, transition, style, animate, NgZone, state } from '@angular/core';
 import { IonicPage, ModalController, ViewController } from 'ionic-angular';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { Profile } from '../follows/follows_profile';
@@ -37,6 +37,7 @@ export class Follows {
   private _loading: boolean;
   private no_followers_found: boolean = false;
   public show: boolean = true;
+  public flyInOutState: String = 'out';
 
   constructor(public constants: Constants,
     public viewCtrl: ViewController,

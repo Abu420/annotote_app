@@ -24,7 +24,7 @@
             <div *ngIf="no_followers_found == true" padding text-center>
                 You don't follow anyone.
             </div>
-            <ion-list no-lines class="product-list follows" [@enterAnimation]>
+            <ion-list no-lines class="product-list follows">
                 <ion-item *ngFor="let follower of followings" (click)="showProfile(follower)">
                     <ion-avatar item-start>
                         <img *ngIf="follower.photo == '' || follower.photo == null" src="assets/img/img3.jpg">

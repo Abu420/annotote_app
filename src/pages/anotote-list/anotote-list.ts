@@ -732,7 +732,9 @@ export class AnototeList {
           this.current_active_anotote.active = false;
           if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
             this.move_fab = false;
-          else if (this.current_active_anotote.chatGroupId == anotote.chatGroupId)
+          else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
+            this.move_fab = false;
+          else if (this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
             this.move_fab = false;
           if (this.current_active_highlight) {
             this.current_active_highlight.edit = false;

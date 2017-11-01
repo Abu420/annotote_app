@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 import { Login } from '../login/login';
 import { Signup } from '../signup/signup';
-import { NavController, NavParams, ToastController, Toast } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Toast, Content } from 'ionic-angular';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { OnlyTime } from '../../directives/date_pipe';
@@ -19,13 +19,19 @@ declare var moment: any;
       providers: [UtilityMethods]
 })
 export class FrontViewPage {
+      @ViewChild(Content) content: Content;
       public toast: Toast;
       public page: number;
       public latest_anototes: any;
       public latest_anototes_firstTime_loading: boolean;
       public showFabButton: boolean;
 
-      constructor(public navCtrl: NavController, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, public anototeService: AnototeService) {
+      constructor(public navCtrl: NavController,
+            public statusBar: StatusBar,
+            public utilityMethods: UtilityMethods,
+            private toastCtrl: ToastController,
+            public anototeService: AnototeService,
+            public cd: ChangeDetectorRef) {
             this.showFabButton = true;
             this.page = 0;
       }
@@ -36,6 +42,12 @@ export class FrontViewPage {
       ionViewDidLoad() {
             // this.statusBar.backgroundColorByHexString('#252525');
             this.fetch_latest_annototes();
+      }
+
+      onScroll(event) {
+            this.cd.detectChanges();
+            this.showFabButton = false;
+            this.hideMessage();
       }
 
       open_annotote_site() {
@@ -122,6 +134,7 @@ export class FrontViewPage {
 
       hideMessage() {
             setTimeout(() => {
+                  this.cd.detectChanges();
                   this.showFabButton = true;
             }, 2000)
       }
