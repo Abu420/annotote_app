@@ -219,6 +219,26 @@ comment_detail_popup {
     }
 }
 
+.fullScreen {
+    .scroll-content {
+        padding: 0px !important;
+    }
+}
+
+.scroll-content {
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+
+.hide-header {
+    ion-buttons {
+        .downImage {
+            margin-top: 124px;
+        }
+    }
+}
+
 page-anotote-editor {
     .scroll-content {
         top: $bar_button_custom_negative_height !important;
@@ -266,10 +286,12 @@ page-anotote-editor {
         }
     }
     .downImage {
-        margin-bottom: -6;
         margin-top: 33px;
         margin-right: -4px;
         padding: 0px !important;
+        transition: all 0.1s ease;
+        -moz-transition: all 0.1s ease;
+        -webkit-transition: all 0.1s ease;
         img {
             margin: 0px !important;
             width: 55px !important;
