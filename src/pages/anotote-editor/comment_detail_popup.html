@@ -43,7 +43,9 @@
             </div>
         </div>
         <div class="pop_txt">
-            <p [innerText]="anotote_txt"></p>
+            <!-- <p [innerText]="anotote_txt"></p> -->
+            <textarea [innerText]="anotote_txt"></textarea>
+            <textarea class="addComment" placeholder="Enter Text"></textarea>
         </div>
         <button type="submit" style="opacity:0;"></button>
         <div class="threeDosts" *ngIf="stream == 'me'">

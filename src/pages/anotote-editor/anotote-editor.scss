@@ -157,6 +157,16 @@ comment_detail_popup {
         p {
             margin: 0px;
         }
+        textarea {
+            border: 0px;
+            background: transparent;
+            color: #FFF !important;
+            width: 100%;
+            resize: none;
+            &.addComment {
+                color: #7b7b7b !important;
+            }
+        }
     }
     .content_follows_profile {
         overflow: hidden;
