@@ -202,7 +202,7 @@
                             padding: 0px 15px;
                             list-style: none;
                             background: #FFF;
-                            height: calc(100% - 109px);
+                            max-height: calc(100vh - 183px);
                             overflow: auto;
                             li {
                                 display: block;

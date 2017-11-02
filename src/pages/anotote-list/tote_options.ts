@@ -153,9 +153,9 @@ export class AnototeOptions {
       tote_titles: title,
       created_at: this.utilityMethods.get_php_wala_time()
     }
-    this.utilityMethods.show_loader('', false);
+    var toast = this.utilityMethods.doLoadingToast("Bookmarking");
     this.anototeService.bookmark_totes(params).subscribe((result) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (result.status == 1) {
         if (result.data.bookmarks.length > 0) {
           this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
@@ -165,7 +165,7 @@ export class AnototeOptions {
         }
       }
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }

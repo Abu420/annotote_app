@@ -28,6 +28,7 @@ export class CommentDetailPopup {
   private new_comment: any = '';
   public show: boolean = true;
   public annotation;
+  public showCommentBox: boolean = false;
 
   constructor(public params: NavParams, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, private events: Events) {
     this.anotote_txt = this.params.get('txt');
@@ -43,10 +44,19 @@ export class CommentDetailPopup {
   }
 
   dismiss() {
-    this.show = false;
-    setTimeout(() => {
-      this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
-    }, 100)
+    if (this.new_comment != this.anotote_comment && this.new_comment != '') {
+      this.utilityMethods.confirmation_message("Discard Changes", "Do you really want to discard changes ?", (choice) => {
+        this.show = false;
+        setTimeout(() => {
+          this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
+        }, 100)
+      })
+    } else {
+      this.show = false;
+      setTimeout(() => {
+        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
+      }, 100)
+    }
   }
 
   delete() {
@@ -66,12 +76,36 @@ export class CommentDetailPopup {
 
   updateComment() {
     if (this.new_comment != this.anotote_comment && this.new_comment != '') {
+      var hashtags = this.searchTags('#');
+      var cashtags = this.searchTags('$');
+      var uptags = this.searchTags('^');
+      // var followtags = this.searchTags('@');
+      console.log(hashtags);
+      console.log(cashtags);
+      console.log(uptags);
+      // console.log(followtags);
       this.show = false;
       setTimeout(() => {
-        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
+        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashtags, cash: cashtags, uptags: uptags });
       }, 100)
     } else
       this.utilityMethods.doToast("You didn't update any comment.");
+  }
+
+  searchTags(tag) {
+    var tags = [];
+    var check = false;
+    if (this.new_comment[0] == tag) {
+      check = true;
+    }
+    var tagsincomment = this.new_comment.split(tag);
+    var i = check ? 0 : 1;
+    for (var i = 1; i < tagsincomment.length; i++) {
+      var temp = tagsincomment[i].split(' ');
+      temp[0] = temp[0].replace(/[^\w\s]/gi, "")
+      tags.push(temp[0]);
+    }
+    return tags;
   }
 
   upvote() {
@@ -93,16 +127,21 @@ export class CommentDetailPopup {
   }
 
   presentOptions() {
-    this.utilityMethods.tags_or_comment((choice) => {
-      if (choice == 'tags') {
-        this.showtags();
-      } else if (choice == 'comment') {
-        this.utilityMethods.comment(this.new_comment, (comment) => {
-          this.new_comment = comment.comment;
-          this.updateComment();
-        })
-      }
-    })
+    this.showCommentBox = true;
+    // this.utilityMethods.tags_or_comment((choice) => {
+    //   if (choice == 'tags') {
+    //     this.showtags();
+    //   } else if (choice == 'comment') {
+    //     this.utilityMethods.comment(this.new_comment, (comment) => {
+    //       this.new_comment = comment.comment;
+    //       this.updateComment();
+    //     })
+    //   }
+    // })
+  }
+
+  checkCommentsForTags() {
+    // console.log(this.new_comment);
   }
 
   showtags() {

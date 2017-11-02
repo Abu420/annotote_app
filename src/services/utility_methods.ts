@@ -95,6 +95,21 @@ export class UtilityMethods {
         toast.present();
     }
 
+    doLoadingToast(msg) {
+        let toast = this.toastCtrl.create({
+            message: msg,
+            position: 'bottom',
+            cssClass: 'bottom_snakbar'
+        });
+
+        toast.onDidDismiss(() => {
+            // console.log('Dismissed toast');
+        });
+
+        toast.present();
+        return toast;
+    }
+
     /**
      * Validate URL
      */
