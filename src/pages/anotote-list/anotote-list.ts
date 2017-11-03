@@ -1,4 +1,4 @@
-import { Component, ViewChild, trigger, transition, style, animate } from '@angular/core';
+import { Component, ViewChild, trigger, transition, style, animate, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams, AlertController } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -88,11 +88,24 @@ export class AnototeList {
   public text: any;
   public follow_visited = false;
   public move_fab: boolean = false;
+  public enable_refresher: boolean = true;
 
   /**
    * Constructor
    */
-  constructor(public searchService: SearchService, public authService: AuthenticationService, public anototeService: AnototeService, public navCtrl: NavController, public modalCtrl: ModalController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, private toastCtrl: ToastController, private alertCtrl: AlertController, public notificationService: NotificationService, public stream: Streams) {
+  constructor(public searchService: SearchService,
+    public authService: AuthenticationService,
+    public anototeService: AnototeService,
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    public navParams: NavParams,
+    public statusBar: StatusBar,
+    public utilityMethods: UtilityMethods,
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
+    public notificationService: NotificationService,
+    public stream: Streams,
+    public cd: ChangeDetectorRef) {
     this.current_color = navParams.get('color');
     this.whichStream = navParams.get('color');
     this.reply_box_on = false;
@@ -264,7 +277,7 @@ export class AnototeList {
 
   open_browser(anotote, highlight) {
     if (anotote.userAnnotote.filePath != '') {
-      if (this.current_active_highlight == null || this.current_active_highlight.edit == false) {
+      if (this.current_active_highlight == null || this.current_active_highlight.edit == false || this.reorder_highlights == false) {
         if (this.current_color != 'top') {
           if (this.current_color == 'me') {
             anotote.active = false;
@@ -319,9 +332,11 @@ export class AnototeList {
 
     this.searchService.reorder_anotation({ annotation_ids: _anotation_ids, order: _orders })
       .subscribe((res) => {
-        console.log(res);
+        this.enable_refresher = true;
+        this.reorder_highlights = false;
+        this.utilityMethods.doToast("Order Updated");
       }, (error) => {
-        console.log(error);
+        this.enable_refresher = true;
       });
   }
 
@@ -685,9 +700,9 @@ export class AnototeList {
           tote_titles: title,
           created_at: this.utilityMethods.get_php_wala_time()
         }
-        this.utilityMethods.show_loader('Bookmarking', false);
+        var toast = this.utilityMethods.doLoadingToast("Bookmarking");
         this.anototeService.bookmark_totes(params).subscribe((result) => {
-          this.utilityMethods.hide_loader();
+          toast.dismiss();
           if (result.status == 1) {
             if (result.data.bookmarks.length > 0) {
               this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
@@ -697,6 +712,7 @@ export class AnototeList {
             }
           }
         }, (error) => {
+          toast.dismiss();
           this.utilityMethods.hide_loader();
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
@@ -862,25 +878,31 @@ export class AnototeList {
   }
 
   annotation_options(highlight) {
-    if (this.current_color == 'me' && this.current_active_anotote.active_tab == 'me') {
-      this.reorder_highlights = false;
-      if (highlight.edit == undefined || highlight.edit == false) {
-        this.utilityMethods.reorder_or_edit((prefrence) => {
-          if (prefrence == 'reorder') {
-            this.enable_list_reorder()
-          } else {
-            this.edit_annotation(highlight);
-          }
-        })
-      } else {
-        highlight.edit = false;
-      }
+    if (this.current_color == 'me' && this.current_active_anotote.active_tab == 'me' && this.reorder_highlights == false) {
+      this.edit_annotation(highlight);
+      // this.reorder_highlights = false;
+      // if (highlight.edit == undefined || highlight.edit == false) {
+      //   this.utilityMethods.reorder_or_edit((prefrence) => {
+      //     if (prefrence == 'reorder') {
+      //       this.enable_list_reorder()
+      //     } else {
+      //       this.edit_annotation(highlight);
+      //     }
+      //   })
+      // } else {
+      //   highlight.edit = false;
+      // }
     }
   }
 
-  enable_list_reorder() {
-    if (this.whichStream == 'me')
+  enable_list_reorder(event, highlight) {
+    event.stopPropagation();
+    if (this.current_active_anotote.active_tab == 'me') {
       this.reorder_highlights = true;
+      highlight.edit = false;
+      this.enable_refresher = false;
+      this.cd.detectChanges();
+    }
   }
 
   edit_annotation(highlight) {

@@ -511,6 +511,7 @@ export class AnototeEditor implements OnDestroy {
                     this.commentDetailModalIsOpen.comment = null;
                     return;
                 } else {
+                    this.scrollTo(identifier);
                     var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
                     element.classList.remove('greyOut');
                     this.events.publish('closeModal');
@@ -586,6 +587,24 @@ export class AnototeEditor implements OnDestroy {
                     this.remove_annotation_api(highlight.identifier, element);
                 })
             } else if (data.update) {
+                if (data.hash.length > 0) {
+                    for (var i = 0; i < data.hash.length; i++) {
+                        if (this.tagAlreadyExists(highlight.identifier, data.hash[i], 3))
+                            this.saveTags(highlight.identifier, i, 3, data.hash[i]);
+                    }
+                }
+                if (data.cash.length > 0) {
+                    for (var i = 0; i < data.cash.length; i++) {
+                        if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 4))
+                            this.saveTags(highlight.identifier, i, 4, data.cash[i]);
+                    }
+                }
+                if (data.uptags.length > 0) {
+                    for (var i = 0; i < data.cash.length; i++) {
+                        if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 1))
+                            this.saveTags(highlight.identifier, i, 1, data.cash[i]);
+                    }
+                }
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Annotote', highlight.txt, null, null);
@@ -620,6 +639,58 @@ export class AnototeEditor implements OnDestroy {
             this.selection_lock = false;
         });
         createAnotationModal.present();
+    }
+
+    tagAlreadyExists(identifier, tagText, tagId) {
+        if (this.actual_stream != 'me') {
+            for (let highlight of this.ANOTOTE.my_highlights) {
+                if (highlight.identifier == identifier) {
+                    for (let tag of highlight.tags) {
+                        if (tag.tagText == tagText && tag.tagId == tagId) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            return false;
+        } else {
+            for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
+                if (highlight.identifier == identifier) {
+                    for (let tag of highlight.tags) {
+                        if (tag.tagText == tagText && tag.tagId == tagId) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    saveTags(identifier, index, tagId, tagInput) {
+        var params = {
+            tag_id: tagId,
+            annotation_id: this.get_highlight(identifier).id,
+            text: tagInput,
+            created_at: this.utilityMethods.get_php_wala_time(),
+        }
+        // if (this.tags_type == 2)
+        //     params['user_id'] = this.one_selected.id;
+        this.showLoading('Saving Tags');
+        this.searchService.add_tag_to_anotation(params).subscribe((result) => {
+            this.hideLoading();
+            this.utilityMethods.hide_loader();
+            this.get_highlight(identifier).tags.push(result.data.annotation_tag);
+        }, (error) => {
+            this.hideLoading();
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            } else {
+                this.utilityMethods.doToast("Couldn't add tag to annotation.");
+            }
+        })
     }
 
     /**

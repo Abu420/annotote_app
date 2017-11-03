@@ -51,7 +51,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content swipe-vertical padding>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div id="wrapper">
@@ -158,8 +158,8 @@
                                     <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true">
                                         <div class="moveBtn">
-                                            <button class="topIcon"><img src="assets/img/topIcon.svg" alt=""></button>
-                                            <button class="bottomIcon"><img src="assets/img/bottomIcon.svg" alt=""></button>
+                                            <button class="topIcon"><img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt=""></button>
+                                            <button class="bottomIcon"><img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt=""></button>
                                         </div>
                                         <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
                                         <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
