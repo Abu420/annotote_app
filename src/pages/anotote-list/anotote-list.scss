@@ -154,10 +154,16 @@
                         font-size: 16px;
                         box-shadow: 0px 1px 2px #888;
                     }
+                    .sharing_pop {
+                        border-top: 1px solid #CCC;
+                        .tagText {
+                            padding: 20px 10px 20px 0;
+                            border: 0px;
+                        }
+                    }
                     .tag_input {
                         width: 100%;
                         background: #efefef;
-                        padding: 20px 20px 10px;
                         position: relative;
                         z-index: 99;
                         &:after {
@@ -179,8 +185,8 @@
                         }
                         .tagList {
                             position: absolute;
-                            top: 50px;
-                            height: 180px;
+                            bottom: 0;
+                            height: auto;
                             left: 0px;
                             background: #FFF;
                             margin: 0px;
@@ -188,7 +194,7 @@
                             width: 100%;
                             overflow: auto;
                             z-index: 1;
-                            border: 1px solid #e0e0e0;
+                            border-top: 1px solid #e0e0e0;
                             li {
                                 display: block;
                                 padding: 10px;
@@ -223,10 +229,9 @@
                     }
                     .tabWidget {
                         background: #efefef;
-                        padding: 10px 20px;
                         .tag-list {
                             margin: 0px;
-                            padding: 0px 15px;
+                            padding: 15px;
                             list-style: none;
                             background: #FFF;
                             height: calc(100% - 109px);
