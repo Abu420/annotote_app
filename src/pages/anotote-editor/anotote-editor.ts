@@ -596,24 +596,24 @@ export class AnototeEditor implements OnDestroy {
                     this.remove_annotation_api(highlight.identifier, element);
                 })
             } else if (data.update) {
-                if (data.hash.length > 0) {
-                    for (var i = 0; i < data.hash.length; i++) {
-                        if (this.tagAlreadyExists(highlight.identifier, data.hash[i], 3))
-                            this.saveTags(highlight.identifier, i, 3, data.hash[i]);
-                    }
-                }
-                if (data.cash.length > 0) {
-                    for (var i = 0; i < data.cash.length; i++) {
-                        if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 4))
-                            this.saveTags(highlight.identifier, i, 4, data.cash[i]);
-                    }
-                }
-                if (data.uptags.length > 0) {
-                    for (var i = 0; i < data.cash.length; i++) {
-                        if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 1))
-                            this.saveTags(highlight.identifier, i, 1, data.cash[i]);
-                    }
-                }
+                // if (data.hash.length > 0) {
+                //     for (var i = 0; i < data.hash.length; i++) {
+                //         if (this.tagAlreadyExists(highlight.identifier, data.hash[i], 3))
+                //             this.saveTags(highlight.identifier, i, 3, data.hash[i]);
+                //     }
+                // }
+                // if (data.cash.length > 0) {
+                //     for (var i = 0; i < data.cash.length; i++) {
+                //         if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 4))
+                //             this.saveTags(highlight.identifier, i, 4, data.cash[i]);
+                //     }
+                // }
+                // if (data.uptags.length > 0) {
+                //     for (var i = 0; i < data.cash.length; i++) {
+                //         if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 1))
+                //             this.saveTags(highlight.identifier, i, 1, data.cash[i]);
+                //     }
+                // }
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Annotote', highlight.txt, null, null);
@@ -988,7 +988,7 @@ export class AnototeEditor implements OnDestroy {
 
     show_annotation_tags(id) {
         var params = {
-            annotation_id: this.ANOTOTE.userAnnotote.id,
+            annotation_id: this.get_highlight(id).id,
             tags: this.get_highlight(id).tags,
             whichStream: this.actual_stream,
             annotote: false

@@ -416,3 +416,8 @@
         </div>
     </ion-toolbar>
 </ion-footer>
+<ion-footer class="message-bottom" *ngIf="loading_check">
+    <ion-toolbar color="dark">
+        <p class="messageLoading">{{loading_message}}</p>
+    </ion-toolbar>
+</ion-footer>

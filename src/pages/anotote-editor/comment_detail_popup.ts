@@ -75,14 +75,11 @@ export class CommentDetailPopup {
 
   updateComment() {
     if (this.new_comment != this.anotote_comment && this.new_comment != '') {
-      var hashtags = this.searchTags('#');
-      var cashtags = this.searchTags('$');
-      var uptags = this.searchTags('^');
-      // var followtags = this.searchTags('@');
       // console.log(followtags);
       this.show = false;
       setTimeout(() => {
-        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashtags, cash: cashtags, uptags: uptags });
+        // this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashtags, cash: cashtags, uptags: uptags });
+        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
       }, 100)
     } else
       this.utilityMethods.doToast("You didn't update any comment.");

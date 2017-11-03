@@ -49,13 +49,13 @@ export class TagsPopUp {
         }
     }
 
-    add_tag() {
+    add_tag(type, tag) {
         if (this.anotation_or_anotote) {
             var current_time = this.utilityMethods.get_php_wala_time();
-            this.utilityMethods.show_loader('');
+            var toast = this.utilityMethods.doLoadingToast('Tagging');
             this.searchService.add_tag_to_anotote({ user_tote_id: this.user_tote_id, tag_text: this.tag_input, created_at: current_time })
                 .subscribe((res) => {
-                    this.utilityMethods.hide_loader();
+                    toast.dismiss();
                     this.tags.push(res.data.annotote_tag);
                     this.tag_input = '';
                     if (this.tags.length > 0)
@@ -71,22 +71,26 @@ export class TagsPopUp {
                 });
         } else {
             var params = {
-                tag_id: parseInt(this.tags_type),
+                tag_id: type,
                 annotation_id: this.annotation_id,
-                text: this.tag_input,
+                text: tag,
                 created_at: this.utilityMethods.get_php_wala_time(),
             }
-            if (this.tags_type == 2)
+            if (type == 2 && this.one_selected != null)
                 params['user_id'] = this.one_selected.id;
-            this.utilityMethods.show_loader('');
+            else if (type == 2 && this.one_selected == null) {
+                this.utilityMethods.doToast("Please select a user to tag.");
+                return;
+            }
+            var toast = this.utilityMethods.doLoadingToast('Tagging');
             this.searchService.add_tag_to_anotation(params).subscribe((result) => {
-                this.utilityMethods.hide_loader();
+                toast.dismiss();
                 this.tags.push(result.data.annotation_tag);
                 this.tag_input = '';
                 if (this.tags.length > 0)
                     this.no_tags_found = false;
             }, (error) => {
-                this.utilityMethods.hide_loader();
+                toast.dismiss();
                 if (error.code == -1) {
                     this.utilityMethods.internet_connection_error();
                 } else {
@@ -96,43 +100,82 @@ export class TagsPopUp {
         }
     }
 
+    saveTags() {
+        var hashtags = this.searchTags('#');
+        var cashtags = this.searchTags('$');
+        var uptags = this.utilityMethods.isWEBURL(this.tag_input);
+        var followtags = this.searchTags('@');
+        if (hashtags.length > 0 || cashtags.length > 0 || followtags.length > 0 || uptags) {
+            if (hashtags.length > 0)
+                this.add_tag(3, hashtags[0]);
+            else if (cashtags.length > 0)
+                this.add_tag(4, cashtags[0]);
+            else if (followtags.length > 0)
+                this.add_tag(2, followtags[0]);
+            else if (uptags)
+                this.add_tag(1, this.tag_input);
+
+        } else {
+            this.utilityMethods.doToast("Please Enter #,$,@ sign before writing tag or paste a url.");
+        }
+    }
+
     tag_user() {
-        // if (!this.anotation_or_anotote && this.tags_type == 2) {
-        if (this.tag_input == '') {
-            this.show_autocomplete = false;
-            this.users = [];
-            return;
-        }
-        var params = {
-            name: this.tag_input
-        }
-        this.no_user_found = false;
-        this.show_autocomplete = true;
-        this.search_user = true;
-        this.searchService.autocomplete_users(params).subscribe((result) => {
-            this.search_user = false;
-            this.users = result.data.users;
-            if (this.users.length == 0) {
-                this.no_user_found = true;
+        if (!this.anotation_or_anotote && this.tag_input[0] == '@') {
+            if (this.tag_input == '') {
+                this.show_autocomplete = false;
+                this.users = [];
+                return;
             }
-        }, (error) => {
-            this.search_user = false;
-            this.show_autocomplete = true;
-            this.no_user_found = false;
-            if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-            } else {
-                this.utilityMethods.doToast("Couldn't update annotation.");
+            var params = {
+                name: this.tag_input.replace(/[^\w\s]/gi, "")
             }
-        })
-        // }
+            if (params.name != '') {
+                this.no_user_found = false;
+                this.show_autocomplete = true;
+                this.search_user = true;
+                this.users = [];
+                this.searchService.autocomplete_users(params).subscribe((result) => {
+                    this.search_user = false;
+                    this.users = result.data.users;
+                    if (this.users.length == 0) {
+                        this.no_user_found = true;
+                    }
+                }, (error) => {
+                    this.search_user = false;
+                    this.show_autocomplete = true;
+                    this.no_user_found = false;
+                    this.users = [];
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                })
+            }
+        }
+    }
+
+    searchTags(tag) {
+        var tags = [];
+        var check = false;
+        if (this.tag_input[0] == tag) {
+            check = true;
+        }
+        var tagsincomment = this.tag_input.split(tag);
+        var i = check ? 0 : 1;
+        for (var i = 1; i < tagsincomment.length; i++) {
+            var temp = tagsincomment[i].split(' ');
+            temp[0] = temp[0].replace(/[^\w\s]/gi, "")
+            tags.push(temp[0]);
+        }
+        return tags;
     }
 
     selected_user(user) {
-        this.tag_input = user.firstName;
+        this.tag_input = '@' + user.firstName;
         this.show_autocomplete = false;
         this.users = [];
         this.one_selected = user;
+        this.saveTags();
     }
 
     dismiss() {
