@@ -33,7 +33,7 @@ page-chat {
             -webkit-transition: all 500ms ease-in-out;
             transition: all 500ms ease-in-out;
             strong {
-                font-size: 17px;
+                font-size: 14px;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
@@ -153,9 +153,12 @@ page-chat {
                             float: right;
                             font-size: 12px;
                         }
+                        span {
+                            font-size: 12px;
+                        }
                     }
                     p {
-                        font-size: 17px;
+                        font-size: 14px;
                         font-weight: 500;
                         word-wrap: normal;
                         white-space: normal;

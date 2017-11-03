@@ -252,6 +252,11 @@ page-anotote-editor {
         transition: top 0.25s ease;
         top: 0px;
     }
+    .toolbar-content {
+        .plusBtn {
+            margin-right: 7vw;
+        }
+    }
     .toolbar {
         contain: none;
         overflow: visible;
@@ -263,11 +268,11 @@ page-anotote-editor {
             height: 114px;
         }
         span {
-            padding: 13px;
+            padding: 13px 11px 13px;
             display: block;
             img {
                 margin: 0px;
-                width: 29px;
+                width: 22px;
             }
         }
     }

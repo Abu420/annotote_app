@@ -318,9 +318,13 @@ page-home {
                             display: -webkit-box;
                             -webkit-box-orient: vertical;
                             -webkit-line-clamp: 1;
+                            font-size: 14px;
                         }
                         .time {
                             color: #969696;
+                            span {
+                                font-size: 12px;
+                            }
                         }
                         .remove_item {
                             position: absolute;
