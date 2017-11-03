@@ -10,10 +10,10 @@ import { AuthenticationService } from "./auth.service";
 @Injectable()
 
 export class AnototeService {
-  private BROWSER_PAGES: any;
+  private BROWSER_PAGES: any = [];
 
   public constructor(public http: Http, public constants: Constants, public authService: AuthenticationService) {
-    this.BROWSER_PAGES = [];
+
   }
 
   public fetchTotes(whichStream, page = 1) {

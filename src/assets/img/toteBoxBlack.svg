@@ -4,21 +4,20 @@
 	 viewBox="0 0 46.5 65.8" style="enable-background:new 0 0 46.5 65.8;" xml:space="preserve">
 <style type="text/css">
 	.st0{clip-path:url(#SVGID_2_);}
-	.st1{fill:#2BA600;}
+	.st1{fill:#231F20;}
 	.st2{fill:none;stroke:#FFFFFF;stroke-width:1.75;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g>
 	<g>
-		<defs>
-			<rect id="SVGID_1_" width="46.5" height="65.8"/>
-		</defs>
-		<clipPath id="SVGID_2_">
-			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-		</clipPath>
-		<g class="st0">
-			
-				<image style="overflow:visible;enable-background:new    ;" width="147" height="205" xlink:href="D577A116E02ECFD6.png"  transform="matrix(0.3162 0 0 0.3209 0 0)">
-			</image>
+		<g>
+			<defs>
+				<rect id="SVGID_1_" width="46.5" height="65.8"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+			</clipPath>
+			<g class="st0">
+			</g>
 		</g>
 	</g>
 </g>

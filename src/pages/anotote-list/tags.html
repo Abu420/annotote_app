@@ -7,12 +7,30 @@
                 <img alt="" src="assets/img/hashIcon.svg">
             </div>
             <div class="tagText bottom-border">
-                <span>Add tags</span>
+                <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" />
+                <!-- <ul class="tagList" *ngIf="show_autocomplete == true">
+                    <li *ngIf="search_user == true" text-center>
+                        <ion-spinner></ion-spinner>
+                    </li>
+                    <li *ngIf="no_user_found == true" text-center>
+                        No Users found.
+                    </li>
+                    <li *ngFor="let user of users" (click)="selected_user(user)">
+                        <figure>
+                            <img *ngIf="user.photo== null || user.photo==''" src="assets/img/img3.jpg">
+                            <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="user.photo != null && user.photo != ''" [hidden]="!loaded" [src]="user.photo | image_base_path">
+                            <ion-spinner *ngIf="!loaded && user.photo != null && user.photo != ''"></ion-spinner>
+                        </figure>
+                        <figcaption>
+                            <span>{{user.firstName}} </span>
+                        </figcaption>
+                    </li>
+                </ul> -->
             </div>
         </div>
-        <!-- <h3>Tags</h3>
+        <!-- <h3>Tags</h3> -->
         <div class="tag_input" *ngIf="stream == 'me'">
-            <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" />
+            <!-- <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" /> -->
             <ul class="tagList" *ngIf="show_autocomplete == true">
                 <li *ngIf="search_user == true" text-center>
                     <ion-spinner></ion-spinner>
@@ -31,7 +49,7 @@
                     </figcaption>
                 </li>
             </ul>
-            <button (tap)="add_tag()">Add</button>
+            <!-- <button (tap)="add_tag()">Add</button>
             <ion-item *ngIf="anotation_or_anotote == false">
                 <ion-label>Type of Tag</ion-label>
                 <ion-select [(ngModel)]="tags_type">
@@ -40,7 +58,7 @@
                     <ion-option value="3">#</ion-option>
                     <ion-option value="4">$</ion-option>
                 </ion-select>
-            </ion-item>
+            </ion-item> -->
         </div>
         <div class="tabWidget">
             <ul class="tag-list">
@@ -55,6 +73,6 @@
                     <span>{{tag.tagText}}</span>
                 </li>
             </ul>
-        </div> -->
+        </div>
     </div>
 </div>

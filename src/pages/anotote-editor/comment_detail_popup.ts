@@ -28,7 +28,6 @@ export class CommentDetailPopup {
   private new_comment: any = '';
   public show: boolean = true;
   public annotation;
-  public showCommentBox: boolean = false;
 
   constructor(public params: NavParams, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, private events: Events) {
     this.anotote_txt = this.params.get('txt');
@@ -80,9 +79,6 @@ export class CommentDetailPopup {
       var cashtags = this.searchTags('$');
       var uptags = this.searchTags('^');
       // var followtags = this.searchTags('@');
-      console.log(hashtags);
-      console.log(cashtags);
-      console.log(uptags);
       // console.log(followtags);
       this.show = false;
       setTimeout(() => {
@@ -124,24 +120,6 @@ export class CommentDetailPopup {
 
   presentTopInterestsModal() {
     this.viewCtrl.dismiss();
-  }
-
-  presentOptions() {
-    this.showCommentBox = true;
-    // this.utilityMethods.tags_or_comment((choice) => {
-    //   if (choice == 'tags') {
-    //     this.showtags();
-    //   } else if (choice == 'comment') {
-    //     this.utilityMethods.comment(this.new_comment, (comment) => {
-    //       this.new_comment = comment.comment;
-    //       this.updateComment();
-    //     })
-    //   }
-    // })
-  }
-
-  checkCommentsForTags() {
-    // console.log(this.new_comment);
   }
 
   showtags() {

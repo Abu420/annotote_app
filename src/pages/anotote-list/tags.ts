@@ -25,7 +25,7 @@ export class TagsPopUp {
     private user_tote_id: string;
     private stream: string;
     private annotation_id;
-    private tags_type: any = 1;
+    private tags_type: any = 2;
     private anotation_or_anotote: boolean;
     private users: any = [];
     private search_user: boolean = false;
@@ -94,39 +94,38 @@ export class TagsPopUp {
                 }
             })
         }
-
     }
 
     tag_user() {
-        if (!this.anotation_or_anotote && this.tags_type == 2) {
-            if (this.tag_input == '') {
-                this.show_autocomplete = false;
-                this.users = [];
-                return;
-            }
-            var params = {
-                name: this.tag_input
-            }
-            this.no_user_found = false;
-            this.show_autocomplete = true;
-            this.search_user = true;
-            this.searchService.autocomplete_users(params).subscribe((result) => {
-                this.search_user = false;
-                this.users = result.data.users;
-                if (this.users.length == 0) {
-                    this.no_user_found = true;
-                }
-            }, (error) => {
-                this.search_user = false;
-                this.show_autocomplete = true;
-                this.no_user_found = false;
-                if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                } else {
-                    this.utilityMethods.doToast("Couldn't update annotation.");
-                }
-            })
+        // if (!this.anotation_or_anotote && this.tags_type == 2) {
+        if (this.tag_input == '') {
+            this.show_autocomplete = false;
+            this.users = [];
+            return;
         }
+        var params = {
+            name: this.tag_input
+        }
+        this.no_user_found = false;
+        this.show_autocomplete = true;
+        this.search_user = true;
+        this.searchService.autocomplete_users(params).subscribe((result) => {
+            this.search_user = false;
+            this.users = result.data.users;
+            if (this.users.length == 0) {
+                this.no_user_found = true;
+            }
+        }, (error) => {
+            this.search_user = false;
+            this.show_autocomplete = true;
+            this.no_user_found = false;
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            } else {
+                this.utilityMethods.doToast("Couldn't update annotation.");
+            }
+        })
+        // }
     }
 
     selected_user(user) {

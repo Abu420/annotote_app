@@ -10,11 +10,16 @@
 
                 <span *ngIf="which_stream == 'top'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
                 <span *ngIf="which_stream == 'top'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowPink.svg"></span>
+
+                <span *ngIf="which_stream == 'anon'" class="leftArrow" (click)="load_previous_page()"><img src="assets/img/leftArrowIcon.svg"></span>
+                <span *ngIf="which_stream == 'anon'" class="rightArrow" (tap)="load_next_page()"><img src="assets/img/rightArrowBlack.svg"></span>
             </div>
         </ion-title>
         <ion-buttons *ngIf="full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
             <button style="background: transparent;">
                 <span *ngIf="which_stream == 'me'" class="downImage"><img src="assets/img/toteBox.svg" alt=""></span>
+
+                <span *ngIf="which_stream == 'anon'" class="downImage"><img src="assets/img/toteBoxBlack.svg" alt=""></span>
 
                 <span *ngIf="which_stream == 'follows'" class="downImage"><img src="assets/img/toteBoxYellow.svg" alt=""></span>
 
