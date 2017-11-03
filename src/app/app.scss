@@ -22,6 +22,17 @@ body {
     -webkit-user-select: auto !important;
 }
 
+strong,
+p,
+span {
+    font-weight: 400 !important;
+}
+
+ion-fab {
+    bottom: 20px !important;
+    right: 15px !important;
+}
+
 p:active,
 span:active,
 strong:active {
@@ -55,7 +66,7 @@ strong:active {
 }
 
 .title-ios {
-    padding-top: 10px !important;
+    padding-top: 5px !important;
     min-height: 100% !important;
     height: 100% !important;
     width: 100% !important;
@@ -323,6 +334,7 @@ button,
         text-align: center;
         img {
             margin: 0px;
+            width: 26px;
         }
     }
 }

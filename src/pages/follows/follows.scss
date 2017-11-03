@@ -58,7 +58,7 @@ follow_profile {
             padding-right: 15px;
             padding-top: 26px;
             strong {
-                font-size: 20px;
+                font-size: 19px;
                 font-weight: normal;
                 display: block;
                 color: #000;
@@ -123,6 +123,9 @@ follow_profile {
                     font-size: inherit;
                     text-overflow: clip;
                     white-space: normal;
+                    .item-button {
+                        height: 20px;
+                    }
                 }
             }
         }
@@ -146,6 +149,7 @@ follow_profile {
         display: block;
         font-weight: normal;
         margin-top: -2px;
+        font-size: 16px;
     }
     .follow_list p {
         margin: 0;
