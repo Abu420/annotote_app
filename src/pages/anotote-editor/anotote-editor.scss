@@ -234,7 +234,9 @@ comment_detail_popup {
 .hide-header {
     ion-buttons {
         .downImage {
-            margin-top: 124px;
+            margin-top: 122px;
+            position: relative;
+            z-index: 999;
         }
     }
 }

@@ -318,12 +318,12 @@ page-home {
                             display: -webkit-box;
                             -webkit-box-orient: vertical;
                             -webkit-line-clamp: 1;
-                            font-size: 14px;
+                            font-size: 16px;
                         }
                         .time {
                             color: #969696;
                             span {
-                                font-size: 12px;
+                                font-size: 14px;
                             }
                         }
                         .remove_item {
@@ -332,8 +332,8 @@ page-home {
                             top: 50%;
                             -webkit-transform: translate(-50%, -50%);
                             transform: translate(-50%, -50%);
-                            width: 25px;
-                            height: 25px;
+                            width: 20px;
+                            height: 20px;
                             background-image: url(../assets/img/closeIconGray.svg);
                             background-repeat: no-repeat;
                             background-size: 100%;
