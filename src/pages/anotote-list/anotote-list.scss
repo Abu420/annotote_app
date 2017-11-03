@@ -133,9 +133,11 @@
                             padding: 28px 10px 28px 0;
                             list-style: none;
                             border-bottom: 1px solid #ececec;
-                            span {
-                                color: #797979;
-                                font-size: 4vw;
+                            input {
+                                border: 0px;
+                                width: 100%;
+                                outline: none;
+                                padding: 28px 0px;
                             }
                         }
                     }
@@ -157,7 +159,7 @@
                     .sharing_pop {
                         border-top: 1px solid #CCC;
                         .tagText {
-                            padding: 20px 10px 20px 0;
+                            padding: 0 10px 0 0;
                             border: 0px;
                         }
                     }

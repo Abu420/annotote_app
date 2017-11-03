@@ -89,6 +89,8 @@ export class AnototeList {
   public follow_visited = false;
   public move_fab: boolean = false;
   public enable_refresher: boolean = true;
+  public loading_check: boolean = false;
+  public loading_message: string = '';
 
   /**
    * Constructor

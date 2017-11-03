@@ -3,10 +3,10 @@
     </div>
     <div class="tags-panel" [ngClass]="{'tagTypes': anotation_or_anotote == false}" *ngIf="show == true" [@enterAnimation]>
         <div class="tabWidget">
-            <ul class="tag-list">
-                <li *ngIf="no_tags_found == true" text-center>
+            <ul class="tag-list" *ngIf="!no_tags_found">
+                <!-- <li *ngIf="no_tags_found == true" text-center>
                     No Tags found.
-                </li>
+                </li> -->
                 <li *ngFor="let tag of tags">
                     <img class="play-icon" *ngIf="tag.tagId == 1" src="assets/img/top-arrow.png" alt="">
                     <img class="play-icon" *ngIf="tag.tagId == 2" src="assets/img/icon-gray.png" alt="">
@@ -41,7 +41,9 @@
                 <img alt="" src="assets/img/hashIcon.svg">
             </div>
             <div class="tagText bottom-border">
-                <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Enter tag" />
+                <form (ngSubmit)="saveTags()">
+                    <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Add tags(#,$,@) or paste link" />
+                </form>
             </div>
         </div>
     </div>
