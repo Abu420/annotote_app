@@ -126,6 +126,7 @@ export class AnototeOptions {
       var toast = this.utilityMethods.doLoadingToast("Deleting");
       this.anototeService.delete_bulk_totes(params).subscribe((result) => {
         toast.dismiss();
+        this.utilityMethods.doToast("Anotote deleted successfully.");
         var params = {
           tags: false,
           delete: true

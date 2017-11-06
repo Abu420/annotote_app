@@ -1142,7 +1142,6 @@ export class AnototeList {
             tagsModal.present();
           }
         } else if (data.delete == true) {
-          this.toastInFooter("Tote deleted successfully.");
           this.current_active_anotote = null;
           this.anototes.splice(this.anototes.indexOf(anotote), 1);
         } else if (data.chat) {
@@ -1443,7 +1442,7 @@ export class AnototeList {
   hideLoading() {
     this.loading_message = '';
     this.loading_check = false;
-    if(this.current_active_anotote && this.current_active_anotote.active_tab == 'me')
+    if (this.current_active_anotote && this.current_active_anotote.active_tab == 'me')
       this.move_fab = false;
     // this.content.resize();
   }
@@ -1457,7 +1456,26 @@ export class AnototeList {
   }
 
   upvote() {
-    console.log(this.current_active_anotote);
+    if (this.current_color != 'top') {
+      if (this.current_active_anotote.active_tab == 'top') {
+        this.showLoading('Upvoting');
+        var params = {
+          user_tote_id: this.current_active_anotote.topUserToteId,
+          vote: 1,
+          created_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.anototeService.vote_anotote(params).subscribe((success) => {
+          this.hideLoading();
+          console.log(success);
+        }, (error) => {
+          this.hideLoading();
+          console.log(error);
+        })
+      }
+    } else {
+
+    }
+
   }
 
   downvote() {
