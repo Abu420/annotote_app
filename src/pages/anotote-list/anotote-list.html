@@ -56,7 +56,7 @@
     </ion-refresher>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
-            <ion-item *ngFor="let anotote of anototes" [ngClass]="anotote.type==2 && anotote.chatGroup.messagesUser[0].read ?'unread':''">
+            <ion-item *ngFor="let anotote of anototes" [ngClass]="(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id) ? 'unread':''">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
                     <div *ngIf="!anotote.active && anotote.type == 1 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
@@ -210,6 +210,10 @@
                             </ion-item>
                         </ion-list>
                     </div>
+                </div>
+
+                <div class="editTitle" *ngIf="anotote.checked == true">
+                    <h1>My title</h1>
                 </div>
             </ion-item>
         </ion-list>

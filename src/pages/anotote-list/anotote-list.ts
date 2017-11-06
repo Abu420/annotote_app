@@ -553,47 +553,51 @@ export class AnototeList {
   }
 
   bulkAction(anotote) {
-    if (this.current_color != 'top') {
-      if (anotote.active)
-        return;
-      if (this.edit_mode == false && anotote.chatGroup == null) {
-        this.edit_mode = true;
-        anotote.checked = !anotote.checked;
-        this.selected_totes.push(anotote);
-      } else {
-        if (anotote.chatGroup != null) {
-          this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-            var params = {
-              group_id: anotote.chatGroupId
-            }
-            this.showLoading("Deleting")
-            this.anototeService.delete_chat_tote(params).subscribe((result) => {
-              this.hideLoading();
-              this.anototes.splice(this.anototes.indexOf(anotote), 1);
-              this.utilityMethods.doToast("Chat tote deleted Successfully.")
-              this.close_bulk_actions();
-            }, (error) => {
-              this.hideLoading();
-              if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-              }
-            })
-          })
-        }
-      }
-    } else {
-      if (anotote.active)
-        return;
-      if (this.edit_mode == false) {
-        this.edit_mode = true;
-        if (anotote.checked) {
-          anotote.checked = false;
-        } else {
-          anotote.checked = true;
-        }
-      }
-    }
-
+    if (anotote.chatGroup == null)
+      if (anotote.checked)
+        anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+      else
+        anotote.checked = true;
+    // if (this.current_color != 'top') {
+    //   if (anotote.active)
+    //     return;
+    //   if (this.edit_mode == false && anotote.chatGroup == null) {
+    //     this.edit_mode = true;
+    //     anotote.checked = !anotote.checked;
+    //     this.selected_totes.push(anotote);
+    //   } else {
+    //     if (anotote.chatGroup != null) {
+    //       this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
+    //         var params = {
+    //           group_id: anotote.chatGroupId
+    //         }
+    //         this.showLoading("Deleting")
+    //         this.anototeService.delete_chat_tote(params).subscribe((result) => {
+    //           this.hideLoading();
+    //           this.anototes.splice(this.anototes.indexOf(anotote), 1);
+    //           this.utilityMethods.doToast("Chat tote deleted Successfully.")
+    //           this.close_bulk_actions();
+    //         }, (error) => {
+    //           this.hideLoading();
+    //           if (error.code == -1) {
+    //             this.utilityMethods.internet_connection_error();
+    //           }
+    //         })
+    //       })
+    //     }
+    //   }
+    // } else {
+    //   if (anotote.active)
+    //     return;
+    //   if (this.edit_mode == false) {
+    //     this.edit_mode = true;
+    //     if (anotote.checked) {
+    //       anotote.checked = false;
+    //     } else {
+    //       anotote.checked = true;
+    //     }
+    //   }
+    // }
   }
 
   close_bulk_actions() {
@@ -1443,6 +1447,8 @@ export class AnototeList {
     this.loading_message = '';
     this.loading_check = false;
     if (this.current_active_anotote && this.current_active_anotote.active_tab == 'me')
+      this.move_fab = false;
+    else if (this.current_active_anotote == null)
       this.move_fab = false;
     // this.content.resize();
   }
