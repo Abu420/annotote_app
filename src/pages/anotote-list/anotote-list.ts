@@ -735,7 +735,7 @@ export class AnototeList {
   openAnototeDetail(anotote) {
     this.reorder_highlights = false;
     if (this.current_color != 'top') {
-      if (!this.edit_mode) {
+      if (!anotote.checked) {
         //anotation tabs logic
         if (this.current_color == 'me') {
           anotote.active_tab = 'me';
@@ -795,7 +795,7 @@ export class AnototeList {
         }
       }
     } else {
-      if (this.edit_mode) {
+      if (anotote.checked) {
         if (anotote.active)
           anotote.active = false;
         if (anotote.checked) {
