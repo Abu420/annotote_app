@@ -308,9 +308,25 @@ page-home {
                 padding: 0px;
                 ion-label {
                     margin: 0px;
+                    .img-holder {
+                        width: 50px;
+                        height: 73px;
+                        float: left;
+                        text-align: center;
+                        line-height: 7;
+                        img {
+                            display: inline-block;
+                            width: 35px;
+                        }
+                    }
                     .txt {
+                        padding: 16px 10px 16px 0;
+                        font-size: 16px;
+                        line-height: 20px;
+                        color: #000;
+                        display: block;
+                        overflow: hidden;
                         position: relative;
-                        padding: 16px 20px 17px;
                         strong {
                             width: 85%;
                             overflow: hidden;
@@ -441,6 +457,7 @@ ion-buttons {
 .home-list ion-item button img {
     height: 30px;
     margin-top: -7px;
+    width: 11px;
 }
 
 .home-list .green {

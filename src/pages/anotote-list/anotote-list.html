@@ -96,6 +96,7 @@
                         </div>
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
+                        <img class="unReadLock" src="assets/img/redLock.svg" alt="">
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
                             <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
                             <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>
@@ -117,7 +118,7 @@
                             </ng-container>
                             <button type="button">
                                 <img src="assets/img/commentIcon.svg" alt="">
-								<!-- <ion-icon name="chatbubbles"></ion-icon> -->
+                                <img class="unReadMsg" src="assets/img/redMessage.svg" alt="">
                             </button>
                         </div>
                     </div>
