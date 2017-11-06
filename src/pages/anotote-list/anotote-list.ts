@@ -181,7 +181,7 @@ export class AnototeList {
 
   loadanototes() {
     if (this.current_color != 'top') {
-      this.utilityMethods.show_loader('', false);
+      this.showLoading("Loading Totes");
       this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
         let stream = result.data.annototes;
         for (let entry of stream) {
@@ -199,21 +199,21 @@ export class AnototeList {
           this.stream.follows_anototes = this.anototes;
           this.stream.follow_first_load = true;
         }
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
     } else {
-      this.utilityMethods.show_loader('', false);
+      this.showLoading("Loading Totes");
       let params = {
         number: this.current_page++,
         time: this.utilityMethods.get_php_wala_time()
       }
       this.anototeService.top_totes(params).subscribe((result) => {
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
         this.top_anototes = result.data.annototes;
         if (this.top_anototes.length == 0) {
           this.has_totes = false;
@@ -222,7 +222,7 @@ export class AnototeList {
         this.stream.top_page_no = this.current_page;
         this.stream.top_first_load = true;
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
@@ -435,7 +435,7 @@ export class AnototeList {
         this.loadFollower(anotote, anotote.followers[0])
       }
     } else {
-      this.utilityMethods.doToast('No one follows this anotote.');
+      this.toastInFooter('No one follows this anotote.');
     }
 
   }
@@ -566,14 +566,14 @@ export class AnototeList {
             var params = {
               group_id: anotote.chatGroupId
             }
-            this.utilityMethods.show_loader('');
+            this.showLoading("Deleting")
             this.anototeService.delete_chat_tote(params).subscribe((result) => {
-              this.utilityMethods.hide_loader();
+              this.hideLoading();
               this.anototes.splice(this.anototes.indexOf(anotote), 1);
               this.utilityMethods.doToast("Chat tote deleted Successfully.")
               this.close_bulk_actions();
             }, (error) => {
-              this.utilityMethods.hide_loader();
+              this.hideLoading();
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
               }
@@ -657,9 +657,9 @@ export class AnototeList {
               user_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.anototeDetail.user.id : this.current_active_anotote.anototeDetail.user.id,
               created_at: this.utilityMethods.get_php_wala_time()
             }
-            this.utilityMethods.show_loader('', false);
+            this.showLoading('Saving')
             this.anototeService.save_totes(params).subscribe((result) => {
-              this.utilityMethods.hide_loader();
+              this.hideLoading();
               if (result.status == 1) {
                 if (result.data.save_count == 1) {
                   this.current_active_anotote.isMe = 1;
@@ -673,21 +673,21 @@ export class AnototeList {
                   this.stream.me_first_load = false;
                   this.stream.top_first_load = false;
                   this.stream.follow_first_load = false;
-                  this.utilityMethods.doToast("Saved to Me stream");
+                  this.toastInFooter("Saved to Me stream");
                 } else {
-                  this.utilityMethods.doToast("Already Saved");
+                  this.toastInFooter("Already Saved");
                 }
                 // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
                 this.open_browser(this.current_active_anotote, null);
               }
             }, (error) => {
-              this.utilityMethods.hide_loader();
+              this.hideLoading();
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
               }
             })
           } else {
-            this.utilityMethods.doToast("Couldn't load as no file was found.");
+            this.toastInFooter("Couldn't load as no file was found.");
           }
         }
       } else if (data.bookmark) {
@@ -702,24 +702,24 @@ export class AnototeList {
           tote_titles: title,
           created_at: this.utilityMethods.get_php_wala_time()
         }
-        var toast = this.utilityMethods.doLoadingToast("Bookmarking");
+        this.showLoading("Bookmarking");
         this.anototeService.bookmark_totes(params).subscribe((result) => {
-          toast.dismiss();
+          this.hideLoading();
           if (result.status == 1) {
             if (result.data.bookmarks.length > 0) {
               this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
-              this.utilityMethods.doToast("Bookmarked");
+              this.toastInFooter("Bookmarked");
             } else if (result.data.exist_count == 1) {
-              this.utilityMethods.doToast("Already Bookmarked");
+              this.toastInFooter("Already Bookmarked");
             }
           }
         }, (error) => {
-          toast.dismiss();
+          this.hideLoading();
           this.utilityMethods.hide_loader();
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           } else {
-            this.utilityMethods.doToast("Couldn't bookmark.");
+            this.toastInFooter("Couldn't bookmark.");
           }
         })
       }
@@ -752,7 +752,7 @@ export class AnototeList {
             this.move_fab = false;
           else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
             this.move_fab = false;
-          else if (this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
+          else if (anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
             this.move_fab = false;
           if (this.current_active_highlight) {
             this.current_active_highlight.edit = false;
@@ -945,7 +945,7 @@ export class AnototeList {
 
   delete_annotation(annotation) {
     this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this annotation?", () => {
-      this.utilityMethods.show_loader('Deleting')
+      this.showLoading('Deleting')
       this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
         .subscribe((response_content) => {
           this.text = response_content.text();
@@ -959,7 +959,7 @@ export class AnototeList {
               delete: 1
             }
             this.anototeService.delete_annotation(params).subscribe((result) => {
-              this.utilityMethods.hide_loader()
+              this.hideLoading();
               this.current_active_anotote.highlights.splice(this.current_active_anotote.highlights.indexOf(annotation), 1);
               this.current_active_highlight = null;
               this.stream.top_first_load = false;
@@ -967,7 +967,7 @@ export class AnototeList {
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
               } else {
-                this.utilityMethods.doToast("Couldn't delete annotation.");
+                this.toastInFooter("Couldn't delete annotation.");
               }
             })
           }, 500)
@@ -975,7 +975,7 @@ export class AnototeList {
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           } else {
-            this.utilityMethods.doToast("Couldn't save annotation.");
+            this.toastInFooter("Couldn't save annotation.");
           }
         });
     })
@@ -1000,7 +1000,7 @@ export class AnototeList {
 
   save_edited_annotation(highlight) {
     if (this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') {
-      this.utilityMethods.show_loader("");
+      this.showLoading("Saving");
       this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
         .subscribe((response_content) => {
           this.text = response_content.text();
@@ -1018,7 +1018,7 @@ export class AnototeList {
               user_tote_id: this.current_active_anotote.userAnnotote.id
             }
             this.anototeService.update_annotation(params).subscribe((result) => {
-              this.utilityMethods.hide_loader();
+              this.hideLoading();
               highlight.comment = result.data.highlight.comment;
               highlight.edit = false;
               this.current_active_highlight = null;
@@ -1028,7 +1028,7 @@ export class AnototeList {
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
               } else {
-                this.utilityMethods.doToast("Couldn't update annotation.");
+                this.toastInFooter("Couldn't update annotation.");
               }
             })
           }, 500)
@@ -1036,11 +1036,11 @@ export class AnototeList {
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           } else {
-            this.utilityMethods.doToast("Couldn't save annotation.");
+            this.toastInFooter("Couldn't save annotation.");
           }
         });
     } else {
-      this.utilityMethods.doToast("Please update annotation and then submit.");
+      this.toastInFooter("Please update annotation and then submit.");
     }
   }
 
@@ -1142,6 +1142,7 @@ export class AnototeList {
             tagsModal.present();
           }
         } else if (data.delete == true) {
+          this.toastInFooter("Tote deleted successfully.");
           this.current_active_anotote = null;
           this.anototes.splice(this.anototes.indexOf(anotote), 1);
         } else if (data.chat) {
@@ -1168,14 +1169,14 @@ export class AnototeList {
         var params = {
           group_id: anotote.chatGroupId
         }
-        this.utilityMethods.show_loader('');
+        this.showLoading("Deleting");
         this.anototeService.delete_chat_tote(params).subscribe((result) => {
           this.utilityMethods.hide_loader();
           this.anototes.splice(this.anototes.indexOf(anotote), 1);
-          this.utilityMethods.doToast("Chat tote deleted Successfully.")
+          this.toastInFooter("Chat tote deleted Successfully.")
           this.close_bulk_actions();
         }, (error) => {
-          this.utilityMethods.hide_loader();
+          this.hideLoading();
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           }
@@ -1282,18 +1283,18 @@ export class AnototeList {
       userAnnotote_ids: ids,
       delete: 1
     }
-    this.utilityMethods.show_loader('');
+    this.showLoading('Deleting');
     this.anototeService.delete_bulk_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.data.annotote.length == this.selected_totes.length) {
         for (let tote of this.selected_totes) {
           this.anototes.splice(this.anototes.indexOf(tote), 1);
         }
-        this.utilityMethods.doToast("Deleted Successfully.")
+        this.toastInFooter("Deleted Successfully.")
         this.close_bulk_actions();
       }
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      this.hideLoading();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
@@ -1312,18 +1313,18 @@ export class AnototeList {
       userAnnotote_ids: ids,
       privacy: 1
     }
-    this.utilityMethods.show_loader('', false);
+    this.showLoading('Changing Privacy');
     this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
       this.utilityMethods.hide_loader();
       if (result.data.annotote.length == this.selected_totes.length) {
         for (let tote of this.selected_totes) {
           tote.userAnnotote.privacy = 1;
         }
-        this.utilityMethods.doToast("Privacy successfully updated.");
+        this.toastInFooter("Privacy successfully updated.");
         this.close_bulk_actions();
       }
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      this.hideLoading();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
@@ -1359,9 +1360,9 @@ export class AnototeList {
       user_id: userIds,
       created_at: this.utilityMethods.get_php_wala_time()
     }
-    this.utilityMethods.show_loader('', false);
+    this.showLoading('Saving');
     this.anototeService.save_totes(params).subscribe((result) => {
-      this.utilityMethods.hide_loader();
+      this.hideLoading();
       if (result.status == 1) {
         for (var i = 0; i < this.selected_totes.length; i++) {
           if (this.current_color == 'top') {
@@ -1381,11 +1382,11 @@ export class AnototeList {
         this.close_bulk_actions();
       }
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      this.hideLoading();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else {
-        this.utilityMethods.doToast("Couldn't save totes");
+        this.toastInFooter("Couldn't save totes");
         this.close_bulk_actions();
       }
     })
@@ -1410,11 +1411,11 @@ export class AnototeList {
       tote_titles: titles,
       created_at: this.utilityMethods.get_php_wala_time()
     }
-    this.utilityMethods.show_loader('', false);
+    this.showLoading('Bookmarking');
     this.anototeService.bookmark_totes(params).subscribe((result) => {
-      this.utilityMethods.hide_loader();
+      this.hideLoading();
       if (result.status == 1) {
-        this.utilityMethods.doToast("Bookmarked");
+        this.toastInFooter("Bookmarked");
         if (result.data.bookmarks.length > 0)
           for (let bookmark of result.data.bookmarks) {
             this.searchService.saved_searches.unshift(bookmark);
@@ -1422,14 +1423,37 @@ export class AnototeList {
         this.close_bulk_actions();
       }
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      this.hideLoading();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else {
-        this.utilityMethods.doToast("Couldn't bookmark totes")
+        this.toastInFooter("Couldn't bookmark totes")
         this.close_bulk_actions();
       }
     })
+  }
+
+  showLoading(message) {
+    this.loading_message = message;
+    this.loading_check = true;
+    this.move_fab = true;
+    // this.content.resize();
+  }
+
+  hideLoading() {
+    this.loading_message = '';
+    this.loading_check = false;
+    if(this.current_active_anotote && this.current_active_anotote.active_tab == 'me')
+      this.move_fab = false;
+    // this.content.resize();
+  }
+
+  toastInFooter(message) {
+    this.showLoading(message);
+    // this.content.resize();
+    setTimeout(() => {
+      this.hideLoading();
+    }, 2000);
   }
 
   upvote() {
