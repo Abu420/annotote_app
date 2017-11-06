@@ -123,17 +123,16 @@ export class AnototeOptions {
         userAnnotote_ids: this.anotote.userAnnotote.id,
         delete: 1
       }
-      this.utilityMethods.show_loader('');
+      var toast = this.utilityMethods.doLoadingToast("Deleting");
       this.anototeService.delete_bulk_totes(params).subscribe((result) => {
-        this.utilityMethods.hide_loader();
-        this.utilityMethods.doToast("Anotote deleted successfully.");
+        toast.dismiss();
         var params = {
           tags: false,
           delete: true
         }
         this.dismiss(params);
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }

@@ -318,8 +318,9 @@ button,
         }
         .messageLoading {
             color: white;
-            font-weight: bolder;
+            font-weight: bold !important;
             text-align: center;
+            width: 100%;
         }
     }
 }

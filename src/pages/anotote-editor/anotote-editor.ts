@@ -436,7 +436,7 @@ export class AnototeEditor implements OnDestroy {
             } else {
                 var selection: any = window.getSelection();
                 // var range = selection.getRangeAt(0);highlight_comment
-                if (selection.baseNode.nextSibling.className == 'highlight_quote' || selection.baseNode.nextSibling.className == 'highlight_comment') {
+                if (selection.baseNode.nextSibling && (selection.baseNode.nextSibling.className == 'highlight_quote' || selection.baseNode.nextSibling.className == 'highlight_comment')) {
                     this.toastInFooter('The selection overlapps with the already annotated text.');
                     return false;
                 }
