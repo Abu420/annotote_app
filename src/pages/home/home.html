@@ -36,6 +36,10 @@
         </ion-list>
         <ion-list style="margin-bottom: 50px !important;" class="product-list">
             <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
+                <div class="img-holder">
+                    <img class="unReadLock" src="assets/img/blackBookmark.svg" alt="">
+                    <!-- <img class="unReadLock" src="assets/img/grayBookmark.svg" alt=""> -->
+                </div>
                 <div class="txt">
                     <strong *ngIf="search.linkTitle != null && search.linkTitle != ''" [innerText]="search.linkTitle"></strong>
                     <strong *ngIf="search.linkTitle == null || search.linkTitle == ''" [innerText]="search.term"></strong>
