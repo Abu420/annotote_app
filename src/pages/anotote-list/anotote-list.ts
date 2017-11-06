@@ -827,7 +827,6 @@ export class AnototeList {
         anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
         anotote.highlights = anotote.top_highlights;
         anotote.isMe = anotote.anototeDetail.isMe;
-        anotote.spinner_for_active = false;
         //Details
         // this.spinner_for_active = true;
         // var params = {
