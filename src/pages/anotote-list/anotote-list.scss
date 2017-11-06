@@ -732,10 +732,13 @@
                                 border-bottom: 1px solid #CCC;
                                 position: relative;
                                 .img-holder {
-                                    width: 72px;
                                     height: 72px;
-                                    background: rgba(128, 128, 128, 0.3);
                                     vertical-align: middle;
+                                    width: 50px;
+                                    background-image: url(../assets/img/option-icon.png);
+                                    background-position: 25px center;
+                                    background-repeat: no-repeat;
+                                    background-size: 5px;
                                     position: absolute;
                                     left: 0px;
                                     top: 0px;
@@ -754,7 +757,7 @@
                                 .txt {
                                     vertical-align: middle;
                                     padding: 20px 10px 0px 5px;
-                                    width: calc(100% - 72px);
+                                    width: calc(100% - 50px);
                                     min-height: 72px;
                                     position: relative;
                                     float: right;
