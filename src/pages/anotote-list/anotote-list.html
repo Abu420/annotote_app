@@ -218,7 +218,7 @@
             </ion-item>
         </ion-list>
         <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
-            <ion-item *ngFor="let anotote of top_anototes">
+            <ion-item *ngFor="let anotote of top_anototes" [ngClass]="{'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
                     <div *ngIf="!anotote.active && current_color == 'top'" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
                         <!-- <img src="assets/img/Default.svg" *ngIf="anotote.annotote.photo == null || anotote.annotote.photo == ''">
@@ -282,6 +282,10 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div class="editTitle" *ngIf="anotote.checked == true">
+                    <h1>My title</h1>
                 </div>
             </ion-item>
         </ion-list>
