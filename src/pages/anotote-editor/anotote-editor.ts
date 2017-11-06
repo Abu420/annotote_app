@@ -296,13 +296,16 @@ export class AnototeEditor implements OnDestroy {
 
     change_full_screen_mode() {
         this.full_screen_mode = !this.full_screen_mode;
+        this.showheader = true;
+        this.hideheader = false;
     }
 
     add_to_me_stream() {
         var params = {
             anotote: this.ANOTOTE,
             stream: this.WHICH_STREAM,
-            from: 'editor'
+            from: 'editor',
+            findChatter: true
         }
         let chatTote = this.modalCtrl.create(ChatToteOptions, params);
         chatTote.onDidDismiss((data) => {

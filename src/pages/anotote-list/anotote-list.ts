@@ -1433,10 +1433,11 @@ export class AnototeList {
   }
 
   upvote() {
+    console.log(this.current_active_anotote);
   }
 
   downvote() {
-
+    console.log(this.current_active_anotote);
   }
 
 }
