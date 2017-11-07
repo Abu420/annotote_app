@@ -4,15 +4,17 @@
     <div class="tags-panel" [ngClass]="{'tagTypes': anotation_or_anotote == false}" *ngIf="show == true" [@enterAnimation]>
         <div class="tabWidget">
             <ul class="tag-list" *ngIf="!no_tags_found">
-                <!-- <li *ngIf="no_tags_found == true" text-center>
-                    No Tags found.
-                </li> -->
                 <li *ngFor="let tag of tags">
                     <img class="play-icon" *ngIf="tag.tagId == 1" src="assets/img/top-arrow.png" alt="">
                     <img class="play-icon" *ngIf="tag.tagId == 2" src="assets/img/icon-gray.png" alt="">
-                    <img class="play-icon" *ngIf="tag.tagId == 3 || anotation_or_anotote == true" src="assets/img/hash-gray.png" alt="">
+                    <img class="play-icon" *ngIf="tag.tagId == 3" src="assets/img/hash-gray.png" alt="">
                     <img class="play-icon" *ngIf="tag.tagId == 4" src="assets/img/dollar-gray.png" alt="">
                     <span>{{tag.tagText}}</span>
+                </li>
+            </ul>
+            <ul class="tag-list" *ngIf="no_tags_found == true && stream != 'me'">
+                <li text-center>
+                    No Tags found.
                 </li>
             </ul>
         </div>
@@ -36,7 +38,7 @@
                 </li>
             </ul>
         </div>
-        <div class="sharing_pop">
+        <div class="sharing_pop" *ngIf="stream == 'me'">
             <div class="main_label">
                 <img alt="" src="assets/img/hashIcon.svg">
             </div>

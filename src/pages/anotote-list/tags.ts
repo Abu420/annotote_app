@@ -52,8 +52,16 @@ export class TagsPopUp {
     add_tag(type, tag) {
         if (this.anotation_or_anotote) {
             var current_time = this.utilityMethods.get_php_wala_time();
+            var paramsObj = {
+                user_tote_id: this.user_tote_id,
+                tag_text: tag,
+                created_at: current_time,
+                tag_id: type
+            }
+            if (type == 2 && this.one_selected != null)
+                paramsObj['user_id'] = this.one_selected.id;
             var toast = this.utilityMethods.doLoadingToast('Tagging');
-            this.searchService.add_tag_to_anotote({ user_tote_id: this.user_tote_id, tag_text: this.tag_input, created_at: current_time })
+            this.searchService.add_tag_to_anotote(paramsObj)
                 .subscribe((res) => {
                     toast.dismiss();
                     this.tags.push(res.data.annotote_tag);
@@ -121,7 +129,7 @@ export class TagsPopUp {
     }
 
     tag_user() {
-        if (!this.anotation_or_anotote && this.tag_input[0] == '@') {
+        if (this.tag_input[0] == '@') {
             if (this.tag_input == '') {
                 this.show_autocomplete = false;
                 this.users = [];
