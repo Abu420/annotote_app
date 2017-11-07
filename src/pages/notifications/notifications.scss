@@ -221,6 +221,10 @@ page-notifications {
                                         vertical-align: middle;
                                         width: 14px;
                                         margin-right: 5px;
+                                        &.followed-icon {
+                                            width: 12px;
+                                            margin: 0 5px 0 0 !important;
+                                        }
                                     }
                                 }
                             }
