@@ -752,6 +752,7 @@ export class AnototeList {
         //-----
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;
+          this.current_active_anotote.checked = false;
           if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
             this.move_fab = false;
           else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
@@ -779,20 +780,21 @@ export class AnototeList {
         //   // this.getQuickChatHistory(anotote);
         // }
       } else {
-        if (anotote.active) {
-          anotote.active = false;
-        }
-        if (anotote.chatGroupId == null) {
-          if (anotote.checked) {
-            this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
-            anotote.checked = false;
-          } else {
-            this.selected_totes.push(anotote);
-            anotote.checked = true;
-          }
-        } else {
-          this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.")
-        }
+        // if (anotote.active) {
+        //   anotote.active = false;
+        // }
+        // if (anotote.chatGroupId == null) {
+        //   if (anotote.checked) {
+        //     this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
+        //     anotote.checked = false;
+        //   } else {
+        //     this.selected_totes.push(anotote);
+        //     anotote.checked = true;
+        //   }
+        // } else {
+        //   this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.")
+        // }
+        anotote.checked = false;
       }
     } else {
       if (anotote.checked) {
@@ -1471,10 +1473,12 @@ export class AnototeList {
         }
         this.anototeService.vote_anotote(params).subscribe((success) => {
           this.hideLoading();
-          console.log(success);
+          this.current_active_anotote.topVote.currentUserVote = success.data.annotote.currentUserVote;
+          this.current_active_anotote.topVote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+          this.current_active_anotote.topVote.rating = success.data.annotote.rating;
         }, (error) => {
           this.hideLoading();
-          console.log(error);
+          this.toastInFooter("Couldn't upvote");
         })
       }
     } else {
