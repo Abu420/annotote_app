@@ -1,4 +1,9 @@
 page-chat {
+    .toolbar-ios {
+        ion-title {
+            padding: 0 70px 1px;
+        }
+    }
     #wrapper {
         background: #FFF;
     }
@@ -197,7 +202,7 @@ page-chat {
             vertical-align: middle;
             width: 15px;
         }
-        input[type="text"] {
+        textarea {
             display: inline-block;
             vertical-align: middle;
             padding: 5px;
