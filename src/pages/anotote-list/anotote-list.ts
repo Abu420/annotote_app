@@ -829,6 +829,7 @@ export class AnototeList {
         anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
         anotote.highlights = anotote.top_highlights;
         anotote.isMe = anotote.anototeDetail.isMe;
+        anotote.spinner_for_active = false;
         //Details
         // this.spinner_for_active = true;
         // var params = {
@@ -1130,7 +1131,7 @@ export class AnototeList {
           if (this.current_color != 'top') {
             var params = {
               user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.userAnnotote.annototeTags,
+              tags: anotote.userAnnotote.anototeDetail.userAnnotote.tags,
               whichStream: this.current_color,
               annotote: true
             }
@@ -1139,7 +1140,7 @@ export class AnototeList {
           } else if (this.current_color == 'top') {
             var params = {
               user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.tags,
+              tags: anotote.anototeDetail.userAnnotote.tags,
               whichStream: this.current_color,
               annotote: true
             }

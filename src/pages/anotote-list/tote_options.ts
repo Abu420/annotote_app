@@ -172,6 +172,45 @@ export class AnototeOptions {
     })
   }
 
+  saveTote() {
+    if (this.anotote.userAnnotote.filePath != '') {
+      var params: any = {
+        annotote_id: this.stream == 'follows' ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
+        user_id: this.stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
+        created_at: this.utilityMethods.get_php_wala_time()
+      }
+      var toast = this.utilityMethods.doLoadingToast("Saving");
+      this.anototeService.save_totes(params).subscribe((result) => {
+        toast.dismiss();
+        if (result.status == 1) {
+          if (result.data.save_count == 1) {
+            this.anotote.isMe = 1;
+            if (this.stream == 'top') {
+              this.anotote.anototeDetail.isMe = 1;
+              this.anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+            } else {
+              this.anotote.userAnnotote.anototeDetail.isMe = 1;
+              this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+            }
+            this.stream.me_first_load = false;
+            this.stream.top_first_load = false;
+            this.stream.follow_first_load = false;
+            this.utilityMethods.doToast("Saved to Me stream");
+          } else {
+            this.utilityMethods.doToast("Already Saved");
+          }
+        }
+      }, (error) => {
+        toast.dismiss();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    } else {
+      this.utilityMethods.doToast("Couldn't load as no file was found.");
+    }
+  }
+
   dismiss(data) {
     this.show = false;
     setTimeout(() => {
