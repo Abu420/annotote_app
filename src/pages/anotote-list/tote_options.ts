@@ -5,6 +5,7 @@ import { AnototeService } from "../../services/anotote.service";
 import { Clipboard } from '@ionic-native/clipboard';
 import { AuthenticationService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
+import { Streams } from '../../services/stream.service';
 @Component({
   selector: 'anotote_options',
   animations: [
@@ -38,7 +39,8 @@ export class AnototeOptions {
     public viewCtrl: ViewController,
     public anototeService: AnototeService,
     public authService: AuthenticationService,
-    public searchService: SearchService) {
+    public searchService: SearchService,
+    public runtime: Streams) {
     // this.share_type = params.get('share_type');
     // this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
@@ -188,13 +190,13 @@ export class AnototeOptions {
             if (this.stream == 'top') {
               this.anotote.anototeDetail.isMe = 1;
               this.anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+              this.runtime.follow_first_load = false;
             } else {
               this.anotote.userAnnotote.anototeDetail.isMe = 1;
               this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+              this.runtime.top_first_load = false;
             }
-            this.stream.me_first_load = false;
-            this.stream.top_first_load = false;
-            this.stream.follow_first_load = false;
+            this.runtime.me_first_load = false;
             this.utilityMethods.doToast("Saved to Me stream");
           } else {
             this.utilityMethods.doToast("Already Saved");

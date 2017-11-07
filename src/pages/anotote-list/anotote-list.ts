@@ -670,13 +670,13 @@ export class AnototeList {
                   if (this.current_color == 'top') {
                     this.current_active_anotote.anototeDetail.isMe = 1;
                     this.current_active_anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                    this.stream.follow_first_load = false;
                   } else {
                     this.current_active_anotote.userAnnotote.anototeDetail.isMe = 1;
                     this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                    this.stream.top_first_load = false;
                   }
                   this.stream.me_first_load = false;
-                  this.stream.top_first_load = false;
-                  this.stream.follow_first_load = false;
                   this.toastInFooter("Saved to Me stream");
                 } else {
                   this.toastInFooter("Already Saved");
@@ -1149,6 +1149,8 @@ export class AnototeList {
           }
         } else if (data.delete == true) {
           this.current_active_anotote = null;
+          this.stream.top_first_load = false;
+          this.stream.follow_first_load = false;
           this.anototes.splice(this.anototes.indexOf(anotote), 1);
         } else if (data.chat) {
           var chatParams = {
@@ -1177,6 +1179,7 @@ export class AnototeList {
         this.showLoading("Deleting");
         this.anototeService.delete_chat_tote(params).subscribe((result) => {
           this.utilityMethods.hide_loader();
+          this.current_active_anotote = null;
           this.anototes.splice(this.anototes.indexOf(anotote), 1);
           this.toastInFooter("Chat tote deleted Successfully.")
           this.close_bulk_actions();

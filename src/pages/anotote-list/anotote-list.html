@@ -66,13 +66,13 @@
                     </div>
                     <!-- Images for chat totes -->
                     <div *ngIf="!anotote.active && anotote.type == 2 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
-                        <!-- For picture of first group member, if he is not the current logged in user
-                        <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo == null || anotote.chatGroup.groupUsers[0].user.photo == '')">
-                        <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')" [src]="anotote.chatGroup.groupUsers[0].user.photo | image_base_path">
-                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')"></ion-spinner>
-                        For picture of second group member, if he is not the current logged in user -->
-                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo == null || anotote.chatGroup.groupUsers[1].user.photo == '')">
-                        <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null && anotote.chatGroup.groupUsers[1].user.photo != '')" [hidden]="!loaded" [src]="anotote.chatGroup.groupUsers[1].user.photo | image_base_path">
+                        <!-- For picture of first group member, if he is not the current logged in user -->
+                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo == null || anotote.chatGroup.groupUsers[0].user.photo == '')"> -->
+                        <!-- <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')" [src]="anotote.chatGroup.groupUsers[0].user.photo | image_base_path">
+                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')"></ion-spinner> -->
+                        <!-- For picture of second group member, if he is not the current logged in user -->
+                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo == null || anotote.chatGroup.groupUsers[1].user.photo == '')"> -->
+                        <!-- <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null && anotote.chatGroup.groupUsers[1].user.photo != '')" [hidden]="!loaded" [src]="anotote.chatGroup.groupUsers[1].user.photo | image_base_path">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null && anotote.chatGroup.groupUsers[1].user.photo != '')"></ion-spinner> -->
                     </div>
                     <div class="check" [hidden]="!edit_mode">
@@ -82,6 +82,7 @@
                     </div>
                     <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
                     <div class="txt" *ngIf="anotote.type == 1" [ngClass]="{'txtToto': edit_mode == true}">
+                        <img class="unReadLock" *ngIf="anotote.userAnnotote.privacy == 1" src="assets/img/lockIconGray.svg" alt="">
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
                         <div class="time">
                             <em>
@@ -96,8 +97,7 @@
                         </div>
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
-                        <img class="unReadLock" src="assets/img/redLock.svg" alt="">
-                        <img class="unReadLock" src="assets/img/lockIconGray.svg" alt="">
+                        <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
                             <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>
                             <strong [innerText]="anotote.chatGroup.groupUsers[1].user.firstName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></strong>

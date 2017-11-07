@@ -342,13 +342,13 @@ export class AnototeEditor implements OnDestroy {
                                 if (this.WHICH_STREAM == 'top') {
                                     this.ANOTOTE.anototeDetail.isMe = 1;
                                     this.ANOTOTE.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                                    this.runtime.follow_first_load = false;
                                 } else {
                                     this.ANOTOTE.userAnnotote.anototeDetail.isMe = 1;
                                     this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                                    this.runtime.top_first_load = false;
                                 }
                                 this.runtime.me_first_load = false;
-                                this.runtime.top_first_load = false;
-                                this.runtime.follow_first_load = false;
                                 this.toastInFooter("Saved to Me stream");
                             } else {
                                 this.toastInFooter("Already Saved");
