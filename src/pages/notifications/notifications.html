@@ -45,6 +45,10 @@
                                 <button *ngIf="notification.type=='user:follwowed_by'" type="button"><ion-icon name="at"></ion-icon></button>
                                 <img *ngIf="notification.type=='user:message' && notification.readStatus == 0" class="chat-icon" src="assets/img/chat-red.png" alt="">
                                 <img *ngIf="notification.type=='user:message' && notification.readStatus == 1" class="chat-icon" src="assets/img/chat-gray.png" alt="">
+                                <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 0" class="mentioned-icon" src="assets/img/mentionedIcon.svg" alt="">
+                                <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 1" class="mentioned-icon" src="assets/img/mentionedGray.svg" alt="">
+                                <img *ngIf="notification.type=='user:followed_by' && notification.readStatus == 0" class="followed-icon" src="assets/img/userRed.svg" alt="">
+                                <img *ngIf="notification.type=='user:followed_by' && notification.readStatus == 1" class="followed-icon" src="assets/img/userGray.svg" alt="">
                                 <span *ngIf="notification.type=='user:mentioned_you'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Mentioned you</span>
                                 <span *ngIf="notification.type=='user:message'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Message</span>
                                 <span *ngIf="notification.type=='user:followed_by'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Followed you</span>
