@@ -193,8 +193,10 @@
                         <ion-list no-lines class="details-list layout" [hidden]="anotote.spinner_for_active == true">
                             <ion-item class="underlist-items" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
-                                    <img [src]="message | chatHeads" alt="">
-                                    <!--<img [src]="assets/img/check-green.png" alt="">-->
+                                    <!-- <img [src]="message | chatHeads" alt=""> -->
+                                    <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                                    <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
+                                    <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
                                 </figure>
                                 <div class="check-text">
                                     <div class="name-time">

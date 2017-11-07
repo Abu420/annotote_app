@@ -61,6 +61,8 @@ export class Chat {
     this.reply_box_on = true;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
+    if (this.tote)
+      this.markMessagesRead(this.tote.chatGroup.messagesUser);
     this.chatService.threadingUser = this.secondUser;
     this.user = this.authService.getUser();
     this.connectionToSocket();
@@ -69,6 +71,13 @@ export class Chat {
       this.against_tote = true;
       this.anotote_id = navParams.get('anotote_id');
       this.title = navParams.get('title');
+    }
+
+  }
+
+  markMessagesRead(messages) {
+    for (let message of messages) {
+      message.read = 1;
     }
   }
 
