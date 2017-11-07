@@ -787,15 +787,15 @@
                                     text-align: center;
                                 }
                                 .txt {
-                                    img.unReadLock {
-                                        display: none;
-                                    }
                                     vertical-align: middle;
-                                    padding: 20px 10px 0px 5px;
+                                    padding: 20px 10px 0px 0px;
                                     width: calc(100% - 50px);
                                     min-height: 72px;
                                     position: relative;
                                     float: right;
+                                    img.unReadLock {
+                                        display: none;
+                                    }
                                     -webkit-transition: all 500ms ease-in-out;
                                     transition: all 500ms ease-in-out;
                                     &.txtToto {
@@ -903,7 +903,6 @@
                                 }
                                 .txt {
                                     width: calc(100% - 50px);
-                                    padding-left: 5px;
                                 }
                             }
                             .ng-trigger {
@@ -948,7 +947,7 @@
                                 }
                             }
                             .listHeader {
-                                padding: 0px 20px 0 50px;
+                                padding: 0px 20px 0 45px;
                                 margin-top: 0;
                                 background: #FFF;
                                 height: 30px;
@@ -1006,7 +1005,7 @@
                                                     display: inline-block;
                                                     vertical-align: middle;
                                                     width: calc(100% - 30px);
-                                                    padding: 0 5px 0 4px;
+                                                    padding: 0 5px 0 0px;
                                                     min-height: auto;
                                                     p {
                                                         font-size: 14px;
