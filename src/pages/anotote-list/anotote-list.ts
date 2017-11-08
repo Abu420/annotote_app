@@ -25,6 +25,7 @@ import { ChatHeads } from "../../services/pipes"
 import { NotificationService } from "../../services/notifications.service";
 import { ChatToteOptions } from './chat_tote';
 import { Streams } from '../../services/stream.service';
+import { SearchUnPinned } from '../../models/search';
 
 @IonicPage()
 @Component({
@@ -695,37 +696,48 @@ export class AnototeList {
           }
         }
       } else if (data.bookmark) {
-        var link = [];
-        var title = [];
-        link.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.link : this.current_active_anotote.annotote.link)
-        title.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.title : this.current_active_anotote.annotote.title)
-        var params: any = {
-          user_tote_id: this.current_active_anotote.userAnnotote.id,
-          user_id: this.user.id,
-          links: link,
-          tote_titles: title,
-          created_at: this.utilityMethods.get_php_wala_time()
+        var bookmark = new SearchUnPinned(1,
+          this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.title : this.current_active_anotote.annotote.title,
+          this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.link : this.current_active_anotote.annotote.link,
+          this.user.id,
+          this.current_active_anotote.userAnnotote.id);
+        if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+          this.searchService.saved_searches.unshift(bookmark);
+          this.utilityMethods.doToast("Bookmarked");
+        } else {
+          this.utilityMethods.doToast("Already bookmarked");
         }
-        this.showLoading("Bookmarking");
-        this.anototeService.bookmark_totes(params).subscribe((result) => {
-          this.hideLoading();
-          if (result.status == 1) {
-            if (result.data.bookmarks.length > 0) {
-              this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
-              this.toastInFooter("Bookmarked");
-            } else if (result.data.exist_count == 1) {
-              this.toastInFooter("Already Bookmarked");
-            }
-          }
-        }, (error) => {
-          this.hideLoading();
-          this.utilityMethods.hide_loader();
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          } else {
-            this.toastInFooter("Couldn't bookmark.");
-          }
-        })
+        // var link = [];
+        // var title = [];
+        // link.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.link : this.current_active_anotote.annotote.link)
+        // title.push(this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.title : this.current_active_anotote.annotote.title)
+        // var params: any = {
+        //   user_tote_id: this.current_active_anotote.userAnnotote.id,
+        //   user_id: this.user.id,
+        //   links: link,
+        //   tote_titles: title,
+        //   created_at: this.utilityMethods.get_php_wala_time()
+        // }
+        // this.showLoading("Bookmarking");
+        // this.anototeService.bookmark_totes(params).subscribe((result) => {
+        //   this.hideLoading();
+        //   if (result.status == 1) {
+        //     if (result.data.bookmarks.length > 0) {
+        //       this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
+        //       this.toastInFooter("Bookmarked");
+        //     } else if (result.data.exist_count == 1) {
+        //       this.toastInFooter("Already Bookmarked");
+        //     }
+        //   }
+        // }, (error) => {
+        //   this.hideLoading();
+        //   this.utilityMethods.hide_loader();
+        //   if (error.code == -1) {
+        //     this.utilityMethods.internet_connection_error();
+        //   } else {
+        //     this.toastInFooter("Couldn't bookmark.");
+        //   }
+        // })
       }
     })
     chatTote.present();

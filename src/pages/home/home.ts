@@ -135,9 +135,9 @@ export class Home {
         if (result.status == 1) {
           if (result.data.bookmarks.length > 0) {
             this.searchService.saved_searches[this.searchService.saved_searches.indexOf(search)] = result.data.bookmarks[0];
-            this.utilityMethods.doToast("Pinned");
+            this.toastInFooter("Pinned");
           } else if (result.data.exist_count == 1) {
-            this.utilityMethods.doToast("Already Bookmarked");
+            this.toastInFooter("Already Bookmarked");
           }
         }
       }, (error) => {

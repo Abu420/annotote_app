@@ -21,6 +21,7 @@ import { TagsPopUp } from '../anotote-list/tags';
 import { User } from '../../models/user';
 import { ViewOptions } from '../anotote-list/view_options';
 import { FollowsPopup } from '../anotote-list/follows_popup';
+import { SearchUnPinned } from '../../models/search';
 
 @IonicPage()
 @Component({
@@ -363,36 +364,47 @@ export class AnototeEditor implements OnDestroy {
                 }
 
             } else if (data.bookmark) {
-                var link = [];
-                var title = [];
-                link.push(this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.link : this.ANOTOTE.annotote.link)
-                title.push(this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.title : this.ANOTOTE.annotote.title)
-                var paraams: any = {
-                    user_tote_id: this.ANOTOTE.userAnnotote.id,
-                    user_id: this.user.id,
-                    links: link,
-                    tote_titles: title,
-                    created_at: this.utilityMethods.get_php_wala_time()
+                var bookmark = new SearchUnPinned(1,
+                    this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.title : this.ANOTOTE.annotote.title,
+                    this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.link : this.ANOTOTE.annotote.link,
+                    this.user.id,
+                    this.ANOTOTE.userAnnotote.id);
+                if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                    this.searchService.saved_searches.unshift(bookmark);
+                    this.utilityMethods.doToast("Bookmarked");
+                } else {
+                    this.utilityMethods.doToast("Already bookmarked");
                 }
-                this.showLoading('Bookmarking');
-                this.anotote_service.bookmark_totes(paraams).subscribe((result) => {
-                    this.hideLoading();
-                    if (result.status == 1) {
-                        if (result.data.bookmarks.length > 0) {
-                            this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
-                            this.toastInFooter("Bookmarked");
-                        } else if (result.data.exist_count == 1) {
-                            this.toastInFooter("Already Bookmarked");
-                        }
-                    }
-                }, (error) => {
-                    this.utilityMethods.hide_loader();
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    } else {
-                        this.toastInFooter("Couldn't bookmark.");
-                    }
-                })
+                // var link = [];
+                // var title = [];
+                // link.push(this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.link : this.ANOTOTE.annotote.link)
+                // title.push(this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.annotote.title : this.ANOTOTE.annotote.title)
+                // var paraams: any = {
+                //     user_tote_id: this.ANOTOTE.userAnnotote.id,
+                //     user_id: this.user.id,
+                //     links: link,
+                //     tote_titles: title,
+                //     created_at: this.utilityMethods.get_php_wala_time()
+                // }
+                // this.showLoading('Bookmarking');
+                // this.anotote_service.bookmark_totes(paraams).subscribe((result) => {
+                //     this.hideLoading();
+                //     if (result.status == 1) {
+                //         if (result.data.bookmarks.length > 0) {
+                //             this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
+                //             this.toastInFooter("Bookmarked");
+                //         } else if (result.data.exist_count == 1) {
+                //             this.toastInFooter("Already Bookmarked");
+                //         }
+                //     }
+                // }, (error) => {
+                //     this.utilityMethods.hide_loader();
+                //     if (error.code == -1) {
+                //         this.utilityMethods.internet_connection_error();
+                //     } else {
+                //         this.toastInFooter("Couldn't bookmark.");
+                //     }
+                // })
             }
         })
         chatTote.present();
@@ -636,12 +648,17 @@ export class AnototeEditor implements OnDestroy {
             this.selection_lock = false;
             return;
         }
+        var opts = {
+            cssClass: 'noBackDrop',
+            enableBackdropDismiss: true,
+            showBackdrop: true
+        }
         this.sel = window.getSelection();
         // this.range = this.sel.getRangeAt(0);
         this.range = document.createRange();
         this.range.setStart(this.selection.startContainer, this.selection.startOffset);
         this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
-        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel });
+        let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel }, opts);
         createAnotationModal.onDidDismiss(data => {
             if (data.create) {
                 this.create_anotation(data.comment);

@@ -27,9 +27,9 @@ export class SearchService {
     public AlreadySavedSearches(term) {
         for (let searches of this.saved_searches)
             if (searches.term == term)
-                return true;
+                return false;
 
-        return false;
+        return true;
     }
 
 
