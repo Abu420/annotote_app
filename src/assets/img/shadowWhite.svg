@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+	 viewBox="0 0 27 24.1" style="enable-background:new 0 0 27 24.1;" xml:space="preserve">
 <style type="text/css">
 	.st0{display:none;}
 	.st1{fill:none;stroke:#BFBFBF;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
@@ -10,29 +10,29 @@
 <rect x="-2.4" y="-2.1" class="st0" width="28.6" height="28.6"/>
 <g>
 	
-		<image style="overflow:visible;opacity:0.75;" width="18" height="21" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAVCAYAAABLy77vAAAACXBIWXMAAAsSAAALEgHS3X78AAAA
-GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmZJREFUeNqslM+OEkEQxp2eGf6s
-yGbBWbJgJBqIHjSGxMQrCSceAJ6H9+EBiBfDzQuEeOGwrrsJ6gZB2Tgg/2aY8VcsY1A3CzFOUumq
-7qpvvu7+qrU7+32a7/vXjqbJ4P+VsAuhVqupSqViDAaDkGmamm3by3K57ADo7Q0EC63b7ZqAJMLh
-8AmxoZQazufzr8PhcFatVldBrrGLkTDRdT0NyCvsaLVafWD6nWVZn4inAbOdQLIdWBiu61oAPqP4
-gWEYyvO8RaPRuCReAuarXUCpVGrpOM4VyX2KdKae4BcAzSQSiXCQdyuQ/KnT6biRSGREeI59Zk7A
-jmF0OJlMzOCcdzLixrzpdPoDgI+Ep7D6ti5UClK6thejgFWxWHRgYFP8hakx5v6Zp/YUpAjQlYPd
-gPj/BNRsNiXPAEgOV79Jf2qXIOWmotHoAdd/jH/CVu9iIkQXTfk3AUmRJi3BKKbDJIwdcT5ZlF0g
-5wX+Pda+49uxWMwJtqkFf67X62Y6nQ5zoGYoFFLclIkfZ/khDJ6S8xL/MTbEXsPmDfm9XC63FuRa
-2e1220DycZIzhPdns9kBixHRowiQ+UfEFuOC8QKQM0Q6Eo3l83n/13ZkC1DOILwCic+Zs0gWsDis
-kqwZ+KKfM+K3gLRgcxmwWfeaOK1Wa0VHz/DHFM0B8iiQa7bxbeZF2aesvaf3zsfj8QAQJwDZPiPF
-9iKLxcLidjIo9lCeDO36FRPAMY3apyVG2Wx2sgH57T0yNur1KJzTzX0a8Up6KJC/XLHcTjKZXPR6
-PbdUKnnbTG57UrcloDa+ts9r+l++nwIMAPjdaBC1IVJmAAAAAElFTkSuQmCC" transform="matrix(1 0 0 1 9 1)">
+		<image style="overflow:visible;opacity:0.75;enable-background:new    ;" width="18" height="21" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAVCAYAAABLy77vAAAACXBIWXMAAAsSAAALEgHS3X78AAAA
+GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmlJREFUeNqslMuOElEQhu0bDYhM
+BuwhA0aigehCYyYxcUvCigeA5+F9eADixrB0ASFuWIwjk+AlCMrEBrl10+1XDG1mdDJNjJ2cnDrn
+VP39n1N/lX5nv0/xff/SUBSZ/L8cwhDq9bparVb10WgUMQxDsW17XalUHAC9vYFgofR6PQOQlGma
+x6x1VVXHy+Xy23g8XtRqtU3gq4cxEiaapmUBecU43Gw2H9h+Z1nWJ9bzgFkokFwHFrrruhaAzwh+
+oOu66nneqtlsfmG9BsxXw4AymczacZwLnIcEaWw9wT4BNJdKpczA71Yg+VO323Wj0eiEZZ/xmT0B
+O4LRwWw2M4J3DmVExrz5fP4TgI8sT2H1fRuoqpDSlL0YBaxKpZIDA5vgr2xNGe6ffuqeghQBuvKw
+OxD/n4BarZb46QDJ42o36U8NE6RkKhaLxUn/EfYxV73LECG6aMq/CUiCFCkJZhkaTEzGIe+TR9kn
++LzAvsfZD2w7kUg4wTWV4M+NRsPIZrMmD2pEIhGVTBnYSY4fwuApPi+xHzPGjNeweYP/oFAobAW5
+VXan09GRfBLnHMv7i8UizmFU9CgCZP8Ra4t5xXwOyBkinYjGisXilpE8oAJ9TQQGgyJ7z5ktnOPY
+Sew0Z/JDSf0ZQG+J6efz+Vm5XP7dAXSh1W63N1T0AntK0BJHDwBJs41tsy/KPuXsPbXXn06nI64k
+rcS/1kbkcbledLVaWWQnh2IPpGUol11MAKcU6pCSmAiTHci1fqTv1OsRuKSahxTihdRQIH9JsWQn
+nU6vBoOBK9e5yuS2lnpVAurOVvbppv/l+yXAAEvLZHxtCQXzAAAAAElFTkSuQmCC" transform="matrix(1 0 0 1 9 1)">
 	</image>
 	<g>
 		<path class="st1" d="M19.1,4.2C19.5,4.5,19.8,5,20,5.5c0.4,0.5,0.6,1.2,0.8,1.8C20.9,7.6,21,7.8,21,8.1c0.5,1.8,0.1,4-1.3,5.3
 			c0,0,0,0.1-0.1,0.1c-0.3,0.4-0.6,0.7-1.1,1c-0.4,0.4-0.9,0.7-1.4,0.9c-0.7,0.4-1.6,0.7-2.6,0.7c-0.4,0-0.8-0.1-1.2-0.1
-			c-0.4,0-0.7,0-1.1-0.1c0.7,0.2,1.5,0.4,2.3,0.4c3.8,0,6.9-3.1,6.9-6.9C21.5,7.2,20.6,5.4,19.1,4.2z"/>
+			s-0.7,0-1.1-0.1c0.7,0.2,1.5,0.4,2.3,0.4c3.8,0,6.9-3.1,6.9-6.9C21.5,7.2,20.6,5.4,19.1,4.2z"/>
 	</g>
 </g>
 <g>
 	
-		<image style="overflow:visible;opacity:0.75;" width="14" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAACXBIWXMAAAsSAAALEgHS3X78AAAA
+		<image style="overflow:visible;opacity:0.75;enable-background:new    ;" width="14" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAACXBIWXMAAAsSAAALEgHS3X78AAAA
 GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWBJREFUeNqsks1Kw0AQx5Nt0iaX
 BCUpFOvJWwJehMZjDj5DHiUP1T5Arz2K6EVoEMRcrBSaYGgP9iMf639iI1QSFXFhYGd3fjsz/x1B
 +OMSfxPDOf/YiGV46bS+IwAwx3Hai8VCDcNQ9n1f6Ha7fDKZ8MaMw+GwZZqmqiiKURSFiWzZdrud
@@ -46,6 +46,6 @@ AAAASUVORK5CYII=" transform="matrix(1 0 0 1 0 11)">
 		<path class="st1" d="M9.2,14.6c-2.1,2.2-4.3,4.5-6.4,6.7"/>
 	</g>
 </g>
-<path class="st2" d="M7.7,9.1L7.7,9.1c0-3.8,3.1-6.9,6.9-6.9c3.8,0,6.9,3.1,6.9,6.9l0,0c0,3.8-3.1,6.9-6.9,6.9l0,0
+<path class="st2" d="M7.7,9.1L7.7,9.1c0-3.8,3.1-6.9,6.9-6.9s6.9,3.1,6.9,6.9l0,0c0,3.8-3.1,6.9-6.9,6.9l0,0
 	C10.8,16,7.7,12.9,7.7,9.1L7.7,9.1z M9.7,14l-6.9,7.2"/>
 </svg>

@@ -717,12 +717,13 @@
                                         background-size: 5px;
                                     }
                                     .txt {
+                                        padding: 25px 10px 0px 0px;
                                         input {
                                             margin: 0px;
                                             padding: 0px;
                                             border: 0px;
                                             background: #e0e0e0;
-                                            font-size: 14px;
+                                            font-size: 16px;
                                             width: 100%;
                                         }
                                         .totBtn {
@@ -1070,6 +1071,11 @@
                                                     background: $top_app_color;
                                                 }
                                                 .editAntotion {
+                                                    margin-left: -8%;
+                                                    background: #CCC;
+                                                    width: 108%;
+                                                    padding: 10px 10px 10px 54px;
+                                                    margin-top: 10px;
                                                     .moveBtn {
                                                         position: absolute;
                                                         left: 22px;
@@ -1084,15 +1090,11 @@
                                                             }
                                                         }
                                                     }
-                                                    margin-left: -20px;
-                                                    background: #CCC;
-                                                    width: 108%;
-                                                    padding: 10px 10px 10px 54px;
-                                                    margin-top: 10px;
                                                     textarea {
                                                         width: 100%;
                                                         background: #CCC;
                                                         border: 0px;
+                                                        resize: none;
                                                     }
                                                     img {
                                                         float: left;

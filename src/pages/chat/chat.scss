@@ -205,7 +205,8 @@ page-chat {
         textarea {
             display: inline-block;
             vertical-align: middle;
-            padding: 5px;
+            padding: 18px 5px 5px;
+            resize: none;
             width: 70vw;
             background: #222;
             border: 0px;
