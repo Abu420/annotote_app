@@ -6,6 +6,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { AuthenticationService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
 import { Streams } from '../../services/stream.service';
+import { SearchUnPinned } from '../../models/search';
 @Component({
   selector: 'anotote_options',
   animations: [
@@ -144,34 +145,17 @@ export class AnototeOptions {
   }
 
   bookmarkTote() {
-    var links = [];
-    var title = [];
-    links.push(this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link);
-    title.push(this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title);
-    var params = {
-      user_tote_id: this.anotote.userAnnotote.id,
-      user_id: this.user.id,
-      links: links,
-      tote_titles: title,
-      created_at: this.utilityMethods.get_php_wala_time()
+    var bookmark = new SearchUnPinned(1,
+      this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title,
+      this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link,
+      this.user.id,
+      this.anotote.userAnnotote.id);
+    if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+      this.searchService.saved_searches.unshift(bookmark);
+      this.utilityMethods.doToast("Bookmarked");
+    } else {
+      this.utilityMethods.doToast("Already bookmarked");
     }
-    var toast = this.utilityMethods.doLoadingToast("Bookmarking");
-    this.anototeService.bookmark_totes(params).subscribe((result) => {
-      toast.dismiss();
-      if (result.status == 1) {
-        if (result.data.bookmarks.length > 0) {
-          this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
-          this.utilityMethods.doToast("Bookmarked");
-        } else if (result.data.exist_count == 1) {
-          this.utilityMethods.doToast("Already Bookmarked");
-        }
-      }
-    }, (error) => {
-      toast.dismiss();
-      if (error.code == -1) {
-        this.utilityMethods.internet_connection_error();
-      }
-    })
   }
 
   saveTote() {

@@ -22,6 +22,8 @@ import { ChatToteOptions } from '../anotote-list/chat_tote';
 import { Chat } from '../chat/chat';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Streams } from '../../services/stream.service';
+import { AnototeService } from '../../services/anotote.service';
+import { SearchUnPinned } from '../../models/search';
 /**
  * Generated class for the Home page.
  *
@@ -38,8 +40,23 @@ export class Home {
   private _unread: number;
   public searches: any;
   public latest_searches_firstTime_loading: boolean;
+  public loading_check: boolean = false;
+  public loading_message: string = '';
+  public move_fab: boolean = false;
 
-  constructor(public platform: Platform, private events: Events, public searchService: SearchService, public notificationService: NotificationService, public appCtrl: App, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public statusBar: StatusBar, public stream: Streams) {
+  constructor(public platform: Platform,
+    private events: Events,
+    public searchService: SearchService,
+    public notificationService: NotificationService,
+    public appCtrl: App,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    public utilityMethods: UtilityMethods,
+    public authService: AuthenticationService,
+    public statusBar: StatusBar,
+    public stream: Streams,
+    public anototeService: AnototeService, ) {
     this._unread = 0;
     this.searches = [];
     this.latest_searches_firstTime_loading = true;
@@ -76,6 +93,65 @@ export class Home {
     this.get_search_entries();
   }
 
+  showLoading(message) {
+    this.loading_message = message;
+    this.loading_check = true;
+    this.move_fab = true;
+    // this.content.resize();
+  }
+
+  hideLoading() {
+    this.loading_message = '';
+    this.loading_check = false;
+    this.move_fab = false;
+    // this.content.resize();
+  }
+
+  toastInFooter(message) {
+    this.showLoading(message);
+    // this.content.resize();
+    setTimeout(() => {
+      this.hideLoading();
+    }, 2000);
+  }
+
+  pinImage(event, search: SearchUnPinned) {
+    event.stopPropagation();
+    if (search.id == 0) {
+      var links = [];
+      var title = [];
+      links.push(search.term);
+      title.push(search.linkTitle);
+      var params = {
+        user_tote_id: search.userToteId,
+        user_id: search.userId,
+        links: links,
+        tote_titles: title,
+        created_at: this.utilityMethods.get_php_wala_time()
+      }
+      this.showLoading("Pinning");
+      this.anototeService.bookmark_totes(params).subscribe((result) => {
+        this.hideLoading();
+        if (result.status == 1) {
+          if (result.data.bookmarks.length > 0) {
+            this.searchService.saved_searches[this.searchService.saved_searches.indexOf(search)] = result.data.bookmarks[0];
+            this.utilityMethods.doToast("Pinned");
+          } else if (result.data.exist_count == 1) {
+            this.utilityMethods.doToast("Already Bookmarked");
+          }
+        }
+      }, (error) => {
+        this.hideLoading();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    } else {
+      this.toastInFooter('Already pinned');
+    }
+
+  }
+
   notifications() {
     let notifications = this.modalCtrl.create(Notifications, null);
     notifications.onDidDismiss(data => {
@@ -104,17 +180,17 @@ export class Home {
 
   scrape_this_url(search) {
     var current_time = this.utilityMethods.get_php_wala_time();
-    this.utilityMethods.show_loader('');
+    this.showLoading("Loading Tote");
     this.searchService.create_anotote({ url: search.term, created_at: current_time })
       .subscribe((response) => {
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
         this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         } else {
-          this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+          this.toastInFooter("Couldn't scrape this url.");
         }
       });
   }
@@ -138,7 +214,7 @@ export class Home {
 
   remove_search_entry(id, event) {
     event.stopPropagation();
-    this.utilityMethods.show_loader('');
+    this.showLoading("Removing");
     this.searchService.remove_search_id(id)
       .subscribe((response) => {
         // console.log(response);
@@ -148,11 +224,13 @@ export class Home {
             break;
           }
         }
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        this.hideLoading();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
+        } else {
+          this.toastInFooter("Couldn't remove");
         }
       });
   }
@@ -229,10 +307,10 @@ export class Home {
          */
         var current_time = (new Date()).getTime() / 1000,
           platform_name = this.platform.is('ios') ? 'ios' : 'android';
-        this.utilityMethods.show_loader('Please wait...');
+        this.showLoading("Logging Out");
         this.authService.logout()
           .subscribe((response) => {
-            self.utilityMethods.hide_loader();
+            this.hideLoading();
             self.authService.clear_user();
             self.stream.clear();
             self.searchService.saved_searches = [];
@@ -240,7 +318,7 @@ export class Home {
             self.appCtrl.getRootNav().setRoot(FrontViewPage);
             this.notificationService._loaded_once_flag = false;
           }, (error) => {
-            this.utilityMethods.hide_loader();
+            this.hideLoading();
             this.utilityMethods.message_alert('Error', 'Logout operation failed, please try again or later.');
             self.authService.clear_user();
             if (error.code == -1) {

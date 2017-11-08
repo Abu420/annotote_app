@@ -261,7 +261,7 @@ export class AnototeList {
             anotote.my_highlights = result.data.annotote.highlights;
             anotote.meFilePath = result.data.annotote.userAnnotote.filePath;
           } else {
-            this.utilityMethods.doToast("Couldn't fetch annotations");
+            this.toastInFooter("Couldn't fetch annotations");
             anotote.active = false;
           }
         }, (error) => {
@@ -311,7 +311,7 @@ export class AnototeList {
         // this.current_active_highlight.edit = false;
       }
     } else {
-      this.utilityMethods.doToast("Couldn't load as no file was found.");
+      this.toastInFooter("Couldn't load as no file was found.");
     }
 
   }
@@ -336,7 +336,7 @@ export class AnototeList {
       .subscribe((res) => {
         this.enable_refresher = true;
         this.reorder_highlights = false;
-        this.utilityMethods.doToast("Order Updated");
+        this.toastInFooter("Order Updated");
       }, (error) => {
         this.enable_refresher = true;
       });
@@ -490,7 +490,7 @@ export class AnototeList {
         this.loadFollower(anotote, anotote.follows[0])
       }
     } else {
-      this.utilityMethods.doToast('No one follows this anotote.');
+      this.toastInFooter('No one follows this anotote.');
     }
 
   }
@@ -518,7 +518,7 @@ export class AnototeList {
             anotote.highlights = Object.assign(result.data.annotote.highlights);
             anotote.top_highlights = result.data.annotote.highlights;
           } else {
-            this.utilityMethods.doToast("Could not fetch top data");
+            this.toastInFooter("Could not fetch top data");
           }
         }, (error) => {
           this.utilityMethods.hide_loader();
@@ -575,7 +575,7 @@ export class AnototeList {
     //         this.anototeService.delete_chat_tote(params).subscribe((result) => {
     //           this.hideLoading();
     //           this.anototes.splice(this.anototes.indexOf(anotote), 1);
-    //           this.utilityMethods.doToast("Chat tote deleted Successfully.")
+    //           this.toastInFooter("Chat tote deleted Successfully.")
     //           this.close_bulk_actions();
     //         }, (error) => {
     //           this.hideLoading();
@@ -628,7 +628,7 @@ export class AnototeList {
           // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
           this.go_to_chat_tote();
         } else
-          this.utilityMethods.doToast("Couldn't load as no file was found.");
+          this.toastInFooter("Couldn't load as no file was found.");
       else
         this.go_to_chat_thread(this.current_active_anotote);
     } else {
@@ -847,14 +847,14 @@ export class AnototeList {
         //     anotote.highlights = result.data.annotote.highlights;
         //     anotote.isMe = result.data.annotote.isMe;
         //   } else {
-        //     this.utilityMethods.doToast("Couldn't fetch annotations");
+        //     this.toastInFooter("Couldn't fetch annotations");
         //     anotote.active = false;
         //   }
         // }, (error) => {
         //   this.spinner_for_active = false;
         //   if (error.code == -1) {
         //     this.utilityMethods.internet_connection_error();
-        //     this.utilityMethods.doToast("Couldn't load chat history.");
+        //     this.toastInFooter("Couldn't load chat history.");
         //   }
         // });
       }
@@ -874,14 +874,14 @@ export class AnototeList {
       if (result.status == 1) {
         this.messages = result.data.messages;
       } else {
-        this.utilityMethods.doToast("Couldn't load chat history.");
+        this.toastInFooter("Couldn't load chat history.");
       }
     }, (error) => {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
-      this.utilityMethods.doToast("Couldn't load chat history.");
+      this.toastInFooter("Couldn't load chat history.");
     });
   }
 
@@ -949,6 +949,10 @@ export class AnototeList {
     highlight.edit = false;
   }
 
+  editField(event) {
+    event.stopPropagation();
+  }
+
   delete_annotation(annotation) {
     this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this annotation?", () => {
       this.showLoading('Deleting')
@@ -990,7 +994,7 @@ export class AnototeList {
   show_tags_for_annotation(event, activeTab, annotation) {
     event.stopPropagation();
     if (activeTab != 'me' && annotation.tags.length == 0) {
-      this.utilityMethods.doToast("This annotation does not contain any tags.");
+      this.toastInFooter("This annotation does not contain any tags.");
       return;
     }
     var params = {
@@ -1073,36 +1077,18 @@ export class AnototeList {
           if (anotote.isTop == 1)
             anotote.topUserToteId = result.data.annotote.topUserToteId;
         } else {
-          this.utilityMethods.doToast("Couldn't fetch annotations");
+          this.toastInFooter("Couldn't fetch annotations");
           anotote.active = false;
         }
       }, (error) => {
         this.spinner_for_active = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
-          this.utilityMethods.doToast("Couldn't load chat history.");
+          this.toastInFooter("Couldn't load chat history.");
         }
       });
     }
 
-  }
-
-  presentToast() {
-    if (this.toast != null) {
-      this.toast.dismiss();
-    }
-    this.toast = this.toastCtrl.create({
-      message: 'Reply to Chantal Bardaro',
-      position: 'bottom',
-      dismissOnPageChange: true,
-      showCloseButton: false,
-      cssClass: 'bottom_snakbar'
-    });
-
-    this.toast.onDidDismiss(() => {
-    });
-
-    this.toast.present();
   }
 
   go_to_chat_thread(anotote) {
@@ -1274,7 +1260,7 @@ export class AnototeList {
         })
       }
     } else {
-      this.utilityMethods.doToast("Please, select an anotote first.");
+      this.toastInFooter("Please, select an anotote first.");
     }
 
   }

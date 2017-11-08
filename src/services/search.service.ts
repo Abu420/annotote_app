@@ -22,6 +22,18 @@ export class SearchService {
     }
 
     /**
+     * AlreadySavedSearches
+     */
+    public AlreadySavedSearches(term) {
+        for (let searches of this.saved_searches)
+            if (searches.term == term)
+                return true;
+
+        return false;
+    }
+
+
+    /**
      * Get User Profile API
      * type: {GET}
      * params: [user_id], 
