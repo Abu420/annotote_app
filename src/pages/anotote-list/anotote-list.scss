@@ -773,7 +773,7 @@
                                     height: 72px;
                                     vertical-align: middle;
                                     width: 50px;
-                                    background-image: url(../assets/img/option-icon.png);
+                                    background-image: url(../assets/img/totoptionIocn.svg);
                                     background-position: center;
                                     background-repeat: no-repeat;
                                     background-size: 5px;
@@ -794,7 +794,7 @@
                                 }
                                 .txt {
                                     vertical-align: middle;
-                                    padding: 20px 10px 0px 0px;
+                                    padding: 28px 10px 0px 0px;
                                     width: calc(100% - 50px);
                                     min-height: 72px;
                                     position: relative;
@@ -814,7 +814,7 @@
                                     }
                                     strong {
                                         font-weight: normal;
-                                        font-size: 14px;
+                                        font-size: 16px;
                                         text-overflow: ellipsis;
                                         display: -webkit-box;
                                         -webkit-box-orient: vertical;
@@ -823,12 +823,13 @@
                                         overflow: hidden;
                                         margin-bottom: 5px;
                                         white-space: normal;
+                                        text-transform: capitalize;
                                     }
                                     .opened {
                                         -webkit-line-clamp: 2;
                                     }
                                     p {
-                                        font-size: 12px;
+                                        font-size: 13px;
                                     }
                                     .time {
                                         float: right;
@@ -1031,11 +1032,11 @@
                                                 }
                                                 figure {
                                                     float: left;
-                                                    padding: 20px 0 0;
+                                                    padding: 18px 0 0;
                                                 }
                                                 .check-text {
                                                     vertical-align: top;
-                                                    padding: 0 10px 0 20px;
+                                                    padding: 0 10px 0 17px;
                                                     border: 0px;
                                                     width: calc(100% - 15px);
                                                     margin: 0;
@@ -1161,9 +1162,9 @@
                                 >div {
                                     .img-holder {
                                         background-image: url(../assets/img/redCheck.svg);
-                                        background-position: center;
+                                        background-position: center 26px;
                                         background-repeat: no-repeat;
-                                        background-size: 32px;
+                                        background-size: 28px;
                                     }
                                     .txt {
                                         color: #ff0000;

@@ -313,7 +313,7 @@ page-home {
                         height: 73px;
                         float: left;
                         text-align: center;
-                        line-height: 6;
+                        line-height: 5.5;
                         img {
                             display: inline-block;
                             width: 28px;
@@ -331,10 +331,12 @@ page-home {
                             width: 85%;
                             overflow: hidden;
                             text-overflow: ellipsis;
-                            display: -webkit-box;
+                            display: inline-block;
                             -webkit-box-orient: vertical;
                             -webkit-line-clamp: 1;
                             font-size: 16px;
+                            word-wrap: unset;
+                            margin-bottom: -4px;
                         }
                         .time {
                             color: #969696;
