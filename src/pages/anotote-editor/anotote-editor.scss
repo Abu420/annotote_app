@@ -18,10 +18,12 @@ create_anotation_popup {
         z-index: 1000;
     }
     .create_anotation_content {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
         width: 100%;
-        height: 50%;
-        overflow-y: auto;
-        background-color: #000;
+        background: #313131;
+        padding-bottom: 15px;
         .selected_txt {
             color: white;
             margin: auto;
@@ -29,11 +31,36 @@ create_anotation_popup {
             margin-bottom: 10px;
             margin-top: 10px;
         }
+        .pop_heading {
+            padding: 10px;
+            color: #fff;
+            letter-spacing: -5px;
+            background: #313131;
+            overflow: hidden;
+        }
+        .pop_txt {
+            max-height: 298px;
+            padding: 0px 20px;
+            font-size: 14px;
+            line-height: 18px;
+            color: #fff;
+            overflow: auto;
+            background: #313131;
+            p {
+                margin: 0px;
+            }
+        }
         textarea {
             width: 90%;
             margin: auto;
             display: block;
-            min-height: 100px;
+            height: auto;
+            resize: none;
+            background: transparent;
+            color: #7b7b7b;
+            border: 0px;
+            margin: 10px 0 0;
+            padding: 0px;
         }
         ._buttons {
             height: 50px;
