@@ -800,7 +800,11 @@
                                     position: relative;
                                     float: right;
                                     img.unReadLock {
-                                        display: none;
+                                        position: absolute;
+                                        right: 8px;
+                                        top: 8px;
+                                        width: 13px;
+                                        display: inline-block;
                                     }
                                     -webkit-transition: all 500ms ease-in-out;
                                     transition: all 500ms ease-in-out;
@@ -1163,13 +1167,6 @@
                                     }
                                     .txt {
                                         color: #ff0000;
-                                        img.unReadLock {
-                                            position: absolute;
-                                            right: 8px;
-                                            top: 8px;
-                                            width: 13px;
-                                            display: inline-block;
-                                        }
                                         .toteText {
                                             p {
                                                 color: #ff0000;

@@ -36,9 +36,9 @@
         </ion-list>
         <ion-list style="margin-bottom: 50px !important;" class="product-list">
             <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
-                <div class="img-holder">
-                    <img class="unReadLock" src="assets/img/blackBookmark.svg" alt="">
-                    <!-- <img class="unReadLock" src="assets/img/grayBookmark.svg" alt=""> -->
+                <div class="img-holder" (click)="pinImage($event,search)">
+                    <img class="unReadLock" *ngIf="search.id != 0" src="assets/img/blackBookmark.svg" alt="">
+                    <img class="unReadLock" *ngIf="search.id == 0" src="assets/img/grayBookmark.svg" alt="">
                 </div>
                 <div class="txt">
                     <strong *ngIf="search.linkTitle != null && search.linkTitle != ''" [innerText]="search.linkTitle"></strong>
@@ -56,9 +56,14 @@
         </div>
     </div>
 </ion-content>
-<ion-fab (tap)="notifications()" bottom right>
+<ion-fab (tap)="notifications()" [ngClass]="{'moveUpList': move_fab == true}" bottom right>
     <button ion-fab color="dark">
         <img src="assets/img/whiteTote.svg" />
     </button>
     <button *ngIf="_unread!=0" ion-button icon-only class="notices">{{_unread}}</button>
 </ion-fab>
+<ion-footer class="message-bottom" *ngIf="loading_check">
+    <ion-toolbar color="dark">
+        <p class="messageLoading">{{loading_message}}</p>
+    </ion-toolbar>
+</ion-footer>

@@ -18,6 +18,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { Streams } from '../../services/stream.service';
 import { TagsForChat } from '../chat_profileTags/tags';
 import { AnototeList } from '../anotote-list/anotote-list';
+import { TagsPopUp } from '../anotote-list/tags';
 
 declare var cordova: any;
 
@@ -69,12 +70,21 @@ export class Profile {
   }
 
   showTags() {
+    // var params = {
+    //   profile: 'profile',
+    //   isMe: this.is_it_me,
+    //   tags: this.profileData.user.userTags
+    // }
+    // let tagsModal = this.modalCtrl.create(TagsForChat, params);
+    // tagsModal.present();
     var params = {
+      annotation_id: null,
       profile: 'profile',
-      isMe: this.is_it_me,
-      tags: this.profileData.user.userTags
+      tags: this.profileData.user.userTags,
+      whichStream: this.is_it_me == true ? 'me' : 'follows',
+      annotote: false
     }
-    let tagsModal = this.modalCtrl.create(TagsForChat, params);
+    let tagsModal = this.modalCtrl.create(TagsPopUp, params);
     tagsModal.present();
   }
 

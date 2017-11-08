@@ -2,6 +2,7 @@ import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 import { SearchService } from '../../services/search.service';
 import { UtilityMethods } from '../../services/utility_methods';
+import { AuthenticationService } from '../../services/auth.service';
 @Component({
     selector: 'tags_popup',
     animations: [
@@ -34,9 +35,11 @@ export class TagsPopUp {
     private no_user_found: boolean = false;
     private no_tags_found: boolean = false;
     public show: boolean = true;
+    public user: any;
 
-    constructor(private utilityMethods: UtilityMethods, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
+    constructor(private utilityMethods: UtilityMethods, public authService: AuthenticationService, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
         this.tag_input = "";
+        this.user = this.authService.getUser();
         this.stream = params.get('whichStream');
         this.tags = params.get('tags');
         if (this.tags.length == 0)
@@ -45,7 +48,8 @@ export class TagsPopUp {
         if (this.anotation_or_anotote) {
             this.user_tote_id = params.get('user_tote_id');
         } else {
-            this.annotation_id = params.get('annotation_id');
+            if (!params.get('profile'))
+                this.annotation_id = params.get('annotation_id');
         }
     }
 
@@ -78,33 +82,60 @@ export class TagsPopUp {
                     }
                 });
         } else {
-            var params = {
-                tag_id: type,
-                annotation_id: this.annotation_id,
-                text: tag,
-                created_at: this.utilityMethods.get_php_wala_time(),
-            }
-            if (type == 2 && this.one_selected != null)
-                params['user_id'] = this.one_selected.id;
-            else if (type == 2 && this.one_selected == null) {
-                this.utilityMethods.doToast("Please select a user to tag.");
-                return;
-            }
-            var toast = this.utilityMethods.doLoadingToast('Tagging');
-            this.searchService.add_tag_to_anotation(params).subscribe((result) => {
-                toast.dismiss();
-                this.tags.push(result.data.annotation_tag);
-                this.tag_input = '';
-                if (this.tags.length > 0)
-                    this.no_tags_found = false;
-            }, (error) => {
-                toast.dismiss();
-                if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                } else {
-                    this.utilityMethods.doToast("Couldn't add tag to annotation.");
+            if (!this.params.get('profile')) {
+                var params = {
+                    tag_id: type,
+                    annotation_id: this.annotation_id,
+                    text: tag,
+                    created_at: this.utilityMethods.get_php_wala_time(),
                 }
-            })
+                if (type == 2 && this.one_selected != null)
+                    params['user_id'] = this.one_selected.id;
+                else if (type == 2 && this.one_selected == null) {
+                    this.utilityMethods.doToast("Please select a user to tag.");
+                    return;
+                }
+                var toast = this.utilityMethods.doLoadingToast('Tagging');
+                this.searchService.add_tag_to_anotation(params).subscribe((result) => {
+                    toast.dismiss();
+                    this.tags.push(result.data.annotation_tag);
+                    this.tag_input = '';
+                    if (this.tags.length > 0)
+                        this.no_tags_found = false;
+                }, (error) => {
+                    toast.dismiss();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    } else {
+                        this.utilityMethods.doToast("Couldn't add tag to annotation.");
+                    }
+                })
+            } else {
+                var userParams = {
+                    tag_id: type,
+                    user_id: this.user.id,
+                    tag_text: tag,
+                    created_at: this.utilityMethods.get_php_wala_time()
+                }
+                if (type == 2 && this.one_selected != null)
+                    userParams['user_id'] = this.one_selected.id;
+                var toast = this.utilityMethods.doLoadingToast('Tagging');
+                this.searchService.add_tags_to_profile(userParams)
+                    .subscribe((res) => {
+                        toast.dismiss();
+                        this.tags.push(res.data.user_tag);
+                        this.tag_input = '';
+                        if (this.tags.length > 0)
+                            this.no_tags_found = false;
+                    }, (error) => {
+                        toast.dismiss();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else {
+                            this.utilityMethods.doToast("Couldn't add tag.");
+                        }
+                    });
+            }
         }
     }
 
