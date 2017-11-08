@@ -10,6 +10,8 @@ import { SearchResults } from '../search-results/search-results';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { Streams } from '../../services/stream.service';
+import { SearchUnPinned } from '../../models/search';
+import { AuthenticationService } from '../../services/auth.service';
 
 @Component({
     selector: 'search_page',
@@ -43,7 +45,7 @@ export class Search {
     }
     private from;
 
-    constructor(public stream: Streams, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController) {
+    constructor(public stream: Streams, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController, public authService: AuthenticationService) {
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;
@@ -169,32 +171,52 @@ export class Search {
     }
 
     save_search_entry(save_or_bookmark) {
-        this.utilityMethods.show_loader('Please wait...');
-        let self = this;
-        var current_time = this.utilityMethods.get_php_wala_time();
-        var params = {
-            created_at: this.utilityMethods.get_php_wala_time(),
-            searched_term: this.search_txt,
-            book_marked: 0
+        if (this.utilityMethods.isWEBURL(this.search_txt)) {
+            this.scrape_this_url(false, save_or_bookmark)
+        } else {
+            var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
+                '', this.search_txt,
+                this.authService.getUser().id, 0);
+            if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                this.searchService.saved_searches.unshift(bookmark);
+                if (save_or_bookmark == 'save_entry')
+                    this.utilityMethods.doToast("Saved");
+                else
+                    this.utilityMethods.doToast("Bookmarked");
+            } else {
+                if (save_or_bookmark == 'save_entry')
+                    this.utilityMethods.doToast("Already saved");
+                else
+                    this.utilityMethods.doToast("Already bookmarked");
+            }
         }
-        if (save_or_bookmark == 'save_entry')
-            params.book_marked = 0;
-        else if (save_or_bookmark == 'bookmark_entry')
-            params.book_marked = 1;
-        this.searchService.save_search_entry(params).subscribe((response) => {
-            if (this.utilityMethods.isWEBURL(this.search_txt))
-                this.scrape_this_url(false, save_or_bookmark, response.data.search);
-            else {
-                this.searchService.saved_searches.unshift(response.data.search);
-                this.utilityMethods.hide_loader();
-            }
-            // this.events.publish('new_search_added', { entry: response.data.search });
-        }, (error) => {
-            this.utilityMethods.hide_loader();
-            if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-            }
-        });
+
+        // this.utilityMethods.show_loader('Please wait...');
+        // let self = this;
+        // var current_time = this.utilityMethods.get_php_wala_time();
+        // var params = {
+        //     created_at: this.utilityMethods.get_php_wala_time(),
+        //     searched_term: this.search_txt,
+        //     book_marked: 0
+        // }
+        // if (save_or_bookmark == 'save_entry')
+        //     params.book_marked = 0;
+        // else if (save_or_bookmark == 'bookmark_entry')
+        //     params.book_marked = 1;
+        // this.searchService.save_search_entry(params).subscribe((response) => {
+        //     if (this.utilityMethods.isWEBURL(this.search_txt))
+        //         this.scrape_this_url(false, save_or_bookmark, response.data.search);
+        //     else {
+        //         this.searchService.saved_searches.unshift(response.data.search);
+        //         this.utilityMethods.hide_loader();
+        //     }
+        //     // this.events.publish('new_search_added', { entry: response.data.search });
+        // }, (error) => {
+        //     this.utilityMethods.hide_loader();
+        //     if (error.code == -1) {
+        //         this.utilityMethods.internet_connection_error();
+        //     }
+        // });
     }
 
     get_search_results() {
@@ -323,28 +345,38 @@ export class Search {
         }
     }
 
-    scrape_this_url(check, save_or_bookmark, search) {
+    scrape_this_url(check, save_or_bookmark) {
         var current_time = this.utilityMethods.get_php_wala_time();
         var params = { url: this.search_txt, created_at: current_time }
-        if (check)
-            this.utilityMethods.show_loader('Please wait...');
-        else
-            params['search_id'] = search.id;
+        var toast = null;
+        toast = this.utilityMethods.doLoadingToast('Please wait...');
+        // else
+        //     params['search_id'] = search.id;
         /**
          * Create Anotote API
          */
         this.searchService.create_anotote(params)
             .subscribe((response) => {
-                this.utilityMethods.hide_loader();
-                if (search) {
-                    search.linkTitle = response.data.annotote.title;
-                    this.searchService.saved_searches.unshift(search);
+                if (toast)
+                    toast.dismiss()
+                if (!check) {
+                    var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
+                        response.data.annotote.title, this.search_txt,
+                        this.authService.getUser().id, 0);
+                    if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                        this.searchService.saved_searches.unshift(bookmark);
+                        if (save_or_bookmark == 'save_entry')
+                            this.utilityMethods.doToast("Saved");
+                        else
+                            this.utilityMethods.doToast("Bookmarked");
+                    } else {
+                        if (save_or_bookmark == 'save_entry')
+                            this.utilityMethods.doToast("Already saved");
+                        else
+                            this.utilityMethods.doToast("Already bookmarked");
+                    }
                 }
                 response.data.userAnnotote.annotote = response.data.annotote;
-                if (save_or_bookmark == 'save_entry')
-                    this.utilityMethods.doToast("Saved to search stream successfully!");
-                else if (save_or_bookmark == 'bookmark_entry')
-                    this.utilityMethods.doToast("Bookmarked successfully!");
                 this.go_to_browser(response.data);
             }, (error) => {
                 this.utilityMethods.hide_loader();

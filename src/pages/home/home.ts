@@ -117,7 +117,7 @@ export class Home {
 
   pinImage(event, search: SearchUnPinned) {
     event.stopPropagation();
-    if (search.id == 0) {
+    if (search.id == 0 && search.bookMarked == 1 && search.userToteId > 0) {
       var links = [];
       var title = [];
       links.push(search.term);
@@ -146,10 +146,29 @@ export class Home {
           this.utilityMethods.internet_connection_error();
         }
       })
+    } else if (search.id == 0 && search.userToteId == 0) {
+      var paramsObj = {
+        created_at: this.utilityMethods.get_php_wala_time(),
+        searched_term: search.term,
+        title: search.linkTitle,
+        book_marked: search.bookMarked
+      }
+      this.showLoading("Pinning");
+      this.searchService.save_search_entry(paramsObj).subscribe((result) => {
+        this.hideLoading();
+        this.searchService.saved_searches[this.searchService.saved_searches.indexOf(search)] = result.data.search;
+        this.toastInFooter("Pinned");
+      }, (error) => {
+        this.hideLoading();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else {
+          this.toastInFooter("Couldn't pinn");
+        }
+      });
     } else {
       this.toastInFooter('Already pinned');
     }
-
   }
 
   notifications() {
