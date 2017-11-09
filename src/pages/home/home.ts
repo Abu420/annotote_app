@@ -247,7 +247,7 @@ export class Home {
           this.latest_searches_firstTime_loading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
-          }else{
+          } else {
             this.toastInFooter("Couldn't load searches");
           }
         });
@@ -296,14 +296,24 @@ export class Home {
 
   presentTopOptionsModal(event) {
     event.stopPropagation();
-    let topOptionsModal = this.modalCtrl.create(TopOptions, null);
-    topOptionsModal.onDidDismiss(data => {
-      if (data == 'interests') {
-        let topInterestsModal = this.modalCtrl.create(TopInterests, null);
-        topInterestsModal.present();
+    // let topOptionsModal = this.modalCtrl.create(TopOptions, null);
+    // topOptionsModal.onDidDismiss(data => {
+    //   if (data == 'interests') {
+    //     let topInterestsModal = this.modalCtrl.create(TopInterests, null);
+    //     topInterestsModal.present();
+    //   }
+    // });
+    // topOptionsModal.present();
+    let meOptionsModal = this.modalCtrl.create(MeOptions, { from: 'top' });
+    meOptionsModal.onDidDismiss(data => {
+      // console.log(data);
+      if (data == 'settings') {
+        this.presentSettingsModal();
+      } else if (data == 'chat') {
+        this.addBtn(true)
       }
     });
-    topOptionsModal.present();
+    meOptionsModal.present();
   }
 
   presentTopInterestsModal() {
@@ -326,7 +336,6 @@ export class Home {
 
   presentMeOptionsModal(event) {
     event.stopPropagation();
-    let self = this;
     let meOptionsModal = this.modalCtrl.create(MeOptions, null);
     meOptionsModal.onDidDismiss(data => {
       // console.log(data);

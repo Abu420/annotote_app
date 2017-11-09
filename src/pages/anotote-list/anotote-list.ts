@@ -603,12 +603,12 @@ export class AnototeList {
   }
 
   bulkAction(anotote) {
-    if (anotote.chatGroup == null)
+    if (anotote.chatGroup == null && this.current_color == 'me')
       if (anotote.checked) {
         this.title_temp = '';
         anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
       } else {
-        this.title_temp = anotote.userAnnotote.annotote.title
+        this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
         anotote.checked = true;
       }
     // if (this.current_color != 'top') {
@@ -662,7 +662,9 @@ export class AnototeList {
     }
     this.anototeService.saveTitle(params).subscribe((success) => {
       this.hideLoading();
+      anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
       anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
+      anotote.checked = false;
       this.toastInFooter("Title updated")
     }, (error) => {
       this.hideLoading();
@@ -1554,7 +1556,7 @@ export class AnototeList {
           this.hideLoading();
           this.toastInFooter("Couldn't upvote");
         })
-      }else if(this.current_active_anotote.active_tab == 'follows'){
+      } else if (this.current_active_anotote.active_tab == 'follows') {
         this.showLoading('Upvoting');
         var follower = this.selectedFollowerToteId();
         var params = {
@@ -1589,7 +1591,7 @@ export class AnototeList {
           this.hideLoading();
           this.toastInFooter("Couldn't upvote");
         })
-      }else if(this.current_active_anotote.active_tab == 'follows'){
+      } else if (this.current_active_anotote.active_tab == 'follows') {
         this.showLoading('Upvoting');
         var follower = this.selectedFollowerTopPage();
         var params = {
@@ -1629,7 +1631,7 @@ export class AnototeList {
           this.hideLoading();
           this.toastInFooter("Couldn't downvote");
         })
-      }else if(this.current_active_anotote.active_tab == 'follows'){
+      } else if (this.current_active_anotote.active_tab == 'follows') {
         this.showLoading('Downvoting');
         var follower = this.selectedFollowerToteId();
         var params = {
@@ -1664,7 +1666,7 @@ export class AnototeList {
           this.hideLoading();
           this.toastInFooter("Couldn't downvote");
         })
-      }else if(this.current_active_anotote.active_tab == 'follows'){
+      } else if (this.current_active_anotote.active_tab == 'follows') {
         this.showLoading('Downvoting');
         var follower = this.selectedFollowerTopPage();
         var params = {
@@ -1685,18 +1687,18 @@ export class AnototeList {
     }
   }
 
-  selectedFollowerToteId(){
-    for(let follower of this.current_active_anotote.followers){
-      if(follower.firstName == this.current_active_anotote.selected_follower_name){
+  selectedFollowerToteId() {
+    for (let follower of this.current_active_anotote.followers) {
+      if (follower.firstName == this.current_active_anotote.selected_follower_name) {
         return follower;
       }
     }
     return null;
   }
 
-  selectedFollowerTopPage(){
-    for(let follower of this.current_active_anotote.anototeDetail.follows){
-      if(follower.firstName == this.current_active_anotote.selected_follower_name){
+  selectedFollowerTopPage() {
+    for (let follower of this.current_active_anotote.anototeDetail.follows) {
+      if (follower.firstName == this.current_active_anotote.selected_follower_name) {
         return follower;
       }
     }
