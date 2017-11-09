@@ -83,7 +83,7 @@
                     <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span>
                     <div class="txt" *ngIf="anotote.type == 1" [ngClass]="{'txtToto': edit_mode == true}">
                         <img class="unReadLock" *ngIf="anotote.userAnnotote.privacy == 1" src="assets/img/lockIconGray.svg" alt="">
-                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.annotote.title"></strong>
+                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle"></strong>
                         <div class="time">
                             <em>
 								<span [innerText]="anotote.createdAt | time_stamp"></span>
@@ -218,9 +218,9 @@
                 <div class="editTitle" *ngIf="anotote.checked == true">
                     <div class="img-holder"></div>
                     <div class="txt">
-                        <input type="text" value="Times website hacked">
+                        <input type="text" [(ngModel)]="title_temp" name="title">
                         <div class="totBtn">
-                            <span class="saveBtn">Save</span>
+                            <span [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
                             <span>Cancel</span>
                         </div>
                     </div>

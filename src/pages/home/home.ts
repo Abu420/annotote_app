@@ -167,7 +167,27 @@ export class Home {
         }
       });
     } else {
-      this.toastInFooter('Already pinned');
+      this.showLoading("Unpinning");
+      this.searchService.remove_search_id(search.id)
+        .subscribe((response) => {
+          // console.log(response);
+          // for (var i = 0; i < this.searches.length; i++) {
+          // if (this.searches[i].id == id) {
+          search.id = 0;
+          search.userToteId = 0
+          // break;
+          // }
+          // }
+          this.toastInFooter("Unpinned");
+          this.hideLoading();
+        }, (error) => {
+          this.hideLoading();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          } else {
+            this.toastInFooter("Couldn't Unpinn");
+          }
+        });
     }
   }
 
@@ -224,35 +244,38 @@ export class Home {
           this.searchService.saved_searches = response.data.searches;
           this.searches = response.data.searches;
         }, (error) => {
+          this.latest_searches_firstTime_loading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
+          }else{
+            this.toastInFooter("Couldn't load searches");
           }
         });
     }
   }
 
-  remove_search_entry(id, event) {
-    event.stopPropagation();
-    this.showLoading("Removing");
-    this.searchService.remove_search_id(id)
-      .subscribe((response) => {
-        // console.log(response);
-        for (var i = 0; i < this.searches.length; i++) {
-          if (this.searches[i].id == id) {
-            this.searches.splice(i, 1);
-            break;
-          }
-        }
-        this.hideLoading();
-      }, (error) => {
-        this.hideLoading();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        } else {
-          this.toastInFooter("Couldn't remove");
-        }
-      });
-  }
+  // remove_search_entry(id, event) {
+  //   event.stopPropagation();
+  //   this.showLoading("Unpinning");
+  //   this.searchService.remove_search_id(id)
+  //     .subscribe((response) => {
+  //       // console.log(response);
+  //       for (var i = 0; i < this.searches.length; i++) {
+  //         if (this.searches[i].id == id) {
+  //           this.searches.splice(i, 1);
+  //           break;
+  //         }
+  //       }
+  //       this.hideLoading();
+  //     }, (error) => {
+  //       this.hideLoading();
+  //       if (error.code == -1) {
+  //         this.utilityMethods.internet_connection_error();
+  //       } else {
+  //         this.toastInFooter("Couldn't unpinn");
+  //       }
+  //     });
+  // }
 
   loadNotifications() {
     var user_id = this.authService.getUser().id;

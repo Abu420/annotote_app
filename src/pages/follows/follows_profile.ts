@@ -67,16 +67,13 @@ export class Profile {
   go_to_stream() {
     if (this.is_it_me)
       this.navCtrl.push(AnototeList, { color: 'me' });
+    else if (this.profileData.user.isFollowed == 1)
+      this.navCtrl.push(AnototeList, { color: 'follows', userId: this.profileData.user.id });
+    else
+      this.utilityMethods.doToast("Please follow this user to see his totes");
   }
 
   showTags() {
-    // var params = {
-    //   profile: 'profile',
-    //   isMe: this.is_it_me,
-    //   tags: this.profileData.user.userTags
-    // }
-    // let tagsModal = this.modalCtrl.create(TagsForChat, params);
-    // tagsModal.present();
     var params = {
       annotation_id: null,
       profile: 'profile',
