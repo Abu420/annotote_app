@@ -392,6 +392,38 @@ page-anotote-editor {
             font-weight: bolder;
             text-align: center;
         }
+        .title_and_options {
+            width: 100%;
+            padding: 10px;
+            p {
+                display: inline-block;
+                width: 80%;
+                color: white;
+                margin: 0;
+                text-align: center;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            input {
+                display: inline-block;
+                width: 80%;
+                background: transparent;
+                color: #fff;
+                border: 0px;
+                padding: 0px;
+                resize: none;
+            }
+            img {
+                position: absolute;
+                width: 25px;
+                right: 15px;
+                top: 50%;
+                transform: translate(-50%, 0%);
+            }
+        }
     }
 }
 

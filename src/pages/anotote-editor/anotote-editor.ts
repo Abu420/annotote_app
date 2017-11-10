@@ -22,6 +22,7 @@ import { User } from '../../models/user';
 import { ViewOptions } from '../anotote-list/view_options';
 import { FollowsPopup } from '../anotote-list/follows_popup';
 import { SearchUnPinned } from '../../models/search';
+import { AnototeOptions } from "../anotote-list/tote_options";
 
 @IonicPage()
 @Component({
@@ -80,6 +81,7 @@ export class AnototeEditor implements OnDestroy {
         check: false,
         comment: null
     };
+    public title_temp = '';
 
     private show_anotation_details: (txt: string) => void;
 
@@ -171,6 +173,8 @@ export class AnototeEditor implements OnDestroy {
         this.which_stream = this.WHICH_STREAM;
         this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
         this.actual_stream = ANOTOTE_OBJECT.actual_stream;
+        if (this.WHICH_STREAM == 'me' && this.actual_stream == 'me')
+            this.title_temp = Object.assign(this.ANOTOTE.userAnnotote.anototeDetail.userAnnotote.annototeTitle);
         // if (move_to_highlight_flag)
         //     this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
         // else
@@ -196,6 +200,27 @@ export class AnototeEditor implements OnDestroy {
         } else if (this.actual_stream == 'anon') {
             this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
         }
+    }
+
+    saveTitle(anotote) {
+        this.showLoading("Saving title");
+        var params = {
+            annotote_id: anotote.userAnnotote.id,
+            annotote_title: this.title_temp,
+            updated_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.anotote_service.saveTitle(params).subscribe((success) => {
+            this.hideLoading();
+            anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
+            anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
+            this.toastInFooter("Title updated")
+        }, (error) => {
+            this.hideLoading();
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            } else
+                this.toastInFooter("Couldn't update title");
+        })
     }
 
 
@@ -227,9 +252,9 @@ export class AnototeEditor implements OnDestroy {
      * Page LifeCycle Events
      */
     ionViewDidLoad() {
-        if (this.navParams.get('WHICH_STREAM') == 'me')
+        if (this.navParams.get('WHICH_STREAM') == 'me') {
             this.statusBar.backgroundColorByHexString('#3bde00');
-        else if (this.navParams.get('WHICH_STREAM') == 'follows')
+        } else if (this.navParams.get('WHICH_STREAM') == 'follows')
             this.statusBar.backgroundColorByHexString('#f4e300');
         else if (this.navParams.get('WHICH_STREAM') == 'top')
             this.statusBar.backgroundColorByHexString('#fb9df0');
@@ -1290,6 +1315,59 @@ export class AnototeEditor implements OnDestroy {
         setTimeout(() => {
             this.hideLoading();
         }, 2000);
+    }
+
+    toteOptions() {
+        var params = {
+            anotote: this.ANOTOTE,
+            whichStream: this.actual_stream
+        }
+        let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
+        anototeOptionsModal.onDidDismiss(data => {
+            // if (data.tags) {
+            //   if (this.current_color != 'top') {
+            //     var params = {
+            //       user_tote_id: anotote.userAnnotote.id,
+            //       tags: anotote.userAnnotote.anototeDetail.userAnnotote.tags,
+            //       whichStream: this.current_color,
+            //       annotote: true
+            //     }
+            //     let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            //     tagsModal.present();
+            //   } else if (this.current_color == 'top') {
+            //     var params = {
+            //       user_tote_id: anotote.userAnnotote.id,
+            //       tags: anotote.anototeDetail.userAnnotote.tags,
+            //       whichStream: this.current_color,
+            //       annotote: true
+            //     }
+            //     let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            //     tagsModal.present();
+            //   }
+            // } else if (data.delete == true) {
+            //   this.current_active_anotote = null;
+            //   this.stream.top_first_load = false;
+            //   this.stream.follow_first_load = false;
+            //   this.anototes.splice(this.anototes.indexOf(anotote), 1);
+            // } else if (data.chat) {
+            //   var chatParams = {
+            //     anotote: anotote,
+            //     stream: this.current_color,
+            //     findChatter: true
+            //   }
+            //   let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
+            //   chatTote.onDidDismiss((data) => {
+            //     if (data.chat) {
+            //       if (data.title)
+            //         this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.current_active_anotote.userAnnotote.annototeId, title: data.title, full_tote: this.current_active_anotote });
+            //       else
+            //         this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+            //     }
+            //   })
+            //   chatTote.present();
+            // }
+        });
+        anototeOptionsModal.present();
     }
 
 }

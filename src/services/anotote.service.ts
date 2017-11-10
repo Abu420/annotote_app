@@ -20,6 +20,18 @@ export class AnototeService {
     var url = this.constants.API_BASEURL + '/totes/' + whichStream + '?page=' + page
     var response = this.http.get(url).map(res => res.json())
     return response;
+
+  }
+  public fetchUserTotes(userId, page = 1) {
+    var url = this.constants.API_BASEURL + '/totes/user' + '?page=' + page + '&&user_id=' + userId;
+    var response = this.http.get(url).map(res => res.json())
+    return response;
+  }
+
+  public saveTitle(params) {
+    var url = this.constants.API_BASEURL + '/update-annotote-title';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
   }
 
   public fetchLatestTotes(page, current_time) {

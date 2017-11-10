@@ -44,8 +44,8 @@
         </div>
         <div class="pop_txt">
             <!-- <p [innerText]="anotote_txt"></p> -->
-            <textarea [innerText]="anotote_txt"></textarea>
-            <textarea class="addComment" [(ngModel)]="new_comment" name="comment" placeholder="Place your comment here"></textarea>
+            <textarea [innerText]="anotote_txt" [disabled]="stream != 'me'"></textarea>
+            <textarea class="addComment" [(ngModel)]="new_comment" [disabled]="stream != 'me'" name="comment" placeholder="Place your comment here"></textarea>
         </div>
         <button type="submit" style="opacity:0;"></button>
         <div class="threeDosts" *ngIf="stream == 'me'">

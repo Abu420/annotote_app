@@ -34,8 +34,11 @@ import { Clipboard } from '@ionic-native/clipboard';
 export class MeOptions {
   public current_user: any;
   public show: boolean = true;
+  public topOrnot: boolean = true;
   constructor(public clip: Clipboard, params: NavParams, public constants: Constants, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
     this.current_user = this.authService.getUser();
+    if (params.get('from'))
+      this.topOrnot = false;
   }
 
   share_me_tote(type) {

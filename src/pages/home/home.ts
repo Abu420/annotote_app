@@ -167,7 +167,27 @@ export class Home {
         }
       });
     } else {
-      this.toastInFooter('Already pinned');
+      this.showLoading("Unpinning");
+      this.searchService.remove_search_id(search.id)
+        .subscribe((response) => {
+          // console.log(response);
+          // for (var i = 0; i < this.searches.length; i++) {
+          // if (this.searches[i].id == id) {
+          search.id = 0;
+          search.userToteId = 0
+          // break;
+          // }
+          // }
+          this.toastInFooter("Unpinned");
+          this.hideLoading();
+        }, (error) => {
+          this.hideLoading();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          } else {
+            this.toastInFooter("Couldn't Unpinn");
+          }
+        });
     }
   }
 
@@ -224,35 +244,38 @@ export class Home {
           this.searchService.saved_searches = response.data.searches;
           this.searches = response.data.searches;
         }, (error) => {
+          this.latest_searches_firstTime_loading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
+          } else {
+            this.toastInFooter("Couldn't load searches");
           }
         });
     }
   }
 
-  remove_search_entry(id, event) {
-    event.stopPropagation();
-    this.showLoading("Removing");
-    this.searchService.remove_search_id(id)
-      .subscribe((response) => {
-        // console.log(response);
-        for (var i = 0; i < this.searches.length; i++) {
-          if (this.searches[i].id == id) {
-            this.searches.splice(i, 1);
-            break;
-          }
-        }
-        this.hideLoading();
-      }, (error) => {
-        this.hideLoading();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        } else {
-          this.toastInFooter("Couldn't remove");
-        }
-      });
-  }
+  // remove_search_entry(id, event) {
+  //   event.stopPropagation();
+  //   this.showLoading("Unpinning");
+  //   this.searchService.remove_search_id(id)
+  //     .subscribe((response) => {
+  //       // console.log(response);
+  //       for (var i = 0; i < this.searches.length; i++) {
+  //         if (this.searches[i].id == id) {
+  //           this.searches.splice(i, 1);
+  //           break;
+  //         }
+  //       }
+  //       this.hideLoading();
+  //     }, (error) => {
+  //       this.hideLoading();
+  //       if (error.code == -1) {
+  //         this.utilityMethods.internet_connection_error();
+  //       } else {
+  //         this.toastInFooter("Couldn't unpinn");
+  //       }
+  //     });
+  // }
 
   loadNotifications() {
     var user_id = this.authService.getUser().id;
@@ -273,14 +296,24 @@ export class Home {
 
   presentTopOptionsModal(event) {
     event.stopPropagation();
-    let topOptionsModal = this.modalCtrl.create(TopOptions, null);
-    topOptionsModal.onDidDismiss(data => {
-      if (data == 'interests') {
-        let topInterestsModal = this.modalCtrl.create(TopInterests, null);
-        topInterestsModal.present();
+    // let topOptionsModal = this.modalCtrl.create(TopOptions, null);
+    // topOptionsModal.onDidDismiss(data => {
+    //   if (data == 'interests') {
+    //     let topInterestsModal = this.modalCtrl.create(TopInterests, null);
+    //     topInterestsModal.present();
+    //   }
+    // });
+    // topOptionsModal.present();
+    let meOptionsModal = this.modalCtrl.create(MeOptions, { from: 'top' });
+    meOptionsModal.onDidDismiss(data => {
+      // console.log(data);
+      if (data == 'settings') {
+        this.presentSettingsModal();
+      } else if (data == 'chat') {
+        this.addBtn(true)
       }
     });
-    topOptionsModal.present();
+    meOptionsModal.present();
   }
 
   presentTopInterestsModal() {
@@ -303,7 +336,6 @@ export class Home {
 
   presentMeOptionsModal(event) {
     event.stopPropagation();
-    let self = this;
     let meOptionsModal = this.modalCtrl.create(MeOptions, null);
     meOptionsModal.onDidDismiss(data => {
       // console.log(data);

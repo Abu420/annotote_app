@@ -67,16 +67,13 @@ export class Profile {
   go_to_stream() {
     if (this.is_it_me)
       this.navCtrl.push(AnototeList, { color: 'me' });
+    else if (this.profileData.user.isFollowed == 1)
+      this.navCtrl.push(AnototeList, { color: 'follows', userId: this.profileData.user.id });
+    else
+      this.utilityMethods.doToast("Please follow this user to see his totes");
   }
 
   showTags() {
-    // var params = {
-    //   profile: 'profile',
-    //   isMe: this.is_it_me,
-    //   tags: this.profileData.user.userTags
-    // }
-    // let tagsModal = this.modalCtrl.create(TagsForChat, params);
-    // tagsModal.present();
     var params = {
       annotation_id: null,
       profile: 'profile',
@@ -91,12 +88,12 @@ export class Profile {
   followUser() {
     let self = this;
     var current_time = (new Date()).getTime() / 1000;
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast("Please wait...");
     this.searchService.follow_user({
       created_at: current_time,
       follows_id: this.profileData.user.id
     }).subscribe((response) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       this.profileData.user.isFollowed = 1;
       this.stream.follow_first_load = false;
       this.stream.me_first_load = false;
@@ -104,7 +101,7 @@ export class Profile {
       if (this.from_page == 'search_results')
         this.events.publish('user:followed', this.profileData.user.id);
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
@@ -204,7 +201,7 @@ export class Profile {
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }
     }, (err) => {
-      this.presentToast('Error while selecting image.');
+      this.utilityMethods.doToast('Error while selecting image.');
     });
   }
 
@@ -221,12 +218,8 @@ export class Profile {
       this.lastImage = newFileName;
       this.uploadImage();
     }, error => {
-      this.presentToast('Error while storing file.');
+      this.utilityMethods.doToast('Error while storing file.');
     });
-  }
-
-  private presentToast(text) {
-    this.utilityMethods.doToast(text);
   }
 
   // Always get the accurate path to your apps folder
@@ -289,30 +282,30 @@ export class Profile {
 
     const fileTransfer: TransferObject = this.transfer.create();
 
-    this.utilityMethods.show_loader('');
+    var toast = this.utilityMethods.doLoadingToast('Uploading');
 
     // Use the FileTransfer to upload the image
     fileTransfer.upload(targetPath, url, options).then(data => {
-      this.utilityMethods.hide_loader();
-      this.presentToast('Image succesful uploaded.');
+      toast.dismiss();
+      this.utilityMethods.doToast('Image succesful uploaded.');
       var response = JSON.parse(data.response);
       this.authService.updateUser(response.data.user);
       this.profileData.user = response.data.user;
     }, err => {
-      this.utilityMethods.hide_loader();
-      this.presentToast('Error while uploading file.');
+      toast.dismiss();
+      this.utilityMethods.doToast('Error while uploading file.');
     });
   }
 
   unFollowUser() {
     let self = this;
     var current_time = (new Date()).getTime() / 1000;
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Please wait...');
     this.searchService.un_follow_user({
       created_at: current_time,
       follows_id: this.profileData.user.id
     }).subscribe((response) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       this.profileData.user.isFollowed = 0;
       this.stream.follow_first_load = false;
       this.stream.me_first_load = false;
@@ -320,7 +313,7 @@ export class Profile {
       if (this.from_page == 'search_results')
         this.events.publish('user:unFollowed', this.profileData.user.id);
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }

@@ -141,15 +141,19 @@
         <p class="messageLoading">{{loading_message}}</p>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="inline_tote_options bottomLine">
+<ion-footer class="inline_tote_options" *ngIf="WHICH_STREAM == 'me' && actual_stream == 'me' && !loading_check">
     <ion-toolbar color="dark">
-        <p class="messageLoading">future of business: Open sou...”</p>
-        <img src="assets/img/dodtsLine.svg" alt="" />
+        <div class="title_and_options">
+            <form (ngSubmit)="saveTitle(ANOTOTE)">
+                <input *ngIf="WHICH_STREAM != 'top'" [(ngModel)]='title_temp' name="title">
+            </form>
+            <img (click)="toteOptions()" src="assets/img/dodtsLine.svg" alt="" />
+        </div>
     </ion-toolbar>
-</ion-footer> -->
+</ion-footer>
 <ion-footer class="inline_tote_options" *ngIf="toggle_annotation_option">
     <ion-toolbar color="dark">
-        <span (click)="quote_it()" class="quote">
+        <span (tap)="quote_it()" class="quote">
 
         </span>
         <span (click)="comment_it()" class="comment">
