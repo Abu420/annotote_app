@@ -119,7 +119,7 @@ export class Notifications {
   }
 
   loadNotifications() {
-    if (this.notificationService.loaded_once() && (this._reload == null || this._reload == undefined)) {
+    if (this.notificationService.loaded_once()) {
       var data = this.notificationService.get_notification_data();
       this._notifications = data.notifications;
       this._unread = data.unread;

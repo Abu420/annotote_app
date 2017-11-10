@@ -986,6 +986,10 @@
                                         background: #2ba600;
                                         box-shadow: 0 0 3px #848484;
                                     }
+                                    .anon_stream {
+                                        background: color($colors, anon);
+                                        box-shadow: 0 0 3px #848484;
+                                    }
                                     .active_follows {
                                         background: $follow_app_color;
                                         box-shadow: 0 0 3px #848484;
@@ -1067,8 +1071,12 @@
                                                 .quotes_follows {
                                                     background: $follow_app_color;
                                                 }
+                                                .quotes_anon {
+                                                    background: color($colors, anon);
+                                                }
                                                 .quotes_top {
                                                     background: $top_app_color;
+                                                    color: white;
                                                 }
                                                 .editAntotion {
                                                     margin-left: -8%;
@@ -1102,10 +1110,10 @@
                                                         margin-top: 8px;
                                                     }
                                                     span {
-                                                        font-size: 14px;
+                                                        font-size: 13px;
                                                         text-transform: uppercase;
                                                         float: right;
-                                                        padding-left: 15px;
+                                                        padding-left: 10px;
                                                     }
                                                     span.save {
                                                         color: #32ad05;

@@ -61,15 +61,17 @@ export class Follows {
   }
 
   showProfile(follower) {
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Loading Profile');
     this.searchService.get_user_profile_info(follower.id)
       .subscribe((response) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         this.presentProfileModal(response);
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
+        } else {
+          this.utilityMethods.doToast("Couldn't load profile")
         }
       });
   }

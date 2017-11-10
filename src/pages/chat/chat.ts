@@ -176,7 +176,7 @@ export class Chat {
 
   autoScroll() {
     setTimeout(() => {
-      if (this.content != null)
+      if (this.content && this.content != null)
         this.content.scrollToBottom();
     }, 100);
   }
