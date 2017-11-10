@@ -1030,6 +1030,9 @@
                                                         white-space: normal;
                                                         width: 100%;
                                                         color: #000;
+                                                        &.lightText {
+                                                            color: #bfbfbf;
+                                                        }
                                                     }
                                                     img {
                                                         width: 25px;

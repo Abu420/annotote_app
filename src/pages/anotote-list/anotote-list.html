@@ -160,6 +160,7 @@
                                     <div class="txt">
                                         <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                         <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                        <p class="lightText">Adds to US political tensions with Syrian government & President Assad</p>
                                         <div class="tagImage" *ngIf="highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                             <img src="assets/img/dotsicon.svg" alt="">
                                         </div>
@@ -302,6 +303,7 @@
                                     <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
                                     <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
                                     <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                    <p class="lightText">Adds to US political tensions with Syrian government & President Assad</p>
                                     <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div>
