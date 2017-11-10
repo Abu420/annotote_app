@@ -158,9 +158,9 @@
                             <ng-container *ngFor="let highlight of anotote.highlights">
                                 <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
                                     <div class="txt">
-                                        <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
-                                        <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
-                                        <p class="lightText">Adds to US political tensions with Syrian government & President Assad</p>
+                                        <p>{{highlight.highlightText}}</p>
+                                        <!-- <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p> -->
+                                        <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                         <div class="tagImage" *ngIf="highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                             <img src="assets/img/dotsicon.svg" alt="">
                                         </div>
@@ -278,7 +278,7 @@
                     </div>
                 </div>
                 <!-- anatote detail -->
-                <div class="toteActive" (press)="enable_list_reorder(anotote)" [ngClass]="{'toteTransition': anotote.active}">
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active}">
                     <div class="loading" [hidden]="anotote.spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
@@ -297,13 +297,12 @@
                         </div>
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
-                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout">
+                        <ion-list no-lines class="details-list layout">
                             <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
                                 <div class="txt">
                                     <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
-                                    <p *ngIf="highlight.comment == null || highlight.comment == ''">{{highlight.highlightText}}</p>
-                                    <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
-                                    <p class="lightText">Adds to US political tensions with Syrian government & President Assad</p>
+                                    <p>{{highlight.highlightText}}</p>
+                                    <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
                                     <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div>

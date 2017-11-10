@@ -25,7 +25,8 @@
         <ion-list class="follow_list">
             <ion-item>
                 <button ion-button icon-only>
-                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">
@@ -37,7 +38,8 @@
             </ion-item>
             <ion-item>
                 <button ion-button icon-only>
-                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt" (tap)="go_to_stream()">
@@ -47,7 +49,8 @@
             </ion-item>
             <ion-item>
                 <button ion-button icon-only>
-                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">
@@ -57,7 +60,8 @@
             </ion-item>
             <ion-item>
                 <button ion-button icon-only>
-                    <img *ngIf="is_it_me != true" src="assets/img/img5.png">
+                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">

@@ -1148,7 +1148,7 @@ export class AnototeList {
           }
         });
     } else {
-      this.toastInFooter("Please update annotation and then submit.");
+      // this.toastInFooter("Please update annotation and then submit.");
     }
   }
 
