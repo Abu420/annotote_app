@@ -18,6 +18,22 @@ body {
     -webkit-touch-callout: none;
 }
 
+ion-item {
+    .status {
+        width: 16px;
+        height: 16px;
+        font-size: 24px;
+        line-height: 25px;
+        padding: 3px 0 0;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        float: left;
+        background: #2ba600;
+        font-size: 37px;
+    }
+}
+
 *[contenteditable] {
     -webkit-user-select: auto !important;
 }
