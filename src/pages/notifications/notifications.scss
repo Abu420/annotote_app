@@ -104,6 +104,15 @@ page-notifications {
             .product-list {
                 margin-top: 0px !important;
                 .item {
+                    &:last-child {
+                        .item-inner {
+                            ion-label {
+                                .txt {
+                                    border-bottom: 0px;
+                                }
+                            }
+                        }
+                    }
                     &.active {
                         .item-inner {
                             ion-label {
@@ -154,6 +163,7 @@ page-notifications {
                                 .follow-name {
                                     font-size: 16px;
                                     color: #000;
+                                    text-transform: capitalize;
                                     img {
                                         display: inline-block;
                                         width: 12px;

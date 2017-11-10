@@ -240,7 +240,7 @@
                             overflow: auto;
                             li {
                                 display: block;
-                                padding: 10px 0px;
+                                padding: 5px 0px;
                                 img {
                                     width: 12px;
                                     display: inline-block;
@@ -717,7 +717,7 @@
                                         background-size: 5px;
                                     }
                                     .txt {
-                                        padding: 17px 10px 0px 0px;
+                                        padding: 15px 10px 0px 0px;
                                         input {
                                             margin: 0px;
                                             padding: 0px;
@@ -830,7 +830,7 @@
                                         -webkit-line-clamp: 2;
                                     }
                                     p {
-                                        font-size: 13px;
+                                        font-size: 14px;
                                     }
                                     .time {
                                         float: right;
@@ -856,7 +856,7 @@
                                         span {
                                             display: inline-block;
                                             margin-right: 0px !important;
-                                            font-size: 12px;
+                                            font-size: 14px;
                                         }
                                     }
                                     .toteText {
@@ -907,7 +907,7 @@
                                     float: left;
                                     vertical-align: middle;
                                     width: 50px;
-                                    background-image: url(../assets/img/option-icon.png);
+                                    background-image: url(../assets/img/totoptionIocn.svg);
                                     background-position: 25px center;
                                     background-repeat: no-repeat;
                                     background-size: 5px;
@@ -937,7 +937,7 @@
                                                     margin: 0;
                                                     display: inline-block;
                                                     .name-time {
-                                                        font-size: 12px;
+                                                        font-size: 14px;
                                                         color: #888;
                                                         .msg-time {
                                                             float: right;
@@ -945,7 +945,7 @@
                                                         }
                                                     }
                                                     p {
-                                                        font-size: 14px;
+                                                        font-size: 16px;
                                                     }
                                                     img {
                                                         width: 25px;
@@ -1020,7 +1020,7 @@
                                                     padding: 0 5px 0 0px;
                                                     min-height: auto;
                                                     p {
-                                                        font-size: 14px;
+                                                        font-size: 16px;
                                                         -webkit-line-clamp: 4;
                                                         -webkit-box-orient: vertical;
                                                         white-space: normal;
@@ -1033,7 +1033,7 @@
                                                 }
                                                 figure {
                                                     float: left;
-                                                    padding: 18px 0 0;
+                                                    padding: 21px 0 0;
                                                 }
                                                 .check-text {
                                                     vertical-align: top;
@@ -1043,15 +1043,15 @@
                                                     margin: 0;
                                                     display: inline-block;
                                                     .name-time {
-                                                        font-size: 12px;
+                                                        font-size: 14px;
                                                         color: #888;
                                                         .msg-time {
                                                             float: right;
-                                                            font-size: 12px;
+                                                            font-size: 14px;
                                                         }
                                                     }
                                                     p {
-                                                        font-size: 14px;
+                                                        font-size: 16px;
                                                         color: #222;
                                                         margin: 3px 0 8px;
                                                     }
@@ -1062,7 +1062,7 @@
                                                     }
                                                 }
                                                 .status {
-                                                    margin-top: 1px;
+                                                    margin-top: 2px;
                                                 }
                                                 .quotes_follows {
                                                     background: $follow_app_color;
@@ -1099,7 +1099,7 @@
                                                     img {
                                                         float: left;
                                                         width: 25px;
-                                                        margin-top: 8px;
+                                                        margin-top: 3px;
                                                     }
                                                     span {
                                                         font-size: 14px;

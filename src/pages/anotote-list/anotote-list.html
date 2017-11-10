@@ -158,7 +158,7 @@
                                             <img src="assets/img/dotsicon.svg" alt="">
                                         </div>
                                     </div>
-                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                     <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
                                         <div class="moveBtn">
@@ -293,7 +293,7 @@
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div>
                                 </div>
-                                <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
                                 <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
                             </ion-item>
                         </ion-list>
