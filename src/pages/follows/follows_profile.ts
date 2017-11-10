@@ -68,9 +68,9 @@ export class Profile {
     if (this.is_it_me)
       this.navCtrl.push(AnototeList, { color: 'me' });
     else if (this.profileData.user.isFollowed == 1)
-      this.navCtrl.push(AnototeList, { color: 'follows', userId: this.profileData.user.id });
+      this.navCtrl.push(AnototeList, { color: 'follows', userId: this.profileData.user.id, username: this.profileData.user.firstName });
     else
-      this.utilityMethods.doToast("Please follow this user to see his totes");
+      this.navCtrl.push(AnototeList, { color: 'anon', userId: this.profileData.user.id, username: this.profileData.user.firstName });
   }
 
   showTags() {

@@ -16,6 +16,9 @@
         <ion-title *ngIf="!edit_mode && current_color == 'top'">
             <dot-navigation class="topDot" unactivedots="1"></dot-navigation>
         </ion-title>
+        <ion-title *ngIf="!edit_mode && current_color == 'anon'">
+            <dot-navigation class="anonDot" unactivedots="1"></dot-navigation>
+        </ion-title>
         <ion-buttons class="plusIcon" *ngIf="!edit_mode" end>
             <button (tap)="go_to_editor()" ion-button icon-only>
                 <img src="assets/img/plusIcon.png" alt="" />
@@ -59,13 +62,13 @@
             <ion-item *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id),'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
-                    <div *ngIf="!anotote.active && anotote.type == 1 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
+                    <div *ngIf="!anotote.active && anotote.type == 1 && (current_color == 'me' || current_color == 'follows' || current_color == 'anon')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
                         <!-- <img src="assets/img/Default.svg" *ngIf="anotote.userAnnotote.annotote.photo == null || anotote.userAnnotote.annotote.photo == ''">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != ''" [src]="anotote.userAnnotote.annotote.photo">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.userAnnotote.annotote.photo != '' && anotote.userAnnotote.annotote.photo != null"></ion-spinner> -->
                     </div>
                     <!-- Images for chat totes -->
-                    <div *ngIf="!anotote.active && anotote.type == 2 && (current_color == 'me' || current_color == 'follows')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
+                    <div *ngIf="!anotote.active && anotote.type == 2 && (current_color == 'me' || current_color == 'follows' || current_color == 'anon')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [@leftAnimation]>
                         <!-- For picture of first group member, if he is not the current logged in user -->
                         <!-- <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo == null || anotote.chatGroup.groupUsers[0].user.photo == '')"> -->
                         <!-- <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')" [src]="anotote.chatGroup.groupUsers[0].user.photo | image_base_path">
@@ -131,7 +134,7 @@
                     </div>
                     <header class="listHeader" [hidden]="anotote.spinner_for_active == true">
                         <div class="underlist-text">
-                            <div class="btns-area">
+                            <div class="btns-area" *ngIf="current_color != 'anon'">
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="current_color == 'me'" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">Me</button>
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="current_color == 'follows' && anotote.isMe == 1" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">
                                     <i *ngIf="me_spinner == false">Me</i>
@@ -144,6 +147,9 @@
                                     <i *ngIf="top_spinner == false">Top</i>
                                     <ion-spinner class="loader" [hidden]="top_spinner == false"></ion-spinner>
                                 </button>
+                            </div>
+                            <div class="btns-area" *ngIf="current_color == 'anon'">
+                                <button ion-button class="me-tab">{{followUserName}}</button>
                             </div>
                         </div>
                     </header>
@@ -158,8 +164,15 @@
                                             <img src="assets/img/dotsicon.svg" alt="">
                                         </div>
                                     </div>
-                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                    <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                    <ng-container *ngIf="current_color != 'anon'">
+                                        <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                        <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="current_color == 'anon'">
+                                        <span class="status quotes_anon quoteStatus" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
+                                        <span class="status quotes_anon" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                    </ng-container>
+
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
                                         <div class="moveBtn">
                                             <button class="topIcon">
@@ -171,7 +184,7 @@
                                         </div>
                                         <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
                                         <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
-                                        <span class="closeIcon" (click)="stop_editing($event,highlight)">Close</span>
+                                        <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
                                         <span [ngClass]="{'save': edit_highlight_text != highlight.comment && edit_highlight_text != ''}" class="save" (click)="save_edited_annotation(highlight)" alt="">Save</span>
                                         <!-- <img class="closeIcon" src="assets/img/cross.png" alt="" (click)="delete_annotation(highlight)"> -->
@@ -318,8 +331,8 @@
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true}" right>
-        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : current_active_anotote.active_tab">
-            <img *ngIf="current_active_anotote == null" src="assets/img/whiteTote.svg" />
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : (current_color == 'anon' ? 'anon':current_active_anotote.active_tab)">
+            <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteTote.svg" />
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">
                 <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1"
                     src="assets/img/greenTote.svg" />
@@ -426,7 +439,7 @@
         <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.active_tab != 'me'">
+<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.active_tab != 'me' && current_color != 'anon'">
     <ion-toolbar color="dark">
         <div class="downUp">
             <ng-container *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'top'">
