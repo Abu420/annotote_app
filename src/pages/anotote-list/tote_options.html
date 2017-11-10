@@ -21,6 +21,16 @@
             </li>
         </ul>
     </div>
+    <div *ngIf="stream == 'me'" no-lines class="sharing_pop bottom-border">
+        <div class="main_label saveIcon">
+            <img src="assets/img/markIcon.svg" />
+        </div>
+        <ul>
+            <li (click)="saveTote()">
+                <span>Mark Read</span>
+            </li>
+        </ul>
+    </div>
     <div no-lines class="sharing_pop bottom-border">
         <div class="main_label">
             <img src="assets/img/shareIconGray.svg" />
