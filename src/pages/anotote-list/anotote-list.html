@@ -167,12 +167,20 @@
                                         </div>
                                     </div>
                                     <ng-container *ngIf="current_color != 'anon'">
-                                        <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                        <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                        <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                            <img src="assets/img/quoteImg.svg" alt="">
+                                        </span>
+                                        <span class="status" [ngClass]="{'quotes_follows': anotote.active_tab == 'follows','quotes_top': anotote.active_tab == 'top' }" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                            <img src="assets/img/commentImg.svg" alt="">
+                                        </span>
                                     </ng-container>
                                     <ng-container *ngIf="current_color == 'anon'">
-                                        <span class="status quotes_anon quoteStatus" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                        <span class="status quotes_anon" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                        <span class="status quotes_anon quoteStatus" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                            <img src="assets/img/quoteImg.svg" alt="">
+                                        </span>
+                                        <span class="status quotes_anon" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                            <img src="assets/img/commentImg.svg" alt="">
+                                        </span>
                                     </ng-container>
 
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
@@ -308,8 +316,12 @@
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div>
                                 </div>
-                                <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">"</span>
-                                <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">*</span>
+                                <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                    <img src="assets/img/quoteImg.svg" alt="">
+                                </span>
+                                <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                    <img src="assets/img/commentImg.svg" alt="">
+                                </span>
                             </ion-item>
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0">

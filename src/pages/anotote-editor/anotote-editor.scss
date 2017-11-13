@@ -34,11 +34,14 @@ create_anotation_popup {
             overflow: auto;
         }
         .pop_heading {
-            padding: 10px;
+            padding: 5px 10px;
             color: #fff;
             letter-spacing: -5px;
             background: #313131;
             overflow: hidden;
+            box-shadow: 4px 0 10px #000;
+            z-index: 10;
+            position: relative;
         }
         .pop_txt {
             max-height: 298px;
@@ -118,11 +121,14 @@ comment_detail_popup {
         bottom: auto;
     }
     .pop_heading {
-        padding: 10px;
+        padding: 5px 10px;
         color: #fff;
         letter-spacing: -5px;
         background: #313131;
         overflow: hidden;
+        box-shadow: 4px 0 10px #000;
+        z-index: 10;
+        position: relative;
     }
     .pop_heading {
         .col {
@@ -536,7 +542,8 @@ page-anotote-editor {
             padding-right: 5px;
         }
         .highlight_comment:before {
-            content: "*";
+            content: "";
+            background-image: url(../assets/img/commentImg.svg) !important;
             width: 18px;
             height: 18px;
             display: inline-block;
@@ -547,19 +554,26 @@ page-anotote-editor {
             font-size: 22px;
             vertical-align: middle;
             margin-top: -4px;
+            background-size: 75% !important;
+            background-repeat: no-repeat !important;
+            background-position: 3px 2px !important;
         }
         .highlight_quote:before {
-            content: '"';
+            content: '';
             width: 18px;
             height: 18px;
             display: inline-block;
             text-align: center;
+            background-image: url(../assets/img/quoteImg.svg) !important;
             vertical-align: top;
             border-radius: 0px;
-            line-height: 1.2;
+            line-height: normal;
             color: #FFF;
             margin-top: 3px;
             font-size: 25px;
+            background-size: 87% !important;
+            background-repeat: no-repeat !important;
+            background-position: 2px 2px !important;
         }
     }
 }

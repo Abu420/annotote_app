@@ -22,18 +22,18 @@ ion-item {
     .status {
         width: 16px;
         height: 16px;
-        font-size: 24px;
-        line-height: .7;
-        padding: 3px 0 0;
+        padding: 1px;
         font-weight: bold;
         color: #fff;
         text-align: center;
         float: left;
         background: #2ba600;
-        font-size: 31px;
+        line-height: .44;
+        img {
+            width: 12px;
+        }
         &.quoteStatus {
-            line-height: .9;
-            font-size: 35px;
+            line-height: .3;
         }
     }
 }
