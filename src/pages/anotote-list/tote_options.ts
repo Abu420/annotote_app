@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { SearchService } from '../../services/search.service';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
+import { ChatService } from "../../services/chat.service";
 @Component({
   selector: 'anotote_options',
   animations: [
@@ -33,6 +34,7 @@ export class AnototeOptions {
   public stream: any;
   public show: boolean = true;
   public user;
+  public message;
 
   constructor(public clip: Clipboard,
     public utilityMethods: UtilityMethods,
@@ -41,12 +43,16 @@ export class AnototeOptions {
     public anototeService: AnototeService,
     public authService: AuthenticationService,
     public searchService: SearchService,
-    public runtime: Streams) {
+    public runtime: Streams,
+    public chatService: ChatService) {
     // this.share_type = params.get('share_type');
     // this.share_content = params.get('share_content');
     this.anotote = params.get('anotote');
     this.stream = params.get('whichStream');
     this.user = authService.getUser();
+    var msg = params.get('message');
+    if (msg && msg.senderId != this.user.id)
+      this.message = msg;
   }
 
   presentTagsModal() {
@@ -104,6 +110,22 @@ export class AnototeOptions {
 
   }
 
+  markReadUnread() {
+    var params = {
+      message_id: this.message.id,
+      message_text: this.message.text,
+      read_status: this.message.read == 1 ? 0 : 1,
+      updated_at: this.utilityMethods.get_php_wala_time()
+    }
+    this.chatService.updateMessage(params).subscribe((result) => {
+      this.message.read = this.message.read == 1 ? 0 : 1;
+    }, (error) => {
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    })
+  }
+
   privacy(params, privacy) {
     // this.utilityMethods.show_loader('', false);
     this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
@@ -121,27 +143,52 @@ export class AnototeOptions {
   }
 
   delete_anotote() {
-    this.utilityMethods.confirmation_message('Are you sure?', 'Do you really want to delete this anotote?', () => {
-      var params = {
-        userAnnotote_ids: this.anotote.userAnnotote.id,
-        delete: 1
-      }
-      var toast = this.utilityMethods.doLoadingToast("Deleting");
-      this.anototeService.delete_bulk_totes(params).subscribe((result) => {
-        toast.dismiss();
-        this.utilityMethods.doToast("Anotote deleted successfully.");
+    if (this.anotote.chatGroup == null) {
+      this.utilityMethods.confirmation_message('Are you sure?', 'Do you really want to delete this anotote?', () => {
         var params = {
-          tags: false,
-          delete: true
+          userAnnotote_ids: this.anotote.userAnnotote.id,
+          delete: 1
         }
-        this.dismiss(params);
-      }, (error) => {
-        toast.dismiss();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
+        var toast = this.utilityMethods.doLoadingToast("Deleting");
+        this.anototeService.delete_bulk_totes(params).subscribe((result) => {
+          toast.dismiss();
+          this.utilityMethods.doToast("Anotote deleted successfully.");
+          var params = {
+            tags: false,
+            delete: true
+          }
+          this.dismiss(params);
+        }, (error) => {
+          toast.dismiss();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        })
       })
-    })
+    } else {
+      this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
+        var params = {
+          group_id: this.anotote.chatGroupId
+        }
+        var toast = this.utilityMethods.doLoadingToast("Deleting");
+        this.anototeService.delete_chat_tote(params).subscribe((result) => {
+          toast.dismiss();
+          this.utilityMethods.doToast("Chat tote deleted Successfully.");
+          var params = {
+            tags: false,
+            delete: true
+          }
+          this.dismiss(params);
+        }, (error) => {
+          toast.dismiss();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          } else {
+            this.utilityMethods.doToast("Couldn't delete chat tote.");
+          }
+        })
+      })
+    }
   }
 
   bookmarkTote() {

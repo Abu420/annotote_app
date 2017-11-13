@@ -159,6 +159,7 @@ export class AnototeList {
     if (this.followedUserId == 0) {
       this.current_page = 1;
       this.anototes = [];
+      this.top_anototes = [];
       if (this.current_color == 'me') {
         if (this.stream.me_first_load) {
           this.anototes = this.stream.me_anototes;
@@ -180,7 +181,7 @@ export class AnototeList {
         if (this.stream.top_first_load) {
           this.top_anototes = this.stream.top_anototes;
           this.current_page = this.stream.top_page_no;
-          if (this.anototes.length == 0)
+          if (this.top_anototes.length == 0)
             this.has_totes = false;
         } else
           this.loadanototes();
@@ -1208,35 +1209,24 @@ export class AnototeList {
       if (anotote.chatGroup == null) {
         this.options(anotote);
       } else {
-        this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-          var params = {
-            group_id: anotote.chatGroupId
-          }
-          this.showLoading("Deleting");
-          this.anototeService.delete_chat_tote(params).subscribe((result) => {
-            this.utilityMethods.hide_loader();
-            this.current_active_anotote = null;
-            this.anototes.splice(this.anototes.indexOf(anotote), 1);
-            this.toastInFooter("Chat tote deleted Successfully.")
-            this.close_bulk_actions();
-          }, (error) => {
-            this.hideLoading();
-            if (error.code == -1) {
-              this.utilityMethods.internet_connection_error();
-            }
-          })
-        })
+        this.options(anotote);
       }
     } else {
       this.toastInFooter("Please follow this user first");
     }
   }
 
-  options(anotote) {
+  presentMessageOptions(message, anotote) {
+    this.options(anotote, message)
+  }
+
+  options(anotote, message = null) {
     var params = {
       anotote: anotote,
       whichStream: this.current_color
     }
+    if (message != null)
+      params["message"] = message;
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {

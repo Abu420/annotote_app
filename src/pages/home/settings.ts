@@ -39,10 +39,10 @@ export class Settings {
   }
 
   showProfile() {
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Please wait...');
     this.searchService.get_user_profile_info(this.current_user.id)
       .subscribe((response) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         this.viewCtrl.dismiss();
         let profile = this.modalCtrl.create(Profile, {
           data: response.data
@@ -51,7 +51,7 @@ export class Settings {
         });
         profile.present();
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }

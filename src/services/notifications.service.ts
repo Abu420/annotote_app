@@ -42,6 +42,10 @@ export class NotificationService {
             this._unread--;
         return this._unread;
     }
+    public increment_notification() {
+        this._unread++;
+        return this._unread;
+    }
 
     public get_notification_data() {
         return { notifications: this._notifications, unread: this._unread };
@@ -54,6 +58,15 @@ export class NotificationService {
      */
     read_notificaton(params) {
         var url = this.constants.API_BASEURL + '/read-notification?sender_id=' + params.sender_id + '&&type=' + params.type;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    /**
+     * Unread Notifications
+     */
+    unreadNotifications(params) {
+        var url = this.constants.API_BASEURL + '/unread-notification?notification_id=' + params.id;
         var response = this.http.get(url).map(res => res.json());
         return response;
     }

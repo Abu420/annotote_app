@@ -95,7 +95,7 @@ export class Signup {
      */
     let self = this;
     var current_time = (new Date()).getTime() / 1000;
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Signing up');
     this.authService.register({
       email: this.user.email,
       first_name: this.user.firstName,
@@ -105,12 +105,12 @@ export class Signup {
       password: this.user.password,
       created_at: current_time
     }).subscribe((response) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       this.utilityMethods.message_alert_with_callback('Registration', 'You have successfully registered. We have sent you a verification email.', () => {
         this.navCtrl.pop();
       });
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else if (error.status == 400)

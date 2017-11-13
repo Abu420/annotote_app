@@ -84,10 +84,37 @@ export class Notifications {
           this.utilityMethods.internet_connection_error();
         }
       });
+  }
+
+  read_or_unread(notification) {
+    console.log(notification);
+    if (notification.readStatus == 0) {
+      this.read_notification(notification);
+    } else {
+      this.unread_notification(notification);
+    }
+  }
+
+  go_to_thread(notification) {
+    if (notification.readStatus == 0) {
+      this.read_notification(notification);
+    }
     if (notification.type != 'user:message')
       this.showProfile(notification.sender.id);
     else if (notification.type == 'user:message')
       this.go_to_chat_thread(notification.sender);
+  }
+
+  unread_notification(notification) {
+    var params = {
+      notification_id: notification.id
+    }
+    this.notificationService.unreadNotifications(params).subscribe(() => {
+      notification.readStatus = 0;
+      this._unread = this.notificationService.increment_notification();
+    }, () => {
+
+    })
   }
 
   go_to_chat_thread(user) {
@@ -95,13 +122,13 @@ export class Notifications {
   }
 
   showProfile(user_id) {
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Please wait...');
     this.searchService.get_user_profile_info(user_id)
       .subscribe((response) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         this.presentProfileModal(response);
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }

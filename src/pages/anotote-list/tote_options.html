@@ -21,85 +21,88 @@
             </li>
         </ul>
     </div>
-    <!-- <div *ngIf="stream == 'me'" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="stream == 'me' && anotote.chatGroup != null && message != null" (click)="markReadUnread()" no-lines class="sharing_pop bottom-border">
         <div class="main_label saveIcon">
             <img src="assets/img/markIcon.svg" />
         </div>
         <ul>
-            <li (click)="saveTote()">
-                <span>Mark Read</span>
-            </li>
-        </ul>
-    </div> -->
-    <div no-lines class="sharing_pop bottom-border">
-        <div class="main_label">
-            <img src="assets/img/shareIconGray.svg" />
-        </div>
-        <ul>
-            <li (tap)="share('copy')">
-                <span>Copy</span>
-            </li>
-            <li (tap)="chat()">
-                <span>Chat</span>
-            </li>
-            <li (tap)="share('email')">
-                <span>Email</span>
-            </li>
-            <li (tap)="share('twitter')">
-                <span>Twitter</span>
-            </li>
-            <li class="tabOption" (tap)="share('all')">
-                <img src="assets/img/dotsOption.svg" />
+            <li>
+                <span *ngIf="message.read == 0">Mark Read</span>
+                <span *ngIf="message.read == 1">Mark Unread</span>
             </li>
         </ul>
     </div>
-    <div no-lines class="sharing_pop three bottom-border">
-        <div class="main_label">
-            <img src="assets/img/hashIconGray.svg" />
-        </div>
-        <ul *ngIf="stream != 'top'">
-            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
-                <span>Add Tags</span>
-            </li>
-            <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'follows'" (tap)="presentTagsModal()">
-                <span>No tags added</span>
-            </li>
-            <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
-                <li *ngIf="i < 2">
-                    <span>{{tag.tagText}}</span>
+    <ng-container *ngIf="anotote.chatGroup == null">
+        <div no-lines class="sharing_pop bottom-border">
+            <div class="main_label">
+                <img src="assets/img/shareIconGray.svg" />
+            </div>
+            <ul>
+                <li (tap)="share('copy')">
+                    <span>Copy</span>
                 </li>
-            </ng-container>
-            <li class="tabOption" (tap)="presentTagsModal()">
-                <img src="assets/img/dotsOption.svg" />
-            </li>
-        </ul>
-        <ul *ngIf="stream == 'top'">
-            <li *ngIf="anotote.tags.length == 0">
-                <span>No tags added</span>
-            </li>
-            <ng-container *ngFor="let tag of anotote.tags; let i=index">
-                <li *ngIf="i < 2">
-                    <span>{{tag.tagText}}</span>
+                <li (tap)="chat()">
+                    <span>Chat</span>
                 </li>
-            </ng-container>
-            <li class="tabOption" (tap)="presentTagsModal()">
-                <img src="assets/img/dotsOption.svg" />
-            </li>
-        </ul>
-    </div>
-    <div *ngIf="stream == 'me'" no-lines class="sharing_pop two bottom-border">
-        <div class="main_label">
-            <img src="assets/img/privacyIconGray.svg" />
+                <li (tap)="share('email')">
+                    <span>Email</span>
+                </li>
+                <li (tap)="share('twitter')">
+                    <span>Twitter</span>
+                </li>
+                <li class="tabOption" (tap)="share('all')">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li (click)="change_privacy('public')">
-                <span [ngClass]="{'high': anotote.userAnnotote.privacy == 0}">Public</span>
-            </li>
-            <li (click)="change_privacy('private')">
-                <span [ngClass]="{'high': anotote.userAnnotote.privacy == 1}">Private</span>
-            </li>
-        </ul>
-    </div>
+        <div no-lines class="sharing_pop three bottom-border">
+            <div class="main_label">
+                <img src="assets/img/hashIconGray.svg" />
+            </div>
+            <ul *ngIf="stream != 'top'">
+                <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
+                    <span>Add Tags</span>
+                </li>
+                <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'follows'" (tap)="presentTagsModal()">
+                    <span>No tags added</span>
+                </li>
+                <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
+                    <li *ngIf="i < 2">
+                        <span>{{tag.tagText}}</span>
+                    </li>
+                </ng-container>
+                <li class="tabOption" (tap)="presentTagsModal()">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+            <ul *ngIf="stream == 'top'">
+                <li *ngIf="anotote.tags.length == 0">
+                    <span>No tags added</span>
+                </li>
+                <ng-container *ngFor="let tag of anotote.tags; let i=index">
+                    <li *ngIf="i < 2">
+                        <span>{{tag.tagText}}</span>
+                    </li>
+                </ng-container>
+                <li class="tabOption" (tap)="presentTagsModal()">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="stream == 'me'" no-lines class="sharing_pop two bottom-border">
+            <div class="main_label">
+                <img src="assets/img/privacyIconGray.svg" />
+            </div>
+            <ul>
+                <li (click)="change_privacy('public')">
+                    <span [ngClass]="{'high': anotote.userAnnotote.privacy == 0}">Public</span>
+                </li>
+                <li (click)="change_privacy('private')">
+                    <span [ngClass]="{'high': anotote.userAnnotote.privacy == 1}">Private</span>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
     <div *ngIf="stream == 'me'" no-lines class="sharing_pop four bottom-border">
         <div class="main_label">
             <img src="assets/img/deleteIconGray.svg" />

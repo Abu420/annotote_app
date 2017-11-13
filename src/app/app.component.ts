@@ -96,8 +96,8 @@ export class MyApp {
                     },
                     ios: {
                         alert: 'true',
-                        badge: 'false',
-                        sound: 'false'
+                        badge: 'true',
+                        sound: 'true'
                     },
                     windows: {}
                 }

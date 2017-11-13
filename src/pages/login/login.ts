@@ -104,7 +104,7 @@ export class Login {
      */
     var current_time = (new Date()).getTime() / 1000,
       platform_name = this.platform.is('ios') ? 'ios' : 'android';
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Logging in');
     this.authService.login({
       email: this.user.email,
       password: this.user.password,
@@ -112,12 +112,12 @@ export class Login {
       device_type: platform_name,
       device_id: this.device_id ? this.device_id : 123456
     }).subscribe((response) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       response.data.user.access_token = response.access_token;
       this.authService.setUser(response.data.user);
       this.appCtrl.getRootNav().setRoot(Home);
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1 || error.code == -2) {
         this.utilityMethods.internet_connection_error();
       } else if (error.status == 404)

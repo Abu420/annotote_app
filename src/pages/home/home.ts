@@ -285,8 +285,7 @@ export class Home {
     } else {
       this.notificationService.get_notifications(user_id)
         .subscribe((response) => {
-          var data = this.notificationService.get_notification_data();
-          this._unread = data.unread;
+          this._unread = response.data.unread;
         }, (error) => {
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();

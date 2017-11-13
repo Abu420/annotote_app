@@ -55,7 +55,8 @@
 </ion-header>
 <ion-content swipe-vertical padding>
     <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true">
-        <ion-refresher-content></ion-refresher-content>
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
     </ion-refresher>
     <div id="wrapper">
         <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
@@ -212,7 +213,7 @@
                             <ion-spinner></ion-spinner>
                         </div>
                         <ion-list no-lines class="details-list layout" [hidden]="anotote.spinner_for_active == true">
-                            <ion-item class="underlist-items" *ngFor="let message of anotote.chatGroup.messagesUser">
+                            <ion-item class="underlist-items" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <!-- <img [src]="message | chatHeads" alt=""> -->
                                     <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">

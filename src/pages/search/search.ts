@@ -379,9 +379,8 @@ export class Search {
                 response.data.userAnnotote.annotote = response.data.annotote;
                 this.go_to_browser(response.data);
             }, (error) => {
-                this.utilityMethods.hide_loader();
+                toast.dismiss();
                 this.search_loading = false;
-
                 if (error.status == 500) {
                     this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
                 }
@@ -407,16 +406,16 @@ export class Search {
         if (search_result.is_tote) {
             this.go_to_browser(search_result);
         } else {
-            this.utilityMethods.show_loader('');
+            var toast = this.utilityMethods.doLoadingToast('Please wait...');
             this.searchService.get_user_profile_info(search_result.id)
                 .subscribe((response) => {
-                    this.utilityMethods.hide_loader();
+                    toast.dismiss();
                     if (response.data.user != null)
                         this.presentProfileModal(response);
                     else
                         this.utilityMethods.doToast("Couldn't load user.");
                 }, (error) => {
-                    this.utilityMethods.hide_loader();
+                    toast.dismiss();
                     if (error.code == -1) {
                         this.utilityMethods.internet_connection_error();
                     }
