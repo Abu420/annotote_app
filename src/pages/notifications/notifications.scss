@@ -144,7 +144,7 @@ page-notifications {
                                 vertical-align: middle;
                                 margin-right: 0px;
                                 margin: 10px;
-                                padding: 13px 17px 17px;
+                                padding: 11px 17px 17px;
                                 img {
                                     width: 100%;
                                     height: auto;
@@ -164,6 +164,8 @@ page-notifications {
                                     font-size: 16px;
                                     color: #000;
                                     text-transform: capitalize;
+                                    margin-bottom: -3px;
+                                    display: block;
                                     img {
                                         display: inline-block;
                                         width: 12px;
@@ -182,7 +184,7 @@ page-notifications {
                                         width: auto;
                                         float: right;
                                         font-style: normal;
-                                        padding-top: 1px;
+                                        padding-top: 6px;
                                         color: #CCC;
                                         img {
                                             width: 12px;
@@ -202,7 +204,7 @@ page-notifications {
                                         font-size: 13px;
                                         color: #CCC;
                                         display: inline-block;
-                                        vertical-align: top;
+                                        vertical-align: bottom;
                                         margin-top: -1px;
                                         text-overflow: ellipsis;
                                         -webkit-box-orient: vertical;
@@ -226,14 +228,14 @@ page-notifications {
                                         color: #8e9093;
                                         background: transparent;
                                         float: left;
-                                        margin-top: 2px !important;
+                                        margin-top: 5px !important;
                                         display: inline-block;
-                                        vertical-align: middle;
+                                        vertical-align: bottom;
                                         width: 14px;
                                         margin-right: 5px;
                                         &.followed-icon {
                                             width: 12px;
-                                            margin: 0 5px 0 0 !important;
+                                            margin: 3px 5px 0 0 !important;
                                         }
                                     }
                                 }

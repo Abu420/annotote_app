@@ -37,7 +37,7 @@
             <span>View (enter)</span>
         </ion-item>
         <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
-            <figure><img class="viewIcon" src="assets/img/cloudIconGray.svg" alt=""></figure>
+            <figure><img class="saveIcon" src="assets/img/cloudIconGray.svg" alt=""></figure>
             <span>Save</span>
         </ion-item>
         <ion-item (click)="save_search_entry('bookmark_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">

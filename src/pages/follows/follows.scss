@@ -194,6 +194,8 @@ page-follows {
             width: 100%;
             left: 0px;
             z-index: 10;
+            -webkit-box-shadow: 0px 2px 4px #CCC;
+            box-shadow: 0px 2px 4px #CCC;
             ion-title {
                 padding: 12px 90px 1px !important;
                 .toolbar-title {
