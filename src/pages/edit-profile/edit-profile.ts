@@ -84,8 +84,7 @@ export class EditProfile {
     /**
      * API call, after Successfull validation
      */
-    let self = this;
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Editing');
     this.authService.update_profile({
       email: this.user.email,
       first_name: this.user.firstName,
@@ -93,16 +92,16 @@ export class EditProfile {
       description: this.user.description,
       updated_at: this.utilityMethods.get_php_wala_time()
     }).subscribe((response) => {
-      self.utilityMethods.hide_loader();
-      self.authService.updateUser(response.data.user);
-      self.utilityMethods.doToast('Profile updated successfully.');
-      self.navCtrl.pop();
+      toast.dismiss();
+      this.authService.updateUser(response.data.user);
+      this.utilityMethods.doToast('Profile updated successfully.');
+      this.navCtrl.pop();
     }, (error) => {
-      self.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else
-        self.utilityMethods.message_alert('Error', 'This email has already been taken.');
+        this.utilityMethods.message_alert('Error', 'This email has already been taken.');
     });
   }
 

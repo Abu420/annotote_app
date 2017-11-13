@@ -663,25 +663,27 @@ export class AnototeList {
   }
 
   saveTitle(anotote) {
-    this.showLoading("Saving title");
-    var params = {
-      annotote_id: anotote.userAnnotote.id,
-      annotote_title: this.title_temp,
-      updated_at: this.utilityMethods.get_php_wala_time()
+    if(this.title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && this.title_temp != '') {
+      this.showLoading("Saving title");
+      var params = {
+        annotote_id: anotote.userAnnotote.id,
+        annotote_title: this.title_temp,
+        updated_at: this.utilityMethods.get_php_wala_time()
+      }
+      this.anototeService.saveTitle(params).subscribe((success) => {
+        this.hideLoading();
+        anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
+        anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
+        anotote.checked = false;
+        this.toastInFooter("Title updated")
+      }, (error) => {
+        this.hideLoading();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else
+          this.toastInFooter("Couldn't update title");
+      })
     }
-    this.anototeService.saveTitle(params).subscribe((success) => {
-      this.hideLoading();
-      anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
-      anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
-      anotote.checked = false;
-      this.toastInFooter("Title updated")
-    }, (error) => {
-      this.hideLoading();
-      if (error.code == -1) {
-        this.utilityMethods.internet_connection_error();
-      } else
-        this.toastInFooter("Couldn't update title");
-    })
   }
 
   close_bulk_actions() {

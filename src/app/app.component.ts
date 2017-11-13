@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Platform, MenuController, Nav, ModalController } from 'ionic-angular';
+import { Platform, MenuController, Nav, ModalController, Events } from 'ionic-angular';
 
 import { Constants } from '../services/constants.service';
 import { Login } from '../pages/login/login';
@@ -36,6 +36,7 @@ export class MyApp {
 
     constructor(public keyboard: Keyboard,
         private deeplinks: Deeplinks,
+        private events: Events,
         public modalCtrl: ModalController,
         public platform: Platform,
         public menu: MenuController,
@@ -92,12 +93,14 @@ export class MyApp {
 
                 const options: PushOptions = {
                     android: {
-                        senderID: '200726631075'
+                        senderID: '200726631075',
+                        vibrate: true,
+                        sound: true
                     },
                     ios: {
-                        alert: 'true',
-                        badge: 'true',
-                        sound: 'true'
+                        alert: true,
+                        badge: true,
+                        sound: true
                     },
                     windows: {}
                 }
@@ -108,6 +111,7 @@ export class MyApp {
                     notification.additionalData.payload.notification = JSON.parse(notification.additionalData.payload.notification);
                     this.notificationService._loaded_once_flag = false;
                     this.notificationService._unread += 1;
+                    this.events.publish('IncrementNotificaiton');
                     // if (notification.additionalData.payload.notification.type == 'user:message' && notification.additionalData.foreground) {
                     //     return;
                     // }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { App, IonicPage, Events, NavController, NavParams, ModalController, Platform } from 'ionic-angular';
 import { Follows } from '../follows/follows';
 import { Notifications } from '../notifications/notifications';
@@ -56,7 +56,8 @@ export class Home {
     public authService: AuthenticationService,
     public statusBar: StatusBar,
     public stream: Streams,
-    public anototeService: AnototeService, ) {
+    public anototeService: AnototeService,
+    public cd: ChangeDetectorRef) {
     this._unread = 0;
     this.searches = [];
     this.latest_searches_firstTime_loading = true;
@@ -66,9 +67,10 @@ export class Home {
    * View Events
    */
   ionViewDidLoad() {
-    // this.events.subscribe('new_search_added', (data) => {
-    //   this.searches.splice(0, 0, data.entry);
-    // });
+    this.events.subscribe('IncrementNotificaiton', (data) => {
+      this._unread = this.notificationService.get_notification_data().unread;
+      this.cd.detectChanges();
+    });
   }
 
   ionViewDidLeave() {
