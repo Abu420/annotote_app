@@ -7,6 +7,7 @@
 	.st1{fill:#FFFFFF;}
 	.st2{fill:none;stroke:#FFFFFF;stroke-width:0.6;stroke-miterlimit:10;}
 	.st3{fill:#279A00;}
+	.st4{fill:none;stroke:#279A00;stroke-width:0.6;stroke-miterlimit:10;}
 </style>
 <g class="st0">
 	<path class="st1" d="M15.3,13.5H13L8.2,5.1H8.1l-5,8.4H0.9L8,2.3h0.4L15.3,13.5z"/>
@@ -16,5 +17,8 @@
 </g>
 <g class="st0">
 	<path class="st3" d="M15.2,34.9H13l-4.8-8.4H8l-5,8.4H0.8l7.1-11.2h0.4L15.2,34.9z"/>
+</g>
+<g class="st0">
+	<path class="st4" d="M15.2,34.7h-2.3l-4.8-8.3H8l-5,8.4H0.8l7.1-11.3h0.4L15.2,34.7z"/>
 </g>
 </svg>

@@ -755,6 +755,7 @@
                                     -webkit-transition: max-height 0.15s ease-out;
                                     border: 0px;
                                     &.toteTransition {
+                                        max-height: 500px;
                                         -webkit-transition: max-height 0.25s ease-in;
                                         transition: max-height 0.25s ease-in;
                                     }
