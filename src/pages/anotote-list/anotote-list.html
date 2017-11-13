@@ -185,7 +185,7 @@
                                             </button>
                                         </div>
                                         <textarea [(ngModel)]="edit_highlight_text" name="edit_area"></textarea>
-                                        <img src="assets/img/option-msg-white.png" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
+                                        <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                         <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
                                         <span [ngClass]="{'save': edit_highlight_text != highlight.comment && edit_highlight_text != ''}" class="save" (click)="save_edited_annotation(highlight)" alt="">Save</span>

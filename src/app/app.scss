@@ -493,7 +493,7 @@ page-changepassword {
                 text-align: center;
                 line-height: 5;
                 img {
-                    width: 20px;
+                    width: 28px;
                     display: inline-block;
                     vertical-align: middle;
                 }
@@ -508,7 +508,6 @@ page-changepassword {
                 }
                 .activeIcon {
                     display: inline-block;
-                    box-shadow: 0px 5px 7px #999;
                 }
             }
         }
@@ -751,11 +750,14 @@ search_page {
                             text-align: center;
                             line-height: 5.4;
                             img {
-                                width: 30px;
+                                width: 26px;
+                                &.saveIcon {
+                                    width: 29px;
+                                }
                             }
                             &.bookmarkIcon {
                                 img {
-                                    width: 20px;
+                                    width: 19px;
                                 }
                             }
                         }
@@ -817,7 +819,7 @@ search_page {
                             .rightAdd {
                                 position: absolute;
                                 right: 10px;
-                                top: 38%;
+                                top: 48%;
                                 -webkit-transform: translate(0%, -50%);
                                 transform: translate(0%, -50%);
                                 color: #939598;
