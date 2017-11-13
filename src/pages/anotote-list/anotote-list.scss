@@ -326,6 +326,12 @@
                         img {
                             width: 32px;
                         }
+                        &.markIcon {
+                            line-height: 6.4;
+                            img {
+                                width: 29px;
+                            }
+                        }
                     }
                     ul {
                         display: inline-block;
@@ -749,8 +755,6 @@
                                     -webkit-transition: max-height 0.15s ease-out;
                                     border: 0px;
                                     &.toteTransition {
-                                        max-height: 500px;
-                                        overflow: auto;
                                         -webkit-transition: max-height 0.25s ease-in;
                                         transition: max-height 0.25s ease-in;
                                     }

@@ -2,7 +2,7 @@
     <ion-toolbar color="homeheader">
         <div [ngClass]="{'black': current_url == '', 'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}" class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
-            <img src="assets/img/shadowWhite.svg" alt="" />
+            <img src="assets/img/searchIcon.png" alt="" />
             <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss()" class="clear_button"></span>
         </div>
