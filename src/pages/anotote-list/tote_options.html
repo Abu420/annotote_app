@@ -35,7 +35,7 @@
     <ng-container *ngIf="anotote.chatGroup == null">
         <div no-lines class="sharing_pop bottom-border">
             <div class="main_label">
-                <img src="assets/img/shareIconGray.svg" />
+                <img src="assets/img/shareImg.svg" />
             </div>
             <ul>
                 <li (tap)="share('copy')">
@@ -57,7 +57,7 @@
         </div>
         <div no-lines class="sharing_pop three bottom-border">
             <div class="main_label">
-                <img src="assets/img/hashIconGray.svg" />
+                <img src="assets/img/tagImg.svg" />
             </div>
             <ul *ngIf="stream != 'top'">
                 <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
@@ -91,7 +91,7 @@
         </div>
         <div *ngIf="stream == 'me'" no-lines class="sharing_pop two bottom-border">
             <div class="main_label">
-                <img src="assets/img/privacyIconGray.svg" />
+                <img src="assets/img/privacyImg.svg" />
             </div>
             <ul>
                 <li (click)="change_privacy('public')">
