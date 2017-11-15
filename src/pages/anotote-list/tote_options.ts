@@ -50,9 +50,7 @@ export class AnototeOptions {
     this.anotote = params.get('anotote');
     this.stream = params.get('whichStream');
     this.user = authService.getUser();
-    var msg = params.get('message');
-    if (msg && msg.senderId != this.user.id)
-      this.message = msg;
+    this.message = params.get('message');
   }
 
   presentTagsModal() {
@@ -189,6 +187,25 @@ export class AnototeOptions {
         })
       })
     }
+  }
+
+  delete_message() {
+    this.utilityMethods.confirmation_message("Are you sure?", "Do your really want to delete this message", () => {
+      var toast = this.utilityMethods.doLoadingToast("Deleting");
+      this.chatService.deleteMessage({ id: this.message.id }).subscribe((data) => {
+        toast.dismiss();
+        this.utilityMethods.doToast("Message deleted Successfully.");
+        var params = {
+          tags: false,
+          delete: true
+        }
+        this.dismiss(params);
+      }, (err) => {
+        if (err.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    })
   }
 
   bookmarkTote() {

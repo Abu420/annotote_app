@@ -1252,10 +1252,14 @@ export class AnototeList {
           tagsModal.present();
         }
       } else if (data.delete == true) {
-        this.current_active_anotote = null;
-        this.stream.top_first_load = false;
-        this.stream.follow_first_load = false;
-        this.anototes.splice(this.anototes.indexOf(anotote), 1);
+        if(message == null){
+          this.current_active_anotote = null;
+          this.stream.top_first_load = false;
+          this.stream.follow_first_load = false;
+          this.anototes.splice(this.anototes.indexOf(anotote), 1);
+        }else{
+          anotote.chatGroup.messagesUser.splice(anotote.chatGroup.messagesUser.indexOf(message),1);
+        }
       } else if (data.chat) {
         var chatParams = {
           anotote: anotote,

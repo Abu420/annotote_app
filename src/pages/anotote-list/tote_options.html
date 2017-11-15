@@ -21,7 +21,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="stream == 'me' && anotote.chatGroup != null && message != null" (click)="markReadUnread()" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="stream == 'me' && anotote.chatGroup != null && message != null && message.senderId != user.id" (click)="markReadUnread()" no-lines class="sharing_pop bottom-border">
         <div class="main_label markIcon">
             <img src="assets/img/markIcon.svg" />
         </div>
@@ -110,6 +110,16 @@
         <ul>
             <li (click)="delete_anotote()">
                 <span>Delete</span>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="stream == 'me' && message != null && message.senderId == user.id" no-lines class="sharing_pop four bottom-border">
+        <div class="main_label">
+            <img src="assets/img/deleteIconGray.svg" />
+        </div>
+        <ul>
+            <li (click)="delete_message()">
+                <span>Delete Message</span>
             </li>
         </ul>
     </div>
