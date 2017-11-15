@@ -53,8 +53,9 @@
         <ion-list no-lines class="details-list layout" id="chat-listing-area">
             <ion-item *ngFor="let message of conversation" class="underlist-items">
                 <figure>
-                    <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
                     <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                    <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
+                    <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
                 </figure>
                 <div class="check-text">
                     <div class="name-time">
@@ -63,7 +64,7 @@
                         <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                     </div>
                     <p>{{message.text}}</p>
-                    <img (click)="editOrDelete($event,message)" src="assets/img/dotsicon.svg" alt="">
+                    <img (click)="editOrDelete(message)" src="assets/img/dotsicon.svg" alt="">
                 </div>
             </ion-item>
         </ion-list>
@@ -87,7 +88,7 @@
         <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
-            <textarea id="autosize-example" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"></textarea>
+            <textarea #myInput [(ngModel)]="textMessage" (keyup)="resize()" name="search" placeholder="Write your reply"></textarea>
             <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
             <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
             <span class="loading" *ngIf="send_message_loader">

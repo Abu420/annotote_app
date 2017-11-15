@@ -69,6 +69,7 @@ export class Home {
   ionViewDidLoad() {
     this.events.subscribe('IncrementNotificaiton', (data) => {
       this._unread = this.notificationService.get_notification_data().unread;
+      this.stream.me_first_load = false;
       this.cd.detectChanges();
     });
   }

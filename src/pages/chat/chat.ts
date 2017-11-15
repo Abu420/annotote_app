@@ -45,7 +45,6 @@ export class Chat {
   public title = '';
   public tote: any;
   public move: boolean = false;
-
   /**
    * Constructor
    */
@@ -98,6 +97,7 @@ export class Chat {
       this.send_message_loader = true;
       this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
         this.send_message_loader = false;
+        this.myInput.nativeElement.style.height = 60 + 'px';
         if (this.conversation.length == 0 || this.tote == null) {
           this.stream.me_first_load = false
         } else {
@@ -172,7 +172,7 @@ export class Chat {
   */
 
   ionViewDidLoad() {
-    
+
   }
 
   autoScroll() {
@@ -213,12 +213,12 @@ export class Chat {
     this.chatService.threadingUser = null;
   }
 
-  editOrDelete(myEvent, message) {
+  editOrDelete(message) {
     var params = {
       message: message
     }
-    let popover = this.popoverCtrl.create(EditDeleteMessage, params);
-    popover.onDidDismiss((data) => {
+    let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
+    anototeOptionsModal.onDidDismiss(data => {
       if (data) {
         if (data.choice == 'share') {
           this.utilityMethods.share_content_native(message.text, "Anotote Chat message", null, '')
@@ -229,6 +229,7 @@ export class Chat {
               var params = {
                 message_id: message.id,
                 message_text: data.Message,
+                read_status: 0,
                 updated_at: this.utilityMethods.get_php_wala_time()
               }
               this.chatService.updateMessage(params).subscribe((result) => {
@@ -268,11 +269,34 @@ export class Chat {
               }
             })
           })
+        } else if (data.choice == 'read') {
+          var params = {
+            message_id: message.id,
+            message_text: message.text,
+            read_status: message.read == 1 ? 0 : 1,
+            updated_at: this.utilityMethods.get_php_wala_time()
+          }
+          this.chatService.updateMessage(params).subscribe((result) => {
+            message.read = message.read == 1 ? 0 : 1;
+          }, (error) => {
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            }
+          })
         }
       }
     })
-    popover.present({
-      ev: myEvent
-    });
+    anototeOptionsModal.present();
+    // let popover = this.popoverCtrl.create(EditDeleteMessage, params);
+
+    // popover.present({
+    //   ev: myEvent
+    // });
+  }
+
+  @ViewChild('myInput') myInput: ElementRef;
+
+  resize() {
+    this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
   }
 }

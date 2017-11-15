@@ -1,20 +1,29 @@
 import { ViewController, NavParams } from "ionic-angular";
-import { Component } from "@angular/core";
+import { Component, trigger, transition, style, animate } from "@angular/core";
 import { AuthenticationService } from "../../services/auth.service";
 
 @Component({
-    template: `
-      <ion-list>
-        <ion-list-header text-center>Options</ion-list-header>
-        <button ion-item (click)="close('edit')" *ngIf="message.senderId == user.id" detail-none text-center>Edit</button>
-        <button ion-item (click)="close('delete')" *ngIf="message.senderId == user.id" detail-none text-center>Delete</button>
-        <button ion-item (click)="close('share')" detail-none text-center>Share</button>
-      </ion-list>
-    `
+    selector: 'msg_options',
+    animations: [
+        trigger(
+            'enterAnimation', [
+                transition(':enter', [
+                    style({ transform: 'translateY(100%)', opacity: 0 }),
+                    animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
+                ]),
+                transition(':leave', [
+                    style({ transform: 'translateY(0)', opacity: 1 }),
+                    animate('300ms', style({ transform: 'translateY(100%)', opacity: 0 }))
+                ])
+            ]
+        )
+    ],
+    templateUrl: 'edit.html',
 })
 export class EditDeleteMessage {
     public message;
     public user;
+    public show: boolean = true;
     constructor(public viewCtrl: ViewController,
         params: NavParams,
         authService: AuthenticationService) {
@@ -23,6 +32,9 @@ export class EditDeleteMessage {
     }
 
     close(choice) {
-        this.viewCtrl.dismiss({ choice: choice });
+        this.show = false;
+        setTimeout(() => {
+            this.viewCtrl.dismiss({ choice: choice });
+        }, 300)
     }
 }
