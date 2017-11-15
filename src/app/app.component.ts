@@ -98,9 +98,9 @@ export class MyApp {
                         sound: true
                     },
                     ios: {
-                        alert: true,
+                        alert: 'true',
                         badge: true,
-                        sound: true
+                        sound: 'true'
                     },
                     windows: {}
                 }
@@ -109,9 +109,11 @@ export class MyApp {
 
                 pushObject.on('notification').subscribe((notification: any) => {
                     notification.additionalData.payload.notification = JSON.parse(notification.additionalData.payload.notification);
-                    this.notificationService._loaded_once_flag = false;
+                    this.notificationService.clear_for_notification();
                     this.notificationService._unread += 1;
                     this.events.publish('IncrementNotificaiton');
+                    if (notification.additionalData.foreground)
+                        navigator.vibrate(200);
                     // if (notification.additionalData.payload.notification.type == 'user:message' && notification.additionalData.foreground) {
                     //     return;
                     // }

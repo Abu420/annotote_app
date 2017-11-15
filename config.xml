@@ -121,4 +121,5 @@
         <variable name="DEEPLINK_5_HOST" value=" " />
     </plugin>
     <plugin name="cordova-clipboard" spec="^1.1.0" />
+    <plugin name="cordova-plugin-vibration" spec="~2.1.6" />
 </widget>

@@ -87,7 +87,6 @@ export class Notifications {
   }
 
   read_or_unread(notification) {
-    console.log(notification);
     if (notification.readStatus == 0) {
       this.read_notification(notification);
     } else {
@@ -158,19 +157,18 @@ export class Notifications {
         this.loadMore = false;
       }
     } else {
-      // this.notificationService.get_notifications(user_id)
-      //   .subscribe((response) => {
-      //     this._loading = true;
-      //     var data = this.notificationService.get_notification_data();
-      //     this._notifications = data.notifications;
-      //     this._unread = data.unread;
-      //     console.log(data)
-      //   }, (error) => {
-      //     this._loading = true;
-      //     if (error.code == -1) {
-      //       this.utilityMethods.internet_connection_error();
-      //     }
-      //   });
+      this.notificationService.get_notifications(this.user.id)
+        .subscribe((response) => {
+          this._loading = true;
+          var data = this.notificationService.get_notification_data();
+          this._notifications = data.notifications;
+          this._unread = data.unread;
+        }, (error) => {
+          this._loading = true;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
     }
   }
 

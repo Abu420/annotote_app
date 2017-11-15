@@ -40,6 +40,7 @@
     "@ionic-native/splash-screen": "^3.14.0",
     "@ionic-native/status-bar": "^3.14.0",
     "@ionic-native/transfer": "^3.14.0",
+    "@ionic-native/vibration": "^3.0.0",
     "@ionic/storage": "^2.0.1",
     "@ngrx/core": "^1.2.0",
     "@ngrx/store": "^2.2.3",

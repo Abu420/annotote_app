@@ -460,7 +460,7 @@
                 <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 0 && current_active_anotote.topVote.currentUserVote == 0" (click)="upvote()" alt="">
                 <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" alt="">
-                <span>{{current_active_anotote.topVote.rating}}%</span>
+                <span>{{current_active_anotote.topVote.rating | number}}%</span>
                 <img src="assets/img/downIcon.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 0 && current_active_anotote.topVote.currentUserVote == 0" (click)="downvote()" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" alt="">
@@ -469,7 +469,7 @@
                 <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 0 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" (click)="upvote()" alt="">
                 <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 1" alt="">
-                <span>{{current_active_anotote.anototeDetail.userAnnotote.rating}}%</span>
+                <span>{{current_active_anotote.anototeDetail.userAnnotote.rating | number}}%</span>
                 <img src="assets/img/downIcon.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 0 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" (click)="downvote()" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 1" alt="">
@@ -479,7 +479,7 @@
                     <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="upvote()" alt="">
                     <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
                     <img src="assets/img/upArrowgreen.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
-                    <span *ngIf="user.firstName == current_active_anotote.selected_follower_name">{{user.followTote.rating}}%</span>
+                    <span *ngIf="user.firstName == current_active_anotote.selected_follower_name">{{user.followTote.rating | number}}%</span>
                     <img src="assets/img/downIcon.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="downvote()" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
@@ -490,7 +490,7 @@
                     <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="upvote()" alt="">
                     <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
                     <img src="assets/img/upArrowgreen.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
-                    <span *ngIf="user.firstName == current_active_anotote.selected_follower_name">{{user.followTote.rating}}%</span>
+                    <span *ngIf="user.firstName == current_active_anotote.selected_follower_name">{{user.followTote.rating | number}}%</span>
                     <img src="assets/img/downIcon.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="downvote()" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">

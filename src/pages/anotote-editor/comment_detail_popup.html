@@ -20,7 +20,7 @@
                 <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
                 <!-- <img src="assets/img/uparrowgreen.svg" (click)="upvote()" alt=""> -->
-                <span>{{annotation.rating}}%</span>
+                <span>{{annotation.rating | number }}%</span>
                 <img src="assets/img/downIcon.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" (click)="downvote()" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="downvote()" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
@@ -45,7 +45,8 @@
         <div class="pop_txt">
             <!-- <p [innerText]="anotote_txt"></p> -->
             <textarea [innerText]="anotote_txt" [disabled]="stream != 'me'"></textarea>
-            <textarea class="addComment" [(ngModel)]="new_comment" [disabled]="stream != 'me'" name="comment" placeholder="Place your comment here"></textarea>
+            <textarea class="addComment" [(ngModel)]="new_comment" *ngIf="stream == 'me'" [disabled]="stream != 'me'" name="comment" placeholder="Place your comment here"></textarea>
+            <textarea class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment" placeholder="Place your comment here"></textarea>
         </div>
         <button type="submit" style="opacity:0;"></button>
         <div class="threeDosts" *ngIf="stream == 'me'">

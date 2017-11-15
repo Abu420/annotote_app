@@ -15,7 +15,7 @@ export class NotificationService {
     /**
      * Variables
      */
-    private _notifications: any;
+    public _notifications: any;
     private _page: number;
     public _unread: number;
     public _loaded_once_flag: boolean;
@@ -31,6 +31,12 @@ export class NotificationService {
         this._page = 0;
         this._notifications = [];
         this._unread = 0;
+    }
+
+    public clear_for_notification() {
+        this._page = 0;
+        this._notifications = [];
+        this._loaded_once_flag = false;
     }
 
     public loaded_once() {

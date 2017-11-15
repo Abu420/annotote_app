@@ -445,6 +445,7 @@ export class AnototeEditor implements OnDestroy {
             this.hideLoading();
             this.ANOTOTE = result.data.annotote;
             this.ANOTOTE.userAnnotote.anototeDetail = result.data.annotote;
+            this.title_temp = result.data.annotote.userAnnotote.annototeTitle;
             this.ANOTOTE.userAnnotote.annototeHeighlights = result.data.annotote.highlights;
             this.ANOTOTE.active_tab = 'me';
             this.ANOTOTE.isMe = 1;
