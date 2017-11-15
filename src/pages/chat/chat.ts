@@ -172,6 +172,7 @@ export class Chat {
   */
 
   ionViewDidLoad() {
+    
   }
 
   autoScroll() {

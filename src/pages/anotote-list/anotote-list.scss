@@ -806,6 +806,9 @@
                                     min-height: 72px;
                                     position: relative;
                                     float: right;
+                                    &.txtMiddel {
+                                        padding: 22px 10px 0px 0px;
+                                    }
                                     img.unReadLock {
                                         position: absolute;
                                         right: 8px;
