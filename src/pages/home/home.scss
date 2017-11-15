@@ -30,6 +30,11 @@ top_options {
                 ion-icon {
                     float: none !important;
                 }
+                &.shareIcon {
+                    img {
+                        width: 40px;
+                    }
+                }
             }
             span {
                 display: inline-block !important;
@@ -75,6 +80,11 @@ top_options {
             line-height: 7.5;
             img {
                 width: 30px;
+            }
+            &.shareIcon {
+                img {
+                    width: 40px;
+                }
             }
             &.helpIcon {
                 line-height: 7;

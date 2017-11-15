@@ -203,6 +203,8 @@ comment_detail_popup {
             color: #FFF !important;
             width: 100%;
             resize: none;
+            min-height: 100px;
+            padding-top: 12px;
             &.addComment {
                 color: #7b7b7b !important;
             }

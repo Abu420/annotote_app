@@ -15,8 +15,8 @@
     </div>
 
     <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop bottom-border">
-        <div class="main_label markIcon">
-            <img src="assets/img/markIcon.svg" />
+        <div class="main_label editImg">
+            <img src="assets/img/editImg.svg" />
         </div>
         <ul>
             <li (click)="close('edit')">
@@ -26,8 +26,8 @@
     </div>
 
     <div no-lines class="sharing_pop bottom-border">
-        <div class="main_label markIcon">
-            <img src="assets/img/markIcon.svg" />
+        <div class="main_label shareIcon">
+            <img src="assets/img/shareImg.svg" />
         </div>
         <ul>
             <li (click)="close('share')">

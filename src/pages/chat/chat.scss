@@ -170,6 +170,7 @@ page-chat {
                         color: #000;
                         word-break: break-all;
                         letter-spacing: 1px;
+                        white-space: normal;
                     }
                     img {
                         width: 30px;
@@ -253,6 +254,20 @@ page-chat {
 msg_options {
     .top_empty_box {
         height: calc(100%);
+    }
+    .content_follows_profile {
+        .sharing_pop {
+            .editImg {
+                img {
+                    width: 35px !important;
+                }
+                &.shareIcon {
+                    img {
+                        width: 42px !important;
+                    }
+                }
+            }
+        }
     }
     .content_follows_profile {
         height: auto;
