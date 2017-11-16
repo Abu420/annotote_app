@@ -237,11 +237,12 @@ export class Chat {
                 if (this.tote == null) {
                   this.stream.me_first_load = false;
                 } else {
-                  if (this.tote.chatGroup.messagesUser.indexOf(message) != -1) {
-                    this.tote.chatGroup.messagesUser[this.tote.chatGroup.messagesUser.indexOf(message)] = message;
+                  for (let txt of this.tote.chatGroup.messagesUser) {
+                    if (txt.id == message.id) {
+                      txt.text = result.data.message.text;
+                    }
                   }
                 }
-
               }, (error) => {
                 if (error.code == -1) {
                   this.utilityMethods.internet_connection_error();
@@ -278,6 +279,15 @@ export class Chat {
           }
           this.chatService.updateMessage(params).subscribe((result) => {
             message.read = message.read == 1 ? 0 : 1;
+            if (this.tote == null) {
+              this.stream.me_first_load = false;
+            } else {
+              for (let txt of this.tote.chatGroup.messagesUser) {
+                if (txt.id == message.id) {
+                  txt.read = message.read;
+                }
+              }
+            }
           }, (error) => {
             if (error.code == -1) {
               this.utilityMethods.internet_connection_error();

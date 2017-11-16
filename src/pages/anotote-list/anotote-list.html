@@ -53,9 +53,9 @@
         </ul>
     </ion-toolbar>
 </ion-header>
-<ion-content swipe-vertical padding>
-    <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true" style="background:'#F5F5F5'">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+<ion-content style="background:#F5F5F5" swipe-vertical padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true">
+        <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="circles">
         </ion-refresher-content>
     </ion-refresher>
     <div id="wrapper">

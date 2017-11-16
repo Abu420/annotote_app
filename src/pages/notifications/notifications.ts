@@ -11,6 +11,7 @@ import { NotificationService } from '../../services/notifications.service';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { User } from "../../models/user";
+import { AnototeList } from "../anotote-list/anotote-list";
 
 /**
  * Generated class for the Notifications page.
@@ -98,9 +99,12 @@ export class Notifications {
     if (notification.readStatus == 0) {
       this.read_notification(notification);
     }
-    if (notification.type != 'user:message')
-      this.showProfile(notification.sender.id);
-    else if (notification.type == 'user:message')
+    if (notification.type != 'user:message') {
+      if (notification.type == 'user:mentioned_you') {
+        this.navCtrl.push(AnototeList, { color: 'me', mentioned: notification.link });
+      } else
+        this.showProfile(notification.sender.id);
+    } else if (notification.type == 'user:message')
       this.go_to_chat_thread(notification.sender);
   }
 

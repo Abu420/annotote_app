@@ -36,6 +36,7 @@ export class TagsPopUp {
     private no_tags_found: boolean = false;
     public show: boolean = true;
     public user: any;
+    public anotote_of_anotation_id;
 
     constructor(private utilityMethods: UtilityMethods, public authService: AuthenticationService, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
         this.tag_input = "";
@@ -48,8 +49,10 @@ export class TagsPopUp {
         if (this.anotation_or_anotote) {
             this.user_tote_id = params.get('user_tote_id');
         } else {
-            if (!params.get('profile'))
+            if (!params.get('profile')) {
                 this.annotation_id = params.get('annotation_id');
+                this.anotote_of_anotation_id = params.get('user_annotote_id');
+            }
         }
     }
 
@@ -86,6 +89,7 @@ export class TagsPopUp {
                 var params = {
                     tag_id: type,
                     annotation_id: this.annotation_id,
+                    anotote_of_anotation_id: this.anotote_of_anotation_id,
                     text: tag,
                     created_at: this.utilityMethods.get_php_wala_time(),
                 }
