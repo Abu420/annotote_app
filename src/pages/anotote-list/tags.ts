@@ -89,7 +89,7 @@ export class TagsPopUp {
                 var params = {
                     tag_id: type,
                     annotation_id: this.annotation_id,
-                    anotote_of_anotation_id: this.anotote_of_anotation_id,
+                    user_annotote_id: this.anotote_of_anotation_id,
                     text: tag,
                     created_at: this.utilityMethods.get_php_wala_time(),
                 }
