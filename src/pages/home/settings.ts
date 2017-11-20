@@ -7,6 +7,7 @@ import { Profile } from '../follows/follows_profile';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
+import { StatusBar } from "@ionic-native/status-bar";
 
 @Component({
   selector: 'home_settings',
@@ -30,11 +31,13 @@ export class Settings {
   public current_user: any;
   public show: boolean = true;
 
-  constructor(params: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
+  constructor(public statusbar: StatusBar, params: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
     this.current_user = this.authService.getUser();
+    statusbar.hide();
   }
 
   logout() {
+    this.statusbar.show();
     this.dismiss('logout');
   }
 
@@ -63,6 +66,7 @@ export class Settings {
   }
 
   dismiss(action) {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       if (action)

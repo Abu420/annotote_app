@@ -101,7 +101,7 @@ export class Notifications {
     }
     if (notification.type != 'user:message') {
       if (notification.type == 'user:mentioned_you') {
-        this.navCtrl.push(AnototeList, { color: 'me', mentioned: notification.link });
+        this.navCtrl.push(AnototeList, { color: 'anon', mentioned: notification.link });
       } else
         this.showProfile(notification.sender.id);
     } else if (notification.type == 'user:message')

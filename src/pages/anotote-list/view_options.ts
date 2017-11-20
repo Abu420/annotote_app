@@ -2,6 +2,7 @@ import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, ModalController } from 'ionic-angular';
 import { NotificationService } from '../../services/notifications.service';
 import { Notifications } from '../notifications/notifications';
+import { StatusBar } from "@ionic-native/status-bar";
 
 @Component({
   selector: 'view_options',
@@ -27,7 +28,8 @@ export class ViewOptions {
   private anotote: any;
   private stream: any;
 
-  constructor(public modalCtrl: ModalController, public notificationService: NotificationService, params: NavParams, public viewCtrl: ViewController) {
+  constructor(public statusbar: StatusBar, public modalCtrl: ModalController, public notificationService: NotificationService, params: NavParams, public viewCtrl: ViewController) {
+    statusbar.hide();
     this.anotote = params.get('anotote');
     var data = this.notificationService.get_notification_data();
     this.un_read = data.unread;
@@ -35,12 +37,14 @@ export class ViewOptions {
   }
 
   show_notifications() {
+    this.statusbar.show();
     this.dismiss();
     let notifications = this.modalCtrl.create(Notifications, null);
     notifications.present();
   }
 
   change_tab(preference) {
+    this.statusbar.show();
     if (preference == 'me') {
       // this.anotote.active_tab = 'me';
       var params = {
@@ -63,6 +67,7 @@ export class ViewOptions {
   }
 
   dismiss() {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       let data = { 'foo': 'bar' };

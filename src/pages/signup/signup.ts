@@ -95,7 +95,7 @@ export class Signup {
      */
     let self = this;
     var current_time = (new Date()).getTime() / 1000;
-    var toast = this.utilityMethods.doLoadingToast('Signing up');
+    var toast = this.utilityMethods.doLoadingToast('Signing up...');
     this.authService.register({
       email: this.user.email,
       first_name: this.user.firstName,

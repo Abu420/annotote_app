@@ -201,7 +201,13 @@ export class AnototeList {
         this.showLoading("Loading Totes");
         this.anototeService.fetchMentionedTote(this.mentionedUrl).subscribe((result) => {
           let stream = result.data.annototes;
+          this.enable_refresher = false;
           for (let entry of stream) {
+            if (entry.userAnnotote.anototeDetail.isMe == 1) {
+              this.current_color = 'me';
+            } else if (entry.userAnnotote.anototeDetail.follows.length > 0) {
+              this.current_color = 'follows';
+            }
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
           }
           if (this.anototes.length == 0) {
@@ -351,7 +357,11 @@ export class AnototeList {
             }
             this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
           } else if (this.current_color == 'anon') {
-            this.toastInFooter("Please follow this user first")
+            if (this.followedUserId != 0)
+              this.toastInFooter("Please follow this user first")
+            else {
+              this.toastInFooter("Please view this tote after adding it to me stream.");
+            }
           }
         } else {
           let tote = {
@@ -749,7 +759,10 @@ export class AnototeList {
         this.go_to_chat_tote();
       }
     } else {
-      this.toastInFooter("Please follow this user first");
+      if (this.followedUserId != 0)
+        this.toastInFooter("Please follow this user first");
+      else
+        this.go_to_chat_tote();
     }
   }
 
@@ -1242,7 +1255,10 @@ export class AnototeList {
         this.options(anotote);
       }
     } else {
-      this.toastInFooter("Please follow this user first");
+      if (this.followedUserId != 0)
+        this.toastInFooter("Please follow this user first");
+      else
+        this.options(anotote);
     }
   }
 
@@ -1356,7 +1372,10 @@ export class AnototeList {
       })
       viewsOptionsModal.present();
     } else {
-      this.toastInFooter("Please follow this user first");
+      if (this.followedUserId != 0)
+        this.toastInFooter("Please follow this user first");
+      else
+        this.toastInFooter("Please open this tote from streams");
     }
   }
 

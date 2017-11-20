@@ -3,6 +3,7 @@ import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angul
 import { SearchService } from '../../services/search.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
+import { StatusBar } from "@ionic-native/status-bar";
 @Component({
     selector: 'tags_popup',
     animations: [
@@ -38,7 +39,8 @@ export class TagsPopUp {
     public user: any;
     public anotote_of_anotation_id;
 
-    constructor(private utilityMethods: UtilityMethods, public authService: AuthenticationService, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
+    constructor(public statusbar: StatusBar, private utilityMethods: UtilityMethods, public authService: AuthenticationService, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
+        statusbar.hide();
         this.tag_input = "";
         this.user = this.authService.getUser();
         this.stream = params.get('whichStream');
@@ -65,8 +67,12 @@ export class TagsPopUp {
                 created_at: current_time,
                 tag_id: type
             }
-            if (type == 2 && this.one_selected != null)
+            if (type == 2 && this.one_selected != null) {
                 paramsObj['user_id'] = this.one_selected.id;
+            } else if (type == 2 && this.one_selected == null) {
+                this.utilityMethods.doToast("Please select a user to tag.");
+                return;
+            }
             var toast = this.utilityMethods.doLoadingToast('Tagging');
             this.searchService.add_tag_to_anotote(paramsObj)
                 .subscribe((res) => {
@@ -76,11 +82,10 @@ export class TagsPopUp {
                     if (this.tags.length > 0)
                         this.no_tags_found = false;
                 }, (error) => {
-                    this.utilityMethods.hide_loader();
+                    toast.dismiss();
                     if (error.code == -1) {
                         this.utilityMethods.internet_connection_error();
-                    }
-                    else {
+                    } else {
                         this.utilityMethods.doToast("Couldn't add tag to annotation.");
                     }
                 });
@@ -222,6 +227,7 @@ export class TagsPopUp {
     }
 
     dismiss() {
+        this.statusbar.show();
         this.show = false;
         setTimeout(() => {
             this.viewCtrl.dismiss();

@@ -8,6 +8,7 @@ import { SearchService } from '../../services/search.service';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
 import { ChatService } from "../../services/chat.service";
+import { StatusBar } from "@ionic-native/status-bar";
 @Component({
   selector: 'anotote_options',
   animations: [
@@ -44,9 +45,11 @@ export class AnototeOptions {
     public authService: AuthenticationService,
     public searchService: SearchService,
     public runtime: Streams,
-    public chatService: ChatService) {
+    public chatService: ChatService,
+    public statusbar: StatusBar) {
     // this.share_type = params.get('share_type');
-    // this.share_content = params.get('share_content');
+    // this.share_content = params.get('share_content')
+    this.statusbar.hide();
     this.anotote = params.get('anotote');
     this.stream = params.get('whichStream');
     this.user = authService.getUser();
@@ -54,6 +57,7 @@ export class AnototeOptions {
   }
 
   presentTagsModal() {
+    this.statusbar.show();
     this.dismiss({ tags: true, share: false, which_share: '', delete: false });
   }
 
@@ -262,6 +266,7 @@ export class AnototeOptions {
   }
 
   dismiss(data) {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       if (data)
@@ -273,6 +278,7 @@ export class AnototeOptions {
   }
 
   chat() {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       this.viewCtrl.dismiss({ tags: false, delete: false, chat: true });

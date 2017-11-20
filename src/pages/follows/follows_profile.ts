@@ -19,6 +19,7 @@ import { Streams } from '../../services/stream.service';
 import { TagsForChat } from '../chat_profileTags/tags';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { TagsPopUp } from '../anotote-list/tags';
+import { StatusBar } from "@ionic-native/status-bar";
 
 declare var cordova: any;
 
@@ -49,7 +50,25 @@ export class Profile {
   public is_it_me: boolean;
   private lastImage: string = null;
 
-  constructor(public stream: Streams, private zone: NgZone, private camera: Camera, private transfer: Transfer, public modalCtrl: ModalController, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public constants: Constants, params: NavParams, public navCtrl: NavController, public authService: AuthenticationService, public events: Events, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, public searchService: SearchService, private platform: Platform) {
+  constructor(public stream: Streams,
+    private zone: NgZone,
+    private camera: Camera,
+    private transfer: Transfer,
+    public modalCtrl: ModalController,
+    private file: File,
+    private filePath: FilePath,
+    public actionSheetCtrl: ActionSheetController,
+    public constants: Constants,
+    params: NavParams,
+    public navCtrl: NavController,
+    public authService: AuthenticationService,
+    public events: Events,
+    public viewCtrl: ViewController,
+    public utilityMethods: UtilityMethods,
+    public searchService: SearchService,
+    private platform: Platform,
+    public statusbar: StatusBar) {
+    statusbar.hide();
     var user = this.authService.getUser();
     this.profileData = params.get('data');
     this.from_page = params.get('from_page');
@@ -61,10 +80,12 @@ export class Profile {
   }
 
   go_to_thread() {
+    this.statusbar.show();
     this.navCtrl.push(Chat, { secondUser: this.profileData.user });
   }
 
   go_to_stream() {
+    this.statusbar.show();
     if (this.is_it_me)
       this.navCtrl.push(AnototeList, { color: 'me' });
     else if (this.profileData.user.isFollowed == 1)
@@ -321,6 +342,7 @@ export class Profile {
   }
 
   dismiss(action) {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       this.viewCtrl.dismiss();
