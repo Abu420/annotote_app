@@ -636,6 +636,9 @@
         }
         
         page-anotote-list {
+            ion-refresher.refresher-active {
+                background: #F5F5F5;
+            }
             .fab {
                 overflow: visible;
                 contain: layout;

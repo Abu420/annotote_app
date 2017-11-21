@@ -9,6 +9,7 @@ import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Constants } from '../../services/constants.service'
 import { Clipboard } from '@ionic-native/clipboard';
+import { StatusBar } from "@ionic-native/status-bar";
 
 
 
@@ -35,7 +36,16 @@ export class MeOptions {
   public current_user: any;
   public show: boolean = true;
   public topOrnot: boolean = true;
-  constructor(public clip: Clipboard, params: NavParams, public constants: Constants, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public searchService: SearchService, public viewCtrl: ViewController, public authService: AuthenticationService) {
+  constructor(public clip: Clipboard,
+    params: NavParams,
+    public constants: Constants,
+    public modalCtrl: ModalController,
+    public utilityMethods: UtilityMethods,
+    public searchService: SearchService,
+    public viewCtrl: ViewController,
+    public authService: AuthenticationService,
+    public statusbar: StatusBar) {
+    statusbar.hide();
     this.current_user = this.authService.getUser();
     if (params.get('from'))
       this.topOrnot = false;
@@ -66,10 +76,12 @@ export class MeOptions {
   }
 
   open_chat() {
+    this.statusbar.show();
     this.dismiss('chat');
   }
 
   dismiss(action) {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       if (action)

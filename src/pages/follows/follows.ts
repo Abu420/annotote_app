@@ -7,6 +7,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from "../../services/auth.service";
 import { SearchService } from '../../services/search.service';
 import { Constants } from '../../services/constants.service';
+import { StatusBar } from "@ionic-native/status-bar";
 /**
  * Generated class for the Follows page.
  *
@@ -44,7 +45,9 @@ export class Follows {
     public searchService: SearchService,
     public authService: AuthenticationService,
     public modalCtrl: ModalController,
-    public utilityMethods: UtilityMethods) {
+    public utilityMethods: UtilityMethods,
+    public statusbar: StatusBar) {
+    this.statusbar.hide();
     this.followings = [];
   }
 
@@ -54,6 +57,7 @@ export class Follows {
   }
 
   dismiss(action) {
+    this.statusbar.show();
     this.show = false;
     setTimeout(() => {
       this.viewCtrl.dismiss();

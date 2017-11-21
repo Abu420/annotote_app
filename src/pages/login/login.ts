@@ -104,7 +104,7 @@ export class Login {
      */
     var current_time = (new Date()).getTime() / 1000,
       platform_name = this.platform.is('ios') ? 'ios' : 'android';
-    var toast = this.utilityMethods.doLoadingToast('Logging in');
+    var toast = this.utilityMethods.doLoadingToast('Logging in...');
     this.authService.login({
       email: this.user.email,
       password: this.user.password,

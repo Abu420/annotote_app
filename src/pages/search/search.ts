@@ -349,7 +349,10 @@ export class Search {
         var current_time = this.utilityMethods.get_php_wala_time();
         var params = { url: this.search_txt, created_at: current_time }
         var toast = null;
-        toast = this.utilityMethods.doLoadingToast('Please wait...');
+        if (save_or_bookmark == 'save_entry')
+            toast = this.utilityMethods.doLoadingToast('Saving...');
+        else
+            toast = this.utilityMethods.doLoadingToast('Bookmarking...');
         // else
         //     params['search_id'] = search.id;
         /**

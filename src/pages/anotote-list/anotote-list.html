@@ -53,9 +53,9 @@
         </ul>
     </ion-toolbar>
 </ion-header>
-<ion-content swipe-vertical padding>
-    <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true" style="background:'#F5F5F5'">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+<ion-content style="background:#F5F5F5" swipe-vertical padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true">
+        <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="circles">
         </ion-refresher-content>
     </ion-refresher>
     <div id="wrapper">
@@ -100,7 +100,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type ==2">
+                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0}" *ngIf="anotote.type ==2">
                         <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
                             <strong [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></strong>

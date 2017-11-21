@@ -54,11 +54,11 @@ export class MyApp {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             // let status bar overlay webview
-            this.statusBar.hide();
-            // this.statusBar.overlaysWebView(false);
+            // this.statusBar.hide();
+            this.statusBar.overlaysWebView(false);
 
             // set status bar to white
-            // this.statusBar.backgroundColorByHexString('#323232');
+            this.statusBar.backgroundColorByHexString('#323232');
             //keyboard
             this.keyboard.hideKeyboardAccessoryBar(false);
             /**
@@ -99,7 +99,7 @@ export class MyApp {
                         sound: true
                     },
                     ios: {
-                        alert: 'true',
+                        alert: true,
                         badge: true,
                         sound: 'true'
                     },
@@ -149,12 +149,5 @@ export class MyApp {
     notification_handler() {
         let notifications = this.modalCtrl.create(Notifications, { reload: true });
         notifications.present();
-    }
-
-    openPage(page) {
-        // close the menu when clicking a link from the menu
-        this.menu.close();
-        // navigate to the new page if it is not the current page
-        this.nav.setRoot(page.component);
     }
 }

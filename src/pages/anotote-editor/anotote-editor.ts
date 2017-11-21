@@ -1035,6 +1035,7 @@ export class AnototeEditor implements OnDestroy {
     show_annotation_tags(id) {
         var params = {
             annotation_id: this.get_highlight(id).id,
+            user_annotote_id: this.ANOTOTE.userAnnotote.id,
             tags: this.get_highlight(id).tags,
             whichStream: this.actual_stream,
             annotote: false
