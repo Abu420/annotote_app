@@ -196,6 +196,15 @@ top_options {
         background: #e0e0e0;
         z-index: 5;
         overflow: hidden;
+        position: relative;
+        .backBtn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            -webkit-transform: translate(-50%, 0);
+            font-size: 14px;
+            transform: translate(0%, -50%);
+        }
     }
     .tags-clouds {
         padding: 20px;

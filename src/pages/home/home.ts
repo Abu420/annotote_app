@@ -339,6 +339,10 @@ export class Home {
 
   presentMeOptionsModal(event) {
     event.stopPropagation();
+    this.meOptions();
+  }
+
+  meOptions() {
     let meOptionsModal = this.modalCtrl.create(MeOptions, null);
     meOptionsModal.onDidDismiss(data => {
       // console.log(data);
@@ -379,6 +383,8 @@ export class Home {
               this.utilityMethods.internet_connection_error();
             }
           });
+      } else if ('back') {
+        this.meOptions();
       }
     });
     settingsModal.present();

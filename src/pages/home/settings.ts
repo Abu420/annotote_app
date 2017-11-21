@@ -41,6 +41,11 @@ export class Settings {
     this.dismiss('logout');
   }
 
+  back() {
+    this.statusbar.show();
+    this.dismiss('back');
+  }
+
   showProfile() {
     var toast = this.utilityMethods.doLoadingToast('Loading your profile...');
     this.searchService.get_user_profile_info(this.current_user.id)

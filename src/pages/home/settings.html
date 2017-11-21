@@ -1,7 +1,9 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
-    <div class="pop_heading">Settings</div>
+    <div class="pop_heading">
+        <span class="backBtn" (click)="back()">Back</span> Settings
+    </div>
     <div class="sharing_pop">
         <div class="main_label userIcon">
             <img src="assets/img/userIconGray.svg" />
