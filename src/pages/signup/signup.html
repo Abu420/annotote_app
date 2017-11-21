@@ -24,6 +24,7 @@
                 <div class="iconImg">
                     <img src="assets/img/msgIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/msgActiveIcon.svg" alt="">
+                    <img class="errorIcon" src="assets/img/msgErrorIcon.svg" alt="">
                 </div>
             </div>
             <div class="input-holder loginIcon layout" [ngClass]="focus_field=='first_name'?'active':(field_error.first_name?'invalid_field':'')">
@@ -31,6 +32,7 @@
                 <div class="iconImg">
                     <img src="assets/img/userIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/userIconActive.svg" alt="">
+                    <img class="errorIcon" src="assets/img/userErrorIcon.svg" alt="">
                 </div>
             </div>
             <!-- <div class="input-holder loginIcon layout" [ngClass]="focus_field=='last_name'?'active':(field_error.last_name?'invalid_field':'')">
@@ -45,6 +47,7 @@
                 <div class="iconImg">
                     <img src="assets/img/lockIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
+                    <img class="errorIcon" src="assets/img/lockErrorIcon.svg" alt="">
                 </div>
             </div>
             <button type="submit" [ngClass]="(user.firstName.length > 0 && user.email.length > 0 && user.password.length > 0) ? 'green':''" ion-button>Go</button>

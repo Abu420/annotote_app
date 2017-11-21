@@ -125,6 +125,7 @@ follow_profile {
                     white-space: normal;
                     .item-button {
                         height: 20px;
+                        border-radius: 0;
                     }
                 }
             }
@@ -187,7 +188,6 @@ page-follows {
             height: auto;
         }
         .headFollow {
-            min-height: 45px;
             background: #e0e0e0;
             position: absolute;
             top: 0px;
@@ -197,9 +197,11 @@ page-follows {
             -webkit-box-shadow: 0px 2px 4px #CCC;
             box-shadow: 0px 2px 4px #CCC;
             ion-title {
-                padding: 12px 90px 1px !important;
+                padding: 13px 0px !important;
                 .toolbar-title {
                     color: #9a9a9a;
+                    font-size: 14px;
+                    font-weight: normal;
                 }
             }
         }
@@ -240,6 +242,15 @@ page-follows {
             height: 100%;
             .item-block {
                 padding: 0px !important;
+                &:focus {
+                    background: #e0e0e0;
+                }
+                &:active {
+                    background: #e0e0e0;
+                }
+                &:hover {
+                    background: #e0e0e0;
+                }
                 .item-inner {
                     padding: 0px;
                     ion-label {

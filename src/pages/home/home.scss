@@ -164,7 +164,7 @@ top_options {
     }
     .sharing_pop span,
     .sharing_pop em {
-        font-size: 3.9vw;
+        font-size: 14px;
         line-height: 14px;
         font-style: normal;
         color: #b3b3b3;
@@ -449,9 +449,20 @@ ion-buttons {
     }
 }
 
-.home-list ion-item {
-    height: 73px;
-    padding-left: 0px;
+.home-list {
+    ion-item {
+        &:focus {
+            background: #e0e0e0 !important;
+        }
+        &:hover {
+            background: #e0e0e0 !important;
+        }
+        &:active {
+            background: #e0e0e0 !important;
+        }
+        height: 73px;
+        padding-left: 0px;
+    }
 }
 
 .home-list ion-item button {
@@ -460,6 +471,7 @@ ion-buttons {
     float: left;
     box-shadow: none !important;
     border: none !important;
+    border-radius: 0 !important;
     background: none;
 }
 
@@ -472,16 +484,34 @@ ion-buttons {
     width: 11px;
 }
 
-.home-list .green {
-    background: #3bde00;
+.home-list {
+    .green {
+        background: #3bde00;
+        border-radius: 0;
+        .activated {
+            background-color: #31b900 !important;
+        }
+    }
 }
 
-.home-list .yellow {
-    background: #f4e300;
+.home-list {
+    .yellow {
+        background: #f4e300;
+        border-radius: 0;
+        .activated {
+            background-color: #d0c100 !important;
+        }
+    }
 }
 
-.home-list .pink {
-    background: #fb9df0;
+.home-list {
+    .pink {
+        background: #fb9df0;
+        border-radius: 0;
+        .activated {
+            background-color: #ce6dc1 !important;
+        }
+    }
 }
 
 .home-list span.txt {

@@ -23,6 +23,7 @@
                 <div class="iconImg">
                     <img src="assets/img/msgIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/msgActiveIcon.svg" alt="">
+                    <img class="errorIcon" src="assets/img/msgErrorIcon.svg" alt="">
                 </div>
                 <input search-field selection="true" [(ngModel)]="user.email" name="email" (blur)="changeColor('')" (focus)="changeColor('email')" type="email" placeholder="Email" />
             </div>
@@ -30,6 +31,7 @@
                 <div class="iconImg">
                     <img src="assets/img/lockIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
+                    <img class="errorIcon" src="assets/img/lockErrorIcon.svg" alt="">
                 </div>
                 <input style="background: transparent;border: 0px;" [(ngModel)]="user.password" name="password" (blur)="changeColor('')" (focus)="changeColor('password')" type="password" placeholder="Password" />
             </div>
