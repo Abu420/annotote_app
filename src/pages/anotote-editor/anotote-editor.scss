@@ -1,5 +1,5 @@
 .noBackDrop {
-    height: 65vw;
+    height: 73vw;
     top: auto;
     bottom: 0px;
     .modal-wrapper {
@@ -203,10 +203,11 @@ comment_detail_popup {
             color: #FFF !important;
             width: 100%;
             resize: none;
-            min-height: 80px;
+            min-height: 65px;
             padding-top: 12px;
             &.addComment {
-                color: #7b7b7b !important;
+                color: #b5b5b5 !important;
+                min-height: 48px;
             }
         }
     }
@@ -465,7 +466,6 @@ page-anotote-editor {
         padding: 15px 20px;
         margin-top: 15px;
         text-align: justify;
-        word-break: break-all;
         &.me {
             .highlight_quote,
             .highlight_comment {
@@ -521,9 +521,9 @@ page-anotote-editor {
         &.top {
             .highlight_quote,
             .highlight_comment {
-                background: #fb9df0 !important;
+                background: #f9d7f5 !important;
                 p {
-                    background: #fb9df0;
+                    background: #f9d7f5;
                 }
                 &.greyOut {
                     background: #d4d4d4 !important;
@@ -536,7 +536,7 @@ page-anotote-editor {
                 background: #fb9df0;
             }
             .only_light {
-                background: #fb9df0 !important;
+                background: #f9d7f5 !important;
             }
         }
         .highlight_quote,
@@ -598,4 +598,21 @@ ion-fab {
 
 .no_padding {
     padding: 0;
+}
+
+tags_popup {
+    .tag-panel {
+        .tags-panel {
+            background: #222 !important;
+            .sharing_pop {
+                border: 0px !important;
+                .tagText {
+                    input {
+                        background: transparent;
+                        color: #b5b5b5 !important;
+                    }
+                }
+            }
+        }
+    }
 }

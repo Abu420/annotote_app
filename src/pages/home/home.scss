@@ -499,8 +499,8 @@ ion-buttons {
 
 .notices,
 .bell em {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     padding: 4px 0 0 1px;
     border-radius: 100%;
     background: red;
@@ -508,7 +508,7 @@ ion-buttons {
     color: #fff;
     position: absolute;
     bottom: -2px;
-    right: 2px;
+    right: -4px;
     z-index: 1000;
     font-style: normal;
 }
