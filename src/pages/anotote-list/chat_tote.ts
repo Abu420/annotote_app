@@ -41,7 +41,7 @@ export class ChatToteOptions {
         if (params.get('from'))
             this.from = params.get('from');
         if (this.anotote != null && this.stream != 'top' && this.stream != 'anon')
-            this.search_txt = this.anotote.userAnnotote.annotote.title;
+            this.search_txt = this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle;
         else if (this.anotote != null && (this.stream == 'top' || this.stream == 'anon'))
             this.search_txt = this.anotote.annotote.title;
         if (params.get('findChatter')) {

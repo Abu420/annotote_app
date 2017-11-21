@@ -1,28 +1,65 @@
-<div class="top_empty_box" (tap)="dismiss()" *ngIf="follows.length < 4">
+<!-- <div class="top_empty_box" (tap)="dismiss()" *ngIf="follows.length < 4">
 </div>
-
-<ion-toolbar class="follows_header" color="light" no-border>
-    <ion-buttons start>
-        <button navPop ion-button icon-only>
+<ng-container [@enterAnimation]>
+    <ion-toolbar class="follows_header" color="light" no-border>
+        <ion-buttons start>
+            <button navPop ion-button icon-only>
                 <ion-icon name="close"></ion-icon>
             </button>
-    </ion-buttons>
-    <ion-title>Follows ({{follows.length}})</ion-title>
-</ion-toolbar>
+        </ion-buttons>
+        <ion-title>Follows ({{follows.length}})</ion-title>
+    </ion-toolbar>
 
-<ion-content class="followWidget" [ngClass]="{'pop_wrapper': follows.length < 4, 'pop_wrapper_full': follows.length > 3}" class="pop_wrapper" padding>
-    <div class="wrapper">
-        <ul no-lines class="content">
-            <li *ngFor="let user of follows" (click)="choose_this_user(user)">
-                <div class="image_holder">
-                    <img *ngIf="user.photo != '' && user.photo != null" src="{{user.photo | image_base_path}}">
-                    <img *ngIf="user.photo == '' || user.photo == null" src="assets/img/img3.jpg">
-                </div>
-                <div class="name">
-                    <p>{{user.firstName}} </p>
-                </div>
+    <ion-content class="followWidget" [ngClass]="{'pop_wrapper': follows.length < 4, 'pop_wrapper_full': follows.length > 3}" class="pop_wrapper" padding>
+        <div class="wrapper">
+            <ul no-lines class="content">
+                <li *ngFor="let user of follows" (click)="choose_this_user(user)">
+                    <div class="image_holder">
+                        <img *ngIf="user.photo != '' && user.photo != null" src="{{user.photo | image_base_path}}">
+                        <img *ngIf="user.photo == '' || user.photo == null" src="assets/img/img3.jpg">
+                    </div>
+                    <div class="name">
+                        <p>{{user.firstName}} </p>
+                    </div>
 
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+</ng-container> -->
+<!-- <ion-header [@enterAnimation]>
+    <ion-toolbar class="follows_header" color="light">
+        <ion-buttons start>
+            <button navPop ion-button icon-only>
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Follows ({{followings.length}})</ion-title>
+    </ion-toolbar>
+</ion-header> -->
+<div class="top_empty_box" (click)="dismiss()">
+</div>
+<div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
+    <div class="headFollow" (click)="dismiss()">
+        <ion-title>Follows
+            <ng-container *ngIf="follows.length > 1">({{follows.length}})</ng-container>
+        </ion-title>
     </div>
-</ion-content>
+    <div class="follow_details">
+        <div id="wrapper">
+            <ion-list no-lines class="product-list follows">
+                <ion-item *ngFor="let follower of follows" (click)="showProfile(follower)">
+                    <ion-avatar item-start>
+                        <img *ngIf="follower.photo == '' || follower.photo == null" src="assets/img/img3.jpg">
+                        <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="follower.photo != null && follower.photo != ''" [src]="follower.photo | image_base_path">
+                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && follower.photo != '' && follower.photo != null"></ion-spinner>
+                    </ion-avatar>
+                    <div class="txt">
+                        <strong [innerText]="follower.firstName" class="follow-name"></strong>
+                        <img *ngIf="follower.verified==1" src="assets/img/star-gray.png" alt="">
+                    </div>
+                </ion-item>
+            </ion-list>
+        </div>
+    </div>
+</div>

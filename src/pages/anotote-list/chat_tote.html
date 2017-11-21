@@ -2,7 +2,7 @@
     <ion-toolbar [color]="stream">
         <div class="resultUserHead" *ngIf="initiateChat == true">
             <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}"><img src="assets/img/chatWhiteIcon.svg" alt="" /></span>
-            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a Name to Chat" />
+            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a name to chat" />
             <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
         </div>
         <div class="searchUserHead" *ngIf="initiateChat == false">

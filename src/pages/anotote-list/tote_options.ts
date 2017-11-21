@@ -54,6 +54,7 @@ export class AnototeOptions {
     this.stream = params.get('whichStream');
     this.user = authService.getUser();
     this.message = params.get('message');
+    console.log(this.anotote);
   }
 
   presentTagsModal() {

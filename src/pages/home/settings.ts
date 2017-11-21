@@ -42,7 +42,7 @@ export class Settings {
   }
 
   showProfile() {
-    var toast = this.utilityMethods.doLoadingToast('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Loading your profile...');
     this.searchService.get_user_profile_info(this.current_user.id)
       .subscribe((response) => {
         toast.dismiss();

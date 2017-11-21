@@ -33,7 +33,7 @@
 
                 <div class="time" *ngIf="tote != null">
                     <em>
-                        <span  [innerText]="tote.createdAt | time_stamp"></span>
+                        <span *ngIf="tote.createdAt != null"  [innerText]="tote.createdAt | time_stamp"></span>
                     </em>
                 </div>
                 <div class="toteText">

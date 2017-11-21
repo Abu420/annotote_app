@@ -60,13 +60,13 @@
                 <img src="assets/img/tagImg.svg" />
             </div>
             <ul *ngIf="stream != 'top'">
-                <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
+                <li *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
                     <span>Add Tags</span>
                 </li>
-                <li *ngIf="anotote.userAnnotote.annototeTags.length == 0 && stream == 'follows'" (tap)="presentTagsModal()">
+                <li *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length == 0 && stream == 'follows'" (tap)="presentTagsModal()">
                     <span>No tags added</span>
                 </li>
-                <ng-container *ngFor="let tag of anotote.userAnnotote.annototeTags; let i=index">
+                <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.userAnnotote.tags; let i=index">
                     <li *ngIf="i < 2">
                         <span>{{tag.tagText}}</span>
                     </li>

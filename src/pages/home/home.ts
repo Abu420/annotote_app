@@ -132,7 +132,7 @@ export class Home {
         tote_titles: title,
         created_at: this.utilityMethods.get_php_wala_time()
       }
-      this.showLoading("Pinning");
+      this.showLoading("Pinning bookmark...");
       this.anototeService.bookmark_totes(params).subscribe((result) => {
         this.hideLoading();
         if (result.status == 1) {
@@ -156,7 +156,7 @@ export class Home {
         title: search.linkTitle,
         book_marked: search.bookMarked
       }
-      this.showLoading("Pinning");
+      this.showLoading("Pinning bookmark...");
       this.searchService.save_search_entry(paramsObj).subscribe((result) => {
         this.hideLoading();
         this.searchService.saved_searches[this.searchService.saved_searches.indexOf(search)] = result.data.search;
@@ -170,7 +170,7 @@ export class Home {
         }
       });
     } else {
-      this.showLoading("Unpinning");
+      this.showLoading("Unpinning bookmark...");
       this.searchService.remove_search_id(search.id)
         .subscribe((response) => {
           // console.log(response);

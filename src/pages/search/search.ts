@@ -368,15 +368,15 @@ export class Search {
                         this.authService.getUser().id, 0);
                     if (this.searchService.AlreadySavedSearches(bookmark.term)) {
                         this.searchService.saved_searches.unshift(bookmark);
-                        if (save_or_bookmark == 'save_entry')
-                            this.utilityMethods.doToast("Saved");
-                        else
-                            this.utilityMethods.doToast("Bookmarked");
+                        // if (save_or_bookmark == 'save_entry')
+                        //     this.utilityMethods.doToast("Saved");
+                        // else
+                        //     this.utilityMethods.doToast("Bookmarked");
                     } else {
-                        if (save_or_bookmark == 'save_entry')
-                            this.utilityMethods.doToast("Already saved");
-                        else
-                            this.utilityMethods.doToast("Already bookmarked");
+                        // if (save_or_bookmark == 'save_entry')
+                        //     this.utilityMethods.doToast("Already saved");
+                        // else
+                        //     this.utilityMethods.doToast("Already bookmarked");
                     }
                 }
                 response.data.userAnnotote.annotote = response.data.annotote;

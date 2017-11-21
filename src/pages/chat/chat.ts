@@ -60,7 +60,7 @@ export class Chat {
     this.reply_box_on = true;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
-    if (this.tote)
+    if (this.tote && this.tote.chatGroup)
       this.markMessagesRead(this.tote.chatGroup.messagesUser);
     this.chatService.threadingUser = this.secondUser;
     this.user = this.authService.getUser();

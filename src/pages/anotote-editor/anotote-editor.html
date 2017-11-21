@@ -160,7 +160,7 @@
     <ion-toolbar color="dark">
         <div class="title_and_options">
             <form (ngSubmit)="saveTitle(ANOTOTE)">
-                <input *ngIf="WHICH_STREAM != 'top'" [(ngModel)]='title_temp' name="title">
+                <textarea *ngIf="WHICH_STREAM != 'top'" [(ngModel)]='title_temp' name="title"></textarea>
             </form>
             <img (click)="toteOptions()" src="assets/img/dodtsLine.svg" alt="" />
         </div>
