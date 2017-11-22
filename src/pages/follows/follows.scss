@@ -63,6 +63,13 @@ follow_profile {
                 display: block;
                 color: #000;
                 margin-bottom: 20px;
+                input {
+                    padding: 0px;
+                    margin: 0px;
+                    background: transparent;
+                    border: 1px;
+                    outline: none;
+                }
                 em {
                     font-style: normal;
                     color: #d0d0d0;

@@ -7,7 +7,10 @@
                 <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
             </figure>
             <div class="proName">
-                <strong>{{profileData.user.firstName}}<img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt=""></strong>
+                <strong>
+                    <input type="text" name="name" placeholder="Name" value="{{profileData.user.firstName}}">
+                    <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                </strong>
                 <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
                 <div (click)="presentProfilePictureActionSheet()" *ngIf="is_it_me == true" class="img-holder">
                     <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
@@ -30,7 +33,9 @@
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">
-                    <strong *ngIf="profileData.user.description != null">{{profileData.user.description}}</strong>
+                    <strong *ngIf="profileData.user.description != null">
+                        <textarea placeholder="Description">{{profileData.user.description}}</textarea>
+                    </strong>
                     <!-- <p *ngIf="profileData.user.description != null">{{profileData.user.description}}</p> -->
                     <p *ngIf="profileData.user.description == null">No description added by {{profileData.user.firstName}}.</p>
                     <img src="assets/img/dotsicon.svg" *ngIf="is_it_me || profileData.user.userTags.length > 0" (click)="showTags()" alt="">
