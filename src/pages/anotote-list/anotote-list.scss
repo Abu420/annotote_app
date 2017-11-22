@@ -723,10 +723,10 @@
                                 &.editTitle {
                                     background: #e0e0e0;
                                     .img-holder {
-                                        background-image: url(../assets/img/optionGray.svg);
+                                        background-image: url(../assets/img/grayDotIcon.svg);
                                         background-position: center;
                                         background-repeat: no-repeat;
-                                        background-size: 5px;
+                                        background-size: 9px;
                                     }
                                     .txt {
                                         padding: 16px 10px 0px 0px;
@@ -760,7 +760,7 @@
                                     -webkit-transition: max-height 0.15s ease-out;
                                     border: 0px;
                                     &.toteTransition {
-                                        max-height: 500px;
+                                        max-height: 2900px;
                                         -webkit-transition: max-height 0.25s ease-in;
                                         transition: max-height 0.25s ease-in;
                                     }
@@ -785,10 +785,10 @@
                                     height: 72px;
                                     vertical-align: middle;
                                     width: 50px;
-                                    background-image: url(../assets/img/totoptionIocn.svg);
+                                    background-image: url(../assets/img/grayDotIcon.svg);
                                     background-position: center;
                                     background-repeat: no-repeat;
-                                    background-size: 5px;
+                                    background-size: 9px;
                                     position: absolute;
                                     left: 0px;
                                     top: 0px;
@@ -812,7 +812,7 @@
                                     position: relative;
                                     float: right;
                                     &.txtMiddel {
-                                        padding: 22px 10px 0px 0px;
+                                        padding: 24px 10px 0px 0px;
                                     }
                                     img.unReadLock {
                                         position: absolute;
@@ -921,10 +921,10 @@
                                     float: left;
                                     vertical-align: middle;
                                     width: 50px;
-                                    background-image: url(../assets/img/totoptionIocn.svg);
-                                    background-position: 25px center;
+                                    background-image: url(../assets/img/grayDotIcon.svg);
+                                    background-position: 22px center;
                                     background-repeat: no-repeat;
-                                    background-size: 5px;
+                                    background-size: 9px;
                                     z-index: 9999999;
                                 }
                                 .txt {

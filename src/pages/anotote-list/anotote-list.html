@@ -346,7 +346,7 @@
     </ion-infinite-scroll>
     <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true}" right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : (current_color == 'anon' ? 'anon':current_active_anotote.active_tab)">
-            <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteTote.svg" />
+            <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteFab.svg" />
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">
                 <img *ngIf="current_active_anotote != null &&  current_active_anotote.active_tab == 'me' && current_active_anotote.userAnnotote.anototeDetail.follows.length > 0 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1"
                     src="assets/img/greenTote.svg" />

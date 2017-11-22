@@ -460,15 +460,6 @@ ion-buttons {
 
 .home-list {
     ion-item {
-        &:focus {
-            background: #e0e0e0 !important;
-        }
-        &:hover {
-            background: #e0e0e0 !important;
-        }
-        &:active {
-            background: #e0e0e0 !important;
-        }
         height: 73px;
         padding-left: 0px;
     }
@@ -489,7 +480,7 @@ ion-buttons {
 // }
 .home-list ion-item button img {
     height: 30px;
-    margin-top: -7px;
+    margin-top: -2px;
     width: 11px;
 }
 
@@ -497,8 +488,11 @@ ion-buttons {
     .green {
         background: #3bde00;
         border-radius: 0;
+        &:hover {
+            background-color: #2ba600 !important;
+        }
         .activated {
-            background-color: #31b900 !important;
+            background-color: #2ba600 !important;
         }
     }
 }
@@ -507,8 +501,11 @@ ion-buttons {
     .yellow {
         background: #f4e300;
         border-radius: 0;
+        &:hover {
+            background-color: #e9ca00 !important;
+        }
         .activated {
-            background-color: #d0c100 !important;
+            background-color: #e9ca00 !important;
         }
     }
 }
@@ -517,8 +514,11 @@ ion-buttons {
     .pink {
         background: #fb9df0;
         border-radius: 0;
+        &:hover {
+            background-color: #bc73b3 !important;
+        }
         .activated {
-            background-color: #ce6dc1 !important;
+            background-color: #bc73b3 !important;
         }
     }
 }

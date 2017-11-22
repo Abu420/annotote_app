@@ -82,7 +82,55 @@ strong:active {
 .toolbar-ios {
     padding: 0 !important;
     min-height: 56px !important;
-    box-shadow: 0px 7px 11px #525252;
+    box-shadow: 0px 2px 8px #9c9c9c;
+}
+
+.fab-ios-dark {
+    &:hover {
+        background-color: #5d5d5d;
+    }
+    &:focus {
+        background-color: #5d5d5d;
+    }
+    &:active {
+        background-color: #5d5d5d;
+    }
+}
+
+.fab-ios-me {
+    &:hover {
+        background-color: #2ba600;
+    }
+    &:focus {
+        background-color: #2ba600;
+    }
+    &:active {
+        background-color: #2ba600;
+    }
+}
+
+.fab-ios-follows {
+    &:hover {
+        background-color: #e9ca00;
+    }
+    &:focus {
+        background-color: #e9ca00;
+    }
+    &:active {
+        background-color: #e9ca00;
+    }
+}
+
+.fab-ios-top {
+    &:hover {
+        background-color: #bc73b3;
+    }
+    &:focus {
+        background-color: #bc73b3;
+    }
+    &:active {
+        background-color: #bc73b3;
+    }
 }
 
 .title-ios {
@@ -580,18 +628,23 @@ page-changepassword {
         font-size: 18px;
         display: inline-block;
     }
-    .form-area button {
-        width: 65px;
-        height: 65px;
-        border-radius: 100%;
-        color: #fff;
-        text-transform: uppercase;
-        background: #CBCBCB;
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        font-weight: normal;
-        box-shadow: 0 6px 10px 0px #a7a7a7;
+    .form-area {
+        button {
+            width: 65px;
+            height: 65px;
+            border-radius: 100%;
+            color: #fff;
+            text-transform: uppercase;
+            background: #CBCBCB;
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            font-weight: normal;
+            box-shadow: 0 6px 10px 0px #a7a7a7;
+            &:hover {
+                background: #a0a0a0;
+            }
+        }
     }
 }
 
