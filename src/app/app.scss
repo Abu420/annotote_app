@@ -758,6 +758,18 @@ search_page {
                     border-right: 15px solid transparent;
                     border-top: 20px solid #3c3c3c;
                 }
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0px;
+                    bottom: -23px;
+                    z-index: 999;
+                    width: 0;
+                    height: 0;
+                    border-left: 15px solid transparent;
+                    border-right: 15px solid transparent;
+                    border-top: 20px solid #c1c1c1bf;
+                }
             }
         }
     }
