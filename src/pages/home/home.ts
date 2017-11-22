@@ -383,7 +383,7 @@ export class Home {
               this.utilityMethods.internet_connection_error();
             }
           });
-      } else if ('back') {
+      } else if (data == 'back') {
         this.meOptions();
       }
     });
