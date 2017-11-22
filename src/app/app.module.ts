@@ -92,6 +92,7 @@ import { Streams } from '../services/stream.service';
 import { TagsForChat } from '../pages/chat_profileTags/tags';
 import { Clipboard } from '@ionic-native/clipboard';
 import { EditDeleteMessage } from '../pages/chat/editDelPop';
+import { Autosize } from "../directives/ng-autosize/index";
 
 @NgModule({
   declarations: [
@@ -142,7 +143,8 @@ import { EditDeleteMessage } from '../pages/chat/editDelPop';
     ChatToteOptions,
     TagsForChat,
     EditDeleteMessage,
-    notificationTime
+    notificationTime,
+    Autosize
   ],
   imports: [
     BrowserModule,
