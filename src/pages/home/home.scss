@@ -92,6 +92,11 @@ top_options {
                     width: 20px;
                 }
             }
+            &.userIcon {
+                img {
+                    width: 32px;
+                }
+            }
         }
         ul {
             display: inline-block;
@@ -103,7 +108,7 @@ top_options {
             border-bottom: 1px solid #ececec;
             li {
                 float: left;
-                padding: 0 2.1vw;
+                padding: 0 6px;
                 vertical-align: middle;
                 color: #797979;
                 font-size: 4vw;

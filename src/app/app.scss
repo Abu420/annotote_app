@@ -521,6 +521,12 @@ view_options {
     }
 }
 
+ion-content {
+    .scroll-content {
+        border: 0px !important;
+    }
+}
+
 //Login register and page css
 page-signup,
 page-login,
@@ -642,6 +648,11 @@ page-changepassword {
             box-shadow: 0 6px 10px 0px #a7a7a7;
             &:hover {
                 background: #a0a0a0;
+            }
+            &.green {
+                &:hover {
+                    background: #2ba600 !important;
+                }
             }
         }
     }
