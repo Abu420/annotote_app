@@ -69,6 +69,8 @@ follow_profile {
                     background: transparent;
                     border: 1px;
                     outline: none;
+                    display: inline-block;
+                    width: calc(100% - 26px);
                 }
                 em {
                     font-style: normal;

@@ -345,6 +345,12 @@ comment_detail_popup {
     }
 }
 
+ion-footer {
+    .toolbar {
+        box-shadow: none;
+    }
+}
+
 page-anotote-editor {
     .scroll-content {
         top: $bar_button_custom_negative_height !important;
@@ -452,7 +458,7 @@ page-anotote-editor {
             height: $bar_button_custom_height;
             background-image: url(../assets/img/quoteIcon.svg);
             display: inline-block;
-            background-size: 30px;
+            background-size: 36px;
             margin: 0px;
             background-repeat: no-repeat;
             background-position: center center;
@@ -462,11 +468,12 @@ page-anotote-editor {
         .comment {
             @extend .quote;
             background-image: url(../assets/img/commentWhiteIcon.svg);
-            background-size: 45px;
+            background-size: 53px;
         }
         .cross {
             @extend .quote;
             background-image: url(../assets/img/shareIcon.svg);
+            background-size: 32px;
         }
         .messageLoading {
             color: white;
