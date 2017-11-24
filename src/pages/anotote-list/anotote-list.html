@@ -247,7 +247,7 @@
                                             </button>
                                         </div>
                                         <textarea [(ngModel)]="edit_highlight_text" (ngModelChange)="tag_user()" name="edit_area"></textarea>
-                                        <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
+                                        <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0">
                                         <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
                                         <span [ngClass]="{'save': edit_highlight_text != highlight.comment && edit_highlight_text != ''}" class="save" (click)="save_edited_annotation(highlight)" alt="">Save</span>
@@ -255,11 +255,11 @@
                                         <!-- <img class="doneIcon" src="assets/img/tick.png" (click)="save_edited_annotation(highlight)" alt=""> -->
                                     </div>
                                     <div class="tag_input" *ngIf="current_color == 'me'">
-                                        <ul class="tagList" *ngIf="show_autocomplete == true">
-                                            <li *ngIf="no_user_found == true" text-center>
+                                        <ul class="tagList" *ngIf="highlight.show_autocomplete == true">
+                                            <li *ngIf="highlight.no_user_found == true" text-center>
                                                 No Users found.
                                             </li>
-                                            <li *ngFor="let user of taggies" (click)="selected_user(user)">
+                                            <li *ngFor="let user of taggies" (click)="selected_user($event,user)">
                                                 <figure>
                                                     <img *ngIf="user.photo== null || user.photo==''" src="assets/img/img3.jpg">
                                                     <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="user.photo != null && user.photo != ''" [hidden]="!loaded" [src]="user.photo | image_base_path">
@@ -269,7 +269,7 @@
                                                     <span>{{user.firstName}} </span>
                                                 </figcaption>
                                             </li>
-                                            <li *ngIf="search_user == true" text-center>
+                                            <li *ngIf="highlight.search_user == true" text-center>
                                                 <ion-spinner></ion-spinner>
                                             </li>
                                         </ul>

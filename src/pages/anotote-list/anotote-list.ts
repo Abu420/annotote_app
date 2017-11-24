@@ -1167,48 +1167,103 @@ export class AnototeList {
       var cashTags = this.searchTags('$');
       var urls = this.uptags();
       var mentions = this.userTags();
+      var tags = [];
+      if (hashTags.length > 0) {
+        for (var i = 0; i < hashTags.length; i++) {
+          var tag = {
+            text: hashTags[i],
+            tag_id: 3,
+          }
+          tags.push(tag);
+        }
+      }
+      if (cashTags.length > 0) {
+        for (var i = 0; i < cashTags.length; i++) {
+          var tag = {
+            text: cashTags[i],
+            tag_id: 4,
+          }
+          tags.push(tag);
+        }
+      }
+      if (urls.length > 0) {
+        for (var i = 0; i < urls.length; i++) {
+          var tag = {
+            text: urls[i],
+            tag_id: 1,
+          }
+          tags.push(tag);
+        }
+      }
+      if (mentions.length > 0) {
+        for (var i = 0; i < mentions.length; i++) {
+          var tag = {
+            text: mentions[i],
+            tag_id: 2,
+          }
+          tags.push(tag);
+        }
+      }
+      this.showLoading("Saving");
+      this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
+        .subscribe((response_content) => {
+          this.text = response_content.text();
+          setTimeout(() => {
+            var highlight_quote = document.getElementById(highlight.identifier);
+            highlight_quote.className = "highlight_comment"
+            highlight_quote.setAttribute("data-comment", this.edit_highlight_text);
 
-      // this.showLoading("Saving");
-      // this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
-      //   .subscribe((response_content) => {
-      //     this.text = response_content.text();
-      //     setTimeout(() => {
-      //       var highlight_quote = document.getElementById(highlight.identifier);
-      //       highlight_quote.className = "highlight_comment"
-      //       highlight_quote.setAttribute("data-comment", this.edit_highlight_text);
+            var params = {
+              highlight_text: highlight.highlightText,
+              updated_at: this.utilityMethods.get_php_wala_time(),
+              file_text: document.getElementById('temp_text_editor').innerHTML,
+              comment: this.edit_highlight_text,
+              identifier: highlight.identifier,
+              user_tote_id: this.current_active_anotote.userAnnotote.id
+            }
+            this.anototeService.update_annotation(params).subscribe((result) => {
+              this.hideLoading();
+              highlight.comment = result.data.highlight.comment;
+              highlight.edit = false;
+              this.current_active_highlight = null;
+              this.text = '';
+              this.stream.top_first_load = false;
 
-      //       var params = {
-      //         highlight_text: highlight.highlightText,
-      //         updated_at: this.utilityMethods.get_php_wala_time(),
-      //         file_text: document.getElementById('temp_text_editor').innerHTML,
-      //         comment: this.edit_highlight_text,
-      //         identifier: highlight.identifier,
-      //         user_tote_id: this.current_active_anotote.userAnnotote.id
-      //       }
-      //       this.anototeService.update_annotation(params).subscribe((result) => {
-      //         this.hideLoading();
-      //         highlight.comment = result.data.highlight.comment;
-      //         highlight.edit = false;
-      //         this.current_active_highlight = null;
-      //         this.text = '';
-      //         this.stream.top_first_load = false;
-      //       }, (error) => {
-      //         if (error.code == -1) {
-      //           this.utilityMethods.internet_connection_error();
-      //         } else {
-      //           this.toastInFooter("Couldn't update annotation.");
-      //         }
-      //       })
-      //     }, 500)
-      //   }, (error) => {
-      //     if (error.code == -1) {
-      //       this.utilityMethods.internet_connection_error();
-      //     } else {
-      //       this.toastInFooter("Couldn't save annotation.");
-      //     }
-      //   });
-    } else {
-      // this.toastInFooter("Please update annotation and then submit.");
+              if (tags.length > 0) {
+                var params = {
+                  tags: tags,
+                  annotation_id: highlight.id,
+                  user_annotote_id: this.current_active_anotote.userAnnotote.id,
+                  created_at: this.utilityMethods.get_php_wala_time(),
+                }
+                this.showLoading('Saving Tags');
+                this.searchService.add_tag_to_anotation_all(params).subscribe((result) => {
+                  this.hideLoading();
+                  highlight.tags = result.data.annotation_tag;
+                }, (error) => {
+                  this.hideLoading();
+                  if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                  } else {
+                    this.toastInFooter("Couldn't add tag to annotation.");
+                  }
+                })
+              }
+            }, (error) => {
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              } else {
+                this.toastInFooter("Couldn't update annotation.");
+              }
+            })
+          }, 500)
+        }, (error) => {
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          } else {
+            this.toastInFooter("Couldn't save annotation.");
+          }
+        });
     }
   }
 
@@ -1257,7 +1312,7 @@ export class AnototeList {
     }
     if (this.isTagging) {
       if (this.nameInputIndex > this.edit_highlight_text.length - 1) {
-        this.show_autocomplete = false;
+        this.current_active_highlight.show_autocomplete = false;
         this.taggies = [];
         this.isTagging = false;
         this.nameInputIndex = 0;
@@ -1269,20 +1324,20 @@ export class AnototeList {
             name: this.nameEntered
           }
           if (params.name != '') {
-            this.no_user_found = false;
-            this.show_autocomplete = true;
-            this.search_user = true;
+            this.current_active_highlight.no_user_found = false;
+            this.current_active_highlight.show_autocomplete = true;
+            this.current_active_highlight.search_user = true;
             this.taggies = [];
             this.searchService.autocomplete_users(params).subscribe((result) => {
-              this.search_user = false;
+              this.current_active_highlight.search_user = false;
               this.taggies = result.data.users;
               if (this.taggies.length == 0) {
-                this.no_user_found = true;
+                this.current_active_highlight.no_user_found = true;
               }
             }, (error) => {
-              this.search_user = false;
-              this.show_autocomplete = true;
-              this.no_user_found = false;
+              this.current_active_highlight.search_user = false;
+              this.current_active_highlight.show_autocomplete = true;
+              this.current_active_highlight.no_user_found = false;
               this.taggies = [];
               if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
@@ -1290,7 +1345,7 @@ export class AnototeList {
             })
           }
         } else {
-          this.show_autocomplete = false;
+          this.current_active_highlight.show_autocomplete = false;
           this.taggies = [];
           this.isTagging = false;
           this.nameInputIndex = 0;
@@ -1301,7 +1356,8 @@ export class AnototeList {
 
   }
 
-  selected_user(user) {
+  selected_user(event, user) {
+    event.stopPropagation();
     this.edit_highlight_text = this.edit_highlight_text.replace('@' + this.nameEntered, "`@" + user.firstName + "`")
     this.nameEntered = user.firstName;
     this.show_autocomplete = false;
