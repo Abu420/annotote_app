@@ -1122,6 +1122,38 @@
                                                     background: $top_app_color;
                                                     color: white;
                                                 }
+                                                .tag_input {
+                                                    margin-left: -8%;
+                                                    background: #f1f1f1;
+                                                    width: 108%;
+                                                    padding: 10px 10px 10px 54px;
+                                                    border-bottom: 0px;
+                                                    max-height: 150px;
+                                                    overflow: auto;
+                                                    ul {
+                                                        margin: 0px;
+                                                        padding: 0px;
+                                                        list-style: none;
+                                                        li {
+                                                            padding: 8px 0px;
+                                                            figure {
+                                                                width: 25px;
+                                                                margin: 0px;
+                                                                padding: 0px;
+                                                                display: inline-block;
+                                                                float: none;
+                                                                img {
+                                                                    width: auto;
+                                                                }
+                                                            }
+                                                            figcaption {
+                                                                display: inline-block;
+                                                                vertical-align: middle;
+                                                                width: calc(100% - 30px);
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                                 .editAntotion {
                                                     margin-left: -8%;
                                                     background: #e0e0e0;
