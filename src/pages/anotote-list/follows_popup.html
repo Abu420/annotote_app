@@ -48,7 +48,7 @@
     <div class="follow_details">
         <div id="wrapper">
             <ion-list no-lines class="product-list follows">
-                <ion-item *ngFor="let follower of follows" (click)="showProfile(follower)">
+                <ion-item *ngFor="let follower of follows" (click)="choose_this_user(follower)">
                     <ion-avatar item-start>
                         <img *ngIf="follower.photo == '' || follower.photo == null" src="assets/img/img3.jpg">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="follower.photo != null && follower.photo != ''" [src]="follower.photo | image_base_path">

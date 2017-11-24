@@ -107,6 +107,10 @@ export class CommentDetailPopup {
   uptags(comment) {
     var matches = [];
     matches = comment.match(/\bhttps?:\/\/\S+/gi);
+    if (matches)
+      for (let match of matches) {
+        this.new_comment = this.new_comment.replace(match, '^');
+      }
     return matches == null ? [] : matches;
   }
 

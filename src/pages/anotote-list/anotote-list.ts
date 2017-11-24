@@ -97,6 +97,17 @@ export class AnototeList {
   public followUserName = '';
   public mentionedCase = false;
   public mentionedUrl = '';
+  public annotation;
+  private show_autocomplete: boolean = false;
+  private one_selected: { text: string, tagId: number, user_id: number, mentioned: number };
+  private no_user_found: boolean = false;
+  private no_tags_found: boolean = false;
+  private taggies: any = [];
+  public isTagging: boolean = false;
+  public nameEntered: string = '';
+  public nameInputIndex: number = 0;
+  private search_user: boolean = false;
+  public mentioned: any = []
   /**
    * Constructor
    */
@@ -1152,48 +1163,157 @@ export class AnototeList {
 
   save_edited_annotation(highlight) {
     if (this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') {
-      this.showLoading("Saving");
-      this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
-        .subscribe((response_content) => {
-          this.text = response_content.text();
-          setTimeout(() => {
-            var highlight_quote = document.getElementById(highlight.identifier);
-            highlight_quote.className = "highlight_comment"
-            highlight_quote.setAttribute("data-comment", this.edit_highlight_text);
+      var hashTags = this.searchTags('#');
+      var cashTags = this.searchTags('$');
+      var urls = this.uptags();
+      var mentions = this.userTags();
 
-            var params = {
-              highlight_text: highlight.highlightText,
-              updated_at: this.utilityMethods.get_php_wala_time(),
-              file_text: document.getElementById('temp_text_editor').innerHTML,
-              comment: this.edit_highlight_text,
-              identifier: highlight.identifier,
-              user_tote_id: this.current_active_anotote.userAnnotote.id
-            }
-            this.anototeService.update_annotation(params).subscribe((result) => {
-              this.hideLoading();
-              highlight.comment = result.data.highlight.comment;
-              highlight.edit = false;
-              this.current_active_highlight = null;
-              this.text = '';
-              this.stream.top_first_load = false;
-            }, (error) => {
-              if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-              } else {
-                this.toastInFooter("Couldn't update annotation.");
-              }
-            })
-          }, 500)
-        }, (error) => {
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          } else {
-            this.toastInFooter("Couldn't save annotation.");
-          }
-        });
+      // this.showLoading("Saving");
+      // this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
+      //   .subscribe((response_content) => {
+      //     this.text = response_content.text();
+      //     setTimeout(() => {
+      //       var highlight_quote = document.getElementById(highlight.identifier);
+      //       highlight_quote.className = "highlight_comment"
+      //       highlight_quote.setAttribute("data-comment", this.edit_highlight_text);
+
+      //       var params = {
+      //         highlight_text: highlight.highlightText,
+      //         updated_at: this.utilityMethods.get_php_wala_time(),
+      //         file_text: document.getElementById('temp_text_editor').innerHTML,
+      //         comment: this.edit_highlight_text,
+      //         identifier: highlight.identifier,
+      //         user_tote_id: this.current_active_anotote.userAnnotote.id
+      //       }
+      //       this.anototeService.update_annotation(params).subscribe((result) => {
+      //         this.hideLoading();
+      //         highlight.comment = result.data.highlight.comment;
+      //         highlight.edit = false;
+      //         this.current_active_highlight = null;
+      //         this.text = '';
+      //         this.stream.top_first_load = false;
+      //       }, (error) => {
+      //         if (error.code == -1) {
+      //           this.utilityMethods.internet_connection_error();
+      //         } else {
+      //           this.toastInFooter("Couldn't update annotation.");
+      //         }
+      //       })
+      //     }, 500)
+      //   }, (error) => {
+      //     if (error.code == -1) {
+      //       this.utilityMethods.internet_connection_error();
+      //     } else {
+      //       this.toastInFooter("Couldn't save annotation.");
+      //     }
+      //   });
     } else {
       // this.toastInFooter("Please update annotation and then submit.");
     }
+  }
+
+  uptags() {
+    var matches = [];
+    matches = this.edit_highlight_text.match(/\bhttps?:\/\/\S+/gi);
+    if (matches)
+      for (let match of matches) {
+        this.edit_highlight_text = this.edit_highlight_text.replace(match, '^');
+      }
+    return matches == null ? [] : matches;
+  }
+
+  userTags() {
+    var matches = [];
+    var finalized = [];
+    matches = this.edit_highlight_text.split('`')
+    for (let match of matches) {
+      if (match[0] == '@') {
+        finalized.push(match);
+      }
+    }
+    return finalized;
+  }
+
+  searchTags(tag) {
+    var tags = [];
+    var check = false;
+    if (this.edit_highlight_text[0] == tag) {
+      check = true;
+    }
+    var tagsincomment = this.edit_highlight_text.split(tag);
+    var i = check ? 0 : 1;
+    for (var i = 1; i < tagsincomment.length; i++) {
+      var temp = tagsincomment[i].split(' ');
+      temp[0] = temp[0].replace(/[^\w\s]/gi, "")
+      tags.push(temp[0]);
+    }
+    return tags;
+  }
+
+  tag_user() {
+    if (this.edit_highlight_text[this.edit_highlight_text.length - 1] == '@') {
+      this.nameInputIndex = this.edit_highlight_text.length - 1;
+      this.isTagging = true;
+    }
+    if (this.isTagging) {
+      if (this.nameInputIndex > this.edit_highlight_text.length - 1) {
+        this.show_autocomplete = false;
+        this.taggies = [];
+        this.isTagging = false;
+        this.nameInputIndex = 0;
+        return;
+      } else if (this.nameInputIndex != this.edit_highlight_text.length - 1) {
+        this.nameEntered = this.edit_highlight_text.substr(this.nameInputIndex + 1);
+        if (this.nameEntered.split(' ').length == 1) {
+          var params = {
+            name: this.nameEntered
+          }
+          if (params.name != '') {
+            this.no_user_found = false;
+            this.show_autocomplete = true;
+            this.search_user = true;
+            this.taggies = [];
+            this.searchService.autocomplete_users(params).subscribe((result) => {
+              this.search_user = false;
+              this.taggies = result.data.users;
+              if (this.taggies.length == 0) {
+                this.no_user_found = true;
+              }
+            }, (error) => {
+              this.search_user = false;
+              this.show_autocomplete = true;
+              this.no_user_found = false;
+              this.taggies = [];
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            })
+          }
+        } else {
+          this.show_autocomplete = false;
+          this.taggies = [];
+          this.isTagging = false;
+          this.nameInputIndex = 0;
+          return;
+        }
+      }
+    }
+
+  }
+
+  selected_user(user) {
+    this.edit_highlight_text = this.edit_highlight_text.replace('@' + this.nameEntered, "`@" + user.firstName + "`")
+    this.nameEntered = user.firstName;
+    this.show_autocomplete = false;
+    this.taggies = [];
+    var selected = {
+      text: '`@' + user.firstName + '`',
+      tagId: 2,
+      user_id: user.id
+    }
+    this.mentioned.push(selected)
+    this.isTagging = false;
+    this.nameInputIndex = 0;
   }
 
   //me stream anotote detail calls

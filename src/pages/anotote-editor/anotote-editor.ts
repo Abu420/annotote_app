@@ -594,7 +594,7 @@ export class AnototeEditor implements OnDestroy {
         this.selection_lock = true;
         this.toggle_annotation_option = false;
         this.content.resize();
-        this.add_annotation_api('quote', null);
+        this.add_annotation_api('quote', null, []);
     }
 
     share_it() {
@@ -670,7 +670,8 @@ export class AnototeEditor implements OnDestroy {
                         tags.push(tag);
                     }
                 }
-                this.saveTags(highlight.identifier, tags);
+                if (tags.length > 0)
+                    this.saveTags(highlight.identifier, tags);
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Annotote', highlight.txt, null, null);
@@ -703,7 +704,44 @@ export class AnototeEditor implements OnDestroy {
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel }, opts);
         createAnotationModal.onDidDismiss(data => {
             if (data.create) {
-                this.create_anotation(data.comment);
+                var tags = [];
+                if (data.hash.length > 0) {
+                    for (var i = 0; i < data.hash.length; i++) {
+                        var tag = {
+                            text: data.hash[i],
+                            tag_id: 3,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                if (data.cash.length > 0) {
+                    for (var i = 0; i < data.cash.length; i++) {
+                        var tag = {
+                            text: data.cash[i],
+                            tag_id: 4,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                if (data.uptags.length > 0) {
+                    for (var i = 0; i < data.uptags.length; i++) {
+                        var tag = {
+                            text: data.uptags[i],
+                            tag_id: 1,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                if (data.mentions.length > 0) {
+                    for (var i = 0; i < data.mentions.length; i++) {
+                        var tag = {
+                            text: data.mentions[i],
+                            tag_id: 2,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                this.create_anotation(data.comment, tags);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Deep Link', 'Anotote Text Sharing', null, null);
             }
@@ -766,10 +804,10 @@ export class AnototeEditor implements OnDestroy {
     /**
      * Create Anotation Comment Type
      */
-    private create_anotation(comment) {
+    private create_anotation(comment, tags) {
         if (!comment)
             comment = '';
-        this.add_annotation_api('comment', comment);
+        this.add_annotation_api('comment', comment, tags);
     }
 
     remove_annotation_api(an_id, element) {
@@ -858,7 +896,7 @@ export class AnototeEditor implements OnDestroy {
             });
     }
 
-    add_annotation_api(type, comment) {
+    add_annotation_api(type, comment, tags) {
         // this.events.publish('tote:comment', { selection: this.selection, selected_txt: this.selectedText, type: type });
         var current_time = this.utilityMethods.get_php_wala_time();
         var identifier = this.generate_dynamic_identifier(current_time);
@@ -899,6 +937,26 @@ export class AnototeEditor implements OnDestroy {
                     } else {
                         this.toastInFooter("Quote saved");
                     }
+                }
+                if (tags.length > 0) {
+                    var params = {
+                        tags: tags,
+                        annotation_id: response.data.annotation.id,
+                        user_annotote_id: this.ANOTOTE.userAnnotote.id,
+                        created_at: this.utilityMethods.get_php_wala_time(),
+                    }
+                    this.showLoading('Saving Tags');
+                    this.searchService.add_tag_to_anotation_all(params).subscribe((result) => {
+                        this.hideLoading();
+                        response.data.annotation.tags = result.data.annotation_tag;
+                    }, (error) => {
+                        this.hideLoading();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else {
+                            this.toastInFooter("Couldn't add tag to annotation.");
+                        }
+                    })
                 }
             }, (error) => {
                 this.utilityMethods.hide_loader();
