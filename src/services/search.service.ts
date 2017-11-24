@@ -160,6 +160,12 @@ export class SearchService {
         return response;
     }
 
+    public add_tag_to_anotation_all(params) {
+        var url = this.constants.API_BASEURL + '/annotote/highlight/createTagAll';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
     public autocomplete_users(params) {
         var url = this.constants.API_BASEURL + '/search/followers?name_like=' + params.name;
         var response = this.http.get(url).map(res => res.json());

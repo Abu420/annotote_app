@@ -633,24 +633,44 @@ export class AnototeEditor implements OnDestroy {
                     this.remove_annotation_api(highlight.identifier, element);
                 })
             } else if (data.update) {
-                // if (data.hash.length > 0) {
-                //     for (var i = 0; i < data.hash.length; i++) {
-                //         if (this.tagAlreadyExists(highlight.identifier, data.hash[i], 3))
-                //             this.saveTags(highlight.identifier, i, 3, data.hash[i]);
-                //     }
-                // }
-                // if (data.cash.length > 0) {
-                //     for (var i = 0; i < data.cash.length; i++) {
-                //         if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 4))
-                //             this.saveTags(highlight.identifier, i, 4, data.cash[i]);
-                //     }
-                // }
-                // if (data.uptags.length > 0) {
-                //     for (var i = 0; i < data.cash.length; i++) {
-                //         if (this.tagAlreadyExists(highlight.identifier, data.cash[i], 1))
-                //             this.saveTags(highlight.identifier, i, 1, data.cash[i]);
-                //     }
-                // }
+                var tags = [];
+                if (data.hash.length > 0) {
+                    for (var i = 0; i < data.hash.length; i++) {
+                        var tag = {
+                            text: data.hash[i],
+                            tag_id: 3,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                if (data.cash.length > 0) {
+                    for (var i = 0; i < data.cash.length; i++) {
+                        var tag = {
+                            text: data.cash[i],
+                            tag_id: 4,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                if (data.uptags.length > 0) {
+                    for (var i = 0; i < data.uptags.length; i++) {
+                        var tag = {
+                            text: data.uptags[i],
+                            tag_id: 1,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                if (data.mentions.length > 0) {
+                    for (var i = 0; i < data.mentions.length; i++) {
+                        var tag = {
+                            text: data.mentions[i],
+                            tag_id: 2,
+                        }
+                        tags.push(tag);
+                    }
+                }
+                this.saveTags(highlight.identifier, tags);
                 this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Annotote', highlight.txt, null, null);
@@ -720,20 +740,19 @@ export class AnototeEditor implements OnDestroy {
         }
     }
 
-    saveTags(identifier, index, tagId, tagInput) {
+    saveTags(identifier, tags) {
         var params = {
-            tag_id: tagId,
+            tags: tags,
             annotation_id: this.get_highlight(identifier).id,
-            text: tagInput,
+            user_annotote_id: this.ANOTOTE.userAnnotote.id,
             created_at: this.utilityMethods.get_php_wala_time(),
         }
         // if (this.tags_type == 2)
         //     params['user_id'] = this.one_selected.id;
         this.showLoading('Saving Tags');
-        this.searchService.add_tag_to_anotation(params).subscribe((result) => {
+        this.searchService.add_tag_to_anotation_all(params).subscribe((result) => {
             this.hideLoading();
-            this.utilityMethods.hide_loader();
-            this.get_highlight(identifier).tags.push(result.data.annotation_tag);
+            this.get_highlight(identifier).tags = result.data.annotation_tag;
         }, (error) => {
             this.hideLoading();
             if (error.code == -1) {

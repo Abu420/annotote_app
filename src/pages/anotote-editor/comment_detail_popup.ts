@@ -1,6 +1,7 @@
 import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, Events } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
+import { SearchService } from "../../services/search.service";
 @Component({
   selector: 'comment_detail_popup',
   animations: [
@@ -28,8 +29,23 @@ export class CommentDetailPopup {
   private new_comment: any = '';
   public show: boolean = true;
   public annotation;
+  private show_autocomplete: boolean = false;
+  private one_selected: { text: string, tagId: number, user_id: number, mentioned: number };
+  private no_user_found: boolean = false;
+  private no_tags_found: boolean = false;
+  public user: any;
+  private users: any = [];
+  public isTagging: boolean = false;
+  public nameEntered: string = '';
+  public nameInputIndex: number = 0;
+  private search_user: boolean = false;
+  public mentioned: any = []
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public utilityMethods: UtilityMethods, private events: Events) {
+  constructor(public params: NavParams,
+    public viewCtrl: ViewController,
+    public utilityMethods: UtilityMethods,
+    private events: Events,
+    public searchService: SearchService) {
     this.anotote_txt = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
@@ -75,14 +91,35 @@ export class CommentDetailPopup {
 
   updateComment() {
     if (this.new_comment != this.anotote_comment && this.new_comment != '') {
-      // console.log(followtags);
+      var hashTags = this.searchTags('#');
+      var cashTags = this.searchTags('$');
+      var urls = this.uptags(this.new_comment);
+      var mentions = this.userTags();
       this.show = false;
       setTimeout(() => {
-        // this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashtags, cash: cashtags, uptags: uptags });
-        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
+        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashTags, cash: cashTags, uptags: urls, mentions: mentions });
+        // this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
       }, 100)
     } else
       this.utilityMethods.doToast("You didn't update any comment.");
+  }
+
+  uptags(comment) {
+    var matches = [];
+    matches = comment.match(/\bhttps?:\/\/\S+/gi);
+    return matches == null ? [] : matches;
+  }
+
+  userTags() {
+    var matches = [];
+    var finalized = [];
+    matches = this.new_comment.split('`')
+    for (let match of matches) {
+      if (match[0] == '@') {
+        finalized.push(match);
+      }
+    }
+    return finalized;
   }
 
   searchTags(tag) {
@@ -99,6 +136,73 @@ export class CommentDetailPopup {
       tags.push(temp[0]);
     }
     return tags;
+  }
+
+  tag_user() {
+    if (this.new_comment[this.new_comment.length - 1] == '@') {
+      this.nameInputIndex = this.new_comment.length - 1;
+      this.isTagging = true;
+    }
+    if (this.isTagging) {
+      if (this.nameInputIndex > this.new_comment.length - 1) {
+        console.log('not tagging')
+        this.show_autocomplete = false;
+        this.users = [];
+        this.isTagging = false;
+        this.nameInputIndex = 0;
+        return;
+      } else if (this.nameInputIndex != this.new_comment.length - 1) {
+        this.nameEntered = this.new_comment.substr(this.nameInputIndex + 1);
+        if (this.nameEntered.split(' ').length == 1) {
+          var params = {
+            name: this.nameEntered
+          }
+          if (params.name != '') {
+            this.no_user_found = false;
+            this.show_autocomplete = true;
+            this.search_user = true;
+            this.users = [];
+            this.searchService.autocomplete_users(params).subscribe((result) => {
+              this.search_user = false;
+              this.users = result.data.users;
+              if (this.users.length == 0) {
+                this.no_user_found = true;
+              }
+            }, (error) => {
+              this.search_user = false;
+              this.show_autocomplete = true;
+              this.no_user_found = false;
+              this.users = [];
+              if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+              }
+            })
+          }
+        } else {
+          this.show_autocomplete = false;
+          this.users = [];
+          this.isTagging = false;
+          this.nameInputIndex = 0;
+          return;
+        }
+      }
+    }
+
+  }
+
+  selected_user(user) {
+    this.new_comment = this.new_comment.replace('@' + this.nameEntered, "`@" + user.firstName + "`")
+    this.nameEntered = user.firstName;
+    this.show_autocomplete = false;
+    this.users = [];
+    var selected = {
+      text: '`@' + user.firstName + '`',
+      tagId: 2,
+      user_id: user.id
+    }
+    this.mentioned.push(selected)
+    this.isTagging = false;
+    this.nameInputIndex = 0;
   }
 
   upvote() {
