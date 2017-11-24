@@ -159,9 +159,10 @@
 <ion-footer class="inline_tote_options meFooter" *ngIf="WHICH_STREAM == 'me' && actual_stream == 'me' && !loading_check">
     <ion-toolbar color="dark">
         <div class="title_and_options">
-            <form (ngSubmit)="saveTitle(ANOTOTE)">
-                <textarea autosize [maxHeight]='300' [minHeight]="50" *ngIf="WHICH_STREAM != 'top'" [(ngModel)]='title_temp' name="title"></textarea>
+            <form *ngIf="titleEditingoff == false" (ngSubmit)="saveTitle(ANOTOTE)">
+                <textarea search-field selection="true" autosize [maxHeight]='300' [minHeight]="50" *ngIf="WHICH_STREAM != 'top'" [(ngModel)]='title_temp' name="title"></textarea>
             </form>
+            <p (click)="editTitle()" *ngIf="titleEditingoff == true">{{title_temp}}</p>
             <img (click)="toteOptions()" src="assets/img/dodtsLine.svg" alt="" />
         </div>
     </ion-toolbar>

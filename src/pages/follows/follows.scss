@@ -155,11 +155,23 @@ follow_profile {
             }
         }
     }
-    .follow_list strong {
-        display: block;
-        font-weight: normal;
-        margin-top: -2px;
-        font-size: 16px;
+    .follow_list {
+        strong {
+            display: block;
+            font-weight: normal;
+            margin-top: -2px;
+            font-size: 16px;
+            textarea {
+                width: 100%;
+                padding: 0px;
+                margin: 0px;
+            }
+            input {
+                width: 100%;
+                padding: 0px;
+                margin: 0px;
+            }
+        }
     }
     .follow_list p {
         margin: 0;

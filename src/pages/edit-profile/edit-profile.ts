@@ -68,10 +68,10 @@ export class EditProfile {
       _error = true;
       this.field_error.email = true;
     }
-    if (_.isEmpty(this.user.firstName)) {
-      _error = true;
-      this.field_error.first_name = true;
-    }
+    // if (_.isEmpty(this.user.firstName)) {
+    //   _error = true;
+    //   this.field_error.first_name = true;
+    // }
     // if (_.isEmpty(this.user.lastName)) {
     //   _error = true;
     //   this.field_error.last_name = true;

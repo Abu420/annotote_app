@@ -48,5 +48,15 @@
                 </form>
             </div>
         </div>
+        <div class="sharing_pop" *ngIf="stream == 'me' && (anotation_or_anotote == true || profile != '')">
+            <div class="main_label">
+                <img alt="" src="assets/img/hashIcon.svg">
+            </div>
+            <div class="tagText bottom-border">
+                <form (ngSubmit)="saveTags()">
+                    <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Add tags(#,$,@) or paste link" />
+                </form>
+            </div>
+        </div>
     </div>
 </div>

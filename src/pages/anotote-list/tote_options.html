@@ -71,7 +71,7 @@
                         <span>{{tag.tagText}}</span>
                     </li>
                 </ng-container>
-                <li class="tabOption" (tap)="presentTagsModal()">
+                <li class="tabOption" *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length > 0 && stream == 'me'" (tap)="presentTagsModal()">
                     <img src="assets/img/dotsOption.svg" />
                 </li>
             </ul>

@@ -8,8 +8,10 @@
             </figure>
             <div class="proName">
                 <strong>
-                    <input type="text" name="name" placeholder="Name" value="{{profileData.user.firstName}}">
-                    <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                    <form (ngSubmit)="updateUser()">
+                        <input type="text" name="name" [(ngModel)]="profileData.user.firstName" [disabled]="is_it_me == false" placeholder="Name">
+                        <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                    </form>
                 </strong>
                 <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
                 <div (click)="presentProfilePictureActionSheet()" *ngIf="is_it_me == true" class="img-holder">
@@ -33,11 +35,19 @@
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">
-                    <strong *ngIf="profileData.user.description != null">
-                        <textarea placeholder="Description">{{profileData.user.description}}</textarea>
+                    <strong *ngIf="is_it_me == true">
+                        <form (ngSubmit)="updateUser()">
+                            <input type="text" placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" name="description">
+                        </form>
+                        <!-- <textarea placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" ></textarea> -->
                     </strong>
-                    <!-- <p *ngIf="profileData.user.description != null">{{profileData.user.description}}</p> -->
-                    <p *ngIf="profileData.user.description == null">No description added by {{profileData.user.firstName}}.</p>
+                    <!-- <strong *ngIf="profileData.user.description == null">
+                        <form (ngSubmit)="updateUser()">
+                            <input type="text" placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" name="description">
+                        </form>
+                    </strong> -->
+                    <p *ngIf="(profileData.user.description != null || profileData.user.description == '') && is_it_me == false">{{profileData.user.description}}</p>
+                    <p *ngIf="(profileData.user.description != null || profileData.user.description == '') && is_it_me == false">No description added by {{profileData.user.firstName}}.</p>
                     <img src="assets/img/dotsicon.svg" *ngIf="is_it_me || profileData.user.userTags.length > 0" (click)="showTags()" alt="">
                 </div>
             </ion-item>

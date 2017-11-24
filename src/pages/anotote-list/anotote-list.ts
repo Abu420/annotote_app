@@ -108,6 +108,7 @@ export class AnototeList {
   public nameInputIndex: number = 0;
   private search_user: boolean = false;
   public mentioned: any = []
+  public fbLoading: boolean = false;
   /**
    * Constructor
    */
@@ -210,6 +211,7 @@ export class AnototeList {
     } else {
       if (this.anototes.length == 0) {
         this.showLoading("Loading Totes");
+        this.fbLoading = true;
         this.anototeService.fetchMentionedTote(this.mentionedUrl).subscribe((result) => {
           let stream = result.data.annototes;
           this.enable_refresher = false;
@@ -225,8 +227,10 @@ export class AnototeList {
             this.has_totes = false;
           }
           this.hideLoading();
+          this.fbLoading = false;
         }, (error) => {
           this.hideLoading();
+          this.fbLoading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           }
@@ -238,6 +242,7 @@ export class AnototeList {
   loadanototes() {
     if (this.current_color != 'top') {
       this.showLoading("Loading Totes");
+      this.fbLoading = true;
       this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
         let stream = result.data.annototes;
         for (let entry of stream) {
@@ -256,20 +261,24 @@ export class AnototeList {
           this.stream.follow_first_load = true;
         }
         this.hideLoading();
+        this.fbLoading = false;
       }, (error) => {
         this.hideLoading();
+        this.fbLoading = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
     } else {
       this.showLoading("Loading Totes");
+      this.fbLoading = true;
       let params = {
         number: this.current_page++,
         time: this.utilityMethods.get_php_wala_time()
       }
       this.anototeService.top_totes(params).subscribe((result) => {
         this.hideLoading();
+        this.fbLoading = false;
         this.top_anototes = result.data.annototes;
         if (this.top_anototes.length == 0) {
           this.has_totes = false;
@@ -279,6 +288,7 @@ export class AnototeList {
         this.stream.top_first_load = true;
       }, (error) => {
         this.hideLoading();
+        this.fbLoading = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
@@ -288,6 +298,7 @@ export class AnototeList {
 
   loadUserTotes() {
     this.showLoading("Loading Totes");
+    this.fbLoading = true;
     this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
       let stream = result.data.annototes;
       for (let entry of stream) {
@@ -297,8 +308,10 @@ export class AnototeList {
         this.has_totes = false;
       }
       this.hideLoading();
+      this.fbLoading = false;
     }, (error) => {
       this.hideLoading();
+      this.fbLoading = false;
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }

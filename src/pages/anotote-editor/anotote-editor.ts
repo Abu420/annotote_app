@@ -82,6 +82,7 @@ export class AnototeEditor implements OnDestroy {
         comment: null
     };
     public title_temp = '';
+    public titleEditingoff: boolean = true;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -221,6 +222,10 @@ export class AnototeEditor implements OnDestroy {
             } else
                 this.toastInFooter("Couldn't update title");
         })
+    }
+
+    editTitle() {
+        this.titleEditingoff = false;
     }
 
 

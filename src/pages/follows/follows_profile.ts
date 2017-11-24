@@ -71,6 +71,9 @@ export class Profile {
     statusbar.hide();
     var user = this.authService.getUser();
     this.profileData = params.get('data');
+    if (this.profileData.user.description == null) {
+      this.profileData.user.description = '';
+    }
     this.from_page = params.get('from_page');
 
     if (this.profileData.user.id == user.id)
@@ -133,6 +136,31 @@ export class Profile {
     this.presentActionSheet();
   }
 
+  updateUser() {
+    if (this.profileData.user.fristName != '' && this.profileData.user.description != '') {
+      var toast = this.utilityMethods.doLoadingToast('Updating...');
+      this.authService.update_profile({
+        email: this.profileData.user.email,
+        first_name: this.profileData.user.firstName,
+        last_name: this.profileData.user.lastName,
+        description: this.profileData.user.description,
+        updated_at: this.utilityMethods.get_php_wala_time()
+      }).subscribe((response) => {
+        toast.dismiss();
+        this.authService.updateUser(response.data.user);
+        this.utilityMethods.doToast('Profile updated successfully.');
+      }, (error) => {
+        toast.dismiss();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else
+          this.utilityMethods.message_alert('Error', 'This email has already been taken.');
+      });
+    } else {
+      this.utilityMethods.doToast("Please don't leave the field blank.");
+    }
+  }
+
   presentActionSheet() {
     var buttons;
     if (this.is_it_me) {
@@ -144,13 +172,12 @@ export class Profile {
           }
         },
         {
-          text: 'Edit profile',
+          text: 'Change email',
           handler: () => {
             let editProfile = this.modalCtrl.create(EditProfile, {});
             editProfile.onDidDismiss(data => {
               var user = this.authService.getUser();
               this.profileData.user = user;
-              console.log(this.profileData)
             });
             editProfile.present();
             // this.navCtrl.push(EditProfile, {});

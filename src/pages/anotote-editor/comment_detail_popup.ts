@@ -149,7 +149,6 @@ export class CommentDetailPopup {
     }
     if (this.isTagging) {
       if (this.nameInputIndex > this.new_comment.length - 1) {
-        console.log('not tagging')
         this.show_autocomplete = false;
         this.users = [];
         this.isTagging = false;
