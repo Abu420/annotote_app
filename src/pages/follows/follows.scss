@@ -71,6 +71,7 @@ follow_profile {
                     outline: none;
                     display: inline-block;
                     width: calc(100% - 26px);
+                    opacity: 1;
                 }
                 em {
                     font-style: normal;
@@ -170,6 +171,7 @@ follow_profile {
                 width: 100%;
                 padding: 0px;
                 margin: 0px;
+                border: 0;
             }
         }
     }

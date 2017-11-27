@@ -39,7 +39,8 @@ export class CommentDetailPopup {
   public nameEntered: string = '';
   public nameInputIndex: number = 0;
   private search_user: boolean = false;
-  public mentioned: any = []
+  public mentioned: any = [];
+  public quoteThreeDots: boolean = false;
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
@@ -53,9 +54,16 @@ export class CommentDetailPopup {
     this.stream = this.params.get('stream');
     this.new_comment = Object.assign(this.anotote_comment);
     this.annotation = params.get('anotation');
+    if (this.annotation.comment != null)
+      this.quoteThreeDots = true;
     this.events.subscribe('closeModal', () => {
       this.dismiss();
     })
+    console.log(this.annotation);
+  }
+
+  showTextarea() {
+    this.quoteThreeDots = true;
   }
 
   dismiss() {
