@@ -170,10 +170,10 @@
                         <div class="toteText">
                             <p *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id">{{anotote.chatGroup.groupUsers[0].user.firstName}}</p>
                             <p *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id">{{anotote.chatGroup.groupUsers[1].user.firstName}}</p>
-                            <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
+                            <!-- <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
                                 <p [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></p>
                                 <p [innerText]="anotote.chatGroup.groupUsers[1].user.firstName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></p>
-                            </ng-container>
+                            </ng-container> -->
                             <button type="button">
                                 <img src="assets/img/commentIcon.svg" alt="">
                                 <img class="unReadMsg" src="assets/img/redMessage.svg" alt="">

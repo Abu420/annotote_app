@@ -39,7 +39,8 @@
             <div class="btnRow" *ngIf="stream == 'me'">
                 <span (tap)="dismiss()">Close</span>
                 <span (tap)="delete()">Delete</span>
-                <span [ngClass]="{'save': new_comment != anotote_comment && new_comment != ''}" *ngIf="new_comment != anotote_comment && new_comment != ''" (tap)="updateComment()">Save</span>
+                <span [ngClass]="{'save': (new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')}" *ngIf="(new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')"
+                    (tap)="updateComment()">Save</span>
             </div>
         </div>
         <div class="tag_input" *ngIf="stream == 'me'">
@@ -64,7 +65,7 @@
         </div>
         <div class="pop_txt">
             <!-- <p [innerText]="anotote_txt"></p> -->
-            <textarea [innerText]="anotote_txt" [disabled]="stream != 'me'"></textarea>
+            <textarea [(ngModel)]="anotote_txt" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
             <textarea class="addComment" [(ngModel)]="new_comment" (ngModelChange)="tag_user()" *ngIf="stream == 'me' && quoteThreeDots == true" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
             <textarea class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment"></textarea>
         </div>

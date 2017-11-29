@@ -575,7 +575,7 @@ export class AnototeEditor implements OnDestroy {
             var element = document.getElementById(identifier);
             element.classList.add('greyOut');
             this.selected_highlight = {
-                txt: event.target.getAttribute("data-selectedtxt"),
+                txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
                 identifier: event.target.getAttribute("data-identifier"),
                 type: event.target.getAttribute("class"),
                 from_where: '',
@@ -677,7 +677,7 @@ export class AnototeEditor implements OnDestroy {
                 }
                 if (tags.length > 0)
                     this.saveTags(highlight.identifier, tags);
-                this.update_annotation_api(highlight.id, highlight.txt, data.comment, highlight.identifier, element);
+                this.update_annotation_api(highlight.id, data.anototeTxt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Annotote', highlight.txt, null, null);
             } else if (data.upvote) {
@@ -881,6 +881,7 @@ export class AnototeEditor implements OnDestroy {
                     for (let highlight of this.ANOTOTE.userAnnotote.annototeHeighlights) {
                         if (highlight.id == response.data.highlight.id) {
                             highlight.comment = response.data.highlight.comment;
+                            highlight.highlightText = response.data.highlight.highlightText;
                             break;
                         }
                     }
@@ -889,6 +890,7 @@ export class AnototeEditor implements OnDestroy {
                     for (let highlight of this.ANOTOTE.my_highlights) {
                         if (highlight.id == response.data.highlight.id) {
                             highlight.comment = response.data.highlight.comment;
+                            highlight.highlightText = response.data.highlight.highlightText;
                             break;
                         }
                     }

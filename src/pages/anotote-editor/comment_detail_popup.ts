@@ -41,6 +41,8 @@ export class CommentDetailPopup {
   private search_user: boolean = false;
   public mentioned: any = [];
   public quoteThreeDots: boolean = false;
+  public actual_anotated: any = '';
+  public bracketStartIndex = 0;
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
@@ -48,6 +50,7 @@ export class CommentDetailPopup {
     private events: Events,
     public searchService: SearchService) {
     this.anotote_txt = this.params.get('txt');
+    this.actual_anotated = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
@@ -59,7 +62,6 @@ export class CommentDetailPopup {
     this.events.subscribe('closeModal', () => {
       this.dismiss();
     })
-    console.log(this.annotation);
   }
 
   showTextarea() {
@@ -98,14 +100,14 @@ export class CommentDetailPopup {
   }
 
   updateComment() {
-    if (this.new_comment != this.anotote_comment && this.new_comment != '') {
+    if ((this.new_comment != this.anotote_comment && this.new_comment != '') || (this.anotote_txt != this.actual_anotated && this.anotote_txt != '')) {
       var hashTags = this.searchTags('#');
       var cashTags = this.searchTags('$');
       var urls = this.uptags(this.new_comment);
       var mentions = this.userTags();
       this.show = false;
       setTimeout(() => {
-        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashTags, cash: cashTags, uptags: urls, mentions: mentions });
+        this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashTags, cash: cashTags, uptags: urls, mentions: mentions, anototeTxt: this.anotote_txt });
         // this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
       }, 100)
     } else
@@ -239,6 +241,36 @@ export class CommentDetailPopup {
     setTimeout(() => {
       this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true });
     }, 100)
+  }
+
+  ellipsis(event) {
+    if (this.anotote_txt.length > this.actual_anotated.length) {
+      let textarea: HTMLTextAreaElement = event.target;
+      if (this.bracketStartIndex == 0)
+        this.bracketStartIndex = textarea.selectionStart - 1;
+      else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+        if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
+          var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
+          firstHalf += ' [';
+          var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
+          sec.trim();
+          firstHalf += sec + ']';
+          firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+          this.anotote_txt = firstHalf;
+          this.bracketStartIndex = 0;
+        }
+      }
+    } else if (this.anotote_txt.length < this.actual_anotated.length) {
+      let textarea: HTMLTextAreaElement = event.target;
+      if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
+        // this.anotote_txt.splice(textarea.selectionStart, 0, "...");
+        var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart - 1);
+        firstHalf += ' ... ';
+        firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+        this.anotote_txt = firstHalf;
+      }
+    }
+
   }
 
 }
