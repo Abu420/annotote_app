@@ -911,8 +911,13 @@ export class AnototeList {
           }
         } else if (this.current_color == 'follows') {
           anotote.active_tab = 'follows';
-          anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
-          this.move_fab = true;
+          if (anotote.chatGroupId == null) {
+            anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+          } else {
+            this.move_fab = true;
+          }
+          // anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+          // this.move_fab = true;
         }
         //-----
         if (this.current_active_anotote) {
@@ -1424,15 +1429,38 @@ export class AnototeList {
 
   go_to_chat_thread(anotote) {
     let secondUser: any = null;
-    for (let group of anotote.chatGroup.groupUsers) {
-      if (group.user.id != this.user.id) {
-        secondUser = group.user;
+    let firstUser = null;
+    let contains = false;
+    if (this.current_color == 'me') {
+      for (let group of anotote.chatGroup.groupUsers) {
+        if (group.user.id != this.user.id) {
+          secondUser = group.user;
+        }
       }
+    } else {
+      for (let group of anotote.chatGroup.groupUsers) {
+        if (group.user.id == this.user.id) {
+          firstUser = group.user;
+          contains = true;
+        }
+      }
+      if (firstUser == null) {
+        secondUser = anotote.chatGroup.groupUsers[0].user;
+        firstUser = anotote.chatGroup.groupUsers[1].user;
+        contains = false;
+      } else {
+        for (let group of anotote.chatGroup.groupUsers) {
+          if (group.user.id != this.user.id) {
+            secondUser = group.user;
+          }
+        }
+      }
+
     }
     var against = false;
     if (anotote.chatGroup.messagesUser[0].anototeId != 0)
       against = true;
-    this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote });
+    this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: this.current_color, firstUser: firstUser, containsMe: contains });
   }
 
   presentAnototeOptionsModal(event, anotote) {

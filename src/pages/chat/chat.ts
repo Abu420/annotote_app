@@ -33,7 +33,7 @@ export class Chat {
   public socket: any;
   public conversation: Array<ChatMessage> = [];
   public textMessage: string = "";
-  public secondUser: User = null;
+  public secondUser: any = null;
   public current_page: number = 1;
   public scrollPosition: string = 'top';
   public fab_color: string = 'me';
@@ -45,6 +45,9 @@ export class Chat {
   public title = '';
   public tote: any;
   public move: boolean = false;
+  public current_color = 'me';
+  public firstUser: any = null;
+  public contains = true;
   /**
    * Constructor
    */
@@ -71,7 +74,13 @@ export class Chat {
       this.anotote_id = navParams.get('anotote_id');
       this.title = navParams.get('title');
     }
-
+    if (navParams.get('color')) {
+      this.current_color = navParams.get('color');
+      if (this.current_color != 'me') {
+        this.firstUser = navParams.get('firstUser');
+        this.contains = navParams.get('containsMe');
+      }
+    }
   }
 
   markMessagesRead(messages) {
@@ -122,30 +131,34 @@ export class Chat {
   }
 
   public deleteChat() {
-    this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-      var params = {
-        group_id: this.tote != null ? this.tote.chatGroupId : this.conversation[0].groupId
-      }
-      this.utilityMethods.show_loader('');
-      this.anototeService.delete_chat_tote(params).subscribe((result) => {
-        this.utilityMethods.hide_loader();
-        if (this.tote != null)
-          this.stream.me_anototes.splice(this.stream.me_anototes.indexOf(this.tote), 1);
-        else
-          this.stream.me_first_load = false;
-        this.utilityMethods.doToast("Chat tote deleted Successfully.")
-        this.navCtrl.pop();
-      }, (error) => {
-        this.utilityMethods.hide_loader();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
+    if (this.contains) {
+      this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
+        var params = {
+          group_id: this.tote != null ? this.tote.chatGroupId : this.conversation[0].groupId
         }
+        this.utilityMethods.show_loader('');
+        this.anototeService.delete_chat_tote(params).subscribe((result) => {
+          this.utilityMethods.hide_loader();
+          if (this.tote != null)
+            this.stream.me_anototes.splice(this.stream.me_anototes.indexOf(this.tote), 1);
+          else
+            this.stream.me_first_load = false;
+          this.utilityMethods.doToast("Chat tote deleted Successfully.")
+          this.navCtrl.pop();
+        }, (error) => {
+          this.utilityMethods.hide_loader();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        })
       })
-    })
+    } else {
+      this.utilityMethods.doToast("You cannot delete someone's chat group");
+    }
   }
 
   doInfinite(infiniteScroll) {
-    this.chatService.fetchHistory(this.user.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
+    this.chatService.fetchHistory(this.contains == true ? this.user.id : this.firstUser.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
       if (this.conversation.length == 0)
         this.conversation = result.data.messages.reverse();
       else {
@@ -215,7 +228,8 @@ export class Chat {
 
   editOrDelete(message) {
     var params = {
-      message: message
+      message: message,
+      contains: this.contains
     }
     let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
     anototeOptionsModal.onDidDismiss(data => {

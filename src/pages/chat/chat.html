@@ -1,12 +1,12 @@
 <ion-header>
-    <ion-toolbar color="commonheader">
+    <ion-toolbar [color]="current_color">
         <ion-buttons start>
             <!-- <button class="search_icon" ion-button icon-only>
                 <ion-icon name="search"></ion-icon>
             </button> -->
         </ion-buttons>
         <ion-title>
-            <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
+            <dot-navigation [ngClass]="{'meDot': current_color == 'me','followDot': current_color == 'follows','topDot':current_color == 'top'}" unactivedots="2"></dot-navigation>
         </ion-title>
         <!-- <ion-buttons end>
             <button ion-button icon-only>
@@ -75,7 +75,7 @@
             </button>
     </ion-fab> -->
 </ion-content>
-<ion-footer class="message-bottom">
+<ion-footer class="message-bottom" *ngIf="contains == true">
     <ion-toolbar color="dark">
         <ng-container *ngIf="tote != null && tote.chatGroup != null">
             <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>

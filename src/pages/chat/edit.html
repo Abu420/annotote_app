@@ -1,30 +1,31 @@
 <div class="top_empty_box" (tap)="close()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
+    <ng-container *ngIf="stream == true">
 
-    <div *ngIf="message != null && message.senderId != user.id" no-lines class="sharing_pop bottom-border">
-        <div class="main_label markIcon">
-            <img src="assets/img/markIcon.svg" />
+        <div *ngIf="message != null && message.senderId != user.id" no-lines class="sharing_pop bottom-border">
+            <div class="main_label markIcon">
+                <img src="assets/img/markIcon.svg" />
+            </div>
+            <ul>
+                <li (click)="close('read')">
+                    <span *ngIf="message.read == 0">Mark Read</span>
+                    <span *ngIf="message.read == 1">Mark Unread</span>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li (click)="close('read')">
-                <span *ngIf="message.read == 0">Mark Read</span>
-                <span *ngIf="message.read == 1">Mark Unread</span>
-            </li>
-        </ul>
-    </div>
 
-    <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop bottom-border">
-        <div class="main_label editImg">
-            <img src="assets/img/editImg.svg" />
+        <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop bottom-border">
+            <div class="main_label editImg">
+                <img src="assets/img/editImg.svg" />
+            </div>
+            <ul>
+                <li (click)="close('edit')">
+                    <span>Edit Message</span>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li (click)="close('edit')">
-                <span>Edit Message</span>
-            </li>
-        </ul>
-    </div>
-
+    </ng-container>
     <div no-lines class="sharing_pop bottom-border">
         <div class="main_label shareIcon">
             <img src="assets/img/shareImg.svg" />
@@ -35,15 +36,17 @@
             </li>
         </ul>
     </div>
+    <ng-container *ngIf="stream == true">
 
-    <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop four bottom-border">
-        <div class="main_label">
-            <img src="assets/img/deleteIconGray.svg" />
+        <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop four bottom-border">
+            <div class="main_label">
+                <img src="assets/img/deleteIconGray.svg" />
+            </div>
+            <ul>
+                <li (click)="close('delete')">
+                    <span>Delete Message</span>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li (click)="close('delete')">
-                <span>Delete Message</span>
-            </li>
-        </ul>
-    </div>
+    </ng-container>
 </div>

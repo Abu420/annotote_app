@@ -168,8 +168,13 @@
                             </em>
                         </div>
                         <div class="toteText">
-                            <p *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id">{{anotote.chatGroup.groupUsers[0].user.firstName}}</p>
-                            <p *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id">{{anotote.chatGroup.groupUsers[1].user.firstName}}</p>
+                            <ng-container *ngIf="current_color == 'me'">
+                                <p *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id">{{anotote.chatGroup.groupUsers[0].user.firstName}}</p>
+                                <p *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id">{{anotote.chatGroup.groupUsers[1].user.firstName}}</p>
+                            </ng-container>
+                            <ng-container *ngIf="current_color == 'follows'">
+                                <p>{{anotote.chatGroup.name}}</p>
+                            </ng-container>
                             <!-- <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
                                 <p [innerText]="anotote.chatGroup.groupUsers[0].user.firstName" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id"></p>
                                 <p [innerText]="anotote.chatGroup.groupUsers[1].user.firstName" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id"></p>
@@ -451,7 +456,7 @@
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup != null">
                 <img src="assets/img/greenFab4.svg" />
             </ng-container>
-            <ng-container *ngIf="current_color == 'follows'">
+            <ng-container *ngIf="current_color == 'follows' && current_active_anotote != null && current_active_anotote.chatGroup == null">
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.isTop == 1"
                     src="assets/img/yellowFab1.svg" />
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.userAnnotote.anototeDetail.isMe == 1 && current_active_anotote.userAnnotote.anototeDetail.isTop == 0"
@@ -478,6 +483,9 @@
                     src="assets/img/pinkFab3.svg" />
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.userAnnotote.anototeDetail.isMe == 0 && current_active_anotote.userAnnotote.anototeDetail.follows.length == 0"
                     src="assets/img/pinkFab4.svg" />
+            </ng-container>
+            <ng-container *ngIf="current_active_anotote != null && current_color == 'follows' && current_active_anotote.chatGroup != null">
+                    <img src="assets/img/yellowFab4.svg" />
             </ng-container>
             <ng-container *ngIf="current_color == 'top'">
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.follows.length > 0" src="assets/img/pinkFab1.svg"
@@ -518,7 +526,7 @@
         <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.active_tab != 'me' && current_color != 'anon'">
+<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.active_tab != 'me' && current_color != 'anon' && current_active_anotote.chatGroup == null">
     <ion-toolbar color="dark">
         <div class="downUp">
             <ng-container *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'top'">

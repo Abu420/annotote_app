@@ -24,11 +24,13 @@ export class EditDeleteMessage {
     public message;
     public user;
     public show: boolean = true;
+    public stream;
     constructor(public viewCtrl: ViewController,
         params: NavParams,
         authService: AuthenticationService) {
         this.message = params.get('message');
         this.user = authService.getUser();
+        this.stream = params.get('contains');
     }
 
     close(choice) {

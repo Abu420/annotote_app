@@ -32,9 +32,9 @@ export class ChatService {
 
   public fetchHistory(firstUser: number, secondUser: number, page = 1, anotote_id) {
     if (anotote_id == 0)
-      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&page=' + page;
+      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&first_person=' + firstUser + '&page=' + page;
     else
-      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&anotote_id=' + anotote_id + '&page=' + page;
+      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&first_person=' + firstUser + '&anotote_id=' + anotote_id + '&page=' + page;
     var response = this.http.get(url).map(res => res.json())
     return response;
   }
