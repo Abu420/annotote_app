@@ -48,11 +48,12 @@ create_anotation_popup {
             padding: 0px 20px;
             font-size: 14px;
             line-height: 18px;
-            color: #fff;
+            color: #d4d4d4;
             overflow: auto;
             background: #313131;
             p {
                 margin: 0px;
+                color: #d4d4d4;
             }
         }
         textarea {
@@ -62,7 +63,7 @@ create_anotation_popup {
             height: auto;
             resize: none;
             background: transparent;
-            color: #7b7b7b;
+            color: #d4d4d4;
             border: 0px;
             margin: 10px 0 0;
             padding: 0px;
@@ -256,7 +257,7 @@ comment_detail_popup {
         padding: 0px 20px;
         font-size: 14px;
         line-height: 18px;
-        color: #fff;
+        color: #d4d4d4;
         overflow: auto;
         background: #313131;
         p {
@@ -265,7 +266,7 @@ comment_detail_popup {
         textarea {
             border: 0px;
             background: transparent;
-            color: #FFF !important;
+            color: #d4d4d4 !important;
             width: 100%;
             resize: none;
             min-height: 65px;
@@ -376,7 +377,7 @@ comment_detail_popup {
     overflow: hidden;
     padding: 12px 0px 12px 10px;
     span {
-        color: #FFF;
+        color: #d4d4d4;
         float: left;
         width: auto;
         letter-spacing: 0;

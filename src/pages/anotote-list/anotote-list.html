@@ -3,7 +3,6 @@
         <ion-buttons class="searchIcon" *ngIf="!edit_mode" start>
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
                 <img src="assets/img/searchIcon.png" alt="" />
-
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
@@ -571,10 +570,10 @@
             </ng-container>
         </div>
         <div class="topTab">
-            <span *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'">{{current_active_anotote.selected_follower_name}}
+            <span *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'" (click)="open_follows_popup($event,current_active_anotote)">{{current_active_anotote.selected_follower_name}}
                 <i *ngIf="current_active_anotote.userAnnotote.anototeDetail.follows.length > 1">({{current_active_anotote.userAnnotote.anototeDetail.follows.length}})</i>
             </span>
-            <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'">{{current_active_anotote.selected_follower_name}}
+            <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'" (click)="top_follows_popup($event,current_active_anotote)">{{current_active_anotote.selected_follower_name}}
                 <i *ngIf="current_active_anotote.anototeDetail.follows.length > 1">({{current_active_anotote.anototeDetail.follows.length}})</i>
             </span>
             <span *ngIf="current_active_anotote.active_tab == 'top'">TOP</span>

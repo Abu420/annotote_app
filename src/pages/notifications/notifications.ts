@@ -12,6 +12,7 @@ import { SearchService } from '../../services/search.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { User } from "../../models/user";
 import { AnototeList } from "../anotote-list/anotote-list";
+import { StatusBar } from "@ionic-native/status-bar";
 
 /**
  * Generated class for the Notifications page.
@@ -50,7 +51,7 @@ export class Notifications {
   public show: boolean = true;
   public loadMore: boolean = true;
 
-  constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController) {
+  constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController, public statusBar: StatusBar) {
     this._notifications = [];
     this._loading = false;
     this._unread = 0;
@@ -62,6 +63,9 @@ export class Notifications {
   ionViewDidLoad() {
     this._loading = false;
     this.loadNotifications();
+  }
+  ionViewDidEnter() {
+    this.statusBar.backgroundColorByHexString('#323232');
   }
 
   dismiss(action) {
