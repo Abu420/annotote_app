@@ -109,9 +109,39 @@
                     </div>
                 </div>
             </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top"><span class="head-line"></span></div>
+                        <div class="line-bot"><span class="name-line"></span><span class="date-line"></span></div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top"><span class="head-line"></span></div>
+                        <div class="line-bot"><span class="name-line"></span><span class="date-line"></span></div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top"><span class="head-line"></span></div>
+                        <div class="line-bot"><span class="name-line"></span><span class="date-line"></span></div>
+                    </div>
+                </div>
+            </ion-item>
         </ion-list>
         <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
-            <ion-item *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id),'bulking':anotote.checked}">
+            <ion-item *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id && current_color == 'me'),'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
 
@@ -153,8 +183,10 @@
                             </button>
                         </div>
                     </div>
-                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0}" *ngIf="anotote.type ==2">
-                        <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
+                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0 || current_color != 'me')}" *ngIf="anotote.type ==2">
+                        <ng-container *ngIf="current_color == 'me'">
+                            <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
+                        </ng-container>
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
                             <strong>Chat</strong>
                         </ng-container>
@@ -301,9 +333,16 @@
                             <ion-item class="underlist-items" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <!-- <img [src]="message | chatHeads" alt=""> -->
-                                    <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
-                                    <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
-                                    <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
+                                    <ng-container *ngIf="current_color == 'me'">
+                                        <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                                        <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
+                                        <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
+                                    </ng-container>
+                                    <ng-container *ngIf="current_color != 'me'">
+                                        <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                                        <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
+                                    </ng-container>
+
                                 </figure>
                                 <div class="check-text">
                                     <div class="name-time">
@@ -417,7 +456,7 @@
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
         </div>
     </div>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll *ngIf="!fbLoading" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
@@ -520,7 +559,7 @@
 <span navPop class="wedge_icon"></span>
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.chatGroup != null">
     <ion-toolbar color="dark">
-        <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
+        <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
         <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
         <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
     </ion-toolbar>
@@ -530,42 +569,42 @@
         <div class="downUp">
             <ng-container *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'top'">
                 <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 0 && current_active_anotote.topVote.currentUserVote == 0" (click)="upvote()" alt="">
-                <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" alt="">
+                <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" (click)="upvote()" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" alt="">
                 <span>{{current_active_anotote.topVote.rating | number}}%</span>
                 <img src="assets/img/downIcon.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 0 && current_active_anotote.topVote.currentUserVote == 0" (click)="downvote()" alt="">
-                <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" (click)="downvote()" alt="">
             </ng-container>
             <ng-container *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'top'">
                 <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 0 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" (click)="upvote()" alt="">
-                <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" alt="">
+                <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" (click)="upvote()" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 1" alt="">
                 <span>{{current_active_anotote.anototeDetail.userAnnotote.rating | number}}%</span>
                 <img src="assets/img/downIcon.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 0 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 0" (click)="downvote()" alt="">
-                <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 1" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote == 1 && current_active_anotote.anototeDetail.userAnnotote.currentUserVote == 1" (click)="downvote()" alt="">
             </ng-container>
             <ng-container *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'">
                 <ng-container *ngFor="let user of current_active_anotote.userAnnotote.anototeDetail.follows">
                     <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="upvote()" alt="">
-                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
+                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" (click)="upvote()" alt="">
                     <img src="assets/img/upArrowgreen.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
                     <span *ngIf="user.firstName == current_active_anotote.selected_follower_name">{{user.followTote.rating | number}}%</span>
                     <img src="assets/img/downIcon.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="downvote()" alt="">
-                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" (click)="downvote()" alt="">
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'">
                 <ng-container *ngFor="let user of current_active_anotote.anototeDetail.follows">
                     <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="upvote()" alt="">
-                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
+                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" (click)="upvote()" alt="">
                     <img src="assets/img/upArrowgreen.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
                     <span *ngIf="user.firstName == current_active_anotote.selected_follower_name">{{user.followTote.rating | number}}%</span>
                     <img src="assets/img/downIcon.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="downvote()" alt="">
-                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == current_active_anotote.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" (click)="downvote()" alt="">
                 </ng-container>
             </ng-container>
         </div>

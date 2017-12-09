@@ -108,8 +108,65 @@ export class AnototeOptions {
         return;
       }
     }
+  }
 
+  change_chatTote_privacy(privacy) {
+    if (this.determine_groupUser_as_admin()) {
+      if (privacy == 'public') {
+        if (this.anotote.chatGroup.groupUsers[0].privacy != 0) {
+          // this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to public?", () => {
+          var params = {
+            group_id: this.anotote.chatGroup.groupUsers[0].groupId,
+            privacy: 0
+          }
+          this.anototeService.chat_tote_privacy(params).subscribe((result) => {
+            for (let user of this.anotote.chatGroup.groupUsers) {
+              user.privacy = 0;
+            }
+          }, (error) => {
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            }
+          })
+          // })
 
+        } else {
+          this.utilityMethods.doToast("Anotote is already public.");
+          return;
+        }
+      } else if (privacy == 'private') {
+        if (this.anotote.chatGroup.groupUsers[0].privacy != 1) {
+          // this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to private?", () => {
+          var params = {
+            group_id: this.anotote.chatGroup.groupUsers[0].groupId,
+            privacy: 1
+          }
+          this.anototeService.chat_tote_privacy(params).subscribe((result) => {
+            for (let user of this.anotote.chatGroup.groupUsers) {
+              user.privacy = 1;
+            }
+          }, (error) => {
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            }
+          })
+          // })
+        } else {
+          this.utilityMethods.doToast("Anotote is already private.");
+          return;
+        }
+      }
+    } else {
+      this.utilityMethods.doToast("Only admin can change privacy.")
+    }
+  }
+
+  determine_groupUser_as_admin(): boolean {
+    for (let user of this.anotote.chatGroup.groupUsers) {
+      if (user.groupAdmin == 1 && user.user.id == this.user.id)
+        return true;
+    }
+    return false;
   }
 
   markReadUnread() {

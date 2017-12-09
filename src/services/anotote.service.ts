@@ -28,7 +28,7 @@ export class AnototeService {
     return response;
   }
 
-  public fetchMentionedTote(url){
+  public fetchMentionedTote(url) {
     var response = this.http.get(url).map(res => res.json())
     return response;
   }
@@ -91,6 +91,11 @@ export class AnototeService {
   }
   public privatize_bulk_totes(params) {
     var url = this.constants.API_BASEURL + '/privacy-bulk-annototes';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+  public chat_tote_privacy(params) {
+    var url = this.constants.API_BASEURL + '/update-chat-tote';
     var response = this.http.post(url, params, {}).map(res => res.json());
     return response;
   }

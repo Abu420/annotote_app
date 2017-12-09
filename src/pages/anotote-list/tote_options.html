@@ -1,7 +1,7 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
-    <div *ngIf="stream != 'me'" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="stream != 'me' && anotote.chatGroup == null" no-lines class="sharing_pop bottom-border">
         <div class="main_label bookmarkIcon">
             <img src="assets/img/bookmark.svg" />
         </div>
@@ -11,7 +11,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="stream != 'me'" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="stream != 'me' && anotote.chatGroup == null" no-lines class="sharing_pop bottom-border">
         <div class="main_label saveIcon">
             <img src="assets/img/cloudIconGray.svg" />
         </div>
@@ -32,6 +32,21 @@
             </li>
         </ul>
     </div>
+    <ng-container *ngIf="anotote.chatGroup.messagesUser[0].anototeId != 0 &&  message == null">
+        <div no-lines class="sharing_pop two bottom-border">
+            <div class="main_label">
+                <img src="assets/img/privacyImg.svg" />
+            </div>
+            <ul>
+                <li (click)="change_chatTote_privacy('public')">
+                    <span [ngClass]="{'high': anotote.chatGroup.groupUsers[0].privacy == 0}">Public</span>
+                </li>
+                <li (click)="change_chatTote_privacy('private')">
+                    <span [ngClass]="{'high': anotote.chatGroup.groupUsers[0].privacy == 1}">Private</span>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
     <ng-container *ngIf="anotote.chatGroup == null">
         <div no-lines class="sharing_pop bottom-border">
             <div class="main_label">

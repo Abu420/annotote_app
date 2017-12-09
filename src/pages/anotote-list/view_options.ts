@@ -39,7 +39,10 @@ export class ViewOptions {
   show_notifications() {
     this.statusbar.show();
     this.dismiss();
-    let notifications = this.modalCtrl.create(Notifications, null);
+    var params = {
+      from: this.stream
+    }
+    let notifications = this.modalCtrl.create(Notifications, params);
     notifications.present();
   }
 

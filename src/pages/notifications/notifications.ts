@@ -50,6 +50,7 @@ export class Notifications {
   public has_notifications: boolean = true;
   public show: boolean = true;
   public loadMore: boolean = true;
+  public changeStatusBarColor: boolean = true;
 
   constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController, public statusBar: StatusBar) {
     this._notifications = [];
@@ -58,6 +59,9 @@ export class Notifications {
     this.image_base_path = this.constants.IMAGE_BASEURL;
     this.user = this.authService.getUser();
     this._reload = this.params.get('reload');
+    if (params.get('from')) {
+      this.changeStatusBarColor = false;
+    }
   }
 
   ionViewDidLoad() {
@@ -65,7 +69,19 @@ export class Notifications {
     this.loadNotifications();
   }
   ionViewDidEnter() {
-    this.statusBar.backgroundColorByHexString('#323232');
+    if (this.changeStatusBarColor) {
+      this.statusBar.backgroundColorByHexString('#323232');
+    } else {
+      if (this.params.get('from') == 'me') {
+        this.statusBar.backgroundColorByHexString('#3bde00');
+      } else if (this.params.get('from') == 'follows') {
+        this.statusBar.backgroundColorByHexString('#f4e300');
+      } else if (this.params.get('from') == 'top') {
+        this.statusBar.backgroundColorByHexString('#fb9df0');
+      } else if (this.params.get('from') == 'anon') {
+        this.statusBar.backgroundColorByHexString('#323232');
+      }
+    }
   }
 
   dismiss(action) {

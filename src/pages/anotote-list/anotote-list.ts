@@ -152,8 +152,10 @@ export class AnototeList {
       this.statusBar.backgroundColorByHexString('#3bde00');
     else if (this.current_color == 'follows')
       this.statusBar.backgroundColorByHexString('#f4e300');
-    else
+    else if (this.current_color == 'top')
       this.statusBar.backgroundColorByHexString('#fb9df0');
+    else if (this.current_color == 'anon')
+      this.statusBar.backgroundColorByHexString('#323232');
   }
 
   ionViewDidLeave() {
@@ -210,15 +212,17 @@ export class AnototeList {
       }
     } else {
       if (this.anototes.length == 0) {
-        this.showLoading("Loading Totes");
+        // this.showLoading("Loading Totes");
         this.fbLoading = true;
         this.anototeService.fetchMentionedTote(this.mentionedUrl).subscribe((result) => {
           let stream = result.data.annototes;
           this.enable_refresher = false;
           for (let entry of stream) {
             if (entry.userAnnotote.anototeDetail.isMe == 1) {
+              this.statusBar.backgroundColorByHexString('#3bde00');
               this.current_color = 'me';
             } else if (entry.userAnnotote.anototeDetail.follows.length > 0) {
+              this.statusBar.backgroundColorByHexString('#f4e300');
               this.current_color = 'follows';
             }
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
@@ -241,7 +245,7 @@ export class AnototeList {
 
   loadanototes() {
     if (this.current_color != 'top') {
-      this.showLoading("Loading Totes");
+      // this.showLoading("Loading Totes");
       this.fbLoading = true;
       this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
         let stream = result.data.annototes;
@@ -260,24 +264,24 @@ export class AnototeList {
           this.stream.follows_anototes = this.anototes;
           this.stream.follow_first_load = true;
         }
-        this.hideLoading();
+        // this.hideLoading();
         this.fbLoading = false;
       }, (error) => {
-        this.hideLoading();
+        // this.hideLoading();
         this.fbLoading = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
     } else {
-      this.showLoading("Loading Totes");
+      // this.showLoading("Loading Totes");
       this.fbLoading = true;
       let params = {
         number: this.current_page++,
         time: this.utilityMethods.get_php_wala_time()
       }
       this.anototeService.top_totes(params).subscribe((result) => {
-        this.hideLoading();
+        // this.hideLoading();
         this.fbLoading = false;
         this.top_anototes = result.data.annototes;
         if (this.top_anototes.length == 0) {
@@ -287,7 +291,7 @@ export class AnototeList {
         this.stream.top_page_no = this.current_page;
         this.stream.top_first_load = true;
       }, (error) => {
-        this.hideLoading();
+        // this.hideLoading();
         this.fbLoading = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
@@ -297,7 +301,7 @@ export class AnototeList {
   }
 
   loadUserTotes() {
-    this.showLoading("Loading Totes");
+    // this.showLoading("Loading Totes");
     this.fbLoading = true;
     this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
       let stream = result.data.annototes;
@@ -307,10 +311,10 @@ export class AnototeList {
       if (this.anototes.length == 0) {
         this.has_totes = false;
       }
-      this.hideLoading();
+      // this.hideLoading();
       this.fbLoading = false;
     }, (error) => {
-      this.hideLoading();
+      // this.hideLoading();
       this.fbLoading = false;
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
@@ -911,11 +915,11 @@ export class AnototeList {
           }
         } else if (this.current_color == 'follows') {
           anotote.active_tab = 'follows';
-          if (anotote.chatGroupId == null) {
+          if (anotote.chatGroupId == null)
             anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
-          } else {
-            this.move_fab = true;
-          }
+
+          this.move_fab = true;
+
           // anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
           // this.move_fab = true;
         }
@@ -1466,11 +1470,12 @@ export class AnototeList {
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
     if (this.current_color != 'anon') {
-      if (anotote.chatGroup == null) {
-        this.options(anotote);
-      } else {
-        this.options(anotote);
-      }
+      // if (anotote.chatGroup == null) {
+      //   this.options(anotote);
+      // } else {
+      //   this.options(anotote);
+      // }
+      this.options(anotote);
     } else {
       if (this.followedUserId != 0)
         this.toastInFooter("Please follow this user first");
