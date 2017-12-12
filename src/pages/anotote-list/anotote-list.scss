@@ -643,9 +643,24 @@
             .fab {
                 overflow: visible;
                 contain: layout;
+                .notices,
+                .bell em {
+                    width: 25px;
+                    height: 25px;
+                    padding: 4px 0 0 1px;
+                    border-radius: 100%;
+                    background: red;
+                    text-align: center;
+                    color: #fff;
+                    position: absolute;
+                    bottom: -2px;
+                    right: -4px;
+                    z-index: 1000;
+                    font-style: normal;
+                }
                 .meNote {
-                    width: 22px;
-                    height: 22px;
+                    width: 25px;
+                    height: 25px;
                     background: color($colors, me);
                     position: absolute;
                     right: -6px;
@@ -655,12 +670,13 @@
                     padding: 0;
                     font-size: 11px;
                     line-height: 2;
-                    font-weight: bold;
+                    font-weight: bold !important;
+                    text-align: center;
                 }
                 .notiNote {
-                    @extend .meNote;
-                    top: auto;
-                    bottom: -5px;
+                    @extend .meNote; // top: auto;
+                    // bottom: -5px;
+                    font-size: 1.6rem;
                     background: red;
                 }
                 .followNote {

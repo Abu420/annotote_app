@@ -23,6 +23,7 @@ import { ViewOptions } from '../anotote-list/view_options';
 import { FollowsPopup } from '../anotote-list/follows_popup';
 import { SearchUnPinned } from '../../models/search';
 import { AnototeOptions } from "../anotote-list/tote_options";
+import { NotificationService } from "../../services/notifications.service";
 
 @IonicPage()
 @Component({
@@ -83,6 +84,7 @@ export class AnototeEditor implements OnDestroy {
     };
     public title_temp = '';
     public titleEditingoff: boolean = true;
+    public unread_notification_count: any = 0;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -98,12 +100,15 @@ export class AnototeEditor implements OnDestroy {
         private utilityMethods: UtilityMethods,
         public statusBar: StatusBar,
         public runtime: Streams,
-        public cd: ChangeDetectorRef) {
+        public cd: ChangeDetectorRef,
+        public notificationService: NotificationService) {
 
         var that = this;
         this.toggle_annotation_option = false;
         this.selection_lock = false;
         this.user = authService.getUser();
+        var data = notificationService.get_notification_data()
+        this.unread_notification_count = data.unread;
 
         /**
          * Assigning Values

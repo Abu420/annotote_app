@@ -109,6 +109,7 @@ export class AnototeList {
   private search_user: boolean = false;
   public mentioned: any = []
   public fbLoading: boolean = false;
+  public forFollowedCaseName: boolean = false;
   /**
    * Constructor
    */
@@ -305,6 +306,7 @@ export class AnototeList {
     this.fbLoading = true;
     this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
       let stream = result.data.annototes;
+      this.forFollowedCaseName = true;
       for (let entry of stream) {
         this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
       }

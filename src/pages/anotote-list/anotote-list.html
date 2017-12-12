@@ -448,7 +448,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
+        <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
         </div>
@@ -460,7 +460,7 @@
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true}" right>
+    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : (current_color == 'anon' ? 'anon':current_active_anotote.active_tab)">
             <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteFab.svg" />
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">
@@ -554,6 +554,7 @@
                 />
             </ng-container>
         </button>
+        <button *ngIf="unread_notification_count > 0" ion-button icon-only class="notices">{{unread_notification_count}}</button>
     </ion-fab>
 </ion-content>
 <span navPop class="wedge_icon"></span>
@@ -622,5 +623,10 @@
 <ion-footer class="message-bottom" *ngIf="loading_check">
     <ion-toolbar color="dark">
         <p class="messageLoading">{{loading_message}}</p>
+    </ion-toolbar>
+</ion-footer>
+<ion-footer class="message-bottom" *ngIf="current_active_anotote == null && forFollowedCaseName == true">
+    <ion-toolbar color="dark">
+        <p class="messageLoading">{{followUserName}}'s Totes</p>
     </ion-toolbar>
 </ion-footer>

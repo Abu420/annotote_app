@@ -149,6 +149,7 @@
                 <img *ngIf="ANOTOTE != null && ANOTOTE.active_tab == 'follows' && ANOTOTE.anototeDetail.isMe == 0 && ANOTOTE.anototeDetail.isTop == 0" src="assets/img/yellowFab4.svg" />
             </ng-container>
         </button>
+        <button *ngIf="unread_notification_count > 0" ion-button icon-only class="notices">{{unread_notification_count}}</button>
     </ion-fab>
 </ion-content>
 <ion-footer class="inline_tote_options" *ngIf="loading_check">

@@ -32,7 +32,7 @@
             </li>
         </ul>
     </div>
-    <ng-container *ngIf="anotote.chatGroup.messagesUser[0].anototeId != 0 &&  message == null">
+    <ng-container *ngIf="anotote.chatGroup && anotote.chatGroup.messagesUser[0].anototeId != 0 &&  message == null">
         <div no-lines class="sharing_pop two bottom-border">
             <div class="main_label">
                 <img src="assets/img/privacyImg.svg" />

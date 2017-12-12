@@ -3,39 +3,20 @@
 <div class="content_follows_profile commentDetail">
     <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
         <div class="pop_heading">
-            <!--<div class="col">
-				<ion-icon name="ios-arrow-down-outline"></ion-icon>
-				<em>83%</em>
-				<ion-icon name="ios-arrow-up-outline"></ion-icon>
-            </div>-->
-            <!-- <div (tap)="dismiss()" class="col">
-                <img src="assets/img/croseIcon.svg" alt="">
-            </div>
-            <div class="col">Chantel Bardaro (3)</div
-            <div (tap)="delete()" class="col">
-                <img src="assets/img/deleteIcon.svg" alt="">
-            </div> -->
             <div class="downUp" *ngIf="stream != 'me'">
-                <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="upvote()" alt="">
+                <span (tap)="dismiss()">Close</span>
+                <!-- <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="upvote()" alt="">
                 <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
-                <!-- <img src="assets/img/uparrowgreen.svg" (click)="upvote()" alt=""> -->
                 <span>{{annotation.rating | number }}%</span>
                 <img src="assets/img/downIcon.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" (click)="downvote()" alt="">
                 <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="downvote()" alt="">
-                <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
-                <!-- <img src="assets/img/downarrow.svg" (click)="downvote()" alt=""> -->
+                <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt=""> -->
             </div>
             <div class="topTab" *ngIf="stream != 'me'">
-                <span>Top</span>
+                <span *ngIf="stream == 'follows'">Follows</span>
+                <span *ngIf="stream == 'top'">Top</span>
             </div>
-            <!-- <div (tap)="share()" class="col" *ngIf="stream != 'me'">
-                <img src="assets/img/shareIcon.svg" alt="">
-            </div>
-
-            <div (tap)="share()" class="col" *ngIf="stream == 'me'">
-                <img src="assets/img/shareIcon.svg" alt="">
-            </div> -->
             <div class="btnRow" *ngIf="stream == 'me'">
                 <span (tap)="dismiss()">Close</span>
                 <span (tap)="delete()">Delete</span>

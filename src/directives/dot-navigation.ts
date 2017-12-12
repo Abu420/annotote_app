@@ -16,6 +16,11 @@ export class DotNavigation implements OnInit {
             for (let i = 0; i < that.navCtrl.getActive().index; i++) {
                 that.un_active_dots_array.push(i);
             }
+            if (that.navCtrl.getPrevious().isOverlay) {
+                if (that.un_active_dots_array.length > 1) {
+                    that.un_active_dots_array.pop();
+                }
+            }
         }, 500);
     }
 
