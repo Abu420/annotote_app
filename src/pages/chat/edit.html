@@ -1,21 +1,22 @@
 <div class="top_empty_box" (tap)="close()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
-    <ng-container *ngIf="stream == true">
+    <ng-container *ngIf="chatormsg == false">
+        <ng-container *ngIf="stream == true">
 
-        <div *ngIf="message != null && message.senderId != user.id" no-lines class="sharing_pop bottom-border">
-            <div class="main_label markIcon">
-                <img src="assets/img/markIcon.svg" />
+            <div *ngIf="message != null && message.senderId != user.id" no-lines class="sharing_pop bottom-border">
+                <div class="main_label markIcon">
+                    <img src="assets/img/markIcon.svg" />
+                </div>
+                <ul>
+                    <li (click)="close('read')">
+                        <span *ngIf="message.read == 0">Mark Read</span>
+                        <span *ngIf="message.read == 1">Mark Unread</span>
+                    </li>
+                </ul>
             </div>
-            <ul>
-                <li (click)="close('read')">
-                    <span *ngIf="message.read == 0">Mark Read</span>
-                    <span *ngIf="message.read == 1">Mark Unread</span>
-                </li>
-            </ul>
-        </div>
 
-        <!-- <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop bottom-border">
+            <!-- <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop bottom-border">
             <div class="main_label editImg">
                 <img src="assets/img/editImg.svg" />
             </div>
@@ -25,17 +26,43 @@
                 </li>
             </ul>
         </div> -->
-    </ng-container>
-    <div no-lines class="sharing_pop bottom-border">
-        <div class="main_label shareIcon">
-            <img src="assets/img/shareImg.svg" />
+        </ng-container>
+        <div no-lines class="sharing_pop bottom-border">
+            <div class="main_label shareIcon">
+                <img src="assets/img/shareImg.svg" />
+            </div>
+            <ul>
+                <li (click)="close('share')">
+                    <span>Share Message</span>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li (click)="close('share')">
-                <span>Share Message</span>
-            </li>
-        </ul>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="chatormsg == true">
+        <div no-lines class="sharing_pop two bottom-border" *ngIf="message.anototeId != 0">
+            <div class="main_label">
+                <img src="assets/img/privacyImg.svg" />
+            </div>
+            <ul>
+                <li (click)="change_chatTote_privacy('public')">
+                    <span [ngClass]="{'high': tote[0].privacy == 0}">Public</span>
+                </li>
+                <li (click)="change_chatTote_privacy('private')">
+                    <span [ngClass]="{'high': tote[0].privacy == 1}">Private</span>
+                </li>
+            </ul>
+        </div>
+        <div no-lines class="sharing_pop bottom-border">
+            <div class="main_label markIcon">
+                <img src="assets/img/deleteIconGray.svg" />
+            </div>
+            <ul>
+                <li (click)="close('delete')">
+                    <span>Delete</span>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
     <!-- <ng-container *ngIf="stream == true">
 
         <div *ngIf="message.senderId == user.id" no-lines class="sharing_pop four bottom-border">

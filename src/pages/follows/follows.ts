@@ -1,5 +1,5 @@
 import { Component, trigger, transition, style, animate, NgZone, state } from '@angular/core';
-import { IonicPage, ModalController, ViewController } from 'ionic-angular';
+import { IonicPage, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { Profile } from '../follows/follows_profile';
 
@@ -39,9 +39,11 @@ export class Follows {
   private no_followers_found: boolean = false;
   public show: boolean = true;
   public flyInOutState: String = 'out';
+  public userToBeLoaded: number = 0;
 
   constructor(public constants: Constants,
     public viewCtrl: ViewController,
+    params: NavParams,
     public searchService: SearchService,
     public authService: AuthenticationService,
     public modalCtrl: ModalController,
@@ -49,6 +51,10 @@ export class Follows {
     public statusbar: StatusBar) {
     this.statusbar.hide();
     this.followings = [];
+    if (params.get('userid'))
+      this.userToBeLoaded = params.get('userid');
+    else
+      this.userToBeLoaded = authService.getUser().id;
   }
 
   ionViewDidLoad() {
@@ -91,7 +97,10 @@ export class Follows {
   }
 
   load_follows_list() {
-    this.authService.get_follows()
+    var params = {
+      id: this.userToBeLoaded
+    }
+    this.authService.get_follows(params)
       .subscribe((res) => {
         this._loading = true;
         this.followings = res.data.user;

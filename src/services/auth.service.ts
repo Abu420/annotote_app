@@ -99,8 +99,8 @@ export class AuthenticationService {
    * type: {POST}
    * params: [], 
    */
-  public get_follows() {
-    var url = this.constants.API_BASEURL + '/get-follows?user_id=' + this._user.id;
+  public get_follows(params) {
+    var url = this.constants.API_BASEURL + '/get-follows?user_id=' + params.id;
     var response = this.http.get(url, {}).map(res => res.json());
     return response;
   }

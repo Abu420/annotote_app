@@ -45,7 +45,7 @@ export class Autosize implements AfterViewInit {
   }
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key == 'Backspace') {
+    if (event.key == 'Backspace' && this.el.style.height > '36px') {
       this.el.style.height = this.element.nativeElement.scrollHeight - 16 + 'px';
     }
 
@@ -76,7 +76,8 @@ export class Autosize implements AfterViewInit {
     }
     this.el.style.overflow = 'hidden';
     this.el.style.height = 'auto';
-    this.el.style.height = this.el.scrollHeight + "px";
+    if (this.el.scrollHeight > 0)
+      this.el.style.height = this.el.scrollHeight + "px";
   }
 
   updateMinHeight(): void {

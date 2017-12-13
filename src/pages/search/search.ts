@@ -171,7 +171,7 @@ export class Search {
     }
 
     save_search_entry(save_or_bookmark) {
-        if (this.utilityMethods.isWEBURL(this.search_txt)) {
+        if (this.utilityMethods.isWEBURL(this.search_txt) && save_or_bookmark == 'save_entry') {
             this.scrape_this_url(false, save_or_bookmark)
         } else {
             var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
@@ -351,8 +351,10 @@ export class Search {
         var toast = null;
         if (save_or_bookmark == 'save_entry')
             toast = this.utilityMethods.doLoadingToast('Saving...');
-        else
+        else if (save_or_bookmark == 'bookmark_entry')
             toast = this.utilityMethods.doLoadingToast('Bookmarking...');
+        else
+            toast = this.utilityMethods.doLoadingToast('Please wait...');
         // else
         //     params['search_id'] = search.id;
         /**

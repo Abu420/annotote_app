@@ -117,8 +117,7 @@ follow_profile {
         text-align: center;
         overflow: hidden;
         width: 100%;
-        height: 110px;
-        background: rgba(128, 128, 128, 0.3);
+        height: 110px; // background: rgba(128, 128, 128, 0.3);
         margin-bottom: 20px;
     }
     .img-holder img {
@@ -154,6 +153,16 @@ follow_profile {
             img {
                 width: 30px;
             }
+            span {
+                font-size: 14px;
+                text-transform: uppercase;
+                float: right;
+                color: #7f7f7f;
+                padding-left: 10px;
+            }
+            span.accept {
+                color: #32ad05;
+            }
         }
     }
     .follow_list {
@@ -166,6 +175,8 @@ follow_profile {
                 width: 100%;
                 padding: 0px;
                 margin: 0px;
+                height: auto;
+                resize: none;
             }
             input {
                 width: 100%;

@@ -7,7 +7,8 @@
                 <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
             </figure>
             <div class="proName">
-                <strong>
+                <strong *ngIf="is_it_me == false">{{profileData.user.firstName}}<img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt=""></strong>
+                <strong *ngIf="is_it_me == true">
                     <form (ngSubmit)="updateUser()">
                         <input type="text" name="name" [(ngModel)]="profileData.user.firstName" [disabled]="is_it_me == false" placeholder="Name">
                         <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
@@ -20,7 +21,7 @@
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
                 </div>
                 <div *ngIf="is_it_me == false" class="img-holder">
-                    <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
+                    <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg" imageViewer>
                     <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="profileData.user.photo != null" [src]="profileData.user.photo | image_base_path" imageViewer>
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
                 </div>
@@ -37,7 +38,7 @@
                 <div class="txt">
                     <strong *ngIf="is_it_me == true">
                         <form (ngSubmit)="updateUser()">
-                            <input type="text" placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" name="description">
+                            <textarea autosize type="text" placeholder="Add a description about yourself" [(ngModel)]="new_description" name="description"></textarea>
                         </form>
                         <!-- <textarea placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" ></textarea> -->
                     </strong>
@@ -49,6 +50,8 @@
                     <p *ngIf="(profileData.user.description != null || profileData.user.description != '') && is_it_me == false">{{profileData.user.description}}</p>
                     <p *ngIf="(profileData.user.description == null || profileData.user.description == '') && is_it_me == false">No description added by {{profileData.user.firstName}}.</p>
                     <img src="assets/img/dotsicon.svg" *ngIf="is_it_me || profileData.user.userTags.length > 0" (click)="showTags()" alt="">
+                    <span class="accept" *ngIf="new_description != '' && new_description != profileData.user.description" (click)="updateUser()">SAVE</span>
+                    <span (click)="cancelUpdate()" *ngIf="new_description != '' && new_description != profileData.user.description">Cancel</span>
                 </div>
             </ion-item>
             <ion-item>
@@ -73,7 +76,7 @@
                     <p [innerText]="profileData.followers"></p>
                 </div>
             </ion-item>
-            <ion-item>
+            <ion-item (click)="showFollows()">
                 <button ion-button icon-only>
                         <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
                         <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">

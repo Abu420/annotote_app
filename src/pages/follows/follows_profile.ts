@@ -20,6 +20,7 @@ import { TagsForChat } from '../chat_profileTags/tags';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { TagsPopUp } from '../anotote-list/tags';
 import { StatusBar } from "@ionic-native/status-bar";
+import { Follows } from "./follows";
 
 declare var cordova: any;
 
@@ -49,6 +50,7 @@ export class Profile {
   public from_page: string;
   public is_it_me: boolean;
   private lastImage: string = null;
+  public new_description: string = '';
 
   constructor(public stream: Streams,
     private zone: NgZone,
@@ -71,8 +73,8 @@ export class Profile {
     statusbar.hide();
     var user = this.authService.getUser();
     this.profileData = params.get('data');
-    if (this.profileData.user.description == null) {
-      this.profileData.user.description = '';
+    if (this.profileData.user.description != null) {
+      this.new_description = Object.assign(this.profileData.user.description);
     }
     this.from_page = params.get('from_page');
 
@@ -137,17 +139,18 @@ export class Profile {
   }
 
   updateUser() {
-    if (this.profileData.user.fristName != '' && this.profileData.user.description != '') {
+    if (this.profileData.user.fristName != '' && this.new_description != '') {
       var toast = this.utilityMethods.doLoadingToast('Updating...');
       this.authService.update_profile({
         email: this.profileData.user.email,
         first_name: this.profileData.user.firstName,
         last_name: this.profileData.user.lastName,
-        description: this.profileData.user.description,
+        description: this.new_description,
         updated_at: this.utilityMethods.get_php_wala_time()
       }).subscribe((response) => {
         toast.dismiss();
         this.authService.updateUser(response.data.user);
+        this.profileData.user.description = this.new_description;
         this.utilityMethods.doToast('Profile updated successfully.');
       }, (error) => {
         toast.dismiss();
@@ -157,8 +160,12 @@ export class Profile {
           this.utilityMethods.message_alert('Error', 'This email has already been taken.');
       });
     } else {
-      this.utilityMethods.doToast("Please don't leave the field blank.");
+      this.utilityMethods.doToast("Field not updated.");
     }
+  }
+
+  cancelUpdate() {
+    this.new_description = Object.assign(this.profileData.user.description);
   }
 
   presentActionSheet() {
@@ -374,6 +381,16 @@ export class Profile {
     setTimeout(() => {
       this.viewCtrl.dismiss();
     }, 300)
+  }
+
+  showFollows() {
+    var params = {
+      userid: this.profileData.user.id
+    }
+    let follows = this.modalCtrl.create(Follows, params);
+    follows.onDidDismiss(data => {
+    });
+    follows.present();
   }
 
 }

@@ -19,7 +19,7 @@
 <ion-content swipe-vertical padding #scrollMe>
     <div id="wrapper">
         <div class="chatHead">
-            <span class="chatOptions" (click)="deleteChat()"></span>
+            <span class="chatOptions" *ngIf="conversation.length > 0" (click)="showOptions()"></span>
             <div class="txt">
                 <ng-container *ngIf="tote != null && tote.chatGroup != null">
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null">Chat</strong>

@@ -229,7 +229,8 @@ export class Chat {
   editOrDelete(message) {
     var params = {
       message: message,
-      contains: this.contains
+      contains: this.contains,
+      chatToteOpts: false
     }
     let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
     anototeOptionsModal.onDidDismiss(data => {
@@ -316,6 +317,24 @@ export class Chat {
     // popover.present({
     //   ev: myEvent
     // });
+  }
+
+  showOptions() {
+    var params = {
+      message: this.conversation[0],
+      contains: this.contains,
+      chatToteOpts: true,
+      tote: this.tote != null ? this.tote.chatGroup.groupUsers : null
+    }
+    let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
+    anototeOptionsModal.onDidDismiss(data => {
+      if(data){
+        if(data.choice == 'delete'){
+          this.deleteChat();
+        }
+      }
+    })
+    anototeOptionsModal.present();
   }
 
   @ViewChild('myInput') myInput: ElementRef;
