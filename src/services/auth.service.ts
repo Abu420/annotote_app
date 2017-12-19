@@ -106,6 +106,15 @@ export class AuthenticationService {
   }
 
   /**
+   * getF followers
+   */
+  public get_followers(params) {
+    var url = this.constants.API_BASEURL + '/get-followers?user_id=' + params.id;
+    var response = this.http.get(url, {}).map(res => res.json());
+    return response;
+  }
+
+  /**
    * Get User Follows API
    * type: {POST}
    * params: [], 

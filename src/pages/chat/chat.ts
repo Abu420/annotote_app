@@ -48,6 +48,8 @@ export class Chat {
   public current_color = 'me';
   public firstUser: any = null;
   public contains = true;
+  public newChatTitle = '';
+  public titleField: boolean = false
   /**
    * Constructor
    */
@@ -328,13 +330,49 @@ export class Chat {
     }
     let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
     anototeOptionsModal.onDidDismiss(data => {
-      if(data){
-        if(data.choice == 'delete'){
+      if (data) {
+        if (data.choice == 'delete') {
           this.deleteChat();
         }
       }
     })
     anototeOptionsModal.present();
+  }
+
+  showTitleField() {
+    this.titleField = true;
+  }
+
+  updateSubject() {
+    if (this.conversation.length > 0) {
+      if (this.newChatTitle != '') {
+        var params = {
+          group_id: this.conversation[0].groupId,
+          subject: this.newChatTitle,
+          updated_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.chatService.updateTitle(params).subscribe((success) => {
+          if (this.tote && this.tote.chatGroup) {
+            this.titleField = false;
+            this.tote.chatGroup.messagesUser[0].subject = this.newChatTitle;
+          } else {
+            this.titleField = false;
+            this.conversation[0].subject = this.newChatTitle;
+            this.stream.me_first_load = false;
+          }
+        }, (error) => {
+          this.titleField = false;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
+      } else {
+        this.utilityMethods.doToast("Cannot set an empty title");
+        this.titleField = false;
+      }
+    } else {
+      this.utilityMethods.doToast("Please initiate chat first by send a message after that you can edit title.")
+    }
   }
 
   @ViewChild('myInput') myInput: ElementRef;

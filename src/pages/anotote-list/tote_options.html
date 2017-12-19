@@ -1,7 +1,7 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile" [@enterAnimation] *ngIf="show == true">
-    <div *ngIf="stream != 'me' && anotote.chatGroup == null" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="stream != 'me' && anotote.chatGroup == null && anotote.isMe == 0" no-lines class="sharing_pop bottom-border">
         <div class="main_label bookmarkIcon">
             <img src="assets/img/bookmark.svg" />
         </div>
@@ -11,7 +11,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="stream != 'me' && anotote.chatGroup == null" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="stream != 'me' && anotote.chatGroup == null && anotote.isMe == 0" no-lines class="sharing_pop bottom-border">
         <div class="main_label saveIcon">
             <img src="assets/img/cloudIconGray.svg" />
         </div>
@@ -74,34 +74,100 @@
             <div class="main_label">
                 <img src="assets/img/tagImg.svg" />
             </div>
-            <ul *ngIf="stream != 'top'">
-                <li *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
-                    <span>Add Tags</span>
-                </li>
-                <li *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length == 0 && stream == 'follows'" (tap)="presentTagsModal()">
-                    <span>No tags added</span>
-                </li>
-                <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.userAnnotote.tags; let i=index">
-                    <li *ngIf="i < 2">
-                        <span>{{tag.tagText}}</span>
+            <ul *ngIf="actual_stream == 'me' || actual_stream == 'follows'">
+                <ng-container *ngIf="actual_stream == 'me' && stream == 'me'">
+                    <li *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
+                        <span>Add Tags</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.userAnnotote.tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length > 0 && stream == 'me'" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
                     </li>
                 </ng-container>
-                <li class="tabOption" *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length > 0 && stream == 'me'" (tap)="presentTagsModal()">
-                    <img src="assets/img/dotsOption.svg" />
-                </li>
+                <ng-container *ngIf="actual_stream == 'follows' && stream == 'me'">
+                    <li *ngIf="anotote.userAnnotote.anototeDetail.meToteFollowTop.tags.length == 0">
+                        <span>No tags added</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.meToteFollowTop.tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" *ngIf="anotote.userAnnotote.anototeDetail.meToteFollowTop.tags.length > 0" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="stream == 'follows'">
+                    <li *ngIf="anotote.follower_tags.length == 0">
+                        <span>No tags added</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.follower_tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" *ngIf="anotote.follower_tags.length > 1" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="stream == 'top'">
+                    <li *ngIf="anotote.top_tags.length == 0">
+                        <span>No tags added</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.top_tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" *ngIf="anotote.top_tags.length > 1" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
+                    </li>
+                </ng-container>
             </ul>
-            <ul *ngIf="stream == 'top'">
-                <li *ngIf="anotote.tags.length == 0">
-                    <span>No tags added</span>
-                </li>
-                <ng-container *ngFor="let tag of anotote.tags; let i=index">
-                    <li *ngIf="i < 2">
-                        <span>{{tag.tagText}}</span>
+            <ul *ngIf="actual_stream == 'top'">
+                <ng-container *ngIf="stream == 'me'">
+                    <li *ngIf="anotote.anototeDetail.meToteFollowTop.tags.length == 0">
+                        <span>No tags added</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.anototeDetail.meToteFollowTop.tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" *ngIf="anotote.anototeDetail.meToteFollowTop.tags.length > 1" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
                     </li>
                 </ng-container>
-                <li class="tabOption" (tap)="presentTagsModal()">
-                    <img src="assets/img/dotsOption.svg" />
-                </li>
+                <ng-container *ngIf="stream == 'follows'">
+                    <li *ngIf="anotote.follower_tags.length == 0">
+                        <span>No tags added</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.follower_tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" *ngIf="anotote.follower_tags.length > 1" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="stream == 'top'">
+                    <li *ngIf="anotote.tags.length == 0">
+                        <span>No tags added</span>
+                    </li>
+                    <ng-container *ngFor="let tag of anotote.tags; let i=index">
+                        <li *ngIf="i < 2">
+                            <span>{{tag.tagText}}</span>
+                        </li>
+                    </ng-container>
+                    <li class="tabOption" (tap)="presentTagsModal()">
+                        <img src="assets/img/dotsOption.svg" />
+                    </li>
+                </ng-container>
             </ul>
         </div>
         <div *ngIf="stream == 'me'" no-lines class="sharing_pop two bottom-border">

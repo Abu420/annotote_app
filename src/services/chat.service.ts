@@ -50,6 +50,10 @@ export class ChatService {
     return this.http.get(this.constants.API_BASEURL + "/delete-message?message_id=" + params.id).map(res => res.json());
   }
 
+  public updateTitle(params) {
+    return this.http.post(this.constants.API_BASEURL + "/update-subject", params, {}).map(res => res.json());
+  }
+
 
   // public currentUnixTimestamp() {
   //   return Math.round((new Date()).getTime() / 1000);

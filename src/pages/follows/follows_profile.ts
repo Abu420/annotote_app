@@ -383,9 +383,10 @@ export class Profile {
     }, 300)
   }
 
-  showFollows() {
+  showFollows(follows_or_follower) {
     var params = {
-      userid: this.profileData.user.id
+      userid: this.profileData.user.id,
+      type: follows_or_follower
     }
     let follows = this.modalCtrl.create(Follows, params);
     follows.onDidDismiss(data => {

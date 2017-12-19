@@ -181,7 +181,63 @@
         </span>
     </ion-toolbar>
 </ion-footer>
-
+<ion-footer class="inline_tote_options" *ngIf="ANOTOTE && ANOTOTE.active_tab == 'follows' && WHICH_STREAM != 'anon'">
+    <ion-toolbar color="dark" style="padding:0 15px !important">
+        <div class="downUp">
+            <!-- If he asks for upvote and downvot for top anotote in editor also -->
+            <!-- <ng-container *ngIf="WHICH_STREAM != 'top' && ANOTOTE.active_tab == 'top'">
+                <img src="assets/img/upArrow.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 0 && ANOTOTE.topVote.currentUserVote == 0" (click)="upvote()" alt="">
+                <img src="assets/img/upArrow.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 1 && ANOTOTE.topVote.currentUserVote == 0" (click)="upvote()" alt="">
+                <img src="assets/img/upArrowgreen.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 1 && ANOTOTE.topVote.currentUserVote == 1" alt="">
+                <span>{{ANOTOTE.topVote.rating | number}}%</span>
+                <img src="assets/img/downIcon.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 1 && ANOTOTE.topVote.currentUserVote == 0" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 0 && ANOTOTE.topVote.currentUserVote == 0" (click)="downvote()" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 1 && ANOTOTE.topVote.currentUserVote == 1" (click)="downvote()" alt="">
+            </ng-container> -->
+            <!-- <ng-container *ngIf="WHICH_STREAM == 'top' && ANOTOTE.active_tab == 'top'">
+                <img src="assets/img/upArrow.svg" *ngIf="ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote == 0 && ANOTOTE.anototeDetail.userAnnotote.currentUserVote == 0" (click)="upvote()" alt="">
+                <img src="assets/img/upArrow.svg" *ngIf="ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote == 1 && ANOTOTE.anototeDetail.userAnnotote.currentUserVote == 0" (click)="upvote()" alt="">
+                <img src="assets/img/upArrowgreen.svg" *ngIf="ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote == 1 && ANOTOTE.anototeDetail.userAnnotote.currentUserVote == 1" alt="">
+                <span>{{ANOTOTE.anototeDetail.userAnnotote.rating | number}}%</span>
+                <img src="assets/img/downIcon.svg" *ngIf="ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote == 1 && ANOTOTE.anototeDetail.userAnnotote.currentUserVote == 0" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote == 0 && ANOTOTE.anototeDetail.userAnnotote.currentUserVote == 0" (click)="downvote()" alt="">
+                <img src="assets/img/downIconwhite.svg" *ngIf="ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote == 1 && ANOTOTE.anototeDetail.userAnnotote.currentUserVote == 1" (click)="downvote()" alt="">
+            </ng-container> -->
+            <ng-container *ngIf="WHICH_STREAM != 'top' && ANOTOTE.active_tab == 'follows'">
+                <ng-container *ngFor="let user of ANOTOTE.userAnnotote.anototeDetail.follows">
+                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="upvote_anotote()" alt="">
+                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" (click)="upvote_anotote()" alt="">
+                    <img src="assets/img/upArrowgreen.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
+                    <span *ngIf="user.firstName == ANOTOTE.selected_follower_name">{{user.followTote.rating | number}}%</span>
+                    <img src="assets/img/downIcon.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="downvote_anotote()" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" (click)="downvote_anotote()" alt="">
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="WHICH_STREAM == 'top' && ANOTOTE.active_tab == 'follows'">
+                <ng-container *ngFor="let user of ANOTOTE.anototeDetail.follows">
+                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="upvote_anotote()" alt="">
+                    <img src="assets/img/upArrow.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" (click)="upvote_anotote()" alt="">
+                    <img src="assets/img/upArrowgreen.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" alt="">
+                    <span *ngIf="user.firstName == ANOTOTE.selected_follower_name">{{user.followTote.rating | number}}%</span>
+                    <img src="assets/img/downIcon.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 0" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 0 && user.followTote.currentUserVote == 0" (click)="downvote_anotote()" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="user.firstName == ANOTOTE.selected_follower_name && user.followTote.isCurrentUserVote == 1 && user.followTote.currentUserVote == 1" (click)="downvote_anotote()" alt="">
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="topTabFollows">
+            <span *ngIf="WHICH_STREAM != 'top' && ANOTOTE.active_tab == 'follows'" (click)="open_follows_popup($event,ANOTOTE)">{{ANOTOTE.selected_follower_name}}
+                    <i *ngIf="ANOTOTE.userAnnotote.anototeDetail.follows.length > 1">({{ANOTOTE.userAnnotote.anototeDetail.follows.length}})</i>
+                </span>
+            <span *ngIf="WHICH_STREAM == 'top' && ANOTOTE.active_tab == 'follows'" (click)="top_follows_popup($event,ANOTOTE)">{{ANOTOTE.selected_follower_name}}
+                    <i *ngIf="ANOTOTE.anototeDetail.follows.length > 1">({{ANOTOTE.anototeDetail.follows.length}})</i>
+                </span>
+            <!-- <span *ngIf="ANOTOTE.active_tab == 'top'">TOP</span> -->
+            <img (click)="toteOptions()" src="assets/img/dodtsLine.svg" alt="" />
+        </div>
+    </ion-toolbar>
+</ion-footer>
 <!--<div class="inline_tote_options" *ngIf="toggle_annotation_option">
     <span (click)="comment_it()" class="comment"></span>
     <span (click)="quote_it()" class="quote"></span>

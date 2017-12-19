@@ -10,6 +10,7 @@ export class ChatMessage {
   public read: number;
   public senderId: number;
   public groupId: number;
+  public subject: any;
   //private datetimeService: DatetimeService;
   constructor(id: any, senderId: number, time: string, text: string, read: number, groupId: number) {
     // this.datetimeService = new DatetimeService();

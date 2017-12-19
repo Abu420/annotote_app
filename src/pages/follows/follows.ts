@@ -40,6 +40,7 @@ export class Follows {
   public show: boolean = true;
   public flyInOutState: String = 'out';
   public userToBeLoaded: number = 0;
+  public typeToBeDisplayed: string = 'follows'
 
   constructor(public constants: Constants,
     public viewCtrl: ViewController,
@@ -55,6 +56,9 @@ export class Follows {
       this.userToBeLoaded = params.get('userid');
     else
       this.userToBeLoaded = authService.getUser().id;
+    if (params.get('type')) {
+      this.typeToBeDisplayed = params.get('type');
+    }
   }
 
   ionViewDidLoad() {
@@ -97,19 +101,35 @@ export class Follows {
   }
 
   load_follows_list() {
-    var params = {
-      id: this.userToBeLoaded
+    if (this.typeToBeDisplayed == 'follows') {
+      var params = {
+        id: this.userToBeLoaded
+      }
+      this.authService.get_follows(params)
+        .subscribe((res) => {
+          this._loading = true;
+          this.followings = res.data.user;
+          if (this.followings.length == 0) {
+            this.no_followers_found = true;
+          }
+        }, (error) => {
+          this._loading = true;
+        });
+    } else {
+      var params = {
+        id: this.userToBeLoaded
+      }
+      this.authService.get_followers(params)
+        .subscribe((res) => {
+          this._loading = true;
+          this.followings = res.data.user;
+          if (this.followings.length == 0) {
+            this.no_followers_found = true;
+          }
+        }, (error) => {
+          this._loading = true;
+        });
     }
-    this.authService.get_follows(params)
-      .subscribe((res) => {
-        this._loading = true;
-        this.followings = res.data.user;
-        if (this.followings.length == 0) {
-          this.no_followers_found = true;
-        }
-      }, (error) => {
-        this._loading = true;
-      });
   }
 
 }

@@ -32,6 +32,7 @@ export class AnototeOptions {
   // public share_type: any;
   // public share_content: string;
   public anotote: any;
+  public actual_stream: any;
   public stream: any;
   public show: boolean = true;
   public user;
@@ -51,9 +52,15 @@ export class AnototeOptions {
     // this.share_content = params.get('share_content')
     this.statusbar.hide();
     this.anotote = params.get('anotote');
-    this.stream = params.get('whichStream');
+    this.stream = params.get('active_tab');
     this.user = authService.getUser();
     this.message = params.get('message');
+    this.actual_stream = params.get('whichStream');
+    if (this.actual_stream == 'follows' && this.anotote.chatGroup == null) {
+      if (!this.anotote.follower_tags) {
+        this.anotote.follower_tags = this.anotote.followers[0].followTote.tags
+      }
+    }
   }
 
   presentTagsModal() {
@@ -83,9 +90,16 @@ export class AnototeOptions {
     if (privacy == 'public') {
       if (this.anotote.userAnnotote.privacy != 0) {
         // this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to public?", () => {
-        var params = {
-          userAnnotote_ids: this.anotote.userAnnotote.id,
-          privacy: 0
+        if (this.actual_stream == 'me')
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            privacy: 0
+          }
+        else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
+          var params = {
+            userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
+            privacy: 0
+          }
         }
         this.privacy(params, privacy);
         // })
@@ -97,9 +111,16 @@ export class AnototeOptions {
     } else if (privacy == 'private') {
       if (this.anotote.userAnnotote.privacy != 1) {
         // this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to change privacy to private?", () => {
-        var params = {
-          userAnnotote_ids: this.anotote.userAnnotote.id,
-          privacy: 1
+        if (this.actual_stream == 'me')
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            privacy: 1
+          }
+        else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
+          var params = {
+            userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
+            privacy: 1
+          }
         }
         this.privacy(params, privacy);
         // })
@@ -204,9 +225,16 @@ export class AnototeOptions {
   delete_anotote() {
     if (this.anotote.chatGroup == null) {
       this.utilityMethods.confirmation_message('Are you sure?', 'Do you really want to delete this anotote?', () => {
-        var params = {
-          userAnnotote_ids: this.anotote.userAnnotote.id,
-          delete: 1
+        if (this.actual_stream == 'me')
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            delete: 1
+          }
+        else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
+          var params = {
+            userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
+            delete: 1
+          }
         }
         var toast = this.utilityMethods.doLoadingToast("Deleting");
         this.anototeService.delete_bulk_totes(params).subscribe((result) => {
