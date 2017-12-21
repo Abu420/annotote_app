@@ -49,7 +49,15 @@
                     </strong> -->
                     <p *ngIf="(profileData.user.description != null || profileData.user.description != '') && is_it_me == false">{{profileData.user.description}}</p>
                     <p *ngIf="(profileData.user.description == null || profileData.user.description == '') && is_it_me == false">No description added by {{profileData.user.firstName}}.</p>
-                    <img src="assets/img/dotsicon.svg" *ngIf="is_it_me || profileData.user.userTags.length > 0" (click)="showTags()" alt="">
+                    <img src="assets/img/dotsicon.svg" *ngIf="is_it_me == true" (click)="showTags()" alt="">
+                    <p *ngIf="is_it_me == false && profileData.user.userTags.length > 0">
+                        <i *ngFor="let tag of profileData.user.userTags">
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}} 
+                        </i>
+                    </p>
                     <span class="accept" *ngIf="new_description != '' && new_description != profileData.user.description" (click)="updateUser()">SAVE</span>
                     <span (click)="cancelUpdate()" *ngIf="new_description != '' && new_description != profileData.user.description">Cancel</span>
                 </div>

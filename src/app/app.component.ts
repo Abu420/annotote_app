@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Platform, MenuController, Nav, ModalController, Events } from 'ionic-angular';
+import { Platform, MenuController, Nav, ModalController, Events, App } from 'ionic-angular';
 
 import { Constants } from '../services/constants.service';
 import { Login } from '../pages/login/login';
@@ -45,8 +45,20 @@ export class MyApp {
         public splashScreen: SplashScreen,
         private push: Push,
         public storage: Storage,
-        public notificationService: NotificationService) {
+        public notificationService: NotificationService,
+        public app: App) {
         this.initializeApp();
+        app.viewDidEnter.subscribe((view) => {
+            console.log(view)
+            if (view.isOverlay == false) {
+                this.events.publish('push_view');
+            }
+            console.log('view entered');
+        })
+        app.viewWillUnload.subscribe((view) => {
+            console.log(view)
+            console.log('view unloaded')
+        })
     }
 
     initializeApp() {

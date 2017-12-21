@@ -77,7 +77,8 @@
     "sw-toolbox": "3.4.0",
     "tslint": "^5.4.3",
     "underscore": "^1.8.3",
-    "zone.js": "^0.8.5"
+    "zone.js": "^0.8.5",
+    "cordova-plugin-vibration": "~2.1.6"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^2.0.2",
@@ -148,7 +149,8 @@
         "DEEPLINK_5_SCHEME": " ",
         "DEEPLINK_5_HOST": " "
       },
-      "cordova-clipboard": {}
+      "cordova-clipboard": {},
+      "cordova-plugin-vibration": {}
     }
   }
 }

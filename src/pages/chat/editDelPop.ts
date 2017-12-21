@@ -3,6 +3,7 @@ import { Component, trigger, transition, style, animate } from "@angular/core";
 import { AuthenticationService } from "../../services/auth.service";
 import { AnototeService } from "../../services/anotote.service";
 import { UtilityMethods } from "../../services/utility_methods";
+import { Clipboard } from '@ionic-native/clipboard';
 
 @Component({
     selector: 'msg_options',
@@ -31,6 +32,7 @@ export class EditDeleteMessage {
     public tote = null;
     constructor(public viewCtrl: ViewController,
         params: NavParams,
+        public clip: Clipboard,
         authService: AuthenticationService,
         public anototeService: AnototeService,
         public utilityMethods: UtilityMethods) {
@@ -108,4 +110,22 @@ export class EditDeleteMessage {
         }
         return false;
     }
+
+    share(which) {
+        var toBeShared: string = this.message.text;
+        if (which == 'facebook')
+          this.utilityMethods.share_via_facebook("Anotote", null, toBeShared);
+        else if (which == 'email')
+          this.utilityMethods.share_via_email(toBeShared, "Anotote", "");
+        else if (which == 'twitter')
+          this.utilityMethods.share_via_twitter("Anotote", "", toBeShared);
+        else if (which == 'copy') {
+          this.clip.copy(toBeShared).then((success) => {
+            this.utilityMethods.doToast("Link copied to clipboard");
+          }, (error) => {
+            this.utilityMethods.doToast("Couldn't copy");
+          });
+        } else
+          this.utilityMethods.share_content_native("Anotote", null, null, toBeShared);
+      }
 }

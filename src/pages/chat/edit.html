@@ -32,8 +32,20 @@
                 <img src="assets/img/shareImg.svg" />
             </div>
             <ul>
-                <li (click)="close('share')">
-                    <span>Share Message</span>
+                <li (tap)="share('copy')">
+                    <span>Copy</span>
+                </li>
+                <li (tap)="close('nothing')">
+                    <span>Chat</span>
+                </li>
+                <li (tap)="share('email')">
+                    <span>Email</span>
+                </li>
+                <li (tap)="share('twitter')">
+                    <span>Twitter</span>
+                </li>
+                <li class="tabOption" (tap)="share('all')">
+                    <img src="assets/img/dotsOption.svg" />
                 </li>
             </ul>
         </div>

@@ -4,7 +4,7 @@
     <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
         <div class="pop_heading">
             <div class="downUp" *ngIf="stream != 'me'">
-                <span (tap)="dismiss()">Close</span>
+                <span (tap)="dismiss()">CLOSE</span>
                 <!-- <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 0 && annotation.currentUserVote == 0" (click)="upvote()" alt="">
                 <img src="assets/img/upArrow.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 0" alt="">
                 <img src="assets/img/upArrowgreen.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt="">
