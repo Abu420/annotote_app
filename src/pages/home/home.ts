@@ -138,9 +138,9 @@ export class Home {
         if (result.status == 1) {
           if (result.data.bookmarks.length > 0) {
             this.searchService.saved_searches[this.searchService.saved_searches.indexOf(search)] = result.data.bookmarks[0];
-            this.toastInFooter("Pinned");
+            // this.toastInFooter("Pinned");
           } else if (result.data.exist_count == 1) {
-            this.toastInFooter("Already Bookmarked");
+            // this.toastInFooter("Already Bookmarked");
           }
         }
       }, (error) => {
@@ -160,7 +160,7 @@ export class Home {
       this.searchService.save_search_entry(paramsObj).subscribe((result) => {
         this.hideLoading();
         this.searchService.saved_searches[this.searchService.saved_searches.indexOf(search)] = result.data.search;
-        this.toastInFooter("Pinned");
+        // this.toastInFooter("Pinned");
       }, (error) => {
         this.hideLoading();
         if (error.code == -1) {
@@ -173,15 +173,16 @@ export class Home {
       this.showLoading("Unpinning bookmark...");
       this.searchService.remove_search_id(search.id)
         .subscribe((response) => {
+          this.searches.splice(this.searches.indexOf(search), 1);
           // console.log(response);
           // for (var i = 0; i < this.searches.length; i++) {
           // if (this.searches[i].id == id) {
-          search.id = 0;
-          search.userToteId = 0
+          // search.id = 0;
+          // search.userToteId = 0
           // break;
           // }
           // }
-          this.toastInFooter("Unpinned");
+          // this.toastInFooter("Unpinned");
           this.hideLoading();
         }, (error) => {
           this.hideLoading();

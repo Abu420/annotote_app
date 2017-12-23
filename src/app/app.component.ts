@@ -48,16 +48,17 @@ export class MyApp {
         public notificationService: NotificationService,
         public app: App) {
         this.initializeApp();
-        app.viewDidEnter.subscribe((view) => {
-            console.log(view)
-            if (view.isOverlay == false) {
-                this.events.publish('push_view');
+        app.viewDidLoad.subscribe((view) => {
+            if (view.isOverlay == false && view.name != 'Home' && authService.getUser() != null) {
+                if (authService.dots_to_show.length < 3)
+                    authService.dots_to_show.push(view);
             }
-            console.log('view entered');
         })
         app.viewWillUnload.subscribe((view) => {
-            console.log(view)
-            console.log('view unloaded')
+            if (view.isOverlay == false && authService.getUser() != null) {
+                if (authService.dots_to_show.length > 0)
+                    authService.dots_to_show.pop();
+            }
         })
     }
 

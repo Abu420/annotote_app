@@ -17,6 +17,7 @@ export class AuthenticationService {
    */
   private _user: User;
   private _storage_ready: boolean;
+  public dots_to_show: Array<any> = [];
 
   public constructor(public http: Http, public constants: Constants, public storage: Storage) {
     this.storage.ready().then(() => {

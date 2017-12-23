@@ -334,9 +334,9 @@ export class AnototeOptions {
               this.runtime.top_first_load = false;
             }
             this.runtime.me_first_load = false;
-            this.utilityMethods.doToast("Saved to Me stream");
+            // this.utilityMethods.doToast("Saved to Me stream");
           } else {
-            this.utilityMethods.doToast("Already Saved");
+            // this.utilityMethods.doToast("Already Saved");
           }
         }
       }, (error) => {

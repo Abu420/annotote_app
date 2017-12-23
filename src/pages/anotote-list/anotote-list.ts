@@ -752,7 +752,7 @@ export class AnototeList {
         anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
         anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
         anotote.checked = false;
-        this.toastInFooter("Title updated")
+        // this.toastInFooter("Title updated")
       }, (error) => {
         this.hideLoading();
         if (error.code == -1) {
@@ -847,9 +847,9 @@ export class AnototeList {
                     this.stream.top_first_load = false;
                   }
                   this.stream.me_first_load = false;
-                  this.toastInFooter("Saved to Me stream");
+                  // this.toastInFooter("Saved to Me stream");
                 } else {
-                  this.toastInFooter("Already Saved");
+                  // this.toastInFooter("Already Saved");
                 }
                 // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
                 this.open_browser(this.current_active_anotote, null);
@@ -1512,7 +1512,7 @@ export class AnototeList {
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
         if (this.current_color != 'top') {
-          if (this.current_color == 'me' && anotote.active_tab == 'me') {
+          if (this.current_color == 'me' && (anotote.active_tab == 'me' || anotote.active_tab == undefined)) {
             var params = {
               user_tote_id: anotote.userAnnotote.id,
               tags: anotote.userAnnotote.anototeDetail.userAnnotote.tags,
@@ -1558,7 +1558,7 @@ export class AnototeList {
               whichStream: 'follows',
               annotote: true
             }
-          } else if (anotote.active_tab == 'top') {
+          } else if (anotote.active_tab == 'top' || anotote.active_tab == undefined) {
             var params = {
               user_tote_id: anotote.userAnnotote.id,
               tags: anotote.anototeDetail.userAnnotote.tags,
@@ -1721,7 +1721,7 @@ export class AnototeList {
         for (let tote of this.selected_totes) {
           this.anototes.splice(this.anototes.indexOf(tote), 1);
         }
-        this.toastInFooter("Deleted Successfully.")
+        // this.toastInFooter("Deleted Successfully.")
         this.close_bulk_actions();
       }
     }, (error) => {

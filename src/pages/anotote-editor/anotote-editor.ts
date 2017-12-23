@@ -219,7 +219,7 @@ export class AnototeEditor implements OnDestroy {
             this.hideLoading();
             anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
             // anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
-            this.toastInFooter("Title updated")
+            // this.toastInFooter("Title updated")
         }, (error) => {
             this.hideLoading();
             if (error.code == -1) {
@@ -341,7 +341,7 @@ export class AnototeEditor implements OnDestroy {
             anotote: this.ANOTOTE,
             stream: this.WHICH_STREAM,
             from: 'editor',
-            findChatter: true
+            findChatter: false
         }
         let chatTote = this.modalCtrl.create(ChatToteOptions, params);
         chatTote.onDidDismiss((data) => {
@@ -385,9 +385,9 @@ export class AnototeEditor implements OnDestroy {
                                     this.runtime.top_first_load = false;
                                 }
                                 this.runtime.me_first_load = false;
-                                this.toastInFooter("Saved to Me stream");
+                                // this.toastInFooter("Saved to Me stream");
                             } else {
-                                this.toastInFooter("Already Saved");
+                                // this.toastInFooter("Already Saved");
                             }
                         }
                     }, (error) => {
@@ -945,9 +945,9 @@ export class AnototeEditor implements OnDestroy {
                         }
                     }
                     if (comment) {
-                        this.toastInFooter("Comment saved");
+                        // this.toastInFooter("Comment saved");
                     } else {
-                        this.toastInFooter("Quote saved");
+                        // this.toastInFooter("Quote saved");
                     }
                 }
                 if (tags.length > 0) {
