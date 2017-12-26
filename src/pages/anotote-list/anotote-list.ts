@@ -1,5 +1,5 @@
 import { Component, ViewChild, trigger, transition, style, animate, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
@@ -26,6 +26,7 @@ import { NotificationService } from "../../services/notifications.service";
 import { ChatToteOptions } from './chat_tote';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
+import { ChatService } from "../../services/chat.service";
 
 @IonicPage()
 @Component({
@@ -94,7 +95,7 @@ export class AnototeList {
   public loading_message: string = '';
   public followedUserId = 0;
   public title_temp = '';
-  public followUserName = '';
+  public followUser = '';
   public mentionedCase = false;
   public mentionedUrl = '';
   public annotation;
@@ -125,6 +126,8 @@ export class AnototeList {
     private alertCtrl: AlertController,
     public notificationService: NotificationService,
     public stream: Streams,
+    public actionSheetCtrl: ActionSheetController,
+    public chatService: ChatService,
     public cd: ChangeDetectorRef) {
     this.current_color = navParams.get('color');
     this.whichStream = navParams.get('color');
@@ -137,7 +140,7 @@ export class AnototeList {
     if (navParams.get('userId'))
       this.followedUserId = navParams.get('userId');
     if (navParams.get('username'))
-      this.followUserName = navParams.get('username');
+      this.followUser = navParams.get('username');
     if (navParams.get('mentioned')) {
       this.mentionedUrl = navParams.get('mentioned');
       this.mentionedCase = true;
@@ -209,7 +212,8 @@ export class AnototeList {
             this.loadanototes();
         }
       } else {
-        this.loadUserTotes();
+        if (this.anototes.length == 0)
+          this.loadUserTotes();
       }
     } else {
       if (this.anototes.length == 0) {
@@ -318,6 +322,67 @@ export class AnototeList {
     }, (error) => {
       // this.hideLoading();
       this.fbLoading = false;
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    });
+  }
+
+  follow_User() {
+    this.showLoading('Please wait...');
+    this.searchService.follow_user({
+      created_at: this.utilityMethods.get_php_wala_time(),
+      follows_id: this.followedUserId
+    }).subscribe((response) => {
+      this.hideLoading();
+      this.current_color = 'follows';
+    }, (error) => {
+      this.hideLoading();
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    });
+  }
+
+  showProfileOptions() {
+    let buttons = [
+      {
+        text: 'Chat',
+        handler: () => {
+          this.navCtrl.push(Chat, { secondUser: this.followUser });
+        }
+      },
+      {
+        text: 'Unfollow',
+        handler: () => {
+          this.unFollowUser();
+        }
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+        }
+      }
+    ];
+    let actionSheet = this.actionSheetCtrl.create({
+      title: '',
+      buttons: buttons
+    });
+
+    actionSheet.present();
+  }
+
+  unFollowUser() {
+    this.showLoading("Please wait...")
+    this.searchService.un_follow_user({
+      created_at: this.utilityMethods.get_php_wala_time(),
+      follows_id: this.followedUserId
+    }).subscribe((response) => {
+      this.hideLoading();
+      this.current_color = 'anon';
+    }, (error) => {
+      this.hideLoading();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
@@ -696,6 +761,37 @@ export class AnototeList {
       }
     } else if (anotote.chatGroup == null && this.current_color != 'me') {
       this.options(anotote);
+    } else if (anotote.chatGroup != null) {
+      if (this.current_color == 'me') {
+        if (anotote.checked) {
+          this.title_temp = '';
+          anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+        } else {
+          this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+          anotote.checked = true;
+        }
+      } else {
+        var check = false;
+        for (let user of anotote.chatGroup.groupUsers) {
+          if (user.id == this.user.id) {
+            check = true;
+            break;
+          }
+          if (check) {
+            if (anotote.checked) {
+              this.title_temp = '';
+              anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+            } else {
+              this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+              anotote.checked = true;
+            }
+          } else {
+            this.toastInFooter("You are not a participant of this chat.")
+          }
+        }
+      }
+
+
     }
     // if (this.current_color != 'top') {
     //   if (anotote.active)
@@ -740,26 +836,51 @@ export class AnototeList {
   }
 
   saveTitle(anotote) {
-    if (this.title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle && this.title_temp != '') {
-      this.showLoading("Saving title");
-      var params = {
-        annotote_id: anotote.userAnnotote.id,
-        annotote_title: this.title_temp,
-        updated_at: this.utilityMethods.get_php_wala_time()
+    if (anotote.chatGroup == null) {
+      if (this.title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle && this.title_temp != '') {
+        this.showLoading("Saving title");
+        var params: any = {
+          annotote_id: anotote.userAnnotote.id,
+          annotote_title: this.title_temp,
+          updated_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.anototeService.saveTitle(params).subscribe((success) => {
+          this.hideLoading();
+          anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
+          anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
+          anotote.checked = false;
+          // this.toastInFooter("Title updated")
+        }, (error) => {
+          this.hideLoading();
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          } else
+            this.toastInFooter("Couldn't update title");
+        })
       }
-      this.anototeService.saveTitle(params).subscribe((success) => {
-        this.hideLoading();
-        anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
-        anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
-        anotote.checked = false;
-        // this.toastInFooter("Title updated")
-      }, (error) => {
-        this.hideLoading();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        } else
-          this.toastInFooter("Couldn't update title");
-      })
+    } else if (anotote.chatGroup != null) {
+      if (this.title_temp != anotote.chatGroup.messagesUser[0].subject && this.title_temp != '') {
+        this.showLoading("Saving title");
+        var params: any = {
+          group_id: anotote.chatGroup.messagesUser[0].groupId,
+          subject: this.title_temp,
+          updated_at: this.utilityMethods.get_php_wala_time()
+        }
+        this.chatService.updateTitle(params).subscribe((success) => {
+          this.hideLoading();
+          anotote.chatGroup.messagesUser[0].subject = this.title_temp;
+          anotote.checked = false;
+          this.stream.me_first_load = false;
+          this.stream.follow_first_load = false;
+          this.stream.top_first_load = false;
+        }, (error) => {
+          this.hideLoading();
+          anotote.checked = false;
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          }
+        });
+      }
     }
   }
 
@@ -1638,29 +1759,35 @@ export class AnototeList {
   }
 
   presentViewOptionsModal() {
-    if (this.current_color != 'anon') {
+    if (this.current_color == 'anon') {
+      var params = {
+        anotote: null,
+        stream: this.current_color
+      }
+    } else {
       var params = {
         anotote: this.current_active_anotote,
         stream: this.current_color
       }
-      let viewsOptionsModal = this.modalCtrl.create(ViewOptions, params);
-      viewsOptionsModal.onDidDismiss((preference) => {
-        if (preference.tab_selected == 'me')
-          this.showMeHighlights(this.current_active_anotote);
-        else if (preference.tab_selected == 'follows' && this.current_color != 'top')
-          this.open_follows_popup(event, this.current_active_anotote);
-        else if (preference.tab_selected == 'follows' && this.current_color == 'top')
-          this.top_follows_popup(event, this.current_active_anotote);
-        else if (preference.tab_selected == 'top')
-          this.show_top_tab(this.current_active_anotote);
-      })
-      viewsOptionsModal.present();
-    } else {
-      if (this.followedUserId != 0)
-        this.toastInFooter("Please follow this user first");
-      else
-        this.toastInFooter("Please open this tote from streams");
     }
+    let viewsOptionsModal = this.modalCtrl.create(ViewOptions, params);
+    viewsOptionsModal.onDidDismiss((preference) => {
+      if (preference.tab_selected == 'me')
+        this.showMeHighlights(this.current_active_anotote);
+      else if (preference.tab_selected == 'follows' && this.current_color != 'top')
+        this.open_follows_popup(event, this.current_active_anotote);
+      else if (preference.tab_selected == 'follows' && this.current_color == 'top')
+        this.top_follows_popup(event, this.current_active_anotote);
+      else if (preference.tab_selected == 'top')
+        this.show_top_tab(this.current_active_anotote);
+    })
+    viewsOptionsModal.present();
+    // } else {
+    //   if (this.followedUserId != 0)
+    //     this.toastInFooter("Please follow this user first");
+    //   else
+    //     this.toastInFooter("Please open this tote from streams");
+    // }
   }
 
   share_totes() {

@@ -31,6 +31,7 @@
                 </ng-container>
                 <ng-container *ngIf="tote == null || tote.chatGroup == null">
                     <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
+                    <strong *ngIf="tote == null && conversation.length == 0 && titleField == false" (press)="showTitleField()">Chat</strong>
                     <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject != null && titleField == false && conversation[0].anototeId == 0" (press)="showTitleField()">{{conversation[0].subject}}</strong>
                     <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject != null && titleField == false && conversation[0].anototeId != 0">{{conversation[0].subject}}</strong>
                     <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
@@ -42,7 +43,7 @@
 
                 <div class="time" *ngIf="tote != null">
                     <em>
-                        <span *ngIf="tote.createdAt != null"  [innerText]="tote.createdAt | time_stamp"></span>
+                        <span *ngIf="tote.createdAt != null" [innerText]="tote.createdAt | time_stamp"></span>
                     </em>
                 </div>
                 <div class="toteText">

@@ -7,14 +7,16 @@
                 <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
             </figure>
             <div class="proName">
-                <strong *ngIf="is_it_me == false">{{profileData.user.firstName}}<img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt=""></strong>
+                <strong *ngIf="is_it_me == false">{{profileData.user.firstName}}
+                    <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                </strong>
                 <strong *ngIf="is_it_me == true">
                     <form (ngSubmit)="updateUser()">
                         <input type="text" name="name" [(ngModel)]="profileData.user.firstName" [disabled]="is_it_me == false" placeholder="Name">
                         <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
                     </form>
                 </strong>
-                <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user"></span>
+                <span (click)="followUser()" *ngIf="profileData.user.isFollowed==0 && !is_it_me" class="follow_user">FOLLOW</span>
                 <div (click)="presentProfilePictureActionSheet()" *ngIf="is_it_me == true" class="img-holder">
                     <img *ngIf="profileData.user.photo == null" src="assets/img/cover_image.jpg">
                     <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded" *ngIf="profileData.user.photo != null" [src]="profileData.user.photo | image_base_path">
@@ -29,10 +31,10 @@
         </div>
         <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
         <ion-list class="follow_list">
-            <ion-item>
+            <ion-item *ngIf="(profileData.user.description != null && profileData.user.description != '') && is_it_me == false">
                 <button ion-button icon-only>
                     <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
-                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.png">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">
@@ -47,7 +49,7 @@
                             <input type="text" placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" name="description">
                         </form>
                     </strong> -->
-                    <p *ngIf="(profileData.user.description != null || profileData.user.description != '') && is_it_me == false">{{profileData.user.description}}</p>
+                    <p *ngIf="(profileData.user.description != null && profileData.user.description != '') && is_it_me == false">{{profileData.user.description}}</p>
                     <p *ngIf="(profileData.user.description == null || profileData.user.description == '') && is_it_me == false">No description added by {{profileData.user.firstName}}.</p>
                     <img src="assets/img/dotsicon.svg" *ngIf="is_it_me == true" (click)="showTags()" alt="">
                     <p *ngIf="is_it_me == false && profileData.user.userTags.length > 0">
@@ -55,7 +57,7 @@
                             <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                             <ng-container *ngIf="tag.tagId == 2">@</ng-container>
                             <ng-container *ngIf="tag.tagId == 3">#</ng-container>
-                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}} 
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}
                         </i>
                     </p>
                     <span class="accept" *ngIf="new_description != '' && new_description != profileData.user.description" (click)="updateUser()">SAVE</span>
@@ -64,8 +66,8 @@
             </ion-item>
             <ion-item>
                 <button ion-button icon-only>
-                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
-                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.png">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt" (tap)="go_to_stream()">
@@ -75,8 +77,8 @@
             </ion-item>
             <ion-item (click)="showFollows('followers')">
                 <button ion-button icon-only>
-                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
-                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.png">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">
@@ -86,8 +88,8 @@
             </ion-item>
             <ion-item (click)="showFollows('follows')">
                 <button ion-button icon-only>
-                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
-                        <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.svg">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
+                    <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.png">
                     <img *ngIf="is_it_me == true" src="assets/img/check2.png">
                 </button>
                 <div class="txt">

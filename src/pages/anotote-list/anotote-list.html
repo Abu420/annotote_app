@@ -284,7 +284,7 @@
                                 </button>
                             </div>
                             <div class="btns-area" *ngIf="current_color == 'anon'">
-                                <button ion-button class="me-tab">{{followUserName}}</button>
+                                <button ion-button class="me-tab">{{followUser.firstName}}</button>
                             </div>
                         </div>
                     </header>
@@ -412,7 +412,8 @@
                             <input type="text" [(ngModel)]="title_temp" name="title">
                         </form>
                         <div class="totBtn">
-                            <span [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
+                            <span *ngIf="anotote.chatGroup == null" [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
+                            <span *ngIf="anotote.chatGroup != null" [ngClass]="{'saveBtn': title_temp != anotote.chatGroup.messagesUser[0].subject  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
                             <span (click)="bulkAction(anotote)">Cancel</span>
                         </div>
                     </div>
@@ -655,8 +656,10 @@
         <p class="messageLoading">{{loading_message}}</p>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="current_active_anotote == null && forFollowedCaseName == true">
+<ion-footer class="message-bottom" *ngIf="current_active_anotote == null && forFollowedCaseName == true && loading_check == false">
     <ion-toolbar color="dark">
-        <p class="messageLoading">{{followUserName}}'s Totes</p>
+        <p class="messageLoading">{{followUser.firstName}}'s Totes</p>
+        <span class="notFollowing" *ngIf="current_color == 'anon'" (click)="follow_User()">Follow</span>
+        <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/dodtsLine.svg" alt="">
     </ion-toolbar>
 </ion-footer>

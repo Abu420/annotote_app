@@ -94,9 +94,9 @@ export class Profile {
     if (this.is_it_me)
       this.navCtrl.push(AnototeList, { color: 'me' });
     else if (this.profileData.user.isFollowed == 1)
-      this.navCtrl.push(AnototeList, { color: 'follows', userId: this.profileData.user.id, username: this.profileData.user.firstName });
+      this.navCtrl.push(AnototeList, { color: 'follows', userId: this.profileData.user.id, username: this.profileData.user });
     else
-      this.navCtrl.push(AnototeList, { color: 'anon', userId: this.profileData.user.id, username: this.profileData.user.firstName });
+      this.navCtrl.push(AnototeList, { color: 'anon', userId: this.profileData.user.id, username: this.profileData.user });
   }
 
   showTags() {

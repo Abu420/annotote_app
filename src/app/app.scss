@@ -23,7 +23,6 @@ ion-app.ios {
     font-family: "robotolight" !important;
 }
 
-
 ion-item {
     .status {
         width: 16px;
@@ -401,6 +400,20 @@ button,
             color: white;
             text-align: center;
             width: 100%;
+        }
+        .notFollowing {
+            position: absolute;
+            right: 5px;
+            color: white;
+            top: 10px;
+        }
+        .alreadyFollowing {
+            position: absolute;
+            width: 25px;
+            right: 15px;
+            top: 50%;
+            -webkit-transform: translate(-50%, 0%);
+            transform: translate(-50%, 0%);
         }
     }
 }
@@ -965,9 +978,9 @@ search_page {
             }
         }
     }
-    .for_closing{
+    .for_closing {
         width: 100%;
-        height:100%;
+        height: 100%;
         z-index: 10000;
     }
     .search_spinner {

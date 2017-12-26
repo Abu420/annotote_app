@@ -88,16 +88,16 @@ follow_profile {
             }
         }
         .follow_user {
-            height: 45px;
-            width: 45px;
+            // height: 45px;
+            width: 55px;
             float: right;
-            background-image: url(../assets/img/follow_friend.png);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 20px;
+            // background-image: url(../assets/img/follow_friend.png);
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // background-size: 20px;
             position: absolute;
             right: 7px;
-            top: 13px;
+            top: 30px;
         }
         .unFollow_user {
             height: 45px;
