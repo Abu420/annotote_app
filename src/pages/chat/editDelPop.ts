@@ -4,6 +4,7 @@ import { AuthenticationService } from "../../services/auth.service";
 import { AnototeService } from "../../services/anotote.service";
 import { UtilityMethods } from "../../services/utility_methods";
 import { Clipboard } from '@ionic-native/clipboard';
+import { StatusBar } from "@ionic-native/status-bar";
 
 @Component({
     selector: 'msg_options',
@@ -35,7 +36,9 @@ export class EditDeleteMessage {
         public clip: Clipboard,
         authService: AuthenticationService,
         public anototeService: AnototeService,
-        public utilityMethods: UtilityMethods) {
+        public utilityMethods: UtilityMethods,
+        public statusbar: StatusBar) {
+        statusbar.hide();
         this.message = params.get('message');
         this.user = authService.getUser();
         this.stream = params.get('contains');
@@ -46,6 +49,7 @@ export class EditDeleteMessage {
     }
 
     close(choice) {
+        this.statusbar.show();
         this.show = false;
         setTimeout(() => {
             this.viewCtrl.dismiss({ choice: choice });
@@ -114,18 +118,18 @@ export class EditDeleteMessage {
     share(which) {
         var toBeShared: string = this.message.text;
         if (which == 'facebook')
-          this.utilityMethods.share_via_facebook("Anotote", null, toBeShared);
+            this.utilityMethods.share_via_facebook("Anotote", null, toBeShared);
         else if (which == 'email')
-          this.utilityMethods.share_via_email(toBeShared, "Anotote", "");
+            this.utilityMethods.share_via_email(toBeShared, "Anotote", "");
         else if (which == 'twitter')
-          this.utilityMethods.share_via_twitter("Anotote", "", toBeShared);
+            this.utilityMethods.share_via_twitter("Anotote", "", toBeShared);
         else if (which == 'copy') {
-          this.clip.copy(toBeShared).then((success) => {
-            this.utilityMethods.doToast("Link copied to clipboard");
-          }, (error) => {
-            this.utilityMethods.doToast("Couldn't copy");
-          });
+            this.clip.copy(toBeShared).then((success) => {
+                this.utilityMethods.doToast("Link copied to clipboard");
+            }, (error) => {
+                this.utilityMethods.doToast("Couldn't copy");
+            });
         } else
-          this.utilityMethods.share_content_native("Anotote", null, null, toBeShared);
-      }
+            this.utilityMethods.share_content_native("Anotote", null, null, toBeShared);
+    }
 }

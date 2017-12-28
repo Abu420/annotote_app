@@ -185,7 +185,6 @@ export class AnototeEditor implements OnDestroy {
         //     this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
         // else
         //     this.HIGHLIGHT_RECEIVED = null;
-
         this.ANOTOTE_LOADED = false;
         this.ANOTOTE_LOADING_ERROR = false;
         this.tote_id = this.ANOTOTE.userAnnotote.id;
@@ -631,7 +630,7 @@ export class AnototeEditor implements OnDestroy {
         if (this.ANOTOTE.active_tab != 'me') {
             opts.cssClass = ''
         }
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier) }, opts);
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier), follower_name: this.ANOTOTE.selected_follower_name }, opts);
         commentDetailModal.onDidDismiss(data => {
             element.classList.remove('greyOut');
             if (this.commentDetailModalIsOpen.check && this.commentDetailModalIsOpen.comment.identifier == highlight.identifier) {

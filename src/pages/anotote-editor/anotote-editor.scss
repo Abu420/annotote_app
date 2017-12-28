@@ -238,6 +238,22 @@ comment_detail_popup {
                 font-size: 16px;
             }
         }
+        .share {
+            width: 45px;
+            height: 45px;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            span {
+                background: url(../assets/img/simpleShare.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+        }
     }
     .pop_heading ion-icon {
         display: inline-block;
@@ -673,10 +689,10 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
-                background: #2ba600;
+                background: $meQuotesandComments;
             }
             .highlight_quote:before {
-                background: #2ba600;
+                background: $meQuotesandComments;
             }
             .greyOut:before {
                 background: #2ba600;
@@ -700,10 +716,10 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
-                background: #f4e300;
+                background: $followQuotesandComments;
             }
             .highlight_quote:before {
-                background: #f4e300;
+                background: $followQuotesandComments;
             }
             .only_light {
                 background: #fff896 !important;
@@ -721,13 +737,21 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
-                background: #fb9df0;
+                background: $topQuotesandComments;
             }
             .highlight_quote:before {
-                background: #fb9df0;
+                background: $topQuotesandComments;
             }
             .only_light {
                 background: #f9d7f5 !important;
+            }
+        }
+        &.anon {
+            .highlight_comment:before {
+                background: #000;
+            }
+            .highlight_quote:before {
+                background: #000;
             }
         }
         .highlight_quote,

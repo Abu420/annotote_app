@@ -395,7 +395,8 @@
                                         <span class="user" *ngIf="message.senderId != user.id">{{anotote.chatGroup.groupUsers | chat_name}}</span>
                                         <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                                     </div>
-                                    <p [ngStyle]="{'color': 'red'}" *ngIf="message.read == 0 && user.id != message.senderId">{{message.text}}</p>
+                                    <p [ngStyle]="{'color': 'red'}" *ngIf="message.read == 0 && user.id != message.senderId && current_color == 'me'">{{message.text}}</p>
+                                    <p *ngIf="message.read == 0 && user.id != message.senderId && current_color != 'me'">{{message.text}}</p>
                                     <p *ngIf="message.read != 0 && user.id != message.senderId">{{message.text}}</p>
                                     <p *ngIf="user.id == message.senderId">{{message.text}}</p>
                                     <!-- <img src="assets/img/option-msg.png" alt=""> -->

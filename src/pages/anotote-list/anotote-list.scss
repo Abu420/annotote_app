@@ -7,7 +7,7 @@
             height: calc(100% - 40%);
             background: rgba(0, 0, 0, 0.5);
         }
-        
+
         view_options {
             .top_empty_box {
                 height: calc(100% - 44%);
@@ -37,7 +37,7 @@
                 }
             }
         }
-        
+
         .sharing_pop {
             ion-item {
                 .item-inner {
@@ -65,7 +65,7 @@
                 }
             }
         }
-        
+
         .fancy-bars {
             width: 10px;
             position: fixed;
@@ -74,7 +74,7 @@
             bottom: 36px;
             overflow: hidden;
         }
-        
+
         .fancy-bars span {
             height: 2px;
             margin: 0 0 5px;
@@ -82,23 +82,23 @@
             display: block;
             background: #b3b3b3;
         }
-        
+
         .fancy-bars span.red {
             background: red;
         }
-        
+
         .fancy-bars span.green {
             background: green;
         }
-        
+
         .toolbar-content {
             padding: 0 30px;
         }
-        
+
         .bar-buttons-md {
             order: 1;
         }
-        
+
         tags_popup {
             .tag-panel {
                 height: 100%;
@@ -259,11 +259,11 @@
                 }
             }
         }
-        
+
         tags_chat_profile {
             @extend tags_popup;
         }
-        
+
         anotote_options {
             .top_empty_box {
                 height: calc(100%);
@@ -379,7 +379,7 @@
                 }
             }
         }
-        
+
         follows_popup {
             .top_empty_box {
                 height: calc(100% - (40% + 45px));
@@ -431,7 +431,7 @@
                 @extend .pop_wrapper;
             }
         }
-        
+
         chat_tote_page {
             .userHead {
                 // .toolbar-background {
@@ -455,17 +455,17 @@
                             li {
                                 padding: 0 0px 0 10px;
                                 img {
-                                    width: 40px;
+                                    width: 26px;
                                     display: inline-block;
                                     vertical-align: middle;
-                                    margin-right: 12px;
-                                    margin-left: 4px;
+                                    margin-right: 20px;
+                                    margin-left: 10px;
                                     margin-top: 5px;
                                 }
                                 span {
                                     display: inline-block;
                                     vertical-align: middle;
-                                    width: calc(100% - 60px);
+                                    width: calc(100% - 65px);
                                     font-size: 16px;
                                     padding: 30px;
                                     padding-left: 0px;
@@ -479,39 +479,41 @@
             .searchUserHead {
                 height: 56px;
                 >img {
-                    width: 24px;
+                    width: 20px;
                     display: inline-block;
                     vertical-align: top;
-                    margin: 15px 21px 16px 23px;
+                    margin: 15px 25px 16px 23px;
                 }
                 >input {
                     width: calc(100% - 160px);
-                    padding: 19px;
+                    padding: 17.5px;
                     display: inline-block;
                     vertical-align: top;
                     border: 0px;
+                    border-radius: 0;
                     background: #FFF;
                     box-shadow: 0px 0px 10px #103c00;
+                    opacity: 1;
                 }
                 span {
                     display: inline-block;
                     vertical-align: top;
-                    padding: 14px 20px 10px 20px;
-                    width: 70px;
+                    padding: 13.5px 20px 13px 20px;
+                    width: 65px;
                     margin-left: -8px;
+                    border-radius: 0;
                     position: relative;
-                    box-shadow: 0px 0px 10px #3c3c3c;
-                    &:after {
-                        content: "";
-                        position: absolute;
-                        left: 0px;
-                        bottom: -15px;
-                        width: 0;
-                        height: 0;
-                        border-left: 35px solid transparent;
-                        border-right: 35px solid transparent;
-                        border-top: 15px solid #2BA600;
-                    }
+                    box-shadow: 0px 0px 10px #3c3c3c; // &:after {
+                    //     content: "";
+                    //     position: absolute;
+                    //     left: 0px;
+                    //     bottom: -15px;
+                    //     width: 0;
+                    //     height: 0;
+                    //     border-left: 35px solid transparent;
+                    //     border-right: 35px solid transparent;
+                    //     border-top: 15px solid #2BA600;
+                    // }
                 }
                 span.me {
                     background: #2BA600;
@@ -637,7 +639,7 @@
                 }
             }
         }
-        
+
         page-anotote-list {
             ion-refresher.refresher-active {
                 background: #F5F5F5;
@@ -1044,7 +1046,7 @@
                                         }
                                     }
                                     .active_me {
-                                        background: #2ba600;
+                                        background: $meQuotesandComments;
                                         box-shadow: 0 0 3px #848484;
                                     }
                                     .anon_stream {
@@ -1052,11 +1054,11 @@
                                         box-shadow: 0 0 3px #848484;
                                     }
                                     .active_follows {
-                                        background: $follow_app_color;
+                                        background: $followQuotesandComments;
                                         box-shadow: 0 0 3px #848484;
                                     }
                                     .active_top {
-                                        background: $top_app_color;
+                                        background: $topQuotesandComments;
                                         box-shadow: 0 0 3px #848484;
                                     }
                                 }
@@ -1134,13 +1136,13 @@
                                                     margin-top: 2px;
                                                 }
                                                 .quotes_follows {
-                                                    background: $follow_app_color;
+                                                    background: $followQuotesandComments;
                                                 }
                                                 .quotes_anon {
                                                     background: color($colors, anon);
                                                 }
                                                 .quotes_top {
-                                                    background: $top_app_color;
+                                                    background: $topQuotesandComments;
                                                     color: white;
                                                 }
                                                 .tag_input {

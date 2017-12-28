@@ -90,8 +90,7 @@ follow_profile {
         .follow_user {
             // height: 45px;
             width: 55px;
-            float: right;
-            // background-image: url(../assets/img/follow_friend.png);
+            float: right; // background-image: url(../assets/img/follow_friend.png);
             // background-position: center;
             // background-repeat: no-repeat;
             // background-size: 20px;
@@ -401,4 +400,16 @@ page-follows {
 
 .item-ios {
     border-top: 0px !important;
+}
+
+image-viewer.ion-page {
+    .back-button-icon-ios {
+        display: none;
+    }
+    .back-button-text {
+        margin-left: 5px;
+    }
+    .toolbar-ios {
+        box-shadow: none;
+    }
 }

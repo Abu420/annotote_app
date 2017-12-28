@@ -12,6 +12,9 @@ import { Streams } from '../../services/stream.service';
 import { AnototeService } from '../../services/anotote.service';
 import { ViewOptions } from '../anotote-list/view_options';
 import { EditDeleteMessage } from './editDelPop';
+import { Search } from "../search/search";
+import { AnototeEditor } from "../anotote-editor/anotote-editor";
+import { ChatToteOptions } from "../anotote-list/chat_tote";
 
 declare var io: any;
 
@@ -373,6 +376,28 @@ export class Chat {
     } else {
       this.utilityMethods.doToast("Please initiate chat first by send a message after that you can edit title.")
     }
+  }
+
+  openSearchPopup() {
+    let searchModal = this.modalCtrl.create(Search, {});
+    searchModal.onDidDismiss(data => {
+    });
+    searchModal.present();
+  }
+
+  addBtn() {
+    var params: any = {
+      anotote: null,
+      stream: 'homeheader',
+      findChatter: true
+    }
+    let chatTote = this.modalCtrl.create(ChatToteOptions, params);
+    chatTote.onDidDismiss((data) => {
+      if (data.chat) {
+        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+      }
+    })
+    chatTote.present();
   }
 
   @ViewChild('myInput') myInput: ElementRef;

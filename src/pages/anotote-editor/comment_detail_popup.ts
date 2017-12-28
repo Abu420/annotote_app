@@ -43,6 +43,7 @@ export class CommentDetailPopup {
   public quoteThreeDots: boolean = false;
   public actual_anotated: any = '';
   public bracketStartIndex = 0;
+  public selected_follower_name: string = '';
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
@@ -55,6 +56,7 @@ export class CommentDetailPopup {
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
     this.stream = this.params.get('stream');
+    this.selected_follower_name = params.get('follower_name').split(' ')[0];
     this.new_comment = Object.assign(this.anotote_comment);
     this.annotation = params.get('anotation');
     if (this.annotation.comment != null)

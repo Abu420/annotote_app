@@ -1,6 +1,7 @@
 import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 import { User } from "../../models/user";
+import { StatusBar } from "@ionic-native/status-bar";
 @Component({
   selector: 'page-follows',
   animations: [
@@ -21,7 +22,9 @@ import { User } from "../../models/user";
 export class FollowsPopup {
   public follows: Array<User> = [];
   public show: boolean = true;
-  constructor(params: NavParams, public viewCtrl: ViewController) {
+  constructor(params: NavParams, public viewCtrl: ViewController,
+    public statusbar: StatusBar) {
+    statusbar.hide();
     this.follows = params.get('follows');
   }
 
@@ -31,8 +34,12 @@ export class FollowsPopup {
   }
 
   dismiss() {
+    this.statusbar.show();
+    this.show = false;
     let data = null;
-    this.viewCtrl.dismiss(data);
+    setTimeout(() => {
+      this.viewCtrl.dismiss(data);
+    }, 300);
   }
 
 }

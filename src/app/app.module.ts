@@ -155,7 +155,7 @@ import { Autosize } from "../directives/ng-autosize/index";
     MomentModule,
     IonicImageViewerModule,
     IonicModule.forRoot(MyApp, {
-      backButtonText: 'Go Back',
+      backButtonText: 'CLOSE',
       iconMode: 'ios',
       mode: 'ios',
       modalEnter: 'modal-slide-in',

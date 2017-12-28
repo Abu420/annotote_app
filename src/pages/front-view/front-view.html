@@ -31,7 +31,7 @@
             <button (tap)="signup()" class="layout" type="button">
                 <figure>
                     <img src="assets/img/userIcon.svg" alt="">
-                    <img class="activeIcon" src="assets/img/userActiveIcon.svg" alt="">    
+                    <img class="activeIcon" src="assets/img/userIconActive.svg" alt="">
                 </figure>
                 <span>REGISTER</span>
             </button>
@@ -47,13 +47,15 @@
                     <strong [innerText]="anotote.annotote.title"></strong>
                     <div class="time">
                         <em>
-                            <span >{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
-                      <!-- <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span> -->
+                            <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
+                            <!-- <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span> -->
                         </em>
                     </div>
                     <div class="toteText">
                         <p [innerText]="anotote.annotote.source"></p>
-                        <button type="button"><ion-icon name="menu"></ion-icon></button>
+                        <button type="button">
+                            <ion-icon name="menu"></ion-icon>
+                        </button>
                     </div>
                 </div>
             </ion-item>

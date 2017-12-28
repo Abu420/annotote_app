@@ -1,4 +1,4 @@
-import { Component, trigger, transition, style, animate, NgZone } from '@angular/core';
+import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { Chat } from '../chat/chat';
@@ -52,7 +52,18 @@ export class Notifications {
   public loadMore: boolean = true;
   public changeStatusBarColor: boolean = true;
 
-  constructor(public params: NavParams, public constants: Constants, public navCtrl: NavController, public viewCtrl: ViewController, public searchService: SearchService, public utilityMethods: UtilityMethods, public navParams: NavParams, public authService: AuthenticationService, public notificationService: NotificationService, public modalCtrl: ModalController, public statusBar: StatusBar) {
+  constructor(public params: NavParams,
+    public constants: Constants,
+    public navCtrl: NavController,
+    public viewCtrl: ViewController,
+    public searchService: SearchService,
+    public utilityMethods: UtilityMethods,
+    public navParams: NavParams,
+    public authService: AuthenticationService,
+    public notificationService: NotificationService,
+    public modalCtrl: ModalController,
+    public statusBar: StatusBar) {
+    statusBar.hide();
     this._notifications = [];
     this._loading = false;
     this._unread = 0;
@@ -69,23 +80,24 @@ export class Notifications {
     this.loadNotifications();
   }
   ionViewDidEnter() {
-    if (this.changeStatusBarColor) {
-      this.statusBar.backgroundColorByHexString('#323232');
-    } else {
-      if (this.params.get('from') == 'me') {
-        this.statusBar.backgroundColorByHexString('#3bde00');
-      } else if (this.params.get('from') == 'follows') {
-        this.statusBar.backgroundColorByHexString('#f4e300');
-      } else if (this.params.get('from') == 'top') {
-        this.statusBar.backgroundColorByHexString('#fb9df0');
-      } else if (this.params.get('from') == 'anon') {
-        this.statusBar.backgroundColorByHexString('#323232');
-      }
-    }
+    // if (this.changeStatusBarColor) {
+    //   this.statusBar.backgroundColorByHexString('#323232');
+    // } else {
+    //   if (this.params.get('from') == 'me') {
+    //     this.statusBar.backgroundColorByHexString('#3bde00');
+    //   } else if (this.params.get('from') == 'follows') {
+    //     this.statusBar.backgroundColorByHexString('#f4e300');
+    //   } else if (this.params.get('from') == 'top') {
+    //     this.statusBar.backgroundColorByHexString('#fb9df0');
+    //   } else if (this.params.get('from') == 'anon') {
+    //     this.statusBar.backgroundColorByHexString('#323232');
+    //   }
+    // }
   }
 
   dismiss(action) {
     this.show = false;
+    this.statusBar.show();
     setTimeout(() => {
       this.viewCtrl.dismiss();
     }, 300)

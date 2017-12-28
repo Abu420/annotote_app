@@ -1,18 +1,18 @@
-<ion-header>
+<ion-header class="topHeader">
     <ion-toolbar [color]="current_color">
-        <ion-buttons start>
-            <!-- <button class="search_icon" ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
-            </button> -->
+        <ion-buttons class="searchIcon" start>
+            <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
+                <img src="assets/img/searchIcon.png" alt="" />
+            </button>
         </ion-buttons>
         <ion-title>
             <dot-navigation [ngClass]="{'meDot': current_color == 'me','followDot': current_color == 'follows','topDot':current_color == 'top'}" unactivedots="2"></dot-navigation>
         </ion-title>
-        <!-- <ion-buttons end>
-            <button ion-button icon-only>
-                <ion-icon name="add"></ion-icon>
+        <ion-buttons class="plusIcon" end>
+            <button (tap)="addBtn()" ion-button icon-only>
+                <img src="assets/img/plusIcon.png" alt="" />
             </button>
-        </ion-buttons> -->
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
@@ -73,7 +73,7 @@
                         <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
                         <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                     </div>
-                    <p>{{message.text}}</p>
+                    <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id}">{{message.text}}</p>
                     <!-- <img (click)="editOrDelete(message)" src="assets/img/dotsicon.svg" alt=""> -->
                 </div>
             </ion-item>

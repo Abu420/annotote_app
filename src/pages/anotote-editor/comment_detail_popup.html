@@ -14,14 +14,16 @@
                 <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt=""> -->
             </div>
             <div class="topTab" *ngIf="stream != 'me'">
-                <span *ngIf="stream == 'follows'">Follows</span>
+                <span *ngIf="stream == 'follows'">{{selected_follower_name}}</span>
                 <span *ngIf="stream == 'top'">Top</span>
             </div>
             <div class="btnRow" *ngIf="stream == 'me'">
                 <span (tap)="dismiss()">Close</span>
                 <span (tap)="delete()">Delete</span>
-                <span [ngClass]="{'save': (new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')}" *ngIf="(new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')"
-                    (tap)="updateComment()">Save</span>
+                <span [ngClass]="{'save': (new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')}" *ngIf="(new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')" (tap)="updateComment()">Save</span>
+            </div>
+            <div class="share" (click)="share()">
+                <span></span>
             </div>
         </div>
         <div class="tag_input" *ngIf="stream == 'me'">

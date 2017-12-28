@@ -1,9 +1,4 @@
 page-chat {
-    .toolbar-ios {
-        ion-title {
-            padding: 0 70px 1px;
-        }
-    }
     #wrapper {
         background: #FFF;
     }
@@ -182,6 +177,9 @@ page-chat {
                     img {
                         width: 30px;
                     }
+                    .red {
+                        color: #ff2600;
+                    }
                 }
             }
         }
@@ -233,7 +231,7 @@ page-chat {
             padding: 15px 0px;
             text-transform: uppercase;
             position: absolute;
-            top: -36px;
+            top: -15px;
             border: 0;
             right: -10px;
         }
@@ -245,10 +243,10 @@ page-chat {
             overflow: hidden;
             border-radius: 50%;
             text-align: center;
-            padding: 15px 0px;
+            padding: 17px 0px;
             text-transform: uppercase;
             position: absolute;
-            top: -36px;
+            top: -15px;
             border: 0;
             right: -10px;
         }

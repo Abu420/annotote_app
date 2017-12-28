@@ -201,19 +201,22 @@ page-notifications {
                                     }
                                 }
                                 .toteText {
+                                    display: table;
+                                    vertical-align: middle;
+                                    padding: 5px 0;
                                     span {
-                                        width: calc(100% - 80px);
+                                        // width: calc(100% - 80px);
                                         font-size: 13px;
                                         color: #CCC;
                                         display: inline-block;
-                                        vertical-align: bottom;
-                                        margin-top: -1px;
+                                        vertical-align: bottom; // margin-top: -1px;
                                         text-overflow: ellipsis;
                                         -webkit-box-orient: vertical;
                                         -webkit-line-clamp: 1;
                                         overflow: hidden;
                                         white-space: nowrap;
                                         word-break: break-all;
+                                        display: table-cell;
                                     }
                                     button {
                                         color: #8e9093;
@@ -230,14 +233,16 @@ page-notifications {
                                         color: #8e9093;
                                         background: transparent;
                                         float: left;
-                                        margin-top: 5px !important;
+                                        margin-top: 3px !important;
                                         display: inline-block;
                                         vertical-align: bottom;
-                                        width: 14px;
+                                        width: 12px;
                                         margin-right: 5px;
+                                        display: table-cell;
+                                        height: 16px;
                                         &.followed-icon {
                                             width: 12px;
-                                            margin: 3px 5px 0 0 !important;
+                                            margin-top: 0px !important;
                                         }
                                     }
                                 }
