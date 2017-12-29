@@ -9,6 +9,7 @@ import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
 import { ChatService } from "../../services/chat.service";
 import { StatusBar } from "@ionic-native/status-bar";
+import { Constants } from "../../services/constants.service";
 @Component({
   selector: 'anotote_options',
   animations: [
@@ -47,6 +48,7 @@ export class AnototeOptions {
     public searchService: SearchService,
     public runtime: Streams,
     public chatService: ChatService,
+    public constants: Constants,
     public statusbar: StatusBar) {
     // this.share_type = params.get('share_type');
     // this.share_content = params.get('share_content')
@@ -70,6 +72,20 @@ export class AnototeOptions {
 
   share(which) {
     var toBeShared: string = this.stream == 'top' ? this.anotote.annotote.link : this.anotote.userAnnotote.annotote.link;
+    this.share_with_sheet(which, toBeShared);
+  }
+
+  share_chat(which) {
+    var toBeShared: string = this.constants.API_BASEURL + '/chat-history?second_person=' + this.anotote.chatGroup.groupUsers[0].user.id + '&first_person=' + this.anotote.chatGroup.groupUsers[1].user.id + '&anotote_id=' + this.anotote.chatGroup.messagesUser[0].anototeId + '&page=1'
+    this.share_with_sheet(which, toBeShared);
+  }
+
+  share_message(which) {
+    var toBeShared: string = this.message.text;
+    this.share_with_sheet(which, toBeShared);
+  }
+
+  share_with_sheet(which, toBeShared) {
     if (which == 'facebook')
       this.utilityMethods.share_via_facebook("Anotote", null, toBeShared);
     else if (which == 'email')

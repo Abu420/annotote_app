@@ -51,7 +51,29 @@
         </div>
     </ng-container>
     <ng-container *ngIf="chatormsg == true">
-        <div no-lines class="sharing_pop two bottom-border" *ngIf="message.anototeId != 0">
+        <div no-lines class="sharing_pop bottom-border">
+            <div class="main_label shareIcon">
+                <img src="assets/img/shareImg.svg" />
+            </div>
+            <ul>
+                <li (tap)="share_chat('copy')">
+                    <span>Copy</span>
+                </li>
+                <li (tap)="close('nothing')">
+                    <span>Chat</span>
+                </li>
+                <li (tap)="share_chat('email')">
+                    <span>Email</span>
+                </li>
+                <li (tap)="share_chat('twitter')">
+                    <span>Twitter</span>
+                </li>
+                <li class="tabOption" (tap)="share_chat('all')">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+        </div>
+        <div no-lines class="sharing_pop two bottom-border" *ngIf="message.anototeId != 0 && (tote | chatVoteOptions) == true">
             <div class="main_label">
                 <img src="assets/img/privacyImg.svg" />
             </div>
@@ -64,7 +86,7 @@
                 </li>
             </ul>
         </div>
-        <div no-lines class="sharing_pop bottom-border">
+        <div no-lines class="sharing_pop bottom-border" *ngIf="(tote | chatVoteOptions) == true">
             <div class="main_label markIcon">
                 <img src="assets/img/deleteIconGray.svg" />
             </div>

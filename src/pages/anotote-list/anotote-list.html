@@ -577,20 +577,24 @@
             <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
         </ng-container>
         <ng-container *ngIf="current_color == 'follows'">
-            <ng-container *ngIf="current_active_anotote.chatGroup.groupUsers[0].user.id == user.id">
+            <ng-container *ngIf="(current_active_anotote.chatGroup.groupUsers | chatVoteOptions) == true">
                 <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
                 <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
                 <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
             </ng-container>
-            <ng-container *ngIf="current_active_anotote.chatGroup.groupUsers[1].user.id == user.id">
-                <p *ngIf="current_active_anotote.chatGroup.messagesUser[1].subject == null">Chat</p>
-                <p *ngIf="current_active_anotote.chatGroup.messagesUser[1].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[1].subject}}]”</p>
-                <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
-            </ng-container>
-            <ng-container *ngIf="current_active_anotote.chatGroup.groupUsers[0].user.id != user.id && current_active_anotote.chatGroup.groupUsers[1].user.id != user.id">
+            <ng-container *ngIf="(current_active_anotote.chatGroup.groupUsers | chatVoteOptions) == false">
+                <div class="downUp">
+                    <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 0 && current_active_anotote.chatGroup.currentUserVote == 0" (click)="upvoteChatTote()" alt="">
+                    <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 1 && current_active_anotote.chatGroup.currentUserVote == 0" (click)="upvoteChatTote()" alt="">
+                    <img src="assets/img/upArrowgreen.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 1 && current_active_anotote.chatGroup.currentUserVote == 1" alt="">
+                    <span>{{current_active_anotote.chatGroup.rating | number}}%</span>
+                    <img src="assets/img/downIcon.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 1 && current_active_anotote.chatGroup.currentUserVote == 0" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 0 && current_active_anotote.chatGroup.currentUserVote == 0" (click)="downvoteChatTote()" alt="">
+                    <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 1 && current_active_anotote.chatGroup.currentUserVote == 1" (click)="downvoteChatTote()" alt="">
+                </div>
                 <div class="topTab">
                     <span>{{current_active_anotote.chatGroup.groupUsers[0].user.firstName}}
-                        <i>({{current_active_anotote.chatGroup.groupUsers.length}})</i>
+                        <i>({{current_active_anotote.chatGroup.groupUsers.length -1}})</i>
                     </span>
                 </div>
             </ng-container>

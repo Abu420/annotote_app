@@ -129,4 +129,9 @@ export class AnototeService {
     var response = this.http.post(url, params).map(res => res.json());
     return response;
   }
+  public vote_chat_tote(params) {
+    var url = this.constants.API_BASEURL + '/chat/vote';
+    var response = this.http.post(url, params).map(res => res.json());
+    return response;
+  }
 }

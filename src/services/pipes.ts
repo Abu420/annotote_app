@@ -104,3 +104,22 @@ export class SanitizeHtmlPipe implements PipeTransform {
     return this._sanitizer.bypassSecurityTrustHtml(v);
   }
 }
+
+@Pipe({
+  name: 'chatVoteOptions'
+})
+export class chatVote {
+  constructor(public auth: AuthenticationService) {
+
+  }
+
+  transform(groupUsers) {
+    var contains = false;
+    groupUsers.forEach(element => {
+      if (element.user.id == this.auth.getUser().id) {
+        contains = true;
+      }
+    });
+    return contains;
+  }
+}

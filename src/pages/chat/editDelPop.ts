@@ -5,6 +5,7 @@ import { AnototeService } from "../../services/anotote.service";
 import { UtilityMethods } from "../../services/utility_methods";
 import { Clipboard } from '@ionic-native/clipboard';
 import { StatusBar } from "@ionic-native/status-bar";
+import { Constants } from "../../services/constants.service";
 
 @Component({
     selector: 'msg_options',
@@ -31,12 +32,14 @@ export class EditDeleteMessage {
     public stream;
     public chatormsg: boolean = true;
     public tote = null;
+    public toteId = null;
     constructor(public viewCtrl: ViewController,
         params: NavParams,
         public clip: Clipboard,
         authService: AuthenticationService,
         public anototeService: AnototeService,
         public utilityMethods: UtilityMethods,
+        public constants: Constants,
         public statusbar: StatusBar) {
         statusbar.hide();
         this.message = params.get('message');
@@ -45,6 +48,7 @@ export class EditDeleteMessage {
         this.chatormsg = params.get('chatToteOpts');
         if (params.get('tote')) {
             this.tote = params.get('tote')
+            this.toteId = params.get('toteId');
         }
     }
 
@@ -117,6 +121,16 @@ export class EditDeleteMessage {
 
     share(which) {
         var toBeShared: string = this.message.text;
+        this.share_sheet(which, toBeShared);
+    }
+
+    share_chat(which) {
+        var toBeShared: string = this.constants.API_BASEURL + '/chat-history?second_person=' + this.tote[0].user.id + '&first_person=' + this.tote[1].user.id + '&anotote_id=' + this.toteId + '&page=1';
+        this.share_sheet(which, toBeShared);
+    }
+
+
+    share_sheet(which, toBeShared) {
         if (which == 'facebook')
             this.utilityMethods.share_via_facebook("Anotote", null, toBeShared);
         else if (which == 'email')

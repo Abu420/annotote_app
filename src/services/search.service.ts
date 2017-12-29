@@ -32,6 +32,14 @@ export class SearchService {
         return true;
     }
 
+    public getAlreadySavedSearches(term) {
+        for (let searches of this.saved_searches)
+            if (searches.term == term)
+                return searches;
+
+        return null;
+    }
+
 
     /**
      * Get User Profile API

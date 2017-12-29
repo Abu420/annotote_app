@@ -329,7 +329,8 @@ export class Chat {
       message: this.conversation[0],
       contains: this.contains,
       chatToteOpts: true,
-      tote: this.tote != null ? this.tote.chatGroup.groupUsers : null
+      tote: this.tote != null ? this.tote.chatGroup.groupUsers : null,
+      toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : null
     }
     let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
     anototeOptionsModal.onDidDismiss(data => {

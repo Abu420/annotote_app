@@ -74,7 +74,7 @@ import { NotificationService } from "../services/notifications.service";
 import { Constants } from "../services/constants.service";
 import { AuthenticationService } from "../services/auth.service";
 import { DatetimeService } from "../services/datetime.service";
-import { ChatHeads, chatName, basePath, timeStamp, SanitizeHtmlPipe, notificationTime } from "../services/pipes"
+import { ChatHeads, chatName, basePath, timeStamp, SanitizeHtmlPipe, notificationTime, chatVote } from "../services/pipes"
 import { HttpFactory } from "../services/httpFactory"
 import { Push } from '@ionic-native/push';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
@@ -144,7 +144,8 @@ import { Autosize } from "../directives/ng-autosize/index";
     TagsForChat,
     EditDeleteMessage,
     notificationTime,
-    Autosize
+    Autosize,
+    chatVote
   ],
   imports: [
     BrowserModule,

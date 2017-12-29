@@ -771,68 +771,27 @@ export class AnototeList {
           anotote.checked = true;
         }
       } else {
-        var check = false;
-        for (let user of anotote.chatGroup.groupUsers) {
-          if (user.id == this.user.id) {
-            check = true;
-            break;
-          }
-          if (check) {
-            if (anotote.checked) {
-              this.title_temp = '';
-              anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
-            } else {
-              this.title_temp = anotote.chatGroup.messagesUser[0].subject;
-              anotote.checked = true;
-            }
-          } else {
-            this.toastInFooter("You are not a participant of this chat.")
-          }
-        }
+        // var check = false;
+        // for (let user of anotote.chatGroup.groupUsers) {
+        //   if (user.id == this.user.id) {
+        //     check = true;
+        //     break;
+        //   }
+        //   if (check) {
+        //     if (anotote.checked) {
+        //       this.title_temp = '';
+        //       anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+        //     } else {
+        //       this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+        //       anotote.checked = true;
+        //     }
+        //   } else {
+        //     this.toastInFooter("You are not a participant of this chat.")
+        //   }
+        // }
+        this.options(anotote);
       }
-
-
     }
-    // if (this.current_color != 'top') {
-    //   if (anotote.active)
-    //     return;
-    //   if (this.edit_mode == false && anotote.chatGroup == null) {
-    //     this.edit_mode = true;
-    //     anotote.checked = !anotote.checked;
-    //     this.selected_totes.push(anotote);
-    //   } else {
-    //     if (anotote.chatGroup != null) {
-    //       this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this chat group", () => {
-    //         var params = {
-    //           group_id: anotote.chatGroupId
-    //         }
-    //         this.showLoading("Deleting")
-    //         this.anototeService.delete_chat_tote(params).subscribe((result) => {
-    //           this.hideLoading();
-    //           this.anototes.splice(this.anototes.indexOf(anotote), 1);
-    //           this.toastInFooter("Chat tote deleted Successfully.")
-    //           this.close_bulk_actions();
-    //         }, (error) => {
-    //           this.hideLoading();
-    //           if (error.code == -1) {
-    //             this.utilityMethods.internet_connection_error();
-    //           }
-    //         })
-    //       })
-    //     }
-    //   }
-    // } else {
-    //   if (anotote.active)
-    //     return;
-    //   if (this.edit_mode == false) {
-    //     this.edit_mode = true;
-    //     if (anotote.checked) {
-    //       anotote.checked = false;
-    //     } else {
-    //       anotote.checked = true;
-    //     }
-    //   }
-    // }
   }
 
   saveTitle(anotote) {
@@ -2181,6 +2140,40 @@ export class AnototeList {
       }
     }
     return null;
+  }
+
+  upvoteChatTote() {
+    var params = {
+      chat_id: this.current_active_anotote.chatGroup.id,
+      vote: 1,
+      created_at: this.utilityMethods.get_php_wala_time()
+    }
+    this.anototeService.vote_chat_tote(params).subscribe((success) => {
+      this.hideLoading();
+      this.current_active_anotote.chatGroup.currentUserVote = 1;
+      this.current_active_anotote.chatGroup.isCurrentUserVote = 1;
+      this.current_active_anotote.chatGroup.rating = success.data.chat.rating;
+    }, (error) => {
+      this.hideLoading();
+      this.toastInFooter("Couldn't upvote");
+    })
+  }
+
+  downvoteChatTote() {
+    var params = {
+      chat_id: this.current_active_anotote.chatGroup.id,
+      vote: 0,
+      created_at: this.utilityMethods.get_php_wala_time()
+    }
+    this.anototeService.vote_chat_tote(params).subscribe((success) => {
+      this.hideLoading();
+      this.current_active_anotote.chatGroup.currentUserVote = 0;
+      this.current_active_anotote.chatGroup.isCurrentUserVote = 1;
+      this.current_active_anotote.chatGroup.rating = success.data.chat.rating;
+    }, (error) => {
+      this.hideLoading();
+      this.toastInFooter("Couldn't downvote");
+    })
   }
 
 }

@@ -21,7 +21,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="anotote.chatGroup != null && message != null && message.senderId != user.id" (click)="markReadUnread()" no-lines class="sharing_pop bottom-border">
+    <div *ngIf="anotote.chatGroup != null && message != null && message.senderId != user.id && (anotote.chatGroup.groupUsers | chatVoteOptions) == true" (click)="markReadUnread()" no-lines class="sharing_pop bottom-border">
         <div class="main_label markIcon">
             <img src="assets/img/markIcon.svg" />
         </div>
@@ -33,7 +33,29 @@
         </ul>
     </div>
     <ng-container *ngIf="anotote.chatGroup && anotote.chatGroup.messagesUser[0].anototeId != 0 &&  message == null">
-        <div no-lines class="sharing_pop two bottom-border">
+        <div no-lines class="sharing_pop bottom-border">
+            <div class="main_label">
+                <img src="assets/img/shareImg.svg" />
+            </div>
+            <ul>
+                <li (tap)="share_chat('copy')">
+                    <span>Copy</span>
+                </li>
+                <li (tap)="chat()">
+                    <span>Chat</span>
+                </li>
+                <li (tap)="share_chat('email')">
+                    <span>Email</span>
+                </li>
+                <li (tap)="share_chat('twitter')">
+                    <span>Twitter</span>
+                </li>
+                <li class="tabOption" (tap)="share_chat('all')">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+        </div>
+        <div no-lines class="sharing_pop two bottom-border" *ngIf="(anotote.chatGroup.groupUsers | chatVoteOptions) == true">
             <div class="main_label">
                 <img src="assets/img/privacyImg.svg" />
             </div>
@@ -194,14 +216,36 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="message != null && message.senderId == user.id" no-lines class="sharing_pop four bottom-border">
-        <div class="main_label">
+    <div *ngIf="message != null" no-lines class="sharing_pop bottom-border">
+        <!-- <div class="main_label">
             <img src="assets/img/deleteIconGray.svg" />
         </div>
         <ul>
             <li (click)="delete_message()">
                 <span>Delete Message</span>
             </li>
-        </ul>
+        </ul> -->
+        <div no-lines class="sharing_pop bottom-border">
+            <div class="main_label">
+                <img src="assets/img/shareImg.svg" />
+            </div>
+            <ul>
+                <li (tap)="share_message('copy')">
+                    <span>Copy</span>
+                </li>
+                <li (tap)="chat()">
+                    <span>Chat</span>
+                </li>
+                <li (tap)="share_message('email')">
+                    <span>Email</span>
+                </li>
+                <li (tap)="share_message('twitter')">
+                    <span>Twitter</span>
+                </li>
+                <li class="tabOption" (tap)="share_message('all')">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

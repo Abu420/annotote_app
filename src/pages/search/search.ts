@@ -12,6 +12,7 @@ import { SearchService } from '../../services/search.service';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
 import { AuthenticationService } from '../../services/auth.service';
+import { AnototeService } from "../../services/anotote.service";
 
 @Component({
     selector: 'search_page',
@@ -45,7 +46,16 @@ export class Search {
     }
     private from;
 
-    constructor(public stream: Streams, public params: NavParams, public navCtrl: NavController, public events: Events, public utilityMethods: UtilityMethods, public viewCtrl: ViewController, public searchService: SearchService, public modalCtrl: ModalController, public authService: AuthenticationService) {
+    constructor(public stream: Streams,
+        public params: NavParams,
+        public navCtrl: NavController,
+        public events: Events,
+        public utilityMethods: UtilityMethods,
+        public viewCtrl: ViewController,
+        public searchService: SearchService,
+        public modalCtrl: ModalController,
+        public anototeService: AnototeService,
+        public authService: AuthenticationService) {
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;
@@ -274,6 +284,59 @@ export class Search {
                 this.utilityMethods.internet_connection_error();
             }
         });
+    }
+
+    bookmark(event, tote) {
+        event.stopPropagation();
+        if (tote.isBookmarked == true) {
+            var search = this.searchService.getAlreadySavedSearches(tote.annotote.link);
+            if (search) {
+                tote.isBookmarked = false;
+                var toast = this.utilityMethods.doLoadingToast("Unpinning bookmark...");
+                this.searchService.remove_search_id(search.id)
+                    .subscribe((response) => {
+                        toast.dismiss();
+                        this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(search), 1);
+                    }, (error) => {
+                        toast.dismiss();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else {
+                            this.utilityMethods.doToast("Couldn't Unpinn");
+                        }
+                    });
+            }
+        } else {
+            if (this.searchService.AlreadySavedSearches(tote.annotote.link)) {
+                tote.isBookmarked = true;
+                var links = [];
+                var title = [];
+                links.push(tote.annotote.link);
+                title.push(tote.annotote.title);
+                var params = {
+                    user_tote_id: tote.userAnnotote.id,
+                    user_id: this.authService.getUser().id,
+                    links: links,
+                    tote_titles: title,
+                    created_at: this.utilityMethods.get_php_wala_time()
+                }
+                var toast = this.utilityMethods.doLoadingToast("Pinning bookmark...");
+                this.anototeService.bookmark_totes(params).subscribe((result) => {
+                    toast.dismiss();
+                    if (result.status == 1) {
+                        if (result.data.exist_count != 1)
+                            this.searchService.saved_searches.unshift(result.data.bookmarks[0]);
+                    }
+                }, (error) => {
+                    toast.dismiss();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                })
+            } else {
+                tote.isBookmarked = true;
+            }
+        }
     }
 
     /**
