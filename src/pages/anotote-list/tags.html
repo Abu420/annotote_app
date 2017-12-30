@@ -12,13 +12,22 @@
                     <span>{{tag.tagText}}</span>
                 </li>
             </ul>
-            <ul class="tag-list" *ngIf="no_tags_found == true && stream != 'me'">
-                <li text-center>
-                    No Tags found.
-                </li>
-            </ul>
+            <ng-container *ngIf="stream != 'chat'">
+                <ul class="tag-list" *ngIf="no_tags_found == true && stream != 'me' ">
+                    <li text-center>
+                        No Tags found.
+                    </li>
+                </ul>
+            </ng-container>
+            <ng-container *ngIf="stream == 'chat'">
+                <ul class="tag-list" *ngIf="no_tags_found == true && (participants | chatVoteOptions) == false">
+                    <li text-center>
+                        No Tags found.
+                    </li>
+                </ul>
+            </ng-container>
         </div>
-        <div class="tag_input" *ngIf="stream == 'me'">
+        <div class="tag_input" *ngIf="stream == 'me' || stream == 'chat'">
             <ul class="tagList" *ngIf="show_autocomplete == true">
                 <li *ngIf="no_user_found == true" text-center>
                     No Users found.
@@ -49,6 +58,16 @@
             </div>
         </div>
         <div class="sharing_pop" *ngIf="stream == 'me' && profile != ''">
+            <div class="main_label">
+                <img alt="" src="assets/img/hashIcon.svg">
+            </div>
+            <div class="tagText bottom-border">
+                <form (ngSubmit)="saveTags()">
+                    <input name="tagsInput" [(ngModel)]="tag_input" (ngModelChange)="tag_user()" type="text" placeholder="Add tags(#,$,@) or paste link" />
+                </form>
+            </div>
+        </div>
+        <div class="sharing_pop" *ngIf="stream == 'chat' && (participants | chatVoteOptions)">
             <div class="main_label">
                 <img alt="" src="assets/img/hashIcon.svg">
             </div>

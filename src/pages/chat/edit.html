@@ -25,8 +25,30 @@
                     <span>Edit Message</span>
                 </li>
             </ul>
-        </div> -->
+            </div> -->
+
         </ng-container>
+        <div no-lines class="sharing_pop three bottom-border">
+            <div class="main_label">
+                <img src="assets/img/tagImg.svg" />
+            </div>
+            <ul>
+                <li *ngIf="message.messageTags.length == 0 && message.senderId == user.id" (tap)="close('tags')">
+                    <span>Add Tags</span>
+                </li>
+                <li *ngIf="message.messageTags.length == 0 && message.senderId != user.id">
+                    <span>No tags added</span>
+                </li>
+                <ng-container *ngFor="let tag of message.messageTags; let i=index">
+                    <li *ngIf="i < 2">
+                        <span>{{tag.tagText}}</span>
+                    </li>
+                </ng-container>
+                <li class="tabOption" *ngIf="message.messageTags.length > 2 || message.senderId == user.id" (tap)="close('tags')">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+        </div>
         <div no-lines class="sharing_pop bottom-border">
             <div class="main_label shareIcon">
                 <img src="assets/img/shareImg.svg" />
@@ -69,6 +91,27 @@
                     <span>Twitter</span>
                 </li>
                 <li class="tabOption" (tap)="share_chat('all')">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
+        </div>
+        <div no-lines class="sharing_pop three bottom-border">
+            <div class="main_label">
+                <img src="assets/img/tagImg.svg" />
+            </div>
+            <ul>
+                <li *ngIf="tags.length == 0 && (tote | chatVoteOptions) == true" (tap)="close('tags')">
+                    <span>Add Tags</span>
+                </li>
+                <li *ngIf="tags.length == 0 && (tote | chatVoteOptions) == false">
+                    <span>No tags added</span>
+                </li>
+                <ng-container *ngFor="let tag of tags; let i=index">
+                    <li *ngIf="i < 2">
+                        <span>{{tag.tagText}}</span>
+                    </li>
+                </ng-container>
+                <li class="tabOption" *ngIf="tags.length > 2 || (tote | chatVoteOptions) == true" (tap)="close('tags')">
                     <img src="assets/img/dotsOption.svg" />
                 </li>
             </ul>

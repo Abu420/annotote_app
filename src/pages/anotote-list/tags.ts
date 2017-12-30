@@ -42,8 +42,17 @@ export class TagsPopUp {
     public nameEntered: string = '';
     public nameInputIndex: number = 0;
     public profile: any = '';
+    //for chat tags
+    public chatId;
+    public participants = [];
+    public chatOrtxt: boolean = true;
 
-    constructor(public statusbar: StatusBar, private utilityMethods: UtilityMethods, public authService: AuthenticationService, private params: NavParams, public viewCtrl: ViewController, public searchService: SearchService) {
+    constructor(public statusbar: StatusBar,
+        private utilityMethods: UtilityMethods,
+        public authService: AuthenticationService,
+        private params: NavParams,
+        public viewCtrl: ViewController,
+        public searchService: SearchService) {
         statusbar.hide();
         this.tag_input = "";
         this.user = this.authService.getUser();
@@ -51,90 +60,34 @@ export class TagsPopUp {
         this.tags = params.get('tags');
         if (this.tags.length == 0)
             this.no_tags_found = true;
-        this.anotation_or_anotote = params.get('annotote');
-        if (this.anotation_or_anotote) {
-            this.user_tote_id = params.get('user_tote_id');
-        } else {
-            if (!params.get('profile')) {
-                this.annotation_id = params.get('annotation_id');
-                this.anotote_of_anotation_id = params.get('user_annotote_id');
+        if (this.stream != 'chat') {
+            this.anotation_or_anotote = params.get('annotote');
+            if (this.anotation_or_anotote) {
+                this.user_tote_id = params.get('user_tote_id');
             } else {
-                this.profile = params.get('profile');
+                if (!params.get('profile')) {
+                    this.annotation_id = params.get('annotation_id');
+                    this.anotote_of_anotation_id = params.get('user_annotote_id');
+                } else {
+                    this.profile = params.get('profile');
+                }
             }
+        } else {
+            this.chatOrtxt = params.get('chatOrTxt');
+            this.chatId = params.get('chatId');
+            this.participants = params.get('participants');
         }
     }
 
     add_tag(type, tag) {
-        if (this.anotation_or_anotote) {
-            var current_time = this.utilityMethods.get_php_wala_time();
-            var paramsObj = {
-                user_tote_id: this.user_tote_id,
-                tag_text: tag,
-                created_at: current_time,
-                tag_id: type
-            }
-            if (type == 2 && this.one_selected.length > 0) {
-                for (let user of this.one_selected) {
-                    if (user.firstName == tag) {
-                        paramsObj['user_id'] = user.id
-                    }
-                }
-            } else if (type == 2 && this.one_selected.length == 0) {
-                this.utilityMethods.doToast("Please select a user to tag.");
-                return;
-            }
-            var toast = this.utilityMethods.doLoadingToast('Tagging');
-            this.searchService.add_tag_to_anotote(paramsObj)
-                .subscribe((res) => {
-                    toast.dismiss();
-                    this.tags.push(res.data.annotote_tag);
-                    this.tag_input = '';
-                    if (this.tags.length > 0)
-                        this.no_tags_found = false;
-                }, (error) => {
-                    toast.dismiss();
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    } else {
-                        this.utilityMethods.doToast("Couldn't add tag to annotote.");
-                    }
-                });
-        } else {
-            if (!this.params.get('profile')) {
-                var params = {
-                    tag_id: type,
-                    annotation_id: this.annotation_id,
-                    user_annotote_id: this.anotote_of_anotation_id,
-                    text: tag,
-                    created_at: this.utilityMethods.get_php_wala_time(),
-                }
-                // if (type == 2 && this.one_selected != null)
-                //     params['user_id'] = this.one_selected.id;
-                // else if (type == 2 && this.one_selected == null) {
-                //     this.utilityMethods.doToast("Please select a user to tag.");
-                //     return;
-                // }
-                var toast = this.utilityMethods.doLoadingToast('Tagging');
-                this.searchService.add_tag_to_anotation(params).subscribe((result) => {
-                    toast.dismiss();
-                    this.tags.push(result.data.annotation_tag);
-                    this.tag_input = '';
-                    if (this.tags.length > 0)
-                        this.no_tags_found = false;
-                }, (error) => {
-                    toast.dismiss();
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    } else {
-                        this.utilityMethods.doToast("Couldn't add tag to annotation.");
-                    }
-                })
-            } else {
-                var userParams = {
-                    tag_id: type,
-                    user_id: this.user.id,
+        if (this.stream != 'chat') {
+            if (this.anotation_or_anotote) {
+                var current_time = this.utilityMethods.get_php_wala_time();
+                var paramsObj = {
+                    user_tote_id: this.user_tote_id,
                     tag_text: tag,
-                    created_at: this.utilityMethods.get_php_wala_time()
+                    created_at: current_time,
+                    tag_id: type
                 }
                 if (type == 2 && this.one_selected.length > 0) {
                     for (let user of this.one_selected) {
@@ -147,10 +100,10 @@ export class TagsPopUp {
                     return;
                 }
                 var toast = this.utilityMethods.doLoadingToast('Tagging');
-                this.searchService.add_tags_to_profile(userParams)
+                this.searchService.add_tag_to_anotote(paramsObj)
                     .subscribe((res) => {
                         toast.dismiss();
-                        this.tags.push(res.data.user_tag);
+                        this.tags.push(res.data.annotote_tag);
                         this.tag_input = '';
                         if (this.tags.length > 0)
                             this.no_tags_found = false;
@@ -159,7 +112,139 @@ export class TagsPopUp {
                         if (error.code == -1) {
                             this.utilityMethods.internet_connection_error();
                         } else {
-                            this.utilityMethods.doToast("Couldn't add tag.");
+                            this.utilityMethods.doToast("Couldn't add tag to annotote.");
+                        }
+                    });
+            } else {
+                if (!this.params.get('profile')) {
+                    var params = {
+                        tag_id: type,
+                        annotation_id: this.annotation_id,
+                        user_annotote_id: this.anotote_of_anotation_id,
+                        text: tag,
+                        created_at: this.utilityMethods.get_php_wala_time(),
+                    }
+                    // if (type == 2 && this.one_selected != null)
+                    //     params['user_id'] = this.one_selected.id;
+                    // else if (type == 2 && this.one_selected == null) {
+                    //     this.utilityMethods.doToast("Please select a user to tag.");
+                    //     return;
+                    // }
+                    var toast = this.utilityMethods.doLoadingToast('Tagging');
+                    this.searchService.add_tag_to_anotation(params).subscribe((result) => {
+                        toast.dismiss();
+                        this.tags.push(result.data.annotation_tag);
+                        this.tag_input = '';
+                        if (this.tags.length > 0)
+                            this.no_tags_found = false;
+                    }, (error) => {
+                        toast.dismiss();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else {
+                            this.utilityMethods.doToast("Couldn't add tag to annotation.");
+                        }
+                    })
+                } else {
+                    var userParams = {
+                        tag_id: type,
+                        user_id: this.user.id,
+                        tag_text: tag,
+                        created_at: this.utilityMethods.get_php_wala_time()
+                    }
+                    if (type == 2 && this.one_selected.length > 0) {
+                        for (let user of this.one_selected) {
+                            if (user.firstName == tag) {
+                                paramsObj['user_id'] = user.id
+                            }
+                        }
+                    } else if (type == 2 && this.one_selected.length == 0) {
+                        this.utilityMethods.doToast("Please select a user to tag.");
+                        return;
+                    }
+                    var toast = this.utilityMethods.doLoadingToast('Tagging');
+                    this.searchService.add_tags_to_profile(userParams)
+                        .subscribe((res) => {
+                            toast.dismiss();
+                            this.tags.push(res.data.user_tag);
+                            this.tag_input = '';
+                            if (this.tags.length > 0)
+                                this.no_tags_found = false;
+                        }, (error) => {
+                            toast.dismiss();
+                            if (error.code == -1) {
+                                this.utilityMethods.internet_connection_error();
+                            } else {
+                                this.utilityMethods.doToast("Couldn't add tag.");
+                            }
+                        });
+                }
+            }
+        } else {
+            if (this.chatOrtxt) {
+                var paramters: any = {
+                    chat_id: this.chatId,
+                    tag_text: tag,
+                    created_at: this.utilityMethods.get_php_wala_time(),
+                    tag_id: type
+                }
+                if (type == 2 && this.one_selected.length > 0) {
+                    for (let user of this.one_selected) {
+                        if (user.firstName == tag) {
+                            paramters['user_id'] = user.id
+                        }
+                    }
+                } else if (type == 2 && this.one_selected.length == 0) {
+                    this.utilityMethods.doToast("Please select a user to tag.");
+                    return;
+                }
+                var toast = this.utilityMethods.doLoadingToast('Tagging');
+                this.searchService.add_tag_to_chatTote(paramters)
+                    .subscribe((res) => {
+                        toast.dismiss();
+                        this.tags.push(res.data.chat_tag);
+                        this.tag_input = '';
+                        if (this.tags.length > 0)
+                            this.no_tags_found = false;
+                    }, (error) => {
+                        toast.dismiss();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else {
+                            this.utilityMethods.doToast("Couldn't add tag to annotote.");
+                        }
+                    });
+            } else {
+                var paramters: any = {
+                    message_id: this.chatId,
+                    tag_text: tag,
+                    created_at: this.utilityMethods.get_php_wala_time(),
+                    tag_id: type
+                }
+                if (type == 2 && this.one_selected.length > 0) {
+                    for (let user of this.one_selected) {
+                        if (user.firstName == tag) {
+                            paramters['user_id'] = user.id
+                        }
+                    }
+                } else if (type == 2 && this.one_selected.length == 0) {
+                    this.utilityMethods.doToast("Please select a user to tag.");
+                    return;
+                }
+                var toast = this.utilityMethods.doLoadingToast('Tagging');
+                this.searchService.add_tag_to_message(paramters)
+                    .subscribe((res) => {
+                        toast.dismiss();
+                        this.tags.push(res.data.message_tag);
+                        this.tag_input = '';
+                        if (this.tags.length > 0)
+                            this.no_tags_found = false;
+                    }, (error) => {
+                        toast.dismiss();
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else {
+                            this.utilityMethods.doToast("Couldn't add tag to annotote.");
                         }
                     });
             }

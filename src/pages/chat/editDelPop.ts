@@ -33,6 +33,7 @@ export class EditDeleteMessage {
     public chatormsg: boolean = true;
     public tote = null;
     public toteId = null;
+    public tags = [];
     constructor(public viewCtrl: ViewController,
         params: NavParams,
         public clip: Clipboard,
@@ -49,6 +50,7 @@ export class EditDeleteMessage {
         if (params.get('tote')) {
             this.tote = params.get('tote')
             this.toteId = params.get('toteId');
+            this.tags = params.get('tags');
         }
     }
 

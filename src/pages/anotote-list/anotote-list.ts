@@ -1591,63 +1591,85 @@ export class AnototeList {
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
-        if (this.current_color != 'top') {
-          if (this.current_color == 'me' && (anotote.active_tab == 'me' || anotote.active_tab == undefined)) {
-            var params = {
-              user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.userAnnotote.anototeDetail.userAnnotote.tags,
-              whichStream: 'me',
-              annotote: true
+        if (anotote.chatGroup == null) {
+          if (this.current_color != 'top') {
+            if (this.current_color == 'me' && (anotote.active_tab == 'me' || anotote.active_tab == undefined)) {
+              var params = {
+                user_tote_id: anotote.userAnnotote.id,
+                tags: anotote.userAnnotote.anototeDetail.userAnnotote.tags,
+                whichStream: 'me',
+                annotote: true
+              }
+            } else if (this.current_color == 'follows' && anotote.active_tab == 'me') {
+              var params = {
+                user_tote_id: anotote.userAnnotote.anototeDetail.meToteFollowTop.id,
+                tags: anotote.userAnnotote.anototeDetail.meToteFollowTop.tags,
+                whichStream: 'me',
+                annotote: true
+              }
+            } else if (anotote.active_tab == 'follows') {
+              var params = {
+                user_tote_id: anotote.userAnnotote.id,
+                tags: anotote.follower_tags,
+                whichStream: 'follows',
+                annotote: true
+              }
+            } else if (anotote.active_tab == 'top') {
+              var params = {
+                user_tote_id: anotote.userAnnotote.id,
+                tags: anotote.top_tags,
+                whichStream: 'top',
+                annotote: true
+              }
             }
-          } else if (this.current_color == 'follows' && anotote.active_tab == 'me') {
-            var params = {
-              user_tote_id: anotote.userAnnotote.anototeDetail.meToteFollowTop.id,
-              tags: anotote.userAnnotote.anototeDetail.meToteFollowTop.tags,
-              whichStream: 'me',
-              annotote: true
+            let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            tagsModal.present();
+          } else if (this.current_color == 'top') {
+            if (anotote.active_tab == 'me') {
+              var params = {
+                user_tote_id: anotote.anototeDetail.meToteFollowTop.id,
+                tags: anotote.anototeDetail.meToteFollowTop.tags,
+                whichStream: 'me',
+                annotote: true
+              }
+            } else if (anotote.active_tab == 'follows') {
+              var params = {
+                user_tote_id: anotote.userAnnotote.id,
+                tags: anotote.follower_tags,
+                whichStream: 'follows',
+                annotote: true
+              }
+            } else if (anotote.active_tab == 'top' || anotote.active_tab == undefined) {
+              var params = {
+                user_tote_id: anotote.userAnnotote.id,
+                tags: anotote.anototeDetail.userAnnotote.tags,
+                whichStream: 'top',
+                annotote: true
+              }
             }
-          } else if (anotote.active_tab == 'follows') {
-            var params = {
-              user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.follower_tags,
-              whichStream: 'follows',
-              annotote: true
-            }
-          } else if (anotote.active_tab == 'top') {
-            var params = {
-              user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.top_tags,
-              whichStream: 'top',
-              annotote: true
-            }
-          }
-          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
-          tagsModal.present();
-        } else if (this.current_color == 'top') {
-          if (anotote.active_tab == 'me') {
-            var params = {
-              user_tote_id: anotote.anototeDetail.meToteFollowTop.id,
-              tags: anotote.anototeDetail.meToteFollowTop.tags,
-              whichStream: 'me',
-              annotote: true
-            }
-          } else if (anotote.active_tab == 'follows') {
-            var params = {
-              user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.follower_tags,
-              whichStream: 'follows',
-              annotote: true
-            }
-          } else if (anotote.active_tab == 'top' || anotote.active_tab == undefined) {
-            var params = {
-              user_tote_id: anotote.userAnnotote.id,
-              tags: anotote.anototeDetail.userAnnotote.tags,
-              whichStream: 'top',
-              annotote: true
-            }
-          }
 
-          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+            tagsModal.present();
+          }
+        } else {
+          if (message == null) {
+            var paramsObj = {
+              chatId: anotote.chatGroup.id,
+              tags: anotote.chatGroup.chatTags,
+              whichStream: 'chat',
+              chatOrTxt: true,
+              participants: anotote.chatGroup.groupUsers
+            }
+          } else {
+            var paramsObj = {
+              chatId: message.id,
+              tags: message.messageTags,
+              whichStream: 'chat',
+              chatOrTxt: false,
+              participants: anotote.chatGroup.groupUsers
+            }
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, paramsObj);
           tagsModal.present();
         }
       } else if (data.delete == true) {

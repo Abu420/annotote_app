@@ -168,6 +168,24 @@ export class SearchService {
         return response;
     }
 
+    /**
+     * Add tags to chat tote
+     */
+    public add_tag_to_chatTote(params) {
+        var url = this.constants.API_BASEURL + '/chat/createTag';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
+    /**
+     * Add tags to chat message
+     */
+    public add_tag_to_message(params) {
+        var url = this.constants.API_BASEURL + '/chat/createMessageTag';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+
     public add_tag_to_anotation_all(params) {
         var url = this.constants.API_BASEURL + '/annotote/highlight/createTagAll';
         var response = this.http.post(url, params).map(res => res.json());

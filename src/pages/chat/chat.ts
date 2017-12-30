@@ -15,6 +15,7 @@ import { EditDeleteMessage } from './editDelPop';
 import { Search } from "../search/search";
 import { AnototeEditor } from "../anotote-editor/anotote-editor";
 import { ChatToteOptions } from "../anotote-list/chat_tote";
+import { TagsPopUp } from "../anotote-list/tags";
 
 declare var io: any;
 
@@ -313,6 +314,16 @@ export class Chat {
               this.utilityMethods.internet_connection_error();
             }
           })
+        } else if (data.choice == 'tags') {
+          var paramsObj = {
+            chatId: message.id,
+            tags: message.messageTags,
+            whichStream: 'chat',
+            chatOrTxt: false,
+            participants: this.tote.chatGroup.groupUsers
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, paramsObj);
+          tagsModal.present();
         }
       }
     })
@@ -330,13 +341,24 @@ export class Chat {
       contains: this.contains,
       chatToteOpts: true,
       tote: this.tote != null ? this.tote.chatGroup.groupUsers : null,
-      toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : null
+      toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : null,
+      tags: this.tote != null ? this.tote.chatGroup.chatTags : []
     }
     let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
     anototeOptionsModal.onDidDismiss(data => {
       if (data) {
         if (data.choice == 'delete') {
           this.deleteChat();
+        } else if (data.choice == 'tags') {
+          var paramsObj = {
+            chatId: this.tote.chatGroup.id,
+            tags: this.tote.chatGroup.chatTags,
+            whichStream: 'chat',
+            chatOrTxt: true,
+            participants: this.tote.chatGroup.groupUsers
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, paramsObj);
+          tagsModal.present();
         }
       }
     })
