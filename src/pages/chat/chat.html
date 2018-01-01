@@ -73,7 +73,15 @@
                         <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
                         <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                     </div>
-                    <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id}">{{message.text}}</p>
+                    <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id}">{{message.text}}
+                        <ng-container *ngFor="let tag of message.messageTags">
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>
+                            {{tag.tagText}}
+                        </ng-container>
+                    </p>
                     <!-- <img (click)="editOrDelete(message)" src="assets/img/dotsicon.svg" alt=""> -->
                 </div>
             </ion-item>

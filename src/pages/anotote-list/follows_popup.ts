@@ -22,10 +22,13 @@ import { StatusBar } from "@ionic-native/status-bar";
 export class FollowsPopup {
   public follows: Array<User> = [];
   public show: boolean = true;
+  public follows_or_participant: boolean = true;
   constructor(params: NavParams, public viewCtrl: ViewController,
     public statusbar: StatusBar) {
     statusbar.hide();
     this.follows = params.get('follows');
+    if (params.get('participant'))
+      this.follows_or_participant = false;
   }
 
   choose_this_user(user: User) {

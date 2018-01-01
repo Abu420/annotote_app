@@ -288,7 +288,18 @@ export class AnototeList {
       this.anototeService.top_totes(params).subscribe((result) => {
         // this.hideLoading();
         this.fbLoading = false;
+        for (let anotote of result.data.annototes) {
+          anotote.createdAt = anotote.userAnnotote.createdAt
+        }
         this.top_anototes = result.data.annototes;
+        for (let chatTote of result.data.chatTotes) {
+          var temp = {
+            chatGroup: chatTote,
+            type: 2,
+            createdAt: chatTote.createdAt
+          }
+          this.top_anototes.push(temp);
+        }
         if (this.top_anototes.length == 0) {
           this.has_totes = false;
         }
@@ -561,7 +572,16 @@ export class AnototeList {
       this.anototeService.top_totes(params).subscribe((result) => {
         this.utilityMethods.hide_loader();
         for (let totes of result.data.annototes) {
+          totes.createdAt = totes.userAnnotote.createdAt
           this.top_anototes.push(totes);
+        }
+        for (let chatTote of result.data.chatTotes) {
+          var temp = {
+            chatGroup: chatTote,
+            type: 2,
+            createdAt: chatTote.createdAt
+          }
+          this.top_anototes.push(temp);
         }
         infiniteScroll.complete();
         if (result.data.annototes.length < 10) {
@@ -629,6 +649,17 @@ export class AnototeList {
     } else {
       this.toastInFooter('No one follows this anotote.');
     }
+  }
+
+  show_chat_paticipants() {
+    var users = [];
+    for (let group of this.current_active_anotote.chatGroup.groupUsers) {
+      users.push(group.user);
+    }
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
+    anototeOptionsModal.onDidDismiss(data => {
+    });
+    anototeOptionsModal.present();
   }
 
   loadFollower(anotote, user) {
@@ -866,7 +897,7 @@ export class AnototeList {
 
   go_to_editor() {
     if (this.current_color != 'anon') {
-      if (this.current_active_anotote != null && this.current_color != 'top') {
+      if (this.current_active_anotote != null) {
         if (this.current_active_anotote.chatGroup == null)
           if (this.current_active_anotote.userAnnotote.filePath != '') {
             // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: this.current_active_highlight });
@@ -875,9 +906,13 @@ export class AnototeList {
             this.toastInFooter("Couldn't load as no file was found.");
         else
           this.go_to_chat_thread(this.current_active_anotote);
-      } else {
-        this.go_to_chat_tote();
       }
+      // else {
+      //   if (this.current_active_anotote.chatGroup == null)
+      //     this.go_to_chat_tote();
+      //   else
+      //     this.go_to_chat_thread(this.current_active_anotote)
+      // }
     } else {
       if (this.followedUserId != 0)
         this.toastInFooter("Please follow this user first");
@@ -1077,7 +1112,10 @@ export class AnototeList {
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;
           this.move_fab = false;
-          if (this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
+          if (this.current_active_anotote.userAnnotote && anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
+            this.current_active_anotote = null;
+            return;
+          } else if (this.current_active_anotote.chatGroup && anotote.chatGroup && this.current_active_anotote.chatGroup.id == anotote.chatGroup.id) {
             this.current_active_anotote = null;
             return;
           }
@@ -1089,13 +1127,15 @@ export class AnototeList {
         anotote.active_tab = 'top';
         this.current_active_anotote = anotote;
         this.move_fab = true;
-        if (anotote.anototeDetail.follows.length > 0)
-          anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
-        anotote.follows = anotote.anototeDetail.follows;
-        anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
-        anotote.highlights = anotote.top_highlights;
-        anotote.isMe = anotote.anototeDetail.isMe;
-        anotote.spinner_for_active = false;
+        if (anotote.chatGroup == null) {
+          if (anotote.anototeDetail.follows.length > 0)
+            anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
+          anotote.follows = anotote.anototeDetail.follows;
+          anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
+          anotote.highlights = anotote.top_highlights;
+          anotote.isMe = anotote.anototeDetail.isMe;
+          anotote.spinner_for_active = false;
+        }
         //Details
         // this.spinner_for_active = true;
         // var params = {

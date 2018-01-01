@@ -422,7 +422,7 @@
             </ion-item>
         </ion-list>
         <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
-            <ion-item *ngFor="let anotote of top_anototes" [ngClass]="{'bulking':anotote.checked}">
+            <ion-item *ngFor="let anotote of top_anototes | orderBy:'createdAt':true" [ngClass]="{'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
                     <div *ngIf="current_color == 'top'" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)">
                         <!-- <img src="assets/img/Default.svg" *ngIf="anotote.annotote.photo == null || anotote.annotote.photo == ''">
@@ -434,7 +434,7 @@
                         <img *ngIf="anotote.checked" src="assets/img/img6.png">
                     </div>
                     <!-- <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span> -->
-                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode}">
+                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode}" *ngIf="anotote.chatGroup == null">
                         <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.annotote.title"></strong>
                         <div class="time">
                             <em>
@@ -448,9 +448,32 @@
                             </button>
                         </div>
                     </div>
+                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0 || current_color != 'me')}" *ngIf="anotote.chatGroup">
+                        <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
+                            <strong *ngIf="anotote.chatGroup.messagesUser[0].subject == null">Chat</strong>
+                            <strong *ngIf="anotote.chatGroup.messagesUser[0].subject != null">{{anotote.chatGroup.messagesUser[0].subject}}</strong>
+                        </ng-container>
+                        <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
+                            <strong [innerText]="anotote.chatGroup.messagesUser[0].subject"></strong>
+                        </ng-container>
+                        <div class="time">
+                            <em>
+                                <span [innerText]="anotote.createdAt | time_stamp"></span>
+                            </em>
+                        </div>
+                        <div class="toteText">
+                            <ng-container>
+                                <p>{{anotote.chatGroup.groupUsers[0].user.firstName}}</p>
+                            </ng-container>
+                            <button type="button">
+                                <img src="assets/img/commentIcon.svg" alt="">
+                                <img class="unReadMsg" src="assets/img/redMessage.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <!-- anatote detail -->
-                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active}">
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active}" *ngIf="anotote.chatGroup == null">
                     <div class="loading" [hidden]="anotote.spinner_for_active == false">
                         <ion-spinner></ion-spinner>
                     </div>
@@ -492,6 +515,43 @@
                         </div>
                     </div>
 
+                </div>
+                <!-- Anotote Message Detail Section -->
+                <div class="toteActive" (tap)="go_to_chat_thread(anotote)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
+                    <div class="quotes layout message-underlist">
+                        <!-- <div class="loading" [hidden]="anotote.spinner_for_active == false">
+                            <ion-spinner></ion-spinner>
+                        </div> -->
+                        <ion-list no-lines class="details-list layout">
+                            <ion-item class="underlist-items" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
+                                <figure>
+                                    <!-- <img [src]="message | chatHeads" alt=""> -->
+                                    <ng-container *ngIf="current_color == 'me'">
+                                        <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                                        <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
+                                        <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
+                                    </ng-container>
+                                    <ng-container *ngIf="current_color != 'me'">
+                                        <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+                                        <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
+                                    </ng-container>
+
+                                </figure>
+                                <div class="check-text">
+                                    <div class="name-time">
+                                        <span class="user" *ngIf="message.senderId == user.id">Me</span>
+                                        <span class="user" *ngIf="message.senderId != user.id">{{anotote.chatGroup.groupUsers | chat_name}}</span>
+                                        <span class="msg-time">{{message.createdAt | time_stamp}}</span>
+                                    </div>
+                                    <p [ngStyle]="{'color': 'red'}" *ngIf="message.read == 0 && user.id != message.senderId && current_color == 'me'">{{message.text}}</p>
+                                    <p *ngIf="message.read == 0 && user.id != message.senderId && current_color != 'me'">{{message.text}}</p>
+                                    <p *ngIf="message.read != 0 && user.id != message.senderId">{{message.text}}</p>
+                                    <p *ngIf="user.id == message.senderId">{{message.text}}</p>
+                                    <!-- <img src="assets/img/option-msg.png" alt=""> -->
+                                </div>
+                            </ion-item>
+                        </ion-list>
+                    </div>
                 </div>
             </ion-item>
         </ion-list>
@@ -548,7 +608,7 @@
             <ng-container *ngIf="current_active_anotote != null && current_color == 'follows' && current_active_anotote.chatGroup != null">
                 <img src="assets/img/yellowFab4.svg" />
             </ng-container>
-            <ng-container *ngIf="current_color == 'top'">
+            <ng-container *ngIf="current_active_anotote != null && current_color == 'top' && current_active_anotote.chatGroup == null">
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.follows.length > 0" src="assets/img/pinkFab1.svg" />
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.follows.length > 0" src="assets/img/pinkFab2.svg" />
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'top' && current_active_anotote.anototeDetail.isMe == 1 && current_active_anotote.anototeDetail.follows.length == 0" src="assets/img/pinkFab3.svg" />
@@ -564,6 +624,9 @@
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.isTop == 1" src="assets/img/yellowFab3.svg" />
                 <img *ngIf="current_active_anotote != null && current_active_anotote.active_tab == 'follows' && current_active_anotote.anototeDetail.isMe == 0 && current_active_anotote.anototeDetail.isTop == 0" src="assets/img/yellowFab4.svg" />
             </ng-container>
+            <ng-container *ngIf="current_active_anotote != null && current_color == 'top' && current_active_anotote.chatGroup != null">
+                <img src="assets/img/pinkFab4.svg" />
+            </ng-container>
         </button>
         <button *ngIf="unread_notification_count > 0" ion-button icon-only class="notices">{{unread_notification_count}}</button>
     </ion-fab>
@@ -576,7 +639,7 @@
             <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
             <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
         </ng-container>
-        <ng-container *ngIf="current_color == 'follows'">
+        <ng-container *ngIf="current_color == 'follows' || current_color == 'top'">
             <ng-container *ngIf="(current_active_anotote.chatGroup.groupUsers | chatVoteOptions) == true">
                 <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
                 <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
@@ -592,7 +655,7 @@
                     <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 0 && current_active_anotote.chatGroup.currentUserVote == 0" (click)="downvoteChatTote()" alt="">
                     <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.chatGroup.isCurrentUserVote == 1 && current_active_anotote.chatGroup.currentUserVote == 1" (click)="downvoteChatTote()" alt="">
                 </div>
-                <div class="topTab">
+                <div class="topTab" (click)="show_chat_paticipants()">
                     <span>{{current_active_anotote.chatGroup.groupUsers[0].user.firstName}}
                         <i>({{current_active_anotote.chatGroup.groupUsers.length -1}})</i>
                     </span>

@@ -93,6 +93,7 @@ import { TagsForChat } from '../pages/chat_profileTags/tags';
 import { Clipboard } from '@ionic-native/clipboard';
 import { EditDeleteMessage } from '../pages/chat/editDelPop';
 import { Autosize } from "../directives/ng-autosize/index";
+import { OrderModule } from 'ngx-order-pipe';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { Autosize } from "../directives/ng-autosize/index";
     IonicStorageModule.forRoot(),
     BrowserAnimationsModule,
     MomentModule,
+    OrderModule,
     IonicImageViewerModule,
     IonicModule.forRoot(MyApp, {
       backButtonText: 'CLOSE',
