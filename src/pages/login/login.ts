@@ -115,6 +115,7 @@ export class Login {
       toast.dismiss();
       response.data.user.access_token = response.access_token;
       this.authService.setUser(response.data.user);
+      this.authService.dots_to_show = [];
       this.appCtrl.getRootNav().setRoot(Home);
     }, (error) => {
       toast.dismiss();

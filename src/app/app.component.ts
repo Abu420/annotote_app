@@ -49,13 +49,13 @@ export class MyApp {
         public app: App) {
         this.initializeApp();
         app.viewDidLoad.subscribe((view) => {
-            if (view.isOverlay == false && view.name != 'Home' && authService.getUser() != null) {
-                if (authService.dots_to_show.length < 3)
-                    authService.dots_to_show.push(view);
+            if (view.isOverlay == false && view.name != 'Home' && view.name != 'FrontViewPage') {
+                // if (authService.dots_to_show.length < 3)
+                authService.dots_to_show.push(view);
             }
         })
         app.viewWillUnload.subscribe((view) => {
-            if (view.isOverlay == false && authService.getUser() != null) {
+            if (view.isOverlay == false) {
                 if (authService.dots_to_show.length > 0)
                     authService.dots_to_show.pop();
             }

@@ -906,13 +906,9 @@ export class AnototeList {
             this.toastInFooter("Couldn't load as no file was found.");
         else
           this.go_to_chat_thread(this.current_active_anotote);
+      } else {
+        this.go_to_chat_tote();
       }
-      // else {
-      //   if (this.current_active_anotote.chatGroup == null)
-      //     this.go_to_chat_tote();
-      //   else
-      //     this.go_to_chat_thread(this.current_active_anotote)
-      // }
     } else {
       if (this.followedUserId != 0)
         this.toastInFooter("Please follow this user first");
@@ -1753,13 +1749,15 @@ export class AnototeList {
 
   openSearchPopup() {
     var url = '';
-    if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
-      url = this.current_active_anotote.userAnnotote.annotote.link;
-    else if (this.current_active_anotote != null && this.current_color == 'top') {
-      url = this.current_active_anotote.annotote.link;
-    } else {
-      this.statusBar.backgroundColorByHexString('#252525');
-    }
+    //Taking out the prefilled url functionality
+    // if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
+    //   url = this.current_active_anotote.userAnnotote.annotote.link;
+    // else if (this.current_active_anotote != null && this.current_color == 'top') {
+    //   url = this.current_active_anotote.annotote.link;
+    // } else {
+    //   this.statusBar.backgroundColorByHexString('#252525');
+    // }
+    this.statusBar.backgroundColorByHexString('#252525');
     let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
     searchModal.onDidDismiss((data) => {
       if (this.current_active_anotote == null) {

@@ -59,7 +59,7 @@
                 <div class="totoField" *ngIf="search_result.is_tote == true">
                     <figure>
                         <img src="assets/img/saveIcon.svg" *ngIf="search_result.userAnnotote.isMe == 1">
-                        <img src="assets/img/graybookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
+                        <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
                         <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && search_result.isBookmarked == true">
                         <!-- <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [hidden]="!loaded" [src]="search_result.annotote.photo | image_base_path">
                         <ion-spinner *ngIf="!loaded && search_result.annotote.photo != null && search_result.annotote.photo != ''"></ion-spinner> -->
@@ -152,5 +152,5 @@
             </ul>
         </div>
     </ion-list>
-    <div class="top_empty_box" (click)="dismiss()"></div>
+    <div class="top_empty_box" *ngIf="filter_mode != true && search_results.length == 0" (click)="dismiss()"></div>
 </ion-content>

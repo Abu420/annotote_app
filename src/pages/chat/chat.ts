@@ -16,6 +16,7 @@ import { Search } from "../search/search";
 import { AnototeEditor } from "../anotote-editor/anotote-editor";
 import { ChatToteOptions } from "../anotote-list/chat_tote";
 import { TagsPopUp } from "../anotote-list/tags";
+import { StatusBar } from "@ionic-native/status-bar";
 
 declare var io: any;
 
@@ -64,6 +65,7 @@ export class Chat {
     public utilityMethods: UtilityMethods,
     public chatService: ChatService,
     public stream: Streams,
+    public statusBar: StatusBar,
     public anototeService: AnototeService,
     public popoverCtrl: PopoverController) {
     this.reply_box_on = true;
@@ -87,6 +89,19 @@ export class Chat {
         this.contains = navParams.get('containsMe');
       }
     }
+    var lastView = this.navCtrl.last();
+    if (lastView.data.color && navParams.get('against_anotote')) {
+      if (lastView.data.color == 'me') {
+        this.statusBar.backgroundColorByHexString('#3bde00');
+      } else if (lastView.data.color == 'follows') {
+        this.statusBar.backgroundColorByHexString('#f4e300');
+      } else if (lastView.data.color == 'top') {
+        this.statusBar.backgroundColorByHexString('#fb9df0');
+      }
+    } else {
+      this.statusBar.backgroundColorByHexString('#3bde00');
+    }
+    console.log(this.navCtrl.last())
   }
 
   markMessagesRead(messages) {

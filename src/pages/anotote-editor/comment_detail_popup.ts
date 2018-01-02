@@ -2,6 +2,7 @@ import { Component, trigger, transition, style, animate } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, Events } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from "../../services/search.service";
+import { StatusBar } from "@ionic-native/status-bar";
 @Component({
   selector: 'comment_detail_popup',
   animations: [
@@ -49,7 +50,9 @@ export class CommentDetailPopup {
     public viewCtrl: ViewController,
     public utilityMethods: UtilityMethods,
     private events: Events,
-    public searchService: SearchService) {
+    public searchService: SearchService,
+    public statusbar: StatusBar) {
+    statusbar.hide();
     this.anotote_txt = this.params.get('txt');
     this.actual_anotated = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
@@ -75,12 +78,14 @@ export class CommentDetailPopup {
       this.utilityMethods.confirmation_message("Discard Changes", "Do you really want to discard changes ?", (choice) => {
         this.show = false;
         setTimeout(() => {
+          this.statusbar.show();
           this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
         }, 100)
       })
     } else {
       this.show = false;
       setTimeout(() => {
+        this.statusbar.show();
         this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
       }, 100)
     }
@@ -89,6 +94,7 @@ export class CommentDetailPopup {
   delete() {
     this.show = false;
     setTimeout(() => {
+      this.statusbar.show();
       this.viewCtrl.dismiss({ delete: true, share: false, update: false, comment: '' });
     }, 100)
   }
@@ -97,6 +103,7 @@ export class CommentDetailPopup {
     this.show = false;
     setTimeout(() => {
       var share_txt = this.anotote_txt;
+      this.statusbar.show();
       this.viewCtrl.dismiss({ share: true, delete: false, update: false, comment: share_txt });
     }, 100)
   }
@@ -109,6 +116,7 @@ export class CommentDetailPopup {
       var mentions = this.userTags();
       this.show = false;
       setTimeout(() => {
+        this.statusbar.show();
         this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment, hash: hashTags, cash: cashTags, uptags: urls, mentions: mentions, anototeTxt: this.anotote_txt });
         // this.viewCtrl.dismiss({ share: false, delete: false, update: true, comment: this.new_comment });
       }, 100)
@@ -223,6 +231,7 @@ export class CommentDetailPopup {
   upvote() {
     this.show = false;
     setTimeout(() => {
+      this.statusbar.show();
       this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: true });
     }, 100)
   }
@@ -230,17 +239,20 @@ export class CommentDetailPopup {
   downvote() {
     this.show = false;
     setTimeout(() => {
+      this.statusbar.show();
       this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, downvote: true });
     }, 100)
   }
 
   presentTopInterestsModal() {
+    this.statusbar.show();
     this.viewCtrl.dismiss();
   }
 
   showtags() {
     this.show = false;
     setTimeout(() => {
+      this.statusbar.show();
       this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true });
     }, 100)
   }

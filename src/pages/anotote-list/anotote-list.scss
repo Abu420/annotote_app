@@ -747,10 +747,11 @@
                                 &.editTitle {
                                     background: #e0e0e0;
                                     .img-holder {
-                                        background-image: url(../assets/img/grayDotIcon.svg);
+                                        // background-image: url(../assets/img/grayDotIcon.svg);
+                                        background-image: url(../assets/img/option-icon.png);
                                         background-position: center;
                                         background-repeat: no-repeat;
-                                        background-size: 7px;
+                                        background-size: 5px;
                                     }
                                     .txt {
                                         padding: 16px 10px 0px 0px;
@@ -809,10 +810,10 @@
                                     height: 72px;
                                     vertical-align: middle;
                                     width: 50px;
-                                    background-image: url(../assets/img/grayDotIcon.svg);
+                                    background-image: url(../assets/img/option-icon.png); // background-image: url(../assets/img/grayDotIcon.svg);
                                     background-position: center;
                                     background-repeat: no-repeat;
-                                    background-size: 7px;
+                                    background-size: 5px;
                                     position: absolute;
                                     left: 0px;
                                     top: 0px;

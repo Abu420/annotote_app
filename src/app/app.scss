@@ -551,9 +551,9 @@ page-login,
 page-forgotpassword,
 page-edit-profile,
 page-changepassword {
-    .bar-buttons {
-        margin-right: 30px;
-    }
+    // .bar-buttons {
+    //     margin-right: 30px;
+    // }
     .scroll-content {
         padding: 10px 25px 16px !important;
         background: #F5F5F5;
@@ -808,6 +808,9 @@ search_page {
         .scroll-content {
             padding: 0px 0px 16px !important;
             background: transparent;
+            .searchItems {
+                background: #FFF;
+            }
             .searchFilter {
                 padding: 0px;
                 margin-left: 0px;
@@ -882,19 +885,27 @@ search_page {
                 padding: 0px;
                 .item-inner {
                     padding: 0px;
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        bottom: 0px;
+                        right: 0px;
+                        width: calc(100% - 80px);
+                        background: #e4e4e4;
+                        height: 1px;
+                    }
                     ion-label {
                         margin: 0px;
                         .userField {
-                            position: relative;
-                            &:after {
-                                content: "";
-                                position: absolute;
-                                bottom: 0px;
-                                right: 0px;
-                                width: calc(100% - 80px);
-                                background: #e4e4e4;
-                                height: 1px;
-                            }
+                            position: relative; // &:after {
+                            //     content: "";
+                            //     position: absolute;
+                            //     bottom: 0px;
+                            //     right: 0px;
+                            //     width: calc(100% - 80px);
+                            //     background: #e4e4e4;
+                            //     height: 1px;
+                            // }
                         }
                         figure {
                             display: inline-block;
@@ -907,8 +918,8 @@ search_page {
                             overflow: hidden;
                             margin: 0px;
                             img {
-                                width: 26px;
-                                height: 26px;
+                                width: 28px;
+                                vertical-align: sub; // height: 26px;
                             }
                         }
                         figcaption {
@@ -918,7 +929,7 @@ search_page {
                             padding-right: 10px;
                             .rightContent {
                                 float: right;
-                                font-size: 12px;
+                                font-size: 14px;
                                 color: #9a9a9a;
                             }
                             .rightAdd {
@@ -936,6 +947,12 @@ search_page {
                             }
                             h4 {
                                 color: #9a9a9a;
+                                font-size: 16px;
+                                text-overflow: ellipsis;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 1;
+                                overflow: hidden;
+                                white-space: nowrap;
                                 img {
                                     display: inline-block;
                                     width: 12px;
@@ -959,6 +976,7 @@ search_page {
                                     overflow: hidden;
                                     white-space: nowrap;
                                     word-break: break-all;
+                                    font-size: 14px;
                                 }
                                 button {
                                     color: #8e9093;

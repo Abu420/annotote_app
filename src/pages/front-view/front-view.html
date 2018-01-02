@@ -5,12 +5,15 @@
                	<img src="assets/img/search.png" alt="" />
             </button>
         </ion-buttons> -->
-        <ion-title>
+        <!-- <ion-title>
             <div class="dots_box">
                 <span class="dot"></span>
             </div>
+        </ion-title> -->
+        <ion-title>
+            <dot-navigation class="anonDot" unactivedots="1"></dot-navigation>
         </ion-title>
-        <ion-buttons end>
+        <ion-buttons class="plusIcon" end>
             <button (tap)="open_annotote_site()" ion-button icon-only>
                 <img src="assets/img/qIcon.png" alt="">
                 <!-- <ion-icon name="help"></ion-icon> -->
