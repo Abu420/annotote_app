@@ -68,7 +68,12 @@
                 </li>
                 <ng-container *ngFor="let tag of anotote.chatGroup.chatTags; let i=index">
                     <li *ngIf="i < 2">
-                        <span>{{tag.tagText}}</span>
+                        <span>
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}
+                        </span>
                     </li>
                 </ng-container>
                 <li class="tabOption" *ngIf="anotote.chatGroup.chatTags.length > 2 || (anotote.chatGroup.groupUsers | chatVoteOptions) == true" (tap)="presentTagsModal()">
@@ -124,7 +129,12 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.userAnnotote.tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="anotote.userAnnotote.anototeDetail.userAnnotote.tags.length > 0 && stream == 'me'" (tap)="presentTagsModal()">
@@ -137,7 +147,12 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.meToteFollowTop.tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="anotote.userAnnotote.anototeDetail.meToteFollowTop.tags.length > 0" (tap)="presentTagsModal()">
@@ -150,7 +165,12 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.follower_tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="anotote.follower_tags.length > 1" (tap)="presentTagsModal()">
@@ -163,7 +183,11 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.top_tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="anotote.top_tags.length > 1" (tap)="presentTagsModal()">
@@ -178,7 +202,12 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.anototeDetail.meToteFollowTop.tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="anotote.anototeDetail.meToteFollowTop.tags.length > 1" (tap)="presentTagsModal()">
@@ -191,7 +220,12 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.follower_tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="anotote.follower_tags.length > 1" (tap)="presentTagsModal()">
@@ -204,7 +238,12 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.tags; let i=index">
                         <li *ngIf="i < 2">
-                            <span>{{tag.tagText}}</span>
+
+                            <span>
+                                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                                <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                                <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                                <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                         </li>
                     </ng-container>
                     <li class="tabOption" (tap)="presentTagsModal()">
@@ -259,7 +298,11 @@
                 </li>
                 <ng-container *ngFor="let tag of message.messageTags; let i=index">
                     <li *ngIf="i < 2">
-                        <span>{{tag.tagText}}</span>
+                        <span>
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}</span>
                     </li>
                 </ng-container>
                 <li class="tabOption" *ngIf="message.messageTags.length > 2 || (anotote.chatGroup.groupUsers | chatVoteOptions) == true" (tap)="presentTagsModal()">

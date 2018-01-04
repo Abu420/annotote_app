@@ -169,7 +169,7 @@ top_options {
     }
     .sharing_pop span,
     .sharing_pop em {
-        font-size: 14px;
+        font-size: 16px;
         line-height: 14px;
         font-style: normal;
         color: #b3b3b3;
@@ -494,9 +494,11 @@ ion-buttons {
         border-radius: 0;
         &:hover {
             background-color: #2ba600 !important;
+            box-shadow: 0 0px 11px 0px #bdbdbd;
         }
         .activated {
             background-color: #2ba600 !important;
+            box-shadow: 0 0px 11px 0px #bdbdbd;
         }
     }
 }
@@ -507,9 +509,11 @@ ion-buttons {
         border-radius: 0;
         &:hover {
             background-color: #e9ca00 !important;
+            box-shadow: 0 0px 11px 0px #bdbdbd;
         }
         .activated {
             background-color: #e9ca00 !important;
+            box-shadow: 0 0px 11px 0px #bdbdbd;
         }
     }
 }

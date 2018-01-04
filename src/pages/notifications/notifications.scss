@@ -30,8 +30,8 @@ page-notifications {
             }
         }
         .scroll-content {
-            padding: 0px 0px 16px !important;
-            background: #FFF;
+            padding: 0px 0px 0px !important;
+            background: transparent !important;
             overflow: auto;
             position: absolute;
             bottom: 0px;
@@ -42,7 +42,7 @@ page-notifications {
             contain: none;
         }
         .notifaction_details {
-            padding: 10px 0px 0 8px;
+            // padding: 10px 0px 0 8px;
         }
     }
     .img-loaded+ion-spinner {
@@ -85,8 +85,7 @@ page-notifications {
         }
     }
     .scroll-content {
-        padding: 0px 16px 16px !important;
-        background: #FFF;
+        padding: 0px 16px 16px !important; // background: #FFF;
         #wrapper {
             .notifications_spinner {
                 position: relative;

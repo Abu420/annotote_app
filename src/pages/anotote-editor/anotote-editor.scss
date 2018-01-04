@@ -55,6 +55,12 @@ create_anotation_popup {
                 margin: 0px;
                 color: #d4d4d4;
             }
+            textarea.firstOne {
+                opacity: 1;
+            }
+        }
+        textarea:disabled {
+            opacity: 1 !important;
         }
         textarea {
             width: 90%;
@@ -213,7 +219,7 @@ comment_detail_popup {
             margin-left: 7px;
             img {
                 width: 15px;
-                vertical-align: top;
+                vertical-align: initial;
                 display: inline-block;
             }
             span {
@@ -243,7 +249,7 @@ comment_detail_popup {
             height: 45px;
             position: absolute;
             right: 5px;
-            top: 5px;
+            top: 0px;
             span {
                 background: url(../assets/img/simpleShare.svg);
                 background-position: center;
@@ -316,9 +322,9 @@ comment_detail_popup {
             }
         }
         .threeDosts {
-            padding: 0px 20px 20px;
+            padding: 0px 22px 20px;
             img {
-                width: 35px;
+                width: 25px;
             }
         }
         .tag_input {

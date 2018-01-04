@@ -738,7 +738,7 @@
 </ion-footer>
 <ion-footer class="message-bottom" *ngIf="current_active_anotote == null && forFollowedCaseName == true && loading_check == false">
     <ion-toolbar color="dark">
-        <p class="messageLoading">{{followUser.firstName}}'s Totes</p>
+        <p class="followLoading">{{followUser.firstName}}'s Totes</p>
         <span class="notFollowing" *ngIf="current_color == 'anon'" (click)="follow_User()">Follow</span>
         <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/dodtsLine.svg" alt="">
     </ion-toolbar>

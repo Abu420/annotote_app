@@ -48,7 +48,7 @@
         </div>
         <div class="pop_txt">
             <!-- <p [innerText]="anotote_txt"></p> -->
-            <textarea [(ngModel)]="anotote_txt" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
+            <textarea [(ngModel)]="anotote_txt" class="firstOne" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
             <textarea class="addComment" [(ngModel)]="new_comment" (ngModelChange)="tag_user()" *ngIf="stream == 'me' && quoteThreeDots == true" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
             <textarea class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment"></textarea>
         </div>

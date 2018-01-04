@@ -401,10 +401,15 @@ button,
             text-align: center;
             width: 100%;
         }
+        .followLoading {
+            color: white;
+            text-align: left;
+            width: 100%;
+        }
         .notFollowing {
             position: absolute;
-            right: 5px;
-            color: white;
+            right: 18px;
+            color: #3bde00;
             top: 10px;
         }
         .alreadyFollowing {
@@ -906,6 +911,11 @@ search_page {
                             //     background: #e4e4e4;
                             //     height: 1px;
                             // }
+                            figure {
+                                img {
+                                    width: auto;
+                                }
+                            }
                         }
                         figure {
                             display: inline-block;
@@ -939,7 +949,7 @@ search_page {
                                 -webkit-transform: translate(0%, -50%);
                                 transform: translate(0%, -50%);
                                 color: #939598;
-                                font-size: 10px;
+                                font-size: 14px;
                                 ion-icon {
                                     font-size: 30px;
                                     color: #939598;
