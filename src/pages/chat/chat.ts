@@ -41,7 +41,6 @@ export class Chat {
   public secondUser: any = null;
   public current_page: number = 1;
   public scrollPosition: string = 'top';
-  public fab_color: string = 'me';
   public user: User;
   public infinite_completed = false;
   public send_message_loader = false;
@@ -101,7 +100,6 @@ export class Chat {
     } else {
       this.statusBar.backgroundColorByHexString('#3bde00');
     }
-    console.log(this.navCtrl.last())
   }
 
   markMessagesRead(messages) {
@@ -417,8 +415,15 @@ export class Chat {
   }
 
   openSearchPopup() {
+    this.statusBar.backgroundColorByHexString('#323232');
     let searchModal = this.modalCtrl.create(Search, {});
     searchModal.onDidDismiss(data => {
+      if (this.current_color == 'me')
+        this.statusBar.backgroundColorByHexString('#3bde00');
+      else if (this.current_color == 'follows')
+        this.statusBar.backgroundColorByHexString('#f4e300');
+      else if (this.current_color == 'top')
+        this.statusBar.backgroundColorByHexString('#fb9df0');
     });
     searchModal.present();
   }

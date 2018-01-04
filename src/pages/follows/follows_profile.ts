@@ -70,7 +70,6 @@ export class Profile {
     public searchService: SearchService,
     private platform: Platform,
     public statusbar: StatusBar) {
-    statusbar.hide();
     var user = this.authService.getUser();
     this.profileData = params.get('data');
     if (this.profileData.user.description != null) {
@@ -82,6 +81,11 @@ export class Profile {
       this.is_it_me = true;
     else
       this.is_it_me = false;
+  }
+
+  ionViewDidEnter() {
+    this.statusbar.backgroundColorByHexString('#323232');
+    this.statusbar.hide();
   }
 
   go_to_thread() {

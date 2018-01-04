@@ -11,7 +11,7 @@
 <div class="top_empty_box" (click)="dismiss()">
 </div>
 
-<ion-content class="content_notifaction" swipe-vertical [@enterAnimation] *ngIf="show == true" no-bounce padding>
+<ion-content class="content_notifaction" swipe-vertical [@enterAnimation] *ngIf="show == true" has-bouncing="false" padding>
     <div class="headFollow" (click)="dismiss()">
         <ion-title>Notifications
             <ng-container *ngIf="_unread > 1">({{_unread}})</ng-container>
@@ -42,7 +42,9 @@
                                 <span [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.createdAt | notificationTimeStamp}}</span>
                             </em>
                             <div class="toteText">
-                                <button *ngIf="notification.type=='user:follwowed_by'" type="button"><ion-icon name="at"></ion-icon></button>
+                                <button *ngIf="notification.type=='user:follwowed_by'" type="button">
+                                    <ion-icon name="at"></ion-icon>
+                                </button>
                                 <img *ngIf="notification.type=='user:message' && notification.readStatus == 0" class="chat-icon" src="assets/img/chat-red.png" alt="">
                                 <img *ngIf="notification.type=='user:message' && notification.readStatus == 1" class="chat-icon" src="assets/img/chat-gray.png" alt="">
                                 <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 0" class="mentioned-icon" src="assets/img/mentionedIcon.svg" alt="">

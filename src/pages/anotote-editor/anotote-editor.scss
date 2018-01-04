@@ -579,12 +579,21 @@ page-anotote-editor {
             }
             textarea {
                 display: inline-block;
-                width: 80%;
+                width: 70%;
                 background: transparent;
                 color: #fff;
                 border: 0px;
                 padding: 0px;
                 resize: none;
+                vertical-align: bottom;
+            }
+            .submit {
+                display: inline-block;
+                color: #fff;
+                margin-bottom: 6px;
+            }
+            .done {
+                color: #32ad05;
             }
             img {
                 position: absolute;
@@ -747,6 +756,16 @@ page-anotote-editor {
             }
         }
         &.anon {
+            .highlight_quote,
+            .highlight_comment {
+                background: #e0e0e0 !important;
+                p {
+                    background: #e0e0e0;
+                }
+                &.greyOut {
+                    background: #d4d4d4 !important;
+                }
+            }
             .highlight_comment:before {
                 background: #000;
             }

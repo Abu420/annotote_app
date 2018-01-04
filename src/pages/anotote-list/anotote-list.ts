@@ -111,6 +111,7 @@ export class AnototeList {
   public mentioned: any = []
   public fbLoading: boolean = false;
   public forFollowedCaseName: boolean = false;
+  public mentionedNotification;
   /**
    * Constructor
    */
@@ -142,7 +143,8 @@ export class AnototeList {
     if (navParams.get('username'))
       this.followUser = navParams.get('username');
     if (navParams.get('mentioned')) {
-      this.mentionedUrl = navParams.get('mentioned');
+      this.mentionedNotification = navParams.get('mentioned');
+      this.mentionedUrl = this.mentionedNotification.link;
       this.mentionedCase = true;
     }
   }
@@ -151,15 +153,6 @@ export class AnototeList {
    * View LifeCycle Events
    */
   ionViewDidLoad() {
-    // set status bar to green
-    if (this.current_color == 'me')
-      this.statusBar.backgroundColorByHexString('#3bde00');
-    else if (this.current_color == 'follows')
-      this.statusBar.backgroundColorByHexString('#f4e300');
-    else if (this.current_color == 'top')
-      this.statusBar.backgroundColorByHexString('#fb9df0');
-    else if (this.current_color == 'anon')
-      this.statusBar.backgroundColorByHexString('#323232');
   }
 
   ionViewDidLeave() {
@@ -170,6 +163,16 @@ export class AnototeList {
     }
   }
   ionViewDidEnter() {
+    // set status bar color log
+    if (this.current_color == 'me')
+      this.statusBar.backgroundColorByHexString('#3bde00');
+    else if (this.current_color == 'follows')
+      this.statusBar.backgroundColorByHexString('#f4e300');
+    else if (this.current_color == 'top')
+      this.statusBar.backgroundColorByHexString('#fb9df0');
+    else if (this.current_color == 'anon')
+      this.statusBar.backgroundColorByHexString('#323232');
+    //all logic on entry
     if (this.infinite_scroll)
       this.infinite_scroll.enable(true);
     /**
@@ -218,20 +221,27 @@ export class AnototeList {
     } else {
       if (this.anototes.length == 0) {
         // this.showLoading("Loading Totes");
+        if (this.mentionedNotification.sender.isFollowed == 1) {
+          this.statusBar.backgroundColorByHexString('#f4e300');
+          this.current_color = 'follows';
+        }
         this.fbLoading = true;
         this.anototeService.fetchMentionedTote(this.mentionedUrl).subscribe((result) => {
           let stream = result.data.annototes;
           this.enable_refresher = false;
           for (let entry of stream) {
-            if (entry.userAnnotote.anototeDetail.isMe == 1) {
-              this.statusBar.backgroundColorByHexString('#3bde00');
-              this.current_color = 'me';
-            } else if (entry.userAnnotote.anototeDetail.follows.length > 0) {
-              this.statusBar.backgroundColorByHexString('#f4e300');
-              this.current_color = 'follows';
-            }
+            // if (entry.userAnnotote.anototeDetail.isMe == 1) {
+            //   this.statusBar.backgroundColorByHexString('#3bde00');
+            //   this.current_color = 'me';
+            // } else if (entry.userAnnotote.anototeDetail.follows.length > 0) {
+            //   this.statusBar.backgroundColorByHexString('#f4e300');
+            //   this.current_color = 'follows';
+            // }
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
           }
+          this.openAnototeDetail(this.anototes[0]);
+          this.content.resize();
+          this.move_fab = false;
           if (this.anototes.length == 0) {
             this.has_totes = false;
           }
@@ -524,7 +534,7 @@ export class AnototeList {
   doInfinite(infiniteScroll) {
     this.infinite_scroll = infiniteScroll;
     if (this.current_color != 'top') {
-      if (this.followedUserId == 0) {
+      if (this.followedUserId == 0 && this.mentionedCase == false) {
         this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
           let stream = result.data.annototes;
           for (let entry of stream) {
@@ -547,7 +557,7 @@ export class AnototeList {
             this.utilityMethods.internet_connection_error();
           }
         });
-      } else {
+      } else if (this.followedUserId != 0) {
         this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
           let stream = result.data.annototes;
           for (let entry of stream) {
@@ -563,6 +573,9 @@ export class AnototeList {
             this.utilityMethods.internet_connection_error();
           }
         });
+      } else if (this.mentionedCase == true) {
+        infiniteScroll.complete();
+        infiniteScroll.enable(false);
       }
     } else {
       let params = {
@@ -654,6 +667,18 @@ export class AnototeList {
   show_chat_paticipants() {
     var users = [];
     for (let group of this.current_active_anotote.chatGroup.groupUsers) {
+      users.push(group.user);
+    }
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
+    anototeOptionsModal.onDidDismiss(data => {
+    });
+    anototeOptionsModal.present();
+  }
+
+  chat_participants_from_tote(event, anotote) {
+    event.stopPropagation();
+    var users = [];
+    for (let group of anotote.chatGroup.groupUsers) {
       users.push(group.user);
     }
     let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
@@ -1040,8 +1065,10 @@ export class AnototeList {
           anotote.active_tab = 'follows';
           if (anotote.chatGroupId == null)
             anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
-
-          this.move_fab = true;
+          if (this.mentionedCase == false)
+            this.move_fab = true;
+          else
+            this.content.resize();
 
           // anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
           // this.move_fab = true;
@@ -1058,6 +1085,10 @@ export class AnototeList {
             this.move_fab = false;
           if (this.current_active_highlight) {
             this.current_active_highlight.edit = false;
+          }
+          if (this.mentionedCase) {
+            this.move_fab = false;
+            this.content.resize();
           }
           if (this.current_active_anotote.id == anotote.id) {
             this.current_active_anotote = null;
@@ -1757,7 +1788,7 @@ export class AnototeList {
     // } else {
     //   this.statusBar.backgroundColorByHexString('#252525');
     // }
-    this.statusBar.backgroundColorByHexString('#252525');
+    this.statusBar.backgroundColorByHexString('#323232');
     let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
     searchModal.onDidDismiss((data) => {
       if (this.current_active_anotote == null) {
@@ -1765,7 +1796,7 @@ export class AnototeList {
           this.statusBar.backgroundColorByHexString('#3bde00');
         else if (this.current_color == 'follows')
           this.statusBar.backgroundColorByHexString('#f4e300');
-        else
+        else if (this.current_color == 'top')
           this.statusBar.backgroundColorByHexString('#fb9df0');
       }
       if (data)

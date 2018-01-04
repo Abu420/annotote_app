@@ -64,8 +64,13 @@
             <ion-item (press)="editOrDelete(message)" *ngFor="let message of conversation" class="underlist-items">
                 <figure>
                     <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
-                    <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
-                    <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
+                    <ng-container *ngIf="current_color == 'me' || contains == true">
+                        <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
+                        <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
+                    </ng-container>
+                    <ng-container *ngIf="current_color != 'me' && contains == false">
+                        <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
+                    </ng-container>
                 </figure>
                 <div class="check-text">
                     <div class="name-time">
@@ -73,7 +78,7 @@
                         <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
                         <span class="msg-time">{{message.createdAt | time_stamp}}</span>
                     </div>
-                    <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id}">{{message.text}}
+                    <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id && contains == true}">{{message.text}}
                         <ng-container *ngFor="let tag of message.messageTags">
                             <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                             <ng-container *ngIf="tag.tagId == 2">@</ng-container>
@@ -87,11 +92,11 @@
             </ion-item>
         </ion-list>
     </div>
-    <!-- <ion-fab [ngClass]="{'moveUp': move == true}" *ngIf="move == false" bottom right>
-        <button (tap)="presentViewOptionsModal()" ion-fab [color]="fab_color">
-                <img src="assets/img/whiteTote.svg" />
-            </button>
-    </ion-fab> -->
+    <ion-fab [ngClass]="{'moveUp': move == true}" *ngIf="contains == false" bottom right>
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
+            <img src="assets/img/whiteTote.svg" />
+        </button>
+    </ion-fab>
 </ion-content>
 <ion-footer class="message-bottom" *ngIf="contains == true">
     <ion-toolbar color="dark">
