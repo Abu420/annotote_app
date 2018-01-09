@@ -208,7 +208,7 @@
     <ion-toolbar color="dark">
         <div class="title_and_options">
             <form *ngIf="titleEditingoff == false" (ngSubmit)="saveTitle(ANOTOTE)">
-                <textarea search-field selection="true" autosize *ngIf="WHICH_STREAM != 'top'" [maxHeight]='300' [minHeight]="50" [(ngModel)]='title_temp' name="title"></textarea>
+                <textarea search-field selection="true" autosize *ngIf="WHICH_STREAM != 'top'" [maxHeight]='80' [minHeight]="50" [(ngModel)]='title_temp' name="title"></textarea>
                 <span (click)="saveTitle(ANOTOTE)" class="submit" [ngClass]="{'done': title_temp != '' && title_temp != ANOTOTE.userAnnotote.anototeDetail.userAnnotote.annototeTitle}">SAVE</span>
             </form>
             <p (click)="editTitle()" *ngIf="titleEditingoff == true">{{title_temp}}</p>

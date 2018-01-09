@@ -17,6 +17,7 @@ import { AnototeEditor } from "../anotote-editor/anotote-editor";
 import { ChatToteOptions } from "../anotote-list/chat_tote";
 import { TagsPopUp } from "../anotote-list/tags";
 import { StatusBar } from "@ionic-native/status-bar";
+import { FollowsPopup } from "../anotote-list/follows_popup";
 
 declare var io: any;
 
@@ -441,6 +442,17 @@ export class Chat {
       }
     })
     chatTote.present();
+  }
+
+  chat_participants_from_tote() {
+    var users = [];
+    for (let group of this.tote.chatGroup.groupUsers) {
+      users.push(group.user);
+    }
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
+    anototeOptionsModal.onDidDismiss(data => {
+    });
+    anototeOptionsModal.present();
   }
 
   @ViewChild('myInput') myInput: ElementRef;

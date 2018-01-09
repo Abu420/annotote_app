@@ -26,8 +26,8 @@
                     <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
                         <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title">
                     </form>
-                    <strong *ngIf="tote.chatGroup.messagesUser[0].anototeId == 0 && tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong>
-                    <strong *ngIf="tote.chatGroup.messagesUser[0].anototeId != 0 && tote.chatGroup.messagesUser[0].subject != null">[{{tote.chatGroup.messagesUser[0].subject}}]</strong>
+                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong>
+                    <!-- <strong *ngIf="tote.chatGroup.messagesUser[0].anototeId != 0 && tote.chatGroup.messagesUser[0].subject != null " (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong> -->
                 </ng-container>
                 <ng-container *ngIf="tote == null || tote.chatGroup == null">
                     <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
@@ -52,7 +52,9 @@
                     <button type="button">
                         <img alt="" src="assets/img/commentIcon.svg">
                     </button>
-                    <p>{{secondUser.firstName}}</p>
+                    <p (click)="chat_participants_from_tote()">{{secondUser.firstName}}
+                        <ng-container *ngIf="tote != null && tote.chatGroup != null">({{tote.chatGroup.groupUsers.length}})</ng-container>
+                    </p>
                 </div>
             </div>
         </div>

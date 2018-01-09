@@ -4,14 +4,12 @@
             <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}">
                 <img src="assets/img/chatWhiteIcon.svg" alt="" />
             </span>
-            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()"
-                type="text" placeholder="Enter a name to chat with" />
+            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a name to chat with" />
             <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
         </div>
         <div class="searchUserHead" *ngIf="initiateChat == false">
             <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
-            <input *ngIf="anotote != null" disabled search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt"
-                type="text" placeholder="Enter a name to chat with" />
+            <input *ngIf="anotote != null" disabled search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" type="text" placeholder="Enter a name to chat with" />
             <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top','anon':stream == 'anon'}" *ngIf="anotote != null">
                 <img src="assets/img/plusIcon.svg" alt="" />
             </span>
@@ -27,8 +25,7 @@
             <li *ngFor="let search_result of search_results" (click)="send_message(search_result)">
                 <figure>
                     <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
-                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''"
-                        [hidden]="!loaded" [src]="search_result.photo | image_base_path">
+                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
                     <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                 </figure>
                 <figcaption class="followUser">
@@ -54,7 +51,7 @@
                 <img src="assets/img/cloudIconGray.svg" alt="" />
                 <span>Add to me stream</span>
             </li> -->
-            <li *ngIf="anotote != null && stream != 'anon'" (click)="bookmarkThis()">
+            <li *ngIf="anotote != null && stream != 'anon' && stream != 'me'" (click)="bookmarkThis()">
                 <img src="assets/img/bookmarkIconGray.svg" alt="" />
                 <span>Bookmark this </span>
             </li>

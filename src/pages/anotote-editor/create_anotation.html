@@ -29,7 +29,7 @@
     </div>
     <div class="pop_txt">
         <p class="selected_txt" [innerText]="selectedTxt"></p>
-        <textarea autosize [(ngModel)]="comment" (ngModelChange)="tag_user()" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
+        <textarea autosize [maxHeight]='80' [minHeight]="50" [(ngModel)]="comment" (ngModelChange)="tag_user()" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
     </div>
     <!-- <div class="_buttons">
         <span (tap)="dismiss()" class="close"></span>

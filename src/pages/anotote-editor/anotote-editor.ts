@@ -697,8 +697,8 @@ export class AnototeEditor implements OnDestroy {
                         tags.push(tag);
                     }
                 }
-                if (tags.length > 0)
-                    this.saveTags(highlight.identifier, tags);
+                // if (tags.length > 0)
+                this.saveTags(highlight.identifier, tags);
                 this.update_annotation_api(highlight.id, data.anototeTxt, data.comment, highlight.identifier, element);
             } else if (data.share) {
                 this.utilityMethods.share_content_native('Annotote', highlight.txt, null, null);
