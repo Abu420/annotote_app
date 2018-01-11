@@ -338,7 +338,7 @@
                         vertical-align: middle;
                         width: calc(100% - 78px);
                         margin: 0px;
-                        padding: 28px 10px 28px 0;
+                        padding: 28px 5px 28px 0;
                         list-style: none;
                         border-bottom: 1px solid #ececec;
                         li {
@@ -346,9 +346,9 @@
                             padding: 0 2.1vw;
                             vertical-align: middle;
                             color: #797979;
-                            font-size: 4vw;
+                            font-size: 16px;
                             &.tabOption {
-                                padding: 0 7px;
+                                padding: 0 0px;
                                 text-align: right;
                                 float: right;
                                 img {
@@ -364,7 +364,7 @@
                     &.three {
                         ul {
                             li {
-                                padding: 0 1.5vw;
+                                padding: 0 0vw;
                                 span {
                                     width: 21vw;
                                     text-overflow: ellipsis;

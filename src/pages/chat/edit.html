@@ -41,7 +41,12 @@
                 </li>
                 <ng-container *ngFor="let tag of message.messageTags; let i=index">
                     <li *ngIf="i < 2">
-                        <span>{{tag.tagText}}</span>
+                        <span>
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}
+                        </span>
                     </li>
                 </ng-container>
                 <li class="tabOption" *ngIf="message.messageTags.length > 2 || message.senderId == user.id" (tap)="close('tags')">
@@ -108,7 +113,12 @@
                 </li>
                 <ng-container *ngFor="let tag of tags; let i=index">
                     <li *ngIf="i < 2">
-                        <span>{{tag.tagText}}</span>
+                        <span>
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}
+                        </span>
                     </li>
                 </ng-container>
                 <li class="tabOption" *ngIf="tags.length > 2 || (tote | chatVoteOptions) == true" (tap)="close('tags')">

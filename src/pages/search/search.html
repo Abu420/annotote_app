@@ -80,7 +80,7 @@
                 </div>
                 <div class="userField" *ngIf="search_result.is_tote == false">
                     <figure>
-                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
+                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/userGray.svg">
                         <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
                         <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                     </figure>

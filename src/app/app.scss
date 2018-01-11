@@ -33,7 +33,7 @@ ion-item {
         text-align: center;
         float: left;
         background: #2ba600;
-        line-height: .44;
+        line-height: 0;
         img {
             width: 12px;
         }
@@ -913,7 +913,7 @@ search_page {
                             // }
                             figure {
                                 img {
-                                    width: auto;
+                                    width: 28px;
                                 }
                             }
                         }
@@ -1035,7 +1035,7 @@ search_page {
             }
             .options {
                 background-color: #3bde00;
-                background-image: url(../assets/img/bg-header_white.png);
+                background-image: url(../assets/img/whiteDotIcon.svg);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
@@ -1060,7 +1060,7 @@ search_page {
             }
             .options {
                 background-color: #f4e300;
-                background-image: url(../assets/img/bg-header_white.png);
+                background-image: url(../assets/img/whiteDotIcon.svg);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
@@ -1085,7 +1085,7 @@ search_page {
             }
             .options {
                 background-color: #fb9df0;
-                background-image: url(../assets/img/bg-header_white.png);
+                background-image: url(../assets/img/whiteDotIcon.svg);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
@@ -1110,7 +1110,7 @@ search_page {
             }
             .options {
                 background-color: #252525;
-                background-image: url(../assets/img/bg-header_white.png);
+                background-image: url(../assets/img/whiteDotIcon.svg);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
@@ -1140,10 +1140,10 @@ search_page {
             height: $bar_button_custom_height;
             float: left;
             width: 30px;
-            background-image: url(../assets/img/bg-header_white.png);
+            background-image: url(../assets/img/whiteDotIcon.svg);
             background-position: center;
             background-repeat: no-repeat;
-            background-size: 35px;
+            background-size: 30px;
         }
         .clear_button {
             width: 40px !important;

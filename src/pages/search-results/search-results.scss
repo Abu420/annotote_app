@@ -96,15 +96,23 @@ search-results {
                     figure {
                         display: inline-block;
                         vertical-align: middle;
-                        width: 72px;
-                        height: 72px;
+                        width: 73px;
+                        height: 73px;
                         margin: 0px;
+                        text-align: center;
+                        line-height: 4;
+                        padding: 10px;
                         img {
-                            width: 100%;
+                            width: 28px;
+                            vertical-align: sub;
                         }
                     }
                     figcaption {
-                        @extend figure;
+                        // @extend figure;
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 73px;
+                        height: 73px;
                         width: calc(100% - 77px);
                         margin: 0px;
                         padding: 5px 10px 8px 0;
@@ -125,6 +133,18 @@ search-results {
                             display: block;
                             font-size: 12px;
                             margin: 0;
+                            button {
+                                color: #8e9093;
+                                background: transparent;
+                                float: left;
+                                margin-right: 5px !important;
+                                margin-top: 2px !important;
+                                img {
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    width: 14px;
+                                }
+                            }
                             span {
                                 width: calc(100% - 70px);
                                 display: inline-block;
