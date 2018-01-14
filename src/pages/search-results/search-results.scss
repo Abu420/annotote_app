@@ -12,6 +12,9 @@ search-results {
                 color: #FFF;
             }
         }
+        img {
+            margin: 0;
+        }
     }
     .searchFiels {
         display: inline-block;
@@ -23,6 +26,7 @@ search-results {
         .searchTxt {
             width: 100%;
             padding: 10px;
+            border-radius: 5px;
         }
         .icon {
             position: absolute;
@@ -31,7 +35,7 @@ search-results {
             transform: translate(0%, -50%);
             z-index: 99;
             color: #000;
-            font-size: 30px;
+            width: 18px;
         }
     }
     .searchFiels.active {
@@ -64,6 +68,7 @@ search-results {
         background: #f0f0f0;
         .no_search {
             text-align: center;
+            padding: 20px;
             p {
                 margin: 0;
                 font-size: 14px;
@@ -100,7 +105,7 @@ search-results {
                         height: 73px;
                         margin: 0px;
                         text-align: center;
-                        line-height: 4;
+                        line-height: 6;
                         padding: 10px;
                         img {
                             width: 28px;

@@ -952,6 +952,27 @@
                                             }
                                         }
                                     }
+                                    .totBtn {
+                                        float: right;
+                                        margin-top: 8px;
+                                        span {
+                                            font-size: 12px;
+                                            text-transform: uppercase;
+                                            color: #a9a9a9;
+                                            margin-left: 10px;
+                                            &.saveBtn {
+                                                color: #319e07;
+                                            }
+                                        }
+                                    }
+                                    input {
+                                        margin: 0px;
+                                        padding: 0px;
+                                        border: 0px;
+                                        background: #e0e0e0;
+                                        font-size: 16px;
+                                        width: 100%;
+                                    }
                                 }
                                 figure {
                                     margin: 0px;
@@ -1261,7 +1282,7 @@
                         .item-inner {
                             ion-label {
                                 >div.bulkActive {
-                                    background: #FFF;
+                                    background: #e0e0e0;
                                 }
                             }
                         }

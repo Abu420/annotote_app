@@ -45,7 +45,7 @@ export class Notifications {
   private _loading: boolean;
   private _unread: number;
   private image_base_path: string;
-  private _reload: boolean;
+  private _reload: boolean = false;
   private user: User;
   public has_notifications: boolean = true;
   public show: boolean = true;
@@ -69,7 +69,8 @@ export class Notifications {
     this._unread = 0;
     this.image_base_path = this.constants.IMAGE_BASEURL;
     this.user = this.authService.getUser();
-    this._reload = this.params.get('reload');
+    if (this.params.get('reload'))
+      this._reload = this.params.get('reload');
     if (params.get('from')) {
       this.changeStatusBarColor = false;
     }
@@ -181,7 +182,7 @@ export class Notifications {
   }
 
   loadNotifications() {
-    if (this.notificationService.loaded_once()) {
+    if (this.notificationService.loaded_once() && this._reload == false) {
       var data = this.notificationService.get_notification_data();
       this._notifications = data.notifications;
       this._unread = data.unread;
@@ -193,6 +194,7 @@ export class Notifications {
         this.loadMore = false;
       }
     } else {
+      this.notificationService.clear_for_notification();
       this.notificationService.get_notifications(this.user.id)
         .subscribe((response) => {
           this._loading = true;

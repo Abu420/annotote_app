@@ -68,7 +68,13 @@ export class SearchResults {
     this.search_results = [];
     this.no_search = false;
     this._loading = true;
-    this.searchService.general_search(this.search_term)
+    var params = {
+      term: this.search_term,
+      type: '',
+      annotote_type: false,
+      time: 0
+    }
+    this.searchService.general_search(params)
       .subscribe((response) => {
         this._loading = false;
         if (response.status == 1) {

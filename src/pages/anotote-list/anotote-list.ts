@@ -806,6 +806,11 @@ export class AnototeList {
     this.utilityMethods.launch('https://annotote.wordpress.com');
   }
 
+  cancelTitleEdit(event, anotote) {
+    event.stopPropagation();
+    this.bulkAction(anotote);
+  }
+
   bulkAction(anotote) {
     if (anotote.chatGroup == null && this.current_color == 'me') {
       if (anotote.checked) {
@@ -1122,19 +1127,19 @@ export class AnototeList {
         // } else {
         //   this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.")
         // }
-        anotote.checked = false;
+        // anotote.checked = false;
       }
     } else {
       if (anotote.checked) {
-        if (anotote.active)
-          anotote.active = false;
-        if (anotote.checked) {
-          this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
-          anotote.checked = false;
-        } else {
-          this.selected_totes.push(anotote);
-          anotote.checked = true;
-        }
+        // if (anotote.active)
+        //   anotote.active = false;
+        // if (anotote.checked) {
+        //   this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
+        //   anotote.checked = false;
+        // } else {
+        //   this.selected_totes.push(anotote);
+        //   anotote.checked = true;
+        // }
       } else {
         if (this.current_active_anotote) {
           this.current_active_anotote.active = false;

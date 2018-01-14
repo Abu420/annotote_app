@@ -128,10 +128,11 @@ export class MyApp {
                     this.events.publish('IncrementNotificaiton');
                     if (notification.additionalData.foreground)
                         navigator.vibrate(200);
+                    else if (notification.additionalData.foreground == false)
+                        this.notification_handler();
                     // if (notification.additionalData.payload.notification.type == 'user:message' && notification.additionalData.foreground) {
                     //     return;
                     // }
-                    // this.notification_handler();
                 });
 
                 pushObject.on('registration').subscribe((registration: any) => {

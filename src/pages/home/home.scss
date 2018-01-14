@@ -93,8 +93,15 @@ top_options {
                 }
             }
             &.userIcon {
+                padding: 10px;
+                line-height: 0;
                 img {
-                    width: 32px;
+                    width: 25px;
+                }
+                p {
+                    font-size: 14px;
+                    color: #b3b3b3;
+                    margin: 10px;
                 }
             }
         }

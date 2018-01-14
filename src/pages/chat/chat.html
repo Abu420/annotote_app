@@ -100,7 +100,7 @@
         </button>
     </ion-fab>
 </ion-content>
-<ion-footer class="message-bottom" *ngIf="contains == true">
+<ion-footer class="message-bottom shadow" *ngIf="contains == true">
     <ion-toolbar color="dark">
         <ng-container *ngIf="tote != null && tote.chatGroup != null">
             <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>

@@ -2,14 +2,15 @@
     <ion-toolbar class="resultHead">
         <ion-buttons class="searchBtn" start>
             <button class="search_icon" (click)="show_search()" ion-button icon-only>
-                <ion-icon name="search"></ion-icon>
+                <img src="assets/img/searchIcon.png" alt="">
             </button>
         </ion-buttons>
         <div class="searchFiels" [ngClass]="show_search_field ? 'active':''">
             <form (ngSubmit)="load_search_results()" name="login_form">
                 <input type="text" [(ngModel)]="search_term" class="searchTxt" name="search" placeholder="Search">
             </form>
-            <ion-icon name="close" class="icon" (click)="show_search()"></ion-icon>
+            <!-- <ion-icon name="close" class="icon" (click)="show_search()"></ion-icon> -->
+            <img class="icon" src="assets/img/closeIconGray.svg" alt="">
         </div>
         <ion-title *ngIf="hide_header_contents == false">
             <div class="dots_box">
@@ -26,12 +27,12 @@
 </ion-header>
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding>
-    <div class="no_search" *ngIf="no_search == true">
-        <p>Nothing matched your search.</p>
-    </div>
     <div class="search-panel">
         <div *ngIf="_loading" class="_spinner">
             <ion-spinner name="ios"></ion-spinner>
+        </div>
+        <div class="no_search" *ngIf="no_search == true">
+            <p>No results</p>
         </div>
         <ul class="search-result">
             <li (click)="showProfile(search_result)" *ngFor="let search_result of search_results; let i = index">

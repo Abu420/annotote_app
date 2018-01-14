@@ -208,7 +208,7 @@
                         <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
                     </div>
                     <!-- <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span> -->
-                    <div class="txt txtMiddel" [ngClass]="{'normal': followedUserId == 0 && mentionedCase == false && current_color == 'follows'}" *ngIf="anotote.type == 1" [ngClass]="{'txtToto': edit_mode == true}">
+                    <div class="txt txtMiddel" [ngClass]="{'normal': followedUserId == 0 && mentionedCase == false && current_color == 'follows'}" *ngIf="anotote.type == 1 && anotote.checked == false" [ngClass]="{'txtToto': edit_mode == true}">
                         <img class="unReadLock" *ngIf="anotote.userAnnotote.privacy == 1" src="assets/img/lockIconGray.svg" alt="">
                         <p *ngIf="followedUserId == 0 && mentionedCase == false && current_color == 'follows'">{{anotote.selected_follower_name}}
                             <ng-container *ngIf="anotote.userAnnotote.anototeDetail.follows.length > 2">+ {{anotote.userAnnotote.anototeDetail.follows.length - 1}} others</ng-container>
@@ -225,6 +225,16 @@
                             <button type="button">
                                 <img src="assets/img/lineIcon.svg" alt="">
                             </button>
+                        </div>
+                    </div>
+                    <div class="txt txtMiddel" *ngIf="anotote.checked == true">
+                        <form (ngSubmit)="saveTitle(anotote)">
+                            <input type="text" [(ngModel)]="title_temp" name="title">
+                        </form>
+                        <div class="totBtn">
+                            <span *ngIf="anotote.chatGroup == null" [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
+                            <span *ngIf="anotote.chatGroup != null" [ngClass]="{'saveBtn': title_temp != anotote.chatGroup.messagesUser[0].subject  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
+                            <span (click)="cancelTitleEdit($event,anotote)">Cancel</span>
                         </div>
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0 || current_color != 'me')}" *ngIf="anotote.type ==2">
@@ -411,7 +421,7 @@
                     </div>
                 </div>
 
-                <div class="editTitle" *ngIf="anotote.checked == true">
+                <!-- <div class="editTitle" *ngIf="anotote.checked == true">
                     <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)"></div>
                     <div class="txt">
                         <form (ngSubmit)="saveTitle(anotote)">
@@ -423,7 +433,7 @@
                             <span (click)="bulkAction(anotote)">Cancel</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </ion-item>
         </ion-list>
         <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
