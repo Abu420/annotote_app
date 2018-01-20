@@ -13,7 +13,7 @@ export class InterceptedHttp extends Http {
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         if (!this.utils.isOffline())
             return super.request(url, options)
-                .timeout(50000)
+                // .timeout(50000)
                 .catch(err => {
                     if (err.name == "TimeoutError") {
                         return Observable.throw({ "error": "timeout_error", "code": -1 });

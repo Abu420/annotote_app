@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ViewController, NavParams, ModalController, Events, Content } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { AnototeOptions } from '../anotote-list/tote_options';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
@@ -13,6 +13,7 @@ import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
 import { AuthenticationService } from '../../services/auth.service';
 import { AnototeService } from "../../services/anotote.service";
+import { Keyboard } from "@ionic-native/keyboard";
 
 @Component({
     selector: 'search_page',
@@ -20,6 +21,7 @@ import { AnototeService } from "../../services/anotote.service";
 })
 export class Search {
 
+    @ViewChild(Content) content: Content;
     public search_txt: string;
     public search_results: any;
     public entering_url: boolean;
@@ -45,6 +47,7 @@ export class Search {
         }
     }
     private from;
+    public isOpen: boolean = false;
 
     constructor(public stream: Streams,
         public params: NavParams,
@@ -55,7 +58,18 @@ export class Search {
         public searchService: SearchService,
         public modalCtrl: ModalController,
         public anototeService: AnototeService,
-        public authService: AuthenticationService) {
+        public authService: AuthenticationService,
+        public key: Keyboard) {
+        key.onKeyboardShow().subscribe(() => {
+            if (utilityMethods.whichPlatform() == 'ios') {
+                this.isOpen = true;
+            }
+        })
+        key.onKeyboardHide().subscribe(() => {
+            if (utilityMethods.whichPlatform() == 'ios') {
+                this.isOpen = false;
+            }
+        })
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;

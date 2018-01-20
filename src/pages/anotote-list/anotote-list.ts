@@ -1786,13 +1786,13 @@ export class AnototeList {
   openSearchPopup() {
     var url = '';
     //Taking out the prefilled url functionality
-    // if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
-    //   url = this.current_active_anotote.userAnnotote.annotote.link;
-    // else if (this.current_active_anotote != null && this.current_color == 'top') {
-    //   url = this.current_active_anotote.annotote.link;
-    // } else {
-    //   this.statusBar.backgroundColorByHexString('#252525');
-    // }
+    if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
+      url = this.current_active_anotote.userAnnotote.annotote.link;
+    else if (this.current_active_anotote != null && this.current_color == 'top') {
+      url = this.current_active_anotote.annotote.link;
+    } else {
+      this.statusBar.backgroundColorByHexString('#252525');
+    }
     this.statusBar.backgroundColorByHexString('#323232');
     let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
     searchModal.onDidDismiss((data) => {

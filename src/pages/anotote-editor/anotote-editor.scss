@@ -228,6 +228,7 @@ comment_detail_popup {
                 vertical-align: top;
                 margin: 0 5px;
                 line-height: 1;
+                color: #b5b5b5;
             }
         }
         .topTab {
@@ -297,6 +298,9 @@ comment_detail_popup {
                 color: #b5b5b5 !important;
                 min-height: 48px;
             }
+        }
+        textarea.firstOne {
+            opacity: 1;
         }
     }
     .content_follows_profile {
@@ -399,7 +403,7 @@ comment_detail_popup {
     overflow: hidden;
     padding: 12px 0px 12px 10px;
     span {
-        color: #d4d4d4;
+        color: #b5b5b5;
         float: left;
         width: auto;
         letter-spacing: 0;

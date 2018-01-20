@@ -24,6 +24,13 @@ export class UtilityMethods {
         console.log(msg);
     }
 
+    whichPlatform() {
+        if (this.platform.is('ios'))
+            return 'ios';
+        else
+            return 'android';
+    }
+
     /**
      * Native Share
      */

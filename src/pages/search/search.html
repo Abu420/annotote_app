@@ -8,7 +8,7 @@
         </div>
     </ion-toolbar>
 </ion-header>
-<ion-content swipe-vertical padding class="searchPage">
+<ion-content swipe-vertical padding class="searchPage" [ngClass]="{'heightForKeyboard': isOpen == true}">
     <!-- content-->
     <ion-list class="searchItems" *ngIf="!filter_mode">
         <ion-item *ngIf="search_loading" class="search_spinner">
@@ -42,7 +42,7 @@
             </figure>
             <span>View (enter)</span>
         </ion-item>
-        <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
+        <!-- <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
             <figure>
                 <img class="saveIcon" src="assets/img/cloud.png" alt="">
             </figure>
@@ -53,7 +53,7 @@
                 <img src="assets/img/bookmark.svg" alt="">
             </figure>
             <span>Bookmark</span>
-        </ion-item>
+        </ion-item> -->
         <div *ngIf="search_txt.length>0" class="searchResult">
             <ion-item *ngFor="let search_result of search_results" (click)="showProfile(search_result)" class="user_list_item">
                 <div class="totoField" *ngIf="search_result.is_tote == true">
@@ -106,19 +106,23 @@
             <h4>Media</h4>
             <ul>
                 <li *ngIf="search_filters.media.tote == false" (click)="anotote_or_user_filter('tote')">
-                    <img src="assets/img/tile-gray.png" alt="">
+                    <!-- <img src="assets/img/tile-gray.png" alt=""> -->
+                    <h4>Totes</h4>
                 </li>
                 <li *ngIf="search_filters.media.tote == true" (click)="anotote_or_user_filter('tote')">
-                    <img src="assets/img/tile_dark.png" alt="">
+                    <!-- <img src="assets/img/tile_dark.png" alt=""> -->
+                    <h4 style="font-weight:bolder;color:#000">Totes</h4>
                 </li>
                 <!-- <li><img src="assets/img/roundbox.png" alt=""></li>
                 <li><img src="assets/img/blackTag.png" alt=""></li>
                 <li><img src="assets/img/blackPlay.png" alt=""></li> -->
                 <li *ngIf="search_filters.media.user == false" (click)="anotote_or_user_filter('user')">
-                    <img src="assets/img/icon-gray.png" alt="">
+                    <!-- <img src="assets/img/icon-gray.png" alt=""> -->
+                    <h4>Users</h4>
                 </li>
                 <li *ngIf="search_filters.media.user == true" (click)="anotote_or_user_filter('user')">
-                    <img src="assets/img/icon_dark.png" alt="">
+                    <!-- <img src="assets/img/icon_dark.png" alt=""> -->
+                    <h4 style="font-weight:bolder;color:#000">Users</h4>
                 </li>
                 <!-- <li><img src="assets/img/chat-gray.png" alt=""></li> -->
             </ul>
