@@ -510,16 +510,15 @@ page-anotote-editor {
     .inline_tote_options {
         position: absolute;
         bottom: 0;
-        height: 58px;
+        height: auto;
         width: 100%;
         background: black;
-        z-index: 10000;
-        &.meFooter {
-            height: auto;
-            ion-toolbar {
-                height: auto;
-            }
-        }
+        z-index: 10000; // &.meFooter {
+        //     height: auto;
+        //     ion-toolbar {
+        //         height: auto;
+        //     }
+        // }
         &.bottomLine {
             height: auto;
             padding: 10px 0px;

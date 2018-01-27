@@ -24,6 +24,7 @@ import { FollowsPopup } from '../anotote-list/follows_popup';
 import { SearchUnPinned } from '../../models/search';
 import { AnototeOptions } from "../anotote-list/tote_options";
 import { NotificationService } from "../../services/notifications.service";
+import { TagsOptions } from "../anotote-list/tags_options";
 
 @IonicPage()
 @Component({
@@ -232,7 +233,18 @@ export class AnototeEditor implements OnDestroy {
     }
 
     editTitle() {
-        this.titleEditingoff = false;
+        var params = {
+            tag: this.ANOTOTE.userAnnotote.anototeDetail.userAnnotote.annototeTitle,
+            is_tag: false
+        }
+        let tagOptions = this.modalCtrl.create(TagsOptions, params);
+        tagOptions.onDidDismiss(data => {
+            if (data.delete) {
+                this.title_temp = data.title
+                this.saveTitle(this.ANOTOTE);
+            }
+        })
+        tagOptions.present();
     }
 
 
@@ -629,12 +641,14 @@ export class AnototeEditor implements OnDestroy {
         this.statusBar.backgroundColorByHexString('#323232');
         let searchModal = this.modalCtrl.create(Search, {});
         searchModal.onDidDismiss(data => {
-            if (this.WHICH_STREAM == 'me')
-                this.statusBar.backgroundColorByHexString('#3bde00');
-            else if (this.WHICH_STREAM == 'follows')
-                this.statusBar.backgroundColorByHexString('#f4e300');
-            else if (this.WHICH_STREAM == 'top')
-                this.statusBar.backgroundColorByHexString('#fb9df0');
+            if (data.editor_check) {
+                if (this.WHICH_STREAM == 'me')
+                    this.statusBar.backgroundColorByHexString('#3bde00');
+                else if (this.WHICH_STREAM == 'follows')
+                    this.statusBar.backgroundColorByHexString('#f4e300');
+                else if (this.WHICH_STREAM == 'top')
+                    this.statusBar.backgroundColorByHexString('#fb9df0');
+            }
         });
         searchModal.present();
     }

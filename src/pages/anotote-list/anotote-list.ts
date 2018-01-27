@@ -1633,6 +1633,7 @@ export class AnototeList {
 
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
+    this.moreOPtions(anotote);
     if (this.current_color != 'anon') {
       // if (anotote.chatGroup == null) {
       //   this.options(anotote);
@@ -1646,6 +1647,13 @@ export class AnototeList {
       else
         this.options(anotote);
     }
+  }
+
+  moreOPtions(anotote) {
+    anotote.moreOptions = true;
+    setTimeout(() => {
+      anotote.moreOptions = false;
+    }, 1000);
   }
 
   presentMessageOptions(message, anotote) {

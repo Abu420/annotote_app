@@ -94,6 +94,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { EditDeleteMessage } from '../pages/chat/editDelPop';
 import { Autosize } from "../directives/ng-autosize/index";
 import { OrderModule } from 'ngx-order-pipe';
+import { TagsOptions } from "../pages/anotote-list/tags_options";
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { OrderModule } from 'ngx-order-pipe';
     EditDeleteMessage,
     notificationTime,
     Autosize,
-    chatVote
+    chatVote,
+    TagsOptions
   ],
   imports: [
     BrowserModule,
@@ -202,7 +204,8 @@ import { OrderModule } from 'ngx-order-pipe';
     AnototeList,
     AnototeEditor,
     ChatToteOptions,
-    EditDeleteMessage
+    EditDeleteMessage,
+    TagsOptions
   ],
 
   providers: [

@@ -281,4 +281,28 @@ export class SearchService {
         var response = this.http.post(url, params).map(res => res.json());
         return response;
     }
+
+    public delete_anotote_tag(params) {
+        var url = this.constants.API_BASEURL + '/annotote/deleteTag?annotote_tag_id=' + params.tagId;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    public delete_chat_tag(params) {
+        var url = this.constants.API_BASEURL + '/chat/deleteTag?chat_tag_id=' + params.tagId;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    public delete_message_tag(params) {
+        var url = this.constants.API_BASEURL + '/chat/deleteMessageTag?message_tag_id=' + params.tagId;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
+    public delete_profile_tag(params) {
+        var url = this.constants.API_BASEURL + '/user/deleteTag?user_tag_id=' + params.tagId;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
 }

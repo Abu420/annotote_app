@@ -40,16 +40,16 @@
                     <span>No tags added</span>
                 </li>
                 <ng-container *ngFor="let tag of message.messageTags; let i=index">
-                    <li *ngIf="i < 2">
+                    <li *ngIf="i < 3" (tap)="close('tags')">
                         <span>
                             <ng-container *ngIf="tag.tagId == 1">^</ng-container>
-                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
-                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
-                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}
+                            <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">${{tag.tagText}}</ng-container>
                         </span>
                     </li>
                 </ng-container>
-                <li class="tabOption" *ngIf="message.messageTags.length > 2 || message.senderId == user.id" (tap)="close('tags')">
+                <li class="tabOption" *ngIf="message.messageTags.length > 3" (tap)="close('tags')">
                     <img src="assets/img/dotsOption.svg" />
                 </li>
             </ul>
@@ -112,16 +112,16 @@
                     <span>No tags added</span>
                 </li>
                 <ng-container *ngFor="let tag of tags; let i=index">
-                    <li *ngIf="i < 2">
+                    <li *ngIf="i < 3" (tap)="close('tags')">
                         <span>
                             <ng-container *ngIf="tag.tagId == 1">^</ng-container>
-                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
-                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
-                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>{{tag.tagText}}
+                            <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">${{tag.tagText}}</ng-container>
                         </span>
                     </li>
                 </ng-container>
-                <li class="tabOption" *ngIf="tags.length > 2 || (tote | chatVoteOptions) == true" (tap)="close('tags')">
+                <li class="tabOption" *ngIf="tags.length > 3" (tap)="close('tags')">
                     <img src="assets/img/dotsOption.svg" />
                 </li>
             </ul>

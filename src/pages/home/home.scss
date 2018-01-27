@@ -501,12 +501,14 @@ ion-buttons {
         background: #3bde00;
         border-radius: 0;
         &:hover {
-            background-color: #2ba600 !important;
-            box-shadow: 0 0px 11px 0px #bdbdbd;
+            background-color: #2ba600 !important; // box-shadow: 0 0px 11px 0px #181717;
+            // box-shadow: -20px 15px 20px 19px #181717 !important;
+            // transform: scale(1, 0.9);
         }
         .activated {
             background-color: #2ba600 !important;
-            box-shadow: 0 0px 11px 0px #bdbdbd;
+            box-shadow: -20px 15px 20px 19px #181717 !important;
+            transform: scale(1, 0.9);
         }
     }
 }
@@ -516,12 +518,14 @@ ion-buttons {
         background: #f4e300;
         border-radius: 0;
         &:hover {
-            background-color: #e9ca00 !important;
-            box-shadow: 0 0px 11px 0px #bdbdbd;
+            background-color: #e9ca00 !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
+            // box-shadow: -20px 15px 20px 19px #181717 !important;
+            // transform: scale(1, 0.9);
         }
         .activated {
-            background-color: #e9ca00 !important;
-            box-shadow: 0 0px 11px 0px #bdbdbd;
+            background-color: #e9ca00 !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
+            box-shadow: -20px 15px 20px 19px #181717 !important;
+            transform: scale(1, 0.9);
         }
     }
 }
@@ -531,10 +535,13 @@ ion-buttons {
         background: #fb9df0;
         border-radius: 0;
         &:hover {
-            background-color: #bc73b3 !important;
+            background-color: #bc73b3 !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
+            // transform: scale(1, 0.9);
         }
         .activated {
             background-color: #bc73b3 !important;
+            box-shadow: -20px 15px 20px 19px #181717 !important;
+            transform: scale(1, 0.9);
         }
     }
 }

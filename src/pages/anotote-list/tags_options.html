@@ -1,0 +1,25 @@
+<div class="top_empty_box" *ngIf="stream != 'me'" (tap)="dismiss()">
+</div>
+<div class="content_follows_profile commentDetail">
+    <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
+        <div class="pop_heading">
+            <div class="btnRow" *ngIf="is_tag == true">
+                <span (tap)="dismiss(false)">Close</span>
+                <span (tap)="dismiss(true)">Delete</span>
+            </div>
+            <div class="btnRow" *ngIf="is_tag == false">
+                <span (tap)="dismiss(false)">Cancel</span>
+                <span [ngClass]="{'save': (temp_title != tag && temp_title != '')}" (tap)="dismiss(true)">Save</span>
+            </div>
+        </div>
+        <div class="pop_txt">
+            <p *ngIf="is_tag == true">
+                <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
+                <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
+                <ng-container *ngIf="tag.tagId == 4">${{tag.tagText}}</ng-container>
+            </p>
+            <textarea autosize [maxHeight]='150' [minHeight]="50" [(ngModel)]="temp_title" name="heading"></textarea>
+        </div>
+    </form>
+</div>

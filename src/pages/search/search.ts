@@ -164,10 +164,10 @@ export class Search {
         }
     }
 
-    dismiss() {
+    dismiss(check) {
         this.events.unsubscribe('user:followed');
         this.events.unsubscribe('user:unFollowed');
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss({ editor_check: check });
     }
 
     presentTopInterestsModal() {
@@ -249,7 +249,7 @@ export class Search {
             search_term: this.search_txt,
             results: this.search_results
         }
-        this.dismiss();
+        this.dismiss(true);
         this.navCtrl.push(SearchResults, params);
     }
 
@@ -478,7 +478,7 @@ export class Search {
                 this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
             else
                 this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-            this.dismiss()
+            this.dismiss(false)
         } else {
             this.viewCtrl.dismiss(anotote);
         }

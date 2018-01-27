@@ -1,9 +1,10 @@
 import { Component, trigger, transition, style, animate } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams, ModalController } from 'ionic-angular';
 import { SearchService } from '../../services/search.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
 import { StatusBar } from "@ionic-native/status-bar";
+import { TagsOptions } from "./tags_options";
 @Component({
     selector: 'tags_popup',
     animations: [
@@ -23,7 +24,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 })
 export class TagsPopUp {
     private tag_input: string;
-    private tags: any;
+    private tags = [];
     private user_tote_id: string;
     private stream: string;
     private annotation_id;
@@ -51,6 +52,7 @@ export class TagsPopUp {
         private utilityMethods: UtilityMethods,
         public authService: AuthenticationService,
         private params: NavParams,
+        public modalCtrl: ModalController,
         public viewCtrl: ViewController,
         public searchService: SearchService) {
         statusbar.hide();
@@ -155,7 +157,7 @@ export class TagsPopUp {
                     if (type == 2 && this.one_selected.length > 0) {
                         for (let user of this.one_selected) {
                             if (user.firstName == tag) {
-                                paramsObj['user_id'] = user.id
+                                userParams['user_id'] = user.id
                             }
                         }
                     } else if (type == 2 && this.one_selected.length == 0) {
@@ -363,11 +365,12 @@ export class TagsPopUp {
     }
 
     selected_user(user) {
-        this.tag_input = this.tag_input.replace('@' + this.nameEntered, "`@" + user.firstName + "`")
+        // this.tag_input = this.tag_input.replace('@' + this.nameEntered, "`@" + user.firstName + "`")
         // this.tag_input = '@' + user.firstName;
         this.show_autocomplete = false;
         this.users = [];
         this.one_selected.push(user);
+        this.add_tag(2, user.firstName);
     }
 
     dismiss() {
@@ -376,6 +379,65 @@ export class TagsPopUp {
         setTimeout(() => {
             this.viewCtrl.dismiss();
         })
+    }
+
+    tagOptions(tag) {
+        var params = {
+            tag: tag
+        }
+        let tagOptions = this.modalCtrl.create(TagsOptions, params);
+        tagOptions.onDidDismiss(data => {
+            if (data.delete) {
+                if (this.anotation_or_anotote) {
+                    var params = {
+                        tagId: tag.id
+                    }
+                    var toast = this.utilityMethods.doLoadingToast('Deleting');
+                    this.searchService.delete_anotote_tag(params).subscribe((success) => {
+                        toast.dismiss();
+                        this.tags.splice(this.tags.indexOf(tag), 1);
+                    }, (error) => {
+                        toast.dismiss();
+                    })
+                } else if (this.stream == 'chat') {
+                    if (this.chatOrtxt == true) {
+                        var params = {
+                            tagId: tag.id
+                        }
+                        var toast = this.utilityMethods.doLoadingToast('Deleting');
+                        this.searchService.delete_chat_tag(params).subscribe((success) => {
+                            toast.dismiss();
+                            this.tags.splice(this.tags.indexOf(tag), 1);
+                        }, (error) => {
+                            toast.dismiss();
+                        })
+                    } else {
+                        var params = {
+                            tagId: tag.id
+                        }
+                        var toast = this.utilityMethods.doLoadingToast('Deleting');
+                        this.searchService.delete_message_tag(params).subscribe((success) => {
+                            toast.dismiss();
+                            this.tags.splice(this.tags.indexOf(tag), 1);
+                        }, (error) => {
+                            toast.dismiss();
+                        })
+                    }
+                } else {
+                    var params = {
+                        tagId: tag.id
+                    }
+                    var toast = this.utilityMethods.doLoadingToast('Deleting');
+                    this.searchService.delete_profile_tag(params).subscribe((success) => {
+                        toast.dismiss();
+                        this.tags.splice(this.tags.indexOf(tag), 1);
+                    }, (error) => {
+                        toast.dismiss();
+                    })
+                }
+            }
+        })
+        tagOptions.present();
     }
 
 }

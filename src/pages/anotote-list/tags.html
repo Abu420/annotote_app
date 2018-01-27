@@ -4,7 +4,7 @@
     <div class="tags-panel" [ngClass]="{'tagTypes': anotation_or_anotote == false}" *ngIf="show == true" [@enterAnimation]>
         <div class="tabWidget">
             <ul class="tag-list" *ngIf="!no_tags_found">
-                <li *ngFor="let tag of tags">
+                <li *ngFor="let tag of tags" (click)="tagOptions(tag)">
                     <img class="play-icon" *ngIf="tag.tagId == 1" src="assets/img/top-arrow.png" alt="">
                     <img class="play-icon" *ngIf="tag.tagId == 2" src="assets/img/icon-gray.png" alt="">
                     <img class="play-icon" *ngIf="tag.tagId == 3" src="assets/img/hash-gray.png" alt="">
