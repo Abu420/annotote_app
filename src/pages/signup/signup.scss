@@ -6,3 +6,25 @@ page-signup {
         }
     }
 }
+
+verification_pop {
+    .content {
+        position: absolute;
+        bottom: 0;
+        height: auto;
+        width: 100%;
+        background: black;
+        .followLoading {
+            color: white;
+            text-align: left;
+            width: 100%;
+            padding-left: 25px;
+        }
+        .notFollowing {
+            position: absolute;
+            right: 25px;
+            color: #3bde00;
+            top: 10px;
+        }
+    }
+}

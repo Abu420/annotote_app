@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Keyboard, ModalController } from 'ionic-angular';
 import { Home } from '../home/home';
 import { User } from '../../models/user';
 import * as _ from 'underscore/underscore';
@@ -9,6 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar';
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
+import { Verification } from "./verificationPopUp";
+import { Login } from "../login/login";
 
 
 @IonicPage()
@@ -33,7 +35,14 @@ export class Signup {
   /**
    * Constructor
    */
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
+  constructor(public platform: Platform,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public statusBar: StatusBar,
+    public utilityMethods: UtilityMethods,
+    public authService: AuthenticationService,
+    public modalCtrl: ModalController,
+    public keyboard: Keyboard) {
     // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.user = new User("", "", "", "", "");
@@ -62,10 +71,6 @@ export class Signup {
 
   go_home() {
     this.keyboard.close();
-    if (this.utilityMethods.isOffline()) {
-      this.utilityMethods.internet_connection_error();
-      return;
-    }
     /**
      * Validate User first
      */
@@ -106,9 +111,15 @@ export class Signup {
       created_at: current_time
     }).subscribe((response) => {
       toast.dismiss();
-      this.utilityMethods.message_alert_with_callback('Registration', 'You have successfully registered. We have sent you a verification email.', () => {
-        this.navCtrl.pop();
-      });
+      let VerificationPop = this.modalCtrl.create(Verification, null);
+      VerificationPop.onDidDismiss(data => {
+        this.navCtrl.setRoot(Login);
+      })
+      VerificationPop.present();
+      if (this.utilityMethods.isOffline()) {
+        this.utilityMethods.internet_connection_error();
+        return;
+      }
     }, (error) => {
       toast.dismiss();
       if (error.code == -1) {

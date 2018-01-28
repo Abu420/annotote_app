@@ -69,8 +69,12 @@ export class timeStamp {
     var today_or_tomorrow = difference < 1 ? true : false;
     if (today_or_tomorrow)
       return this.date.transform(formated_time, 'shortTime');
-    else
-      return this.date.transform(formated_time, 'MM/dd');
+    else {
+      if (formated_time.getFullYear() == new Date().getFullYear())
+        return this.date.transform(formated_time, 'MM/dd');
+      else
+        return this.date.transform(formated_time, 'yyyy/MM/dd');
+    }
   }
 }
 

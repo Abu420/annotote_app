@@ -606,10 +606,11 @@ page-anotote-editor {
             }
             img {
                 position: absolute;
-                width: 25px;
-                right: 15px;
-                top: 50%;
+                width: 5px;
+                right: 35px;
+                top: 30%;
                 transform: translate(-50%, 0%);
+                transform: rotate(90deg);
             }
         }
         .downUp {
@@ -684,13 +685,13 @@ page-anotote-editor {
         width: 100%;
         background: #FFF;
         color: #000 !important;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 25px;
         border: none;
         box-shadow: 0 0px 11px 0px #bdbdbd;
         padding: 15px 20px;
         margin-top: 15px;
-        text-align: justify;
+        text-align: left;
         &.me {
             .highlight_quote,
             .highlight_comment {

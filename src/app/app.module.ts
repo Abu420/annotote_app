@@ -95,6 +95,7 @@ import { EditDeleteMessage } from '../pages/chat/editDelPop';
 import { Autosize } from "../directives/ng-autosize/index";
 import { OrderModule } from 'ngx-order-pipe';
 import { TagsOptions } from "../pages/anotote-list/tags_options";
+import { Verification } from "../pages/signup/verificationPopUp";
 
 @NgModule({
   declarations: [
@@ -148,7 +149,8 @@ import { TagsOptions } from "../pages/anotote-list/tags_options";
     notificationTime,
     Autosize,
     chatVote,
-    TagsOptions
+    TagsOptions,
+    Verification
   ],
   imports: [
     BrowserModule,
@@ -205,7 +207,8 @@ import { TagsOptions } from "../pages/anotote-list/tags_options";
     AnototeEditor,
     ChatToteOptions,
     EditDeleteMessage,
-    TagsOptions
+    TagsOptions,
+    Verification
   ],
 
   providers: [

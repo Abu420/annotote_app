@@ -109,9 +109,156 @@ export class AnototeList {
   public nameInputIndex: number = 0;
   private search_user: boolean = false;
   public mentioned: any = []
-  public fbLoading: boolean = false;
+  public fbLoading: boolean = true;
   public forFollowedCaseName: boolean = false;
   public mentionedNotification;
+  public tutorialMeCase = [
+    {
+      title: 'Welcome to your "ME" stream',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'This is your personal library.'
+        },
+        {
+          text: 'All of the content you save and annotate, known as "Totes," are stored here.'
+        },
+        {
+          text: 'All of your Chats are stored here too.'
+        }
+      ]
+    },
+    {
+      title: 'Browse and Search',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'Select the magnifying glass icon...'
+        },
+        {
+          text: '...then enter a URL to browse'
+        },
+        {
+          text: '...or search for anything, including users and content'
+        }
+      ]
+    },
+    {
+      title: 'Save and Bookmark',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'Select the "+" icon...'
+        },
+        {
+          text: '...then select "Save" to add a link to your ME stream, where the article is saved along with any annotations you make'
+        },
+        {
+          text: '...or select the "Bookmark" option to pin a link to your homepage for reading later'
+        }
+      ]
+    },
+    {
+      title: 'Annotate',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'When you\'re viewing an article you\'ve browsed, searched, saved, or bookmarked, simply highlight any text, then select the "Quote" or "Comment" options that will pop-up from the bottom of your screen.'
+        },
+        {
+          text: 'You can also add tags to any Tote, Quote, or Comment. Tags include #hashtags, $cashtags, @usernames, or ^links.'
+        }
+      ]
+    }
+  ];
+  public tutorialFollowsCase = [
+    {
+      title: 'Follow other users',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'Follow other users to see what they\'re reading...'
+        },
+        {
+          text: '...just search for any user by name, then select "FOLLOW" next to their name'
+        },
+        {
+          text: '...then you can see what they\'re annotating in your FOLLOWS stream'
+        },
+        {
+          text: 'Invite your friends and colleague to join Annotote too!'
+        }
+      ]
+    },
+    {
+      title: 'Chat with other users',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'You can Chat with users your follow by selecting the "+" button, then the "Chat" option.'
+        },
+        {
+          text: 'Chats are public by default, but you can make each one private in its options menu.'
+        },
+        {
+          text: '...or search for anything, including users and content'
+        }
+      ]
+    }
+  ];
+  public tutorialTopCase = [
+    {
+      title: 'Welcome to your Top Stream',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'This stream shows the top-rated reads from across the Annotote network, curated and annotated for you.'
+        },
+        {
+          text: 'Upvote, downvote, save, and share any Tote to help inform other users.'
+        }
+      ]
+    },
+    {
+      title: 'Chat with other users',
+      subTitle: 'Annotote',
+      createdAt: new Date(),
+      active: false,
+      tutorial: true,
+      highlights: [
+        {
+          text: 'You can Chat with users your follow by selecting the "+" button, then the "Chat" option.'
+        },
+        {
+          text: 'Chats are public by default, but you can make each one private in its options menu.'
+        },
+        {
+          text: '...or search for anything, including users and content'
+        }
+      ]
+    }
+  ];
   /**
    * Constructor
    */
@@ -813,6 +960,9 @@ export class AnototeList {
 
   bulkAction(anotote) {
     if (anotote.chatGroup == null && this.current_color == 'me') {
+      if (this.current_active_highlight) {
+        this.current_active_highlight.edit = false;
+      }
       if (anotote.checked) {
         this.title_temp = '';
         anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
@@ -1056,146 +1206,156 @@ export class AnototeList {
   //generic for all three streams
   openAnototeDetail(anotote) {
     this.reorder_highlights = false;
-    if (this.current_color != 'top') {
-      if (!anotote.checked) {
-        //anotation tabs logic
-        if (this.current_color == 'me') {
-          anotote.active_tab = 'me';
-          if (anotote.chatGroupId == null) {
-            anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
-          } else {
-            this.move_fab = true;
-          }
-        } else if (this.current_color == 'follows') {
-          anotote.active_tab = 'follows';
-          if (anotote.chatGroupId == null)
-            anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
-          if (this.mentionedCase == false)
-            this.move_fab = true;
-          else
-            this.content.resize();
+    if (!anotote.tutorial) {
+      if (this.current_color != 'top') {
+        if (!anotote.checked) {
+          //anotation tabs logic
+          if (this.current_color == 'me') {
+            anotote.active_tab = 'me';
+            if (anotote.chatGroupId == null) {
+              anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+            } else {
+              this.move_fab = true;
+            }
+          } else if (this.current_color == 'follows') {
+            anotote.active_tab = 'follows';
+            if (anotote.chatGroupId == null)
+              anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+            if (this.mentionedCase == false)
+              this.move_fab = true;
+            else
+              this.content.resize();
 
-          // anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
-          // this.move_fab = true;
-        }
-        //-----
-        if (this.current_active_anotote) {
-          this.current_active_anotote.active = false;
-          this.current_active_anotote.checked = false;
-          if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
-            this.move_fab = false;
-          else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
-            this.move_fab = false;
-          else if (anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
-            this.move_fab = false;
-          if (this.current_active_highlight) {
-            this.current_active_highlight.edit = false;
+            // anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
+            // this.move_fab = true;
           }
-          if (this.mentionedCase) {
-            this.move_fab = false;
-            this.content.resize();
+          //-----
+          if (this.current_active_anotote) {
+            this.current_active_anotote.active = false;
+            this.current_active_anotote.checked = false;
+            if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
+              this.move_fab = false;
+            else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
+              this.move_fab = false;
+            else if (anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
+              this.move_fab = false;
+            if (this.current_active_highlight) {
+              this.current_active_highlight.edit = false;
+            }
+            if (this.mentionedCase) {
+              this.move_fab = false;
+              this.content.resize();
+            }
+            if (this.current_active_anotote.id == anotote.id) {
+              this.current_active_anotote = null;
+              return;
+            }
           }
-          if (this.current_active_anotote.id == anotote.id) {
-            this.current_active_anotote = null;
-            return;
-          }
-        }
-        this.current_active_anotote = anotote;
-        this.current_active_anotote.active = !this.current_active_anotote.active;
+          this.current_active_anotote = anotote;
+          this.current_active_anotote.active = !this.current_active_anotote.active;
 
-        // if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
-        //   this.current_active_anotote.activeParty = 1;
-        //   //this.setSimpleToteDetails(anotote);
-        // } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
-        //   this.current_active_anotote.activeParty = 2;
-        //   //this.setSimpleToteDetails(anotote);
-        // } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
-        //   // this.getQuickChatHistory(anotote);
-        // }
+          // if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
+          //   this.current_active_anotote.activeParty = 1;
+          //   //this.setSimpleToteDetails(anotote);
+          // } else if (this.current_active_anotote.type == 1 && this.whichStream == 'follows') {
+          //   this.current_active_anotote.activeParty = 2;
+          //   //this.setSimpleToteDetails(anotote);
+          // } else if (this.current_active_anotote.type == 2 && this.whichStream == 'me') {
+          //   // this.getQuickChatHistory(anotote);
+          // }
+        } else {
+          // if (anotote.active) {
+          //   anotote.active = false;
+          // }
+          // if (anotote.chatGroupId == null) {
+          //   if (anotote.checked) {
+          //     this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
+          //     anotote.checked = false;
+          //   } else {
+          //     this.selected_totes.push(anotote);
+          //     anotote.checked = true;
+          //   }
+          // } else {
+          //   this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.")
+          // }
+          // anotote.checked = false;
+        }
       } else {
-        // if (anotote.active) {
-        //   anotote.active = false;
-        // }
-        // if (anotote.chatGroupId == null) {
-        //   if (anotote.checked) {
-        //     this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
-        //     anotote.checked = false;
-        //   } else {
-        //     this.selected_totes.push(anotote);
-        //     anotote.checked = true;
-        //   }
-        // } else {
-        //   this.utilityMethods.message_alert("Information", "You cannot select a chat tote. If you want to delete it, please long press it.")
-        // }
-        // anotote.checked = false;
+        if (anotote.checked) {
+          // if (anotote.active)
+          //   anotote.active = false;
+          // if (anotote.checked) {
+          //   this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
+          //   anotote.checked = false;
+          // } else {
+          //   this.selected_totes.push(anotote);
+          //   anotote.checked = true;
+          // }
+        } else {
+          if (this.current_active_anotote) {
+            this.current_active_anotote.active = false;
+            this.move_fab = false;
+            if (this.current_active_anotote.userAnnotote && anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
+              this.current_active_anotote = null;
+              return;
+            } else if (this.current_active_anotote.chatGroup && anotote.chatGroup && this.current_active_anotote.chatGroup.id == anotote.chatGroup.id) {
+              this.current_active_anotote = null;
+              return;
+            }
+          }
+          if (anotote.active)
+            anotote.active = false;
+          else
+            anotote.active = true;
+          anotote.active_tab = 'top';
+          this.current_active_anotote = anotote;
+          this.move_fab = true;
+          if (anotote.chatGroup == null) {
+            if (anotote.anototeDetail.follows.length > 0)
+              anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
+            anotote.follows = anotote.anototeDetail.follows;
+            anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
+            anotote.highlights = anotote.top_highlights;
+            anotote.isMe = anotote.anototeDetail.isMe;
+            anotote.spinner_for_active = false;
+          }
+          //Details
+          // this.spinner_for_active = true;
+          // var params = {
+          //   user_id: this.user.id,
+          //   anotote_id: anotote.userAnnotote.id,
+          //   time: this.utilityMethods.get_php_wala_time()
+          // }
+          // this.anototeService.fetchToteDetails(params).subscribe((result) => {
+          //   this.spinner_for_active = false;
+          //   if (result.status == 1) {
+          //     if (result.data.annotote.follows.length > 0)
+          //       anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
+          //     anotote.follows = result.data.annotote.follows;
+          //     anotote.top_highlights = Object.assign(result.data.annotote.highlights);
+          //     anotote.highlights = result.data.annotote.highlights;
+          //     anotote.isMe = result.data.annotote.isMe;
+          //   } else {
+          //     this.toastInFooter("Couldn't fetch annotations");
+          //     anotote.active = false;
+          //   }
+          // }, (error) => {
+          //   this.spinner_for_active = false;
+          //   if (error.code == -1) {
+          //     this.utilityMethods.internet_connection_error();
+          //     this.toastInFooter("Couldn't load chat history.");
+          //   }
+          // });
+        }
       }
     } else {
-      if (anotote.checked) {
-        // if (anotote.active)
-        //   anotote.active = false;
-        // if (anotote.checked) {
-        //   this.selected_totes.splice(this.selected_totes.indexOf(anotote), 1);
-        //   anotote.checked = false;
-        // } else {
-        //   this.selected_totes.push(anotote);
-        //   anotote.checked = true;
-        // }
-      } else {
-        if (this.current_active_anotote) {
-          this.current_active_anotote.active = false;
-          this.move_fab = false;
-          if (this.current_active_anotote.userAnnotote && anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
-            this.current_active_anotote = null;
-            return;
-          } else if (this.current_active_anotote.chatGroup && anotote.chatGroup && this.current_active_anotote.chatGroup.id == anotote.chatGroup.id) {
-            this.current_active_anotote = null;
-            return;
-          }
-        }
-        if (anotote.active)
-          anotote.active = false;
-        else
-          anotote.active = true;
-        anotote.active_tab = 'top';
-        this.current_active_anotote = anotote;
-        this.move_fab = true;
-        if (anotote.chatGroup == null) {
-          if (anotote.anototeDetail.follows.length > 0)
-            anotote.selected_follower_name = anotote.anototeDetail.follows[0].firstName;
-          anotote.follows = anotote.anototeDetail.follows;
-          anotote.top_highlights = Object.assign(anotote.anototeDetail.highlights);
-          anotote.highlights = anotote.top_highlights;
-          anotote.isMe = anotote.anototeDetail.isMe;
-          anotote.spinner_for_active = false;
-        }
-        //Details
-        // this.spinner_for_active = true;
-        // var params = {
-        //   user_id: this.user.id,
-        //   anotote_id: anotote.userAnnotote.id,
-        //   time: this.utilityMethods.get_php_wala_time()
-        // }
-        // this.anototeService.fetchToteDetails(params).subscribe((result) => {
-        //   this.spinner_for_active = false;
-        //   if (result.status == 1) {
-        //     if (result.data.annotote.follows.length > 0)
-        //       anotote.selected_follower_name = result.data.annotote.follows[0].firstName;
-        //     anotote.follows = result.data.annotote.follows;
-        //     anotote.top_highlights = Object.assign(result.data.annotote.highlights);
-        //     anotote.highlights = result.data.annotote.highlights;
-        //     anotote.isMe = result.data.annotote.isMe;
-        //   } else {
-        //     this.toastInFooter("Couldn't fetch annotations");
-        //     anotote.active = false;
-        //   }
-        // }, (error) => {
-        //   this.spinner_for_active = false;
-        //   if (error.code == -1) {
-        //     this.utilityMethods.internet_connection_error();
-        //     this.toastInFooter("Couldn't load chat history.");
-        //   }
-        // });
-      }
+      if (anotote.active)
+        anotote.active = false;
+      else
+        anotote.active = true;
+
+      if (this.current_active_anotote)
+        this.current_active_anotote.active = false;
     }
   }
 
@@ -1225,6 +1385,7 @@ export class AnototeList {
 
   annotation_options(highlight) {
     if (this.current_color == 'me' && this.current_active_anotote.active_tab == 'me' && this.reorder_highlights == false) {
+      this.current_active_anotote.checked = false;
       this.edit_annotation(highlight);
       // this.reorder_highlights = false;
       // if (highlight.edit == undefined || highlight.edit == false) {

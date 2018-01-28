@@ -1,0 +1,6 @@
+<div class="top_empty_box" (tap)="dismiss()">
+</div>
+<div class="content" [@enterAnimation] *ngIf="show == true">
+    <p class="followLoading">Check your email to activate</p>
+    <span class="notFollowing" (tap)="dismiss()">SIGN IN</span>
+</div>

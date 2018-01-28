@@ -938,7 +938,7 @@
                                     }
                                     .toteText {
                                         p {
-                                            width: calc(100% - 80px);
+                                            width: calc(100% - 90px);
                                             display: inline-block;
                                             vertical-align: top;
                                             padding-left: 5px;
@@ -972,9 +972,9 @@
                                         float: right;
                                         margin-top: 8px;
                                         span {
-                                            font-size: 12px;
+                                            font-size: 14px;
                                             text-transform: uppercase;
-                                            color: #a9a9a9;
+                                            color: #7f7f7f;
                                             margin-left: 10px;
                                             &.saveBtn {
                                                 color: #319e07;
@@ -1239,6 +1239,7 @@
                                                         background: #e0e0e0;
                                                         border: 0px;
                                                         resize: none;
+                                                        display: block;
                                                     }
                                                     img {
                                                         float: left;
