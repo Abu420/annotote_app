@@ -762,14 +762,22 @@
                                         background-size: 5px;
                                     }
                                     .txt {
-                                        padding: 16px 10px 0px 0px;
-                                        input {
+                                        padding: 16px 10px 0px 0px; // input {
+                                        //     margin: 0px;
+                                        //     padding: 0px;
+                                        //     border: 0px;
+                                        //     background: #e0e0e0;
+                                        //     font-size: 16px;
+                                        //     width: 100%;
+                                        // }
+                                        textarea {
                                             margin: 0px;
                                             padding: 0px;
                                             border: 0px;
                                             background: #e0e0e0;
                                             font-size: 16px;
                                             width: 100%;
+                                            resize: none;
                                         }
                                         .totBtn {
                                             float: right;

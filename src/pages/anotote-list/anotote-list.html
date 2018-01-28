@@ -230,7 +230,7 @@
                     </div>
                     <div class="txt txtMiddel" *ngIf="anotote.checked == true">
                         <form (ngSubmit)="saveTitle(anotote)">
-                            <input type="text" [(ngModel)]="title_temp" name="title">
+                            <textarea type="text" [(ngModel)]="title_temp" name="title"></textarea>
                         </form>
                         <div class="totBtn">
                             <span *ngIf="anotote.chatGroup == null" [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
@@ -335,7 +335,7 @@
                                         </ng-container>
                                     </ng-container>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
-                                        <textarea [(ngModel)]="highlight.highlightText" name="actualAnnotation"></textarea>
+                                        <textarea [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
                                         <div class="moveBtn">
                                             <button class="topIcon">
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt="">
@@ -573,7 +573,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && !fbLoading" class="product-list">
+        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && fbLoading == false" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
                 <ion-item *ngFor="let anotote of tutorialMeCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">

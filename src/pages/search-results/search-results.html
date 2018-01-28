@@ -37,23 +37,24 @@
         <ul class="search-result">
             <li (click)="showProfile(search_result)" *ngFor="let search_result of search_results; let i = index">
                 <figure *ngIf="search_result.is_tote == true">
-                    <img src="assets/img/saveIcon.svg" *ngIf="search_result.userAnnotote.isMe == 1">
+                    <img src="assets/img/option-icon.png">
+                    <!-- <img src="assets/img/saveIcon.svg" *ngIf="search_result.userAnnotote.isMe == 1">
                     <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
-                    <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && search_result.isBookmarked == true">
+                    <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && search_result.isBookmarked == true"> -->
                 </figure>
                 <figcaption *ngIf="search_result.is_tote == true">
-                    <h4>Search result {{i+1}}</h4>
+                    <h4 *ngIf="search_result.userAnnotote.anototeType == 'top'">Top</h4>
+                    <h4 *ngIf="search_result.userAnnotote.anototeType == 'follows'">Follows</h4>
+                    <h4 *ngIf="search_result.userAnnotote.anototeType == 1">Me</h4>
+                    <span class="excerptTxt">{{search_result.annotote.title}}</span>
                     <span>
                         <span class="searchTote">
                             <button type="button" class="">
                                 <img alt="" src="assets/img/lineIcon.svg">
                             </button>
-                            {{search_result.annotote.title}}
+                            {{search_result.annotote.source}}
                         </span>
                         <b>{{search_result.annotote.createdAt * 1000 | date:'shortTime'}}</b>
-                    </span>
-                    <span class="excerptTxt">{{search_result.annotote.source}}
-                        <!-- <ion-icon name="menu"></ion-icon> -->
                     </span>
                 </figcaption>
                 <figure *ngIf="search_result.is_tote == false">

@@ -43,7 +43,7 @@ export class SearchResults {
   }
 
   ionViewDidEnter() {
-    this.statusBar.backgroundColorByHexString('#252525');
+    this.statusBar.backgroundColorByHexString('#323232');
   }
 
   show_search() {
@@ -61,7 +61,10 @@ export class SearchResults {
   }
 
   go_to_browser(anotote) {
-    this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'me' });
+    if (anotote.userAnnotote.anototeType == 'me' || anotote.userAnnotote.anototeType == 'follows' || anotote.userAnnotote.anototeType == 'top')
+      this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+    else
+      this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', actual_stream: 'anon' });
   }
 
   load_search_results() {

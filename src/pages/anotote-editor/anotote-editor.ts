@@ -197,13 +197,13 @@ export class AnototeEditor implements OnDestroy {
             this.from_where = 'new_anotote';
 
 
-        if (this.actual_stream == 'me') {
+        if (this.actual_stream == 'me' && this.FROM != 'search_result') {
             this.scrape_anotote(this.ANOTOTE.meFilePath);
-        } else if (this.actual_stream == 'follows') {
+        } else if (this.actual_stream == 'follows' && this.FROM != 'search_result') {
             this.scrape_anotote(this.ANOTOTE.followerFilePath);
-        } else if (this.actual_stream == 'top') {
+        } else if (this.actual_stream == 'top' && this.FROM != 'search_result') {
             this.scrape_anotote(this.ANOTOTE.topFilePath);
-        } else if (this.actual_stream == 'anon') {
+        } else if (this.actual_stream == 'anon' || this.FROM == 'search_result') {
             this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
         }
     }

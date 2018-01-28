@@ -61,7 +61,6 @@ import { ChatService } from "../../services/chat.service";
 })
 
 export class AnototeList {
-
   /**
    * Variables && Configs
    */
@@ -86,6 +85,7 @@ export class AnototeList {
   public me_spinner: boolean = false;
   public current_active_highlight: any = null;
   public edit_highlight_text: string = '';
+  public edit_actual_highlight: string = '';
   public unread_notification_count: any = 0;
   public text: any;
   public follow_visited = false;
@@ -109,7 +109,7 @@ export class AnototeList {
   public nameInputIndex: number = 0;
   private search_user: boolean = false;
   public mentioned: any = []
-  public fbLoading: boolean = true;
+  public fbLoading: boolean;
   public forFollowedCaseName: boolean = false;
   public mentionedNotification;
   public tutorialMeCase = [
@@ -259,6 +259,7 @@ export class AnototeList {
       ]
     }
   ];
+  public bracketStartIndex = 0;
   /**
    * Constructor
    */
@@ -339,6 +340,7 @@ export class AnototeList {
           if (this.stream.me_first_load) {
             this.anototes = this.stream.me_anototes;
             this.current_page = this.stream.me_page_no;
+            this.fbLoading = false;
             if (this.anototes.length == 0)
               this.has_totes = false;
           } else {
@@ -348,6 +350,7 @@ export class AnototeList {
           if (this.stream.follow_first_load) {
             this.anototes = this.stream.follows_anototes;
             this.current_page = this.stream.follows_page_no;
+            this.fbLoading = false;
             if (this.anototes.length == 0)
               this.has_totes = false;
           } else
@@ -356,6 +359,7 @@ export class AnototeList {
           if (this.stream.top_first_load) {
             this.top_anototes = this.stream.top_anototes;
             this.current_page = this.stream.top_page_no;
+            this.fbLoading = false;
             if (this.top_anototes.length == 0)
               this.has_totes = false;
           } else
@@ -401,6 +405,8 @@ export class AnototeList {
             this.utilityMethods.internet_connection_error();
           }
         })
+      } else {
+        this.fbLoading = false;
       }
     }
   }
@@ -1421,6 +1427,7 @@ export class AnototeList {
         else {
           highlight.edit = true;
           this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+          this.edit_actual_highlight = highlight.highlightText;
         }
         this.current_active_highlight = highlight;
       } else {
@@ -1429,6 +1436,7 @@ export class AnototeList {
         else {
           highlight.edit = true;
           this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+          this.edit_actual_highlight = highlight.highlightText;
         }
       }
     } else {
@@ -1437,8 +1445,39 @@ export class AnototeList {
       else {
         highlight.edit = true;
         this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+        this.edit_actual_highlight = highlight.highlightText;
       }
       this.current_active_highlight = highlight;
+    }
+
+  }
+
+  ellipsis(event) {
+    if (this.edit_actual_highlight.length > this.current_active_highlight.highlightText.length) {
+      let textarea: HTMLTextAreaElement = event.target;
+
+      if (this.bracketStartIndex == 0)
+        this.bracketStartIndex = textarea.selectionStart - 1;
+      else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+        if (this.edit_actual_highlight[textarea.selectionStart - 1] == ' ') {
+          var firstHalf = this.edit_actual_highlight.substr(0, this.bracketStartIndex);
+          firstHalf += ' [';
+          var sec = this.edit_actual_highlight.substring(this.bracketStartIndex, textarea.selectionStart);
+          sec.trim();
+          firstHalf += sec + ']';
+          firstHalf += this.edit_actual_highlight.substr(textarea.selectionStart, this.edit_actual_highlight.length);
+          this.edit_actual_highlight = firstHalf;
+          this.bracketStartIndex = 0;
+        }
+      }
+    } else if (this.edit_actual_highlight.length < this.edit_actual_highlight.length) {
+      let textarea: HTMLTextAreaElement = event.target;
+      if (this.edit_actual_highlight[textarea.selectionStart - 1] == ' ') {
+        var firstHalf = this.edit_actual_highlight.substr(0, textarea.selectionStart - 1);
+        firstHalf += ' ... ';
+        firstHalf += this.edit_actual_highlight.substr(textarea.selectionStart, this.edit_actual_highlight.length);
+        this.edit_actual_highlight = firstHalf;
+      }
     }
 
   }
@@ -1509,7 +1548,7 @@ export class AnototeList {
   }
 
   save_edited_annotation(highlight) {
-    if (this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') {
+    if ((this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') || (this.edit_actual_highlight != highlight.highlightText && this.edit_actual_highlight != '')) {
       var hashTags = this.searchTags('#');
       var cashTags = this.searchTags('$');
       var urls = this.uptags();
@@ -1561,7 +1600,7 @@ export class AnototeList {
             highlight_quote.setAttribute("data-comment", this.edit_highlight_text);
 
             var params = {
-              highlight_text: highlight.highlightText,
+              highlight_text: this.edit_actual_highlight,
               updated_at: this.utilityMethods.get_php_wala_time(),
               file_text: document.getElementById('temp_text_editor').innerHTML,
               comment: this.edit_highlight_text,
@@ -1570,12 +1609,13 @@ export class AnototeList {
             }
             this.anototeService.update_annotation(params).subscribe((result) => {
               this.hideLoading();
+              highlight.highlightText = this.edit_actual_highlight;
               highlight.comment = result.data.highlight.comment;
               highlight.edit = false;
               this.current_active_highlight = null;
               this.text = '';
               this.stream.top_first_load = false;
-
+              this.edit_actual_highlight = '';
               if (tags.length > 0) {
                 var params = {
                   tags: tags,

@@ -100,16 +100,14 @@ search-results {
                     border-bottom: 1px solid #e4e4e4;
                     figure {
                         display: inline-block;
-                        vertical-align: middle;
-                        width: 73px;
+                        width: 50px;
                         height: 73px;
                         margin: 0px;
                         text-align: center;
-                        line-height: 6;
+                        line-height: 5;
                         padding: 10px;
                         img {
-                            width: 28px;
-                            vertical-align: sub;
+                            width: 5px;
                         }
                     }
                     figcaption {
@@ -118,14 +116,14 @@ search-results {
                         vertical-align: middle;
                         width: 73px;
                         height: 73px;
-                        width: calc(100% - 77px);
+                        width: calc(100% - 55px);
                         margin: 0px;
                         padding: 5px 10px 8px 0;
                         float: none;
                         height: auto;
                         color: #ababab;
                         h4 {
-                            font-size: 15px;
+                            font-size: 16px;
                             color: #000;
                             margin: 0 0 7px;
                             text-overflow: ellipsis;
@@ -136,7 +134,7 @@ search-results {
                         }
                         span {
                             display: block;
-                            font-size: 12px;
+                            font-size: 14px;
                             margin: 0;
                             button {
                                 color: #8e9093;
@@ -165,7 +163,7 @@ search-results {
                                 font-weight: normal;
                             }
                             &.excerptTxt {
-                                font-size: 11px;
+                                font-size: 16px;
                                 text-overflow: ellipsis;
                                 display: -webkit-box;
                                 -webkit-box-orient: vertical;
