@@ -13,6 +13,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { User } from "../../models/user";
 import { AnototeList } from "../anotote-list/anotote-list";
 import { StatusBar } from "@ionic-native/status-bar";
+import { Badge } from "@ionic-native/badge";
 
 /**
  * Generated class for the Notifications page.
@@ -62,6 +63,7 @@ export class Notifications {
     public authService: AuthenticationService,
     public notificationService: NotificationService,
     public modalCtrl: ModalController,
+    private badge: Badge,
     public statusBar: StatusBar) {
     statusBar.hide();
     this._notifications = [];
@@ -186,6 +188,10 @@ export class Notifications {
       var data = this.notificationService.get_notification_data();
       this._notifications = data.notifications;
       this._unread = data.unread;
+      if (this._unread == 0)
+        this.badge.clear();
+      else
+        this.badge.set(this._unread);
       this._loading = true;
       if (this._notifications.length == 0) {
         this.has_notifications = false;
@@ -201,6 +207,10 @@ export class Notifications {
           var data = this.notificationService.get_notification_data();
           this._notifications = data.notifications;
           this._unread = data.unread;
+          if (this._unread == 0)
+            this.badge.clear();
+          else
+            this.badge.set(this._unread);
         }, (error) => {
           this._loading = true;
           if (error.code == -1) {

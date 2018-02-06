@@ -365,7 +365,7 @@
                     &.three {
                         ul {
                             li {
-                                padding: 0 0vw;
+                                // padding: 0 0vw;
                                 span {
                                     width: 21vw;
                                     text-overflow: ellipsis;
@@ -375,7 +375,10 @@
                                     overflow: hidden;
                                 }
                                 span.tags {
-                                    width: 22vw;
+                                    width: 20vw;
+                                }
+                                span.greaterThree {
+                                    width: 17vw !important;
                                 }
                             }
                         }
@@ -568,12 +571,13 @@
                 }
                 >input {
                     width: calc(100% - 127px);
-                    padding-left: 19.7px;
+                    padding-left: 10px;
                     display: inline-block;
                     vertical-align: top;
                     border: 0px;
                     border-radius: 0;
                     height: 98%;
+                    font-size: 16px;
                 }
                 span.me {
                     background: #2BA600;
@@ -913,6 +917,7 @@
                                     }
                                     .opened {
                                         -webkit-line-clamp: 2;
+                                        display: block;
                                     }
                                     p {
                                         font-size: 14px;

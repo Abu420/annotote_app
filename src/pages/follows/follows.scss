@@ -305,8 +305,10 @@ page-follows {
                                 border-radius: 0px;
                                 margin: 0px;
                                 display: inline-block;
-                                height: 100%;
-                                width: 100%;
+                                height: 100%; // width: 100%;
+                            }
+                            img.default {
+                                width: 25px;
                             }
                         }
                         .txt {

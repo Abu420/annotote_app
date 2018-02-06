@@ -24,6 +24,7 @@ import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Streams } from '../../services/stream.service';
 import { AnototeService } from '../../services/anotote.service';
 import { SearchUnPinned } from '../../models/search';
+import { Badge } from '@ionic-native/badge';
 /**
  * Generated class for the Home page.
  *
@@ -57,6 +58,7 @@ export class Home {
     public statusBar: StatusBar,
     public stream: Streams,
     public anototeService: AnototeService,
+    private badge: Badge,
     public cd: ChangeDetectorRef) {
     this._unread = 0;
     this.searches = [];
@@ -70,6 +72,10 @@ export class Home {
     this.events.subscribe('IncrementNotificaiton', (data) => {
       this._unread = this.notificationService.get_notification_data().unread;
       this.stream.me_first_load = false;
+      if (this._unread == 0)
+        this.badge.clear();
+      else
+        this.badge.set(this._unread);
       this.cd.detectChanges();
     });
   }

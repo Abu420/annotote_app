@@ -685,7 +685,7 @@ page-changepassword {
 }
 
 search_page {
-    background: rgba(0, 0, 0, 0.3);
+    // background: rgba(0, 0, 0, 0.3);
     .heightForKeyboard {
         height: 80vw;
     }
@@ -701,6 +701,8 @@ search_page {
     .toolbar {
         contain: none;
         overflow: visible;
+    }
+    .noShadow {
         box-shadow: none !important;
     }
     .filterMode {
@@ -820,8 +822,9 @@ search_page {
         padding: 0px !important;
         background: rgba(121, 121, 121, 0.58);
         .scroll-content {
-            padding: 0px 0px 16px !important;
+            padding: 0px 0px 0px !important;
             background: transparent;
+            -webkit-overflow-scrolling: auto !important;
             .searchItems {
                 background: #FFF;
             }
@@ -922,7 +925,7 @@ search_page {
                             // }
                             figure {
                                 img {
-                                    width: 28px;
+                                    width: 25px;
                                 }
                             }
                         }
@@ -976,9 +979,8 @@ search_page {
                                     display: inline-block;
                                     width: 12px;
                                     &.star-icon {
-                                        width: 15px;
-                                        vertical-align: top;
-                                        margin-top: -1px;
+                                        width: 18px; // vertical-align: top;
+                                        // margin-top: -1px;
                                     }
                                 }
                             }
@@ -1144,6 +1146,9 @@ search_page {
             background: #000;
             height: 56px;
             width: 56px;
+            -webkit-box-shadow: 0px 0px 8px #9c9c9c;
+            box-shadow: 0px 0px 8px #9c9c9c;
+            position: relative;
         }
         .options {
             height: $bar_button_custom_height;
@@ -1191,6 +1196,9 @@ search_page {
             height: 100%;
             margin-left: 0px;
             border-radius: 0px;
+            font-size: 16px;
+            -webkit-box-shadow: 0px 0px 8px #9c9c9c;
+            box-shadow: 0px 0px 8px #9c9c9c;
             input {
                 padding: 0;
                 width: calc(100% - 8px);

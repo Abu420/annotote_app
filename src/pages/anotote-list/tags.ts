@@ -382,62 +382,64 @@ export class TagsPopUp {
     }
 
     tagOptions(tag) {
-        var params = {
-            tag: tag
-        }
-        let tagOptions = this.modalCtrl.create(TagsOptions, params);
-        tagOptions.onDidDismiss(data => {
-            if (data.delete) {
-                if (this.anotation_or_anotote) {
-                    var params = {
-                        tagId: tag.id
-                    }
-                    var toast = this.utilityMethods.doLoadingToast('Deleting');
-                    this.searchService.delete_anotote_tag(params).subscribe((success) => {
-                        toast.dismiss();
-                        this.tags.splice(this.tags.indexOf(tag), 1);
-                    }, (error) => {
-                        toast.dismiss();
-                    })
-                } else if (this.stream == 'chat') {
-                    if (this.chatOrtxt == true) {
+        if (this.stream == 'me') {
+            var params = {
+                tag: tag
+            }
+            let tagOptions = this.modalCtrl.create(TagsOptions, params);
+            tagOptions.onDidDismiss(data => {
+                if (data.delete) {
+                    if (this.anotation_or_anotote) {
                         var params = {
                             tagId: tag.id
                         }
                         var toast = this.utilityMethods.doLoadingToast('Deleting');
-                        this.searchService.delete_chat_tag(params).subscribe((success) => {
+                        this.searchService.delete_anotote_tag(params).subscribe((success) => {
                             toast.dismiss();
                             this.tags.splice(this.tags.indexOf(tag), 1);
                         }, (error) => {
                             toast.dismiss();
                         })
+                    } else if (this.stream == 'chat') {
+                        if (this.chatOrtxt == true) {
+                            var params = {
+                                tagId: tag.id
+                            }
+                            var toast = this.utilityMethods.doLoadingToast('Deleting');
+                            this.searchService.delete_chat_tag(params).subscribe((success) => {
+                                toast.dismiss();
+                                this.tags.splice(this.tags.indexOf(tag), 1);
+                            }, (error) => {
+                                toast.dismiss();
+                            })
+                        } else {
+                            var params = {
+                                tagId: tag.id
+                            }
+                            var toast = this.utilityMethods.doLoadingToast('Deleting');
+                            this.searchService.delete_message_tag(params).subscribe((success) => {
+                                toast.dismiss();
+                                this.tags.splice(this.tags.indexOf(tag), 1);
+                            }, (error) => {
+                                toast.dismiss();
+                            })
+                        }
                     } else {
                         var params = {
                             tagId: tag.id
                         }
                         var toast = this.utilityMethods.doLoadingToast('Deleting');
-                        this.searchService.delete_message_tag(params).subscribe((success) => {
+                        this.searchService.delete_profile_tag(params).subscribe((success) => {
                             toast.dismiss();
                             this.tags.splice(this.tags.indexOf(tag), 1);
                         }, (error) => {
                             toast.dismiss();
                         })
                     }
-                } else {
-                    var params = {
-                        tagId: tag.id
-                    }
-                    var toast = this.utilityMethods.doLoadingToast('Deleting');
-                    this.searchService.delete_profile_tag(params).subscribe((success) => {
-                        toast.dismiss();
-                        this.tags.splice(this.tags.indexOf(tag), 1);
-                    }, (error) => {
-                        toast.dismiss();
-                    })
                 }
-            }
-        })
-        tagOptions.present();
+            })
+            tagOptions.present();
+        }
     }
 
 }

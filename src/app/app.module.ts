@@ -96,6 +96,7 @@ import { Autosize } from "../directives/ng-autosize/index";
 import { OrderModule } from 'ngx-order-pipe';
 import { TagsOptions } from "../pages/anotote-list/tags_options";
 import { Verification } from "../pages/signup/verificationPopUp";
+import { Badge } from '@ionic-native/badge';
 
 @NgModule({
   declarations: [
@@ -240,6 +241,7 @@ import { Verification } from "../pages/signup/verificationPopUp";
     DatePipe,
     Streams,
     Clipboard,
+    Badge,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

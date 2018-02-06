@@ -1,5 +1,5 @@
 <ion-header class="searchHeader">
-    <ion-toolbar color="homeheader">
+    <ion-toolbar color="homeheader" [ngClass]="{'noShadow': search_txt == ''}">
         <div [ngClass]="{'black': current_url == '', 'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}" class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
             <img src="assets/img/searchIcon.png" alt="" />
@@ -8,7 +8,7 @@
         </div>
     </ion-toolbar>
 </ion-header>
-<ion-content swipe-vertical padding class="searchPage" [ngClass]="{'heightForKeyboard': isOpen == true}">
+<ion-content swipe-vertical padding class="searchPage" [ngClass]="{'heightForKeyboard': isOpen == true}" no-bounce>
     <!-- content-->
     <ion-list class="searchItems" *ngIf="!filter_mode">
         <ion-item *ngIf="search_loading" class="search_spinner">
@@ -101,7 +101,7 @@
             </ion-item>
         </div>
     </ion-list>
-    <ion-list *ngIf="filter_mode" class="filterMode">
+    <ion-list *ngIf="filter_mode" class="filterMode" no-bounce>
         <div class="mediaMode">
             <h4>Media</h4>
             <ul>

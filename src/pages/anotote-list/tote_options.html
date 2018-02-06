@@ -64,11 +64,11 @@
                     <span>Add Tags</span>
                 </li>
                 <li *ngIf="anotote.chatGroup.chatTags.length == 0 && (anotote.chatGroup.groupUsers | chatVoteOptions) == false">
-                    <span>No tags added</span>
+                    <span>No tags</span>
                 </li>
                 <ng-container *ngFor="let tag of anotote.chatGroup.chatTags; let i=index">
                     <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                        <span class="tags">
+                        <span class="tags" [ngClass]="{'greaterThree': anotote.chatGroup.chatTags.length > 3}">
                             <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                             <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                             <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -129,7 +129,7 @@
                     </li>
                     <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.userAnnotote.tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span class="tags">
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.userAnnotote.anototeDetail.userAnnotote.tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -143,11 +143,11 @@
                 </ng-container>
                 <ng-container *ngIf="actual_stream == 'follows' && stream == 'me'">
                     <li *ngIf="anotote.userAnnotote.anototeDetail.meToteFollowTop.tags.length == 0">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of anotote.userAnnotote.anototeDetail.meToteFollowTop.tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span>
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.userAnnotote.anototeDetail.meToteFollowTop.tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -161,11 +161,11 @@
                 </ng-container>
                 <ng-container *ngIf="stream == 'follows'">
                     <li *ngIf="anotote.follower_tags.length == 0">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of anotote.follower_tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span>
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.follower_tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -179,11 +179,11 @@
                 </ng-container>
                 <ng-container *ngIf="stream == 'top'">
                     <li *ngIf="anotote.top_tags.length == 0">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of anotote.top_tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span>
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.top_tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -199,11 +199,11 @@
             <ul *ngIf="actual_stream == 'top'">
                 <ng-container *ngIf="stream == 'me'">
                     <li *ngIf="anotote.anototeDetail.meToteFollowTop.tags.length == 0">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of anotote.anototeDetail.meToteFollowTop.tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span>
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.anototeDetail.meToteFollowTop.tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -217,11 +217,11 @@
                 </ng-container>
                 <ng-container *ngIf="stream == 'follows'">
                     <li *ngIf="anotote.follower_tags.length == 0">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of anotote.follower_tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span>
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.follower_tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -235,11 +235,11 @@
                 </ng-container>
                 <ng-container *ngIf="stream == 'top'">
                     <li *ngIf="anotote.tags.length == 0">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of anotote.tags; let i=index">
                         <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                            <span>
+                            <span class="tags" [ngClass]="{'greaterThree': anotote.tags.length > 3}">
                                 <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                                 <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
@@ -295,11 +295,11 @@
                     <span>Add Tags</span>
                 </li>
                 <li *ngIf="message.messageTags.length == 0 && (anotote.chatGroup.groupUsers | chatVoteOptions) == false">
-                    <span>No tags added</span>
+                    <span>No tags</span>
                 </li>
                 <ng-container *ngFor="let tag of message.messageTags; let i=index">
                     <li *ngIf="i < 3" (tap)="presentTagsModal()">
-                        <span>
+                        <span class="tags" [ngClass]="{'greaterThree': message.messageTags.length > 3}">
                             <ng-container *ngIf="tag.tagId == 1">^</ng-container>
                             <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
                             <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>

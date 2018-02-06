@@ -18,7 +18,7 @@
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <ion-list class="home-list layout">
+        <!-- <ion-list class="home-list layout">
             <ion-item (click)="openAnototeList('me')" class="green">
                 <button clear="true" (click)="presentMeOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
@@ -37,7 +37,27 @@
                 </button>
                 <span class="txt">TOP</span>
             </ion-item>
-        </ion-list>
+        </ion-list> -->
+        <ul class="home-list layout">
+            <li class="green" (click)="openAnototeList('me')">
+                <button clear="true" (click)="presentMeOptionsModal($event)" ion-button icon-only>
+                    <img src="assets/img/whiteDotIcon.svg">
+                </button>
+                <span class="txt">ME</span>
+            </li>
+            <li class="yellow" (click)="openAnototeList('follows')">
+                <button clear="true" (click)="follows($event)" ion-button icon-only>
+                    <img src="assets/img/whiteDotIcon.svg">
+                </button>
+                <span class="txt">FOLLOWS</span>
+            </li>
+            <li (click)="openAnototeList('top')" class="pink">
+                <button clear="true" (click)="presentTopOptionsModal($event)" ion-button icon-only>
+                    <img src="assets/img/whiteDotIcon.svg">
+                </button>
+                <span class="txt">TOP</span>
+            </li>
+        </ul>
         <ion-list style="margin-bottom: 50px !important;" class="product-list">
             <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
                 <div class="img-holder" (click)="pinImage($event,search)">

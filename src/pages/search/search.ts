@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, ViewController, NavParams, ModalController, Events, Content } from 'ionic-angular';
 import { Profile } from '../follows/follows_profile';
 import { AnototeOptions } from '../anotote-list/tote_options';
@@ -59,6 +59,7 @@ export class Search {
         public modalCtrl: ModalController,
         public anototeService: AnototeService,
         public authService: AuthenticationService,
+        public cd: ChangeDetectorRef,
         public key: Keyboard) {
         key.onKeyboardShow().subscribe(() => {
             if (utilityMethods.whichPlatform() == 'ios') {
@@ -68,6 +69,7 @@ export class Search {
         key.onKeyboardHide().subscribe(() => {
             if (utilityMethods.whichPlatform() == 'ios') {
                 this.isOpen = false;
+                this.cd.detectChanges();
             }
         })
         this.search_results = [];

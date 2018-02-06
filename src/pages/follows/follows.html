@@ -27,7 +27,7 @@
             <ion-list no-lines class="product-list follows">
                 <ion-item *ngFor="let follower of followings" (click)="showProfile(follower)">
                     <ion-avatar item-start>
-                        <img *ngIf="follower.photo == '' || follower.photo == null" src="assets/img/img3.jpg">
+                        <img *ngIf="follower.photo == '' || follower.photo == null" class="default" src="assets/img/userGray.svg">
                         <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="follower.photo != null && follower.photo != ''" [src]="follower.photo | image_base_path">
                         <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && follower.photo != '' && follower.photo != null"></ion-spinner>
                     </ion-avatar>

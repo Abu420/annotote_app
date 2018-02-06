@@ -39,19 +39,107 @@
                 <span>REGISTER</span>
             </button>
         </div>
+        <ion-list class="product-list loader-panel" *ngIf="latest_anototes_firstTime_loading">
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
         <ion-list class="product-list">
             <ion-item *ngFor="let anotote of latest_anototes" (tap)="openAnototeList()">
                 <div class="img-holder">
-                    <!-- <img src="assets/img/img1.png" *ngIf="anotote.annotote.photo == '' || anotote.annotote.photo == null">
-                    <img [src]="anotote.annotote.photo" (load)="loaded = true" [hidden]="!loaded" *ngIf="anotote.annotote.photo != '' && anotote.annotote.photo != null" />
-                    <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.annotote.photo != '' && anotote.annotote.photo != null"></ion-spinner> -->
                 </div>
                 <div class="txt">
                     <strong [innerText]="anotote.annotote.title"></strong>
                     <div class="time">
                         <em>
                             <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
-                            <!-- <span *ngIf="!anotote.is_today">{{ anotote.formated_time | amDateFormat: 'DD/MM'}}</span> -->
                         </em>
                     </div>
                     <div class="toteText">
@@ -63,9 +151,9 @@
                 </div>
             </ion-item>
         </ion-list>
-        <div *ngIf="latest_anototes_firstTime_loading" class="latest_totes_spinner">
+        <!-- <div *ngIf="latest_anototes_firstTime_loading" class="latest_totes_spinner">
             <ion-spinner name="ios"></ion-spinner>
-        </div>
+        </div> -->
     </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles">

@@ -1888,7 +1888,7 @@ export class AnototeList {
                 whichStream: 'me',
                 annotote: true
               }
-            } else if (anotote.active_tab == 'follows') {
+            } else if (anotote.active_tab == 'follows' || (this.current_color == 'follows' && anotote.active_tab == undefined)) {
               var params = {
                 user_tote_id: anotote.userAnnotote.id,
                 tags: anotote.follower_tags,
@@ -2000,9 +2000,9 @@ export class AnototeList {
     else if (this.current_active_anotote != null && this.current_color == 'top') {
       url = this.current_active_anotote.annotote.link;
     } else {
-      this.statusBar.backgroundColorByHexString('#252525');
+      this.statusBar.backgroundColorByHexString('#323232');
     }
-    this.statusBar.backgroundColorByHexString('#323232');
+    // this.statusBar.backgroundColorByHexString('#323232');
     let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
     searchModal.onDidDismiss((data) => {
       if (this.current_active_anotote == null) {
@@ -2013,7 +2013,7 @@ export class AnototeList {
         else if (this.current_color == 'top')
           this.statusBar.backgroundColorByHexString('#fb9df0');
       }
-      if (data)
+      if (data.editor_check)
         if (data.userAnnotote.anototeType == 'me')
           this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: data.userAnnotote.anototeType, actual_stream: data.userAnnotote.anototeType });
         else
@@ -2329,6 +2329,9 @@ export class AnototeList {
           this.current_active_anotote.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
           this.current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
           this.current_active_anotote.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
+          this.current_active_anotote.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
+          this.current_active_anotote.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+          this.current_active_anotote.userAnnotote.rating = success.data.annotote.rating;
         }, (error) => {
           this.hideLoading();
           this.toastInFooter("Couldn't upvote");
@@ -2404,6 +2407,9 @@ export class AnototeList {
           this.current_active_anotote.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
           this.current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
           this.current_active_anotote.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
+          this.current_active_anotote.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
+          this.current_active_anotote.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+          this.current_active_anotote.userAnnotote.rating = success.data.annotote.rating;
         }, (error) => {
           this.hideLoading();
           this.toastInFooter("Couldn't downvote");

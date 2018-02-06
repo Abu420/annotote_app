@@ -91,7 +91,7 @@ page-front-view {
                 padding: 17px 0;
                 line-height: 3;
                 img {
-                    width: 28px;
+                    width: 35px;
                     display: inline-block;
                     vertical-align: middle;
                 }
@@ -243,5 +243,27 @@ page-front-view {
     .product-list .txt span {
         overflow: hidden;
         padding-right: 5px;
+    }
+    .product-list .line-loader {
+        span {
+            height: 8px;
+            display: inline-block;
+            background: #eeeeee;
+            &.head-line {
+                display: block;
+            }
+            &.name-line {
+                width: calc(100% - 60px);
+                float: left;
+            }
+            &.date-line {
+                width: 40px;
+                float: right;
+            }
+        }
+        .line-bot {
+            overflow: hidden;
+            padding-top: 10px;
+        }
     }
 }
