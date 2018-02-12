@@ -43,6 +43,16 @@ export class ViewOptions {
       from: this.stream
     }
     let notifications = this.modalCtrl.create(Notifications, params);
+    notifications.onDidDismiss((data) => {
+      if (this.stream == 'me')
+        this.statusbar.backgroundColorByHexString('#3bde00');
+      else if (this.stream == 'follows')
+        this.statusbar.backgroundColorByHexString('#f4e300');
+      else if (this.stream == 'top')
+        this.statusbar.backgroundColorByHexString('#fb9df0');
+      else if (this.stream == 'anon')
+        this.statusbar.backgroundColorByHexString('#323232');
+    })
     notifications.present();
   }
 

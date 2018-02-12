@@ -276,14 +276,6 @@ export class AnototeEditor implements OnDestroy {
      * Page LifeCycle Events
      */
     ionViewDidLoad() {
-        if (this.navParams.get('WHICH_STREAM') == 'me') {
-            this.statusBar.backgroundColorByHexString('#3bde00');
-        } else if (this.navParams.get('WHICH_STREAM') == 'follows')
-            this.statusBar.backgroundColorByHexString('#f4e300');
-        else if (this.navParams.get('WHICH_STREAM') == 'top')
-            this.statusBar.backgroundColorByHexString('#fb9df0');
-        else
-            this.statusBar.backgroundColorByHexString('#323232')
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
                 if (data.selection != '' && (data.selection.startContainer.parentElement.className == 'highlight_quote' || data.selection.startContainer.parentElement.className == 'highlight_comment')) {
@@ -315,6 +307,17 @@ export class AnototeEditor implements OnDestroy {
         if (this.commentDetailModalIsOpen.check && this.navCtrl.last().isOverlay == false) {
             this.events.publish('closeModal');
         }
+    }
+
+    ionViewDidEnter() {
+        if (this.navParams.get('WHICH_STREAM') == 'me') {
+            this.statusBar.backgroundColorByHexString('#3bde00');
+        } else if (this.navParams.get('WHICH_STREAM') == 'follows')
+            this.statusBar.backgroundColorByHexString('#f4e300');
+        else if (this.navParams.get('WHICH_STREAM') == 'top')
+            this.statusBar.backgroundColorByHexString('#fb9df0');
+        else
+            this.statusBar.backgroundColorByHexString('#323232');
     }
 
 
@@ -482,6 +485,7 @@ export class AnototeEditor implements OnDestroy {
             this.actual_stream = 'me';
             this.which_stream = 'me';
             this.WHICH_STREAM = 'me';
+            this.statusBar.backgroundColorByHexString('#3bde00');
             this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
             this.runtime.me_first_load = false;
             this.runtime.top_first_load = false;
@@ -641,13 +645,20 @@ export class AnototeEditor implements OnDestroy {
         this.statusBar.backgroundColorByHexString('#323232');
         let searchModal = this.modalCtrl.create(Search, {});
         searchModal.onDidDismiss(data => {
-            if (data.editor_check) {
-                if (this.WHICH_STREAM == 'me')
-                    this.statusBar.backgroundColorByHexString('#3bde00');
-                else if (this.WHICH_STREAM == 'follows')
-                    this.statusBar.backgroundColorByHexString('#f4e300');
-                else if (this.WHICH_STREAM == 'top')
-                    this.statusBar.backgroundColorByHexString('#fb9df0');
+            // if (data.editor_check) {
+            //     if (this.WHICH_STREAM == 'me')
+            //         this.statusBar.backgroundColorByHexString('#3bde00');
+            //     else if (this.WHICH_STREAM == 'follows')
+            //         this.statusBar.backgroundColorByHexString('#f4e300');
+            //     else if (this.WHICH_STREAM == 'top')
+            //         this.statusBar.backgroundColorByHexString('#fb9df0');
+            // }
+            if (data.go_to_browser) {
+                var anotote = data.anotote;
+                if (anotote.userAnnotote.anototeType == 'me')
+                    this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+                else
+                    this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
             }
         });
         searchModal.present();

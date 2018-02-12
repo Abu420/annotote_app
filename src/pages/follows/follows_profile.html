@@ -31,7 +31,7 @@
         </div>
         <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
         <ion-list class="follow_list">
-            <ion-item>
+            <ion-item *ngIf="is_it_me == true || (profileData.user.description != null && profileData.user.description != '')">
                 <button ion-button icon-only>
                     <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
                     <img *ngIf="is_it_me != true && profileData.user.isFollowed==0" src="assets/img/checkblack.png">

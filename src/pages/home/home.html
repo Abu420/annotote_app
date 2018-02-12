@@ -40,19 +40,19 @@
         </ion-list> -->
         <ul class="home-list layout">
             <li class="green" (click)="openAnototeList('me')">
-                <button clear="true" (click)="presentMeOptionsModal($event)" ion-button icon-only>
+                <button clear="true" [ngClass]="{'activatedOn': hover.me}" (click)="presentMeOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">ME</span>
             </li>
             <li class="yellow" (click)="openAnototeList('follows')">
-                <button clear="true" (click)="follows($event)" ion-button icon-only>
+                <button clear="true" [ngClass]="{'activatedOn': hover.follows}" (click)="follows($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">FOLLOWS</span>
             </li>
             <li (click)="openAnototeList('top')" class="pink">
-                <button clear="true" (click)="presentTopOptionsModal($event)" ion-button icon-only>
+                <button clear="true" [ngClass]="{'activatedOn': hover.top}" (click)="presentTopOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">TOP</span>

@@ -2013,11 +2013,18 @@ export class AnototeList {
         else if (this.current_color == 'top')
           this.statusBar.backgroundColorByHexString('#fb9df0');
       }
-      if (data.editor_check)
-        if (data.userAnnotote.anototeType == 'me')
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: data.userAnnotote.anototeType, actual_stream: data.userAnnotote.anototeType });
+      // if (data.editor_check)
+      //   if (data.userAnnotote.anototeType == 'me')
+      //     this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: data.userAnnotote.anototeType, actual_stream: data.userAnnotote.anototeType });
+      //   else
+      //     this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+      if (data.go_to_browser) {
+        var anotote = data.anotote;
+        if (anotote.userAnnotote.anototeType == 'me')
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
         else
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+      }
     });
     searchModal.present();
   }

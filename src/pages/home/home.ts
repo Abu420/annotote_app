@@ -44,6 +44,11 @@ export class Home {
   public loading_check: boolean = false;
   public loading_message: string = '';
   public move_fab: boolean = false;
+  public hover: { me: boolean, follows: boolean, top: boolean } = {
+    me: false,
+    follows: false,
+    top: false
+  }
 
   constructor(public platform: Platform,
     private events: Events,
@@ -211,8 +216,10 @@ export class Home {
 
   follows(event) {
     event.stopPropagation();
+    this.hover.follows = true;
     let follows = this.modalCtrl.create(Follows, null);
     follows.onDidDismiss(data => {
+      this.hover.follows = false;
     });
     follows.present();
     // this.navCtrl.push(Follows, {});
@@ -306,6 +313,7 @@ export class Home {
 
   presentTopOptionsModal(event) {
     event.stopPropagation();
+    this.hover.top = true;
     // let topOptionsModal = this.modalCtrl.create(TopOptions, null);
     // topOptionsModal.onDidDismiss(data => {
     //   if (data == 'interests') {
@@ -316,6 +324,7 @@ export class Home {
     // topOptionsModal.present();
     let meOptionsModal = this.modalCtrl.create(MeOptions, { from: 'top' });
     meOptionsModal.onDidDismiss(data => {
+      this.hover.top = false;
       // console.log(data);
       if (data == 'settings') {
         this.presentSettingsModal();
@@ -340,6 +349,13 @@ export class Home {
       data = {}
     let searchModal = this.modalCtrl.create(Search, data);
     searchModal.onDidDismiss(data => {
+      if (data.go_to_browser) {
+        var anotote = data.anotote;
+        if (anotote.userAnnotote.anototeType == 'me')
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+        else
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+      }
     });
     searchModal.present();
   }
@@ -350,13 +366,17 @@ export class Home {
   }
 
   meOptions() {
+    this.hover.me = true;
     let meOptionsModal = this.modalCtrl.create(MeOptions, null);
     meOptionsModal.onDidDismiss(data => {
       // console.log(data);
       if (data == 'settings') {
         this.presentSettingsModal();
       } else if (data == 'chat') {
+        this.hover.me = false;
         this.addBtn(true)
+      } else {
+        this.hover.me = false;
       }
     });
     meOptionsModal.present();
@@ -366,6 +386,7 @@ export class Home {
     let self = this;
     let settingsModal = this.modalCtrl.create(Settings, null);
     settingsModal.onDidDismiss(data => {
+      this.hover.me = false;
       if (data == 'logout') {
         /**
          * API call, after Successfull validation

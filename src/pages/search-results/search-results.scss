@@ -15,52 +15,264 @@ search-results {
         img {
             margin: 0;
         }
-    }
-    .searchFiels {
-        display: inline-block;
-        -webkit-transition: width 1000ms ease-in-out;
-        transition: all 1000ms ease-in-out;
-        width: 0;
-        position: relative;
-        opacity: 0;
-        .searchTxt {
+    } // .searchFiels {
+    //     display: inline-block;
+    //     -webkit-transition: width 1000ms ease-in-out;
+    //     transition: all 1000ms ease-in-out;
+    //     width: 0;
+    //     position: relative;
+    //     opacity: 0;
+    //     .searchTxt {
+    //         width: 100%;
+    //         padding: 10px;
+    //         border-radius: 0;
+    //         height: 56px;
+    //     }
+    //     .icon {
+    //         position: absolute;
+    //         right: 5px;
+    //         top: 50%;
+    //         transform: translate(0%, -50%);
+    //         z-index: 99;
+    //         color: #000;
+    //         width: 18px;
+    //     }
+    // }
+    // .searchFiels.active {
+    //     width: calc(100% - 25px);
+    //     opacity: 1;
+    // }
+    // .searchBtn {
+    //     overflow: visible;
+    //     margin-left: 25px;
+    //     background: #000;
+    //     box-shadow: 0 0 10px #232323;
+    //     &:after {
+    //         content: "";
+    //         position: absolute;
+    //         bottom: -17px;
+    //         left: 0px;
+    //         width: 0;
+    //         height: 0;
+    //         border-left: 33px solid transparent;
+    //         border-right: 33px solid transparent;
+    //         border-top: 18px solid black;
+    //     }
+    //     .bar-button {
+    //         height: 56px;
+    //         width: 68px;
+    //     }
+    // }
+    .filterMode {
+        background: #FFF;
+        >div {
+            padding: 20px;
+            display: table;
             width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .icon {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translate(0%, -50%);
-            z-index: 99;
-            color: #000;
-            width: 18px;
+            position: relative;
+            &:after {
+                content: "";
+                bottom: 0px;
+                position: absolute;
+                right: 0px;
+                width: 75%;
+                height: 1px;
+                background: #CCC;
+            }
+            h4 {
+                display: table-cell;
+                vertical-align: middle;
+                margin: 0px;
+                font-size: 14px;
+                width: 20%;
+                color: #b3b3b3;
+            }
+            ul {
+                display: table-cell;
+                vertical-align: middle;
+                margin: 0px;
+                padding: 0px;
+                list-style: none;
+                padding-left: 10px;
+                li {
+                    display: inline-block;
+                    padding: 0;
+                    width: 32%;
+                    vertical-align: middle;
+                    font-size: 16px;
+                }
+            }
+            &.mediaMode {
+                ul {
+                    padding-left: 5px;
+                    li {
+                        padding: 0 5px;
+                        width: auto;
+                    }
+                }
+            }
+            &.catMode {
+                ul {
+                    li {
+                        span {
+                            color: #CCC;
+                        }
+                        &.active {
+                            span {
+                                color: #868686;
+                                text-shadow: 2px 2px 2px #CCC;
+                            }
+                        }
+                    }
+                }
+            }
+            &.dateMode {
+                ul {
+                    li {
+                        width: 32%;
+                        input {
+                            border: 0px;
+                            width: 100%;
+                        }
+                    }
+                }
+                &:after {
+                    display: none;
+                }
+            }
         }
     }
-    .searchFiels.active {
-        width: calc(100% - 25px);
-        opacity: 1;
-    }
-    .searchBtn {
-        overflow: visible;
-        margin-left: 25px;
-        background: #000;
-        box-shadow: 0 0 10px #232323;
-        &:after {
-            content: "";
-            position: absolute;
-            bottom: -17px;
-            left: 0px;
-            width: 0;
-            height: 0;
-            border-left: 33px solid transparent;
-            border-right: 33px solid transparent;
-            border-top: 18px solid black;
+    .searchHeader {
+        .options {
+            background-color: #313131;
+            &.activeOption {
+                position: relative;
+                background-color: #000;
+                &:after {
+                    content: "";
+                    position: absolute;
+                    left: 0px;
+                    bottom: -20px;
+                    z-index: 999;
+                    width: 0;
+                    height: 0;
+                    border-left: 15px solid transparent;
+                    border-right: 15px solid transparent;
+                    border-top: 20px solid #000;
+                }
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0px;
+                    bottom: -23px;
+                    z-index: 999;
+                    width: 0;
+                    height: 0;
+                    border-left: 15px solid transparent;
+                    border-right: 15px solid transparent;
+                    border-top: 20px solid #c1c1c1bf;
+                    filter: blur(3px);
+                }
+            }
         }
-        .bar-button {
+    }
+    .search_header {
+        height: $bar_button_custom_height;
+        &.black {
+            background: #303030; // padding-top: 14px;
+            // height: 70px;
+            img {
+                background-color: #000000;
+            }
+            .options {
+                background-color: #252525;
+                background-image: url(../assets/img/whiteDotIcon.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+                &:after {
+                    border-top: 20px solid #252525;
+                }
+            }
+            .clear_button {
+                background-color: #000;
+                width: 40px;
+                background-size: 18px;
+            }
+            .search_field {
+                width: calc(100% - 132px);
+                border-radius: 0px;
+            }
+        }
+        img {
+            margin: 0;
+            float: left;
+            padding: 12px;
+            background: #000;
             height: 56px;
-            width: 68px;
+            width: 56px;
+            -webkit-box-shadow: 0px 0px 8px #9c9c9c;
+            box-shadow: 0px 0px 8px #9c9c9c;
+            position: relative;
+        }
+        .options {
+            height: $bar_button_custom_height;
+            float: left;
+            width: 30px;
+            background-image: url(../assets/img/whiteDotIcon.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 30px;
+        }
+        .clear_button {
+            width: 40px !important;
+            background-size: 18px !important;
+        }
+        .search_field {
+            width: calc(100% - 127px) !important;
+            border-radius: 0px;
+            background: #FFF;
+        }
+        .search_button {
+            height: $bar_button_custom_height;
+            float: left;
+            width: $bar_button_custom_height;
+            background-image: url(../assets/img/search.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 30px;
+        }
+        .clear_button {
+            height: $bar_button_custom_height;
+            height: 56px;
+            float: right;
+            width: 36px;
+            background-image: url(../assets/img/closeIcon.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 15px;
+        }
+        .search_field {
+            width: calc(100% - 128px);
+            display: inline-block;
+            float: left;
+            border: 0px;
+            padding: 10px;
+            height: 55px;
+            margin-left: 0px;
+            border-radius: 0px;
+            font-size: 16px;
+            -webkit-box-shadow: 0px 0px 8px #9c9c9c;
+            box-shadow: 0px 0px 8px #9c9c9c;
+            input {
+                padding: 0;
+                width: calc(100% - 8px);
+                margin: 0px;
+                background: white;
+                height: 50px;
+                margin-top: 3px;
+                padding-left: 5px;
+            }
         }
     }
     .scroll-content {
@@ -71,7 +283,7 @@ search-results {
             padding: 20px;
             p {
                 margin: 0;
-                font-size: 14px;
+                font-size: 16px;
                 font-weight: bold;
             }
         }
@@ -93,84 +305,690 @@ search-results {
             background: #FFF;
             box-shadow: 0px 0px 3px #cacaca;
             .search-result {
-                margin: 0px;
-                padding: 0px;
-                list-style: none;
-                li {
-                    border-bottom: 1px solid #e4e4e4;
-                    figure {
-                        display: inline-block;
-                        width: 50px;
-                        height: 73px;
-                        margin: 0px;
-                        text-align: center;
-                        line-height: 5;
-                        padding: 10px;
-                        img {
-                            width: 5px;
-                        }
-                    }
-                    figcaption {
-                        // @extend figure;
-                        display: inline-block;
-                        vertical-align: middle;
-                        width: 73px;
-                        height: 73px;
-                        width: calc(100% - 55px);
-                        margin: 0px;
-                        padding: 5px 10px 8px 0;
-                        float: none;
-                        height: auto;
-                        color: #ababab;
-                        h4 {
-                            font-size: 16px;
-                            color: #000;
-                            margin: 0 0 7px;
-                            text-overflow: ellipsis;
-                            display: -webkit-box;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 1;
-                            overflow: hidden;
-                        }
-                        span {
-                            display: block;
-                            font-size: 14px;
-                            margin: 0;
-                            button {
-                                color: #8e9093;
-                                background: transparent;
-                                float: left;
-                                margin-right: 5px !important;
-                                margin-top: 2px !important;
-                                img {
-                                    display: inline-block;
+                // margin: 0px;
+                // padding: 0px;
+                // list-style: none;
+                // li {
+                //     border-bottom: 1px solid #e4e4e4;
+                //     figure {
+                //         display: inline-block;
+                //         width: 50px;
+                //         height: 73px;
+                //         margin: 0px;
+                //         text-align: center;
+                //         line-height: 5;
+                //         padding: 10px;
+                //         img {
+                //             width: 5px;
+                //         }
+                //     }
+                //     figcaption {
+                //         // @extend figure;
+                //         display: inline-block;
+                //         vertical-align: middle;
+                //         width: 73px;
+                //         height: 73px;
+                //         width: calc(100% - 55px);
+                //         margin: 0px;
+                //         padding: 5px 10px 8px 0;
+                //         float: none;
+                //         height: auto;
+                //         color: #ababab;
+                //         h4 {
+                //             font-size: 16px;
+                //             color: #000;
+                //             margin: 0 0 7px;
+                //             text-overflow: ellipsis;
+                //             display: -webkit-box;
+                //             -webkit-box-orient: vertical;
+                //             -webkit-line-clamp: 1;
+                //             overflow: hidden;
+                //         }
+                //         span {
+                //             display: block;
+                //             font-size: 14px;
+                //             margin: 0;
+                //             button {
+                //                 color: #8e9093;
+                //                 background: transparent;
+                //                 float: left;
+                //                 margin-right: 5px !important;
+                //                 margin-top: 2px !important;
+                //                 img {
+                //                     display: inline-block;
+                //                     vertical-align: middle;
+                //                     width: 14px;
+                //                 }
+                //             }
+                //             span {
+                //                 width: calc(100% - 70px);
+                //                 display: inline-block;
+                //                 text-overflow: ellipsis;
+                //                 -webkit-box-orient: vertical;
+                //                 -webkit-line-clamp: 1;
+                //                 overflow: hidden;
+                //                 white-space: nowrap;
+                //                 margin-bottom: 0px;
+                //             }
+                //             b {
+                //                 float: right;
+                //                 font-weight: normal;
+                //             }
+                //             &.excerptTxt {
+                //                 font-size: 16px;
+                //                 text-overflow: ellipsis;
+                //                 display: -webkit-box;
+                //                 -webkit-box-orient: vertical;
+                //                 -webkit-line-clamp: 1;
+                //                 width: 100%;
+                //                 overflow: hidden;
+                //                 margin: 0;
+                //             }
+                //         }
+                //     }
+                // }
+                .item {
+                    padding: 0px;
+                    .item-inner {
+                        padding: 0px;
+                        ion-label,
+                        .label-ios,
+                        .label-md {
+                            margin: 0px;
+                            >div {
+                                &.editTitle {
+                                    background: #e0e0e0;
+                                    .img-holder {
+                                        // background-image: url(../assets/img/grayDotIcon.svg);
+                                        background-image: url(../assets/img/option-icon.png);
+                                        background-position: center;
+                                        background-repeat: no-repeat;
+                                        background-size: 5px;
+                                    }
+                                    .txt {
+                                        padding: 16px 10px 0px 0px; // input {
+                                        //     margin: 0px;
+                                        //     padding: 0px;
+                                        //     border: 0px;
+                                        //     background: #e0e0e0;
+                                        //     font-size: 16px;
+                                        //     width: 100%;
+                                        // }
+                                        textarea {
+                                            margin: 0px;
+                                            padding: 0px;
+                                            border: 0px;
+                                            background: #e0e0e0;
+                                            font-size: 16px;
+                                            width: 100%;
+                                            resize: none;
+                                        }
+                                        .totBtn {
+                                            float: right;
+                                            margin-top: 8px;
+                                            span {
+                                                font-size: 12px;
+                                                text-transform: uppercase;
+                                                color: #a9a9a9;
+                                                margin-left: 10px;
+                                                &.saveBtn {
+                                                    color: #319e07;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                &.toteActive {
+                                    overflow: visible;
+                                    max-height: 0px;
+                                    transition: max-height 0.15s ease-out;
+                                    -webkit-transition: max-height 0.15s ease-out;
+                                    border: 0px;
+                                    &.toteTransition {
+                                        max-height: 2900px;
+                                        -webkit-transition: max-height 0.25s ease-in;
+                                        transition: max-height 0.25s ease-in;
+                                    }
+                                    .message-underlist {
+                                        border-bottom: 1px solid #CCC;
+                                    }
+                                }
+                                &.bulkActive {
+                                    background: #e0e0e0;
+                                    .check {
+                                        img {
+                                            box-shadow: 0px 3px 4px #a7a7a7;
+                                        }
+                                    }
+                                }
+                                display: block;
+                                overflow: hidden;
+                                width: 100%;
+                                border-bottom: 1px solid #CCC;
+                                position: relative;
+                                .img-holder {
+                                    height: 72px;
                                     vertical-align: middle;
-                                    width: 14px;
+                                    width: 50px;
+                                    background-image: url(../assets/img/option-icon.png); // background-image: url(../assets/img/grayDotIcon.svg);
+                                    background-position: center;
+                                    background-repeat: no-repeat;
+                                    background-size: 5px;
+                                    position: absolute;
+                                    left: 0px;
+                                    top: 0px;
+                                    text-align: center;
+                                    line-height: 4;
+                                    img {
+                                        vertical-align: middle;
+                                    }
+                                    &.activated {
+                                        box-shadow: -9px 0 35px -5px #333;
+                                        transform: scale(1, 1);
+                                        background-color: #e0e0e0;
+                                    }
+                                }
+                                .check {
+                                    float: left;
+                                    padding: 22px 15px 15px;
+                                    vertical-align: middle;
+                                    text-align: center;
+                                }
+                                .txt {
+                                    vertical-align: middle;
+                                    padding: 26px 10px 0px 0px;
+                                    width: calc(100% - 50px);
+                                    min-height: 72px;
+                                    position: relative;
+                                    float: right;
+                                    &.line-loader {
+                                        span {
+                                            height: 8px;
+                                            display: inline-block;
+                                            background: #eeeeee;
+                                            &.head-line {
+                                                display: block;
+                                            }
+                                            &.name-line {
+                                                width: calc(100% - 60px);
+                                                float: left;
+                                            }
+                                            &.date-line {
+                                                width: 40px;
+                                                float: right;
+                                            }
+                                        }
+                                        .line-bot {
+                                            overflow: hidden;
+                                            padding-top: 10px;
+                                        }
+                                    }
+                                    &.txtMiddel {
+                                        padding: 24px 10px 0px 0px;
+                                    }
+                                    &.normal {
+                                        padding: 10px 10px 0px 0px;
+                                    }
+                                    img.unReadLock {
+                                        position: absolute;
+                                        right: 8px;
+                                        top: 8px;
+                                        width: 13px;
+                                        display: inline-block;
+                                    }
+                                    -webkit-transition: all 500ms ease-in-out;
+                                    transition: all 500ms ease-in-out;
+                                    &.txtToto {
+                                        width: calc(100% - 50px);
+                                        padding-left: 5px;
+                                    }
+                                    strong {
+                                        font-weight: normal;
+                                        font-size: 16px;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 1;
+                                        width: 100%;
+                                        overflow: hidden;
+                                        margin-bottom: 5px;
+                                        white-space: normal;
+                                        text-transform: capitalize;
+                                    }
+                                    .opened {
+                                        -webkit-line-clamp: 2;
+                                        display: block;
+                                    }
+                                    p {
+                                        font-size: 14px;
+                                    }
+                                    .time {
+                                        float: right;
+                                        margin-top: -5px;
+                                        em {
+                                            width: 70px;
+                                            color: #8e9093;
+                                            font-style: normal;
+                                            button {
+                                                color: #8e9093;
+                                                img {
+                                                    display: inline-block;
+                                                    vertical-align: middle;
+                                                    width: 14px;
+                                                }
+                                            }
+                                        }
+                                        button {
+                                            //margin-left: 10px !important;
+                                            display: inline-block;
+                                            background: transparent;
+                                        }
+                                        span {
+                                            display: inline-block;
+                                            margin-right: 0px !important;
+                                            font-size: 14px;
+                                        }
+                                    }
+                                    .toteText {
+                                        p {
+                                            width: calc(100% - 90px);
+                                            display: inline-block;
+                                            vertical-align: top;
+                                            padding-left: 5px;
+                                            margin-top: -1px;
+                                            text-overflow: ellipsis;
+                                            -webkit-box-orient: vertical;
+                                            -webkit-line-clamp: 1;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                            word-break: break-all;
+                                        }
+                                        button {
+                                            color: #8e9093;
+                                            background: transparent;
+                                            float: left;
+                                            margin-top: 3px !important;
+                                            img {
+                                                display: inline-block;
+                                                vertical-align: middle;
+                                                width: 14px;
+                                                &.unReadMsg {
+                                                    display: none;
+                                                }
+                                            }
+                                            ion-icon {
+                                                font-size: 16px;
+                                            }
+                                        }
+                                    }
+                                    .totBtn {
+                                        float: right;
+                                        margin-top: 8px;
+                                        span {
+                                            font-size: 14px;
+                                            text-transform: uppercase;
+                                            color: #7f7f7f;
+                                            margin-left: 10px;
+                                            &.saveBtn {
+                                                color: #319e07;
+                                            }
+                                        }
+                                    }
+                                    input {
+                                        margin: 0px;
+                                        padding: 0px;
+                                        border: 0px;
+                                        background: #e0e0e0;
+                                        font-size: 16px;
+                                        width: 100%;
+                                    }
+                                }
+                                figure {
+                                    margin: 0px;
+                                    padding: 0px;
+                                    list-style: none;
+                                    vertical-align: top;
+                                    padding-top: 25px;
+                                    img {
+                                        width: 15px;
+                                    }
                                 }
                             }
-                            span {
-                                width: calc(100% - 70px);
-                                display: inline-block;
-                                text-overflow: ellipsis;
-                                -webkit-box-orient: vertical;
-                                -webkit-line-clamp: 1;
-                                overflow: hidden;
-                                white-space: nowrap;
-                                margin-bottom: 0px;
+                            .activeTote {
+                                border: 0px;
+                                .options {
+                                    height: 70px;
+                                    float: left;
+                                    vertical-align: middle;
+                                    width: 50px;
+                                    background-image: url(../assets/img/grayDotIcon.svg);
+                                    background-position: 22px center;
+                                    background-repeat: no-repeat;
+                                    background-size: 7px;
+                                    z-index: 9999999;
+                                }
+                                .txt {
+                                    width: calc(100% - 50px);
+                                }
                             }
-                            b {
-                                float: right;
-                                font-weight: normal;
+                            .ng-trigger {
+                                .details-list {
+                                    .item {
+                                        .item-inner {
+                                            ion-label {
+                                                padding: 15px 0px 0 20px;
+                                                display: block;
+                                                width: 100%;
+                                                figure {
+                                                    float: left;
+                                                    padding: 3px 0 0;
+                                                }
+                                                .check-text {
+                                                    vertical-align: top;
+                                                    padding: 0 10px 0 12px;
+                                                    border: 0px;
+                                                    width: calc(100% - 15px);
+                                                    margin: 0;
+                                                    display: inline-block;
+                                                    .name-time {
+                                                        font-size: 14px;
+                                                        color: #888;
+                                                        .msg-time {
+                                                            float: right;
+                                                            font-size: 12px;
+                                                        }
+                                                    }
+                                                    p {
+                                                        font-size: 16px;
+                                                    }
+                                                    img {
+                                                        width: 25px;
+                                                        display: inline-block;
+                                                        vertical-align: top;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            &.excerptTxt {
-                                font-size: 16px;
-                                text-overflow: ellipsis;
-                                display: -webkit-box;
-                                -webkit-box-orient: vertical;
-                                -webkit-line-clamp: 1;
-                                width: 100%;
-                                overflow: hidden;
-                                margin: 0;
+                            .listHeader {
+                                padding: 0px 20px 0 45px;
+                                margin-top: 0;
+                                background: #FFF;
+                                height: 30px;
+                                .btns-area {
+                                    padding: 0px;
+                                    line-height: 1;
+                                    .me-tab {
+                                        background: #e0e0e0;
+                                        color: white;
+                                        border-radius: 0px;
+                                        margin: 0 5px !important;
+                                        height: auto;
+                                        padding: 5px !important;
+                                        font-size: 14px;
+                                        i {
+                                            font-style: normal;
+                                        }
+                                        .loader {
+                                            width: 10px;
+                                            height: 10px;
+                                        }
+                                    }
+                                    .active_me {
+                                        background: $meQuotesandComments;
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                    .anon_stream {
+                                        background: color($colors, anon);
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                    .active_follows {
+                                        background: $followQuotesandComments;
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                    .active_top {
+                                        background: $topQuotesandComments;
+                                        box-shadow: 0 0 3px #848484;
+                                    }
+                                }
+                            }
+                            .message-underlist {
+                                padding: 0;
+                                .underlist-items {
+                                    .item-inner {
+                                        .input-wrapper {
+                                            ion-label {
+                                                padding: 10px 0px 10px 20px;
+                                                &:focus {
+                                                    background: #CCC;
+                                                }
+                                                &:active {
+                                                    background: #CCC;
+                                                }
+                                                &:visited {
+                                                    background: #CCC;
+                                                }
+                                                .txt {
+                                                    border-bottom: 0px;
+                                                    display: inline-block;
+                                                    vertical-align: middle;
+                                                    width: calc(100% - 30px);
+                                                    padding: 0 5px 0 0px;
+                                                    min-height: auto;
+                                                    p {
+                                                        font-size: 16px;
+                                                        -webkit-line-clamp: 4;
+                                                        -webkit-box-orient: vertical;
+                                                        white-space: normal;
+                                                        width: 100%;
+                                                        color: #000;
+                                                        &.lightText {
+                                                            color: #bfbfbf;
+                                                        }
+                                                    }
+                                                    img {
+                                                        width: 25px;
+                                                    }
+                                                }
+                                                figure {
+                                                    float: left;
+                                                    padding: 21px 0 0;
+                                                }
+                                                .check-text {
+                                                    vertical-align: top;
+                                                    padding: 0 10px 0 17px;
+                                                    border: 0px;
+                                                    width: calc(100% - 15px);
+                                                    margin: 0;
+                                                    display: inline-block;
+                                                    .name-time {
+                                                        font-size: 14px;
+                                                        color: #888;
+                                                        .msg-time {
+                                                            float: right;
+                                                            font-size: 14px;
+                                                        }
+                                                    }
+                                                    p {
+                                                        font-size: 16px;
+                                                        color: #222;
+                                                        margin: 3px 0 8px;
+                                                        white-space: normal;
+                                                    }
+                                                    img {
+                                                        width: 25px;
+                                                        display: inline-block;
+                                                        vertical-align: top;
+                                                    }
+                                                }
+                                                .status {
+                                                    margin-top: 2px;
+                                                }
+                                                .quotes_follows {
+                                                    background: $followQuotesandComments;
+                                                }
+                                                .quotes_anon {
+                                                    background: color($colors, anon);
+                                                }
+                                                .quotes_top {
+                                                    background: $topQuotesandComments;
+                                                    color: white;
+                                                }
+                                                .tag_input {
+                                                    margin-left: -8%;
+                                                    background: #f1f1f1;
+                                                    width: 108%;
+                                                    padding: 0px 10px 0px 54px;
+                                                    border-bottom: 0px;
+                                                    max-height: 150px;
+                                                    overflow: auto;
+                                                    ul {
+                                                        margin: 0px;
+                                                        padding: 0px;
+                                                        list-style: none;
+                                                        li {
+                                                            padding: 8px 0px;
+                                                            figure {
+                                                                width: 25px;
+                                                                margin: 0px;
+                                                                padding: 0px;
+                                                                display: inline-block;
+                                                                float: none;
+                                                                img {
+                                                                    width: auto;
+                                                                }
+                                                            }
+                                                            figcaption {
+                                                                display: inline-block;
+                                                                vertical-align: middle;
+                                                                width: calc(100% - 30px);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                .editAntotion {
+                                                    margin-left: -8%;
+                                                    background: #e0e0e0;
+                                                    width: 108%;
+                                                    padding: 10px 10px 10px 54px;
+                                                    .moveBtn {
+                                                        position: absolute;
+                                                        left: 22px;
+                                                        top: 10px;
+                                                        button {
+                                                            display: block;
+                                                            background: transparent;
+                                                            border: 0px;
+                                                            padding: 2px 0px !important;
+                                                            img {
+                                                                width: 15px;
+                                                            }
+                                                        }
+                                                    }
+                                                    textarea {
+                                                        width: 100%;
+                                                        background: #e0e0e0;
+                                                        border: 0px;
+                                                        resize: none;
+                                                        display: block;
+                                                    }
+                                                    img {
+                                                        float: left;
+                                                        width: 25px;
+                                                        margin-top: 3px;
+                                                    }
+                                                    span {
+                                                        font-size: 14px;
+                                                        text-transform: uppercase;
+                                                        float: right;
+                                                        color: #7f7f7f;
+                                                        padding-left: 10px;
+                                                    }
+                                                    span.save {
+                                                        color: #32ad05;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                .no_anotation {
+                                    text-align: center;
+                                    padding: 5%;
+                                    p {
+                                        white-space: normal;
+                                        position: relative;
+                                        &.me {
+                                            &::after {
+                                                content: "";
+                                                background: url(../assets/img/check2.png);
+                                                background-position: left;
+                                                background-repeat: no-repeat;
+                                                background-size: 5vw;
+                                                position: absolute;
+                                                left: 10px;
+                                                top: 0px;
+                                                width: 17px;
+                                                height: 17px;
+                                            }
+                                        }
+                                    }
+                                    .butt {
+                                        width: 60%;
+                                        display: inline-block;
+                                        padding: 5%;
+                                        background: $me_app_color;
+                                        p {
+                                            color: white;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    &.bulking {
+                        .item-inner {
+                            ion-label {
+                                >div.bulkActive {
+                                    background: #e0e0e0;
+                                }
+                            }
+                        }
+                    }
+                    &.unread {
+                        .item-inner {
+                            ion-label {
+                                >div {
+                                    .img-holder {
+                                        background-image: url(../assets/img/redCheck.svg);
+                                        background-position: center 26px;
+                                        background-repeat: no-repeat;
+                                        background-size: 28px;
+                                    }
+                                    .txt {
+                                        color: #ff0000;
+                                        .toteText {
+                                            p {
+                                                color: #ff0000;
+                                            }
+                                            button {
+                                                img {
+                                                    display: none;
+                                                    &.unReadMsg {
+                                                        display: inline-block;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .time {
+                                            span {
+                                                color: #ff0000;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

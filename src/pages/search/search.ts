@@ -475,15 +475,14 @@ export class Search {
     }
 
     go_to_browser(anotote) {
-        if (this.from != 'list') {
-            if (anotote.userAnnotote.anototeType == 'me')
-                this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
-            else
-                this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-            this.dismiss(false)
-        } else {
-            this.viewCtrl.dismiss(anotote);
-        }
+        // if (anotote.userAnnotote.anototeType == 'me')
+        //     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+        // else
+        //     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+
+        this.events.unsubscribe('user:followed');
+        this.events.unsubscribe('user:unFollowed');
+        this.viewCtrl.dismiss({ anotote: anotote, go_to_browser: true })
     }
 
     showProfile(search_result) {

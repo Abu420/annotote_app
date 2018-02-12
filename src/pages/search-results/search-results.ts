@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, ModalController, NavParams, Content } from 'ionic-angular';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
  * Services
@@ -17,21 +17,43 @@ import { Streams } from '../../services/stream.service';
   templateUrl: 'search-results.html',
 })
 export class SearchResults {
+  @ViewChild(Content) content: Content;
   private search_term: string;
   private _loading: boolean = false;
-  private search_results: any;
+  private search_results: any = [];
   private user_id: number;
   private show_search_field: boolean = false;
   private hide_header_contents: boolean = false;
   private no_search: boolean = false;
+  public current_active_anotote;
+  public move_fab;
+  public current_active_highlight;
 
   constructor(public stream: Streams, public authService: AuthenticationService, public searchService: SearchService, private params: NavParams, public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public utilityMethods: UtilityMethods, public statusBar: StatusBar) {
     this.search_term = params.get('search_term');
-    this.search_results = params.get('results');
+    var results = params.get('results');
+    for (let tote of results) {
+      if (tote.annotote) {
+        tote.is_tote = true;
+        tote.active = false;
+        if (tote.userAnnotote.follows.length > 0) {
+          tote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+        }
+        this.search_results.push(tote);
+      } else {
+        tote.is_tote = false;
+        tote.follow_loading = false;
+        this.search_results.push(tote);
+      }
+    }
     this.user_id = this.authService.getUser().id;
     this.show_search();
     if (this.search_results.length == 0)
       this.no_search = true;
+  }
+
+  clear() {
+    this.search_term = '';
   }
 
   open_annotote_site() {
@@ -84,9 +106,14 @@ export class SearchResults {
           for (let tote of response.data.annotote) {
             if (tote.annotote) {
               tote.is_tote = true;
+              tote.active = false;
+              if (tote.userAnnotote.follows.length > 0) {
+                tote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+              }
               this.search_results.push(tote);
             }
           }
+          console.log(this.search_results);
           for (let user of response.data.user) {
             user.is_tote = false;
             user.follow_loading = false;
@@ -157,4 +184,29 @@ export class SearchResults {
     });
     profile.present();
   }
+
+  openAnototeDetail(anotote) {
+
+    //-----
+    if (this.current_active_anotote) {
+      this.current_active_anotote.active = false;
+      this.current_active_anotote.checked = false;
+      if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
+        this.move_fab = false;
+      else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
+        this.move_fab = false;
+      else if (anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
+        this.move_fab = false;
+      if (this.current_active_highlight) {
+        this.current_active_highlight.edit = false;
+      }
+      if (this.current_active_anotote.id == anotote.id) {
+        this.current_active_anotote = null;
+        return;
+      }
+    }
+    this.current_active_anotote = anotote;
+    this.current_active_anotote.active = !this.current_active_anotote.active;
+  }
 }
+

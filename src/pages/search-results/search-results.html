@@ -1,5 +1,5 @@
-<ion-header>
-    <ion-toolbar class="resultHead">
+<ion-header class="searchHeader">
+    <!-- <ion-toolbar class="resultHead">
         <ion-buttons class="searchBtn" start>
             <button class="search_icon" (click)="show_search()" ion-button icon-only>
                 <img src="assets/img/searchIcon.png" alt="">
@@ -9,7 +9,6 @@
             <form (ngSubmit)="load_search_results()" name="login_form">
                 <input type="text" [(ngModel)]="search_term" class="searchTxt" name="search" placeholder="Search">
             </form>
-            <!-- <ion-icon name="close" class="icon" (click)="show_search()"></ion-icon> -->
             <img class="icon" src="assets/img/closeIconGray.svg" alt="">
         </div>
         <ion-title *ngIf="hide_header_contents == false">
@@ -18,11 +17,16 @@
                 <span class="dot"></span>
             </div>
         </ion-title>
-        <!-- <ion-buttons *ngIf="hide_header_contents == false" end>
-            <button (tap)="go_to_editor()" ion-button icon-only>
-                <ion-icon name="add"></ion-icon>
-            </button>
-        </ion-buttons> -->
+    </ion-toolbar> -->
+    <ion-toolbar color="homeheader" [ngClass]="{'noShadow': search_txt == ''}">
+        <div class="search_header">
+            <span [ngClass]="filter_mode?'activeOption':''" class="options"></span>
+            <img src="assets/img/searchIcon.png" alt="" />
+            <form (ngSubmit)="load_search_results()" name="login_form">
+                <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_term" type="text" placeholder="Search or enter address" />
+            </form>
+            <span (click)="clear()" class="clear_button"></span>
+        </div>
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
@@ -34,13 +38,10 @@
         <div class="no_search" *ngIf="no_search == true">
             <p>No results</p>
         </div>
-        <ul class="search-result">
+        <!-- <ul class="search-result">
             <li (click)="showProfile(search_result)" *ngFor="let search_result of search_results; let i = index">
                 <figure *ngIf="search_result.is_tote == true">
                     <img src="assets/img/option-icon.png">
-                    <!-- <img src="assets/img/saveIcon.svg" *ngIf="search_result.userAnnotote.isMe == 1">
-                    <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
-                    <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && search_result.isBookmarked == true"> -->
                 </figure>
                 <figcaption *ngIf="search_result.is_tote == true">
                     <h4 *ngIf="search_result.userAnnotote.anototeType == 'top'">Top</h4>
@@ -75,6 +76,71 @@
                     <span class="excerptTxt">{{search_result.description}}</span>
                 </figcaption>
             </li>
-        </ul>
+        </ul> -->
+        <ion-list class="search-result">
+            <ion-item *ngFor="let anotote of search_results; let i = index">
+                <div [ngClass]="{'activeTote' : current_active_anotote==anotote }" (click)="openAnototeDetail(anotote)" *ngIf="anotote.is_tote == true">
+                    <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)">
+                    </div>
+                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}">
+                        <p *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}
+                            <ng-container *ngIf="anotote.userAnnotote.follows.length > 2">+ {{anotote.userAnnotote.follows.length - 1}} others</ng-container>
+                            <ng-container *ngIf="anotote.userAnnotote.follows.length == 2">+ {{anotote.userAnnotote.follows.length - 1}} other</ng-container>
+                        </p>
+                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.userAnnotote.annototeTitle"></strong>
+                        <div class="time">
+                            <em>
+                                <span [innerText]="anotote.userAnnotote.userAnnotote.createdAt | time_stamp"></span>
+                            </em>
+                        </div>
+                        <div class="toteText">
+                            <p [innerText]="anotote.userAnnotote.annotote.source"></p>
+                            <button type="button">
+                                <!-- <img src="assets/img/lineIcon.svg" alt=""> -->
+                                <ion-icon name="menu"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active}" *ngIf="anotote.is_tote == true">
+                    <header class="listHeader">
+                        <div class="underlist-text">
+                            <div class="btns-area">
+                                <button ion-button *ngIf="anotote.userAnnotote.isMe == 1" class="me-tab active_me" [ngClass]="{'active_me': anotote.userAnnotote.isMe == 1}">Me</button>
+                                <button class="me-tab active_follows" ion-button *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}</button>
+                                <button ion-button class="me-tab active_top" *ngIf="anotote.userAnnotote.isTop == 1">Top</button>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
+                        <ion-list [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.userAnnotote.highlights.length > 0">
+                            <ng-container *ngFor="let highlight of anotote.userAnnotote.highlights">
+                                <ion-item (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
+                                    <div class="txt">
+                                        <p>{{highlight.highlightText}}</p>
+                                        <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)">{{highlight.comment}}</p>
+                                        <div class="tagImage" *ngIf="highlight.tags.length > 0 && (highlight.edit == undefined || highlight.edit == false)" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
+                                            <img src="assets/img/dotsicon.svg" alt="">
+                                        </div>
+                                    </div>
+
+                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0,'quotes_top':  anotote.userAnnotote.isTop == 1}" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                        <img src="assets/img/quoteImg.svg" alt="">
+                                    </span>
+                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0,'quotes_top':  anotote.userAnnotote.isTop == 1}" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                        <img src="assets/img/commentImg.svg" alt="">
+                                    </span>
+                                </ion-item>
+                            </ng-container>
+                        </ion-list>
+                        <!-- <div class="no_anotation" *ngIf="anotote.highlights.length == 0">
+                            <p>No anotations created yet.</p>
+                        </div> -->
+                    </div>
+                </div>
+
+            </ion-item>
+        </ion-list>
     </div>
 </ion-content>
