@@ -774,14 +774,19 @@
                                         //     font-size: 16px;
                                         //     width: 100%;
                                         // }
-                                        textarea {
-                                            margin: 0px;
-                                            padding: 0px;
-                                            border: 0px;
-                                            background: #e0e0e0;
-                                            font-size: 16px;
-                                            width: 100%;
-                                            resize: none;
+                                        form {
+                                            textarea {
+                                                margin: 0px;
+                                                padding: 0px;
+                                                border: 0px;
+                                                background: #e0e0e0;
+                                                font-size: 16px;
+                                                width: 100%;
+                                                resize: none;
+                                                width: 100%;
+                                                background: inherit;
+                                                border: 0;
+                                            }
                                         }
                                         .totBtn {
                                             float: right;
@@ -861,6 +866,20 @@
                                     min-height: 72px;
                                     position: relative;
                                     float: right;
+                                    form {
+                                        textarea {
+                                            margin: 0px;
+                                            padding: 0px;
+                                            border: 0px;
+                                            background: #e0e0e0;
+                                            font-size: 16px;
+                                            width: 100%;
+                                            resize: none;
+                                            width: 100%;
+                                            background: inherit;
+                                            border: 0;
+                                        }
+                                    }
                                     &.line-loader {
                                         span {
                                             height: 8px;
@@ -1122,13 +1141,13 @@
                                             ion-label {
                                                 padding: 10px 0px 10px 20px;
                                                 &:focus {
-                                                    background: #CCC;
+                                                    background: #f4f4f4;
                                                 }
                                                 &:active {
-                                                    background: #CCC;
+                                                    background: #f4f4f4;
                                                 }
                                                 &:visited {
-                                                    background: #CCC;
+                                                    background: #f4f4f4;
                                                 }
                                                 .txt {
                                                     border-bottom: 0px;
@@ -1253,6 +1272,9 @@
                                                         border: 0px;
                                                         resize: none;
                                                         display: block;
+                                                    }
+                                                    textarea.commentGrey {
+                                                        color: #777776;
                                                     }
                                                     img {
                                                         float: left;

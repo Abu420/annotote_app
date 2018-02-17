@@ -81,6 +81,9 @@ export class Chat {
       this.against_tote = true;
       this.anotote_id = navParams.get('anotote_id');
       this.title = navParams.get('title');
+      if (this.tote.chatGroup == null) {
+        this.tote.createdAt = (new Date()).getTime() / 1000;
+      }
     }
     if (navParams.get('color')) {
       this.current_color = navParams.get('color');
@@ -196,8 +199,6 @@ export class Chat {
         this.utilityMethods.internet_connection_error();
       }
     });
-
-
   }
 
   /**
@@ -446,13 +447,15 @@ export class Chat {
 
   chat_participants_from_tote() {
     var users = [];
-    for (let group of this.tote.chatGroup.groupUsers) {
-      users.push(group.user);
+    if (this.tote.chatGroup) {
+      for (let group of this.tote.chatGroup.groupUsers) {
+        users.push(group.user);
+      }
+      let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
+      anototeOptionsModal.onDidDismiss(data => {
+      });
+      anototeOptionsModal.present();
     }
-    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
-    anototeOptionsModal.onDidDismiss(data => {
-    });
-    anototeOptionsModal.present();
   }
 
   @ViewChild('myInput') myInput: ElementRef;

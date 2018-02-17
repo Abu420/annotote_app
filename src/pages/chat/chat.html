@@ -26,7 +26,7 @@
                     <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
                         <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title">
                     </form>
-                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong>
+                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">{{tote.chatGroup.messagesUser[0].subject}}</strong>
                     <!-- <strong *ngIf="tote.chatGroup.messagesUser[0].anototeId != 0 && tote.chatGroup.messagesUser[0].subject != null " (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong> -->
                 </ng-container>
                 <ng-container *ngIf="tote == null || tote.chatGroup == null">
@@ -37,8 +37,8 @@
                     <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
                         <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title">
                     </form>
-                    <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote">[{{tote.userAnnotote.annotote.title}}]</strong>
-                    <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote == null">[{{tote.annotote.title}}]</strong>
+                    <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote">{{tote.userAnnotote.annotote.title}}</strong>
+                    <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote == null">{{tote.annotote.title}}</strong>
                 </ng-container>
 
                 <div class="time" *ngIf="tote != null">
@@ -113,7 +113,8 @@
         <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
-            <textarea #myInput [(ngModel)]="textMessage" (keyup)="resize()" name="search" placeholder="Write your reply"></textarea>
+            <textarea #myInput *ngIf="conversation.length > 0" [(ngModel)]="textMessage" (keyup)="resize()" name="search" placeholder="Reply to chat"></textarea>
+            <textarea #myInput *ngIf="conversation.length == 0" [(ngModel)]="textMessage" (keyup)="resize()" name="search" placeholder="Type a message"></textarea>
             <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
             <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
             <span class="loading" *ngIf="send_message_loader">

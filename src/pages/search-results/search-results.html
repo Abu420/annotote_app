@@ -114,9 +114,9 @@
                         </div>
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
-                        <ion-list [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.userAnnotote.highlights.length > 0">
+                        <ion-list no-lines class="details-list layout" *ngIf="anotote.userAnnotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.userAnnotote.highlights">
-                                <ion-item (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
+                                <ion-item (click)="go_to_browser(anotote)" *ngIf="highlight.deleted != 1" class="underlist-items">
                                     <div class="txt">
                                         <p>{{highlight.highlightText}}</p>
                                         <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)">{{highlight.comment}}</p>
