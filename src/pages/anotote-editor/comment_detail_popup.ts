@@ -265,10 +265,10 @@ export class CommentDetailPopup {
       else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
         if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
           var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
-          firstHalf += ' [';
+          firstHalf += ' "[';
           var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
           sec.trim();
-          firstHalf += sec + ']';
+          firstHalf += sec + ']"';
           firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
           this.anotote_txt = firstHalf;
           this.bracketStartIndex = 0;
@@ -279,7 +279,7 @@ export class CommentDetailPopup {
       if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
         // this.anotote_txt.splice(textarea.selectionStart, 0, "...");
         var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart - 1);
-        firstHalf += ' ... ';
+        firstHalf += ' "..." ';
         firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
         this.anotote_txt = firstHalf;
       }

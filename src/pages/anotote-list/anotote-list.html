@@ -244,10 +244,10 @@
                         </ng-container>
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
                             <strong *ngIf="anotote.chatGroup.messagesUser[0].subject == null">Chat</strong>
-                            <strong *ngIf="anotote.chatGroup.messagesUser[0].subject != null">{{anotote.chatGroup.messagesUser[0].subject}}</strong>
+                            <strong *ngIf="anotote.chatGroup.messagesUser[0].subject != null">Chat: {{anotote.chatGroup.messagesUser[0].subject}}</strong>
                         </ng-container>
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
-                            <strong [innerText]="anotote.chatGroup.messagesUser[0].subject"></strong>
+                            <strong>Chat: {{anotote.chatGroup.messagesUser[0].subject}}</strong>
                         </ng-container>
                         <div class="time">
                             <em>
@@ -469,10 +469,10 @@
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0 || current_color != 'me')}" *ngIf="anotote.chatGroup">
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
                             <strong *ngIf="anotote.chatGroup.messagesUser[0].subject == null">Chat</strong>
-                            <strong *ngIf="anotote.chatGroup.messagesUser[0].subject != null">{{anotote.chatGroup.messagesUser[0].subject}}</strong>
+                            <strong *ngIf="anotote.chatGroup.messagesUser[0].subject != null">Chat: {{anotote.chatGroup.messagesUser[0].subject}}</strong>
                         </ng-container>
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId != 0">
-                            <strong [innerText]="anotote.chatGroup.messagesUser[0].subject"></strong>
+                            <strong>Chat: {{anotote.chatGroup.messagesUser[0].subject}}</strong>
                         </ng-container>
                         <div class="time">
                             <em>

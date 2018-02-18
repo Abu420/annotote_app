@@ -38,45 +38,6 @@
         <div class="no_search" *ngIf="no_search == true">
             <p>No results</p>
         </div>
-        <!-- <ul class="search-result">
-            <li (click)="showProfile(search_result)" *ngFor="let search_result of search_results; let i = index">
-                <figure *ngIf="search_result.is_tote == true">
-                    <img src="assets/img/option-icon.png">
-                </figure>
-                <figcaption *ngIf="search_result.is_tote == true">
-                    <h4 *ngIf="search_result.userAnnotote.anototeType == 'top'">Top</h4>
-                    <h4 *ngIf="search_result.userAnnotote.anototeType == 'follows'">Follows</h4>
-                    <h4 *ngIf="search_result.userAnnotote.anototeType == 1">Me</h4>
-                    <span class="excerptTxt">{{search_result.annotote.title}}</span>
-                    <span>
-                        <span class="searchTote">
-                            <button type="button" class="">
-                                <img alt="" src="assets/img/lineIcon.svg">
-                            </button>
-                            {{search_result.annotote.source}}
-                        </span>
-                        <b>{{search_result.annotote.createdAt * 1000 | date:'shortTime'}}</b>
-                    </span>
-                </figcaption>
-                <figure *ngIf="search_result.is_tote == false">
-                    <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/userGray.svg">
-                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
-                    <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
-                </figure>
-                <figcaption *ngIf="search_result.is_tote == false">
-                    <h4>Search result {{i+1}}</h4>
-                    <span>{{search_result.firstName}}
-                        <i *ngIf="search_result.isFollowed == 1">
-                            <</i>
-                                <b>
-                                    <ion-icon *ngIf="search_result.isFollowed == 0" (click)="followUser($event,search_result)" name="add"></ion-icon>
-                                    <i *ngIf="search_result.isFollowed == 1">@</i>
-                                </b>
-                    </span>
-                    <span class="excerptTxt">{{search_result.description}}</span>
-                </figcaption>
-            </li>
-        </ul> -->
         <ion-list class="search-result">
             <ion-item *ngFor="let anotote of search_results; let i = index">
                 <div [ngClass]="{'activeTote' : current_active_anotote==anotote }" (click)="openAnototeDetail(anotote)" *ngIf="anotote.is_tote == true">
@@ -116,13 +77,13 @@
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list no-lines class="details-list layout" *ngIf="anotote.userAnnotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.userAnnotote.highlights">
-                                <ion-item (click)="go_to_browser(anotote)" *ngIf="highlight.deleted != 1" class="underlist-items">
+                                <ion-item (click)="go_to_browser(anotote,highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
                                     <div class="txt">
                                         <p>{{highlight.highlightText}}</p>
                                         <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)">{{highlight.comment}}</p>
-                                        <div class="tagImage" *ngIf="highlight.tags.length > 0 && (highlight.edit == undefined || highlight.edit == false)" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
+                                        <!-- <div class="tagImage" *ngIf="highlight.tags.length > 0 && (highlight.edit == undefined || highlight.edit == false)" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                             <img src="assets/img/dotsicon.svg" alt="">
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0,'quotes_top':  anotote.userAnnotote.isTop == 1}" *ngIf="highlight.comment == null || highlight.comment == ''">
@@ -134,13 +95,58 @@
                                 </ion-item>
                             </ng-container>
                         </ion-list>
-                        <!-- <div class="no_anotation" *ngIf="anotote.highlights.length == 0">
-                            <p>No anotations created yet.</p>
-                        </div> -->
                     </div>
                 </div>
-
+                <!-- User -->
+                <li *ngIf="anotote.is_tote == false" (click)="showProfile(anotote)">
+                    <figure>
+                        <img *ngIf="anotote.photo== null || anotote.photo==''" src="assets/img/userGray.svg">
+                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="anotote.photo != null && anotote.photo != ''" [hidden]="!loaded" [src]="anotote.photo | image_base_path">
+                        <ion-spinner *ngIf="!loaded && anotote.photo != null && anotote.photo != ''"></ion-spinner>
+                    </figure>
+                    <figcaption>
+                        <!-- <h4>Search result {{i+1}}</h4>
+                        <span>{{anotote.firstName}}
+                            <i *ngIf="anotote.isFollowed == 1">
+                                <</i>
+                                    <b>
+                                        <ion-icon *ngIf="anotote.isFollowed == 0" (click)="followUser($event,search_result)" name="add"></ion-icon>
+                                        <i *ngIf="anotote.isFollowed == 1">@</i>
+                                    </b>
+                        </span>
+                        <span class="excerptTxt">{{anotote.description}}</span> -->
+                        <h4>{{anotote.firstName}}
+                            <img *ngIf="anotote.isFollowed == 1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                        </h4>
+                        <span class="rightAdd" *ngIf="anotote.isFollowed == 0 && anotote.follow_loading == false" (click)="followUser($event,anotote)">FOLLOW</span>
+                        <span class="rightAdd" *ngIf="anotote.follow_loading == true">
+                            <ion-spinner name="bubbles"></ion-spinner>
+                        </span>
+                    </figcaption>
+                </li>
             </ion-item>
         </ion-list>
     </div>
+    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" right>
+        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? 'anon' : current_active_anotote.userAnnotote.active_tab">
+            <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteFab.svg" />
+            <ng-container *ngIf="current_active_anotote != null">
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.userAnnotote.active_tab == 'me' && current_active_anotote.userAnnotote.follows.length > 0 && current_active_anotote.userAnnotote.isTop == 1" src="assets/img/greenFab1.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.userAnnotote.active_tab == 'me' && current_active_anotote.userAnnotote.follows.length > 0 && current_active_anotote.userAnnotote.isTop == 0" src="assets/img/greenFab2.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.userAnnotote.active_tab == 'me' && current_active_anotote.userAnnotote.follows.length == 0 && current_active_anotote.userAnnotote.isTop == 1" src="assets/img/greenFab3.svg" />
+                <img *ngIf="current_active_anotote != null &&  current_active_anotote.userAnnotote.active_tab == 'me' && current_active_anotote.userAnnotote.follows.length == 0 && current_active_anotote.userAnnotote.isTop == 0" src="assets/img/greenFab4.svg" />
+                <!-- Active tab follows -->
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'follows' && current_active_anotote.userAnnotote.isMe == 1 && current_active_anotote.userAnnotote.isTop == 1" src="assets/img/yellowFab1.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'follows' && current_active_anotote.userAnnotote.isMe == 1 && current_active_anotote.userAnnotote.isTop == 0" src="assets/img/yellowFab2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'follows' && current_active_anotote.userAnnotote.isMe == 0 && current_active_anotote.userAnnotote.isTop == 1" src="assets/img/yellowFab3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'follows' && current_active_anotote.userAnnotote.isMe == 0 && current_active_anotote.userAnnotote.isTop == 0" src="assets/img/yellowFab4.svg" />
+                <!-- Active tab top -->
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'top' && current_active_anotote.userAnnotote.isMe == 1 && current_active_anotote.userAnnotote.follows.length > 0" src="assets/img/pinkFab1.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'top' && current_active_anotote.userAnnotote.isMe == 0 && current_active_anotote.userAnnotote.follows.length > 0" src="assets/img/pinkFab2.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'top' && current_active_anotote.userAnnotote.isMe == 1 && current_active_anotote.userAnnotote.follows.length == 0" src="assets/img/pinkFab3.svg" />
+                <img *ngIf="current_active_anotote != null && current_active_anotote.userAnnotote.active_tab == 'top' && current_active_anotote.userAnnotote.isMe == 0 && current_active_anotote.userAnnotote.follows.length == 0" src="assets/img/pinkFab4.svg" />
+            </ng-container>
+        </button>
+        <button *ngIf="unread_notification_count > 0" ion-button icon-only class="notices">{{unread_notification_count}}</button>
+    </ion-fab>
 </ion-content>
