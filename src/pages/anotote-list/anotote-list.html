@@ -344,7 +344,7 @@
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
                                             </button>
                                         </div>
-                                        <textarea autosize [maxHeight]='150' [minHeight]="50" [(ngModel)]="edit_highlight_text" class="commentGrey" (ngModelChange)="tag_user()" name="edit_area"></textarea>
+                                        <textarea autosize [maxHeight]='150' [minHeight]="50" placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (ngModelChange)="tag_user()" name="edit_area"></textarea>
                                         <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0">
                                         <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>

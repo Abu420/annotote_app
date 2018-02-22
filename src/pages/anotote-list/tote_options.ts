@@ -63,6 +63,7 @@ export class AnototeOptions {
         this.anotote.follower_tags = this.anotote.followers[0].followTote.tags
       }
     }
+    console.log(this.anotote);
   }
 
   presentTagsModal() {
@@ -71,7 +72,10 @@ export class AnototeOptions {
   }
 
   share(which) {
-    var toBeShared: string = this.stream == 'top' ? this.anotote.annotote.link : this.anotote.userAnnotote.annotote.link;
+    if (this.actual_stream != 'search')
+      var toBeShared: string = this.stream == 'top' ? this.anotote.annotote.link : this.anotote.userAnnotote.annotote.link;
+    else
+      var toBeShared: string = this.anotote.annotote.link;
     this.share_with_sheet(which, toBeShared);
   }
 
@@ -116,6 +120,11 @@ export class AnototeOptions {
             userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
             privacy: 0
           }
+        } else if (this.actual_stream == 'search') {
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            privacy: 0
+          }
         }
         this.privacy(params, privacy);
         // })
@@ -135,6 +144,11 @@ export class AnototeOptions {
         else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
           var params = {
             userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
+            privacy: 1
+          }
+        } else if (this.actual_stream == 'search') {
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
             privacy: 1
           }
         }
@@ -251,7 +265,11 @@ export class AnototeOptions {
             userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
             delete: 1
           }
-        }
+        } else if (this.actual_stream == 'search')
+          var params = {
+            userAnnotote_ids: this.anotote.userAnnotote.id,
+            delete: 1
+          }
         var toast = this.utilityMethods.doLoadingToast("Deleting");
         this.anototeService.delete_bulk_totes(params).subscribe((result) => {
           toast.dismiss();
@@ -314,11 +332,18 @@ export class AnototeOptions {
   }
 
   bookmarkTote() {
-    var bookmark = new SearchUnPinned(1,
-      this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title,
-      this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link,
-      this.user.id,
-      this.anotote.userAnnotote.id);
+    if (this.actual_stream != 'search')
+      var bookmark = new SearchUnPinned(1,
+        this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title,
+        this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link,
+        this.user.id,
+        this.anotote.userAnnotote.id);
+    else
+      var bookmark = new SearchUnPinned(1,
+        this.anotote.annotote.title,
+        this.anotote.annotote.link,
+        this.user.id,
+        this.anotote.userAnnotote.id);
     if (this.searchService.AlreadySavedSearches(bookmark.term)) {
       this.searchService.saved_searches.unshift(bookmark);
       this.utilityMethods.doToast("Bookmarked");
@@ -329,26 +354,34 @@ export class AnototeOptions {
 
   saveTote() {
     if (this.anotote.userAnnotote.filePath != '') {
-      var params: any = {
-        annotote_id: this.stream == 'follows' ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
-        user_id: this.stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
-        created_at: this.utilityMethods.get_php_wala_time()
-      }
+      if (this.actual_stream != 'search')
+        var params: any = {
+          annotote_id: this.stream == 'follows' ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
+          user_id: this.stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
+          created_at: this.utilityMethods.get_php_wala_time()
+        }
+      else
+        var params: any = {
+          annotote_id: this.anotote.annotote.id,
+          user_id: this.anotote.user.id,
+          created_at: this.utilityMethods.get_php_wala_time()
+        }
       var toast = this.utilityMethods.doLoadingToast("Saving");
       this.anototeService.save_totes(params).subscribe((result) => {
         toast.dismiss();
         if (result.status == 1) {
           if (result.data.save_count == 1) {
             this.anotote.isMe = 1;
-            if (this.stream == 'top') {
-              this.anotote.anototeDetail.isMe = 1;
-              this.anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-              this.runtime.follow_first_load = false;
-            } else {
-              this.anotote.userAnnotote.anototeDetail.isMe = 1;
-              this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-              this.runtime.top_first_load = false;
-            }
+            if (this.actual_stream != 'search')
+              if (this.stream == 'top') {
+                this.anotote.anototeDetail.isMe = 1;
+                this.anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                this.runtime.follow_first_load = false;
+              } else {
+                this.anotote.userAnnotote.anototeDetail.isMe = 1;
+                this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                this.runtime.top_first_load = false;
+              }
             this.runtime.me_first_load = false;
             // this.utilityMethods.doToast("Saved to Me stream");
           } else {

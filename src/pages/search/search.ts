@@ -404,6 +404,23 @@ export class Search {
                     for (let tote of response.data.annotote) {
                         if (tote.annotote) {
                             tote.is_tote = true;
+                            tote.active = false;
+                            tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
+                            tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
+                            tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
+                            tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
+                            var active_tab = 'anon';
+                            if (tote.userAnnotote.isMe == 1) {
+                                active_tab = 'me'
+                            } else if (tote.userAnnotote.isMe == 0 && tote.userAnnotote.isTop == 0) {
+                                active_tab = 'follows';
+                            } else if (tote.userAnnotote.isTop == 1) {
+                                active_tab = 'top';
+                            }
+                            tote.userAnnotote.active_tab = active_tab;
+                            if (tote.userAnnotote.follows.length > 0) {
+                                tote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+                            }
                             this.search_results.push(tote);
                         }
                     }

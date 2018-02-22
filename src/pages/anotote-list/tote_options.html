@@ -196,6 +196,27 @@
                     </li>
                 </ng-container>
             </ul>
+            <ul *ngIf="actual_stream == 'search'">
+                <li *ngIf="anotote.userAnnotote.tags.length == 0 && stream == 'me'" (tap)="presentTagsModal()">
+                    <span>Add Tags</span>
+                </li>
+                <li *ngIf="anotote.userAnnotote.tags.length == 0 && stream != 'me'">
+                    <span>No tags</span>
+                </li>
+                <ng-container *ngFor="let tag of anotote.userAnnotote.tags; let i=index">
+                    <li *ngIf="i < 3" (tap)="presentTagsModal()">
+                        <span class="tags" [ngClass]="{'greaterThree': anotote.userAnnotote.tags.length > 3}">
+                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+                            <ng-container *ngIf="tag.tagId == 2">@{{tag.tagText}}</ng-container>
+                            <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
+                            <ng-container *ngIf="tag.tagId == 4">${{tag.tagText}}</ng-container>
+                        </span>
+                    </li>
+                </ng-container>
+                <li class="tabOption" *ngIf="anotote.userAnnotote.tags.length > 3" (tap)="presentTagsModal()">
+                    <img src="assets/img/dotsOption.svg" />
+                </li>
+            </ul>
             <ul *ngIf="actual_stream == 'top'">
                 <ng-container *ngIf="stream == 'me'">
                     <li *ngIf="anotote.anototeDetail.meToteFollowTop.tags.length == 0">

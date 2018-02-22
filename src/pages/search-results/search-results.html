@@ -65,16 +65,22 @@
                 </div>
                 <!-- anatote detail  (press)="enable_list_reorder(anotote)"-->
                 <div class="toteActive" [ngClass]="{'toteTransition': anotote.active}" *ngIf="anotote.is_tote == true">
-                    <header class="listHeader">
+                    <div class="loading" [hidden]="anotote.userAnnotote.spinner_for_active == false">
+                        <ion-spinner></ion-spinner>
+                    </div>
+                    <header class="listHeader" [hidden]="anotote.userAnnotote.spinner_for_active == true">
                         <div class="underlist-text">
                             <div class="btns-area">
-                                <button ion-button *ngIf="anotote.userAnnotote.isMe == 1" class="me-tab active_me" [ngClass]="{'active_me': anotote.userAnnotote.isMe == 1}">Me</button>
-                                <button class="me-tab active_follows" ion-button *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}</button>
-                                <button ion-button class="me-tab active_top" *ngIf="anotote.userAnnotote.isTop == 1">Top</button>
+                                <button ion-button *ngIf="anotote.userAnnotote.isMe == 1" (click)="showMeHighlights(anotote.userAnnotote)" class="me-tab" [ngClass]="{'active_me': anotote.userAnnotote.active_tab == 'me'}">Me</button>
+                                <!-- <button class="me-tab active_follows" ion-button *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}</button> -->
+                                <button (click)="follows_popup($event,anotote.userAnnotote)" ion-button class="me-tab" [ngClass]="{'active_follows': anotote.userAnnotote.active_tab == 'follows'}" *ngIf="anotote.userAnnotote.follows.length > 0">{{anotote.userAnnotote.selected_follower_name}}
+                                    <i *ngIf="anotote.userAnnotote.follows.length > 1">({{anotote.userAnnotote.follows.length}})</i>
+                                </button>
+                                <button ion-button class="me-tab" [ngClass]="{'active_top': anotote.userAnnotote.active_tab == 'top'}" *ngIf="anotote.userAnnotote.isTop == 1">Top</button>
                             </div>
                         </div>
                     </header>
-                    <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
+                    <div class="quotes layout message-underlist" [hidden]="anotote.userAnnotote.spinner_for_active == true">
                         <ion-list no-lines class="details-list layout" *ngIf="anotote.userAnnotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.userAnnotote.highlights">
                                 <ion-item (click)="go_to_browser(anotote,highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
@@ -86,15 +92,18 @@
                                         </div> -->
                                     </div>
 
-                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0,'quotes_top':  anotote.userAnnotote.isTop == 1}" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.userAnnotote.active_tab == 'follows','quotes_top':  anotote.userAnnotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
                                         <img src="assets/img/quoteImg.svg" alt="">
                                     </span>
-                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0,'quotes_top':  anotote.userAnnotote.isTop == 1}" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.userAnnotote.active_tab == 'follows','quotes_top':  anotote.userAnnotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">
                                         <img src="assets/img/commentImg.svg" alt="">
                                     </span>
                                 </ion-item>
                             </ng-container>
                         </ion-list>
+                        <div class="no_anotation" *ngIf="anotote.userAnnotote.highlights.length == 0">
+                            <p>No anotations created yet.</p>
+                        </div>
                     </div>
                 </div>
                 <!-- User -->

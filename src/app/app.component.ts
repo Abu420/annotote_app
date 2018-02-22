@@ -22,6 +22,7 @@ import { Deeplinks } from '@ionic-native/deeplinks';
 import { Keyboard } from '@ionic-native/keyboard';
 import { NotificationService } from '../services/notifications.service';
 
+declare var IonicDeeplink: any;
 @Component({
     templateUrl: 'app.html',
     providers: [Constants]
@@ -147,17 +148,30 @@ export class MyApp {
 
     set_deep_links_routing() {
         if (this.platform.is('cordova'))
-            this.deeplinks.route({
-                '/anotote': AnototeEditor
-            }).subscribe((match) => {
-                // match.$route - the route we matched, which is the matched entry from the arguments to route()
-                // match.$args - the args passed in the link
-                // match.$link - the full link data
-                console.log('Successfully matched route', match);
-            }, (nomatch) => {
-                // nomatch.$link - the full link data
-                console.error('Got a deeplink that didn\'t match', nomatch);
-            });
+            // this.deeplinks.route({
+            //     '/anotote': AnototeEditor
+            // }).subscribe((match) => {
+            //     // match.$route - the route we matched, which is the matched entry from the arguments to route()
+            //     // match.$args - the args passed in the link
+            //     // match.$link - the full link data
+            //     console.log('Successfully matched route', match);
+            // }, (nomatch) => {
+            //     // nomatch.$link - the full link data
+            //     console.error('Got a deeplink that didn\'t match', nomatch);
+            // });
+            IonicDeeplink.route({
+                '/anotote': {
+                    target: "AnototeEditor",
+                    parent: "AnototeEditor"
+                }
+            },
+                (result) => {
+                    console.log(result);
+                },
+                (nomatch) => {
+                    console.log(nomatch);
+                }
+            );
     }
 
     notification_handler() {
