@@ -478,7 +478,7 @@ export class Search {
                     }
                 }
                 response.data.userAnnotote.annotote = response.data.annotote;
-                this.go_to_browser(response.data);
+                this.go_to_browser(response.data, true);
             }, (error) => {
                 toast.dismiss();
                 this.search_loading = false;
@@ -491,7 +491,7 @@ export class Search {
             });
     }
 
-    go_to_browser(anotote) {
+    go_to_browser(anotote, neworold) {
         // if (anotote.userAnnotote.anototeType == 'me')
         //     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
         // else
@@ -499,12 +499,12 @@ export class Search {
 
         this.events.unsubscribe('user:followed');
         this.events.unsubscribe('user:unFollowed');
-        this.viewCtrl.dismiss({ anotote: anotote, go_to_browser: true })
+        this.viewCtrl.dismiss({ anotote: anotote, go_to_browser: true, neworold: neworold })
     }
 
     showProfile(search_result) {
         if (search_result.is_tote) {
-            this.go_to_browser(search_result);
+            this.go_to_browser(search_result, false);
         } else {
             var toast = this.utilityMethods.doLoadingToast('Please wait...');
             this.searchService.get_user_profile_info(search_result.id)

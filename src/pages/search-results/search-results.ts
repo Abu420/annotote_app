@@ -28,7 +28,7 @@ export class SearchResults {
   private search_term: string;
   private _loading: boolean = false;
   private search_results: any = [];
-  private user_id: number;
+  private user;
   private show_search_field: boolean = false;
   private hide_header_contents: boolean = false;
   private no_search: boolean = false;
@@ -36,6 +36,23 @@ export class SearchResults {
   public move_fab = false;
   public current_active_highlight;
   public follow_visited = false;
+  public filter_mode: boolean;
+  private search_filters = {
+    media: {
+      tote: false,
+      user: false
+    },
+    category: {
+      me: false,
+      follows: false,
+      top: false
+    },
+    date: {
+      year: '',
+      month: '',
+      day: ''
+    }
+  }
 
   constructor(public stream: Streams,
     public authService: AuthenticationService,
@@ -63,9 +80,16 @@ export class SearchResults {
           tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
           tote.userAnnotote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
           active_tab = 'me'
-        } else if (tote.userAnnotote.isMe == 0 && tote.userAnnotote.isTop == 0) {
+        } else if (tote.userAnnotote.follows.length > 0) {
           active_tab = 'follows';
-        } else if (tote.userAnnotote.isTop == 1) {
+        } else {
+          if (tote.userAnnotote.isTop != 1) {
+            tote.userAnnotote.isTop = 1;
+            tote.userAnnotote.userAnnotote.isTop = 1;
+            if (tote.userAnnotote.topUserToteId == 0) {
+              tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
+            }
+          }
           active_tab = 'top';
           tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
         }
@@ -80,7 +104,7 @@ export class SearchResults {
         this.search_results.push(tote);
       }
     }
-    this.user_id = this.authService.getUser().id;
+    this.user = this.authService.getUser();
     this.show_search();
     if (this.search_results.length == 0)
       this.no_search = true;
@@ -132,9 +156,27 @@ export class SearchResults {
     var params = {
       term: this.search_term,
       type: '',
-      annotote_type: false,
+      annotote_type: '',
       time: 0
     }
+    //type filter
+    if (this.search_filters.media.tote) {
+      params.type = 'annotote';
+      //stream filter
+      if (this.search_filters.category.me)
+        params.annotote_type = 'me';
+      else if (this.search_filters.category.follows)
+        params.annotote_type = 'follows';
+      else if (this.search_filters.category.top)
+        params.annotote_type = 'top';
+
+      //date filter
+      if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
+        params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+      }
+    } else if (this.search_filters.media.user)
+      params.type = 'user';
+
     this.searchService.general_search(params)
       .subscribe((response) => {
         this._loading = false;
@@ -153,9 +195,16 @@ export class SearchResults {
                 tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
                 tote.userAnnotote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
                 active_tab = 'me'
-              } else if (tote.userAnnotote.isMe == 0 && tote.userAnnotote.isTop == 0) {
+              } else if (tote.userAnnotote.follows.length > 0) {
                 active_tab = 'follows';
-              } else if (tote.userAnnotote.isTop == 1) {
+              } else {
+                if (tote.userAnnotote.isTop != 1) {
+                  tote.userAnnotote.isTop = 1;
+                  tote.userAnnotote.userAnnotote.isTop = 1;
+                  if (tote.userAnnotote.topUserToteId == 0) {
+                    tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
+                  }
+                }
                 active_tab = 'top';
                 tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
               }
@@ -429,53 +478,40 @@ export class SearchResults {
 
   show_top_tab(anotote) {
     if (anotote.top_highlights == undefined) {
-      // if (anotote.userAnnotote.id != anotote.topUserToteId) {
-      //   this.top_spinner = true;
-      //   var params = {
-      //     user_id: this.user.id,
-      //     anotote_id: anotote.topUserToteId,
-      //     time: this.utilityMethods.get_php_wala_time()
-      //   }
-      //   this.anototeService.fetchToteDetails(params).subscribe((result) => {
-      //     this.top_spinner = false;
-      //     this.move_fab = true;
-      //     anotote.active_tab = 'top'
-      //     anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
-      //     anotote.top_tags = result.data.annotote.userAnnotote.tags;
-      //     anotote.topVote = {
-      //       currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
-      //       rating: result.data.annotote.userAnnotote.rating,
-      //       isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
-      //     }
-      //     if (result.status == 1) {
-      //       anotote.highlights = Object.assign(result.data.annotote.highlights);
-      //       anotote.top_highlights = result.data.annotote.highlights;
-      //     } else {
-      //       this.toastInFooter("Could not fetch top data");
-      //     }
-      //   }, (error) => {
-      //     this.utilityMethods.hide_loader();
-      //     if (error.code == -1) {
-      //       this.utilityMethods.internet_connection_error();
-      //     }
-      //   })
-      // } else {
-      //   this.move_fab = true;
-      //   anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
-      //   anotote.active_tab = 'top';
-      //   anotote.topFilePath = anotote.userAnnotote.filePath;
-      //   anotote.top_tags = anotote.userAnnotote.anototeDetail.userAnnotote.tags
-      //   anotote.topVote = {
-      //     currentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.currentUserVote,
-      //     rating: anotote.userAnnotote.anototeDetail.userAnnotote.rating,
-      //     isCurrentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.isCurrentUserVote
-      //   }
-      // }
+      var params = {
+        user_id: this.user.id,
+        anotote_id: anotote.topUserToteId,
+        time: this.utilityMethods.get_php_wala_time()
+      }
+      this.anototeService.fetchToteDetails(params).subscribe((result) => {
+        // this.move_fab = true;
+        anotote.active_tab = 'top'
+        anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+        anotote.top_tags = result.data.annotote.userAnnotote.tags;
+        // anotote.topVote = {
+        //   currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
+        //   rating: result.data.annotote.userAnnotote.rating,
+        //   isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
+        // }
+        if (result.status == 1) {
+          anotote.highlights = Object.assign(result.data.annotote.highlights);
+          anotote.top_highlights = result.data.annotote.highlights;
+        }
+      }, (error) => {
+        this.utilityMethods.hide_loader();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
     } else {
-      this.move_fab = true;
+      // this.move_fab = true;
       anotote.active_tab = 'top'
       anotote.highlights = Object.assign(anotote.top_highlights);
     }
+  }
+
+  show_filters() {
+    this.filter_mode = !this.filter_mode;
   }
 }
 

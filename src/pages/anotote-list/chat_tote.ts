@@ -13,6 +13,7 @@ import { SearchService } from '../../services/search.service';
 import { ChatService } from '../../services/chat.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Streams } from '../../services/stream.service';
+import { SearchUnPinned } from "../../models/search";
 
 @Component({
     selector: 'chat_tote_page',
@@ -28,12 +29,17 @@ export class ChatToteOptions {
     public search_results: any = [];
     public stream: string = '';
     public from;
+    public webUrlEntered: boolean = false;
+    public doChat: boolean = false;
+    public doSave: boolean = false;
+    public doBookmark: boolean = false;
 
     constructor(public runtime: Streams,
         public params: NavParams,
         public navCtrl: NavController,
         public utilityMethods: UtilityMethods,
         public viewCtrl: ViewController,
+        public authService: AuthenticationService,
         public searchService: SearchService,
         public modalCtrl: ModalController) {
         this.anotote = params.get('anotote');
@@ -57,28 +63,94 @@ export class ChatToteOptions {
         this.initiateChat = true;
     }
 
+    clearTote() {
+        this.initiateChat = true;
+        this.anotote = null;
+    }
+
+    doSomething(what) {
+        this.initiateChat = true;
+        if (what == 'chat')
+            this.doChat = true;
+        else if (what == 'bookmark')
+            this.doBookmark = true;
+        else if (what == 'save')
+            this.doSave = true;
+    }
+
     value_updating_search() {
-        this.search_loading = true;
-        var params = {
-            term: this.usersForChat,
-            type: 'user',
-            annotote_type: '',
-            time: 0
+        if (this.utilityMethods.isWEBURL(this.usersForChat)) {
+            this.search_results = [];
+            this.webUrlEntered = true;
+        } else {
+            this.search_results = [];
+            this.search_loading = true;
+            this.webUrlEntered = false;
+            var params = {
+                term: this.usersForChat,
+                type: 'user',
+                annotote_type: '',
+                time: 0
+            }
+            this.searchService.general_search(params)
+                .subscribe((response) => {
+                    this.search_results = [];
+                    for (let user of response.data.user) {
+                        user.follow_loading = false;
+                        this.search_results.push(user);
+                    }
+                    this.search_loading = false;
+                }, (error) => {
+                    this.search_loading = false;
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                });
         }
-        this.searchService.general_search(params)
-            .subscribe((response) => {
-                this.search_results = [];
-                for (let user of response.data.user) {
-                    user.follow_loading = false;
-                    this.search_results.push(user);
-                }
-                this.search_loading = false;
-            }, (error) => {
-                this.search_loading = false;
-                if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                }
-            });
+    }
+
+    scrape_this_url(save_or_bookmark) {
+        if (this.usersForChat != '' && this.usersForChat != null) {
+            var current_time = this.utilityMethods.get_php_wala_time();
+            var params = { url: this.usersForChat, created_at: current_time }
+            var toast = null;
+            if (save_or_bookmark == 'save')
+                toast = this.utilityMethods.doLoadingToast('Saving...');
+            else
+                toast = this.utilityMethods.doLoadingToast('Bookmarking...');
+
+            this.searchService.create_anotote(params)
+                .subscribe((response) => {
+                    toast.dismiss()
+                    var bookmark = new SearchUnPinned(save_or_bookmark == 'save' ? 0 : 1,
+                        response.data.annotote.title, this.usersForChat,
+                        this.authService.getUser().id, 0);
+                    if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                        this.searchService.saved_searches.unshift(bookmark);
+                    }
+                    response.data.userAnnotote.annotote = response.data.annotote;
+                    this.dissmiss();
+                    // this.go_to_browser(response.data, true);
+                }, (error) => {
+                    toast.dismiss();
+                    this.search_loading = false;
+                    if (error.status == 500) {
+                        this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                    }
+                    else if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                });
+        } else {
+            this.doSomething(save_or_bookmark);
+        }
+    }
+
+    for_scrapping(cond) {
+        if (this.utilityMethods.isWEBURL(this.usersForChat))
+            this.scrape_this_url(cond);
+        else
+            this.utilityMethods.doToast("Please enter a url");
     }
 
     saveThis() {

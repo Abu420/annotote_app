@@ -1,15 +1,42 @@
 <ion-header class="userHead">
     <ion-toolbar [color]="stream">
         <div class="resultUserHead" *ngIf="initiateChat == true">
-            <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}">
-                <img src="assets/img/chatWhiteIcon.svg" alt="" />
-            </span>
-            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a name to chat with" />
-            <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
+            <ng-container *ngIf="doChat == true || doSave == true || doBookmark == true">
+                <div class="inputField">
+                    <img src="assets/img/closeIconGray.svg" alt="" (click)="dissmiss()" />
+                    <input search-field id="search_field_id" *ngIf="doChat == true" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a name to chat with" />
+                    <form (ngSubmit)="scrape_this_url('save')" *ngIf="doSave == true">
+                        <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" type="text" placeholder="Enter a link to save" />
+                    </form>
+                    <form (ngSubmit)="scrape_this_url('bookmark')" *ngIf="doBookmark == true">
+                        <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" type="text" placeholder="Enter a link to bookmark" />
+                    </form>
+                </div>
+                <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}" *ngIf="doChat == true">
+                    <img src="assets/img/chatWhiteIcon.svg" alt="" />
+                </span>
+                <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}" *ngIf="doSave == true">
+                    <img src="assets/img/cloudIconWhite.svg" alt="" />
+                </span>
+                <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}" *ngIf="doBookmark == true">
+                    <img src="assets/img/bookmarkIconWhite.svg" alt="" />
+                </span>
+            </ng-container>
+            <ng-container *ngIf="anotote == null && (doChat == false && doSave == false && doBookmark == false)">
+                <div class="inputField">
+                    <img src="assets/img/closeIconGray.svg" alt="" (click)="dissmiss()" />
+                    <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a link or a name" />
+                </div>
+                <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top','anon':stream == 'anon'}">
+                    <img src="assets/img/plusIcon.svg" alt="" />
+                </span>
+            </ng-container>
         </div>
         <div class="searchUserHead" *ngIf="initiateChat == false">
-            <img src="assets/img/closeIcon.svg" alt="" (click)="dissmiss()" />
-            <input *ngIf="anotote != null" disabled search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" type="text" placeholder="Enter a name to chat with" />
+            <div class="inputField">
+                <img src="assets/img/closeIconGray.svg" alt="" (click)="clearTote()" />
+                <input *ngIf="anotote != null" disabled search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" type="text" placeholder="Enter a link or a name">
+            </div>
             <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top','anon':stream == 'anon'}" *ngIf="anotote != null">
                 <img src="assets/img/plusIcon.svg" alt="" />
             </span>
@@ -39,6 +66,20 @@
                     <!-- <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span> -->
                 </figcaption>
             </li>
+            <ng-container *ngIf="search_results.length == 0 && search_loading == false && doChat == false && doSave == false && doBookmark == false">
+                <li (click)="scrape_this_url('save')">
+                    <img src="assets/img/cloudIconGray.svg" alt="" />
+                    <span>New Save</span>
+                </li>
+                <li (click)="scrape_this_url('bookmark')">
+                    <img src="assets/img/bookmarkIconGray.svg" alt="" />
+                    <span>New Bookmark</span>
+                </li>
+                <li (click)="doSomething('chat')" *ngIf="webUrlEntered == false">
+                    <img src="assets/img/chatIcon.svg" alt="" />
+                    <span>New Chat</span>
+                </li>
+            </ng-container>
         </ul>
     </div>
     <div class="userWidget" *ngIf="initiateChat == false">
@@ -55,9 +96,9 @@
                 <img src="assets/img/bookmarkIconGray.svg" alt="" />
                 <span>Bookmark this </span>
             </li>
-            <li (click)="findChatter()">
+            <li (click)="doSomething('chat')">
                 <img src="assets/img/chatIcon.svg" alt="" />
-                <span>Chat</span>
+                <span>Chat about this</span>
             </li>
             <!-- <li>
                 <img src="assets/img/uploadIcon.svg" alt="" />
@@ -65,5 +106,5 @@
             </li> -->
         </ul>
     </div>
-    <div class="top_empty_box" (click)="dissmiss()"></div>
+    <div class="top_empty_box" *ngIf="search_results.length == 0" (click)="dissmiss()"></div>
 </ion-content>
