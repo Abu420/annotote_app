@@ -45,7 +45,7 @@ export class Autosize implements AfterViewInit {
   }
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key == 'Backspace' && this.el.style.height > '36px') {
+    if (event.key == 'Backspace' && parseInt(this.el.style.height) > 60) {
       this.el.style.height = this.element.nativeElement.scrollHeight - 16 + 'px';
     }
 

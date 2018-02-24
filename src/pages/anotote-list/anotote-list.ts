@@ -111,6 +111,7 @@ export class AnototeList {
   public mentioned: any = []
   public fbLoading: boolean;
   public forFollowedCaseName: boolean = false;
+  public textMessage: string = '';
   public mentionedNotification;
   public tutorialMeCase = [
     {
@@ -951,10 +952,6 @@ export class AnototeList {
     }
   }
 
-  show_reply_box() {
-    this.reply_box_on = true;
-  }
-
   open_annotote_site() {
     this.utilityMethods.launch('https://annotote.wordpress.com');
   }
@@ -1259,7 +1256,8 @@ export class AnototeList {
           }
           this.current_active_anotote = anotote;
           this.current_active_anotote.active = !this.current_active_anotote.active;
-
+          this.reply_box_on = false;
+          this.textMessage = '';
           // if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
           //   this.current_active_anotote.activeParty = 1;
           //   //this.setSimpleToteDetails(anotote);
@@ -1830,6 +1828,11 @@ export class AnototeList {
     if (anotote.chatGroup.messagesUser[0].anototeId != 0)
       against = true;
     this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: this.current_color, firstUser: firstUser, containsMe: contains });
+  }
+
+  reply_here(anotote) {
+    this.textMessage = '';
+    this.reply_box_on = true;
   }
 
   presentAnototeOptionsModal(event, anotote) {

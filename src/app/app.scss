@@ -1211,3 +1211,66 @@ search_page {
         }
     }
 }
+
+.send-btn {
+    position: relative;
+    img {
+        display: inline-block;
+        vertical-align: middle;
+        width: 14px;
+    }
+    .fortextarea {
+        margin: 20px 5px 5px;
+        display: inline-block;
+        width: 90%;
+        max-height: 250px;
+        overflow: scroll;
+        vertical-align: middle;
+    }
+    textarea {
+        display: inline-block;
+        vertical-align: middle; // padding: 20px 5px 5px;
+        resize: none;
+        width: 70vw;
+        background: #222;
+        border: 0px;
+        color: #FFF;
+        font-size: 16px;
+        max-height: 300px;
+    }
+    input[type="submit"] {
+        background: #CCC;
+        color: #FFF;
+        width: 65px;
+        height: 65px;
+        overflow: hidden;
+        border-radius: 50%;
+        text-align: center;
+        padding: 15px 0px;
+        text-transform: uppercase;
+        position: absolute;
+        top: -15px;
+        border: 0;
+        font-weight: bolder;
+        right: -10px; // box-shadow: 0 -6px 10px 0px #a7a7a7;
+        box-shadow: 0 -7px 7px 0px #a7a7a7;
+    }
+    .loading {
+        background: $me_app_color;
+        color: #FFF;
+        width: 65px;
+        height: 65px;
+        overflow: hidden;
+        border-radius: 50%;
+        text-align: center;
+        padding: 17px 0px;
+        text-transform: uppercase;
+        position: absolute;
+        top: -15px;
+        border: 0;
+        right: -10px; // box-shadow: 0 -6px 10px 0px #a7a7a7;
+    }
+    .green {
+        background: $me_app_color !important; // box-shadow: 0 -6px 10px 0px #a7a7a7;
+    }
+}

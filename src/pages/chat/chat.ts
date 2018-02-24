@@ -129,7 +129,7 @@ export class Chat {
       this.send_message_loader = true;
       this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
         this.send_message_loader = false;
-        this.myInput.nativeElement.style.height = 60 + 'px';
+        // this.myInput.nativeElement.style.height = 60 + 'px';
         if (this.conversation.length == 0 || this.tote == null) {
           this.stream.me_first_load = false
         } else {
@@ -351,33 +351,38 @@ export class Chat {
   }
 
   showOptions() {
-    var params = {
-      message: this.conversation[0],
-      contains: this.contains,
-      chatToteOpts: true,
-      tote: this.tote != null ? this.tote.chatGroup.groupUsers : null,
-      toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : null,
-      tags: this.tote != null ? this.tote.chatGroup.chatTags : []
-    }
-    let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
-    anototeOptionsModal.onDidDismiss(data => {
-      if (data) {
-        if (data.choice == 'delete') {
-          this.deleteChat();
-        } else if (data.choice == 'tags') {
-          var paramsObj = {
-            chatId: this.tote.chatGroup.id,
-            tags: this.tote.chatGroup.chatTags,
-            whichStream: 'chat',
-            chatOrTxt: true,
-            participants: this.tote.chatGroup.groupUsers
-          }
-          let tagsModal = this.modalCtrl.create(TagsPopUp, paramsObj);
-          tagsModal.present();
-        }
+    console.log(this.tote);
+    if (this.conversation.length > 0) {
+      var params = {
+        message: this.conversation[0],
+        contains: this.contains,
+        chatToteOpts: true,
+        tote: this.tote != null ? this.tote.chatGroup.groupUsers : null,
+        toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : null,
+        tags: this.tote != null ? this.tote.chatGroup.chatTags : []
       }
-    })
-    anototeOptionsModal.present();
+      let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
+      anototeOptionsModal.onDidDismiss(data => {
+        if (data) {
+          if (data.choice == 'delete') {
+            this.deleteChat();
+          } else if (data.choice == 'tags') {
+            var paramsObj = {
+              chatId: this.tote.chatGroup.id,
+              tags: this.tote.chatGroup.chatTags,
+              whichStream: 'chat',
+              chatOrTxt: true,
+              participants: this.tote.chatGroup.groupUsers
+            }
+            let tagsModal = this.modalCtrl.create(TagsPopUp, paramsObj);
+            tagsModal.present();
+          }
+        }
+      })
+      anototeOptionsModal.present();
+    } else {
+      this.utilityMethods.doToast("Please initiate this chat by sending a message and then you can see more options.");
+    }
   }
 
   showTitleField() {
@@ -466,9 +471,9 @@ export class Chat {
     }
   }
 
-  @ViewChild('myInput') myInput: ElementRef;
+  // @ViewChild('myInput') myInput: ElementRef;
 
-  resize() {
-    this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
-  }
+  // resize() {
+  //   this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+  // }
 }

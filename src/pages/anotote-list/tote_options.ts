@@ -80,7 +80,10 @@ export class AnototeOptions {
   }
 
   share_chat(which) {
-    var toBeShared: string = this.constants.API_BASEURL + '/chat-history?second_person=' + this.anotote.chatGroup.groupUsers[0].user.id + '&first_person=' + this.anotote.chatGroup.groupUsers[1].user.id + '&anotote_id=' + this.anotote.chatGroup.messagesUser[0].anototeId + '&page=1'
+    if (this.anotote.chatGroup.messagesUser[0].anototeId > 0)
+      var toBeShared: string = this.constants.API_BASEURL + '/chat-history?second_person=' + this.anotote.chatGroup.groupUsers[0].user.id + '&first_person=' + this.anotote.chatGroup.groupUsers[1].user.id + '&anotote_id=' + this.anotote.chatGroup.messagesUser[0].anototeId + '&page=1'
+    else
+      var toBeShared: string = this.constants.API_BASEURL + '/chat-history?second_person=' + this.anotote.chatGroup.groupUsers[0].user.id + '&first_person=' + this.anotote.chatGroup.groupUsers[1].user.id + '&page=1'
     this.share_with_sheet(which, toBeShared);
   }
 

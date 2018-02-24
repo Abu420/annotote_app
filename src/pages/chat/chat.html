@@ -19,7 +19,7 @@
 <ion-content swipe-vertical padding #scrollMe>
     <div id="wrapper">
         <div class="chatHead">
-            <span class="chatOptions" *ngIf="conversation.length > 0" (click)="showOptions()"></span>
+            <span class="chatOptions" (click)="showOptions()"></span>
             <div class="txt">
                 <ng-container *ngIf="tote != null && tote.chatGroup != null">
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
@@ -57,6 +57,24 @@
                     </p>
                 </div>
             </div>
+            <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0">
+                <ion-item class="underlist-items">
+                    <div class="txt">
+                        <p>Type a message below and hit SEND</p>
+                    </div>
+                    <span>
+                        <img src="assets/img/checkblack.png" alt="">
+                    </span>
+                </ion-item>
+                <ion-item class="underlist-items">
+                    <div class="txt">
+                        <p>Change the privacy settings or add participants in the options menu after initiating chat.</p>
+                    </div>
+                    <span>
+                        <img src="assets/img/checkblack.png" alt="">
+                    </span>
+                </ion-item>
+            </ion-list>
         </div>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
             <ion-infinite-scroll-content loadingSpinner="bubbles" *ngIf="infinite_completed == false">
@@ -113,9 +131,11 @@
         <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
-            <textarea #myInput *ngIf="conversation.length > 0" [(ngModel)]="textMessage" (keyup)="resize()" name="search" placeholder="Reply to chat"></textarea>
-            <textarea #myInput *ngIf="conversation.length == 0" [(ngModel)]="textMessage" (keyup)="resize()" name="search" placeholder="Type a message"></textarea>
-            <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
+            <div class="fortextarea">
+                <textarea autosize *ngIf="conversation.length > 0" [(ngModel)]="textMessage" name="search" placeholder="Reply to chat"></textarea>
+                <textarea autosize *ngIf="conversation.length == 0" [(ngModel)]="textMessage" name="search" placeholder="Type a message"></textarea>
+                <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
+            </div>
             <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
             <span class="loading" *ngIf="send_message_loader">
                 <ion-spinner></ion-spinner>

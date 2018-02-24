@@ -702,7 +702,7 @@
         <ion-infinite-scroll-content loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" right>
+    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="!reply_box_on" right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : (current_color == 'anon' ? 'anon':current_active_anotote.active_tab)">
             <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteFab.svg" />
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">
@@ -770,9 +770,21 @@
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.chatGroup != null">
     <ion-toolbar color="dark">
         <ng-container *ngIf="current_color == 'me'">
-            <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
-            <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
-            <span (tap)="go_to_chat_thread(current_active_anotote)">Reply</span>
+            <ng-container *ngIf="!reply_box_on">
+                <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
+                <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
+                <span (tap)="reply_here(current_active_anotote)">Reply</span>
+            </ng-container>
+            <div *ngIf="reply_box_on" class="send-btn">
+                <img src="assets/img/check-green.png" alt="">
+                <div class="fortextarea">
+                    <textarea autosize [(ngModel)]="textMessage" name="search" placeholder="Reply to chat"></textarea>
+                </div>
+                <input type="submit" value="Send" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
+                <span class="loading" *ngIf="send_message_loader">
+                    <ion-spinner></ion-spinner>
+                </span>
+            </div>
         </ng-container>
         <ng-container *ngIf="current_color == 'follows' || current_color == 'top'">
             <ng-container *ngIf="(current_active_anotote.chatGroup.groupUsers | chatVoteOptions) == true">
