@@ -87,7 +87,7 @@ strong:active {
 .toolbar-ios {
     padding: 0 !important;
     min-height: 56px !important;
-    box-shadow: 0px 2px 8px #9c9c9c !important;
+    box-shadow: 0px 2px 8px #424242 !important;
 }
 
 .fab-ios-dark {
@@ -717,7 +717,7 @@ search_page {
                 bottom: 0px;
                 position: absolute;
                 right: 0px;
-                width: 75%;
+                width: 73%;
                 height: 1px;
                 background: #CCC;
             }
@@ -728,6 +728,7 @@ search_page {
                 font-size: 14px;
                 width: 20%;
                 color: #b3b3b3;
+                text-align: center;
             }
             ul {
                 display: table-cell;
@@ -742,14 +743,18 @@ search_page {
                     width: 32%;
                     vertical-align: middle;
                     font-size: 16px;
+                    h4 {
+                        text-align: left;
+                        font-size: 16px;
+                    }
                 }
             }
             &.mediaMode {
                 ul {
-                    padding-left: 5px;
                     li {
-                        padding: 0 5px;
-                        width: auto;
+                        h4 {
+                            font-size: 16px;
+                        }
                     }
                 }
             }
@@ -758,6 +763,7 @@ search_page {
                     li {
                         span {
                             color: #CCC;
+                            font-size: 16px;
                         }
                         &.active {
                             span {
@@ -775,6 +781,7 @@ search_page {
                         input {
                             border: 0px;
                             width: 100%;
+                            font-size: 16px;
                         }
                     }
                 }
@@ -979,8 +986,8 @@ search_page {
                                     display: inline-block;
                                     width: 12px;
                                     &.star-icon {
-                                        width: 18px; // vertical-align: top;
-                                        // margin-top: -1px;
+                                        width: 16px;
+                                        vertical-align: inherit; // margin-top: -1px;
                                     }
                                 }
                             }
@@ -1113,32 +1120,6 @@ search_page {
                 border-radius: 0px;
             }
         }
-        &.black {
-            background: #303030; // padding-top: 14px;
-            // height: 70px;
-            img {
-                background-color: #000000;
-            }
-            .options {
-                background-color: #252525;
-                background-image: url(../assets/img/whiteDotIcon.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: 30px;
-                &:after {
-                    border-top: 20px solid #252525;
-                }
-            }
-            .clear_button {
-                background-color: #000;
-                width: 40px;
-                background-size: 18px;
-            }
-            .search_field {
-                width: calc(100% - 132px);
-                border-radius: 0px;
-            }
-        }
         img {
             margin: 0;
             float: left;
@@ -1146,8 +1127,8 @@ search_page {
             background: #000;
             height: 56px;
             width: 56px;
-            -webkit-box-shadow: 0px 0px 8px #424242;
-            box-shadow: 0px 0px 8px #424242;
+            -webkit-box-shadow: 0px 2px 8px #424242;
+            box-shadow: 0px 2px 8px #424242;
             position: relative;
         }
         .options {
@@ -1253,7 +1234,7 @@ search_page {
         border: 0;
         font-weight: bolder;
         right: -10px; // box-shadow: 0 -6px 10px 0px #a7a7a7;
-        box-shadow: 0 -7px 7px 0px #a7a7a7;
+        box-shadow: 0 -2px 9px 0px #424242;
     }
     .loading {
         background: $me_app_color;
@@ -1263,7 +1244,7 @@ search_page {
         overflow: hidden;
         border-radius: 50%;
         text-align: center;
-        padding: 17px 0px;
+        padding: 17px 0px !important;
         text-transform: uppercase;
         position: absolute;
         top: -15px;

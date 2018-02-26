@@ -178,53 +178,73 @@ search-results {
     }
     .search_header {
         height: $bar_button_custom_height;
-        &.black {
-            background: #303030; // padding-top: 14px;
-            // height: 70px;
+        &.green {
+            background: #3bde00; //padding-top: 14px;
+            // height: 56px;
             img {
-                background-color: #000000;
+                background-color: #2ba600;
             }
             .options {
-                background-color: #252525;
+                background-color: #3bde00;
                 background-image: url(../assets/img/whiteDotIcon.svg);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
                 &:after {
-                    border-top: 20px solid #252525;
-                }
-                &.activeOption {
-                    position: relative;
-                    background-color: #000;
-                    &:after {
-                        content: "";
-                        position: absolute;
-                        left: 0px;
-                        bottom: -20px;
-                        z-index: 999;
-                        width: 0;
-                        height: 0;
-                        border-left: 15px solid transparent;
-                        border-right: 15px solid transparent;
-                        border-top: 20px solid #000;
-                    }
-                    &:before {
-                        content: "";
-                        position: absolute;
-                        left: 0px;
-                        bottom: -23px;
-                        z-index: 999;
-                        width: 0;
-                        height: 0;
-                        border-left: 15px solid transparent;
-                        border-right: 15px solid transparent;
-                        border-top: 20px solid #c1c1c1bf;
-                        filter: blur(3px);
-                    }
+                    border-top: 20px solid #3bde00;
                 }
             }
             .clear_button {
-                background-color: #000;
+                width: 40px;
+                background-size: 18px;
+            }
+            .search_field {
+                width: calc(100% - 132px);
+                border-radius: 0px;
+            }
+        }
+        &.yellow {
+            background: #f4e300; //padding-top: 14px;
+            // height: 70px;
+            img {
+                background-color: #bdb222;
+            }
+            .options {
+                background-color: #f4e300;
+                background-image: url(../assets/img/whiteDotIcon.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+                &:after {
+                    border-top: 20px solid #f4e300;
+                }
+            }
+            .clear_button {
+                width: 40px;
+                background-size: 18px;
+            }
+            .search_field {
+                width: calc(100% - 132px);
+                border-radius: 0px;
+            }
+        }
+        &.pink {
+            background: #fb9df0; // padding-top: 14px;
+            // height: 70px;
+            img {
+                background-color: #ca6ebf;
+            }
+            .options {
+                background-color: #fb9df0;
+                background-image: url(../assets/img/whiteDotIcon.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+                &:after {
+                    border-top: 20px solid #fb9df0;
+                }
+            }
+            .clear_button {
                 width: 40px;
                 background-size: 18px;
             }
@@ -240,8 +260,8 @@ search-results {
             background: #000;
             height: 56px;
             width: 56px;
-            -webkit-box-shadow: 0px 0px 8px #9c9c9c;
-            box-shadow: 0px 0px 8px #9c9c9c;
+            -webkit-box-shadow: 0px 0px 8px #424242;
+            box-shadow: 0px 0px 8px #424242;
             position: relative;
         }
         .options {
@@ -281,13 +301,16 @@ search-results {
             background-repeat: no-repeat;
             background-size: 15px;
         }
+        form {
+            height: 100%;
+            display: inline;
+        }
         .search_field {
             width: calc(100% - 128px);
             display: inline-block;
-            float: left;
             border: 0px;
             padding: 10px;
-            height: 55px;
+            height: 100%;
             margin-left: 0px;
             border-radius: 0px;
             font-size: 16px;
@@ -423,7 +446,7 @@ search-results {
                 // padding: 0px;
                 // list-style: none;
                 li {
-                    border-bottom: 1px solid #ccc;
+                    border-bottom: 1px solid #e8e8e8;
                     figure {
                         display: inline-block;
                         vertical-align: middle;
@@ -571,7 +594,7 @@ search-results {
                                         transition: max-height 0.25s ease-in;
                                     }
                                     .message-underlist {
-                                        border-bottom: 1px solid #CCC;
+                                        border-bottom: 1px solid #e8e8e8;
                                     }
                                 }
                                 &.bulkActive {
@@ -588,7 +611,7 @@ search-results {
                                 display: block;
                                 overflow: hidden;
                                 width: 100%;
-                                border-bottom: 1px solid #CCC;
+                                border-bottom: 1px solid #e8e8e8;
                                 position: relative;
                                 .img-holder {
                                     height: 72px;
@@ -886,13 +909,13 @@ search-results {
                                             ion-label {
                                                 padding: 10px 0px 10px 20px;
                                                 &:focus {
-                                                    background: #CCC;
+                                                    background: #f4f4f4;
                                                 }
                                                 &:active {
-                                                    background: #CCC;
+                                                    background: #f4f4f4;
                                                 }
                                                 &:visited {
-                                                    background: #CCC;
+                                                    background: #f4f4f4;
                                                 }
                                                 .txt {
                                                     border-bottom: 0px;

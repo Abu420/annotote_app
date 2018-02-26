@@ -14,6 +14,7 @@ import { SearchUnPinned } from '../../models/search';
 import { AuthenticationService } from '../../services/auth.service';
 import { AnototeService } from "../../services/anotote.service";
 import { Keyboard } from "@ionic-native/keyboard";
+import { StatusBar } from "@ionic-native/status-bar";
 
 @Component({
     selector: 'search_page',
@@ -53,6 +54,7 @@ export class Search {
         public params: NavParams,
         public navCtrl: NavController,
         public events: Events,
+        public statusBar: StatusBar,
         public utilityMethods: UtilityMethods,
         public viewCtrl: ViewController,
         public searchService: SearchService,
@@ -364,6 +366,7 @@ export class Search {
         if (this.search_txt.length == 0) {
             this.current_url = '';
             this.search_results = [];
+            this.statusBar.backgroundColorByHexString('#323232');
             return;
         }
         if (this.filter_mode)

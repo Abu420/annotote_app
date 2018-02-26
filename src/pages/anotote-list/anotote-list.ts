@@ -113,6 +113,7 @@ export class AnototeList {
   public forFollowedCaseName: boolean = false;
   public textMessage: string = '';
   public mentionedNotification;
+  public tutorial_active_tote: any;
   public tutorialMeCase = [
     {
       title: 'Welcome to your "ME" stream',
@@ -202,7 +203,7 @@ export class AnototeList {
           text: '...then you can see what they\'re annotating in your FOLLOWS stream'
         },
         {
-          text: 'Invite your friends and colleague to join Annotote too!'
+          text: 'Invite your friends and colleagues to join Annotote too!'
         }
       ]
     },
@@ -214,7 +215,7 @@ export class AnototeList {
       tutorial: true,
       highlights: [
         {
-          text: 'You can Chat with users your follow by selecting the "+" button, then the "Chat" option.'
+          text: 'You can Chat with users you follow by selecting the "+" button, then the "Chat" option.'
         },
         {
           text: 'Chats are public by default, but you can make each one private in its options menu.'
@@ -227,7 +228,7 @@ export class AnototeList {
   ];
   public tutorialTopCase = [
     {
-      title: 'Welcome to your Top Stream',
+      title: 'Welcome to your "TOP" stream',
       subTitle: 'Annotote',
       createdAt: new Date(),
       active: false,
@@ -240,27 +241,10 @@ export class AnototeList {
           text: 'Upvote, downvote, save, and share any Tote to help inform other users.'
         }
       ]
-    },
-    {
-      title: 'Chat with other users',
-      subTitle: 'Annotote',
-      createdAt: new Date(),
-      active: false,
-      tutorial: true,
-      highlights: [
-        {
-          text: 'You can Chat with users your follow by selecting the "+" button, then the "Chat" option.'
-        },
-        {
-          text: 'Chats are public by default, but you can make each one private in its options menu.'
-        },
-        {
-          text: '...or search for anything, including users and content'
-        }
-      ]
     }
   ];
   public bracketStartIndex = 0;
+  public send_message_loader: boolean = false;
   /**
    * Constructor
    */
@@ -1258,6 +1242,11 @@ export class AnototeList {
           this.current_active_anotote.active = !this.current_active_anotote.active;
           this.reply_box_on = false;
           this.textMessage = '';
+
+          if (this.tutorial_active_tote){
+            this.tutorial_active_tote.active = false;
+            this.tutorial_active_tote = null;
+          }
           // if (this.current_active_anotote.type == 1 && this.whichStream == 'me') {
           //   this.current_active_anotote.activeParty = 1;
           //   //this.setSimpleToteDetails(anotote);
@@ -1323,6 +1312,11 @@ export class AnototeList {
             anotote.isMe = anotote.anototeDetail.isMe;
             anotote.spinner_for_active = false;
           }
+
+          if (this.tutorial_active_tote){
+            this.tutorial_active_tote.active = false;
+            this.tutorial_active_tote = null;
+          }
           //Details
           // this.spinner_for_active = true;
           // var params = {
@@ -1360,6 +1354,12 @@ export class AnototeList {
 
       if (this.current_active_anotote)
         this.current_active_anotote.active = false;
+
+      if (this.tutorial_active_tote)
+        this.tutorial_active_tote.active = false;
+
+      this.tutorial_active_tote = anotote;
+
     }
   }
 
@@ -1833,6 +1833,42 @@ export class AnototeList {
   reply_here(anotote) {
     this.textMessage = '';
     this.reply_box_on = true;
+  }
+
+  sendMessage() {
+    if (this.textMessage != '') {
+      this.send_message_loader = true;
+      var params = {
+        second_person: this.getSecondPerson(this.current_active_anotote.chatGroup.groupUsers),
+        message: this.textMessage,
+        created_at: this.utilityMethods.get_php_wala_time(),
+        subject: this.current_active_anotote.chatGroup.messagesUser[0].subject,
+        anotote_id: this.current_active_anotote.chatGroup.messagesUser[0].anototeId
+      }
+      this.chatService.saveMessage(params).subscribe((success) => {
+        this.send_message_loader = false;
+        this.reply_box_on = false;
+        if (this.current_active_anotote.chatGroup.messagesUser.length < 3)
+          this.current_active_anotote.chatGroup.messagesUser.push(success.data.messages)
+        else {
+          this.current_active_anotote.chatGroup.messagesUser.splice(0, 1);
+          this.current_active_anotote.chatGroup.messagesUser.push(success.data.messages);
+        }
+      }, (error) => {
+        this.send_message_loader = false;
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      })
+    }
+  }
+
+  getSecondPerson(users): number {
+    for (let user of users) {
+      if (user.user.id != this.user.id)
+        return user.user.id;
+    }
+    return 0;
   }
 
   presentAnototeOptionsModal(event, anotote) {

@@ -298,7 +298,7 @@ export class SearchResults {
       if (this.current_active_highlight) {
         this.current_active_highlight.edit = false;
       }
-      if (this.current_active_anotote.id == anotote.id) {
+      if (this.current_active_anotote.userAnnotote.userAnnotote.id == anotote.userAnnotote.userAnnotote.id) {
         this.current_active_anotote = null;
         return;
       }

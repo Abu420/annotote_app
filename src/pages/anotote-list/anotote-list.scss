@@ -479,7 +479,7 @@
                                     font-size: 16px;
                                     padding: 30px;
                                     padding-left: 0px;
-                                    border-bottom: 1px solid #CCC;
+                                    border-bottom: 1px solid #e8e8e8;
                                 }
                             }
                         }
@@ -792,7 +792,7 @@
                                         transition: max-height 0.25s ease-in;
                                     }
                                     .message-underlist {
-                                        border-bottom: 1px solid #CCC;
+                                        border-bottom: 1px solid #e8e8e8;
                                     }
                                 }
                                 &.bulkActive {
@@ -806,7 +806,7 @@
                                 display: block;
                                 overflow: hidden;
                                 width: 100%;
-                                border-bottom: 1px solid #CCC;
+                                border-bottom: 1px solid #e8e8e8;
                                 position: relative;
                                 .img-holder {
                                     height: 72px;
@@ -908,8 +908,7 @@
                                         width: 100%;
                                         overflow: hidden;
                                         margin-bottom: 5px;
-                                        white-space: normal;
-                                        text-transform: capitalize;
+                                        white-space: normal; // text-transform: capitalize;
                                     }
                                     .opened {
                                         -webkit-line-clamp: 2;
