@@ -63,7 +63,6 @@ export class AnototeOptions {
         this.anotote.follower_tags = this.anotote.followers[0].followTote.tags
       }
     }
-    console.log(this.anotote);
   }
 
   presentTagsModal() {

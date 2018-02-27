@@ -952,9 +952,11 @@ export class AnototeList {
       }
       if (anotote.checked) {
         this.title_temp = '';
+        this.move_fab = false;
         anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
       } else {
         this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
+        this.move_fab = true;
         anotote.checked = true;
       }
     } else if (anotote.chatGroup == null && this.current_color != 'me') {
@@ -963,9 +965,11 @@ export class AnototeList {
       if (this.current_color == 'me') {
         if (anotote.checked) {
           this.title_temp = '';
+          this.move_fab = false;
           anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
         } else {
           this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+          this.move_fab = true;
           anotote.checked = true;
         }
       } else {
@@ -1243,7 +1247,7 @@ export class AnototeList {
           this.reply_box_on = false;
           this.textMessage = '';
 
-          if (this.tutorial_active_tote){
+          if (this.tutorial_active_tote) {
             this.tutorial_active_tote.active = false;
             this.tutorial_active_tote = null;
           }
@@ -1313,7 +1317,7 @@ export class AnototeList {
             anotote.spinner_for_active = false;
           }
 
-          if (this.tutorial_active_tote){
+          if (this.tutorial_active_tote) {
             this.tutorial_active_tote.active = false;
             this.tutorial_active_tote = null;
           }
@@ -1411,6 +1415,7 @@ export class AnototeList {
     if (this.current_active_anotote.active_tab == 'me') {
       this.reorder_highlights = true;
       highlight.edit = false;
+      this.move_fab = false;
       this.enable_refresher = false;
       this.cd.detectChanges();
     }
@@ -1420,27 +1425,33 @@ export class AnototeList {
     if (this.current_active_highlight != null) {
       if (this.current_active_highlight.id != highlight.id) {
         this.current_active_highlight.edit = false;
-        if (highlight.edit)
+        if (highlight.edit) {
+          this.move_fab = false;
           highlight.edit = false;
-        else {
+        } else {
+          this.move_fab = true;
           highlight.edit = true;
           this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
           this.edit_actual_highlight = highlight.highlightText;
         }
         this.current_active_highlight = highlight;
       } else {
-        if (highlight.edit)
+        if (highlight.edit) {
+          this.move_fab = false;
           highlight.edit = false;
-        else {
+        } else {
+          this.move_fab = true;
           highlight.edit = true;
           this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
           this.edit_actual_highlight = highlight.highlightText;
         }
       }
     } else {
-      if (highlight.edit)
+      if (highlight.edit) {
+        this.move_fab = false;
         highlight.edit = false;
-      else {
+      } else {
+        this.move_fab = true;
         highlight.edit = true;
         this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
         this.edit_actual_highlight = highlight.highlightText;

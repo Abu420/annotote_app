@@ -420,6 +420,38 @@ button,
             -webkit-transform: translate(-50%, 0%);
             transform: translate(-50%, 0%);
         }
+        &.saved {
+            padding: 0 16px !important;
+        }
+        .editOptions {
+            span {
+                color: #b5b5b5;
+                float: left;
+                width: auto;
+                letter-spacing: 0;
+                text-transform: uppercase;
+                margin-right: 10px;
+            }
+            span.save {
+                color: #32ad05;
+            }
+        }
+        .share {
+            width: 45px;
+            height: 45px;
+            position: absolute;
+            right: 16px;
+            top: 0px;
+            span {
+                background: url(../assets/img/simpleShare.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px;
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+        }
     }
 }
 

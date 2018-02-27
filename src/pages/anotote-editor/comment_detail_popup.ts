@@ -1,8 +1,9 @@
-import { Component, trigger, transition, style, animate } from '@angular/core';
+import { Component, trigger, transition, style, animate, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, Events } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from "../../services/search.service";
 import { StatusBar } from "@ionic-native/status-bar";
+import { Keyboard } from "@ionic-native/keyboard";
 @Component({
   selector: 'comment_detail_popup',
   animations: [
@@ -22,6 +23,7 @@ import { StatusBar } from "@ionic-native/status-bar";
   templateUrl: 'comment_detail_popup.html',
 })
 export class CommentDetailPopup {
+  @ViewChild('actualContent') actual: ElementRef;
   private anotote_txt: string;
   private anotote_type: string;
   private anotote_identifier: string;
@@ -45,14 +47,21 @@ export class CommentDetailPopup {
   public actual_anotated: any = '';
   public bracketStartIndex = 0;
   public selected_follower_name: string = '';
+  public isKeyboardDeployed: boolean = false;
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
     public utilityMethods: UtilityMethods,
     private events: Events,
     public searchService: SearchService,
+    public key: Keyboard,
     public statusbar: StatusBar) {
-    statusbar.hide();
+    this.key.onKeyboardShow().subscribe(() => {
+      this.isKeyboardDeployed = true;
+    })
+    this.key.onKeyboardHide().subscribe(() => {
+      this.isKeyboardDeployed = false;
+    })
     this.anotote_txt = this.params.get('txt');
     this.actual_anotated = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
@@ -67,6 +76,8 @@ export class CommentDetailPopup {
     this.events.subscribe('closeModal', () => {
       this.dismiss();
     })
+    if (utilityMethods.whichPlatform() == 'ios')
+      statusbar.hide();
   }
 
   showTextarea() {
@@ -78,14 +89,16 @@ export class CommentDetailPopup {
       this.utilityMethods.confirmation_message("Discard Changes", "Do you really want to discard changes ?", (choice) => {
         this.show = false;
         setTimeout(() => {
-          this.statusbar.show();
+          if (this.utilityMethods.whichPlatform() == 'ios')
+            this.statusbar.show();
           this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
         }, 100)
       })
     } else {
       this.show = false;
       setTimeout(() => {
-        this.statusbar.show();
+        if (this.utilityMethods.whichPlatform() == 'ios')
+          this.statusbar.show();
         this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '' });
       }, 100)
     }

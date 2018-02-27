@@ -6,7 +6,7 @@ import { Input, AfterViewInit, ElementRef, HostListener, Directive } from '@angu
 
 export class Autosize implements AfterViewInit {
 
-  private el: HTMLElement;
+  private el: any;
   private _minHeight: string;
   private _maxHeight: string;
   private _lastHeight: number;
@@ -58,15 +58,17 @@ export class Autosize implements AfterViewInit {
 
   ngAfterViewInit(): void {
     // set element resize allowed manually by user
-    const style = window.getComputedStyle(this.el, null);
-    if (style.resize === 'both') {
-      this.el.style.resize = 'horizontal';
-    }
-    else if (style.resize === 'vertical') {
-      this.el.style.resize = 'none';
-    }
-    // run first adjust
-    this.adjust();
+    setTimeout(() => {
+      const style = window.getComputedStyle(this.el, null);
+      if (style.resize === 'both') {
+        this.el.style.resize = 'horizontal';
+      }
+      else if (style.resize === 'vertical') {
+        this.el.style.resize = 'none';
+      }
+      // run first adjust
+      this.adjust();
+    }, 200)
   }
 
   adjust(): void {
