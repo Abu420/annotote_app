@@ -121,10 +121,14 @@ export class Login {
       toast.dismiss();
       if (error.code == -1 || error.code == -2) {
         this.utilityMethods.internet_connection_error();
-      } else if (error.status == 404)
-        this.utilityMethods.message_alert('Error', 'Invalid email or password.');
-      else if (error.status == 400)
-        this.utilityMethods.message_alert('Error', 'Your account is not verified. Verification email has already been sent.');
+      } else {
+        this.field_error.email = true;
+        this.field_error.password = true;
+        if (error.status == 404)
+          this.utilityMethods.doToast('Wrong email or password');
+        else if (error.status == 400)
+          this.utilityMethods.doToast('Your account is not verified. Verification email has already been sent.');
+      }
     });
   }
 

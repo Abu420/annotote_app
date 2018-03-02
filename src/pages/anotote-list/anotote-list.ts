@@ -1624,7 +1624,7 @@ export class AnototeList {
               this.current_active_highlight = null;
               this.text = '';
               this.stream.top_first_load = false;
-              this.edit_actual_highlight = '';
+              // this.edit_actual_highlight = '';
               if (tags.length > 0) {
                 var params = {
                   tags: tags,

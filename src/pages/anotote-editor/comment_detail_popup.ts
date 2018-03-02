@@ -48,6 +48,8 @@ export class CommentDetailPopup {
   public bracketStartIndex = 0;
   public selected_follower_name: string = '';
   public isKeyboardDeployed: boolean = false;
+  public one: string = '';
+  public currentIndex = 0;
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
@@ -271,33 +273,75 @@ export class CommentDetailPopup {
   }
 
   ellipsis(event) {
-    if (this.anotote_txt.length > this.actual_anotated.length) {
-      let textarea: HTMLTextAreaElement = event.target;
-      if (this.bracketStartIndex == 0)
-        this.bracketStartIndex = textarea.selectionStart - 1;
-      else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
-        if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
-          var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
-          firstHalf += ' "[';
-          var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
-          sec.trim();
-          firstHalf += sec + ']"';
-          firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-          this.anotote_txt = firstHalf;
-          this.bracketStartIndex = 0;
+    console.log(event.target.selectionStart);
+    console.log(this.one);
+    if (this.one != this.anotote_txt) {
+      if (this.one.split('"..."').length == this.anotote_txt.split('"..."').length) {
+        if (event.target.selectionStart < this.currentIndex) {
+          let textarea: HTMLTextAreaElement = event.target;
+          if ((this.anotote_txt[textarea.selectionStart] == undefined || this.anotote_txt[textarea.selectionStart] == ' ' || this.anotote_txt[textarea.selectionStart] == '\n') && (this.anotote_txt[textarea.selectionStart - 1] == '\n' || this.anotote_txt[textarea.selectionStart - 1] == ' ')) {
+            var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart);
+            firstHalf += '"..."';
+            firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+            this.anotote_txt = firstHalf;
+          }
+        } else {
+          let textarea: HTMLTextAreaElement = event.target;
+          if (this.bracketStartIndex == 0)
+            this.bracketStartIndex = textarea.selectionStart - 1;
+          else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+            if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
+              var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
+              firstHalf += ' "[';
+              var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
+              sec = sec.trim();
+              firstHalf += sec + ']" ';
+              firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+              this.anotote_txt = firstHalf;
+              this.bracketStartIndex = 0;
+              this.one = JSON.parse(JSON.stringify(this.anotote_txt));
+            }
+          }
         }
-      }
-    } else if (this.anotote_txt.length < this.actual_anotated.length) {
-      let textarea: HTMLTextAreaElement = event.target;
-      if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
-        // this.anotote_txt.splice(textarea.selectionStart, 0, "...");
-        var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart - 1);
-        firstHalf += ' "..." ';
-        firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-        this.anotote_txt = firstHalf;
+      } else {
+        this.anotote_txt = JSON.parse(JSON.stringify(this.one));
+        event.target.blur();
       }
     }
+    // if (this.anotote_txt.length > this.actual_anotated.length) {
+    //   let textarea: HTMLTextAreaElement = event.target;
+    //   if (this.bracketStartIndex == 0)
+    //     this.bracketStartIndex = textarea.selectionStart - 1;
+    //   else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+    //     if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
+    //       var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
+    //       firstHalf += '"[';
+    //       var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
+    //       sec.trim();
+    //       firstHalf += sec + ']"';
+    //       firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+    //       this.anotote_txt = firstHalf;
+    //       this.bracketStartIndex = 0;
+    //     }
+    //   }
+    // } else if (this.anotote_txt.length < this.actual_anotated.length) {
+    //   let textarea: HTMLTextAreaElement = event.target;
+    //   console.log(this.anotote_txt[textarea.selectionStart - 1])
+    //   if (this.anotote_txt[textarea.selectionStart - 1] == ' ' || (this.anotote_txt[textarea.selectionStart - 1] == '\n' && this.anotote_txt[textarea.selectionStart] != "[^!@%~?:#$%^&*()0']*")) {
+    //     // this.anotote_txt.splice(textarea.selectionStart, 0, "...");
+    //     var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart - 1);
+    //     firstHalf += '"..."';
+    //     firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+    //     this.anotote_txt = firstHalf;
+    //     textarea.blur();
+    //   }
+    // }
+    // this.anotote_txt = this.anotote_txt.replace('"...""..."','"..."');
+  }
 
+  initialize(event) {
+    this.currentIndex = event.target.selectionStart;
+    this.one = JSON.parse(JSON.stringify(event.target.value));
   }
 
 }

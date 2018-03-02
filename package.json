@@ -130,10 +130,13 @@
       },
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-filepath": {},
+      "cordova-clipboard": {},
+      "cordova-plugin-vibration": {},
+      "cordova-plugin-badge": {},
       "ionic-plugin-deeplinks": {
-        "URL_SCHEME": "anotote",
+        "URL_SCHEME": "annotote",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "taperup.com",
+        "DEEPLINK_HOST": "annotote.codingpixel.co",
         "ANDROID_PATH_PREFIX": "/",
         "ANDROID_2_PATH_PREFIX": "/",
         "ANDROID_3_PATH_PREFIX": "/",
@@ -147,10 +150,7 @@
         "DEEPLINK_4_HOST": " ",
         "DEEPLINK_5_SCHEME": " ",
         "DEEPLINK_5_HOST": " "
-      },
-      "cordova-clipboard": {},
-      "cordova-plugin-vibration": {},
-      "cordova-plugin-badge": {}
+      }
     }
   }
 }

@@ -46,11 +46,11 @@
                 </li>
             </ul>
         </div>
-        <div class="pop_txt" [ngClass]="{'keyDeployed': isKeyboardDeployed}">
+        <div class="pop_txt" [ngClass]="{'keyDeployed': isKeyboardDeployed == true}">
             <!-- <p [innerText]="anotote_txt"></p> -->
-            <textarea #actualContent autosize [(ngModel)]="anotote_txt" class="firstOne" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
-            <textarea #comment autosize class="addComment" [(ngModel)]="new_comment" (ngModelChange)="tag_user()" *ngIf="stream == 'me' && quoteThreeDots == true" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
-            <textarea #commentNotMe autosize class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment"></textarea>
+            <textarea id='actualContent' autosize [(ngModel)]="anotote_txt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
+            <textarea id='comment' autosize class="addComment" [(ngModel)]="new_comment" (ngModelChange)="tag_user()" *ngIf="stream == 'me' && quoteThreeDots == true" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
+            <textarea id='commentNotMe' autosize class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment"></textarea>
             <div class="threeDosts" *ngIf="stream == 'me' && quoteThreeDots == false">
                 <!-- <ion-textarea [(ngModel)]="new_comment" name="comment" placeholder="Place your comment here"></ion-textarea> -->
                 <img (click)="showTextarea()" src="assets/img/option-msg.png" alt="">

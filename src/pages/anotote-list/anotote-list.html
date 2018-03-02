@@ -335,7 +335,7 @@
                                         </ng-container>
                                     </ng-container>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
-                                        <textarea autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
+                                        <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
                                         <div class="moveBtn">
                                             <button class="topIcon">
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt="">
@@ -344,7 +344,7 @@
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
                                             </button>
                                         </div>
-                                        <textarea autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (ngModelChange)="tag_user()" name="edit_area"></textarea>
+                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (ngModelChange)="tag_user()" name="edit_area"></textarea>
                                         <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0">
                                         <!-- <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
@@ -900,19 +900,19 @@
         <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/dodtsLine.svg" alt="">
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="current_active_highlight && current_active_highlight.edit == true">
+<ion-footer class="message-bottom" *ngIf="!loading_check && current_active_highlight && current_active_highlight.edit == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
             <span (click)="stop_editing($event,current_active_highlight)">Close</span>
             <span (click)="delete_annotation(current_active_highlight)">Delete</span>
-            <span [ngClass]="{'save': (edit_highlight_text != current_active_highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != current_active_highlight.highlightText && edit_actual_highlight!= '')}" (click)="save_edited_annotation(current_active_highlight)">Save</span>
+            <span *ngIf="(edit_highlight_text != current_active_highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != current_active_highlight.highlightText && edit_actual_highlight!= '')" [ngClass]="{'save': (edit_highlight_text != current_active_highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != current_active_highlight.highlightText && edit_actual_highlight!= '')}" (click)="save_edited_annotation(current_active_highlight)">Save</span>
         </div>
         <!-- <div class="share" (click)="share()">
             <span></span>
         </div> -->
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.checked == true">
+<ion-footer class="message-bottom" *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
             <span *ngIf="current_active_anotote.chatGroup == null" [ngClass]="{'save': title_temp != current_active_anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(current_active_anotote)">Save</span>
