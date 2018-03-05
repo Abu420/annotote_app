@@ -21,11 +21,17 @@ import { StatusBar } from "@ionic-native/status-bar";
 })
 export class Verification {
     public show: boolean = true;
+    public signup_or_forgot: boolean = true;
+    public verified: boolean = false;
     constructor(public statusbar: StatusBar,
         public viewCtrl: ViewController,
         private params: NavParams,
         private utilityMethods: UtilityMethods) {
         statusbar.hide();
+        if (params.get('forgot')) {
+            this.signup_or_forgot = false;
+            this.verified = params.get('verified');
+        }
 
     }
 

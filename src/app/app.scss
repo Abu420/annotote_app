@@ -58,12 +58,11 @@ ion-fab {
     right: 15px !important;
 }
 
-p:active,
-span:active,
-strong:active {
-    opacity: .5;
-}
-
+// p:active,
+// span:active,
+// strong:active {
+//     opacity: .5;
+// }
 .notices {
     top: -5px;
     bottom: auto;
@@ -749,7 +748,7 @@ search_page {
                 bottom: 0px;
                 position: absolute;
                 right: 0px;
-                width: 73%;
+                width: 74%;
                 height: 1px;
                 background: #CCC;
             }
@@ -799,8 +798,8 @@ search_page {
                         }
                         &.active {
                             span {
-                                color: #868686;
-                                text-shadow: 2px 2px 2px #CCC;
+                                color: #000;
+                                font-weight: bolder !important;
                             }
                         }
                     }

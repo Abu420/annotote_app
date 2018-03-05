@@ -18,7 +18,7 @@
             </div>
         </ion-title>
     </ion-toolbar> -->
-    <ion-toolbar color="homeheader" [ngClass]="{'noShadow': search_txt == ''}">
+    <ion-toolbar color="homeheader">
         <div class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" class="options" (click)="show_filters()"></span>
             <img src="assets/img/searchIcon.png" alt="" />
@@ -30,7 +30,7 @@
     </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
-<ion-content swipe-vertical padding>
+<ion-content class="searchPage" [ngClass]="{'filtersShown': filter_mode}" swipe-vertical>
     <ion-list *ngIf="filter_mode" class="filterMode" no-bounce>
         <div class="mediaMode">
             <h4>Media</h4>

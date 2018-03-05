@@ -312,7 +312,7 @@
                                         <div class="txt">
                                             <p>{{highlight.highlightText}}</p>
                                             <!-- <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p> -->
-                                            <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)">{{highlight.comment}}</p>
+                                            <p (click)="tagClick($event)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)">{{highlight.comment}}</p>
                                             <!-- <div class="tagImage" *ngIf="highlight.tags.length > 0 && (highlight.edit == undefined || highlight.edit == false)" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                                 <img src="assets/img/dotsicon.svg" alt="">
                                             </div> -->

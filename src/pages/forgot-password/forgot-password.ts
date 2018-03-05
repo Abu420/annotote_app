@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Keyboard, ModalController } from 'ionic-angular';
 import { Home } from '../home/home';
 import * as _ from 'underscore/underscore';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
+import { Verification } from "../signup/verificationPopUp";
 
 @IonicPage()
 @Component({
@@ -25,7 +26,14 @@ export class ForgotPassword {
     email: false
   };
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
+  constructor(public platform: Platform,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public statusBar: StatusBar,
+    public utilityMethods: UtilityMethods,
+    public modalCtrl: ModalController,
+    public authService: AuthenticationService,
+    public keyboard: Keyboard) {
     // set status bar to green
     // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
@@ -70,23 +78,33 @@ export class ForgotPassword {
      */
     var current_time = (new Date()).getTime() / 1000,
       platform_name = this.platform.is('ios') ? 'ios' : 'android';
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Please wait...');
     this.authService.forgot_password({
       email: this.forgot_password_email
     }).subscribe((response) => {
-      let self = this;
-      this.utilityMethods.hide_loader();
-      this.utilityMethods.message_alert_with_callback('Forgot Password', 'Link to reset password has been sent via email.', function () {
-        self.navCtrl.pop();
-      });
+      toast.dismiss();
+      let VerificationPop = this.modalCtrl.create(Verification, { forgot: true });
+      VerificationPop.onDidDismiss(data => {
+        this.navCtrl.pop();
+      })
+      VerificationPop.present();
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
-      } else if (error.status == 451)
-        this.utilityMethods.message_alert('Error', 'Your email is not verified yet.');
-      else
-        this.utilityMethods.message_alert('Error', 'No account matches to: ' + this.forgot_password_email);
+      } else if (error.status == 451) {
+        let VerificationPop = this.modalCtrl.create(Verification, { forgot: true, verified: false });
+        VerificationPop.onDidDismiss(data => {
+          this.navCtrl.pop();
+        })
+        VerificationPop.present();
+      } else {
+        let VerificationPop = this.modalCtrl.create(Verification, { forgot: true, verified: true });
+        VerificationPop.onDidDismiss(data => {
+          this.navCtrl.pop();
+        })
+        VerificationPop.present();
+      }
     });
   }
 

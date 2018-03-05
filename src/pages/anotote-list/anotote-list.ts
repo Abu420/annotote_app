@@ -2544,4 +2544,9 @@ export class AnototeList {
     })
   }
 
+  tagClick(event){
+      event.stopPropagation();
+      console.log(event.target.textContent);
+  }
+
 }

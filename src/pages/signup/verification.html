@@ -1,6 +1,22 @@
 <div class="top_empty_box" (tap)="dismiss()">
 </div>
 <div class="content" [@enterAnimation] *ngIf="show == true">
-    <p class="followLoading">Check your email to activate</p>
-    <span class="notFollowing" (tap)="dismiss()">SIGN IN</span>
+    <ng-container *ngIf="signup_or_forgot">
+        <p class="followLoading">Check your email to activate</p>
+        <span class="notFollowing" (tap)="dismiss()">SIGN IN</span>
+    </ng-container>
+    <ng-container *ngIf="signup_or_forgot == false">
+        <ng-container *ngIf="verified == null">
+            <p class="followLoading">Check email for password reset</p>
+            <span class="notFollowing" (tap)="dismiss()">OK</span>
+        </ng-container>
+        <ng-container *ngIf="verified == true">
+            <p class="followLoading">Your email is not verified yet.</p>
+            <span class="notFollowing" (tap)="dismiss()">OK</span>
+        </ng-container>
+        <ng-container *ngIf="verified == false">
+            <p class="followLoading">No account matches your email.</p>
+            <span class="notFollowing" (tap)="dismiss()">OK</span>
+        </ng-container>
+    </ng-container>
 </div>

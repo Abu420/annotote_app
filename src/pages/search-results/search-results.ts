@@ -513,5 +513,52 @@ export class SearchResults {
   show_filters() {
     this.filter_mode = !this.filter_mode;
   }
+
+  anotote_or_user_filter(choice) {
+    if (choice == 'tote') {
+        if (this.search_filters.media.tote) {
+            this.search_filters.media.tote = false;
+        } else {
+            this.search_filters.media.tote = true;
+            this.search_filters.media.user = false;
+        }
+    } else {
+        if (this.search_filters.media.user) {
+            this.search_filters.media.user = false;
+        } else {
+            this.search_filters.media.user = true;
+            this.search_filters.media.tote = false;
+        }
+    }
+  }
+
+  category_filter(choice) {
+    if (choice == 'me') {
+        if (this.search_filters.category.me) {
+            this.search_filters.category.me = false;
+        } else {
+            this.search_filters.category.me = true;
+            this.search_filters.category.follows = false;
+            this.search_filters.category.top = false;
+        }
+    } else if (choice == 'follows') {
+        if (this.search_filters.category.follows) {
+            this.search_filters.category.follows = false;
+        } else {
+            this.search_filters.category.follows = true;
+            this.search_filters.category.me = false;
+            this.search_filters.category.top = false;
+        }
+    }
+    else if (choice == 'top') {
+        if (this.search_filters.category.top) {
+            this.search_filters.category.top = false;
+        } else {
+            this.search_filters.category.top = true;
+            this.search_filters.category.me = false;
+            this.search_filters.category.follows = false;
+        }
+    }
+  }
 }
 
