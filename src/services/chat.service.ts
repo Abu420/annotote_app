@@ -30,11 +30,11 @@ export class ChatService {
     return 2;
   }
 
-  public fetchHistory(firstUser: number, secondUser: number, page = 1, anotote_id) {
+  public fetchHistory(firstUser: number, secondUser: number, page = 1, anotote_id, groupId) {
     if (anotote_id == 0)
-      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&first_person=' + firstUser + '&page=' + page;
+      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&first_person=' + firstUser + '&group_id=' + groupId + '&page=' + page;
     else
-      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&first_person=' + firstUser + '&anotote_id=' + anotote_id + '&page=' + page;
+      var url = this.constants.API_BASEURL + '/chat-history?second_person=' + secondUser + '&first_person=' + firstUser + '&anotote_id=' + anotote_id + '&group_id=' + groupId + '&page=' + page;
     var response = this.http.get(url).map(res => res.json())
     return response;
   }
@@ -52,6 +52,10 @@ export class ChatService {
 
   public updateTitle(params) {
     return this.http.post(this.constants.API_BASEURL + "/update-subject", params, {}).map(res => res.json());
+  }
+
+  public fetchChats(params) {
+    return this.http.get(this.constants.API_BASEURL + "/get-user-chat-groups?second_person=" + params.second_person, {}).map(res => res.json());
   }
 
 

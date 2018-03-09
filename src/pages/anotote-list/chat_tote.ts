@@ -33,10 +33,13 @@ export class ChatToteOptions {
     public doChat: boolean = false;
     public doSave: boolean = false;
     public doBookmark: boolean = false;
+    public forChats: boolean = false;
+    public selectedUser;
 
     constructor(public runtime: Streams,
         public params: NavParams,
         public navCtrl: NavController,
+        public chatService: ChatService,
         public utilityMethods: UtilityMethods,
         public viewCtrl: ViewController,
         public authService: AuthenticationService,
@@ -166,7 +169,31 @@ export class ChatToteOptions {
     }
 
     send_message(user) {
-        this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.search_txt })
+        if (this.anotote) {
+            this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.search_txt })
+        } else {
+            this.usersForChat = user.firstName;
+            this.selectedUser = user;
+            this.search_results = [];
+            this.search_loading = true;
+            this.forChats = true;
+            var params = {
+                second_person: user.id
+            }
+            this.chatService.fetchChats(params).subscribe((success) => {
+                this.search_loading = false;
+                this.search_results = success.data.groups;
+            }, (error) => {
+                this.search_loading = false;
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                }
+            })
+        }
+    }
+
+    openChat(group) {
+        this.viewCtrl.dismiss({ chat: true, close: false, user: this.selectedUser, title: '', group: group })
     }
 
     followUser(event, person) {

@@ -1,0 +1,34 @@
+<div class="top_empty_box" (tap)="dismiss()">
+</div>
+<div class="content_follows_profile">
+    <div class="popupPanel" [@enterAnimation]>
+        <div class="pop_heading">
+            <div class="downUp">
+                <span (tap)="signIn()">Sign IN</span>
+            </div>
+        </div>
+        <div>
+            <p>Now that you’ve joined Annotote, get started by:</p>
+            <ul>
+                <li>
+                    <div class="txt">
+                        <p>Add an article to make your own annotations, including quotes and comments, which are all saved to your “ME” stream;</p>
+                    </div>
+                    <span class="quotes_me"></span>
+                </li>
+                <li>
+                    <div class="txt">
+                        <p>Follow other users, whose annotations appear in your “FOLLOWS” stream;</p>
+                    </div>
+                    <span class="quotes_follows"></span>
+                </li>
+                <li>
+                    <div class="txt">
+                        <p>Enjoy the network’s best highlights in the “TOP” stream</p>
+                    </div>
+                    <span class="quotes_top"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

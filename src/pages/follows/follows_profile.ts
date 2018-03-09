@@ -21,6 +21,7 @@ import { AnototeList } from '../anotote-list/anotote-list';
 import { TagsPopUp } from '../anotote-list/tags';
 import { StatusBar } from "@ionic-native/status-bar";
 import { Follows } from "./follows";
+import { ChatToteOptions } from '../anotote-list/chat_tote';
 
 declare var cordova: any;
 
@@ -91,6 +92,13 @@ export class Profile {
   go_to_thread() {
     this.statusbar.show();
     this.navCtrl.push(Chat, { secondUser: this.profileData.user });
+    // var params = {
+    //   anotote: null,
+    //   stream: 'anon',
+    //   findChatter: true,
+    //   user: this.profileData.user
+    // }
+    // let chatTote = this.modalCtrl.create(ChatToteOptions, params);
   }
 
   go_to_stream() {

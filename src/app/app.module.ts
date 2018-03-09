@@ -97,6 +97,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { TagsOptions } from "../pages/anotote-list/tags_options";
 import { Verification } from "../pages/signup/verificationPopUp";
 import { Badge } from '@ionic-native/badge';
+import { Verified } from '../pages/front-view/verified';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { Badge } from '@ionic-native/badge';
     Autosize,
     chatVote,
     TagsOptions,
-    Verification
+    Verification,
+    Verified
   ],
   imports: [
     BrowserModule,
@@ -209,7 +211,8 @@ import { Badge } from '@ionic-native/badge';
     ChatToteOptions,
     EditDeleteMessage,
     TagsOptions,
-    Verification
+    Verification,
+    Verified
   ],
 
   providers: [

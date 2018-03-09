@@ -34,12 +34,21 @@ export class Login {
    * Constructor
    */
 
-  constructor(private appCtrl: App, public platform: Platform, public navCtrl: NavController, public storage: Storage, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
-    // set status bar to green
-    // this.statusBar.backgroundColorByHexString('000000');
+  constructor(private appCtrl: App,
+    public platform: Platform,
+    public navCtrl: NavController,
+    public storage: Storage,
+    public navParams: NavParams,
+    public statusBar: StatusBar,
+    public utilityMethods: UtilityMethods,
+    public authService: AuthenticationService,
+    public keyboard: Keyboard) {
     this.focus_field = '';
     this.user = new User("", "", "", "", "");
     this.device_id = localStorage.getItem('device_id');
+    if (navParams.get('justSignedUp')) {
+      navCtrl.remove(navCtrl.getActive().index);
+    }
   }
 
   /**

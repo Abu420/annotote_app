@@ -367,7 +367,14 @@ export class AnototeEditor implements OnDestroy {
         let chatTote = this.modalCtrl.create(ChatToteOptions, params);
         chatTote.onDidDismiss((data) => {
             if (data.chat) {
-                this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.ANOTOTE.userAnnotote.id, title: data.title, full_tote: this.ANOTOTE });
+                if (!data.group) {
+                    if (data.title)
+                        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.ANOTOTE.userAnnotote.id, title: data.title, full_tote: this.ANOTOTE });
+                    else
+                        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+                } else {
+                    this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
+                }
             } else if (data.save) {
                 if (this.WHICH_STREAM == 'anon') {
                     this.loading_message = 'Saving annotation';

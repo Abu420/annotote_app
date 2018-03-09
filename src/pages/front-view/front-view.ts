@@ -2,7 +2,7 @@ import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 import { Login } from '../login/login';
 import { Signup } from '../signup/signup';
-import { NavController, NavParams, ToastController, Toast, Content } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Toast, Content, ModalController, Events } from 'ionic-angular';
 import { AnototeList } from '../anotote-list/anotote-list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { OnlyTime } from '../../directives/date_pipe';
@@ -11,6 +11,7 @@ import { OnlyTime } from '../../directives/date_pipe';
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { AnototeService } from '../../services/anotote.service';
+import { Verified } from './verified';
 
 declare var moment: any;
 @Component({
@@ -29,11 +30,22 @@ export class FrontViewPage {
       constructor(public navCtrl: NavController,
             public statusBar: StatusBar,
             public utilityMethods: UtilityMethods,
+            public event: Events,
+            public modalCtrl: ModalController,
             private toastCtrl: ToastController,
             public anototeService: AnototeService,
             public cd: ChangeDetectorRef) {
             this.showFabButton = true;
             this.page = 0;
+            this.event.subscribe('signup_popup', () => {
+                  let VerificationPop = this.modalCtrl.create(Verified, null);
+                  VerificationPop.onDidDismiss(data => {
+                        if (data == 'signin') {
+                              this.navCtrl.push(Login, {});
+                        }
+                  })
+                  VerificationPop.present();
+            })
       }
 
       /**

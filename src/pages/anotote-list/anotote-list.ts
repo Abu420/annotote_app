@@ -950,27 +950,71 @@ export class AnototeList {
       if (this.current_active_highlight) {
         this.current_active_highlight.edit = false;
       }
-      if (anotote.checked) {
-        this.title_temp = '';
-        this.move_fab = false;
-        anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+      anotote.active_tab = 'me';
+      if (this.current_active_anotote != null) {
+        if (this.current_active_anotote.id != anotote.id) {
+          this.current_active_anotote.checked = false;
+          if (anotote.checked) {
+            this.title_temp = '';
+            this.move_fab = false;
+            anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+          } else {
+            this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
+            this.move_fab = true;
+            anotote.checked = true;
+          }
+          this.current_active_anotote = anotote;
+        } else {
+          anotote.checked = false;
+          this.move_fab = false;
+          this.current_active_anotote = null;
+        }
       } else {
-        this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
-        this.move_fab = true;
-        anotote.checked = true;
-      }
-    } else if (anotote.chatGroup == null && this.current_color != 'me') {
-      this.options(anotote);
-    } else if (anotote.chatGroup != null) {
-      if (this.current_color == 'me') {
         if (anotote.checked) {
           this.title_temp = '';
           this.move_fab = false;
           anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
         } else {
-          this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+          this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
           this.move_fab = true;
           anotote.checked = true;
+        }
+        this.current_active_anotote = anotote;
+      }
+    } else if (anotote.chatGroup == null && this.current_color != 'me') {
+      this.options(anotote);
+    } else if (anotote.chatGroup != null) {
+      if (this.current_color == 'me') {
+        anotote.active_tab = 'me';
+        if (this.current_active_anotote != null) {
+          if (this.current_active_anotote.id != anotote.id) {
+            this.current_active_anotote.checked = false;
+            if (anotote.checked) {
+              this.title_temp = '';
+              this.move_fab = false;
+              anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+            } else {
+              this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+              this.move_fab = true;
+              anotote.checked = true;
+            }
+            this.current_active_anotote = anotote;
+          } else {
+            anotote.checked = false;
+            this.move_fab = false;
+            this.current_active_anotote = null;
+          }
+        } else {
+          if (anotote.checked) {
+            this.title_temp = '';
+            this.move_fab = false;
+            anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+          } else {
+            this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+            this.move_fab = true;
+            anotote.checked = true;
+          }
+          this.current_active_anotote = anotote;
         }
       } else {
         // var check = false;
@@ -1010,6 +1054,7 @@ export class AnototeList {
           anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
           anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
           anotote.checked = false;
+          this.current_active_anotote = null;
           // this.toastInFooter("Title updated")
         }, (error) => {
           this.hideLoading();
@@ -1031,6 +1076,7 @@ export class AnototeList {
           this.hideLoading();
           anotote.chatGroup.messagesUser[0].subject = this.title_temp;
           anotote.checked = false;
+          this.current_active_anotote = null;
           this.stream.me_first_load = false;
           this.stream.follow_first_load = false;
           this.stream.top_first_load = false;
@@ -1099,10 +1145,14 @@ export class AnototeList {
     let chatTote = this.modalCtrl.create(ChatToteOptions, params);
     chatTote.onDidDismiss((data) => {
       if (data.chat) {
-        if (data.title)
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.current_active_anotote.userAnnotote.annototeId, title: data.title, full_tote: this.current_active_anotote });
-        else
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        if (!data.group) {
+          if (data.title)
+            this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: this.current_active_anotote.userAnnotote.annototeId, title: data.title, full_tote: this.current_active_anotote });
+          else
+            this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        } else {
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group:data.group });
+        }
       } else if (data.save) {
         if (this.current_color == 'me') {
           this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
@@ -2544,9 +2594,9 @@ export class AnototeList {
     })
   }
 
-  tagClick(event){
-      event.stopPropagation();
-      console.log(event.target.textContent);
+  tagClick(event) {
+    event.stopPropagation();
+    console.log(event.target.textContent);
   }
 
 }

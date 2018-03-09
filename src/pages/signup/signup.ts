@@ -52,6 +52,11 @@ export class Signup {
    * View LifeCycle Events
    */
   ionViewDidLoad() {
+    let VerificationPop = this.modalCtrl.create(Verification, null);
+    VerificationPop.onDidDismiss(data => {
+      this.navCtrl.push(Login, { justSignedUp: true });
+    })
+    VerificationPop.present();
   }
 
   ionViewWillLeave() {
@@ -113,7 +118,7 @@ export class Signup {
       toast.dismiss();
       let VerificationPop = this.modalCtrl.create(Verification, null);
       VerificationPop.onDidDismiss(data => {
-        this.navCtrl.setRoot(Login);
+        this.navCtrl.push(Login, { justSignedUp: true });
       })
       VerificationPop.present();
       if (this.utilityMethods.isOffline()) {
@@ -125,7 +130,7 @@ export class Signup {
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else if (error.status == 400)
-        this.utilityMethods.message_alert('Error', 'This email has already been taken.');
+        this.utilityMethods.doToast('This email has already been taken.');
     });
   }
 

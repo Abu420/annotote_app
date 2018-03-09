@@ -49,23 +49,36 @@
             <li *ngIf="search_loading == true" padding text-center>
                 <ion-spinner></ion-spinner>
             </li>
-            <li *ngFor="let search_result of search_results" (click)="send_message(search_result)">
-                <figure>
-                    <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
-                    <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
-                    <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
-                </figure>
-                <figcaption class="followUser">
-                    <p>{{search_result.firstName}}
-                        <img *ngIf="search_result.isFollowed == 1" class="star-icon" src="assets/img/star-gray.png" alt="">
-                    </p>
-                    <span class="rightAdd" *ngIf="search_result.isFollowed == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)">FOLLOW</span>
-                    <span class="rightAdd" *ngIf="search_result.follow_loading == true">
-                        <ion-spinner name="bubbles"></ion-spinner>
-                    </span>
-                    <!-- <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span> -->
-                </figcaption>
-            </li>
+            <ng-container *ngIf="forChats == false">
+                <li *ngFor="let search_result of search_results" (click)="send_message(search_result)">
+                    <figure>
+                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
+                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
+                        <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
+                    </figure>
+                    <figcaption class="followUser">
+                        <p>{{search_result.firstName}}
+                            <img *ngIf="search_result.isFollowed == 1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                        </p>
+                        <span class="rightAdd" *ngIf="search_result.isFollowed == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)">FOLLOW</span>
+                        <span class="rightAdd" *ngIf="search_result.follow_loading == true">
+                            <ion-spinner name="bubbles"></ion-spinner>
+                        </span>
+                        <!-- <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span> -->
+                    </figcaption>
+                </li>
+            </ng-container>
+            <ng-container *ngIf="forChats == true">
+                <li (click)="openChat()">
+                    <img src="assets/img/chatIcon.svg" alt="" />
+                    <span>New Chat</span>
+                </li>
+                <li *ngFor="let search_result of search_results" (click)="openChat(search_result)">
+                    <img src="assets/img/chatIcon.svg" alt="" />
+                    <span *ngIf="search_result.subject != null">{{search_result.firstName}}</span>
+                    <span *ngIf="search_result.subject == null">Chat</span>
+                </li>
+            </ng-container>
             <ng-container *ngIf="search_results.length == 0 && search_loading == false && doChat == false && doSave == false && doBookmark == false">
                 <li (click)="scrape_this_url('save')">
                     <img src="assets/img/cloudIconGray.svg" alt="" />

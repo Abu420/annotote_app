@@ -1354,20 +1354,22 @@
                 .no_totes {
                     width: 100%;
                     text-align: center;
-                    padding: 1%;
-                    font-weight: bold;
+                    padding: 3%;
+                    height: 72px;
+                    background: #fff;
                     p {
-                        font-size: 4vw;
-                    }
-                    p.me {
-                        color: #3bde00;
-                    }
-                    p.follows {
-                        color: #f4e300;
-                    }
-                    p.top {
-                        color: #fb9df0;
-                    }
+                        font-size: 16px;
+                        font-weight: bolder;
+                        color: #000;
+                    } // p.me {
+                    //     color: #3bde00;
+                    // }
+                    // p.follows {
+                    //     color: #f4e300;
+                    // }
+                    // p.top {
+                    //     color: #fb9df0;
+                    // }
                 }
                 .loading {
                     text-align: center;

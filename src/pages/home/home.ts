@@ -433,7 +433,11 @@ export class Home {
     let chatTote = this.modalCtrl.create(ChatToteOptions, params);
     chatTote.onDidDismiss((data) => {
       if (data.chat) {
-        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        if (data.group) {
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
+        } else {
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        }
       }
     })
     chatTote.present();

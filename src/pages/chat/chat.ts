@@ -54,7 +54,8 @@ export class Chat {
   public firstUser: any = null;
   public contains = true;
   public newChatTitle = '';
-  public titleField: boolean = false
+  public titleField: boolean = false;
+  public groupId: number = 0;
   /**
    * Constructor
    */
@@ -71,8 +72,10 @@ export class Chat {
     this.reply_box_on = true;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
-    if (this.tote && this.tote.chatGroup)
+    if (this.tote && this.tote.chatGroup) {
       this.markMessagesRead(this.tote.chatGroup.messagesUser);
+      this.groupId = this.tote.chatGroup.id;
+    }
     this.chatService.threadingUser = this.secondUser;
     this.user = this.authService.getUser();
     this.connectionToSocket();
@@ -81,9 +84,16 @@ export class Chat {
       this.against_tote = true;
       this.anotote_id = navParams.get('anotote_id');
       this.title = navParams.get('title');
+      // this.groupId = this.tote.chatGroup.id;
       if (this.tote.chatGroup == null) {
         this.tote.createdAt = (new Date()).getTime() / 1000;
       }
+    }
+    if (navParams.get('group')) {
+      var group = navParams.get('group');
+      this.groupId = group.groupId;
+      this.anotote_id = group.anototeId;
+      this.title = group.subject;
     }
     if (navParams.get('color')) {
       this.current_color = navParams.get('color');
@@ -127,7 +137,7 @@ export class Chat {
   public sendMessage() {
     if (this.textMessage != "") {
       this.send_message_loader = true;
-      this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id }).subscribe((result) => {
+      this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id, group_id: this.groupId }).subscribe((result) => {
         this.send_message_loader = false;
         // this.myInput.nativeElement.style.height = 60 + 'px';
         if (this.conversation.length == 0 || this.tote == null) {
@@ -181,7 +191,7 @@ export class Chat {
   }
 
   doInfinite(infiniteScroll) {
-    this.chatService.fetchHistory(this.contains == true ? this.user.id : this.firstUser.id, this.secondUser.id, this.current_page++, this.anotote_id).subscribe((result) => {
+    this.chatService.fetchHistory(this.contains == true ? this.user.id : this.firstUser.id, this.secondUser.id, this.current_page++, this.anotote_id, this.groupId).subscribe((result) => {
       if (this.conversation.length == 0)
         this.conversation = result.data.messages.reverse();
       else {

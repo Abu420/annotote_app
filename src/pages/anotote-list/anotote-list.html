@@ -573,7 +573,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && fbLoading == false" class="product-list">
+        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && fbLoading == false && followedUserId == 0" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
                 <ion-item *ngFor="let anotote of tutorialMeCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
@@ -692,10 +692,10 @@
         </ion-list>
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
-            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
+            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found</p>
         </div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color == 'top'">
-            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found.</p>
+            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found</p>
         </div>
     </div>
     <ion-infinite-scroll *ngIf="!fbLoading" (ionInfinite)="doInfinite($event)">

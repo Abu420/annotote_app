@@ -163,10 +163,17 @@ export class MyApp {
                 '/anotote': {
                     target: "AnototeEditor",
                     parent: "AnototeEditor"
+                },
+                '/annotote/signup/:nothing': {
+                    target: 'Login',
+                    parent: 'Login'
                 }
             },
                 (result) => {
                     console.log(result);
+                    if (result.$link.path == '/annotote/signup') {
+                        this.events.publish('signup_popup')
+                    }
                 },
                 (nomatch) => {
                     console.log(nomatch);
