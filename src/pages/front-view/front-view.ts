@@ -12,6 +12,7 @@ import { OnlyTime } from '../../directives/date_pipe';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AnototeService } from '../../services/anotote.service';
 import { Verified } from './verified';
+import { ChangePassword } from '../change-password/change-password';
 
 declare var moment: any;
 @Component({
@@ -37,14 +38,17 @@ export class FrontViewPage {
             public cd: ChangeDetectorRef) {
             this.showFabButton = true;
             this.page = 0;
-            this.event.subscribe('signup_popup', () => {
-                  let VerificationPop = this.modalCtrl.create(Verified, null);
+            this.event.subscribe('signup_popup', (params) => {
+                  let VerificationPop = this.modalCtrl.create(Verified, { token: params.token });
                   VerificationPop.onDidDismiss(data => {
                         if (data == 'signin') {
                               this.navCtrl.push(Login, {});
                         }
                   })
                   VerificationPop.present();
+            })
+            this.event.subscribe('forgot', (params) => {
+                  navCtrl.push(ChangePassword, { token: params.token })
             })
       }
 

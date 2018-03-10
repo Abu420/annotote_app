@@ -9,7 +9,6 @@ import { Constants } from '../services/constants.service'
 import { Http, RequestOptions, Headers } from "@angular/http";
 
 @Injectable()
-
 export class AuthenticationService {
 
   /**
@@ -84,6 +83,12 @@ export class AuthenticationService {
     return response;
   }
 
+  public verifyUser(token) {
+    var url = this.constants.API_BASEURL + '/verify_user/' + token;
+    var response = this.http.get(url, {}).map(res => res.json());
+    return response;
+  }
+
   /**
    * Login API
    * type: {POST}
@@ -144,6 +149,12 @@ export class AuthenticationService {
    */
   public reset_password(params) {
     var url = this.constants.API_BASEURL + '/reset-password';
+    var response = this.http.post(url, params, {}).map(res => res.json());
+    return response;
+  }
+
+  public updatePassword(params) {
+    var url = this.constants.API_BASEURL + '/update-password';
     var response = this.http.post(url, params, {}).map(res => res.json());
     return response;
   }

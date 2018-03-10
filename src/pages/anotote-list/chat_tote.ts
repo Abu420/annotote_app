@@ -56,6 +56,10 @@ export class ChatToteOptions {
         if (params.get('findChatter')) {
             this.findChatter();
         }
+        if (this.from == 'profile') {
+            this.doChat = true;
+            this.send_message(params.get('user'));
+        }
     }
 
     dissmiss() {

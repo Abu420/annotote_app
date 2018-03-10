@@ -75,7 +75,7 @@
                 </li>
                 <li *ngFor="let search_result of search_results" (click)="openChat(search_result)">
                     <img src="assets/img/chatIcon.svg" alt="" />
-                    <span *ngIf="search_result.subject != null">{{search_result.firstName}}</span>
+                    <span *ngIf="search_result.subject != null">{{search_result.subject}}</span>
                     <span *ngIf="search_result.subject == null">Chat</span>
                 </li>
             </ng-container>

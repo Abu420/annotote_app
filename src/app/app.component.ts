@@ -164,15 +164,24 @@ export class MyApp {
                     target: "AnototeEditor",
                     parent: "AnototeEditor"
                 },
-                '/annotote/signup/:nothing': {
+                '/signup/:nothing': {
                     target: 'Login',
                     parent: 'Login'
+                },
+                '/forgot/:forgot': {
+                    target: 'Forgot',
+                    parent: 'Forgot'
                 }
             },
                 (result) => {
-                    console.log(result);
-                    if (result.$link.path == '/annotote/signup') {
-                        this.events.publish('signup_popup')
+                    if (result.$args.nothing) {
+                        setTimeout(() => {
+                            this.events.publish('signup_popup', { token: result.$args.nothing })
+                        }, 500)
+                    } else if (result.$args.forgot) {
+                        setTimeout(() => {
+                            this.events.publish('forgot', { token: result.$args.forgot })
+                        }, 500)
                     }
                 },
                 (nomatch) => {

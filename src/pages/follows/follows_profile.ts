@@ -91,14 +91,25 @@ export class Profile {
 
   go_to_thread() {
     this.statusbar.show();
-    this.navCtrl.push(Chat, { secondUser: this.profileData.user });
-    // var params = {
-    //   anotote: null,
-    //   stream: 'anon',
-    //   findChatter: true,
-    //   user: this.profileData.user
-    // }
-    // let chatTote = this.modalCtrl.create(ChatToteOptions, params);
+    // this.navCtrl.push(Chat, { secondUser: this.profileData.user });
+    var params = {
+      anotote: null,
+      stream: 'anon',
+      findChatter: true,
+      user: this.profileData.user,
+      from: 'profile'
+    }
+    let chatTote = this.modalCtrl.create(ChatToteOptions, params);
+    chatTote.onDidDismiss((data) => {
+      if (data.chat) {
+        if (!data.group) {
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        } else {
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
+        }
+      }
+    })
+    chatTote.present();
   }
 
   go_to_stream() {

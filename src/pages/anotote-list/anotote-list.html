@@ -915,9 +915,9 @@
 <ion-footer class="message-bottom" *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
+            <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>
             <span *ngIf="current_active_anotote.chatGroup == null" [ngClass]="{'save': title_temp != current_active_anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(current_active_anotote)">Save</span>
             <span *ngIf="current_active_anotote.chatGroup != null" [ngClass]="{'save': title_temp != current_active_anotote.chatGroup.messagesUser[0].subject  && title_temp != ''}" (click)="saveTitle(current_active_anotote)">Save</span>
-            <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>
         </div>
         <!-- <div class="share" (click)="share()">
             <span></span>

@@ -1038,6 +1038,7 @@ export class AnototeList {
         this.options(anotote);
       }
     }
+    this.content.resize();
   }
 
   saveTitle(anotote) {
@@ -1151,7 +1152,7 @@ export class AnototeList {
           else
             this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
         } else {
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group:data.group });
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
         }
       } else if (data.save) {
         if (this.current_color == 'me') {

@@ -52,11 +52,6 @@ export class Signup {
    * View LifeCycle Events
    */
   ionViewDidLoad() {
-    let VerificationPop = this.modalCtrl.create(Verification, null);
-    VerificationPop.onDidDismiss(data => {
-      this.navCtrl.push(Login, { justSignedUp: true });
-    })
-    VerificationPop.present();
   }
 
   ionViewWillLeave() {

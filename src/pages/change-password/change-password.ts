@@ -26,14 +26,26 @@ export class ChangePassword {
   public forgot_password_new_error: boolean;
   public forgot_password_confirm_error: boolean;
   public focus_field: string;
+  public user;
+  public token;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public statusBar: StatusBar, public utilityMethods: UtilityMethods, public authService: AuthenticationService, public keyboard: Keyboard) {
+  constructor(public platform: Platform,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public statusBar: StatusBar,
+    public utilityMethods: UtilityMethods,
+    public authService: AuthenticationService,
+    public keyboard: Keyboard) {
     // set status bar to green
     // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
     this.forgot_password_old = '';
     this.forgot_password_new = '';
     this.forgot_password_confirm = '';
+    this.user = this.authService.getUser();
+    if (navParams.get('token')) {
+      this.token = navParams.get('token');
+    }
   }
 
   open_annotote_site() {
@@ -92,21 +104,59 @@ export class ChangePassword {
     //  */
     // var current_time = (new Date()).getTime() / 1000,
     //   platform_name = this.platform.is('ios') ? 'ios' : 'android';
-    this.utilityMethods.show_loader('Please wait...');
+    var toast = this.utilityMethods.doLoadingToast('Please wait...');
     this.authService.reset_password({
       old_password: this.forgot_password_old,
       new_password: this.forgot_password_new
     }).subscribe((response) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       this.utilityMethods.doToast('Password has been changed successfully.');
       this.navCtrl.pop();
     }, (error) => {
-      this.utilityMethods.hide_loader();
+      toast.dismiss();
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       } else
         this.utilityMethods.message_alert('Error', 'Invalid old password, please enter correct password.');
     });
+  }
+
+  updatePassword() {
+    this.keyboard.close();
+    var _error = false;
+    this.forgot_password_new_error = false;
+    this.forgot_password_confirm_error = false;
+
+    if (_.isEmpty(this.forgot_password_new)) {
+      _error = true;
+      this.forgot_password_new_error = true;
+    }
+    if (_.isEmpty(this.forgot_password_confirm)) {
+      _error = true;
+      this.forgot_password_confirm_error = true;
+    }
+    if (this.forgot_password_confirm != this.forgot_password_new) {
+      _error = true;
+      this.forgot_password_confirm_error = true;
+    }
+    if (_error) {
+      return;
+    }
+
+    var toast = this.utilityMethods.doLoadingToast('Please wait...');
+    var params = {
+      token: this.token,
+      password: this.forgot_password_new
+    }
+    this.authService.updatePassword(params).subscribe((success) => {
+      toast.dismiss();
+      this.utilityMethods.doToast("Password updated");
+      this.navCtrl.pop();
+    }, (error) => {
+      toast.dismiss();
+      this.utilityMethods.doToast("Couldn't update password");
+    })
+
   }
 
 }
