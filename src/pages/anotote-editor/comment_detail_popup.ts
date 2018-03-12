@@ -144,7 +144,7 @@ export class CommentDetailPopup {
     matches = comment.match(/\bhttps?:\/\/\S+/gi);
     if (matches)
       for (let match of matches) {
-        this.new_comment = this.new_comment.replace(match, '^');
+        this.new_comment = this.new_comment.replace(match, ' ^ ');
       }
     return matches == null ? [] : matches;
   }
@@ -273,8 +273,6 @@ export class CommentDetailPopup {
   }
 
   ellipsis(event) {
-    console.log(event.target.selectionStart);
-    console.log(this.one);
     if (this.one != this.anotote_txt) {
       if (this.one.split('"..."').length == this.anotote_txt.split('"..."').length) {
         if (event.target.selectionStart < this.currentIndex) {
@@ -342,6 +340,28 @@ export class CommentDetailPopup {
   initialize(event) {
     this.currentIndex = event.target.selectionStart;
     this.one = JSON.parse(JSON.stringify(event.target.value));
+  }
+
+  tagClick(event) {
+    event.stopPropagation();
+    var tag: string = event.target.textContent;
+    var check = tag.split(' ');
+    if ((tag[0] == '#' || tag[0] == '$' || tag[0] == '@') && check.length == 1) {
+      tag = tag.replace('#', '');
+      tag = tag.replace('$', '');
+      tag = tag.replace('@', '');
+      this.show = false;
+      setTimeout(() => {
+        this.statusbar.show();
+        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link:false });
+      }, 100)
+    }else if(tag[0] == '^'){
+      this.show = false;
+      setTimeout(() => {
+        this.statusbar.show();
+        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link:true });
+      }, 100)
+    }
   }
 
 }

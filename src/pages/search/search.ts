@@ -93,8 +93,9 @@ export class Search {
         if (params.get('from')) {
             this.from = params.get('from');
         }
-
-
+        if (params.get('saveIt')) {
+            this.save_search_entry('save_entry');
+        }
         /**
              * User followed Event Subscriber
              */

@@ -256,6 +256,37 @@
                                 }
                             }
                         }
+                        .fortags {
+                            .img-holder {
+                                display: inline-block;
+                                width: 25%;
+                                padding: 4%;
+                                text-align: center;
+                                img {
+                                    height: 18vw;
+                                }
+                            }
+                            .txt {
+                                display: inline-block;
+                                width: 70%;
+                                strong {
+                                    font-weight: bolder;
+                                    font-size: 16px;
+                                }
+                                .time {
+                                    color: #8e9093;
+                                    span {
+                                        font-size: 14px;
+                                    }
+                                    button {
+                                        background: transparent;
+                                        ion-icon {
+                                            color: #8e9093;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

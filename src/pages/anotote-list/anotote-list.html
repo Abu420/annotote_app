@@ -312,7 +312,7 @@
                                         <div class="txt">
                                             <p>{{highlight.highlightText}}</p>
                                             <!-- <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p> -->
-                                            <p (click)="tagClick($event)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)">{{highlight.comment}}</p>
+                                            <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)" [innerHTML]="highlight | boldTags"></p>
                                             <!-- <div class="tagImage" *ngIf="highlight.tags.length > 0 && (highlight.edit == undefined || highlight.edit == false)" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                                 <img src="assets/img/dotsicon.svg" alt="">
                                             </div> -->
@@ -515,7 +515,7 @@
                                 <div class="txt">
                                     <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
                                     <p>{{highlight.highlightText}}</p>
-                                    <p class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p>
+                                    <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''" [innerHTML]="highlight | boldTags"></p>
                                     <!-- <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div> -->

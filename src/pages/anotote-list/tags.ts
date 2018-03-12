@@ -47,6 +47,7 @@ export class TagsPopUp {
     public chatId;
     public participants = [];
     public chatOrtxt: boolean = true;
+    public search;
 
     constructor(public statusbar: StatusBar,
         private utilityMethods: UtilityMethods,
@@ -78,6 +79,9 @@ export class TagsPopUp {
             this.chatOrtxt = params.get('chatOrTxt');
             this.chatId = params.get('chatId');
             this.participants = params.get('participants');
+        }
+        if (params.get('search')) {
+            this.search = params.get('search');
         }
     }
 
@@ -381,6 +385,14 @@ export class TagsPopUp {
         })
     }
 
+    browser() {
+        this.statusbar.show();
+        this.show = false;
+        setTimeout(() => {
+            this.viewCtrl.dismiss({ browseIt: true });
+        })
+    }
+
     tagOptions(tag) {
         if (this.stream == 'me') {
             var params = {
@@ -439,6 +451,46 @@ export class TagsPopUp {
                 }
             })
             tagOptions.present();
+        }
+    }
+
+    pinImage(event: Event) {
+        event.stopPropagation();
+        if (this.search.id == 0) {
+            var paramsObj = {
+                created_at: this.utilityMethods.get_php_wala_time(),
+                searched_term: this.tags[0].annotote.link,
+                title: this.tags[0].annotote.title,
+                book_marked: 0
+            }
+            var toast = this.utilityMethods.doLoadingToast('Pinning bookmark...')
+            this.searchService.save_search_entry(paramsObj).subscribe((result) => {
+                toast.dismiss();
+                this.searchService.saved_searches[this.searchService.saved_searches.indexOf(this.search)] = result.data.search;
+                // this.toastInFooter("Pinned");
+            }, (error) => {
+                toast.dismiss();
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                } else {
+                    this.utilityMethods.doToast("Coudln't pinn");
+                }
+            });
+        } else {
+            var toast = this.utilityMethods.doLoadingToast("Unpinning bookmark...");
+            this.searchService.remove_search_id(this.search.id)
+                .subscribe((response) => {
+                    this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search), 1);
+                    this.search.id = 0;
+                    toast.dismiss();
+                }, (error) => {
+                    toast.dismiss();
+                    if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    } else {
+                        this.utilityMethods.doToast("Couldn't Unpinn");
+                    }
+                });
         }
     }
 

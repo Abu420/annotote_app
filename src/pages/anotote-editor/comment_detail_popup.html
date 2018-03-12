@@ -50,15 +50,15 @@
             <!-- <p [innerText]="anotote_txt"></p> -->
             <textarea id='actualContent' autosize [(ngModel)]="anotote_txt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
             <textarea id='comment' autosize class="addComment" [(ngModel)]="new_comment" (ngModelChange)="tag_user()" *ngIf="stream == 'me' && quoteThreeDots == true" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
-            <textarea id='commentNotMe' autosize class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment"></textarea>
+            <!-- <textarea id='commentNotMe' autosize class="addComment" [(ngModel)]="new_comment" *ngIf="stream != 'me' && new_comment != ''" [disabled]="stream != 'me'" name="comment"></textarea> -->
+            <p (click)="tagClick($event)" class="addComment" *ngIf="stream != 'me' && new_comment != ''" [innerHTML]="annotation | boldTags"></p>
             <div class="threeDosts" *ngIf="stream == 'me' && quoteThreeDots == false">
                 <!-- <ion-textarea [(ngModel)]="new_comment" name="comment" placeholder="Place your comment here"></ion-textarea> -->
                 <img (click)="showTextarea()" src="assets/img/option-msg.png" alt="">
             </div>
-            <div class="threeDosts" *ngIf="annotation.tags.length > 0">
-                <!-- <ion-textarea [(ngModel)]="new_comment" name="comment" placeholder="Place your comment here"></ion-textarea> -->
+            <!-- <div class="threeDosts" *ngIf="annotation.tags.length > 0">
                 <img (click)="showtags()" src="assets/img/option-msg.png" alt="">
-            </div>
+            </div> -->
         </div>
         <!-- <button type="submit" style="opacity:0;"></button> -->
 

@@ -1038,6 +1038,7 @@ export class AnototeList {
         this.options(anotote);
       }
     }
+    this.cd.detectChanges();
     this.content.resize();
   }
 
@@ -1719,7 +1720,7 @@ export class AnototeList {
     matches = this.edit_highlight_text.match(/\bhttps?:\/\/\S+/gi);
     if (matches)
       for (let match of matches) {
-        this.edit_highlight_text = this.edit_highlight_text.replace(match, '^');
+        this.edit_highlight_text = this.edit_highlight_text.replace(match, ' ^ ');
       }
     return matches == null ? [] : matches;
   }
@@ -2595,9 +2596,60 @@ export class AnototeList {
     })
   }
 
-  tagClick(event) {
+  tagClick(event, highlight) {
     event.stopPropagation();
-    console.log(event.target.textContent);
+    var tag:string = event.target.textContent;
+    var check = tag.split(' ');
+    if ((tag[0] == '#' || tag[0] == '$' || tag[0] == '@') && check.length == 1) {
+      tag = tag.replace('#','');
+      tag = tag.replace('$','');
+      tag = tag.replace('@','');
+      
+      let searchModal = this.modalCtrl.create(Search, { saved_searched_txt: tag, saveIt:true });
+      searchModal.onDidDismiss(data => {
+        if (data.go_to_browser) {
+          var anotote = data.anotote;
+          // if (anotote.userAnnotote.anototeType == 'me')
+          //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+          // else
+          //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          if (data.neworold) {
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          } else
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
+        }
+      });
+      searchModal.present();
+    } else if(tag[0] == '^') {
+      this.showLoading('Please wait...');
+      var params = { url: highlight.tags[event.target.id].tagText, created_at: this.utilityMethods.get_php_wala_time() }
+      this.searchService.create_anotote(params)
+            .subscribe((response) => {
+              this.hideLoading();
+              var bookmark = new SearchUnPinned( 0 ,
+                  response.data.annotote.title, params.url,
+                  this.authService.getUser().id, 0);
+              var temp= this.searchService.getAlreadySavedSearches(bookmark.term)
+              if (temp == null) 
+                  this.searchService.saved_searches.unshift(bookmark);
+                else
+                  bookmark = temp;
+
+                  var paramz = {
+                    tags: [response.data],
+                    annotote: false,
+                    search:bookmark
+                  }
+                  let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
+                  tagsModal.onDidDismiss((data)=>{
+                    if(data && data.browseIt){
+                      this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                    }
+                  })
+                  tagsModal.present();
+            })
+      
+    }
   }
 
 }
