@@ -58,128 +58,6 @@
         </ion-refresher-content>
     </ion-refresher>
     <div id="wrapper">
-        <ion-list class="product-list loader-panel" *ngIf="fbLoading">
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
         <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
             <ion-item *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id && current_color == 'me'),'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
@@ -573,7 +451,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && fbLoading == false && followedUserId == 0" class="product-list">
+        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && fbLoading == false && followedUserId == 0 && infiniteLoading == false" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
                 <ion-item *ngFor="let anotote of tutorialMeCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
@@ -690,6 +568,128 @@
                 </ion-item>
             </ng-container>
         </ion-list>
+        <ion-list class="product-list loader-panel" *ngIf="fbLoading || infiniteLoading">
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found</p>
@@ -699,7 +699,7 @@
         </div>
     </div>
     <ion-infinite-scroll *ngIf="!fbLoading" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        <ion-infinite-scroll-content loadingSpinner="none">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="!reply_box_on" right>

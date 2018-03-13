@@ -264,6 +264,12 @@ export class SearchService {
         return response;
     }
 
+    public get_full_screenContent(params) {
+        var url = 'http://139.162.37.73/anotote/api/get-url-content?url=' + params.url;
+        var response = this.http.get(url);
+        return response;
+    }
+
     public vote_anotation(params) {
         var url = this.constants.API_BASEURL + '/annotote/highlight/vote';
         var response = this.http.post(url, params).map(res => res.json());

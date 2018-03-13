@@ -10,9 +10,114 @@
 </ion-header>
 <ion-content swipe-vertical padding class="searchPage" [ngClass]="{'heightForKeyboard': isOpen == true}" no-bounce>
     <!-- content-->
-    <ion-list class="searchItems" *ngIf="!filter_mode">
-        <ion-item *ngIf="search_loading" class="search_spinner">
+    <ion-list class="searchItems" [ngClass]="{'loader-panel': search_loading == true}" *ngIf="!filter_mode">
+        <!-- <ion-item *ngIf="search_loading" class="search_spinner">
             <ion-spinner name="ios"></ion-spinner>
+        </ion-item> -->
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item *ngIf="search_loading">
+            <div>
+                <div class="img-holder">
+                </div>
+                <div class="txt line-loader">
+                    <div class="line-top">
+                        <span class="head-line"></span>
+                    </div>
+                    <div class="line-bot">
+                        <span class="name-line"></span>
+                        <span class="date-line"></span>
+                    </div>
+                </div>
+            </div>
         </ion-item>
         <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
             <figure>

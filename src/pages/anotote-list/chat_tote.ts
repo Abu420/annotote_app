@@ -186,7 +186,7 @@ export class ChatToteOptions {
             }
             this.chatService.fetchChats(params).subscribe((success) => {
                 this.search_loading = false;
-                this.search_results = success.data.groups;
+                this.search_results = success.data.chatGroup;
             }, (error) => {
                 this.search_loading = false;
                 if (error.code == -1) {

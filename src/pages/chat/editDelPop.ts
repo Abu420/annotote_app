@@ -34,6 +34,8 @@ export class EditDeleteMessage {
     public tote = null;
     public toteId = null;
     public tags = [];
+    public isNew: boolean = false;
+    public privacy: number;
     constructor(public viewCtrl: ViewController,
         params: NavParams,
         public clip: Clipboard,
@@ -52,13 +54,18 @@ export class EditDeleteMessage {
             this.toteId = params.get('toteId');
             this.tags = params.get('tags');
         }
+        if (params.get('isNew')) {
+            this.isNew = true;
+            this.privacy = params.get('privacy');
+            this.toteId = params.get('id');
+        }
     }
 
     close(choice) {
         this.statusbar.show();
         this.show = false;
         setTimeout(() => {
-            this.viewCtrl.dismiss({ choice: choice });
+            this.viewCtrl.dismiss({ choice: choice, privacy: this.privacy });
         }, 300)
     }
 
@@ -111,6 +118,10 @@ export class EditDeleteMessage {
         } else {
             this.utilityMethods.doToast("Only admin can change privacy.")
         }
+    }
+
+    change_new_tote_privacy(privacy) {
+        this.privacy = privacy;
     }
 
     determine_groupUser_as_admin(): boolean {

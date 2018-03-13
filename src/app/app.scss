@@ -1286,3 +1286,74 @@ search_page {
         background: $me_app_color !important; // box-shadow: 0 -6px 10px 0px #a7a7a7;
     }
 }
+
+.loader-panel {
+    .item {
+        border-bottom: 0px;
+    }
+    .item {
+        padding: 0px;
+        .item-inner {
+            padding: 0px;
+            ion-label,
+            .label-ios,
+            .label-md {
+                margin: 0px;
+                >div {
+                    display: block;
+                    overflow: hidden;
+                    width: 100%;
+                    border-bottom: 1px solid #e8e8e8;
+                    position: relative;
+                    .img-holder {
+                        height: 72px;
+                        vertical-align: middle;
+                        width: 50px;
+                        background-image: url(../assets/img/option-icon.png); // background-image: url(../assets/img/grayDotIcon.svg);
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: 5px;
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        text-align: center;
+                        line-height: 4;
+                        img {
+                            vertical-align: middle;
+                        }
+                    }
+                    .txt {
+                        vertical-align: middle;
+                        padding: 26px 10px 0px 0px;
+                        width: calc(100% - 50px);
+                        min-height: 72px;
+                        position: relative;
+                        float: right;
+                        &.line-loader {
+                            span {
+                                height: 8px;
+                                display: inline-block;
+                                background: #eeeeee;
+                                &.head-line {
+                                    display: block;
+                                }
+                                &.name-line {
+                                    width: calc(100% - 60px);
+                                    float: left;
+                                }
+                                &.date-line {
+                                    width: 40px;
+                                    float: right;
+                                }
+                            }
+                            .line-bot {
+                                overflow: hidden;
+                                padding-top: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

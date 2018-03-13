@@ -64,6 +64,7 @@ export class AnototeEditor implements OnDestroy {
     private selected_highlight: { txt: '', identifier: '', type: '', comment: '', from_where: '' };
     private selection_lock: boolean;
     private text: string; // Anotote article whole text
+    private full_text: string = '';
     private tote_id: string;
     private main_anotote_id: string;
     private tote_user_id: string;
@@ -355,6 +356,25 @@ export class AnototeEditor implements OnDestroy {
         this.full_screen_mode = !this.full_screen_mode;
         this.showheader = true;
         this.hideheader = false;
+        if (this.full_screen_mode == true) {
+            if (this.full_text == '') {
+                this.showLoading("Please wait...");
+                var params = {
+                    url: this.ANOTOTE.userAnnotote.annotote.link
+                }
+                this.searchService.get_full_screenContent(params).subscribe((success: any) => {
+                    this.hideLoading()
+                    this.full_text = success._body;
+                }, (error) => {
+                    this.hideLoading();
+                    this.ANOTOTE_LOADED = true;
+                    this.ANOTOTE_LOADING_ERROR = true;
+                    if (error.code == -1 || error.code == -2) {
+                        this.utilityMethods.internet_connection_error();
+                    }
+                })
+            }
+        }
     }
 
     add_to_me_stream() {
@@ -740,46 +760,46 @@ export class AnototeEditor implements OnDestroy {
                 this.downvote(element.getAttribute('data-identifier'))
             } else if (data.tags) {
                 //this.show_annotation_tags(element.getAttribute('data-identifier'))
-                if(data.link == false){
-                let searchModal = this.modalCtrl.create(Search, { saved_searched_txt: data.search, saveIt:true });
-                searchModal.onDidDismiss(data => {
-                    if (data.go_to_browser) {
-                    var anotote = data.anotote;
-                    if (data.neworold) {
-                        this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-                    } else
-                        this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
-                    }
-                });
-                searchModal.present();
-                }else{
+                if (data.link == false) {
+                    let searchModal = this.modalCtrl.create(Search, { saved_searched_txt: data.search, saveIt: true });
+                    searchModal.onDidDismiss(data => {
+                        if (data.go_to_browser) {
+                            var anotote = data.anotote;
+                            if (data.neworold) {
+                                this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                            } else
+                                this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
+                        }
+                    });
+                    searchModal.present();
+                } else {
                     this.showLoading('Please wait...');
                     var params = { url: this.get_highlight(element.getAttribute('data-identifier')).tagText, created_at: this.utilityMethods.get_php_wala_time() }
                     this.searchService.create_anotote(params)
                         .subscribe((response) => {
-                        this.hideLoading();
-                        var bookmark = new SearchUnPinned( 0 ,
-                            response.data.annotote.title, params.url,
-                            this.authService.getUser().id, 0);
-                        var temp= this.searchService.getAlreadySavedSearches(bookmark.term)
-                        if (temp == null) 
-                            this.searchService.saved_searches.unshift(bookmark);
+                            this.hideLoading();
+                            var bookmark = new SearchUnPinned(0,
+                                response.data.annotote.title, params.url,
+                                this.authService.getUser().id, 0);
+                            var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
+                            if (temp == null)
+                                this.searchService.saved_searches.unshift(bookmark);
                             else
-                            bookmark = temp;
+                                bookmark = temp;
 
                             var paramz = {
                                 tags: [response.data],
                                 annotote: false,
-                                search:bookmark
+                                search: bookmark
                             }
                             let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
-                            tagsModal.onDidDismiss((data)=>{
-                                if(data && data.browseIt){
-                                this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                            tagsModal.onDidDismiss((data) => {
+                                if (data && data.browseIt) {
+                                    this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
                                 }
                             })
                             tagsModal.present();
-                    })
+                        })
                 }
             }
         });

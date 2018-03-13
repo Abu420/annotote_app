@@ -58,7 +58,7 @@
                 <span class="txt">TOP</span>
             </li>
         </ul>
-        <ion-list style="margin-bottom: 50px !important;" class="product-list">
+        <ion-list class="product-list">
             <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
                 <div class="img-holder" (click)="pinImage($event,search)">
                     <img *ngIf="search.id != 0" src="assets/img/blackBookmark.svg" alt="">
@@ -75,9 +75,128 @@
                 </div>
             </ion-item>
         </ion-list>
-        <div *ngIf="latest_searches_firstTime_loading" class="latest_searches_spinner">
-            <ion-spinner name="ios"></ion-spinner>
-        </div>
+        <ion-list style="margin-bottom: 50px !important;" class="product-list loader-panel" *ngIf="latest_searches_firstTime_loading">
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
     </div>
 </ion-content>
 <ion-fab (tap)="notifications()" [ngClass]="{'moveUpList': move_fab == true}" bottom right>

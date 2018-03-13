@@ -56,6 +56,8 @@ export class Chat {
   public newChatTitle = '';
   public titleField: boolean = false;
   public groupId: number = 0;
+  public privacyForNewTote: number = 0;
+  public fbLoading: boolean = true;
   /**
    * Constructor
    */
@@ -91,9 +93,12 @@ export class Chat {
     }
     if (navParams.get('group')) {
       var group = navParams.get('group');
-      this.groupId = group.groupId;
-      this.anotote_id = group.anototeId;
-      this.title = group.subject;
+      this.tote = {
+        chatGroup: group
+      }
+      this.groupId = group.id;
+      this.anotote_id = group.groupUsers[0].anototeId;
+      // this.title = group.subject;
     }
     if (navParams.get('color')) {
       this.current_color = navParams.get('color');
@@ -137,7 +142,22 @@ export class Chat {
   public sendMessage() {
     if (this.textMessage != "") {
       this.send_message_loader = true;
-      this.chatService.saveMessage({ second_person: this.secondUser.id, message: this.textMessage, created_at: this.utilityMethods.get_php_wala_time(), subject: this.title, anotote_id: this.anotote_id, group_id: this.groupId }).subscribe((result) => {
+      var params: any = {
+        second_person: this.secondUser.id,
+        message: this.textMessage,
+        created_at: this.utilityMethods.get_php_wala_time(),
+        subject: this.title,
+        anotote_id: this.anotote_id,
+        group_id: this.groupId
+      }
+      if (this.conversation.length == 0) {
+        if (this.anotote_id == 0) {
+          params.privacy = 1
+        } else {
+          params.privacy = this.privacyForNewTote;
+        }
+      }
+      this.chatService.saveMessage(params).subscribe((result) => {
         this.send_message_loader = false;
         // this.myInput.nativeElement.style.height = 60 + 'px';
         if (this.conversation.length == 0 || this.tote == null) {
@@ -191,7 +211,9 @@ export class Chat {
   }
 
   doInfinite(infiniteScroll) {
+    this.fbLoading = true;
     this.chatService.fetchHistory(this.contains == true ? this.user.id : this.firstUser.id, this.secondUser.id, this.current_page++, this.anotote_id, this.groupId).subscribe((result) => {
+      this.fbLoading = false;
       if (this.conversation.length == 0)
         this.conversation = result.data.messages.reverse();
       else {
@@ -205,6 +227,7 @@ export class Chat {
         this.infinite_completed = true;
       }
     }, (error) => {
+      this.fbLoading = false;
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
       }
@@ -361,7 +384,6 @@ export class Chat {
   }
 
   showOptions() {
-    console.log(this.tote);
     if (this.conversation.length > 0) {
       var params = {
         message: this.conversation[0],
@@ -391,7 +413,21 @@ export class Chat {
       })
       anototeOptionsModal.present();
     } else {
-      this.utilityMethods.doToast("Please initiate this chat by sending a message and then you can see more options.");
+      var paramz = {
+        isNew: true,
+        privacy: this.privacyForNewTote,
+        id: this.tote == null ? 0 : 1
+      }
+      let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, paramz);
+      anototeOptionsModal.onDidDismiss((data) => {
+        if (data) {
+          if (data.choice == 'delete') {
+            this.navCtrl.pop();
+          }
+          this.privacyForNewTote = data.privacy;
+        }
+      })
+      anototeOptionsModal.present();
     }
   }
 

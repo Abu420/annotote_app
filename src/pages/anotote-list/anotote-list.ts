@@ -245,6 +245,7 @@ export class AnototeList {
   ];
   public bracketStartIndex = 0;
   public send_message_loader: boolean = false;
+  public infiniteLoading: boolean = false;
   /**
    * Constructor
    */
@@ -673,7 +674,9 @@ export class AnototeList {
     this.infinite_scroll = infiniteScroll;
     if (this.current_color != 'top') {
       if (this.followedUserId == 0 && this.mentionedCase == false) {
+        this.infiniteLoading = true;
         this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
+          this.infiniteLoading = false;
           let stream = result.data.annototes;
           for (let entry of stream) {
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
@@ -690,13 +693,16 @@ export class AnototeList {
           }
 
         }, (error) => {
-          this.utilityMethods.hide_loader();
+          // this.utilityMethods.hide_loader();
+          this.infiniteLoading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           }
         });
       } else if (this.followedUserId != 0) {
+        this.infiniteLoading = true;
         this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
+          this.infiniteLoading = false;
           let stream = result.data.annototes;
           for (let entry of stream) {
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
@@ -706,7 +712,8 @@ export class AnototeList {
             infiniteScroll.enable(false);
           }
         }, (error) => {
-          this.utilityMethods.hide_loader();
+          // this.utilityMethods.hide_loader();
+          this.infiniteLoading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           }
@@ -720,8 +727,9 @@ export class AnototeList {
         number: this.current_page++,
         time: this.utilityMethods.get_php_wala_time()
       }
+      this.infiniteLoading = true;
       this.anototeService.top_totes(params).subscribe((result) => {
-        this.utilityMethods.hide_loader();
+        this.infiniteLoading = false;
         for (let totes of result.data.annototes) {
           totes.createdAt = totes.userAnnotote.createdAt
           this.top_anototes.push(totes);
@@ -739,12 +747,14 @@ export class AnototeList {
           infiniteScroll.enable(false);
         }
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        // this.utilityMethods.hide_loader();
+        this.infiniteLoading = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
       });
     }
+
   }
 
   doRefresh(refresher) {
@@ -949,6 +959,7 @@ export class AnototeList {
     if (anotote.chatGroup == null && this.current_color == 'me') {
       if (this.current_active_highlight) {
         this.current_active_highlight.edit = false;
+        this.current_active_highlight.show_autocomplete = false;
       }
       anotote.active_tab = 'me';
       if (this.current_active_anotote != null) {
@@ -1491,6 +1502,7 @@ export class AnototeList {
         if (highlight.edit) {
           this.move_fab = false;
           highlight.edit = false;
+          highlight.show_autocomplete = false;
         } else {
           this.move_fab = true;
           highlight.edit = true;
@@ -1502,6 +1514,7 @@ export class AnototeList {
       if (highlight.edit) {
         this.move_fab = false;
         highlight.edit = false;
+        highlight.show_autocomplete = false;
       } else {
         this.move_fab = true;
         highlight.edit = true;
@@ -1546,6 +1559,7 @@ export class AnototeList {
   stop_editing(event, highlight) {
     event.stopPropagation();
     highlight.edit = false;
+    highlight.show_autocomplete = false;
   }
 
   editField(event) {
@@ -1673,6 +1687,7 @@ export class AnototeList {
               highlight.highlightText = this.edit_actual_highlight;
               highlight.comment = result.data.highlight.comment;
               highlight.edit = false;
+              highlight.show_autocomplete = false;
               this.current_active_highlight = null;
               this.text = '';
               this.stream.top_first_load = false;
@@ -2598,14 +2613,14 @@ export class AnototeList {
 
   tagClick(event, highlight) {
     event.stopPropagation();
-    var tag:string = event.target.textContent;
+    var tag: string = event.target.textContent;
     var check = tag.split(' ');
     if ((tag[0] == '#' || tag[0] == '$' || tag[0] == '@') && check.length == 1) {
-      tag = tag.replace('#','');
-      tag = tag.replace('$','');
-      tag = tag.replace('@','');
-      
-      let searchModal = this.modalCtrl.create(Search, { saved_searched_txt: tag, saveIt:true });
+      tag = tag.replace('#', '');
+      tag = tag.replace('$', '');
+      tag = tag.replace('@', '');
+
+      let searchModal = this.modalCtrl.create(Search, { saved_searched_txt: tag, saveIt: true });
       searchModal.onDidDismiss(data => {
         if (data.go_to_browser) {
           var anotote = data.anotote;
@@ -2620,35 +2635,35 @@ export class AnototeList {
         }
       });
       searchModal.present();
-    } else if(tag[0] == '^') {
+    } else if (tag[0] == '^') {
       this.showLoading('Please wait...');
       var params = { url: highlight.tags[event.target.id].tagText, created_at: this.utilityMethods.get_php_wala_time() }
       this.searchService.create_anotote(params)
-            .subscribe((response) => {
-              this.hideLoading();
-              var bookmark = new SearchUnPinned( 0 ,
-                  response.data.annotote.title, params.url,
-                  this.authService.getUser().id, 0);
-              var temp= this.searchService.getAlreadySavedSearches(bookmark.term)
-              if (temp == null) 
-                  this.searchService.saved_searches.unshift(bookmark);
-                else
-                  bookmark = temp;
+        .subscribe((response) => {
+          this.hideLoading();
+          var bookmark = new SearchUnPinned(0,
+            response.data.annotote.title, params.url,
+            this.authService.getUser().id, 0);
+          var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
+          if (temp == null)
+            this.searchService.saved_searches.unshift(bookmark);
+          else
+            bookmark = temp;
 
-                  var paramz = {
-                    tags: [response.data],
-                    annotote: false,
-                    search:bookmark
-                  }
-                  let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
-                  tagsModal.onDidDismiss((data)=>{
-                    if(data && data.browseIt){
-                      this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-                    }
-                  })
-                  tagsModal.present();
-            })
-      
+          var paramz = {
+            tags: [response.data],
+            annotote: false,
+            search: bookmark
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
+          tagsModal.onDidDismiss((data) => {
+            if (data && data.browseIt) {
+              this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+            }
+          })
+          tagsModal.present();
+        })
+
     }
   }
 

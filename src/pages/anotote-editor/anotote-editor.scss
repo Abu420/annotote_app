@@ -198,7 +198,7 @@ comment_detail_popup {
         letter-spacing: -5px;
         background: #313131;
         overflow: hidden;
-        box-shadow: 4px 0 10px #000;
+        box-shadow: 0px 0px 23px -3px #000;
         z-index: 10;
         position: relative;
     }
@@ -322,70 +322,71 @@ comment_detail_popup {
                 width: 25px;
             }
         }
-        .tag_input {
+    }
+    .tag_input {
+        width: 100%;
+        background: #FFF;
+        position: absolute;
+        top: -73%;
+        height: 73%;
+        overflow: scroll;
+        &:after {
+            content: "";
+            display: table;
+            clear: both;
             width: 100%;
-            background: #efefef;
-            position: relative;
-            z-index: 99;
-            &:after {
-                content: "";
-                display: table;
-                clear: both;
-                width: 100%;
+        }
+        &::before {
+            content: "";
+            display: table;
+            clear: both;
+            width: 100%;
+        }
+        .input-wrapper {
+            ion-label {
+                font-size: 14px;
             }
-            &::before {
-                content: "";
-                display: table;
-                clear: both;
-                width: 100%;
-            }
-            .input-wrapper {
-                ion-label {
-                    font-size: 14px;
+        }
+        .tagList {
+            position: absolute;
+            left: 0px;
+            background: #FFF;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            overflow: auto;
+            z-index: 1;
+            border-top: 1px solid #e0e0e0;
+            li {
+                display: block;
+                padding: 10px;
+                border-bottom: 1px solid #ececec;
+                overflow: hidden;
+                figure {
+                    margin: 0px;
+                    float: left;
+                    width: 40px;
+                    height: 40px;
                 }
-            }
-            .tagList {
-                position: absolute;
-                height: 65px;
-                left: 0px;
-                background: #FFF;
-                margin: 0px;
-                padding: 0px;
-                width: 100%;
-                overflow: auto;
-                z-index: 1;
-                border-top: 1px solid #e0e0e0;
-                li {
-                    display: block;
+                figcaption {
+                    width: calc(100% - 40px);
+                    display: inline-block;
                     padding: 10px;
-                    border-bottom: 1px solid #ececec;
-                    overflow: hidden;
-                    figure {
-                        margin: 0px;
-                        float: left;
-                        width: 40px;
-                        height: 40px;
-                    }
-                    figcaption {
-                        width: calc(100% - 40px);
-                        display: inline-block;
-                        padding: 10px;
-                    }
                 }
             }
-            input {
-                width: 100%;
-                padding: 0px 78px 0 10px;
-                line-height: 35px;
-                float: left;
-            }
-            button {
-                height: 40px;
-                width: 80px;
-                position: absolute;
-                right: 20px;
-                top: 20px;
-            }
+        }
+        input {
+            width: 100%;
+            padding: 0px 78px 0 10px;
+            line-height: 35px;
+            float: left;
+        }
+        button {
+            height: 40px;
+            width: 80px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
         }
     }
 }
