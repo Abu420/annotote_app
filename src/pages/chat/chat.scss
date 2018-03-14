@@ -119,6 +119,15 @@ page-chat {
         .item-inner {
             padding: 0px !important;
             .label-ios {
+                &:focus {
+                    background: #f4f4f4;
+                }
+                &:active {
+                    background: #f4f4f4;
+                }
+                &:visited {
+                    background: #f4f4f4;
+                }
                 margin: 0px;
                 padding: 10px 15px;
                 .status {

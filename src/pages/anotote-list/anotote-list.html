@@ -772,7 +772,7 @@
         <ng-container *ngIf="current_color == 'me'">
             <ng-container *ngIf="!reply_box_on">
                 <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
-                <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
+                <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">Chat: {{current_active_anotote.chatGroup.messagesUser[0].subject}}</p>
                 <span (tap)="reply_here(current_active_anotote)">Reply</span>
             </ng-container>
         </ng-container>
@@ -780,7 +780,7 @@
             <ng-container *ngIf="(current_active_anotote.chatGroup.groupUsers | chatVoteOptions) == true">
                 <ng-container *ngIf="!reply_box_on">
                     <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject == null">Chat</p>
-                    <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">“[{{current_active_anotote.chatGroup.messagesUser[0].subject}}]”</p>
+                    <p *ngIf="current_active_anotote.chatGroup.messagesUser[0].subject != null">Chat: {{current_active_anotote.chatGroup.messagesUser[0].subject}}</p>
                     <span (tap)="reply_here(current_active_anotote)">Reply</span>
                 </ng-container>
             </ng-container>
@@ -900,7 +900,7 @@
         <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/dodtsLine.svg" alt="">
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="!loading_check && current_active_highlight && current_active_highlight.edit == true">
+<ion-footer class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_highlight && current_active_highlight.edit == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
             <span (click)="stop_editing($event,current_active_highlight)">Close</span>
@@ -912,7 +912,7 @@
         </div> -->
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
+<ion-footer class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
             <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>

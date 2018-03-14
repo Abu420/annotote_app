@@ -63,17 +63,6 @@ export class Search {
         public authService: AuthenticationService,
         public cd: ChangeDetectorRef,
         public key: Keyboard) {
-        // key.onKeyboardShow().subscribe(() => {
-        //     if (utilityMethods.whichPlatform() == 'ios') {
-        //         this.isOpen = true;
-        //     }
-        // })
-        // key.onKeyboardHide().subscribe(() => {
-        //     if (utilityMethods.whichPlatform() == 'ios') {
-        //         this.isOpen = false;
-        //         this.cd.detectChanges();
-        //     }
-        // })
         this.search_results = [];
         this.search_txt = "";
         this.entering_url = false;

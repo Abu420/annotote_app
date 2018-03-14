@@ -1,5 +1,5 @@
-import { Component, ViewChild, trigger, transition, style, animate, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
+import { Component, ViewChild, trigger, transition, style, animate, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { IonicPage, ModalController, Content, NavController, ToastController, Toast, NavParams, AlertController, ActionSheetController, VirtualScroll } from 'ionic-angular';
 import { AnototeDetail } from '../anotote-detail/anotote-detail';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 import { Anotote } from '../../models/anotote';
@@ -27,6 +27,7 @@ import { ChatToteOptions } from './chat_tote';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
 import { ChatService } from "../../services/chat.service";
+import { Keyboard } from '@ionic-native/keyboard';
 
 @IonicPage()
 @Component({
@@ -246,6 +247,7 @@ export class AnototeList {
   public bracketStartIndex = 0;
   public send_message_loader: boolean = false;
   public infiniteLoading: boolean = false;
+  public defaultWindowHeight: number = window.innerHeight;
   /**
    * Constructor
    */
@@ -263,7 +265,27 @@ export class AnototeList {
     public stream: Streams,
     public actionSheetCtrl: ActionSheetController,
     public chatService: ChatService,
-    public cd: ChangeDetectorRef) {
+    public cd: ChangeDetectorRef,
+    public key: Keyboard) {
+    this.key.disableScroll(true);
+    key.onKeyboardShow().subscribe(() => {
+      if (utilityMethods.whichPlatform() == 'ios') {
+        setTimeout(() => {
+          var snackbar = document.getElementById('snackbarFortote');
+          if (snackbar)
+            snackbar.style.bottom = (this.defaultWindowHeight - window.innerHeight) + 'px';
+        }, 500);
+      }
+    })
+    key.onKeyboardHide().subscribe(() => {
+      if (utilityMethods.whichPlatform() == 'ios') {
+        var snackbar = document.getElementById('snackbarFortote');
+        if (snackbar) {
+          snackbar.style.bottom = '0px';
+        }
+        this.cd.detectChanges();
+      }
+    })
     this.current_color = navParams.get('color');
     this.whichStream = navParams.get('color');
     this.reply_box_on = false;
@@ -292,6 +314,7 @@ export class AnototeList {
   ionViewDidLeave() {
     // this.anototes = [];
     // this.top_anototes = [];
+    this.key.disableScroll(false);
     if (this.current_active_anotote) {
       this.current_active_anotote.active = false;
     }
@@ -956,6 +979,9 @@ export class AnototeList {
   }
 
   bulkAction(anotote) {
+    if (this.anototes.indexOf(anotote) > 2) {
+      this.content.scrollTo(0, this.anototes.indexOf(anotote) * 65, 500);
+    }
     if (anotote.chatGroup == null && this.current_color == 'me') {
       if (this.current_active_highlight) {
         this.current_active_highlight.edit = false;
@@ -965,6 +991,7 @@ export class AnototeList {
       if (this.current_active_anotote != null) {
         if (this.current_active_anotote.id != anotote.id) {
           this.current_active_anotote.checked = false;
+          this.current_active_anotote.active = false;
           if (anotote.checked) {
             this.title_temp = '';
             this.move_fab = false;
@@ -973,12 +1000,21 @@ export class AnototeList {
             this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
             this.move_fab = true;
             anotote.checked = true;
+            anotote.active = false;
           }
           this.current_active_anotote = anotote;
         } else {
-          anotote.checked = false;
-          this.move_fab = false;
-          this.current_active_anotote = null;
+          if (this.current_active_anotote.checked) {
+            this.move_fab = false;
+            this.title_temp = '';
+            this.current_active_anotote.checked = false;
+            this.current_active_anotote = null;
+          } else {
+            this.move_fab = true;
+            this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle;
+            this.current_active_anotote.checked = true;
+            this.current_active_anotote.active = false;
+          }
         }
       } else {
         if (anotote.checked) {
@@ -1000,6 +1036,7 @@ export class AnototeList {
         if (this.current_active_anotote != null) {
           if (this.current_active_anotote.id != anotote.id) {
             this.current_active_anotote.checked = false;
+            this.current_active_anotote.active = false;
             if (anotote.checked) {
               this.title_temp = '';
               this.move_fab = false;
@@ -1008,12 +1045,22 @@ export class AnototeList {
               this.title_temp = anotote.chatGroup.messagesUser[0].subject;
               this.move_fab = true;
               anotote.checked = true;
+              anotote.active = false;
             }
             this.current_active_anotote = anotote;
           } else {
-            anotote.checked = false;
-            this.move_fab = false;
-            this.current_active_anotote = null;
+            if (this.current_active_anotote.checked) {
+              this.move_fab = false;
+              this.title_temp = '';
+              this.current_active_anotote.checked = false;
+              this.current_active_anotote.active = false;
+              this.current_active_anotote = null;
+            } else {
+              this.move_fab = true;
+              this.title_temp = anotote.chatGroup.messagesUser[0].subject;
+              this.current_active_anotote.checked = true;
+              this.current_active_anotote.active = false;
+            }
           }
         } else {
           if (anotote.checked) {
@@ -1049,8 +1096,6 @@ export class AnototeList {
         this.options(anotote);
       }
     }
-    this.cd.detectChanges();
-    this.content.resize();
   }
 
   saveTitle(anotote) {
@@ -2122,19 +2167,15 @@ export class AnototeList {
     // this.statusBar.backgroundColorByHexString('#323232');
     let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
     searchModal.onDidDismiss((data) => {
-      if (this.current_active_anotote == null) {
-        if (this.current_color == 'me')
-          this.statusBar.backgroundColorByHexString('#3bde00');
-        else if (this.current_color == 'follows')
-          this.statusBar.backgroundColorByHexString('#f4e300');
-        else if (this.current_color == 'top')
-          this.statusBar.backgroundColorByHexString('#fb9df0');
-      }
-      // if (data.editor_check)
-      //   if (data.userAnnotote.anototeType == 'me')
-      //     this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: data.userAnnotote.anototeType, actual_stream: data.userAnnotote.anototeType });
-      //   else
-      //     this.navCtrl.push(AnototeEditor, { ANOTOTE: data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+      if (this.current_color == 'me')
+        this.statusBar.backgroundColorByHexString('#3bde00');
+      else if (this.current_color == 'follows')
+        this.statusBar.backgroundColorByHexString('#f4e300');
+      else if (this.current_color == 'top')
+        this.statusBar.backgroundColorByHexString('#fb9df0');
+      else
+        this.statusBar.backgroundColorByHexString('#323232');
+
       if (data.go_to_browser) {
         var anotote = data.anotote;
         if (data.neworold) {
