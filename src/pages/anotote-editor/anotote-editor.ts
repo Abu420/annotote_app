@@ -984,7 +984,7 @@ export class AnototeEditor implements OnDestroy {
         element.setAttribute("data-comment", comment);
         var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
-        if (this.WHICH_STREAM != 'me') {
+        if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
             tote_id = this.ANOTOTE.userAnnotote.id;
@@ -1003,7 +1003,7 @@ export class AnototeEditor implements OnDestroy {
                             break;
                         }
                     }
-                } else {
+                } else if(this.WHICH_STREAM != 'anon') {
                     this.runtime.me_first_load = false;
                     for (let highlight of this.ANOTOTE.my_highlights) {
                         if (highlight.id == response.data.highlight.id) {
@@ -1014,6 +1014,15 @@ export class AnototeEditor implements OnDestroy {
                     }
                     if (this.WHICH_STREAM == 'follows') {
                         this.ANOTOTE.top_highlights = null;
+                    }
+                }else{
+                    this.runtime.me_first_load = false;
+                    for (let highlight of this.ANOTOTE.userAnnotote.highlights) {
+                        if (highlight.id == response.data.highlight.id) {
+                            highlight.comment = response.data.highlight.comment;
+                            highlight.highlightText = response.data.highlight.highlightText;
+                            break;
+                        }
                     }
                 }
             }, (error) => {
@@ -1194,7 +1203,7 @@ export class AnototeEditor implements OnDestroy {
                 return null;
             }
         } else if (this.WHICH_STREAM == 'anon') {
-            if (this.actual_stream == 'follows') {
+            if (this.actual_stream == 'follows' && this.FROM != 'search_result') {
                 for (let user of this.ANOTOTE.followers) {
                     if (user.followTote.filePath == this.ANOTOTE.followerFilePath) {
                         for (let highlight of user.highlights) {
@@ -1212,6 +1221,26 @@ export class AnototeEditor implements OnDestroy {
                     }
                 }
                 return null;
+            }
+            if (this.FROM == 'search_result') {
+                if (this.actual_stream == 'me') {
+                    for (let highlight of this.ANOTOTE.userAnnotote.highlights) {
+                        if (highlight.identifier == identifier) {
+                            return highlight;
+                        }
+                    }
+                    return null;
+                }else if(this.actual_stream == 'follows'){
+                    if(this.ANOTOTE.isMe == 0){
+                        this.ANOTOTE.follows[0].highlights = this.ANOTOTE.highlights;
+                        for (let highlight of this.ANOTOTE.highlights) {
+                            if (highlight.identifier == identifier) {
+                                return highlight;
+                            }
+                        }
+                        return null;
+                    }
+                }
             }
         } else {
             if (this.actual_stream == 'me') {
@@ -1335,6 +1364,11 @@ export class AnototeEditor implements OnDestroy {
                 this.actual_stream = anotote.active_tab;
                 this.scrape_anotote(anotote.meFilePath);
             }
+        } else if (this.WHICH_STREAM == 'anon' && this.FROM == 'search_result') {
+            anotote.active_tab = 'me';
+            anotote.highlights = Object.assign(anotote.userAnnotote.highlights);
+            this.actual_stream = anotote.active_tab;
+            this.scrape_anotote(anotote.userAnnotote.filePath);
         }
     }
 

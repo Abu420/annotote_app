@@ -1502,6 +1502,9 @@ export class AnototeList {
   annotation_options(highlight) {
     if (this.current_color == 'me' && this.current_active_anotote.active_tab == 'me' && this.reorder_highlights == false) {
       this.current_active_anotote.checked = false;
+      if (this.anototes.indexOf(this.current_active_anotote) > 2) {
+        this.content.scrollTo(0, this.anototes.indexOf(this.current_active_anotote) * 140, 500);
+      }
       this.edit_annotation(highlight);
       // this.reorder_highlights = false;
       // if (highlight.edit == undefined || highlight.edit == false) {
@@ -1568,7 +1571,6 @@ export class AnototeList {
       }
       this.current_active_highlight = highlight;
     }
-
   }
 
   ellipsis(event) {

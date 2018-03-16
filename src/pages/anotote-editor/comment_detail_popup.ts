@@ -124,6 +124,41 @@ export class CommentDetailPopup {
   }
 
   updateComment() {
+    var test = this.anotote_txt.split(' ');
+    var test1 = '';
+    for (var i = 0; i < test.length; i++) {
+      if (i == 0) {
+        if (test[i][0] == '[') {
+          if (test[i + 1][0] != '[') {
+            test1 += ' ' + test[i];
+          } else {
+            test1 += ' ' + test[i].slice(test[i].length - 1);
+          }
+        } else {
+          test1 += ' ' + test[i];
+        }
+      } else if (i > 0) {
+        if (test[i][0] == '[') {
+          if (test[i - 1][test[i - 1].length - 1] == ']') {
+            if (test[i + 1][0] != '[') {
+              test1 += ' ' + test[i].slice(1);
+            } else {
+              test1 += ' ' + test[i].slice(1, test[i].length - 1);
+            }
+          } else {
+            if (test[i + 1][0] != '[') {
+              test1 += ' ' + test[i];
+            } else {
+              test1 += ' ' + test[i].slice(0, test[i].length - 1);
+            }
+          }
+        } else {
+          test1 += ' ' + test[i];
+        }
+
+      }
+    }
+    this.anotote_txt = test1;
     if ((this.new_comment != this.anotote_comment && this.new_comment != '') || (this.anotote_txt != this.actual_anotated && this.anotote_txt != '')) {
       var hashTags = this.searchTags('#');
       var cashTags = this.searchTags('$');
@@ -290,10 +325,10 @@ export class CommentDetailPopup {
           else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
             if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
               var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
-              firstHalf += ' "[';
+              firstHalf += ' [';
               var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
               sec = sec.trim();
-              firstHalf += sec + ']" ';
+              firstHalf += sec + '] ';
               firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
               this.anotote_txt = firstHalf;
               this.bracketStartIndex = 0;
@@ -353,13 +388,13 @@ export class CommentDetailPopup {
       this.show = false;
       setTimeout(() => {
         this.statusbar.show();
-        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link:false });
+        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link: false });
       }, 100)
-    }else if(tag[0] == '^'){
+    } else if (tag[0] == '^') {
       this.show = false;
       setTimeout(() => {
         this.statusbar.show();
-        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link:true });
+        this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link: true });
       }, 100)
     }
   }
