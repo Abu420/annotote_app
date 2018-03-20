@@ -1219,7 +1219,7 @@ export class AnototeList {
             var params: any = {
               annotote_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.annotote.id : this.current_active_anotote.annotote.id,
               user_id: this.current_color == 'follows' ? this.current_active_anotote.userAnnotote.anototeDetail.user.id : this.current_active_anotote.anototeDetail.user.id,
-              created_at: this.utilityMethods.get_php_wala_time()
+              created_at: this.current_active_anotote.userAnnotote.createdAt
             }
             this.showLoading('Saving')
             this.anototeService.save_totes(params).subscribe((result) => {
@@ -2680,7 +2680,10 @@ export class AnototeList {
       searchModal.present();
     } else if (tag[0] == '^') {
       this.showLoading('Please wait...');
-      var params = { url: highlight.tags[event.target.id].tagText, created_at: this.utilityMethods.get_php_wala_time() }
+      var params = {
+        url: highlight.tags[event.target.id].tagText,
+        created_at: this.utilityMethods.get_php_wala_time()
+      }
       this.searchService.create_anotote(params)
         .subscribe((response) => {
           this.hideLoading();

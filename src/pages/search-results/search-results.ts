@@ -40,7 +40,8 @@ export class SearchResults {
   private search_filters = {
     media: {
       tote: false,
-      user: false
+      user: false,
+      chat: false
     },
     category: {
       me: false,
@@ -66,6 +67,7 @@ export class SearchResults {
     public statusBar: StatusBar) {
     this.search_term = params.get('search_term');
     var results = params.get('results');
+    console.log(results)
     for (let tote of results) {
       if (tote.annotote) {
         tote.is_tote = true;
@@ -149,6 +151,19 @@ export class SearchResults {
     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: highlight, actual_stream: anotote.userAnnotote.active_tab });
   }
 
+  go_to_chat_thread(anotote) {
+    let secondUser: any = null;
+    for (let group of anotote.chatGroup.groupUsers) {
+      if (group.user.id != this.user.id) {
+        secondUser = group.user;
+      }
+    }
+    var against = false;
+    if (anotote.chatGroup.messagesUser[0].anototeId != 0)
+      against = true;
+    this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: 'me' });
+  }
+
   load_search_results() {
     this.search_results = [];
     this.no_search = false;
@@ -176,6 +191,9 @@ export class SearchResults {
       }
     } else if (this.search_filters.media.user)
       params.type = 'user';
+    else if (this.search_filters.media.chat) {
+      params.annotote_type = 'chats'
+    }
 
     this.searchService.general_search(params)
       .subscribe((response) => {
@@ -214,6 +232,14 @@ export class SearchResults {
               }
               this.search_results.push(tote);
             }
+          }
+          for (let group of response.data.group) {
+            var anotote = {
+              isChat: true,
+              is_tote: false,
+              chatGroup: group
+            }
+            this.search_results.push(anotote);
           }
           for (let user of response.data.user) {
             user.is_tote = false;
@@ -284,71 +310,127 @@ export class SearchResults {
   }
 
   openAnototeDetail(anotote) {
-
-    //-----
     if (this.current_active_anotote) {
       this.current_active_anotote.active = false;
       this.current_active_anotote.checked = false;
-      if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
+      if (anotote.chatGroup == null) {
+        // if (anotote.userAnnotote && this.current_active_anotote.chatGroup == null && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
+        //   this.move_fab = false;
+        // else if(this.current_active_anotote.chatGroup){
+
+        // }
+        if (this.current_active_highlight) {
+          this.current_active_highlight.edit = false;
+        }
+        if (this.current_active_anotote.chatGroup == null && this.current_active_anotote.userAnnotote.userAnnotote.id == anotote.userAnnotote.userAnnotote.id) {
+          this.current_active_anotote = null;
+          return;
+        }
+      } else {
+        anotote.active_tab = 'me';
         this.move_fab = false;
-      else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
-        this.move_fab = false;
-      else if (anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
-        this.move_fab = false;
-      if (this.current_active_highlight) {
-        this.current_active_highlight.edit = false;
+        if (this.current_active_anotote.chatGroup && anotote.chatGroup.id == this.current_active_anotote.chatGroup.id) {
+          this.current_active_anotote = null;
+          return;
+        }
       }
-      if (this.current_active_anotote.userAnnotote.userAnnotote.id == anotote.userAnnotote.userAnnotote.id) {
-        this.current_active_anotote = null;
-        return;
-      }
+    }
+    if (anotote.chatGroup) {
+      anotote.active_tab = 'me';
     }
     this.current_active_anotote = anotote;
     this.current_active_anotote.active = !this.current_active_anotote.active;
   }
 
-  presentAnototeOptionsModal(event, anotote) {
+  chat_participants_from_tote(event, anotote) {
     event.stopPropagation();
-    var params = {
-      anotote: anotote.userAnnotote,
-      whichStream: 'search',
-      active_tab: anotote.userAnnotote.active_tab
+    var users = [];
+    for (let group of anotote.chatGroup.groupUsers) {
+      users.push(group.user);
     }
+    let anototeOptionsModal = this.modalCtrl.create(FollowsPopup, { follows: users, participant: true });
+    anototeOptionsModal.onDidDismiss(data => {
+    });
+    anototeOptionsModal.present();
+  }
 
+  presentMessageOptions(message, anotote) {
+    this.presentAnototeOptionsModal(null, anotote, message)
+  }
+
+  presentAnototeOptionsModal(event, anotote, message = null) {
+    if (event)
+      event.stopPropagation();
+    var params = {
+      anotote: anotote.chatGroup == null ? anotote.userAnnotote : anotote,
+      whichStream: 'search',
+      active_tab: anotote.chatGroup == null ? anotote.userAnnotote.active_tab : 'me'
+    }
+    if (message != null)
+      params["message"] = message;
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
       if (data.tags) {
-        var params = {
-          user_tote_id: anotote.userAnnotote.userAnnotote.id,
-          tags: anotote.userAnnotote.userAnnotote.tags,
-          whichStream: anotote.userAnnotote.active_tab,
-          annotote: true
-        }
-        let tagsModal = this.modalCtrl.create(TagsPopUp, params);
-        tagsModal.present();
-
-      } else if (data.delete == true) {
-        this.current_active_anotote = null;
-        this.stream.top_first_load = false;
-        this.stream.follow_first_load = false;
-        this.stream.me_first_load = false;
-        this.search_results.splice(this.search_results.indexOf(anotote), 1);
-      } else if (data.chat) {
-        var chatParams = {
-          anotote: anotote.userAnnotote,
-          stream: 'anon',
-          findChatter: true
-        }
-        let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
-        chatTote.onDidDismiss((data) => {
-          if (data.chat) {
-            if (data.title)
-              this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: anotote.userAnnotote.userAnnotote.id, title: data.title, full_tote: anotote.userAnnotote });
-            else
-              this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        if (anotote.chatGroup == null) {
+          var params = {
+            user_tote_id: anotote.userAnnotote.userAnnotote.id,
+            tags: anotote.userAnnotote.userAnnotote.tags,
+            whichStream: anotote.userAnnotote.active_tab,
+            annotote: true
           }
-        })
-        chatTote.present();
+          let tagsModal = this.modalCtrl.create(TagsPopUp, params);
+          tagsModal.present();
+        } else {
+          if (message == null) {
+            var paramsObj = {
+              chatId: anotote.chatGroup.id,
+              tags: anotote.chatGroup.chatTags,
+              whichStream: 'chat',
+              chatOrTxt: true,
+              participants: anotote.chatGroup.groupUsers
+            }
+          } else {
+            var paramsObj = {
+              chatId: message.id,
+              tags: message.messageTags,
+              whichStream: 'chat',
+              chatOrTxt: false,
+              participants: anotote.chatGroup.groupUsers
+            }
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, paramsObj);
+          tagsModal.present();
+        }
+      } else if (data.delete == true) {
+        if (message == null) {
+          this.current_active_anotote = null;
+          this.stream.top_first_load = false;
+          this.stream.follow_first_load = false;
+          this.stream.me_first_load = false;
+          this.search_results.splice(this.search_results.indexOf(anotote), 1);
+        } else {
+          anotote.chatGroup.messagesUser.splice(anotote.chatGroup.messagesUser.indexOf(message), 1);
+        }
+      } else if (data.chat) {
+        if (anotote.chatGroup == null) {
+          var chatParams = {
+            anotote: anotote.userAnnotote,
+            stream: 'anon',
+            findChatter: true
+          }
+          let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
+          chatTote.onDidDismiss((data) => {
+            if (data.chat) {
+              if (data.title)
+                this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: true, anotote_id: anotote.userAnnotote.userAnnotote.id, title: data.title, full_tote: anotote.userAnnotote });
+              else
+                this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+            }
+          })
+          chatTote.present();
+        } else {
+          this.go_to_chat_thread(anotote)
+        }
       }
     });
     anototeOptionsModal.present();
@@ -516,48 +598,58 @@ export class SearchResults {
 
   anotote_or_user_filter(choice) {
     if (choice == 'tote') {
-        if (this.search_filters.media.tote) {
-            this.search_filters.media.tote = false;
-        } else {
-            this.search_filters.media.tote = true;
-            this.search_filters.media.user = false;
-        }
+      if (this.search_filters.media.tote) {
+        this.search_filters.media.tote = false;
+      } else {
+        this.search_filters.media.tote = true;
+        this.search_filters.media.user = false;
+        this.search_filters.media.chat = false;
+      }
+    } else if (choice == 'user') {
+      if (this.search_filters.media.user) {
+        this.search_filters.media.user = false;
+      } else {
+        this.search_filters.media.user = true;
+        this.search_filters.media.tote = false;
+        this.search_filters.media.chat = false;
+      }
     } else {
-        if (this.search_filters.media.user) {
-            this.search_filters.media.user = false;
-        } else {
-            this.search_filters.media.user = true;
-            this.search_filters.media.tote = false;
-        }
+      if (this.search_filters.media.chat) {
+        this.search_filters.media.chat = false;
+      } else {
+        this.search_filters.media.user = false;
+        this.search_filters.media.tote = false;
+        this.search_filters.media.chat = true;
+      }
     }
   }
 
   category_filter(choice) {
     if (choice == 'me') {
-        if (this.search_filters.category.me) {
-            this.search_filters.category.me = false;
-        } else {
-            this.search_filters.category.me = true;
-            this.search_filters.category.follows = false;
-            this.search_filters.category.top = false;
-        }
+      if (this.search_filters.category.me) {
+        this.search_filters.category.me = false;
+      } else {
+        this.search_filters.category.me = true;
+        this.search_filters.category.follows = false;
+        this.search_filters.category.top = false;
+      }
     } else if (choice == 'follows') {
-        if (this.search_filters.category.follows) {
-            this.search_filters.category.follows = false;
-        } else {
-            this.search_filters.category.follows = true;
-            this.search_filters.category.me = false;
-            this.search_filters.category.top = false;
-        }
+      if (this.search_filters.category.follows) {
+        this.search_filters.category.follows = false;
+      } else {
+        this.search_filters.category.follows = true;
+        this.search_filters.category.me = false;
+        this.search_filters.category.top = false;
+      }
     }
     else if (choice == 'top') {
-        if (this.search_filters.category.top) {
-            this.search_filters.category.top = false;
-        } else {
-            this.search_filters.category.top = true;
-            this.search_filters.category.me = false;
-            this.search_filters.category.follows = false;
-        }
+      if (this.search_filters.category.top) {
+        this.search_filters.category.top = false;
+      } else {
+        this.search_filters.category.top = true;
+        this.search_filters.category.me = false;
+        this.search_filters.category.follows = false;
+      }
     }
   }
 }

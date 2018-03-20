@@ -360,13 +360,13 @@ export class AnototeOptions {
         var params: any = {
           annotote_id: this.stream == 'follows' ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
           user_id: this.stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
-          created_at: this.utilityMethods.get_php_wala_time()
+          created_at: this.anotote.userAnnotote.createdAt
         }
       else
         var params: any = {
           annotote_id: this.anotote.annotote.id,
           user_id: this.anotote.user.id,
-          created_at: this.utilityMethods.get_php_wala_time()
+          created_at: this.anotote.userAnnotote.createdAt
         }
       var toast = this.utilityMethods.doLoadingToast("Saving");
       this.anototeService.save_totes(params).subscribe((result) => {

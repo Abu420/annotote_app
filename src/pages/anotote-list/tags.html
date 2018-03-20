@@ -14,7 +14,7 @@
                     </li>
                 </ul>
             </ng-container>
-            <ng-container>
+            <ng-container *ngIf="anotation_or_anotote == false">
                 <div class="fortags" (click)="browser()">
                     <div class="img-holder" (click)="pinImage($event,search)">
                         <img *ngIf="search.id != 0" src="assets/img/blackBookmark.svg" alt="">
@@ -40,6 +40,15 @@
                 </ul>
             </ng-container>
             <ng-container *ngIf="stream == 'chat'">
+                <ul class="tag-list" *ngIf="!no_tags_found">
+                    <li *ngFor="let tag of tags" (click)="tagOptions(tag)">
+                        <img class="play-icon" *ngIf="tag.tagId == 1" src="assets/img/top-arrow.png" alt="">
+                        <img class="play-icon" *ngIf="tag.tagId == 2" src="assets/img/icon-gray.png" alt="">
+                        <img class="play-icon" *ngIf="tag.tagId == 3" src="assets/img/hash-gray.png" alt="">
+                        <img class="play-icon" *ngIf="tag.tagId == 4" src="assets/img/dollar-gray.png" alt="">
+                        <span>{{tag.tagText}}</span>
+                    </li>
+                </ul>
                 <ul class="tag-list" *ngIf="no_tags_found == true && (participants | chatVoteOptions) == false">
                     <li text-center>
                         No Tags found.

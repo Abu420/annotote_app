@@ -120,8 +120,8 @@
         <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">
             <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
             <!--<dcl-wrapper [type]="tab"></dcl-wrapper>-->
-            <div *ngIf="full_screen_mode == false" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
-            <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="full_text  | sanitizeHtml"></div>
+            <div [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
+            <!-- <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="full_text  | sanitizeHtml"></div> -->
         </div>
     </div>
     <ion-fab [ngClass]="{'moveUp': moveFabUp == true}" bottom right>

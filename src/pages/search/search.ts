@@ -15,6 +15,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { AnototeService } from "../../services/anotote.service";
 import { Keyboard } from "@ionic-native/keyboard";
 import { StatusBar } from "@ionic-native/status-bar";
+import { Chat } from '../chat/chat';
 
 @Component({
     selector: 'search_page',
@@ -34,7 +35,8 @@ export class Search {
     private search_filters = {
         media: {
             tote: false,
-            user: false
+            user: false,
+            chat: false
         },
         category: {
             me: false,
@@ -49,6 +51,7 @@ export class Search {
     }
     private from;
     public isOpen: boolean = false;
+    public user;
 
     constructor(public stream: Streams,
         public params: NavParams,
@@ -67,6 +70,7 @@ export class Search {
         this.search_txt = "";
         this.entering_url = false;
         this.filter_mode = false;
+        this.user = authService.getUser();
         /**
          * Set Current Active Anotote Link in search field
          */
@@ -123,13 +127,23 @@ export class Search {
             } else {
                 this.search_filters.media.tote = true;
                 this.search_filters.media.user = false;
+                this.search_filters.media.chat = false;
             }
-        } else {
+        } else if (choice == 'user') {
             if (this.search_filters.media.user) {
                 this.search_filters.media.user = false;
             } else {
                 this.search_filters.media.user = true;
                 this.search_filters.media.tote = false;
+                this.search_filters.media.chat = false;
+            }
+        } else {
+            if (this.search_filters.media.chat) {
+                this.search_filters.media.chat = false;
+            } else {
+                this.search_filters.media.user = false;
+                this.search_filters.media.tote = false;
+                this.search_filters.media.chat = true;
             }
         }
 
@@ -396,6 +410,9 @@ export class Search {
                 }
             } else if (this.search_filters.media.user)
                 params.type = 'user';
+            else if (this.search_filters.media.chat) {
+                params.annotote_type = 'chats'
+            }
 
             this.searchService.general_search(params)
                 .subscribe((response) => {
@@ -423,8 +440,17 @@ export class Search {
                             this.search_results.push(tote);
                         }
                     }
+                    for (let group of response.data.group) {
+                        var anotote = {
+                            isChat: true,
+                            is_tote: false,
+                            chatGroup: group
+                        }
+                        this.search_results.push(anotote);
+                    }
                     for (let user of response.data.user) {
                         user.is_tote = false;
+                        user.isChat = false;
                         user.follow_loading = false;
                         this.search_results.push(user);
                     }
@@ -504,6 +530,17 @@ export class Search {
     showProfile(search_result) {
         if (search_result.is_tote) {
             this.go_to_browser(search_result, false);
+        } else if (search_result.is_tote == false && search_result.isChat == true) {
+            let secondUser: any = null;
+            for (let group of search_result.chatGroup.groupUsers) {
+                if (group.user.id != this.user.id) {
+                    secondUser = group.user;
+                }
+            }
+            var against = false;
+            if (search_result.chatGroup.messagesUser[0].anototeId != 0)
+                against = true;
+            this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: search_result.chatGroup.messagesUser[0].anototeId, title: search_result.chatGroup.messagesUser[0].subject, full_tote: search_result, color: 'me' });
         } else {
             var toast = this.utilityMethods.doLoadingToast('Please wait...');
             this.searchService.get_user_profile_info(search_result.id)

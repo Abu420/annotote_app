@@ -356,25 +356,25 @@ export class AnototeEditor implements OnDestroy {
         this.full_screen_mode = !this.full_screen_mode;
         this.showheader = true;
         this.hideheader = false;
-        if (this.full_screen_mode == true) {
-            if (this.full_text == '') {
-                this.showLoading("Please wait...");
-                var params = {
-                    url: this.ANOTOTE.userAnnotote.annotote.link
-                }
-                this.searchService.get_full_screenContent(params).subscribe((success: any) => {
-                    this.hideLoading()
-                    this.full_text = success._body;
-                }, (error) => {
-                    this.hideLoading();
-                    this.ANOTOTE_LOADED = true;
-                    this.ANOTOTE_LOADING_ERROR = true;
-                    if (error.code == -1 || error.code == -2) {
-                        this.utilityMethods.internet_connection_error();
-                    }
-                })
-            }
-        }
+        // if (this.full_screen_mode == true) {
+        //     if (this.full_text == '') {
+        //         this.showLoading("Please wait...");
+        //         var params = {
+        //             url: this.ANOTOTE.userAnnotote.annotote.link
+        //         }
+        //         this.searchService.get_full_screenContent(params).subscribe((success: any) => {
+        //             this.hideLoading()
+        //             this.full_text = success._body;
+        //         }, (error) => {
+        //             this.hideLoading();
+        //             this.ANOTOTE_LOADED = true;
+        //             this.ANOTOTE_LOADING_ERROR = true;
+        //             if (error.code == -1 || error.code == -2) {
+        //                 this.utilityMethods.internet_connection_error();
+        //             }
+        //         })
+        //     }
+        // }
     }
 
     add_to_me_stream() {
@@ -1003,7 +1003,7 @@ export class AnototeEditor implements OnDestroy {
                             break;
                         }
                     }
-                } else if(this.WHICH_STREAM != 'anon') {
+                } else if (this.WHICH_STREAM != 'anon') {
                     this.runtime.me_first_load = false;
                     for (let highlight of this.ANOTOTE.my_highlights) {
                         if (highlight.id == response.data.highlight.id) {
@@ -1015,7 +1015,7 @@ export class AnototeEditor implements OnDestroy {
                     if (this.WHICH_STREAM == 'follows') {
                         this.ANOTOTE.top_highlights = null;
                     }
-                }else{
+                } else {
                     this.runtime.me_first_load = false;
                     for (let highlight of this.ANOTOTE.userAnnotote.highlights) {
                         if (highlight.id == response.data.highlight.id) {
@@ -1230,8 +1230,8 @@ export class AnototeEditor implements OnDestroy {
                         }
                     }
                     return null;
-                }else if(this.actual_stream == 'follows'){
-                    if(this.ANOTOTE.isMe == 0){
+                } else if (this.actual_stream == 'follows') {
+                    if (this.ANOTOTE.isMe == 0) {
                         this.ANOTOTE.follows[0].highlights = this.ANOTOTE.highlights;
                         for (let highlight of this.ANOTOTE.highlights) {
                             if (highlight.identifier == identifier) {

@@ -349,17 +349,18 @@ export class Home {
       data = {}
     let searchModal = this.modalCtrl.create(Search, data);
     searchModal.onDidDismiss(data => {
-      if (data.go_to_browser) {
-        var anotote = data.anotote;
-        // if (anotote.userAnnotote.anototeType == 'me')
-        //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
-        // else
-        //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-        if (data.neworold) {
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-        } else
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
-      }
+      if (data)
+        if (data.go_to_browser) {
+          var anotote = data.anotote;
+          // if (anotote.userAnnotote.anototeType == 'me')
+          //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
+          // else
+          //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          if (data.neworold) {
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          } else
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
+        }
     });
     searchModal.present();
   }

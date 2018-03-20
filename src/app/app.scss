@@ -750,7 +750,7 @@ search_page {
                 right: 0px;
                 width: 74%;
                 height: 1px;
-                background: #CCC;
+                background: #e8e8e8;
             }
             h4 {
                 display: table-cell;
@@ -778,6 +778,11 @@ search_page {
                         text-align: left;
                         font-size: 16px;
                     }
+                    h4.selected {
+                        font-weight: bolder;
+                        color: #000;
+                        text-shadow: 0px 0px 5px #000;
+                    }
                 }
             }
             &.mediaMode {
@@ -793,13 +798,14 @@ search_page {
                 ul {
                     li {
                         span {
-                            color: #CCC;
+                            color: #b3b3b3;
                             font-size: 16px;
                         }
                         &.active {
                             span {
                                 color: #000;
                                 font-weight: bolder !important;
+                                text-shadow: 0px 0px 5px #000;
                             }
                         }
                     }
@@ -813,6 +819,9 @@ search_page {
                             border: 0px;
                             width: 100%;
                             font-size: 16px;
+                        }
+                        input::-webkit-input-placeholder {
+                            color: #b3b3b3;
                         }
                     }
                 }
