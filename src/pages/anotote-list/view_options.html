@@ -19,7 +19,7 @@
                 <div class="txt">
                     <span>Follows</span>
                     <p> {{anotote.followers[0].firstName}}
-                        <i *ngIf="anotote.followers.length > 1">+ {{anotote.followers.length - 1}} others</i>
+                        <ng-container *ngIf="anotote.followers.length > 1">+ {{anotote.followers.length - 1}} others</ng-container>
                     </p>
                 </div>
             </ion-item>
@@ -32,7 +32,7 @@
                 <div class="txt">
                     <span>Follows</span>
                     <p> {{anotote.follows[0].firstName}}
-                        <i *ngIf="anotote.follows.length > 1">+ {{anotote.follows.length - 1}} others</i>
+                        <ng-container *ngIf="anotote.follows.length > 1">+ {{anotote.follows.length - 1}} others</ng-container>
                     </p>
                 </div>
             </ion-item>

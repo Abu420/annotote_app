@@ -243,6 +243,7 @@ export class SearchResults {
           }
           for (let user of response.data.user) {
             user.is_tote = false;
+            user.isChat = false;
             user.follow_loading = false;
             this.search_results.push(user);
           }
