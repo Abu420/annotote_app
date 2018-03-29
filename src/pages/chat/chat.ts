@@ -150,13 +150,13 @@ export class Chat {
         anotote_id: this.anotote_id,
         group_id: this.groupId
       }
-      if (this.conversation.length == 0) {
-        if (this.anotote_id == 0) {
-          params.privacy = 1
-        } else {
-          params.privacy = this.privacyForNewTote;
-        }
+
+      if (this.anotote_id == 0) {
+        params.privacy = 1
+      } else {
+        params.privacy = this.privacyForNewTote;
       }
+
       this.chatService.saveMessage(params).subscribe((result) => {
         this.send_message_loader = false;
         // this.myInput.nativeElement.style.height = 60 + 'px';
@@ -390,7 +390,7 @@ export class Chat {
         contains: this.contains,
         chatToteOpts: true,
         tote: this.tote != null ? this.tote.chatGroup.groupUsers : null,
-        toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : null,
+        toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : this.conversation[0].anototeId,
         tags: this.tote != null ? this.tote.chatGroup.chatTags : []
       }
       let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);

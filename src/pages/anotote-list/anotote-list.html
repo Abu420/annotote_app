@@ -116,7 +116,7 @@
                             <span (click)="cancelTitleEdit($event,anotote)">Cancel</span>
                         </div> -->
                     </div>
-                    <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0 || current_color != 'me')}" *ngIf="anotote.type == 2 && anotote.checked == false">
+                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type == 2 && anotote.checked == false">
                         <ng-container *ngIf="current_color == 'me'">
                             <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
                         </ng-container>
@@ -254,7 +254,7 @@
                             </ng-container>
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me'" (click)="open_browser(anotote,null)">
-                            <p class="me">Leave your mark>>></p>
+                            <p class="me">Leave your mark >>></p>
                             <!-- <div class="butt">
                                 <p>Create annotation</p>
                             </div> -->

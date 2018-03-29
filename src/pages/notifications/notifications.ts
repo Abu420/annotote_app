@@ -109,7 +109,8 @@ export class Notifications {
   read_notification(notification) {
     var params = {
       sender_id: notification.senderId,
-      type: notification.type
+      type: notification.type,
+      group_id:0
     }
     this.notificationService.read_notificaton(params)
       .subscribe((response) => {

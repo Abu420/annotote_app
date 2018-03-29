@@ -11,6 +11,7 @@ export class ChatMessage {
   public senderId: number;
   public groupId: number;
   public subject: any;
+  public anototeId: any;
   //private datetimeService: DatetimeService;
   constructor(id: any, senderId: number, time: string, text: string, read: number, groupId: number) {
     // this.datetimeService = new DatetimeService();

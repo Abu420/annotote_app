@@ -127,7 +127,7 @@
                     </li>
                 </ul>
             </div>
-            <div no-lines class="sharing_pop two bottom-border" *ngIf="message.anototeId != 0 && (tote | chatVoteOptions) == true">
+            <div no-lines class="sharing_pop two bottom-border" *ngIf="message.anototeId != 0 && tote && (tote | chatVoteOptions) == true">
                 <div class="main_label">
                     <img src="assets/img/privacyImg.svg" />
                 </div>
@@ -140,7 +140,7 @@
                     </li>
                 </ul>
             </div>
-            <div no-lines class="sharing_pop bottom-border" *ngIf="(tote | chatVoteOptions) == true">
+            <div no-lines class="sharing_pop bottom-border" *ngIf="tote && (tote | chatVoteOptions) == true">
                 <div class="main_label markIcon">
                     <img src="assets/img/deleteIconGray.svg" />
                 </div>

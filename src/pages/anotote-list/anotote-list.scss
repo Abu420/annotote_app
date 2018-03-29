@@ -614,11 +614,15 @@
                             width: 60px;
                             height: 60px;
                             margin: 0px;
+                            overflow: hidden;
                             img {
                                 width: 100% !important;
                                 margin: 0px !important;
                                 vertical-align: middle !important;
                             }
+                        }
+                        .headAndShoulder {
+                            padding: 5%;
                         }
                         figcaption {
                             display: inline-block;
@@ -911,10 +915,10 @@
                                         }
                                     }
                                     &.txtMiddel {
-                                        padding: 24px 10px 0px 0px;
+                                        padding: 22px 10px 0px 0px;
                                     }
                                     &.normal {
-                                        padding: 10px 10px 0px 0px;
+                                        padding: 1px 10px 0px 0px;
                                     }
                                     img.unReadLock {
                                         position: absolute;
@@ -1306,10 +1310,13 @@
                                 }
                                 .no_anotation {
                                     text-align: center;
-                                    padding: 5%;
+                                    padding: 10px 0px 10px 20px;
                                     p {
                                         white-space: normal;
                                         position: relative;
+                                        text-align: left;
+                                        padding-left: 30px;
+                                        font-size: 16px;
                                         &.me {
                                             &::after {
                                                 content: "";
@@ -1318,7 +1325,7 @@
                                                 background-repeat: no-repeat;
                                                 background-size: 5vw;
                                                 position: absolute;
-                                                left: 10px;
+                                                left: 0px;
                                                 top: 0px;
                                                 width: 17px;
                                                 height: 17px;

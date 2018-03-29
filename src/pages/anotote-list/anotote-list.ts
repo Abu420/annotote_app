@@ -1968,10 +1968,12 @@ export class AnototeList {
         message: this.textMessage,
         created_at: this.utilityMethods.get_php_wala_time(),
         subject: this.current_active_anotote.chatGroup.messagesUser[0].subject,
-        anotote_id: this.current_active_anotote.chatGroup.messagesUser[0].anototeId
+        anotote_id: this.current_active_anotote.chatGroup.messagesUser[0].anototeId,
+        group_id: this.current_active_anotote.chatGroup.id
       }
       this.chatService.saveMessage(params).subscribe((success) => {
         this.send_message_loader = false;
+        this.textMessage = '';
         this.reply_box_on = false;
         if (this.current_active_anotote.chatGroup.messagesUser.length < 3)
           this.current_active_anotote.chatGroup.messagesUser.push(success.data.messages)
@@ -1998,7 +2000,8 @@ export class AnototeList {
 
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
-    this.moreOPtions(anotote);
+    // this.moreOPtions(anotote);
+    anotote.moreOptions = true;
     if (this.current_color != 'anon') {
       // if (anotote.chatGroup == null) {
       //   this.options(anotote);
@@ -2035,6 +2038,7 @@ export class AnototeList {
       params["message"] = message;
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
+      anotote.moreOptions = false;
       if (data.tags) {
         if (anotote.chatGroup == null) {
           if (this.current_color != 'top') {

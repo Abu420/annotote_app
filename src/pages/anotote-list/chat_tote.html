@@ -173,8 +173,8 @@
             </li> -->
             <ng-container *ngIf="forChats == false">
                 <li *ngFor="let search_result of search_results" (click)="send_message(search_result)">
-                    <figure>
-                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/img3.jpg">
+                    <figure [ngClass]="{'headAndShoulder': search_result.photo== null || search_result.photo==''}">
+                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/userGray.svg">
                         <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
                         <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                     </figure>
