@@ -55,6 +55,8 @@ export class ChatToteOptions {
             this.search_txt = this.anotote.annotote.title;
         if (params.get('findChatter')) {
             this.findChatter();
+            if (params.get('doChat'))
+                this.doChat = true;
         }
         if (this.from == 'profile') {
             this.doChat = true;
@@ -173,31 +175,34 @@ export class ChatToteOptions {
     }
 
     send_message(user) {
-        if (this.anotote) {
-            this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.search_txt })
-        } else {
-            this.usersForChat = user.firstName;
-            this.selectedUser = user;
-            this.search_results = [];
-            this.search_loading = true;
-            this.forChats = true;
-            var params = {
-                second_person: user.id
-            }
-            this.chatService.fetchChats(params).subscribe((success) => {
-                this.search_loading = false;
-                this.search_results = success.data.chatGroup;
-            }, (error) => {
-                this.search_loading = false;
-                if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                }
-            })
+        // if (this.anotote) {
+        //     this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.search_txt })
+        // } else {
+        this.usersForChat = user.firstName;
+        this.selectedUser = user;
+        this.search_results = [];
+        this.search_loading = true;
+        this.forChats = true;
+        var params = {
+            second_person: user.id
         }
+        if (this.anotote) {
+            params['annotote_id'] = this.anotote.userAnnotote.annototeId;
+        }
+        this.chatService.fetchChats(params).subscribe((success) => {
+            this.search_loading = false;
+            this.search_results = success.data.chatGroup;
+        }, (error) => {
+            this.search_loading = false;
+            if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            }
+        })
+        // }
     }
 
     openChat(group) {
-        this.viewCtrl.dismiss({ chat: true, close: false, user: this.selectedUser, title: '', group: group })
+        this.viewCtrl.dismiss({ chat: true, close: false, user: this.selectedUser, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle, group: group })
     }
 
     followUser(event, person) {

@@ -41,9 +41,9 @@
                 <li (tap)="share_chat('copy')">
                     <span>Copy</span>
                 </li>
-                <li (tap)="chat()">
+                <!-- <li (tap)="chat()">
                     <span>Chat</span>
-                </li>
+                </li> -->
                 <li (tap)="share_chat('email')">
                     <span>Email</span>
                 </li>
@@ -81,7 +81,7 @@
                 </li>
             </ul>
         </div>
-        <div no-lines class="sharing_pop two bottom-border" *ngIf="(anotote.chatGroup.groupUsers | chatVoteOptions) == true && anotote.chatGroup.messagesUser[0].anototeId != 0">
+        <div no-lines class="sharing_pop two bottom-border" *ngIf="(anotote.chatGroup.groupUsers | chatVoteOptions) == true">
             <div class="main_label">
                 <img src="assets/img/privacyImg.svg" />
             </div>

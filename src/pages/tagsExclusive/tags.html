@@ -1,0 +1,55 @@
+<div class="top_empty_box" (tap)="dismiss()">
+</div>
+<div class="content_follows_profile commentDetail">
+    <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
+        <div class="tag_input" *ngIf="show_autocomplete == true">
+            <ng-container *ngIf="tag_id == 2">
+                <ul class="tagList">
+                    <li *ngIf="no_user_found == true" text-center>
+                        No Users found.
+                    </li>
+                    <li *ngFor="let user of users" (click)="selected_user(user)">
+                        <figure>
+                            <img *ngIf="user.photo== null || user.photo==''" src="assets/img/img3.jpg">
+                            <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="user.photo != null && user.photo != ''" [hidden]="!loaded" [src]="user.photo | image_base_path">
+                            <ion-spinner *ngIf="!loaded && user.photo != null && user.photo != ''"></ion-spinner>
+                        </figure>
+                        <figcaption>
+                            <span>{{user.firstName}} </span>
+                        </figcaption>
+                    </li>
+                    <li *ngIf="search_user == true" text-center>
+                        <ion-spinner></ion-spinner>
+                    </li>
+                </ul>
+            </ng-container>
+            <ng-container *ngIf="tag_id != 2">
+                <ul class="tagList">
+                    <li *ngIf="no_user_found == true" text-center>
+                        No tags found matching your search.
+                    </li>
+                    <li *ngFor="let tag of tags" (click)="selectTag(tag)">
+                        <img class="play-icon" *ngIf="tag_id == 1" src="assets/img/top-arrow.png" alt="">
+                        <img class="play-icon" *ngIf="tag_id == 2" src="assets/img/icon-gray.png" alt="">
+                        <img class="play-icon" *ngIf="tag_id == 3" src="assets/img/hash-gray.png" alt="">
+                        <img class="play-icon" *ngIf="tag_id == 4" src="assets/img/dollar-gray.png" alt="">
+                        <span>{{tag.tag}}</span>
+                    </li>
+                    <li *ngIf="search_user == true" text-center>
+                        <ion-spinner></ion-spinner>
+                    </li>
+                </ul>
+            </ng-container>
+        </div>
+        <div class="pop_heading">
+            <div class="btnRow">
+                <span (tap)="dismiss()">Cancel</span>
+                <span [ngClass]="{'save': tag_input != ''}" (tap)="addTag()">Add</span>
+            </div>
+        </div>
+        <div class="pop_txt">
+            {{tag}}
+            <input type="text" name="tags" [(ngModel)]="tag_input" (ngModelChange)="tag_user()">
+        </div>
+    </form>
+</div>

@@ -55,7 +55,10 @@ export class ChatService {
   }
 
   public fetchChats(params) {
-    return this.http.get(this.constants.API_BASEURL + "/get-user-chat-groups?second_person=" + params.second_person, {}).map(res => res.json());
+    if (!params.annotote_id)
+      return this.http.get(this.constants.API_BASEURL + "/get-user-chat-groups?second_person=" + params.second_person, {}).map(res => res.json());
+    else
+      return this.http.get(this.constants.API_BASEURL + "/get-user-chat-groups?second_person=" + params.second_person + '&&annotote_id=' + params.annotote_id, {}).map(res => res.json());
   }
 
 

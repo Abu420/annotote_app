@@ -369,8 +369,10 @@ export class SearchResults {
     }
     if (message != null)
       params["message"] = message;
+    anotote.moreOptions = true;
     let anototeOptionsModal = this.modalCtrl.create(AnototeOptions, params);
     anototeOptionsModal.onDidDismiss(data => {
+      anotote.moreOptions = false;
       if (data.tags) {
         if (anotote.chatGroup == null) {
           var params = {

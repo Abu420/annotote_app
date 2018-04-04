@@ -98,6 +98,7 @@ import { TagsOptions } from "../pages/anotote-list/tags_options";
 import { Verification } from "../pages/signup/verificationPopUp";
 import { Badge } from '@ionic-native/badge';
 import { Verified } from '../pages/front-view/verified';
+import { TagsExclusive } from '../pages/tagsExclusive/tags';
 
 @NgModule({
   declarations: [
@@ -154,7 +155,8 @@ import { Verified } from '../pages/front-view/verified';
     TagsOptions,
     Verification,
     Verified,
-    Bold
+    Bold,
+    TagsExclusive
   ],
   imports: [
     BrowserModule,
@@ -213,7 +215,8 @@ import { Verified } from '../pages/front-view/verified';
     EditDeleteMessage,
     TagsOptions,
     Verification,
-    Verified
+    Verified,
+    TagsExclusive
   ],
 
   providers: [

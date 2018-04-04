@@ -49,7 +49,7 @@
 
         <div class="pop_txt" [ngClass]="{'keyDeployed': isKeyboardDeployed == true}">
             <textarea id='actualContent' autosize [(ngModel)]="anotote_txt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" [disabled]="stream != 'me'" name="heading"></textarea>
-            <textarea id='comment' autosize class="addComment" [(ngModel)]="new_comment" (ngModelChange)="tag_user()" *ngIf="stream == 'me'" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
+            <textarea id='comment' autosize class="addComment" [(ngModel)]="new_comment" (keyup)="tag_user($event)" *ngIf="stream == 'me'" [disabled]="stream != 'me'" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
             <p (click)="tagClick($event)" class="addComment" *ngIf="stream != 'me' && new_comment != ''" [innerHTML]="annotation | boldTags"></p>
             <!-- <div class="threeDosts" *ngIf="stream == 'me' && quoteThreeDots == false">
                 <img (click)="showTextarea()" src="assets/img/option-msg.png" alt="">

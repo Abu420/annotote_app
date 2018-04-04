@@ -303,6 +303,13 @@ comment_detail_popup {
         textarea.firstOne {
             opacity: 1;
         }
+        input {
+            background: transparent;
+            border: 0;
+            width: 80%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
     }
     .keyDeployed {
         max-height: 25vh;
@@ -326,9 +333,9 @@ comment_detail_popup {
     .tag_input {
         width: 100%;
         background: #FFF;
-        position: absolute;
-        top: -73%;
-        height: 73%;
+        position: fixed;
+        bottom: 93px;
+        height: 50vh;
         overflow: scroll;
         &:after {
             content: "";
@@ -372,6 +379,14 @@ comment_detail_popup {
                     width: calc(100% - 40px);
                     display: inline-block;
                     padding: 10px;
+                }
+                img {
+                    display: inline-block;
+                    vertical-align: bottom;
+                }
+                span {
+                    display: inline-block;
+                    font-size: 16px;
                 }
             }
         }

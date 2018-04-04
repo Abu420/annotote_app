@@ -28,6 +28,7 @@ import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from '../../models/search';
 import { ChatService } from "../../services/chat.service";
 import { Keyboard } from '@ionic-native/keyboard';
+import { TagsExclusive } from '../tagsExclusive/tags';
 
 @IonicPage()
 @Component({
@@ -1815,54 +1816,78 @@ export class AnototeList {
     return tags;
   }
 
-  tag_user() {
-    if (this.edit_highlight_text[this.edit_highlight_text.length - 1] == '@') {
-      this.nameInputIndex = this.edit_highlight_text.length - 1;
-      this.isTagging = true;
-    }
-    if (this.isTagging) {
-      if (this.nameInputIndex > this.edit_highlight_text.length - 1) {
-        this.current_active_highlight.show_autocomplete = false;
-        this.taggies = [];
-        this.isTagging = false;
-        this.nameInputIndex = 0;
-        return;
-      } else if (this.nameInputIndex != this.edit_highlight_text.length - 1) {
-        this.nameEntered = this.edit_highlight_text.substr(this.nameInputIndex + 1);
-        if (this.nameEntered.split(' ').length == 1) {
-          var params = {
-            name: this.nameEntered
-          }
-          if (params.name != '') {
-            this.current_active_highlight.no_user_found = false;
-            this.current_active_highlight.show_autocomplete = true;
-            this.current_active_highlight.search_user = true;
-            this.taggies = [];
-            this.searchService.autocomplete_users(params).subscribe((result) => {
-              this.current_active_highlight.search_user = false;
-              this.taggies = result.data.users;
-              if (this.taggies.length == 0) {
-                this.current_active_highlight.no_user_found = true;
-              }
-            }, (error) => {
-              this.current_active_highlight.search_user = false;
-              this.current_active_highlight.show_autocomplete = true;
-              this.current_active_highlight.no_user_found = false;
-              this.taggies = [];
-              if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-              }
-            })
-          }
-        } else {
-          this.current_active_highlight.show_autocomplete = false;
-          this.taggies = [];
-          this.isTagging = false;
-          this.nameInputIndex = 0;
-          return;
-        }
+  tag_user(event) {
+    if (event.key == '@' || event.key == '#' || event.key == '$') {
+      this.nameInputIndex = event.target.selectionStart;
+      var params = {
+        tag: event.key,
+        id: 0
       }
+      if (event.key == '@')
+        params.id = 2;
+      else if (event.key == '#')
+        params.id = 3
+      else if (event.key == '$')
+        params.id = 4
+
+      let tagsExlusive = this.modalCtrl.create(TagsExclusive, params);
+      tagsExlusive.onDidDismiss((data) => {
+        if (data) {
+          if (params.id != 2)
+            this.edit_highlight_text = this.edit_highlight_text.substring(0, this.nameInputIndex) + data.tag + " " + this.edit_highlight_text.substring(this.nameInputIndex, this.edit_highlight_text.length);
+          else if (params.id == 2)
+            this.edit_highlight_text = this.edit_highlight_text.substring(0, this.nameInputIndex - 1) + data.tag + " " + this.edit_highlight_text.substring(this.nameInputIndex, this.edit_highlight_text.length);
+        }
+      })
+      tagsExlusive.present();
     }
+    // if (this.edit_highlight_text[this.edit_highlight_text.length - 1] == '@') {
+    //   this.nameInputIndex = this.edit_highlight_text.length - 1;
+    //   this.isTagging = true;
+    // }
+    // if (this.isTagging) {
+    //   if (this.nameInputIndex > this.edit_highlight_text.length - 1) {
+    //     this.current_active_highlight.show_autocomplete = false;
+    //     this.taggies = [];
+    //     this.isTagging = false;
+    //     this.nameInputIndex = 0;
+    //     return;
+    //   } else if (this.nameInputIndex != this.edit_highlight_text.length - 1) {
+    //     this.nameEntered = this.edit_highlight_text.substr(this.nameInputIndex + 1);
+    //     if (this.nameEntered.split(' ').length == 1) {
+    //       var params = {
+    //         name: this.nameEntered
+    //       }
+    //       if (params.name != '') {
+    //         this.current_active_highlight.no_user_found = false;
+    //         this.current_active_highlight.show_autocomplete = true;
+    //         this.current_active_highlight.search_user = true;
+    //         this.taggies = [];
+    //         this.searchService.autocomplete_users(params).subscribe((result) => {
+    //           this.current_active_highlight.search_user = false;
+    //           this.taggies = result.data.users;
+    //           if (this.taggies.length == 0) {
+    //             this.current_active_highlight.no_user_found = true;
+    //           }
+    //         }, (error) => {
+    //           this.current_active_highlight.search_user = false;
+    //           this.current_active_highlight.show_autocomplete = true;
+    //           this.current_active_highlight.no_user_found = false;
+    //           this.taggies = [];
+    //           if (error.code == -1) {
+    //             this.utilityMethods.internet_connection_error();
+    //           }
+    //         })
+    //       }
+    //     } else {
+    //       this.current_active_highlight.show_autocomplete = false;
+    //       this.taggies = [];
+    //       this.isTagging = false;
+    //       this.nameInputIndex = 0;
+    //       return;
+    //     }
+    //   }
+    // }
 
   }
 
@@ -2143,7 +2168,8 @@ export class AnototeList {
         var chatParams = {
           anotote: anotote,
           stream: this.current_color,
-          findChatter: true
+          findChatter: true,
+          doChat: true
         }
         let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
         chatTote.onDidDismiss((data) => {

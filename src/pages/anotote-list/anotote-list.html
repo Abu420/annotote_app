@@ -108,7 +108,8 @@
                     </div>
                     <div class="txt txtMiddel" *ngIf="anotote.checked == true">
                         <form (ngSubmit)="saveTitle(anotote)">
-                            <textarea autosize [(ngModel)]="title_temp" name="title"></textarea>
+                            <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup" placeholder="Change the title of this Chat"></textarea>
+                            <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup == null" placeholder="Change the title of this Tote"></textarea>
                         </form>
                         <!-- <div class="totBtn">
                             <span *ngIf="anotote.chatGroup == null" [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
@@ -117,6 +118,7 @@
                         </div> -->
                     </div>
                     <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type == 2 && anotote.checked == false">
+                        <img class="unReadLock" *ngIf="anotote.chatGroup.groupUsers[0].privacy == 1" src="assets/img/lockIconGray.svg" alt="">
                         <ng-container *ngIf="current_color == 'me'">
                             <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
                         </ng-container>
@@ -222,7 +224,7 @@
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
                                             </button>
                                         </div>
-                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (ngModelChange)="tag_user()" name="edit_area"></textarea>
+                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                         <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0">
                                         <!-- <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
@@ -692,10 +694,10 @@
         </ion-list>
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
-            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found</p>
+            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No Totes</p>
         </div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color == 'top'">
-            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No totes found</p>
+            <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No Totes</p>
         </div>
     </div>
     <ion-infinite-scroll *ngIf="!fbLoading" (ionInfinite)="doInfinite($event)">

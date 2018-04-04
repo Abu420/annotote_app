@@ -11,6 +11,9 @@ page-chat {
     .chatHead {
         background: #FFF;
         overflow: hidden;
+        &.active {
+            background: #ececec;
+        }
         >span {
             height: 70px;
             float: left;
@@ -49,6 +52,13 @@ page-chat {
                 color: #000000;
                 width: 100%;
                 overflow: hidden;
+            }
+            textarea {
+                resize: none;
+                width: 100%;
+                background: inherit;
+                border: 0;
+                font-size: 16px
             }
             .time {
                 float: right;

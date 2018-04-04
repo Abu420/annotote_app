@@ -38,12 +38,17 @@ export class CreateAnotationPopup {
     public nameInputIndex: number = 0;
     private search_user: boolean = false;
     public mentioned: any = []
+    public one: string = '';
+    public currentIndex = 0;
+    public bracketStartIndex = 0;
+    public actual_ano = '';
 
     constructor(public params: NavParams,
         public viewCtrl: ViewController,
         public utilityMethods: UtilityMethods,
         public searchService: SearchService) {
         this.selectedTxt = this.params.get('selected_txt');
+        this.actual_ano = this.params.get('selected_txt');
         this.range = this.params.get('range');
         this.sel = this.params.get('sel');
     }
@@ -56,7 +61,7 @@ export class CreateAnotationPopup {
             var mentions = this.userTags();
             this.show = false;
             setTimeout(() => {
-                this.viewCtrl.dismiss({ create: true, comment: this.comment, range: this.range, selection: this.sel, hash: hashTags, cash: cashTags, uptags: urls, mentions: mentions });
+                this.viewCtrl.dismiss({ create: true, text: this.selectedTxt, comment: this.comment, range: this.range, selection: this.sel, hash: hashTags, cash: cashTags, uptags: urls, mentions: mentions });
             }, 100)
         } else {
             this.utilityMethods.doToast("Please don't leave the comment field blank");
@@ -172,6 +177,47 @@ export class CreateAnotationPopup {
         setTimeout(() => {
             this.viewCtrl.dismiss({ create: false, share: false });
         }, 100);
+    }
+
+    ellipsis(event) {
+        if (this.one != this.selectedTxt) {
+            if (this.one.split('"..."').length == this.selectedTxt.split('"..."').length) {
+                if (event.target.selectionStart < this.currentIndex) {
+                    let textarea: HTMLTextAreaElement = event.target;
+                    if ((this.selectedTxt[textarea.selectionStart] == undefined || this.selectedTxt[textarea.selectionStart] == ' ' || this.selectedTxt[textarea.selectionStart] == '\n') && (this.selectedTxt[textarea.selectionStart - 1] == '\n' || this.selectedTxt[textarea.selectionStart - 1] == ' ')) {
+                        var firstHalf = this.selectedTxt.substr(0, textarea.selectionStart);
+                        firstHalf += '"..."';
+                        firstHalf += this.selectedTxt.substr(textarea.selectionStart, this.selectedTxt.length);
+                        this.selectedTxt = firstHalf;
+                    }
+                } else {
+                    let textarea: HTMLTextAreaElement = event.target;
+                    if (this.bracketStartIndex == 0)
+                        this.bracketStartIndex = textarea.selectionStart - 1;
+                    else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+                        if (this.selectedTxt[textarea.selectionStart - 1] == ' ') {
+                            var firstHalf = this.selectedTxt.substr(0, this.bracketStartIndex);
+                            firstHalf += ' [';
+                            var sec = this.selectedTxt.substring(this.bracketStartIndex, textarea.selectionStart);
+                            sec = sec.trim();
+                            firstHalf += sec + '] ';
+                            firstHalf += this.selectedTxt.substr(textarea.selectionStart, this.selectedTxt.length);
+                            this.selectedTxt = firstHalf;
+                            this.bracketStartIndex = 0;
+                            this.one = JSON.parse(JSON.stringify(this.selectedTxt));
+                        }
+                    }
+                }
+            } else {
+                this.selectedTxt = JSON.parse(JSON.stringify(this.one));
+                event.target.blur();
+            }
+        }
+    }
+
+    initialize(event) {
+        this.currentIndex = event.target.selectionStart;
+        this.one = JSON.parse(JSON.stringify(event.target.value));
     }
 
 }

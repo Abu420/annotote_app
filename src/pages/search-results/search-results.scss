@@ -390,13 +390,12 @@ search-results {
                 // padding: 0px;
                 // list-style: none;
                 li {
-                    border-bottom: 1px solid #e8e8e8;
-                    padding: 12px 10px 12px 0px;
+                    border-bottom: 1px solid #e8e8e8; // padding: 12px 10px 12px 0px;
                     figure {
                         display: inline-block;
                         vertical-align: middle;
                         width: 73px;
-                        height: 73px;
+                        height: 75px;
                         padding: 10px;
                         text-align: center;
                         line-height: 4;
@@ -619,7 +618,7 @@ search-results {
                                         padding: 24px 10px 0px 0px;
                                     }
                                     &.forFollower {
-                                        padding: 4px 10px 0px 0px;
+                                        padding: 2px 10px 0px 0px;
                                     }
                                     &.normal {
                                         padding: 10px 10px 0px 0px;

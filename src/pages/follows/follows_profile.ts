@@ -22,6 +22,7 @@ import { TagsPopUp } from '../anotote-list/tags';
 import { StatusBar } from "@ionic-native/status-bar";
 import { Follows } from "./follows";
 import { ChatToteOptions } from '../anotote-list/chat_tote';
+import { TagsExclusive } from '../tagsExclusive/tags';
 
 declare var cordova: any;
 
@@ -52,6 +53,13 @@ export class Profile {
   public is_it_me: boolean;
   private lastImage: string = null;
   public new_description: string = '';
+  public nameInputIndex: number = 0;
+  public isTagging: boolean = false;
+  public nameEntered: string = '';
+  private users: any = [];
+  private search_user: boolean = false;
+  private no_user_found: boolean = false;
+  private show_autocomplete: boolean = false;
 
   constructor(public stream: Streams,
     private zone: NgZone,
@@ -163,6 +171,47 @@ export class Profile {
 
   updateUser() {
     if (this.profileData.user.fristName != '' && this.new_description != '') {
+      var hashTags = this.searchTags('#');
+      var cashTags = this.searchTags('$');
+      var urls = this.uptags(this.new_description);
+      var mentions = this.userTags();
+      var tags = [];
+      if (hashTags.length > 0) {
+        for (var i = 0; i < hashTags.length; i++) {
+          var tag = {
+            text: hashTags[i],
+            tag_id: 3,
+          }
+          tags.push(tag);
+        }
+      }
+      if (cashTags.length > 0) {
+        for (var i = 0; i < cashTags.length; i++) {
+          var tag = {
+            text: cashTags[i],
+            tag_id: 4,
+          }
+          tags.push(tag);
+        }
+      }
+      if (urls.length > 0) {
+        for (var i = 0; i < urls.length; i++) {
+          var tag = {
+            text: urls[i],
+            tag_id: 1,
+          }
+          tags.push(tag);
+        }
+      }
+      if (mentions.length > 0) {
+        for (var i = 0; i < mentions.length; i++) {
+          var tag = {
+            text: mentions[i],
+            tag_id: 2,
+          }
+          tags.push(tag);
+        }
+      }
       var toast = this.utilityMethods.doLoadingToast('Updating...');
       this.authService.update_profile({
         email: this.profileData.user.email,
@@ -174,6 +223,22 @@ export class Profile {
         toast.dismiss();
         this.authService.updateUser(response.data.user);
         this.profileData.user.description = this.new_description;
+        if (tags.length > 0) {
+          var params = {
+            tags: tags,
+            user_id: this.profileData.user.id,
+            created_at: this.utilityMethods.get_php_wala_time(),
+          }
+          this.searchService.add_tags_to_profile_all(params).subscribe((result) => {
+            this.profileData.user.userTags = result;
+          }, (error) => {
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            } else {
+              this.utilityMethods.doToast("Couldn't add tag to annotation.");
+            }
+          })
+        }
         this.utilityMethods.doToast('Profile updated successfully.');
       }, (error) => {
         toast.dismiss();
@@ -415,6 +480,71 @@ export class Profile {
     follows.onDidDismiss(data => {
     });
     follows.present();
+  }
+
+  tag_user(event) {
+    if (event.key == '@' || event.key == '#' || event.key == '$') {
+      this.nameInputIndex = event.target.selectionStart;
+      var params = {
+        tag: event.key,
+        id: 0
+      }
+      if (event.key == '@')
+        params.id = 2;
+      else if (event.key == '#')
+        params.id = 3
+      else if (event.key == '$')
+        params.id = 4
+
+      let tagsExlusive = this.modalCtrl.create(TagsExclusive, params);
+      tagsExlusive.onDidDismiss((data) => {
+        if (data) {
+          if (params.id != 2)
+            this.new_description = this.new_description.substring(0, this.nameInputIndex) + data.tag + " " + this.new_description.substring(this.nameInputIndex, this.new_description.length);
+          else if (params.id == 2)
+            this.new_description = this.new_description.substring(0, this.nameInputIndex - 1) + data.tag + " " + this.new_description.substring(this.nameInputIndex, this.new_description.length);
+        }
+      })
+      tagsExlusive.present();
+    }
+  }
+
+  searchTags(tag) {
+    var tags = [];
+    var check = false;
+    if (this.new_description[0] == tag) {
+      check = true;
+    }
+    var tagsincomment = this.new_description.split(tag);
+    var i = check ? 0 : 1;
+    for (var i = 1; i < tagsincomment.length; i++) {
+      var temp = tagsincomment[i].split(' ');
+      temp[0] = temp[0].replace(/[^\w\s]/gi, "")
+      tags.push(temp[0]);
+    }
+    return tags;
+  }
+
+  userTags() {
+    var matches = [];
+    var finalized = [];
+    matches = this.new_description.split('`')
+    for (let match of matches) {
+      if (match[0] == '@') {
+        finalized.push(match);
+      }
+    }
+    return finalized;
+  }
+
+  uptags(comment) {
+    var matches = [];
+    matches = comment.match(/\bhttps?:\/\/\S+/gi);
+    if (matches)
+      for (let match of matches) {
+        this.new_description = this.new_description.replace(match, ' ^ ');
+      }
+    return matches == null ? [] : matches;
   }
 
 }

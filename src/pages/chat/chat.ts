@@ -150,13 +150,18 @@ export class Chat {
         anotote_id: this.anotote_id,
         group_id: this.groupId
       }
-
-      if (this.anotote_id == 0) {
-        params.privacy = 1
-      } else {
+      if (this.tote == null) {
+        // if (this.anotote_id == 0) {
+        //   params.privacy = 1
+        // } else {
         params.privacy = this.privacyForNewTote;
+        // }
+      } else {
+        if (this.tote.chatGroup)
+          params.privacy = this.tote.chatGroup.groupUsers[0].privacy;
+        else
+          params.privacy = this.privacyForNewTote;
       }
-
       this.chatService.saveMessage(params).subscribe((result) => {
         this.send_message_loader = false;
         // this.myInput.nativeElement.style.height = 60 + 'px';
@@ -174,6 +179,8 @@ export class Chat {
         this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());
         this.textMessage = "";
         this.autoScroll();
+        var input = document.getElementById('message');
+        input.style.height = 'auto';
       }, (error) => {
         this.send_message_loader = false;
         if (error.code == -1) {
@@ -384,7 +391,7 @@ export class Chat {
   }
 
   showOptions() {
-    if (this.conversation.length > 0) {
+    if (this.conversation.length > 0 && (this.tote && this.tote.chatGroup)) {
       var params = {
         message: this.conversation[0],
         contains: this.contains,
@@ -422,7 +429,11 @@ export class Chat {
       anototeOptionsModal.onDidDismiss((data) => {
         if (data) {
           if (data.choice == 'delete') {
-            this.navCtrl.pop();
+            if (this.conversation.length == 0) {
+              this.navCtrl.pop();
+            } else {
+              this.deleteChat();
+            }
           }
           this.privacyForNewTote = data.privacy;
         }
@@ -433,6 +444,25 @@ export class Chat {
 
   showTitleField() {
     this.titleField = true;
+    if (this.tote && this.tote.chatGroup) {
+      this.newChatTitle = JSON.parse(JSON.stringify(this.tote.chatGroup.messagesUser[0].subject));
+    } else {
+      if (this.conversation.length > 0) {
+        this.newChatTitle = JSON.parse(JSON.stringify(this.conversation[0].subject));
+      } else {
+        if (this.tote != null) {
+          if (this.tote.userAnnotote.annotote) {
+            this.newChatTitle = this.tote.userAnnotote.annotote.title;
+          } else {
+            this.newChatTitle = this.tote.annotote.title;
+          }
+        }
+      }
+    }
+  }
+
+  cancelTitleEdit() {
+    this.titleField = false;
   }
 
   updateSubject() {

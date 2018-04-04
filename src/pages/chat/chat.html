@@ -18,13 +18,14 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding #scrollMe>
     <div id="wrapper">
-        <div class="chatHead">
+        <div class="chatHead" [ngClass]="{'active': titleField}">
             <span class="chatOptions" (click)="showOptions()"></span>
             <div class="txt">
                 <ng-container *ngIf="tote != null && tote.chatGroup != null">
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
                     <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
-                        <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title">
+                        <!-- <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title"> -->
+                        <textarea autosize [(ngModel)]="newChatTitle" name="title" placeholder="Change the title of this Chat"></textarea>
                     </form>
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">Chat: {{tote.chatGroup.messagesUser[0].subject}}</strong>
                     <!-- <strong *ngIf="tote.chatGroup.messagesUser[0].anototeId != 0 && tote.chatGroup.messagesUser[0].subject != null " (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong> -->
@@ -41,12 +42,12 @@
                     <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote == null">Chat: {{tote.annotote.title}}</strong>
                 </ng-container>
 
-                <div class="time" *ngIf="tote != null">
+                <div class="time" *ngIf="tote != null && titleField == false">
                     <em>
                         <span *ngIf="tote.createdAt != null" [innerText]="tote.createdAt | time_stamp"></span>
                     </em>
                 </div>
-                <div class="toteText">
+                <div class="toteText" *ngIf="titleField == false">
                     <!-- <p *ngIf="tote.chatGroup.groupUsers[0].user.id != user.id">{{tote.chatGroup.groupUsers[0].user.firstName}}</p>
                     <p *ngIf="tote.chatGroup.groupUsers[1].user.id != user.id">{{tote.chatGroup.groupUsers[1].user.firstName}}</p> -->
                     <button type="button">
@@ -60,7 +61,7 @@
             <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0">
                 <ion-item class="underlist-items">
                     <div class="txt">
-                        <p>Type a message below and hit SEND</p>
+                        <p>Type a message below and hit SEND.</p>
                     </div>
                     <span>
                         <img src="assets/img/checkblack.png" alt="">
@@ -68,7 +69,7 @@
                 </ion-item>
                 <ion-item class="underlist-items">
                     <div class="txt">
-                        <p>Change the privacy settings or add participants in the options menu after initiating chat.</p>
+                        <p>Change privacy settings or add participants in the options menu.</p>
                     </div>
                     <span>
                         <img src="assets/img/checkblack.png" alt="">
@@ -180,7 +181,7 @@
         </button>
     </ion-fab>
 </ion-content>
-<ion-footer class="message-bottom shadow" *ngIf="contains == true">
+<ion-footer class="message-bottom shadow" *ngIf="contains == true && titleField == false">
     <ion-toolbar color="dark">
         <ng-container *ngIf="tote != null && tote.chatGroup != null">
             <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
@@ -194,14 +195,25 @@
         <div *ngIf="reply_box_on" class="send-btn">
             <img src="assets/img/check-green.png" alt="">
             <div class="fortextarea">
-                <textarea autosize *ngIf="conversation.length > 0" [(ngModel)]="textMessage" name="search" placeholder="Reply to chat"></textarea>
-                <textarea autosize *ngIf="conversation.length == 0" [(ngModel)]="textMessage" name="search" placeholder="Type a message"></textarea>
+                <textarea id="message" autosize *ngIf="conversation.length > 0" [(ngModel)]="textMessage" name="search" placeholder="Reply to chat"></textarea>
+                <textarea id="message" autosize *ngIf="conversation.length == 0" [(ngModel)]="textMessage" name="search" placeholder="Type a message"></textarea>
                 <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
             </div>
             <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
             <span class="loading" *ngIf="send_message_loader">
                 <ion-spinner></ion-spinner>
             </span>
+        </div>
+    </ion-toolbar>
+</ion-footer>
+<ion-footer class="message-bottom" id='snackbarFortote' *ngIf="titleField">
+    <ion-toolbar color="dark" class="saved">
+        <div class="editOptions">
+            <span (click)="cancelTitleEdit()">Cancel</span>
+            <span class="save" *ngIf="tote && tote.chatGroup && newChatTitle != tote.chatGroup.messagesUser[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote && newChatTitle != tote.userAnnotote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote == null && newChatTitle != tote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="(tote == null || tote.chatGroup == null) && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
         </div>
     </ion-toolbar>
 </ion-footer>

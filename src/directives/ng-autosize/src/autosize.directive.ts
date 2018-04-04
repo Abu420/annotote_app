@@ -77,7 +77,7 @@ export class Autosize implements AfterViewInit {
     if (this.el.style.height == this.element.nativeElement.scrollHeight + "px") {
       return;
     }
-    this.el.style.overflow = 'hidden';
+    this.el.style.overflow = 'scroll';
     this.el.style.height = 'auto';
     if (this.el.scrollHeight > 0)
       this.el.style.height = this.el.scrollHeight + "px";

@@ -198,6 +198,12 @@ export class SearchService {
         return response;
     }
 
+    public autocomplete_tags(params) {
+        var url = this.constants.API_BASEURL + '/tag-intellisense?query=' + params.value + '&&tag_id=' + params.id;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
 
     /**
     * Load advance search results  API
@@ -284,6 +290,11 @@ export class SearchService {
 
     public add_tags_to_profile(params) {
         var url = this.constants.API_BASEURL + '/user/createTag';
+        var response = this.http.post(url, params).map(res => res.json());
+        return response;
+    }
+    public add_tags_to_profile_all(params) {
+        var url = this.constants.API_BASEURL + '/user/createTagAll';
         var response = this.http.post(url, params).map(res => res.json());
         return response;
     }

@@ -85,7 +85,7 @@
         <ion-list class="search-result">
             <ion-item *ngFor="let anotote of search_results; let i = index">
                 <div [ngClass]="{'activeTote' : current_active_anotote==anotote }" (click)="openAnototeDetail(anotote)" *ngIf="anotote.is_tote == true || anotote.isChat == true">
-                    <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)">
+                    <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
                     </div>
                     <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true, 'forFollower':anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0}" *ngIf="anotote.is_tote == true">
                         <p *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}
