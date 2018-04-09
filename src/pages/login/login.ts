@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, App, NavController, NavParams, Platform, Keyboard } from 'ionic-angular';
+import { IonicPage, App, NavController, NavParams, Platform, Keyboard, Content } from 'ionic-angular';
 import { Home } from '../home/home';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { User } from '../../models/user';
@@ -22,6 +22,7 @@ export class Login {
   /**
    * Variables && Configs
    */
+  @ViewChild(Content) content: Content;
   public user: User;
   public focus_field: string;
   public device_id: string;

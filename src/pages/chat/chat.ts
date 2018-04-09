@@ -18,6 +18,7 @@ import { ChatToteOptions } from "../anotote-list/chat_tote";
 import { TagsPopUp } from "../anotote-list/tags";
 import { StatusBar } from "@ionic-native/status-bar";
 import { FollowsPopup } from "../anotote-list/follows_popup";
+import { Keyboard } from '@ionic-native/keyboard';
 
 declare var io: any;
 
@@ -58,6 +59,7 @@ export class Chat {
   public groupId: number = 0;
   public privacyForNewTote: number = 0;
   public fbLoading: boolean = true;
+  public options: boolean = false;
   /**
    * Constructor
    */
@@ -400,8 +402,10 @@ export class Chat {
         toteId: this.tote != null ? this.tote.chatGroup.messagesUser[0].anototeId : this.conversation[0].anototeId,
         tags: this.tote != null ? this.tote.chatGroup.chatTags : []
       }
+      this.options = true;
       let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, params);
       anototeOptionsModal.onDidDismiss(data => {
+        this.options = false;
         if (data) {
           if (data.choice == 'delete') {
             this.deleteChat();
@@ -425,8 +429,10 @@ export class Chat {
         privacy: this.privacyForNewTote,
         id: this.tote == null ? 0 : 1
       }
+      this.options = true;
       let anototeOptionsModal = this.modalCtrl.create(EditDeleteMessage, paramz);
       anototeOptionsModal.onDidDismiss((data) => {
+        this.options = false;
         if (data) {
           if (data.choice == 'delete') {
             if (this.conversation.length == 0) {

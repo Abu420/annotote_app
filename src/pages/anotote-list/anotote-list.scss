@@ -375,16 +375,19 @@
                         border-bottom: 1px solid #ececec;
                         li {
                             float: left;
-                            padding: 0 2.1vw;
+                            padding: 0 2.2vw;
                             vertical-align: middle;
                             color: #797979;
                             font-size: 16px;
                             &.tabOption {
-                                padding: 0 0px;
                                 text-align: right;
                                 float: right;
                                 img {
-                                    width: 25px;
+                                    width: 5px;
+                                    -webkit-transform: translate(-50%, 0%);
+                                    transform: translate(-50%, 0%);
+                                    -webkit-transform: rotate(90deg);
+                                    transform: rotate(90deg);
                                 }
                             }
                             .high {
@@ -551,6 +554,10 @@
                         border-radius: 0;
                         background: #FFF;
                         opacity: 1;
+                        font-size: 16px;
+                    }
+                    input::-webkit-input-placeholder {
+                        font-size: 16px;
                     }
                 }
                 .notOnField {
@@ -562,8 +569,8 @@
                 }
                 span {
                     display: inline-block;
-                    vertical-align: top;
-                    padding: 13.5px 21.5px 13px 20px;
+                    vertical-align: top; // padding: 13.5px 21.5px 13px 20px;
+                    padding: 17px 21.5px 13px 20px;
                     width: 65px;
                     margin-left: -8px;
                     border-radius: 0;
@@ -608,10 +615,6 @@
             .resultUserHead {
                 @extend .searchUserHead;
                 >span {
-                    // display: inline-block;
-                    // vertical-align: top;
-                    padding: 17px 21.5px 13px 20px; // width: 67px;
-                    // position: relative;
                     background: #000;
                 }
             }

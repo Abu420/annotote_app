@@ -201,36 +201,38 @@ export class SearchResults {
         if (response.status == 1) {
           for (let tote of response.data.annotote) {
             if (tote.annotote) {
-              tote.is_tote = true;
-              tote.active = false;
-              tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
-              tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
-              tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
-              tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
-              tote.userAnnotote.spinner_for_active = false;
-              var active_tab = 'anon';
-              if (tote.userAnnotote.isMe == 1) {
-                tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
-                tote.userAnnotote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
-                active_tab = 'me'
-              } else if (tote.userAnnotote.follows.length > 0) {
-                active_tab = 'follows';
-              } else {
-                if (tote.userAnnotote.isTop != 1) {
-                  tote.userAnnotote.isTop = 1;
-                  tote.userAnnotote.userAnnotote.isTop = 1;
-                  if (tote.userAnnotote.topUserToteId == 0) {
-                    tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
+              if (tote.userAnnotote) {
+                tote.is_tote = true;
+                tote.active = false;
+                tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
+                tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
+                tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
+                tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
+                tote.userAnnotote.spinner_for_active = false;
+                var active_tab = 'anon';
+                if (tote.userAnnotote.isMe == 1) {
+                  tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
+                  tote.userAnnotote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
+                  active_tab = 'me'
+                } else if (tote.userAnnotote.follows.length > 0) {
+                  active_tab = 'follows';
+                } else {
+                  if (tote.userAnnotote.isTop != 1) {
+                    tote.userAnnotote.isTop = 1;
+                    tote.userAnnotote.userAnnotote.isTop = 1;
+                    if (tote.userAnnotote.topUserToteId == 0) {
+                      tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
+                    }
                   }
+                  active_tab = 'top';
+                  tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
                 }
-                active_tab = 'top';
-                tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
+                tote.userAnnotote.active_tab = active_tab;
+                if (tote.userAnnotote.follows.length > 0) {
+                  tote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+                }
+                this.search_results.push(tote);
               }
-              tote.userAnnotote.active_tab = active_tab;
-              if (tote.userAnnotote.follows.length > 0) {
-                tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
-              }
-              this.search_results.push(tote);
             }
           }
           for (let group of response.data.group) {

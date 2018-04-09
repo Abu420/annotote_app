@@ -19,7 +19,7 @@
                 <ng-container *ngIf="tag.tagId == 3">#{{tag.tagText}}</ng-container>
                 <ng-container *ngIf="tag.tagId == 4">${{tag.tagText}}</ng-container>
             </p>
-            <textarea autosize [maxHeight]='150' [minHeight]="50" [(ngModel)]="temp_title" name="heading"></textarea>
+            <textarea search-field autosize [maxHeight]='150' [minHeight]="50" [(ngModel)]="temp_title" name="heading"></textarea>
         </div>
     </form>
 </div>

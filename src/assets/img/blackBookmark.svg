@@ -1,48 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 23.6 32.4" style="enable-background:new 0 0 23.6 32.4;" xml:space="preserve">
+	 viewBox="0 0 25.8 34.2" style="enable-background:new 0 0 25.8 34.2;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill-rule:evenodd;clip-rule:evenodd;}
+	.st0{display:none;}
 </style>
+<polygon class="st0" points="19.3,6.5 19.3,27.7 12.9,22.1 6.6,27.7 6.6,6.5 "/>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="23.6" height="32.4"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<g style="clip-path:url(#SVGID_2_);">
-		
-			<image style="overflow:visible;" width="72" height="99" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABoCAYAAABbqhYLAAAACXBIWXMAACHVAAAh1QEEnLSdAAAA
-GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABStJREFUeNrsnQ2P2zAIhiHx/v8f
-bsw0aZU8ji87tptOIEWX3fVa8uQFbF/MANLS0tLS0tLSphh++ftbRk+/IPwCgdCnLxK/WGG0GxgG
-vvckYDQDGk4AhYHz1RAp8H3qhDnFeQ2W93WH4jQI3tcuaDgISwLDz3dCs2DxcwscrQBmgTkUeLvy
-GSnArMNS3TAwri7tOARwXpiuBlWVcwmcCw0nwWpBHUFwK6CRAKsq50PQ8EYoSpD+HKcCjofoKoVx
-QO/jYv/mqguFZi8wrioO6WTnO6B5sK7m6yXAs3LaNGAaqNKcnwI0DI7VeiujFIYtpFdzfjF4dRYw
-K3cdCqjSHBwaMqXNBtaq6w3j1QB7KeBqTy4rN6ZFErwiHKdSBGYBIwXY1XyWVAyQ/TxkZQIoSW1/
-jl8M2LEB2Ps42Hu3r3n7MQStdOQwKzxPAVh7WFVzJrBLACZVTDSKjwmv3HBYUtn70MLyEPLYjCrZ
-KusSYF2CjzhSsUtnKFrzRhQqZKs6Pm6bqbBWPRzkKQBCY45Ls3MYdAxkpUq5ApiUi6qhKukaaEXS
-h0A+Qydcj8lJn6v++PuzQ/Hr1qJAuQHJq55owFqlMF4BDyUch8eBZYK6IqsYEtCZwEAJTwvU0Gff
-DUlwyrPn/Kw5pQcIRqsit5nl3XN4ty3xpWx2eqfCltgBaR8B9pQw7M1rqbBvUdidarpKVUv8OhbI
-PDpne0KodvuVIZk5LKvk6tF/KixDMoElsASWlsASWAJLYAksgSWCBJbAElgCS2BpipWH+WM9coQJ
-rG+/Iv1PwKRHtiMXjkEwOAAw4hM9TWHS9rvIxY8qjybc0K8IyZ49i6j8jrRH8uMhSYOh4AGxNke1
-z5/ijLD6hMJoQOYEsW3GWg5DFtI46AuBvVP3MTnMCkFvc9TIs2W0Ijx3Vck24UuwrA1SkUc/PaVN
-A1c2qItvitJg1SAw7Zn7aH59HDAtP/AL0nbOasC0R9m9m/TIkAQnN1Xhddr2YmIhzLfmHAY0DTo9
-EZjX+qAasNqtxRqw94aFdhcwHwxHWi18HJgXglxdEixtSzFXV22gkaEyCxo9SWHS3muuPgnWKwiM
-75Dj2wpByYePqJKWsqoCrP3+C+QN7B6wwgrGCT934HrQhgGWRbmrspzEL6TduM6hScDeG0fPBlJt
-4EVVBneLQbmpLDBg1cZ5Ho6vQYXVBhQZKqMANPpUSHJY7RZi7a5H2yK0wDiAqqisVbPWamHraoU1
-nmpDzkv2GjDqACZ1C0Ah/C8nr9GOkNRyVhsW6AC7DGDSSJ+UKVURgBHoPXfqaoVp61ESLIR/txBb
-Y68X/OyHowHz+oAdRrW0Wsd05bU7CqtsBN6GojZlqUK+slq6YBBYdaZK08ZmI713tK4BUkMPUMLj
-MpQVXa3QOkkdyszigr6GReKwY0azIu68tPTi9fKyxkta54IT5J5l1mdfHSE6FZjVaI0v7pFRTb15
-H4DeZ9HqWIDGDMPrHzYMLKIyBL+ZhlTVrEVDEqqs9/kY/PyoD+os4E6HOqtRJCjV1GveCGD/ITfq
-g1WoIs0jp3Soi6yvo+Mwwfialdf7x7th0HGzbgEDsHu4Wq1Hvb6qEJgUY4favGuK3qxpwLw7HVnR
-gMHVg55OxT1LUl0rGDNbK0uvi/xNsmepJdoLu8ePZa2VLYci7zOl2zjEu633+jG9ebf2+p73uAOq
-B1yvH8uA3f29WbA+5gdudnjlkza446bt+E9UPvGo5ZN8SUtLS0tLS0tLS0t7vP0WYADlh74sf1ZC
-mAAAAABJRU5ErkJggg==" transform="matrix(0.3273 0 0 0.3273 0 0)">
-		</image>
+	
+		<image style="overflow:visible;opacity:0.33;" width="26" height="34" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAiCAYAAABBY8kOAAAACXBIWXMAAAsSAAALEgHS3X78AAAA
+GXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAjZJREFUeNrsl2tP2zAUhuPUJbCB
+KCDBtH2a+P8/a9OoukJLuSRpGo6n50gH10k6EP1EpVfOzefxcWK/p1m2p58buO7+M14btZ0gZ5Qj
+twOwRRvUGm2BNPhI5EUHtCMD7IKE4I1oLapoGwP9F8iCRgC+iI5pFZjKTEetgEfRirayWfloyjzB
+J6JL0RnAAwaRAjUEDYBb0ZR7mmXo09qMNJsQ+Ep0LfouOhd9NVnFoJDNg2gu+s0zdgo3QxkFyE/R
+N9EJg0iBQsB70R+u/SWzpYnbdr2jYzIJkB+iU67nEWgDaMH5omuqfeKrC9cKpusEyIRrKVDJ8ZI+
+BTHyLlAWrZ9wb8zoih5QxjNjA9haDr5nZ7BQq/iX77K4833tdZ+gT9Dg5z1kbB8GUs9xBuZic3sP
+yJpabWwhM3vZK4N7C6iN/KYEVkXbjsJ6s/M7QEqOS8ztiXN14YJ76z6Y74GEjs/syuH8Dq9RSwi7
++gWtYwB11zT6jndSG8iaIDc46B3PneFXwY0PcVmtFRqzs2+BFKKZLPD/EcF/RaAJxwuyqnHWx1Rm
+PlFolFjz1Pi+1gNT7rUEXZH1hOm75/zZfCCvQPpeakY05yXPAYeRzwj+RB+dqiVO7BnYjHt1V12n
+a2XF6Co+34qOtl7LaLWWO2KKNzxnQVuVam6Kk4IXnDN1pVlHOkpr92P6ZuY5W60mS2IF6srXnSG1
+A6RsvEnU4L1FvoveX2oxukTbpv5VDP1tefeuvfffiwADAN4s6JXQ+KeUAAAAAElFTkSuQmCC" transform="matrix(1 0 0 1 -8.500000e-02 0.585)">
+	</image>
+	<g>
+		<polygon points="19.5,4.9 19.5,26.1 13.1,20.5 6.8,26.1 6.8,4.9 		"/>
 	</g>
 </g>
-<polygon class="st0" points="5.5,23.7 5.5,8.1 11.8,2.5 18.2,8.1 18.2,23.7 11.8,18.1 "/>
-<rect x="5.5" y="2.5" class="st0" width="12.7" height="14.1"/>
 </svg>

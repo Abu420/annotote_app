@@ -336,7 +336,7 @@ export class AnototeEditor implements OnDestroy {
                 this.hideLoading();
                 this.text = response_content.text();
                 var that = this;
-                if (this.from_where == 'anotote_list' && this.HIGHLIGHT_RECEIVED != null)
+                if (this.HIGHLIGHT_RECEIVED != null)
                     setTimeout(function () {
                         that.scrollTo(that.HIGHLIGHT_RECEIVED.identifier);
                     }, 1000);
@@ -433,10 +433,11 @@ export class AnototeEditor implements OnDestroy {
                                     this.runtime.top_first_load = false;
                                 }
                                 this.runtime.me_first_load = false;
-                                // this.toastInFooter("Saved to Me stream");
-                            } else {
-                                // this.toastInFooter("Already Saved");
+                                this.toastInFooter("Saved to Me stream");
                             }
+                            //  else {
+                            //     // this.toastInFooter("Already Saved");
+                            // }
                         }
                     }, (error) => {
                         this.hideLoading();
@@ -612,17 +613,19 @@ export class AnototeEditor implements OnDestroy {
         var identifier = event.target.getAttribute("data-identifier");
         if (identifier) {
             if (this.commentDetailModalIsOpen.check) {
-                if (this.commentDetailModalIsOpen.comment.identifier == identifier) {
+                if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == identifier) {
                     var element = document.getElementById(identifier);
                     element.classList.remove('greyOut');
                     this.events.publish('closeModal');
                     this.commentDetailModalIsOpen.check = false;
                     this.commentDetailModalIsOpen.comment = null;
                     return;
-                } else {
+                } else if (this.commentDetailModalIsOpen.comment) {
                     this.scrollTo(identifier);
                     var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
                     element.classList.remove('greyOut');
+                    this.events.publish('closeModal');
+                } else {
                     this.events.publish('closeModal');
                 }
             }
@@ -819,10 +822,13 @@ export class AnototeEditor implements OnDestroy {
         this.sel = window.getSelection();
         // this.range = this.sel.getRangeAt(0);
         this.range = document.createRange();
+        this.commentDetailModalIsOpen.check = true;
         this.range.setStart(this.selection.startContainer, this.selection.startOffset);
         this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel }, opts);
         createAnotationModal.onDidDismiss(data => {
+            if (this.commentDetailModalIsOpen.check == true && this.commentDetailModalIsOpen.comment == null)
+                this.commentDetailModalIsOpen.check = false;
             if (data.create) {
                 var tags = [];
                 if (data.hash.length > 0) {

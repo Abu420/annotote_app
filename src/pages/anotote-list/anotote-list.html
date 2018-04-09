@@ -453,7 +453,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && fbLoading == false && followedUserId == 0 && infiniteLoading == false" class="product-list">
+        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && followedUserId == 0" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
                 <ion-item *ngFor="let anotote of tutorialMeCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
@@ -692,6 +692,7 @@
                 </div>
             </ion-item>
         </ion-list>
+
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No Totes</p>
@@ -902,7 +903,7 @@
         <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/dodtsLine.svg" alt="">
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_highlight && current_active_highlight.edit == true">
+<ion-footer [keyboardAttach]="content" class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_highlight && current_active_highlight.edit == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
             <span (click)="stop_editing($event,current_active_highlight)">Close</span>
@@ -914,7 +915,7 @@
         </div> -->
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
+<ion-footer [keyboardAttach]="content" class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
     <ion-toolbar color="dark" class="saved">
         <div class="editOptions">
             <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>

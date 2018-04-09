@@ -269,24 +269,24 @@ export class AnototeList {
     public cd: ChangeDetectorRef,
     public key: Keyboard) {
     this.key.disableScroll(true);
-    key.onKeyboardShow().subscribe(() => {
-      if (utilityMethods.whichPlatform() == 'ios') {
-        setTimeout(() => {
-          var snackbar = document.getElementById('snackbarFortote');
-          if (snackbar)
-            snackbar.style.bottom = (this.defaultWindowHeight - window.innerHeight) + 'px';
-        }, 500);
-      }
-    })
-    key.onKeyboardHide().subscribe(() => {
-      if (utilityMethods.whichPlatform() == 'ios') {
-        var snackbar = document.getElementById('snackbarFortote');
-        if (snackbar) {
-          snackbar.style.bottom = '0px';
-        }
-        this.cd.detectChanges();
-      }
-    })
+    // key.onKeyboardShow().subscribe(() => {
+    //   if (utilityMethods.whichPlatform() == 'ios') {
+    //     setTimeout(() => {
+    //       var snackbar = document.getElementById('snackbarFortote');
+    //       if (snackbar)
+    //         snackbar.style.bottom = (this.defaultWindowHeight - window.innerHeight) + 'px';
+    //     }, 500);
+    //   }
+    // })
+    // key.onKeyboardHide().subscribe(() => {
+    //   if (utilityMethods.whichPlatform() == 'ios') {
+    //     var snackbar = document.getElementById('snackbarFortote');
+    //     if (snackbar) {
+    //       snackbar.style.bottom = '0px';
+    //     }
+    //     this.cd.detectChanges();
+    //   }
+    // })
     this.current_color = navParams.get('color');
     this.whichStream = navParams.get('color');
     this.reply_box_on = false;
@@ -2033,13 +2033,35 @@ export class AnototeList {
       // } else {
       //   this.options(anotote);
       // }
-      this.options(anotote);
+      if (anotote.chatGroup && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != this.user.id && this.current_color == 'me') {
+        anotote.moreOptions = false;
+        this.markReadUnread(anotote);
+      } else
+        this.options(anotote);
     } else {
       if (this.followedUserId != 0)
         this.toastInFooter("Please follow this user first");
       else
         this.options(anotote);
     }
+  }
+
+  markReadUnread(anotote) {
+    this.showLoading('Please wait')
+    var params = {
+      message_id: anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].id,
+      message_text: anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].text,
+      read_status: anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 1 ? 0 : 1,
+      updated_at: this.utilityMethods.get_php_wala_time()
+    }
+    this.chatService.updateMessage(params).subscribe((result) => {
+      this.hideLoading();
+      anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read = anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 1 ? 0 : 1;
+    }, (error) => {
+      if (error.code == -1) {
+        this.utilityMethods.internet_connection_error();
+      }
+    })
   }
 
   moreOPtions(anotote) {

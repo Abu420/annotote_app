@@ -99,6 +99,7 @@ import { Verification } from "../pages/signup/verificationPopUp";
 import { Badge } from '@ionic-native/badge';
 import { Verified } from '../pages/front-view/verified';
 import { TagsExclusive } from '../pages/tagsExclusive/tags';
+import { KeyboardAttachDirective } from '../directives/keyboardAttach';
 
 @NgModule({
   declarations: [
@@ -151,6 +152,7 @@ import { TagsExclusive } from '../pages/tagsExclusive/tags';
     EditDeleteMessage,
     notificationTime,
     Autosize,
+    KeyboardAttachDirective,
     chatVote,
     TagsOptions,
     Verification,

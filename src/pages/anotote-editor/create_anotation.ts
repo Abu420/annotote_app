@@ -1,5 +1,5 @@
 import { Component, trigger, transition, style, animate } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams, Events } from 'ionic-angular';
 import { UtilityMethods } from "../../services/utility_methods";
 import { SearchService } from "../../services/search.service";
 @Component({
@@ -46,11 +46,15 @@ export class CreateAnotationPopup {
     constructor(public params: NavParams,
         public viewCtrl: ViewController,
         public utilityMethods: UtilityMethods,
+        private events: Events,
         public searchService: SearchService) {
         this.selectedTxt = this.params.get('selected_txt');
         this.actual_ano = this.params.get('selected_txt');
         this.range = this.params.get('range');
         this.sel = this.params.get('sel');
+        this.events.subscribe('closeModal', () => {
+            this.dismiss();
+        })
     }
 
     create() {

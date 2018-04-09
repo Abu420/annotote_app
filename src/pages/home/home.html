@@ -61,7 +61,7 @@
         <ion-list class="product-list">
             <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
                 <div class="img-holder" (click)="pinImage($event,search)">
-                    <img *ngIf="search.id != 0" src="assets/img/blackBookmark.svg" alt="">
+                    <img *ngIf="search.id != 0" src="assets/img/7.svg" alt="">
                     <img class="unReadLock" *ngIf="search.id == 0" src="assets/img/grayBookmark.svg" alt="">
                 </div>
                 <div class="txt">

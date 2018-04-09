@@ -76,9 +76,131 @@
         </div>
     </ion-list>
     <div class="search-panel" *ngIf="!filter_mode">
-        <div *ngIf="_loading" class="_spinner">
+        <!-- <div *ngIf="_loading" class="_spinner">
             <ion-spinner name="ios"></ion-spinner>
-        </div>
+        </div> -->
+        <ion-list class="product-list loader-panel" *ngIf="_loading">
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
         <div class="no_search" *ngIf="no_search == true">
             <p>No results</p>
         </div>
@@ -147,8 +269,8 @@
                             <div class="btns-area">
                                 <button ion-button *ngIf="anotote.userAnnotote.isMe == 1" (click)="showMeHighlights(anotote.userAnnotote)" class="me-tab" [ngClass]="{'active_me': anotote.userAnnotote.active_tab == 'me'}">Me</button>
                                 <!-- <button class="me-tab active_follows" ion-button *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}</button> -->
-                                <button (click)="follows_popup($event,anotote.userAnnotote)" ion-button class="me-tab" [ngClass]="{'active_follows': anotote.userAnnotote.active_tab == 'follows'}" *ngIf="anotote.userAnnotote.follows.length > 0">{{anotote.userAnnotote.selected_follower_name}}
-                                    <i *ngIf="anotote.userAnnotote.follows.length > 1">({{anotote.userAnnotote.follows.length}})</i>
+                                <button (click)="follows_popup($event,anotote.userAnnotote)" ion-button class="me-tab" [ngClass]="{'active_follows': anotote.userAnnotote.active_tab == 'follows'}" *ngIf="anotote.userAnnotote.follows.length > 0">{{anotote.selected_follower_name}}
+                                    <i *ngIf="anotote.userAnnotote.follows.length > 1" style="padding-left: 2px"> ({{anotote.userAnnotote.follows.length}})</i>
                                 </button>
                                 <button ion-button class="me-tab" [ngClass]="{'active_top': anotote.userAnnotote.active_tab == 'top'}" *ngIf="anotote.userAnnotote.isTop == 1" (click)="show_top_tab(anotote.userAnnotote)">Top</button>
                             </div>

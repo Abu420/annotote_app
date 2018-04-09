@@ -373,7 +373,7 @@ button,
         overflow: visible;
         contain: none;
         .toolbar-content {
-            padding: 0 10px !important;
+            padding: 0 25px !important;
         }
         p {
             width: calc(100% - 60px);
@@ -453,7 +453,6 @@ button,
         }
     }
 }
-
 
 /**
 * Search Popup CSS
@@ -544,7 +543,7 @@ view_options {
             p {
                 overflow: inherit;
                 margin: 0 0 2px;
-                font-size: 12px;
+                font-size: 14px;
                 line-height: normal;
                 text-overflow: inherit;
                 color: #8e9093;
@@ -1243,10 +1242,11 @@ search_page {
     .fortextarea {
         margin: 20px 5px 5px;
         display: inline-block;
-        width: 90%;
+        width: 85%;
         max-height: 250px;
         overflow: scroll;
         vertical-align: middle;
+        -webkit-overflow-scrolling: touch;
     }
     textarea {
         display: inline-block;

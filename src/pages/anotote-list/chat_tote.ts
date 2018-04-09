@@ -92,29 +92,35 @@ export class ChatToteOptions {
             this.search_results = [];
             this.webUrlEntered = true;
         } else {
-            this.search_results = [];
-            this.search_loading = true;
-            this.webUrlEntered = false;
-            var params = {
-                term: this.usersForChat,
-                type: 'user',
-                annotote_type: '',
-                time: 0
+            if (this.usersForChat != '') {
+                this.search_results = [];
+                this.search_loading = true;
+                this.webUrlEntered = false;
+                var params = {
+                    term: this.usersForChat,
+                    type: 'user',
+                    annotote_type: '',
+                    time: 0
+                }
+                this.searchService.general_search(params)
+                    .subscribe((response) => {
+                        if (this.usersForChat != '') {
+                            this.search_results = [];
+                            for (let user of response.data.user) {
+                                user.follow_loading = false;
+                                this.search_results.push(user);
+                            }
+                            this.search_loading = false;
+                        } else {
+                            this.search_results = [];
+                        }
+                    }, (error) => {
+                        this.search_loading = false;
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        }
+                    });
             }
-            this.searchService.general_search(params)
-                .subscribe((response) => {
-                    this.search_results = [];
-                    for (let user of response.data.user) {
-                        user.follow_loading = false;
-                        this.search_results.push(user);
-                    }
-                    this.search_loading = false;
-                }, (error) => {
-                    this.search_loading = false;
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    }
-                });
         }
     }
 
