@@ -155,8 +155,10 @@ follow_profile {
             span {
                 font-size: 14px;
                 text-transform: uppercase;
-                float: right;
+                float: left;
                 color: #7f7f7f;
+            }
+            span:last-child {
                 padding-left: 10px;
             }
             span.accept {

@@ -8,7 +8,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { Constants } from "../../services/constants.service";
 
 @Component({
-    selector: 'msg_options',
+    selector: 'anotote_options',
     animations: [
         trigger(
             'enterAnimation', [

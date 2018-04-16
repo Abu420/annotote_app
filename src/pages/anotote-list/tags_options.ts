@@ -1,7 +1,8 @@
-import { Component, trigger, transition, style, animate } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
+import { Component, trigger, transition, style, animate, ViewChild } from '@angular/core';
+import { IonicPage, NavController, ViewController, NavParams, Content } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { StatusBar } from "@ionic-native/status-bar";
+import { Keyboard } from '@ionic-native/keyboard';
 @Component({
     selector: 'tags_options',
     animations: [
@@ -20,6 +21,7 @@ import { StatusBar } from "@ionic-native/status-bar";
     templateUrl: 'tags_options.html',
 })
 export class TagsOptions {
+    @ViewChild(Content) content: Content;
     public tag;
     public show: boolean = true;
     public is_tag = true;
@@ -27,8 +29,10 @@ export class TagsOptions {
     constructor(public statusbar: StatusBar,
         public viewCtrl: ViewController,
         private params: NavParams,
+        public key: Keyboard,
         private utilityMethods: UtilityMethods) {
         statusbar.hide();
+
         this.tag = params.get('tag');
         if (params.get('is_tag') == false) {
             this.is_tag = false;

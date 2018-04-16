@@ -14,6 +14,7 @@
 // automatically applied to the <body> element in the app.
 html,
 body {
+    user-select: auto;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     font-family: "robotolight" !important;
@@ -44,6 +45,7 @@ ion-item {
 }
 
 *[contenteditable] {
+    user-select: auto;
     -webkit-user-select: auto !important;
 }
 
@@ -159,8 +161,6 @@ ion-fab {
 .button-ios.activated.green {
     background-color: $me_app_color !important;
 }
-
-.bar-button {}
 
 .tote_green_logo {
     background-image: url('..assets/img/tote_logo.png');
@@ -413,14 +413,11 @@ button,
         }
         .alreadyFollowing {
             position: absolute;
-            width: 25px;
-            right: 15px;
-            top: 50%;
-            -webkit-transform: translate(-50%, 0%);
+            width: 5px;
+            right: 35px;
+            top: 30%;
             transform: translate(-50%, 0%);
-        }
-        &.saved {
-            padding: 0 16px !important;
+            transform: rotate(90deg);
         }
         .editOptions {
             span {
@@ -780,7 +777,7 @@ search_page {
                     h4.selected {
                         font-weight: bolder;
                         color: #000;
-                        text-shadow: 0px 0px 5px #000;
+                        text-shadow: 0px 3px 3px #a0a0a0;
                     }
                 }
             }
@@ -804,7 +801,7 @@ search_page {
                             span {
                                 color: #000;
                                 font-weight: bolder !important;
-                                text-shadow: 0px 0px 5px #000;
+                                text-shadow: 0px 3px 3px #a0a0a0;
                             }
                         }
                     }
@@ -836,11 +833,13 @@ search_page {
             &.activeOption {
                 position: relative;
                 background-color: #000;
+                width: 29px;
+                margin-right: 1px;
                 &:after {
                     content: "";
                     position: absolute;
                     left: 0px;
-                    bottom: -20px;
+                    bottom: -19px;
                     z-index: 999;
                     width: 0;
                     height: 0;
@@ -852,13 +851,13 @@ search_page {
                     content: "";
                     position: absolute;
                     left: 0px;
-                    bottom: -23px;
-                    z-index: 999;
+                    bottom: -21px;
+                    z-index: -1;
                     width: 0;
                     height: 0;
                     border-left: 15px solid transparent;
                     border-right: 15px solid transparent;
-                    border-top: 20px solid #c1c1c1bf;
+                    border-top: 20px solid #000;
                     filter: blur(3px);
                 }
             }
@@ -1096,8 +1095,11 @@ search_page {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
-                &:after {
-                    border-top: 20px solid #3bde00;
+                &.activeOption {
+                    background-color: #2ba600 !important;
+                    &:after {
+                        border-top: 20px solid #2ba600;
+                    }
                 }
             }
             .clear_button {
@@ -1121,8 +1123,11 @@ search_page {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
-                &:after {
-                    border-top: 20px solid #f4e300;
+                &.activeOption {
+                    background-color: #bdb222 !important;
+                    &:after {
+                        border-top: 20px solid #bdb222;
+                    }
                 }
             }
             .clear_button {
@@ -1146,8 +1151,11 @@ search_page {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30px;
-                &:after {
-                    border-top: 20px solid #fb9df0;
+                &.activeOption {
+                    background-color: #ca6ebf !important;
+                    &:after {
+                        border-top: 20px solid #ca6ebf;
+                    }
                 }
             }
             .clear_button {

@@ -75,7 +75,7 @@
             </ul>
         </div>
     </ion-list>
-    <div class="search-panel" *ngIf="!filter_mode">
+    <div class="search-panel" [ngClass]="{'forFilter': filter_mode}">
         <!-- <div *ngIf="_loading" class="_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </div> -->
@@ -201,10 +201,10 @@
                 </div>
             </ion-item>
         </ion-list>
-        <div class="no_search" *ngIf="no_search == true">
-            <p>No results</p>
-        </div>
         <ion-list class="search-result">
+            <ion-item *ngIf="no_search == true" class="no_search">
+                <p>No results</p>
+            </ion-item>
             <ion-item *ngFor="let anotote of search_results; let i = index">
                 <div [ngClass]="{'activeTote' : current_active_anotote==anotote }" (click)="openAnototeDetail(anotote)" *ngIf="anotote.is_tote == true || anotote.isChat == true">
                     <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">

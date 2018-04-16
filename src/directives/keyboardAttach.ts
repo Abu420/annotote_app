@@ -72,6 +72,9 @@ export class KeyboardAttachDirective implements OnInit, OnDestroy {
 
     private onHide() {
         this.setElementPosition(0);
+        setTimeout(() => {
+            this.content.resize();
+        }, 500);
     };
 
     private setElementPosition(pixels: number) {

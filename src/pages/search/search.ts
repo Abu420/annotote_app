@@ -426,6 +426,7 @@ export class Search {
                                 tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
                                 tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
                                 tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
+                                tote.userAnnotote.spinner_for_active = false;
                                 var active_tab = 'anon';
                                 if (tote.userAnnotote.isMe == 1) {
                                     active_tab = 'me'

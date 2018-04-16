@@ -26,6 +26,9 @@ page-notifications {
                 padding: 13px !important;
                 .toolbar-title {
                     padding: 0;
+                    font-size: 14px;
+                    color: #8e9093;
+                    font-weight: bold;
                 }
             }
         }
@@ -42,9 +45,6 @@ page-notifications {
             contain: none;
             -webkit-overflow-scrolling: auto !important;
         }
-        .notifaction_details {
-            // padding: 10px 0px 0 8px;
-        }
     }
     .img-loaded+ion-spinner {
         display: none;
@@ -54,26 +54,6 @@ page-notifications {
         margin-left: auto;
         margin-right: auto;
         display: block;
-    }
-    .notifications_header {
-        min-height: 45px !important;
-        box-shadow: 0 0 10px 1px #CCC;
-        .toolbar-background {
-            border-bottom: 0px;
-            box-shadow: 0 0 20px #CCC;
-        }
-        ion-title {
-            padding: 0 90px 1px !important;
-        }
-        .bar-button {
-            height: 45px;
-        }
-    }
-    .toolbar-title {
-        font-size: 14px;
-        color: #8e8e8e !important;
-        padding: 4px;
-        font-weight: normal;
     }
     .no_totes {
         width: 100%;
@@ -106,15 +86,15 @@ page-notifications {
             .product-list {
                 margin-top: 0px !important;
                 .item {
-                    &:last-child {
-                        .item-inner {
-                            ion-label {
-                                .txt {
-                                    border-bottom: 0px;
-                                }
-                            }
-                        }
-                    }
+                    // &:last-child {
+    //     .item-inner {
+    //         ion-label {
+    //             .txt {
+    //                 border-bottom: 0px;
+    //             }
+    //         }
+    //     }
+    // }
                     &.active {
                         .item-inner {
                             ion-label {
@@ -182,21 +162,18 @@ page-notifications {
                                 }
                                 .time {
                                     em {
-                                        font-size: 12px;
+                                        font-size: 14px;
                                         width: auto;
                                         float: right;
                                         font-style: normal;
                                         padding-top: 6px;
-                                        color: #CCC;
+                                        color: #8e9093;
                                         img {
                                             width: 12px;
                                             float: right;
                                             margin-left: 5px;
                                             margin-top: 2px;
                                             vertical-align: middle;
-                                        }
-                                        span {
-                                            font-size: 12px;
                                         }
                                     }
                                 }
@@ -206,8 +183,8 @@ page-notifications {
                                     padding: 5px 0;
                                     span {
                                         // width: calc(100% - 80px);
-                                        font-size: 13px;
-                                        color: #CCC;
+                                        font-size: 14px;
+                                        color: #8e9093;
                                         display: inline-block;
                                         vertical-align: bottom; // margin-top: -1px;
                                         text-overflow: ellipsis;
@@ -236,12 +213,11 @@ page-notifications {
                                         margin-top: 3px !important;
                                         display: inline-block;
                                         vertical-align: bottom;
-                                        width: 12px;
+                                        width: 14px;
                                         margin-right: 5px;
                                         display: table-cell;
                                         height: 16px;
                                         &.followed-icon {
-                                            width: 12px;
                                             margin-top: 0px !important;
                                         }
                                     }

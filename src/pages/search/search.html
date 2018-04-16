@@ -267,5 +267,5 @@
             </ul>
         </div>
     </ion-list>
-    <div class="top_empty_box" *ngIf="filter_mode != true && search_results.length == 0" (click)="dismiss()"></div>
+    <div class="top_empty_box" *ngIf=" search_results.length == 0" (click)="dismiss()"></div>
 </ion-content>

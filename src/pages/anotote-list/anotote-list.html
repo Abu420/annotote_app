@@ -224,8 +224,8 @@
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
                                             </button>
                                         </div>
-                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
-                                        <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0">
+                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [ngModel]="highlight | boldTags" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
+                                        <!-- <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0"> -->
                                         <!-- <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
                                         <span [ngClass]="{'save': (edit_highlight_text != highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != highlight.highlightText && edit_actual_highlight!= '')}" class="save" (click)="save_edited_annotation(highlight)" alt="">Save</span> -->
@@ -342,7 +342,8 @@
                         <div class="toteText">
                             <p [innerText]="anotote.annotote.source"></p>
                             <button type="button">
-                                <img src="assets/img/lineIcon.svg" alt="">
+                                <!-- <img src="assets/img/lineIcon.svg" alt=""> -->
+                                <ion-icon name="menu"></ion-icon>
                             </button>
                         </div>
                     </div>
@@ -453,7 +454,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && followedUserId == 0" class="product-list">
+        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && followedUserId == 0 && (has_totes == false || infiniteComplete == true)" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
                 <ion-item *ngFor="let anotote of tutorialMeCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
@@ -694,7 +695,7 @@
         </ion-list>
 
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
-        <div class="no_totes" [hidden]="has_totes" *ngIf="current_color != 'top'">
+        <div class="no_totes" [hidden]="has_totes && (followedUserId != 0 || mentionedCase == true)" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No Totes</p>
         </div>
         <div class="no_totes" [hidden]="has_totes" *ngIf="current_color == 'top'">
@@ -705,7 +706,7 @@
         <ion-infinite-scroll-content loadingSpinner="none">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="!reply_box_on" right>
+    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="!reply_box_on && (current_active_anotote == null || current_active_anotote.checked == false) && (current_active_highlight == null || current_active_highlight.edit == false)" right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : (current_color == 'anon' ? 'anon':current_active_anotote.active_tab)">
             <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteFab.svg" />
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">
@@ -881,7 +882,7 @@
                 <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'" (click)="top_follows_popup($event,current_active_anotote)">{{current_active_anotote.selected_follower_name}}
                     <i *ngIf="current_active_anotote.anototeDetail.follows.length > 1">({{current_active_anotote.anototeDetail.follows.length}})</i>
                 </span>
-                <span *ngIf="current_active_anotote.active_tab == 'top'">TOP</span>
+                <span *ngIf="current_active_anotote.active_tab == 'top'">Top</span>
             </div>
         </ng-container>
         <ng-container *ngIf="mentionedCase">
@@ -900,11 +901,11 @@
     <ion-toolbar color="dark">
         <p class="followLoading">{{followUser.firstName}}'s Totes</p>
         <span class="notFollowing" *ngIf="current_color == 'anon'" (click)="follow_User()">Follow</span>
-        <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/dodtsLine.svg" alt="">
+        <img class="alreadyFollowing" *ngIf="current_color == 'follows'" (click)="showProfileOptions()" src="assets/img/option-icon.png" alt="">
     </ion-toolbar>
 </ion-footer>
 <ion-footer [keyboardAttach]="content" class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_highlight && current_active_highlight.edit == true">
-    <ion-toolbar color="dark" class="saved">
+    <ion-toolbar color="dark">
         <div class="editOptions">
             <span (click)="stop_editing($event,current_active_highlight)">Close</span>
             <span (click)="delete_annotation(current_active_highlight)">Delete</span>
@@ -916,7 +917,7 @@
     </ion-toolbar>
 </ion-footer>
 <ion-footer [keyboardAttach]="content" class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_anotote && current_active_anotote.checked == true">
-    <ion-toolbar color="dark" class="saved">
+    <ion-toolbar color="dark">
         <div class="editOptions">
             <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>
             <span *ngIf="current_active_anotote.chatGroup == null" [ngClass]="{'save': title_temp != current_active_anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(current_active_anotote)">Save</span>

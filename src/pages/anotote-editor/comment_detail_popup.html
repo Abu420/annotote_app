@@ -2,7 +2,7 @@
 </div>
 <div class="content_follows_profile commentDetail">
     <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
-        <div class="tag_input" *ngIf="stream == 'me' && users.length > 0">
+        <!-- <div class="tag_input" *ngIf="stream == 'me' && users.length > 0">
             <ul class="tagList" *ngIf="show_autocomplete == true">
                 <li *ngIf="no_user_found == true" text-center>
                     No Users found.
@@ -21,7 +21,7 @@
                     <ion-spinner></ion-spinner>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <div class="pop_heading">
             <div class="downUp" *ngIf="stream != 'me'">
                 <span (tap)="dismiss()">CLOSE</span>

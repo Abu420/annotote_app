@@ -38,7 +38,7 @@
                         <span>Add Tags</span>
                     </li>
                     <li *ngIf="message.messageTags.length == 0 && message.senderId != user.id">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of message.messageTags; let i=index">
                         <li *ngIf="i < 3" (tap)="close('tags')">
@@ -51,7 +51,7 @@
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="message.messageTags.length > 3" (tap)="close('tags')">
-                        <img src="assets/img/dotsOption.svg" />
+                        <img src="assets/img/option-icon.png" />
                     </li>
                 </ul>
             </div>
@@ -110,7 +110,7 @@
                         <span>Add Tags</span>
                     </li>
                     <li *ngIf="tags.length == 0 && (tote | chatVoteOptions) == false">
-                        <span>No tags added</span>
+                        <span>No tags</span>
                     </li>
                     <ng-container *ngFor="let tag of tags; let i=index">
                         <li *ngIf="i < 3" (tap)="close('tags')">
@@ -123,7 +123,7 @@
                         </li>
                     </ng-container>
                     <li class="tabOption" *ngIf="tags.length > 3" (tap)="close('tags')">
-                        <img src="assets/img/dotsOption.svg" />
+                        <img src="assets/img/option-icon.png" />
                     </li>
                 </ul>
             </div>

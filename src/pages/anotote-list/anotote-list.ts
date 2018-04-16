@@ -221,10 +221,10 @@ export class AnototeList {
         },
         {
           text: 'Chats are public by default, but you can make each one private in its options menu.'
-        },
-        {
-          text: '...or search for anything, including users and content'
         }
+        // {
+        //   text: '...or search for anything, including users and content'
+        // }
       ]
     }
   ];
@@ -248,6 +248,7 @@ export class AnototeList {
   public bracketStartIndex = 0;
   public send_message_loader: boolean = false;
   public infiniteLoading: boolean = false;
+  public infiniteComplete:boolean = false;
   public defaultWindowHeight: number = window.innerHeight;
   /**
    * Constructor
@@ -708,6 +709,7 @@ export class AnototeList {
           infiniteScroll.complete();
           if (stream.length < 10) {
             infiniteScroll.enable(false);
+            this.infiniteComplete = true;
           } else {
             if (this.current_color == 'me') {
               this.stream.me_page_no = this.current_page;
@@ -769,6 +771,7 @@ export class AnototeList {
         infiniteScroll.complete();
         if (result.data.annototes.length < 10) {
           infiniteScroll.enable(false);
+          this.infiniteComplete = true;
         }
       }, (error) => {
         // this.utilityMethods.hide_loader();
@@ -976,7 +979,8 @@ export class AnototeList {
 
   cancelTitleEdit(event, anotote) {
     event.stopPropagation();
-    this.bulkAction(anotote);
+    this.title_temp = '';
+    anotote.checked = false;
   }
 
   bulkAction(anotote) {
@@ -994,24 +998,24 @@ export class AnototeList {
           this.current_active_anotote.checked = false;
           this.current_active_anotote.active = false;
           if (anotote.checked) {
-            this.title_temp = '';
-            this.move_fab = false;
-            anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+            // this.title_temp = '';
+            // this.move_fab = false;
+            // anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
           } else {
             this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
-            this.move_fab = true;
+            // this.move_fab = true;
             anotote.checked = true;
             anotote.active = false;
           }
           this.current_active_anotote = anotote;
         } else {
           if (this.current_active_anotote.checked) {
-            this.move_fab = false;
-            this.title_temp = '';
-            this.current_active_anotote.checked = false;
-            this.current_active_anotote = null;
+            // this.move_fab = false;
+            // this.title_temp = '';
+            // this.current_active_anotote.checked = false;
+            // this.current_active_anotote = null;
           } else {
-            this.move_fab = true;
+            // this.move_fab = true;
             this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle;
             this.current_active_anotote.checked = true;
             this.current_active_anotote.active = false;
@@ -1019,12 +1023,12 @@ export class AnototeList {
         }
       } else {
         if (anotote.checked) {
-          this.title_temp = '';
-          this.move_fab = false;
-          anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+          // this.title_temp = '';
+          // this.move_fab = false;
+          // anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
         } else {
           this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
-          this.move_fab = true;
+          // this.move_fab = true;
           anotote.checked = true;
         }
         this.current_active_anotote = anotote;
@@ -1039,25 +1043,26 @@ export class AnototeList {
             this.current_active_anotote.checked = false;
             this.current_active_anotote.active = false;
             if (anotote.checked) {
-              this.title_temp = '';
-              this.move_fab = false;
-              anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+              // this.title_temp = '';
+              // this.move_fab = false;
+              // anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
             } else {
               this.title_temp = anotote.chatGroup.messagesUser[0].subject;
-              this.move_fab = true;
+              // this.move_fab = true;
               anotote.checked = true;
               anotote.active = false;
             }
             this.current_active_anotote = anotote;
           } else {
             if (this.current_active_anotote.checked) {
-              this.move_fab = false;
-              this.title_temp = '';
-              this.current_active_anotote.checked = false;
-              this.current_active_anotote.active = false;
-              this.current_active_anotote = null;
+              //Reverted bulk action pressing to close the editing mode 
+              // this.move_fab = false;
+              // this.title_temp = '';
+              // this.current_active_anotote.checked = false;
+              // this.current_active_anotote.active = false;
+              // this.current_active_anotote = null;
             } else {
-              this.move_fab = true;
+              // this.move_fab = true;
               this.title_temp = anotote.chatGroup.messagesUser[0].subject;
               this.current_active_anotote.checked = true;
               this.current_active_anotote.active = false;
@@ -1065,38 +1070,23 @@ export class AnototeList {
           }
         } else {
           if (anotote.checked) {
-            this.title_temp = '';
-            this.move_fab = false;
-            anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+            // this.title_temp = '';
+            // this.move_fab = false;
+            // anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
           } else {
             this.title_temp = anotote.chatGroup.messagesUser[0].subject;
-            this.move_fab = true;
+            // this.move_fab = true;
             anotote.checked = true;
           }
           this.current_active_anotote = anotote;
         }
       } else {
-        // var check = false;
-        // for (let user of anotote.chatGroup.groupUsers) {
-        //   if (user.id == this.user.id) {
-        //     check = true;
-        //     break;
-        //   }
-        //   if (check) {
-        //     if (anotote.checked) {
-        //       this.title_temp = '';
-        //       anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
-        //     } else {
-        //       this.title_temp = anotote.chatGroup.messagesUser[0].subject;
-        //       anotote.checked = true;
-        //     }
-        //   } else {
-        //     this.toastInFooter("You are not a participant of this chat.")
-        //   }
-        // }
         this.options(anotote);
       }
     }
+    setTimeout(() => {
+      this.content.resize();
+    }, 500);
   }
 
   saveTitle(anotote) {
@@ -1538,10 +1528,10 @@ export class AnototeList {
       if (this.current_active_highlight.id != highlight.id) {
         this.current_active_highlight.edit = false;
         if (highlight.edit) {
-          this.move_fab = false;
-          highlight.edit = false;
+          // this.move_fab = false;
+          // highlight.edit = false;
         } else {
-          this.move_fab = true;
+          // this.move_fab = true;
           highlight.edit = true;
           this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
           this.edit_actual_highlight = highlight.highlightText;
@@ -1549,11 +1539,11 @@ export class AnototeList {
         this.current_active_highlight = highlight;
       } else {
         if (highlight.edit) {
-          this.move_fab = false;
-          highlight.edit = false;
-          highlight.show_autocomplete = false;
+          // this.move_fab = false;
+          // highlight.edit = false;
+          // highlight.show_autocomplete = false;
         } else {
-          this.move_fab = true;
+          // this.move_fab = true;
           highlight.edit = true;
           this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
           this.edit_actual_highlight = highlight.highlightText;
@@ -1561,11 +1551,12 @@ export class AnototeList {
       }
     } else {
       if (highlight.edit) {
-        this.move_fab = false;
-        highlight.edit = false;
-        highlight.show_autocomplete = false;
+        //no need to close edit mode on long press
+        // this.move_fab = false;
+        // highlight.edit = false;
+        // highlight.show_autocomplete = false;
       } else {
-        this.move_fab = true;
+        // this.move_fab = true;
         highlight.edit = true;
         this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
         this.edit_actual_highlight = highlight.highlightText;
@@ -2710,7 +2701,7 @@ export class AnototeList {
     event.stopPropagation();
     var tag: string = event.target.textContent;
     var check = tag.split(' ');
-    if ((tag[0] == '#' || tag[0] == '$' || tag[0] == '@') && check.length == 1) {
+    if ((tag[0] == '#' || tag[0] == '$' || tag[0] == '@')) {
       tag = tag.replace('#', '');
       tag = tag.replace('$', '');
       tag = tag.replace('@', '');

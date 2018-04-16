@@ -1,5 +1,5 @@
-import { Component, trigger, transition, style, animate, NgZone } from '@angular/core';
-import { IonicPage, NavController, ViewController, ModalController, NavParams, Events, Platform, Loading, ActionSheetController } from 'ionic-angular';
+import { Component, trigger, transition, style, animate, NgZone, ViewChild } from '@angular/core';
+import { IonicPage, NavController, ViewController, ModalController, NavParams, Events, Platform, Loading, ActionSheetController, Content } from 'ionic-angular';
 import { Chat } from '../chat/chat';
 import { ChangePassword } from '../change-password/change-password';
 import { EditProfile } from '../edit-profile/edit-profile';
@@ -45,7 +45,7 @@ declare var cordova: any;
   templateUrl: 'follows_profile.html',
 })
 export class Profile {
-
+  @ViewChild(Content) content: Content;
   public show: boolean = true;
   private image_base_path: string;
   public profileData: any;

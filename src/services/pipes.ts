@@ -135,27 +135,39 @@ export class Bold implements PipeTransform {
   constructor(private _sanitizer: DomSanitizer) { }
 
   transform(highlight) {
-    var total = highlight.comment.split(' ');
-    var result = '';
-    var index = 0;
-    for (let word of total) {
-      // var temp = word.split("\\r?\\n");
-      if (word[0] == '#') {
-        result += ' <b>' + word + '</b>';
-        index++;
-      } else if (word[0] == '@') {
-        result += ' <b>' + word + '</b>';
-        index++;
-      } else if (word[0] == '$') {
-        result += ' <b>' + word + '</b>';
-        index++;
-      } else if (word[0] == '^') {
-        result += ' <b id="' + index + '">' + word + '</b>';
-        index++;
-      } else
-        result += ' ' + word;
+    if (highlight.comment != null) {
+      var total = highlight.comment.split(' ');
+      var result = '';
+      var index = 0;
+      for (let word of total) {
+        // var temp = word.split("\\r?\\n");
+        if (word[0] == '#') {
+          result += '<b>' + word + '</b> ';
+          index++;
+        } else if (word[0] == '`') {
+          var jug = highlight.comment.split('`');
+          for (let water of jug) {
+            if (water[0] == '@') {
+              result += '<b>' + water + '</b> ';
+              index++;
+              break;
+            }
+          }
+
+        } else if (word[0] == '$') {
+          result += '<b>' + word + '</b> ';
+          index++;
+        } else if (word[0] == '^') {
+          result += '<b id="' + index + '">' + word + '</b> ';
+          index++;
+        } else
+          if (word[word.length - 1] != '`')
+            result += word + ' ';
+      }
+      this._sanitizer.bypassSecurityTrustStyle(result);
+      return this._sanitizer.bypassSecurityTrustHtml(result);
+    } else {
+      return '';
     }
-    this._sanitizer.bypassSecurityTrustStyle(result);
-    return this._sanitizer.bypassSecurityTrustHtml(result);
   }
 }
