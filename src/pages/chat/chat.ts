@@ -449,18 +449,21 @@ export class Chat {
   }
 
   showTitleField() {
-    this.titleField = true;
-    if (this.tote && this.tote.chatGroup) {
-      this.newChatTitle = JSON.parse(JSON.stringify(this.tote.chatGroup.messagesUser[0].subject));
-    } else {
-      if (this.conversation.length > 0) {
-        this.newChatTitle = JSON.parse(JSON.stringify(this.conversation[0].subject));
+    if (this.am_i_participant()) {
+      this.titleField = true;
+      if (this.tote && this.tote.chatGroup) {
+        this.newChatTitle = JSON.parse(JSON.stringify(this.tote.chatGroup.messagesUser[0].subject));
       } else {
-        if (this.tote != null) {
-          if (this.tote.userAnnotote.annotote) {
-            this.newChatTitle = this.tote.userAnnotote.annotote.title;
-          } else {
-            this.newChatTitle = this.tote.annotote.title;
+        if (this.conversation.length > 0) {
+          this.newChatTitle = JSON.parse(JSON.stringify(this.conversation[0].subject));
+        } else {
+          if (this.tote != null) {
+            // if (this.tote.userAnnotote.annotote) {
+            //   this.newChatTitle = this.tote.userAnnotote.annotote.title;
+            // } else {
+            //   this.newChatTitle = this.tote.annotote.title;
+            // }
+            this.newChatTitle = this.title;
           }
         }
       }
@@ -483,6 +486,10 @@ export class Chat {
           if (this.tote && this.tote.chatGroup) {
             this.titleField = false;
             this.tote.chatGroup.messagesUser[0].subject = this.newChatTitle;
+          } else if (this.tote && this.tote.chatGroup != null) {
+            this.titleField = false;
+            this.title = this.newChatTitle;
+            this.stream.me_first_load = false;
           } else {
             this.titleField = false;
             this.conversation[0].subject = this.newChatTitle;
@@ -499,7 +506,8 @@ export class Chat {
         this.titleField = false;
       }
     } else {
-      this.utilityMethods.doToast("Please initiate chat first by send a message after that you can edit title.")
+      this.titleField = false;
+      this.title = this.newChatTitle;
     }
   }
 
@@ -551,6 +559,18 @@ export class Chat {
       });
       anototeOptionsModal.present();
     }
+  }
+
+  am_i_participant() {
+    if (this.tote && this.tote.chatGroup) {
+      for (let user of this.tote.chatGroup.groupUsers) {
+        if (user.user.id == this.user.id) {
+          return true;
+        }
+      }
+      return false;
+    } else
+      return true;
   }
 
   // @ViewChild('myInput') myInput: ElementRef;

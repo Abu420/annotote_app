@@ -14,6 +14,7 @@ import { ChatService } from '../../services/chat.service';
 import { AuthenticationService } from '../../services/auth.service';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from "../../models/search";
+import { AnototeService } from '../../services/anotote.service';
 
 @Component({
     selector: 'chat_tote_page',
@@ -39,6 +40,7 @@ export class ChatToteOptions {
     constructor(public runtime: Streams,
         public params: NavParams,
         public navCtrl: NavController,
+        public anototeService: AnototeService,
         public chatService: ChatService,
         public utilityMethods: UtilityMethods,
         public viewCtrl: ViewController,
@@ -136,15 +138,39 @@ export class ChatToteOptions {
 
             this.searchService.create_anotote(params)
                 .subscribe((response) => {
-                    toast.dismiss()
-                    var bookmark = new SearchUnPinned(save_or_bookmark == 'save' ? 0 : 1,
-                        response.data.annotote.title, this.usersForChat,
-                        this.authService.getUser().id, 0);
-                    if (this.searchService.AlreadySavedSearches(bookmark.term)) {
-                        this.searchService.saved_searches.unshift(bookmark);
+
+                    if (save_or_bookmark != 'save') {
+                        toast.dismiss()
+                        var bookmark = new SearchUnPinned(save_or_bookmark == 'save' ? 0 : 1,
+                            response.data.annotote.title, this.usersForChat,
+                            this.authService.getUser().id, 0);
+                        if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                            this.searchService.saved_searches.unshift(bookmark);
+                        }
+                        response.data.userAnnotote.annotote = response.data.annotote;
+                        this.dissmiss();
+                    } else {
+                        var params: any = {
+                            annotote_id: response.data.annotote.id,
+                            user_id: this.authService.getUser().id,
+                            created_at: response.data.annotote.createdAt
+                        }
+                        this.anototeService.save_totes(params).subscribe((result) => {
+                            toast.dismiss()
+                            this.runtime.follow_first_load = false;
+                            this.runtime.me_first_load = false;
+                            this.runtime.top_first_load = false;
+                        }, (error) => {
+                            toast.dismiss();
+                            this.search_loading = false;
+                            if (error.status == 500) {
+                                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                            }
+                            else if (error.code == -1) {
+                                this.utilityMethods.internet_connection_error();
+                            }
+                        })
                     }
-                    response.data.userAnnotote.annotote = response.data.annotote;
-                    this.dissmiss();
                     // this.go_to_browser(response.data, true);
                 }, (error) => {
                     toast.dismiss();

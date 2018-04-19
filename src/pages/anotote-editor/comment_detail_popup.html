@@ -34,7 +34,9 @@
                 <img src="assets/img/downIconwhite.svg" *ngIf="annotation.isCurrentUserVote == 1 && annotation.currentUserVote == 1" alt=""> -->
             </div>
             <div class="topTab" *ngIf="stream != 'me'">
-                <span *ngIf="stream == 'follows'">{{selected_follower_name}}</span>
+                <span *ngIf="stream == 'follows'">{{selected_follower_name}}
+                    <ng-container *ngIf="total_followers > 1">({{total_followers}})</ng-container>
+                </span>
                 <span *ngIf="stream == 'top'">Top</span>
             </div>
             <div class="btnRow" *ngIf="stream == 'me'">

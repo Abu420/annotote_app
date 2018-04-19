@@ -437,7 +437,7 @@ export class Search {
                                 }
                                 tote.userAnnotote.active_tab = active_tab;
                                 if (tote.userAnnotote.follows.length > 0) {
-                                    tote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+                                    tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
                                 }
                                 this.search_results.push(tote);
                             }

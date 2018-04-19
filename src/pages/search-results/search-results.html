@@ -1,23 +1,4 @@
 <ion-header class="searchHeader">
-    <!-- <ion-toolbar class="resultHead">
-        <ion-buttons class="searchBtn" start>
-            <button class="search_icon" (click)="show_search()" ion-button icon-only>
-                <img src="assets/img/searchIcon.png" alt="">
-            </button>
-        </ion-buttons>
-        <div class="searchFiels" [ngClass]="show_search_field ? 'active':''">
-            <form (ngSubmit)="load_search_results()" name="login_form">
-                <input type="text" [(ngModel)]="search_term" class="searchTxt" name="search" placeholder="Search">
-            </form>
-            <img class="icon" src="assets/img/closeIconGray.svg" alt="">
-        </div>
-        <ion-title *ngIf="hide_header_contents == false">
-            <div class="dots_box">
-                <span class="un_active_dot"></span>
-                <span class="dot"></span>
-            </div>
-        </ion-title>
-    </ion-toolbar> -->
     <ion-toolbar color="homeheader">
         <div class="search_header">
             <span [ngClass]="filter_mode?'activeOption':''" class="options" (click)="show_filters()"></span>
@@ -29,7 +10,7 @@
         </div>
     </ion-toolbar>
 </ion-header>
-<span navPop class="wedge_icon"></span>
+<span *ngIf="filter_mode == false" navPop class="wedge_icon"></span>
 <ion-content class="searchPage" [ngClass]="{'filtersShown': filter_mode}" swipe-vertical>
     <ion-list *ngIf="filter_mode" class="filterMode" no-bounce>
         <div class="mediaMode">
@@ -74,6 +55,7 @@
                 </li>
             </ul>
         </div>
+        <div class="forClosing" (click)="show_filters()"></div>
     </ion-list>
     <div class="search-panel" [ngClass]="{'forFilter': filter_mode}">
         <!-- <div *ngIf="_loading" class="_spinner">
@@ -210,7 +192,7 @@
                     <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
                     </div>
                     <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true, 'forFollower':anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0}" *ngIf="anotote.is_tote == true">
-                        <p *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}
+                        <p *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.userAnnotote.selected_follower_name}}
                             <ng-container *ngIf="anotote.userAnnotote.follows.length > 2">+ {{anotote.userAnnotote.follows.length - 1}} others</ng-container>
                             <ng-container *ngIf="anotote.userAnnotote.follows.length == 2">+ {{anotote.userAnnotote.follows.length - 1}} other</ng-container>
                         </p>
@@ -269,7 +251,7 @@
                             <div class="btns-area">
                                 <button ion-button *ngIf="anotote.userAnnotote.isMe == 1" (click)="showMeHighlights(anotote.userAnnotote)" class="me-tab" [ngClass]="{'active_me': anotote.userAnnotote.active_tab == 'me'}">Me</button>
                                 <!-- <button class="me-tab active_follows" ion-button *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.selected_follower_name}}</button> -->
-                                <button (click)="follows_popup($event,anotote.userAnnotote)" ion-button class="me-tab" [ngClass]="{'active_follows': anotote.userAnnotote.active_tab == 'follows'}" *ngIf="anotote.userAnnotote.follows.length > 0">{{anotote.selected_follower_name}}
+                                <button (click)="follows_popup($event,anotote.userAnnotote)" ion-button class="me-tab" [ngClass]="{'active_follows': anotote.userAnnotote.active_tab == 'follows'}" *ngIf="anotote.userAnnotote.follows.length > 0">{{anotote.userAnnotote.selected_follower_name}}
                                     <i *ngIf="anotote.userAnnotote.follows.length > 1" style="padding-left: 2px"> ({{anotote.userAnnotote.follows.length}})</i>
                                 </button>
                                 <button ion-button class="me-tab" [ngClass]="{'active_top': anotote.userAnnotote.active_tab == 'top'}" *ngIf="anotote.userAnnotote.isTop == 1" (click)="show_top_tab(anotote.userAnnotote)">Top</button>

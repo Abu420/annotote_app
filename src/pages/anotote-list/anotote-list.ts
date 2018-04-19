@@ -248,7 +248,7 @@ export class AnototeList {
   public bracketStartIndex = 0;
   public send_message_loader: boolean = false;
   public infiniteLoading: boolean = false;
-  public infiniteComplete:boolean = false;
+  public infiniteComplete: boolean = false;
   public defaultWindowHeight: number = window.innerHeight;
   /**
    * Constructor
@@ -317,8 +317,9 @@ export class AnototeList {
     // this.anototes = [];
     // this.top_anototes = [];
     this.key.disableScroll(false);
-    if (this.current_active_anotote) {
-      this.current_active_anotote.active = false;
+    if (this.navCtrl.getViews().length == 2) {
+      if(this.current_active_anotote)
+        this.current_active_anotote.active = false;
     }
   }
   ionViewDidEnter() {
@@ -338,10 +339,20 @@ export class AnototeList {
      * Set default mode to list not the edit one
      */
     this.edit_mode = false;
-    let anototes: Array<ListTotesModel> = [];
-    this.current_active_anotote = null;
     this.follow_visited = false;
-    this.move_fab = false;
+
+    if (this.current_active_anotote) {
+      if (this.current_color == 'me') {
+        if (this.current_active_anotote.chatGroup == null) {
+          if (this.current_active_anotote.active_tab == 'me')
+            this.move_fab = false;
+          else if (this.current_active_anotote.active_tab == 'follows' || this.current_active_anotote.active_tab == 'top')
+            this.move_fab = true;
+        } else {
+          this.move_fab = true;
+        }
+      }
+    }
     if (this.mentionedCase == false) {
       if (this.followedUserId == 0) {
         this.current_page = 1;
@@ -629,11 +640,11 @@ export class AnototeList {
       if (this.current_active_highlight == null || this.current_active_highlight.edit == false || this.reorder_highlights == false) {
         if (this.current_color != 'top') {
           if (this.current_color == 'me') {
-            anotote.active = false;
+            // anotote.active = false;
             anotote.meFilePath = anotote.userAnnotote.filePath;
             this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
           } else if (this.current_color == 'follows') {
-            anotote.active = false;
+            // anotote.active = false;
             if (this.follow_visited == false) {
               anotote.followerFilePath = anotote.followers[0].followTote.filePath
               anotote.followers[0].highlights = anotote.userAnnotote.annototeHeighlights;
@@ -656,7 +667,7 @@ export class AnototeList {
             anototeDetail: anotote.anototeDetail
           }
           tote.userAnnotote.annotote = anotote.annotote;
-          anotote.active = false;
+          // anotote.active = false;
           anotote.topFilePath = anotote.userAnnotote.filePath;
           this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
         }
@@ -981,6 +992,8 @@ export class AnototeList {
     event.stopPropagation();
     this.title_temp = '';
     anotote.checked = false;
+    this.current_active_anotote = null;
+    this.content.resize();
   }
 
   bulkAction(anotote) {
@@ -1228,12 +1241,9 @@ export class AnototeList {
                     this.stream.top_first_load = false;
                   }
                   this.stream.me_first_load = false;
-                  // this.toastInFooter("Saved to Me stream");
-                } else {
-                  // this.toastInFooter("Already Saved");
+                  this.showMeHighlights(this.current_active_anotote);
                 }
-                // this.navCtrl.push(AnototeEditor, { ANOTOTE: this.current_active_anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: null, actual_stream: this.current_active_anotote.active_tab });
-                this.open_browser(this.current_active_anotote, null);
+                // this.open_browser(this.current_active_anotote, null);
               }
             }, (error) => {
               this.hideLoading();
@@ -1599,6 +1609,7 @@ export class AnototeList {
     event.stopPropagation();
     highlight.edit = false;
     highlight.show_autocomplete = false;
+    this.content.resize();
   }
 
   editField(event) {
@@ -2201,15 +2212,17 @@ export class AnototeList {
 
   openSearchPopup() {
     var url = '';
-    //Taking out the prefilled url functionality
-    if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
-      url = this.current_active_anotote.userAnnotote.annotote.link;
-    else if (this.current_active_anotote != null && this.current_color == 'top') {
-      url = this.current_active_anotote.annotote.link;
-    } else {
-      this.statusBar.backgroundColorByHexString('#323232');
-    }
-    // this.statusBar.backgroundColorByHexString('#323232');
+    //TAKING OUT PREFILLED URL FUNCTIONALITY
+
+    // if (this.current_active_anotote != null && this.current_active_anotote.userAnnotote && (this.current_color == 'me' || this.current_color == 'follows'))
+    //   url = this.current_active_anotote.userAnnotote.annotote.link;
+    // else if (this.current_active_anotote != null && this.current_color == 'top') {
+    //   url = this.current_active_anotote.annotote.link;
+    // } else {
+    //   this.statusBar.backgroundColorByHexString('#323232');
+    // }
+
+    this.statusBar.backgroundColorByHexString('#323232');
     let searchModal = this.modalCtrl.create(Search, { link: url, stream: this.current_color, from: 'list' });
     searchModal.onDidDismiss((data) => {
       if (this.current_color == 'me')

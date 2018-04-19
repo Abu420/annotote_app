@@ -22,26 +22,40 @@
             <span class="chatOptions" [ngClass]="{'activated': options}" (click)="showOptions()"></span>
             <div class="txt">
                 <ng-container *ngIf="tote != null && tote.chatGroup != null">
+                    <!-- This container works when we come from streams -->
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
                     <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
-                        <!-- <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title"> -->
                         <textarea autosize [(ngModel)]="newChatTitle" name="title" placeholder="Change the title of this Chat"></textarea>
                     </form>
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">Chat: {{tote.chatGroup.messagesUser[0].subject}}</strong>
-                    <!-- <strong *ngIf="tote.chatGroup.messagesUser[0].anototeId != 0 && tote.chatGroup.messagesUser[0].subject != null " (press)="showTitleField()">[{{tote.chatGroup.messagesUser[0].subject}}]</strong> -->
                 </ng-container>
                 <ng-container *ngIf="tote == null || tote.chatGroup == null">
-                    <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
-                    <strong *ngIf="tote == null && conversation.length == 0 && titleField == false" (press)="showTitleField()">Chat</strong>
-                    <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject != null && titleField == false && conversation[0].anototeId == 0" (press)="showTitleField()">Chat: {{conversation[0].subject}}</strong>
-                    <strong *ngIf="tote == null && conversation.length > 0 && conversation[0].subject != null && titleField == false && conversation[0].anototeId != 0">Chat: {{conversation[0].subject}}</strong>
-                    <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
-                        <input search-field selection="true" type="text" placeholder="Enter chat tite" [(ngModel)]="newChatTitle" name="title">
-                    </form>
-                    <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote">Chat: {{tote.userAnnotote.annotote.title}}</strong>
-                    <strong *ngIf="tote != null && tote.chatGroup == null && tote.userAnnotote.annotote == null">Chat: {{tote.annotote.title}}</strong>
-                </ng-container>
+                    <!-- 
+                        This container works when we come from search to create new chat
+                        or to create a new chat against a tote.
+                    -->
+                    <strong *ngIf="tote == null && conversation.length == 0 && titleField == false" (press)="showTitleField()">
+                        <!-- Creating a new chat against a random subject or no subject -->
+                        <ng-container *ngIf="newChatTitle != ''">Chat: {{newChatTitle}}</ng-container>
+                        <ng-container *ngIf="newChatTitle == ''">Chat</ng-container>
+                    </strong>
 
+                    <strong *ngIf="tote != null && tote.chatGroup == null && titleField == false" (press)="showTitleField()">
+                        <!-- This works when we are creating a chat against anotote -->
+                        Chat: {{title}}
+                    </strong>
+
+                    <strong *ngIf="tote == null && conversation.length > 0  && titleField == false" (press)="showTitleField()">
+                        <!-- This check works when we come from search stream to an existing chat -->
+                        <ng-container *ngIf="conversation[0].subject == null">Chat</ng-container>
+                        <ng-container *ngIf="conversation[0].subject != null">Chat: {{conversation[0].subject}}</ng-container>
+                    </strong>
+
+                    <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
+                        <!-- For updating Chat's title -->
+                        <textarea autosize [(ngModel)]="newChatTitle" name="title" placeholder="Change the title of this Chat"></textarea>
+                    </form>
+                </ng-container>
                 <div class="time" *ngIf="tote != null && titleField == false">
                     <em>
                         <span *ngIf="tote.createdAt != null" [innerText]="tote.createdAt | time_stamp"></span>
@@ -211,9 +225,10 @@
         <div class="editOptions">
             <span (click)="cancelTitleEdit()">Cancel</span>
             <span class="save" *ngIf="tote && tote.chatGroup && newChatTitle != tote.chatGroup.messagesUser[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote && newChatTitle != tote.userAnnotote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote == null && newChatTitle != tote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <span class="save" *ngIf="(tote == null || tote.chatGroup == null) && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="tote && tote.chatGroup == null && newChatTitle != title && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <!-- <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote == null && newChatTitle != tote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span> -->
+            <span class="save" *ngIf="(tote == null && tote.chatGroup == null) && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="(tote == null && tote.chatGroup == null) && conversation.length == 0 && newChatTitle != ''" (click)="updateSubject()">Save</span>
         </div>
     </ion-toolbar>
 </ion-footer>

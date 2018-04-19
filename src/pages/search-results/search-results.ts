@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, ModalController, NavParams, Content } from 'ionic-angular';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
@@ -40,7 +40,7 @@ export class SearchResults {
   public move_fab = false;
   public current_active_highlight;
   public follow_visited = false;
-  public filter_mode: boolean;
+  public filter_mode: boolean = false;
   private search_filters = {
     media: {
       tote: false,
@@ -67,6 +67,7 @@ export class SearchResults {
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
+    public cd: ChangeDetectorRef,
     public utilityMethods: UtilityMethods,
     public statusBar: StatusBar) {
     this.search_term = params.get('search_term');
@@ -209,7 +210,7 @@ export class SearchResults {
                 }
                 tote.userAnnotote.active_tab = active_tab;
                 if (tote.userAnnotote.follows.length > 0) {
-                  tote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+                  tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
                 }
                 this.totes.push(tote);
                 this.search_results.push(tote);
@@ -269,16 +270,16 @@ export class SearchResults {
   }
 
   showProfile(search_result) {
-    this.utilityMethods.show_loader('');
+    var toast = this.utilityMethods.doLoadingToast("Please wait...");
     this.searchService.get_user_profile_info(search_result.id)
       .subscribe((response) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         if (response.data.user != null)
           this.presentProfileModal(response);
         else
           this.utilityMethods.doToast("Couldn't load user.");
       }, (error) => {
-        this.utilityMethods.hide_loader();
+        toast.dismiss();
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
         }
@@ -463,6 +464,7 @@ export class SearchResults {
             anotote.active_tab = 'follows'
             anotote.followerFilePath = data.user.followTote.filePath;
             anotote.follower_tags = data.user.followTote.tags;
+            this.cd.detectChanges();
             this.loadFollower(anotote, data.user);
           }
         });

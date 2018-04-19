@@ -11,7 +11,7 @@ import { ChatService } from "../../services/chat.service";
 import { StatusBar } from "@ionic-native/status-bar";
 import { Constants } from "../../services/constants.service";
 @Component({
-  selector: 'anotote_options',
+  selector: 'home_settings',
   animations: [
     trigger(
       'enterAnimation', [

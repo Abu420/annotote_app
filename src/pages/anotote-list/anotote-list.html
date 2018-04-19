@@ -695,10 +695,10 @@
         </ion-list>
 
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
-        <div class="no_totes" [hidden]="has_totes && (followedUserId != 0 || mentionedCase == true)" *ngIf="current_color != 'top'">
+        <div class="no_totes" [hidden]="has_totes && (followedUserId == 0 || mentionedCase == false)" *ngIf="current_color != 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No Totes</p>
         </div>
-        <div class="no_totes" [hidden]="has_totes" *ngIf="current_color == 'top'">
+        <div class="no_totes" [hidden]="has_totes && (followedUserId == 0 || mentionedCase == false)" *ngIf="current_color == 'top'">
             <p [ngClass]="{'me': current_color == 'me', 'follows':current_color == 'follows', 'top':current_color == 'top' }">No Totes</p>
         </div>
     </div>
@@ -706,7 +706,7 @@
         <ion-infinite-scroll-content loadingSpinner="none">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="!reply_box_on && (current_active_anotote == null || current_active_anotote.checked == false) && (current_active_highlight == null || current_active_highlight.edit == false)" right>
+    <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="!reply_box_on && (current_active_anotote == null || current_active_anotote.checked == false || current_active_anotote.checked == null) && (current_active_highlight == null || current_active_highlight.edit == false)" right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_active_anotote == null ? current_color : (current_color == 'anon' ? 'anon':current_active_anotote.active_tab)">
             <img *ngIf="current_active_anotote == null || current_color == 'anon'" src="assets/img/whiteFab.svg" />
             <ng-container *ngIf="current_active_anotote != null && current_color == 'me' && current_active_anotote.chatGroup == null">

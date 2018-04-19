@@ -433,11 +433,8 @@ export class AnototeEditor implements OnDestroy {
                                     this.runtime.top_first_load = false;
                                 }
                                 this.runtime.me_first_load = false;
-                                this.toastInFooter("Saved to Me stream");
+                                this.showMeHighlights(this.ANOTOTE);
                             }
-                            //  else {
-                            //     // this.toastInFooter("Already Saved");
-                            // }
                         }
                     }, (error) => {
                         this.hideLoading();
@@ -703,7 +700,7 @@ export class AnototeEditor implements OnDestroy {
         // if (this.ANOTOTE.active_tab != 'me') {
         //     opts.cssClass = ''
         // }
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier), follower_name: this.ANOTOTE.selected_follower_name != null ? this.ANOTOTE.selected_follower_name : '' }, opts);
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier), follower_name: this.ANOTOTE.selected_follower_name != null ? this.ANOTOTE.selected_follower_name : '', total_followers: this.WHICH_STREAM == 'top' ? this.ANOTOTE.follows.length : this.ANOTOTE.followers.length }, opts);
         commentDetailModal.onDidDismiss(data => {
             element.classList.remove('greyOut');
             if (this.commentDetailModalIsOpen.check && this.commentDetailModalIsOpen.comment.identifier == highlight.identifier) {
@@ -1062,7 +1059,7 @@ export class AnototeEditor implements OnDestroy {
                         this.runtime.top_first_load = false;
                         this.runtime.follow_first_load = false;
                         this.ANOTOTE.userAnnotote.annototeHeighlights.push(response.data.annotation);
-                        if (this.ANOTOTE.userAnnotote.id == this.ANOTOTE.topUserToteId) {
+                        if (this.ANOTOTE.userAnnotote.id == this.ANOTOTE.topUserToteId && this.ANOTOTE.top_highlights != null) {
                             this.ANOTOTE.top_highlights = this.ANOTOTE.userAnnotote.annototeHeighlights;
                         }
                     } else if (this.WHICH_STREAM == 'follows' || this.WHICH_STREAM == 'top') {

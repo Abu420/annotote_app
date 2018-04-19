@@ -815,6 +815,7 @@ search_page {
                             border: 0px;
                             width: 100%;
                             font-size: 16px;
+                            padding: 0;
                         }
                         input::-webkit-input-placeholder {
                             color: #b3b3b3;
@@ -1054,6 +1055,9 @@ search_page {
                                         vertical-align: middle;
                                         width: 14px;
                                     }
+                                }
+                                ion-icon {
+                                    font-size: 16px;
                                 }
                             }
                         }
@@ -1372,5 +1376,5 @@ search_page {
                 }
             }
         }
-    }
+    }  
 }

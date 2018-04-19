@@ -233,7 +233,7 @@
         </span>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="inline_tote_options" *ngIf="ANOTOTE && WHICH_STREAM != 'anon' && WHICH_STREAM != 'me' && actual_stream != 'me'">
+<ion-footer class="inline_tote_options" *ngIf="ANOTOTE && WHICH_STREAM != 'anon' && WHICH_STREAM != 'me' && actual_stream != 'me' && loading_check == false">
     <ion-toolbar color="dark" style="padding:0 25px !important">
         <div class="downUp">
             <!-- If he asks for upvote and downvot for top anotote in editor also -->

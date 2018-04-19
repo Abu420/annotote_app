@@ -28,7 +28,7 @@ page-notifications {
                     padding: 0;
                     font-size: 14px;
                     color: #8e9093;
-                    font-weight: bold;
+                    font-weight: normal;
                 }
             }
         }
@@ -86,15 +86,6 @@ page-notifications {
             .product-list {
                 margin-top: 0px !important;
                 .item {
-                    // &:last-child {
-    //     .item-inner {
-    //         ion-label {
-    //             .txt {
-    //                 border-bottom: 0px;
-    //             }
-    //         }
-    //     }
-    // }
                     &.active {
                         .item-inner {
                             ion-label {

@@ -66,7 +66,7 @@ top_options {
         &.two {
             .main_label {
                 img {
-                    width: 40px;
+                    width: 46px;
                 }
             }
         }
@@ -105,6 +105,24 @@ top_options {
                     font-family: 'robotolight';
                 }
             }
+            &.markIcon {
+                line-height: 6.4;
+                img {
+                    width: 29px;
+                }
+            }
+            &.bookmarkIcon {
+                line-height: 7;
+                img {
+                    width: 20px;
+                }
+            }
+            &.saveIcon {
+                line-height: 7;
+                img {
+                    width: 35px;
+                }
+            }
         }
         ul {
             display: inline-block;
@@ -119,10 +137,11 @@ top_options {
                 padding: 0 6px;
                 vertical-align: middle;
                 color: #797979;
-                font-size: 4vw;
+                font-size: 16px;
                 &.tabOption {
                     text-align: right;
                     float: right;
+                    height: 22px;
                     img {
                         width: 5px;
                         -webkit-transform: translate(-50%, 0%);
@@ -133,6 +152,7 @@ top_options {
                 }
                 .high {
                     color: green;
+                    text-shadow: 0px 3px 3px #a0a0a0;
                 }
             }
         }
@@ -152,15 +172,6 @@ top_options {
             }
         }
     }
-    /*.sharing_pop.bottom-border:after {
-        height: 1px;
-        position: absolute;
-        content: '';
-        top: 100%;
-        left: 22%;
-        right: 0;
-        background: #e3e3e3;
-    }*/
     .sharing_pop .item {
         width: 18%;
         display: inline-block;
@@ -248,86 +259,6 @@ top_options {
     }
 }
 
-anotote_content_options {
-    background: rgba(0, 0, 0, 0.3);
-    ion-list {
-        .user_list_item {
-            height: 55px;
-            line-height: 55px;
-            .un_follow_btn {
-                height: 45px;
-                float: left;
-                width: 45px;
-                float: right;
-                background-image: url(../assets/img/remove.png);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: 30px;
-            }
-            .follow_btn {
-                height: 45px;
-                float: left;
-                width: 45px;
-                float: right;
-                background-image: url(../assets/img/follow_friend.png);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: 30px;
-            }
-        }
-    }
-    .search_header {
-        height: $bar_button_custom_height;
-        .options {
-            height: $bar_button_custom_height;
-            float: left;
-            width: 30px;
-            background-image: url(../assets/img/option-icon.png);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 5px;
-        }
-        .search_button {
-            height: $bar_button_custom_height;
-            float: left;
-            width: $bar_button_custom_height;
-            background-image: url(../assets/img/search.png);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 30px;
-        }
-        .clear_button {
-            height: $bar_button_custom_height;
-            float: right;
-            width: $bar_button_custom_height;
-            background-image: url(../assets/img/closeIcon.svg);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 25px;
-        }
-        .clear_button {
-            background-color: #000;
-            width: 40px;
-            background-size: 24px;
-        }
-        .search_field {
-            width: calc(100% - 142px);
-            display: inline-block;
-            float: left;
-            height: 100%;
-            input {
-                padding: 0;
-                width: calc(100% - 8px);
-                margin: 0px;
-                background: white;
-                height: 50px;
-                margin-top: 3px;
-                padding-left: 5px;
-            }
-        }
-    }
-}
-
 page-home {
     ion-fab {
         bottom: 20px !important;
@@ -344,7 +275,7 @@ page-home {
                     margin: 0px;
                     .img-holder {
                         width: 50px;
-                        height: 73px;
+                        height: 71px;
                         float: left;
                         text-align: center;
                         line-height: 5.5;
@@ -356,7 +287,7 @@ page-home {
                     .txt {
                         padding: 16px 10px 16px 0;
                         font-size: 16px;
-                        line-height: 20px;
+                        line-height: 19px;
                         color: #000;
                         display: block;
                         overflow: hidden;
@@ -395,70 +326,6 @@ page-home {
             }
         }
     }
-    /*.product-list .img-holder,
-    .product-list .img-holder img {
-        width: 74px;
-        height: 72px;
-        float: left;
-        background: gray;
-    }
-    .product-list .txt {
-        padding: 14px 10px 5px 20px;
-        color: #cbcbcb;
-        overflow: hidden;
-    }
-    .product-list strong {
-        margin: 0 0 8px;
-        color: #0f000f;
-        display: block;
-        margin: 0 0 8px;
-        color: #0f000f;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .product-list .time {
-        font-size: 13px;
-        display: inline-block;
-        overflow: hidden;
-    }
-    .product-list em {
-        float: right;
-        width: 56px;
-        font-style: normal;
-    }
-    .product-list button {
-        padding: 0;
-        float: right;
-        background: none;
-    }
-    .product-list .txt span {
-        overflow: hidden;
-    }
-    .remove_item {
-        width: 45px;
-        height: 45px;
-        display: inline-block;
-        background-image: url('../assets/img/remove.png');
-        background-repeat: no-repeat;
-        background-size: 30px;
-        float: right;
-    }
-    .latest_searches_spinner {
-        position: relative;
-        width: 100%;
-        ion-spinner {
-            position: absolute;
-            display: inline-block;
-            width: 28px;
-            height: 28px;
-            right: 0;
-            left: 0;
-            top: 10px;
-            margin: auto;
-        }
-    }*/
 }
 
 .scroll-content {
@@ -487,7 +354,7 @@ ul.home-list {
         list-style: none;
         display: flex;
         align-items: center;
-        height: 72px;
+        height: 73px;
         button {
             height: 100%;
             margin-right: 10px !important;
@@ -526,7 +393,7 @@ ul.home-list {
         background: #3bde00;
         border-radius: 0;
         &:hover {
-            // background-color: #2ba600 !important; // box-shadow: 0 0px 11px 0px #181717;
+            // background-color: #2ba600  !important; // box-shadow: 0 0px 11px 0px #181717;
             // box-shadow: -20px 15px 20px 19px #181717 !important;
             // transform: scale(1, 0.9);
         }

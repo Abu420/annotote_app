@@ -51,6 +51,7 @@ export class CommentDetailPopup {
   public isKeyboardDeployed: boolean = false;
   public one: string = '';
   public currentIndex = 0;
+  public total_followers = 0;
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
@@ -72,7 +73,8 @@ export class CommentDetailPopup {
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
     this.stream = this.params.get('stream');
-    this.selected_follower_name = params.get('follower_name').split(' ')[0];
+    this.selected_follower_name = params.get('follower_name');
+    this.total_followers = params.get('total_followers');
     this.new_comment = Object.assign(this.anotote_comment);
     this.annotation = params.get('anotation');
     if (this.annotation.comment != null)
