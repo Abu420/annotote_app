@@ -439,6 +439,8 @@ export class Home {
         } else {
           this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
         }
+      } else if (data.browser) {
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
       }
     })
     chatTote.present();

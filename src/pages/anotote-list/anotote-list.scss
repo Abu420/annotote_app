@@ -512,13 +512,16 @@
                         .headAndShoulder {
                             padding: 5%;
                         }
+                        .cloud {
+                            padding: 3%;
+                        }
                         figcaption {
                             display: inline-block;
                             vertical-align: middle;
                             width: calc(100% - 75px);
                             overflow: hidden;
                             border-bottom: 1px solid #D2D2D2;
-                            padding: 27px 0px;
+                            padding: 25px 0px;
                             margin-left: 10px;
                             p {
                                 margin: 0px;
@@ -534,7 +537,7 @@
                                     }
                                 }
                             }
-                            span {
+                            .rightAdd {
                                 float: right;
                                 margin-right: 10px;
                                 display: inline-block;
@@ -544,6 +547,81 @@
                                 padding: 0px !important;
                                 padding-left: 0px;
                                 border-bottom: 0px !important;
+                            }
+                        }
+                        .txt {
+                            vertical-align: middle;
+                            padding: 10px 10px 0px 0px;
+                            width: calc(100% - 75px);
+                            min-height: 73px;
+                            position: relative;
+                            float: right;
+                            border-bottom: 1px solid #D2D2D2;
+                            strong {
+                                font-weight: normal;
+                                font-size: 16px;
+                                text-overflow: ellipsis;
+                                display: -webkit-box;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 1;
+                                width: 100%;
+                                overflow: hidden;
+                                margin-bottom: 5px;
+                                white-space: normal; // text-transform: capitalize;
+                            }
+                            .opened {
+                                -webkit-line-clamp: 2;
+                                display: block;
+                            }
+                            p {
+                                font-size: 14px;
+                            }
+                            .time {
+                                float: right;
+                                em {
+                                    width: 70px;
+                                    color: #8e9093;
+                                    font-style: normal;
+                                }
+                                .timeToBe {
+                                    display: inline-block;
+                                    margin-right: 0px !important;
+                                    font-size: 14px;
+                                    width: auto;
+                                    padding: 0;
+                                    border: 0;
+                                }
+                            }
+                            .toteText {
+                                p {
+                                    width: calc(100% - 90px);
+                                    display: inline-block;
+                                    vertical-align: top;
+                                    padding-left: 5px;
+                                    margin-top: -1px;
+                                    text-overflow: ellipsis;
+                                    -webkit-box-orient: vertical;
+                                    -webkit-line-clamp: 1;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    word-break: break-all;
+                                    margin: 0;
+                                }
+                                button {
+                                    color: #8e9093;
+                                    background: transparent;
+                                    float: left;
+                                    margin: 0 3px;
+                                    img {
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        width: 14px;
+                                        margin: 5px 0;
+                                        &.unReadMsg {
+                                            display: none;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

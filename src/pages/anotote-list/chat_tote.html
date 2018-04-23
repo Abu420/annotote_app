@@ -171,8 +171,8 @@
             <!-- <li *ngIf="search_loading == true" padding text-center>
                 <ion-spinner></ion-spinner>
             </li> -->
-            <ng-container *ngIf="forChats == false">
-                <li *ngFor="let search_result of search_results" (click)="send_message(search_result)">
+            <ng-container *ngFor="let search_result of search_results">
+                <li (click)="send_message(search_result)">
                     <figure [ngClass]="{'headAndShoulder': search_result.photo== null || search_result.photo==''}">
                         <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/userGray.svg">
                         <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
@@ -189,8 +189,29 @@
                         <!-- <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span> -->
                     </figcaption>
                 </li>
+                <li *ngFor="let chat of search_result.chats" (click)="openChat(chat,search_result)">
+                    <figure class="cloud">
+                        <img src="assets/img/cloudIconGray.svg">
+                    </figure>
+                    <div class="txt">
+                        <strong *ngIf="chat.messagesUser.length > 0 && chat.messagesUser[0].subject == null">Chat</strong>
+                        <strong [ngClass]="{'opened': chat.active}" *ngIf="chat.messagesUser.length > 0 && chat.messagesUser[0].subject != null">Chat: {{chat.messagesUser[0].subject}}</strong>
+                        <div class="time">
+                            <em>
+                                <span class="timeToBe" [innerText]="chat.createdAt | time_stamp"></span>
+                            </em>
+                        </div>
+                        <div class="toteText">
+                            <p *ngIf="chat.groupUsers[0].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{chat.groupUsers[0].user.firstName}} ({{chat.groupUsers.length}})</p>
+                            <p *ngIf="chat.groupUsers[1].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{chat.groupUsers[1].user.firstName}} ({{chat.groupUsers.length}})</p>
+                            <button type="button">
+                                <img src="assets/img/commentIcon.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                </li>
             </ng-container>
-            <ng-container *ngIf="forChats == true">
+            <!-- <ng-container *ngIf="forChats == true">
                 <li (click)="openChat()" *ngIf="!search_loading">
                     <img src="assets/img/chatIcon.svg" alt="" />
                     <span>New Chat</span>
@@ -200,7 +221,7 @@
                     <span *ngIf="search_result.messagesUser.length > 0 && search_result.messagesUser[0].subject != null">{{search_result.messagesUser[0].subject}}</span>
                     <span *ngIf="search_result.messagesUser.length > 0 && search_result.messagesUser[0].subject == null">Chat</span>
                 </li>
-            </ng-container>
+            </ng-container> -->
             <ng-container *ngIf="search_results.length == 0 && search_loading == false && doChat == false && doSave == false && doBookmark == false">
                 <li (click)="scrape_this_url('save')">
                     <img src="assets/img/cloudIconGray.svg" alt="" />

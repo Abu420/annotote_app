@@ -36,6 +36,7 @@ export class ChatToteOptions {
     public doBookmark: boolean = false;
     public forChats: boolean = false;
     public selectedUser;
+    public user;
 
     constructor(public runtime: Streams,
         public params: NavParams,
@@ -49,6 +50,7 @@ export class ChatToteOptions {
         public modalCtrl: ModalController) {
         this.anotote = params.get('anotote');
         this.stream = params.get('stream');
+        this.user = authService.getUser();
         if (params.get('from'))
             this.from = params.get('from');
         if (this.anotote != null && this.stream != 'top' && this.stream != 'anon')
@@ -122,6 +124,8 @@ export class ChatToteOptions {
                             this.utilityMethods.internet_connection_error();
                         }
                     });
+            } else {
+                this.search_loading = false;
             }
         }
     }
@@ -138,7 +142,6 @@ export class ChatToteOptions {
 
             this.searchService.create_anotote(params)
                 .subscribe((response) => {
-
                     if (save_or_bookmark != 'save') {
                         toast.dismiss()
                         var bookmark = new SearchUnPinned(save_or_bookmark == 'save' ? 0 : 1,
@@ -160,6 +163,7 @@ export class ChatToteOptions {
                             this.runtime.follow_first_load = false;
                             this.runtime.me_first_load = false;
                             this.runtime.top_first_load = false;
+                            this.viewCtrl.dismiss({ chat: false, close: false, save: false, browser: true, tote: response.data })
                         }, (error) => {
                             toast.dismiss();
                             this.search_loading = false;
@@ -171,7 +175,6 @@ export class ChatToteOptions {
                             }
                         })
                     }
-                    // this.go_to_browser(response.data, true);
                 }, (error) => {
                     toast.dismiss();
                     this.search_loading = false;
@@ -207,34 +210,32 @@ export class ChatToteOptions {
     }
 
     send_message(user) {
-        // if (this.anotote) {
-        //     this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.search_txt })
-        // } else {
-        this.usersForChat = user.firstName;
-        this.selectedUser = user;
-        this.search_results = [];
-        this.search_loading = true;
-        this.forChats = true;
-        var params = {
-            second_person: user.id
-        }
-        if (this.anotote) {
-            params['annotote_id'] = this.anotote.userAnnotote.annototeId;
-        }
-        this.chatService.fetchChats(params).subscribe((success) => {
-            this.search_loading = false;
-            this.search_results = success.data.chatGroup;
-        }, (error) => {
-            this.search_loading = false;
-            if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-            }
-        })
+        //OLD FLOW with two popups
+        // this.usersForChat = user.firstName;
+        // this.selectedUser = user;
+        // this.search_results = [];
+        // this.search_loading = true;
+        // this.forChats = true;
+        // var params = {
+        //     second_person: user.id
         // }
+        // if (this.anotote) {
+        //     params['annotote_id'] = this.anotote.userAnnotote.annototeId;
+        // }
+        // this.chatService.fetchChats(params).subscribe((success) => {
+        //     this.search_loading = false;
+        //     this.search_results = success.data.chatGroup;
+        // }, (error) => {
+        //     this.search_loading = false;
+        //     if (error.code == -1) {
+        //         this.utilityMethods.internet_connection_error();
+        //     }
+        // })
+        this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle })
     }
 
-    openChat(group) {
-        this.viewCtrl.dismiss({ chat: true, close: false, user: this.selectedUser, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle, group: group })
+    openChat(group, user) {
+        this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle, group: group })
     }
 
     followUser(event, person) {

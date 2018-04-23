@@ -227,8 +227,8 @@
             <span class="save" *ngIf="tote && tote.chatGroup && newChatTitle != tote.chatGroup.messagesUser[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
             <span class="save" *ngIf="tote && tote.chatGroup == null && newChatTitle != title && newChatTitle != ''" (click)="updateSubject()">Save</span>
             <!-- <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote == null && newChatTitle != tote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span> -->
-            <span class="save" *ngIf="(tote == null && tote.chatGroup == null) && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <span class="save" *ngIf="(tote == null && tote.chatGroup == null) && conversation.length == 0 && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="tote == null && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
+            <span class="save" *ngIf="tote == null && conversation.length == 0 && newChatTitle != ''" (click)="updateSubject()">Save</span>
         </div>
     </ion-toolbar>
 </ion-footer>

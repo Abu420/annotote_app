@@ -197,6 +197,12 @@ export class AnototeEditor implements OnDestroy {
         else
             this.from_where = 'new_anotote';
 
+        // if (this.WHICH_STREAM == 'anon' && this.actual_stream == 'anon') {
+        //     if (this.ANOTOTE.userAnnotote.isMe == 1) {
+        //         this.ANOTOTE.active_tab = 'me';
+        //         this.actual_stream = 'me';
+        //     }
+        // }
 
         if (this.actual_stream == 'me' && this.FROM != 'search_result') {
             this.scrape_anotote(this.ANOTOTE.meFilePath);
@@ -486,6 +492,8 @@ export class AnototeEditor implements OnDestroy {
                 //         this.toastInFooter("Couldn't bookmark.");
                 //     }
                 // })
+            } else if (data.browser) {
+                this.navCtrl.push(AnototeEditor, { ANOTOTE: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
             }
         })
         chatTote.present();
@@ -1367,7 +1375,7 @@ export class AnototeEditor implements OnDestroy {
                 this.actual_stream = anotote.active_tab;
                 this.scrape_anotote(anotote.meFilePath);
             }
-        } else if (this.WHICH_STREAM == 'anon' && this.FROM == 'search_result') {
+        } else if (this.WHICH_STREAM == 'anon' && (this.FROM == 'search_result' || this.FROM == 'search')) {
             anotote.active_tab = 'me';
             anotote.highlights = Object.assign(anotote.userAnnotote.highlights);
             this.actual_stream = anotote.active_tab;
@@ -1625,7 +1633,8 @@ export class AnototeEditor implements OnDestroy {
                 var chatParams = {
                     anotote: this.ANOTOTE,
                     stream: this.WHICH_STREAM,
-                    findChatter: true
+                    findChatter: true,
+                    doChat: true
                 }
                 let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
                 chatTote.onDidDismiss((data) => {
@@ -1688,6 +1697,9 @@ export class AnototeEditor implements OnDestroy {
                     this.ANOTOTE.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
                     this.ANOTOTE.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
                     this.ANOTOTE.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
+                    this.ANOTOTE.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
+                    this.ANOTOTE.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+                    this.ANOTOTE.userAnnotote.rating = success.data.annotote.rating;
                 }, (error) => {
                     this.hideLoading();
                     this.toastInFooter("Couldn't upvote");

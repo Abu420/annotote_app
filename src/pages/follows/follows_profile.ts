@@ -288,13 +288,6 @@ export class Profile {
     } else {
       buttons = [
         {
-          text: 'Chat',
-          handler: () => {
-            // if (this.profileData.user.isFollowed == 1)
-            this.go_to_thread();
-          }
-        },
-        {
           text: (this.profileData.user.isFollowed == 0) ? 'Follow' : 'Unfollow',
           handler: () => {
             if (this.profileData.user.isFollowed == 0)
@@ -310,6 +303,15 @@ export class Profile {
           }
         }
       ];
+      if (this.profileData.user.isFollowed == 1) {
+        buttons.unshift({
+          text: 'Chat',
+          handler: () => {
+            // if (this.profileData.user.isFollowed == 1)
+            this.go_to_thread();
+          }
+        })
+      }
     }
     let actionSheet = this.actionSheetCtrl.create({
       title: '',

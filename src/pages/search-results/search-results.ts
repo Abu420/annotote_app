@@ -421,6 +421,9 @@ export class SearchResults {
         } else {
           this.go_to_chat_thread(anotote)
         }
+      } else if (data.toggle) {
+        anotote.userAnnotote.meToteFollowTop = data.meTote[0];
+        this.showMeHighlights(anotote.userAnnotote);
       }
     });
     anototeOptionsModal.present();
@@ -509,43 +512,29 @@ export class SearchResults {
       anotote.meFilePath = anotote.userAnnotote.filePath;
       anotote.active_tab = 'me';
     } else {
-      // if (this.current_color == 'top' && anotote.anototeDetail.meToteFollowTop.id == anotote.userAnnotote.id) {
-      //   anotote.my_highlights = anotote.top_highlights;
-      //   anotote.highlights = Object.assign(anotote.my_highlights);
-      //   anotote.active_tab = 'me'
-      //   anotote.meFilePath = anotote.anototeDetail.userAnnotote.filePath;
-      //   this.move_fab = false;
-      // } 
-      // else if (anotote.my_highlights == undefined) {
-      //   this.me_spinner = true;
-      //   var params = {
-      //     user_id: this.user.id,
-      //     anotote_id: this.current_color == 'follows' ? anotote.userAnnotote.anototeDetail.meToteFollowTop.id : anotote.anototeDetail.meToteFollowTop.id,
-      //     time: this.utilityMethods.get_php_wala_time()
-      //   }
-      //   this.anototeService.fetchToteDetails(params).subscribe((result) => {
-      //     this.me_spinner = false;
-      //     this.move_fab = false;
-      //     if (result.status == 1) {
-      //       anotote.active_tab = 'me'
-      //       anotote.highlights = Object.assign(result.data.annotote.highlights);
-      //       anotote.my_highlights = result.data.annotote.highlights;
-      //       anotote.meFilePath = result.data.annotote.userAnnotote.filePath;
-      //     } else {
-      //       this.toastInFooter("Couldn't fetch annotations");
-      //       anotote.active = false;
-      //     }
-      //   }, (error) => {
-      //     this.me_spinner = false;
-      //     if (error.code == -1) {
-      //       this.utilityMethods.internet_connection_error();
-      //     }
-      //   });
-      // } else {
-      //   this.move_fab = false;
-      //   anotote.active_tab = 'me';
-      //   anotote.highlights = Object.assign(anotote.my_highlights);
-      // }
+      var params = {
+        user_id: this.user.id,
+        anotote_id: anotote.meToteFollowTop.id,
+        time: this.utilityMethods.get_php_wala_time()
+      }
+      this.anototeService.fetchToteDetails(params).subscribe((result) => {
+        this.move_fab = false;
+        if (result.status == 1) {
+          anotote.isMe = 1;
+          anotote.active_tab = 'me'
+          anotote.highlights = Object.assign(result.data.annotote.highlights);
+          anotote.my_highlights = result.data.annotote.highlights;
+          anotote.meFilePath = result.data.annotote.userAnnotote.filePath;
+        } else {
+          // this.toastInFooter("Couldn't fetch annotations");
+          anotote.active = false;
+        }
+      }, (error) => {
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        }
+      });
+
     }
   }
 

@@ -318,7 +318,7 @@ export class AnototeList {
     // this.top_anototes = [];
     this.key.disableScroll(false);
     if (this.navCtrl.getViews().length == 2) {
-      if(this.current_active_anotote)
+      if (this.current_active_anotote)
         this.current_active_anotote.active = false;
     }
   }
@@ -332,9 +332,6 @@ export class AnototeList {
       this.statusBar.backgroundColorByHexString('#fb9df0');
     else if (this.current_color == 'anon')
       this.statusBar.backgroundColorByHexString('#323232');
-    //all logic on entry
-    if (this.infinite_scroll)
-      this.infinite_scroll.enable(true);
     /**
      * Set default mode to list not the edit one
      */
@@ -364,7 +361,7 @@ export class AnototeList {
             this.current_page = this.stream.me_page_no;
             this.fbLoading = false;
             if (this.anototes.length == 0)
-              this.has_totes = false;
+              this.infiniteComplete = true;
           } else {
             this.loadanototes();
           }
@@ -374,7 +371,7 @@ export class AnototeList {
             this.current_page = this.stream.follows_page_no;
             this.fbLoading = false;
             if (this.anototes.length == 0)
-              this.has_totes = false;
+              this.infiniteComplete = true;
           } else
             this.loadanototes();
         } else {
@@ -383,7 +380,7 @@ export class AnototeList {
             this.current_page = this.stream.top_page_no;
             this.fbLoading = false;
             if (this.top_anototes.length == 0)
-              this.has_totes = false;
+              this.infiniteComplete = true;
           } else
             this.loadanototes();
         }
@@ -393,7 +390,6 @@ export class AnototeList {
       }
     } else {
       if (this.anototes.length == 0) {
-        // this.showLoading("Loading Totes");
         if (this.mentionedNotification.sender.isFollowed == 1) {
           this.statusBar.backgroundColorByHexString('#f4e300');
           this.current_color = 'follows';
@@ -403,13 +399,6 @@ export class AnototeList {
           let stream = result.data.annototes;
           this.enable_refresher = false;
           for (let entry of stream) {
-            // if (entry.userAnnotote.anototeDetail.isMe == 1) {
-            //   this.statusBar.backgroundColorByHexString('#3bde00');
-            //   this.current_color = 'me';
-            // } else if (entry.userAnnotote.anototeDetail.follows.length > 0) {
-            //   this.statusBar.backgroundColorByHexString('#f4e300');
-            //   this.current_color = 'follows';
-            // }
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
           }
           this.openAnototeDetail(this.anototes[0]);
@@ -442,9 +431,9 @@ export class AnototeList {
         for (let entry of stream) {
           this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
         }
-        if (this.anototes.length == 0) {
-          this.has_totes = false;
-        }
+        if (this.anototes.length == 0)
+          this.infiniteComplete = true;
+
         if (this.current_color == 'me') {
           this.stream.me_page_no = this.current_page;
           this.stream.me_anototes = this.anototes;
@@ -454,10 +443,8 @@ export class AnototeList {
           this.stream.follows_anototes = this.anototes;
           this.stream.follow_first_load = true;
         }
-        // this.hideLoading();
         this.fbLoading = false;
       }, (error) => {
-        // this.hideLoading();
         this.fbLoading = false;
         if (error.code == -1) {
           this.utilityMethods.internet_connection_error();
@@ -485,9 +472,9 @@ export class AnototeList {
           }
           this.top_anototes.push(temp);
         }
-        if (this.top_anototes.length == 0) {
-          this.has_totes = false;
-        }
+        if (this.top_anototes.length == 0)
+          this.infiniteComplete = true;
+
         this.stream.top_anototes = this.top_anototes;
         this.stream.top_page_no = this.current_page;
         this.stream.top_first_load = true;
@@ -718,7 +705,7 @@ export class AnototeList {
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
           }
           infiniteScroll.complete();
-          if (stream.length < 10) {
+          if (stream.length < 20) {
             infiniteScroll.enable(false);
             this.infiniteComplete = true;
           } else {
@@ -728,9 +715,7 @@ export class AnototeList {
               this.stream.follows_page_no = this.current_page;
             }
           }
-
         }, (error) => {
-          // this.utilityMethods.hide_loader();
           this.infiniteLoading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
@@ -745,11 +730,10 @@ export class AnototeList {
             this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
           }
           infiniteScroll.complete();
-          if (stream.length < 10) {
+          if (stream.length < 20) {
             infiniteScroll.enable(false);
           }
         }, (error) => {
-          // this.utilityMethods.hide_loader();
           this.infiniteLoading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
@@ -780,7 +764,7 @@ export class AnototeList {
           this.top_anototes.push(temp);
         }
         infiniteScroll.complete();
-        if (result.data.annototes.length < 10) {
+        if (result.data.annototes.length < 20) {
           infiniteScroll.enable(false);
           this.infiniteComplete = true;
         }
@@ -1298,6 +1282,8 @@ export class AnototeList {
         //     this.toastInFooter("Couldn't bookmark.");
         //   }
         // })
+      } else if (data.browser) {
+        this.navCtrl.push(AnototeEditor, { ANOTOTE: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
       }
     })
     chatTote.present();
@@ -2205,6 +2191,8 @@ export class AnototeList {
           }
         })
         chatTote.present();
+      } else if (data.toggle) {
+        this.showMeHighlights(anotote);
       }
     });
     anototeOptionsModal.present();

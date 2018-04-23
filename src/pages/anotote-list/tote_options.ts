@@ -385,10 +385,8 @@ export class AnototeOptions {
                 this.runtime.top_first_load = false;
               }
             this.runtime.me_first_load = false;
-            // this.utilityMethods.doToast("Saved to Me stream");
-          } else {
-            // this.utilityMethods.doToast("Already Saved");
           }
+          this.toggle(result.data.meToteFollowTop);
         }
       }, (error) => {
         toast.dismiss();
@@ -418,6 +416,14 @@ export class AnototeOptions {
     this.show = false;
     setTimeout(() => {
       this.viewCtrl.dismiss({ tags: false, delete: false, chat: true });
+    }, 300)
+  }
+
+  toggle(meTote) {
+    this.statusbar.show();
+    this.show = false;
+    setTimeout(() => {
+      this.viewCtrl.dismiss({ tags: false, delete: false, chat: false, toggle: true, meTote: meTote });
     }, 300)
   }
 

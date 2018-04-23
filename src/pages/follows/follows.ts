@@ -40,7 +40,7 @@ export class Follows {
   public show: boolean = true;
   public flyInOutState: String = 'out';
   public userToBeLoaded: number = 0;
-  public typeToBeDisplayed: string = 'follows'
+  public typeToBeDisplayed: string = 'Follows'
 
   constructor(public constants: Constants,
     public viewCtrl: ViewController,
@@ -58,6 +58,7 @@ export class Follows {
       this.userToBeLoaded = authService.getUser().id;
     if (params.get('type')) {
       this.typeToBeDisplayed = params.get('type');
+      console.log(this.typeToBeDisplayed);
     }
   }
 
@@ -101,7 +102,7 @@ export class Follows {
   }
 
   load_follows_list() {
-    if (this.typeToBeDisplayed == 'follows') {
+    if (this.typeToBeDisplayed == 'Follows') {
       var params = {
         id: this.userToBeLoaded
       }
