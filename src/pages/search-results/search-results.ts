@@ -180,60 +180,13 @@ export class SearchResults {
       .subscribe((response) => {
         this._loading = false;
         if (response.status == 1) {
-          for (let tote of response.data.annotote) {
-            if (tote.annotote) {
-              if (tote.userAnnotote) {
-                tote.is_tote = true;
-                tote.active = false;
-                tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
-                tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
-                tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
-                tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
-                tote.userAnnotote.spinner_for_active = false;
-                var active_tab = 'anon';
-                if (tote.userAnnotote.isMe == 1) {
-                  tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
-                  tote.userAnnotote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
-                  active_tab = 'me'
-                } else if (tote.userAnnotote.follows.length > 0) {
-                  active_tab = 'follows';
-                } else {
-                  if (tote.userAnnotote.isTop != 1) {
-                    tote.userAnnotote.isTop = 1;
-                    tote.userAnnotote.userAnnotote.isTop = 1;
-                    if (tote.userAnnotote.topUserToteId == 0) {
-                      tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
-                    }
-                  }
-                  active_tab = 'top';
-                  tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
-                }
-                tote.userAnnotote.active_tab = active_tab;
-                if (tote.userAnnotote.follows.length > 0) {
-                  tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
-                }
-                this.totes.push(tote);
-                this.search_results.push(tote);
-              }
-            }
-          }
-          for (let group of response.data.group) {
-            var anotote = {
-              isChat: true,
-              is_tote: false,
-              chatGroup: group
-            }
-            this.chats.push(anotote);
-            this.search_results.push(anotote);
-          }
-          for (let user of response.data.user) {
-            user.is_tote = false;
-            user.isChat = false;
-            user.follow_loading = false;
-            this.users.push(user);
-            this.search_results.push(user);
-          }
-          this.saved_search_result = JSON.parse(JSON.stringify(this.search_results));
+          var manipulated = this.searchService.responseManipulation(response);
+          this.search_results = manipulated.search_results;
+          this.totes = manipulated.totes;
+          this.chats = manipulated.chats;
+          this.users = manipulated.users;
+          // this.saved_search_result = JSON.parse(JSON.stringify(this.search_results));
+          Object.assign(this.saved_search_result, this.search_results)
           if (this.search_results.length == 0)
             this.no_search = true;
         }

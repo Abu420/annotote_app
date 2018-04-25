@@ -646,10 +646,11 @@ export class AnototeEditor implements OnDestroy {
                 };
                 this.commentDetailModalIsOpen.check = true;
                 this.commentDetailModalIsOpen.comment = this.selected_highlight;
-                this.presentCommentDetailModal(this.selected_highlight, event.target);
+                
             } catch (exception) {
                 this.toastInFooter('Cannot show annotation for anon stream')
             }
+            this.presentCommentDetailModal(this.selected_highlight, event.target);
         }
 
     }
@@ -708,7 +709,7 @@ export class AnototeEditor implements OnDestroy {
         // if (this.ANOTOTE.active_tab != 'me') {
         //     opts.cssClass = ''
         // }
-        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier), follower_name: this.ANOTOTE.selected_follower_name != null ? this.ANOTOTE.selected_follower_name : '', total_followers: this.WHICH_STREAM == 'top' ? this.ANOTOTE.follows.length : this.ANOTOTE.followers.length }, opts);
+        let commentDetailModal = this.modalCtrl.create(CommentDetailPopup, { txt: highlight.txt, identifier: highlight.identifier, type: highlight.type, comment: highlight.comment, stream: this.actual_stream, anotation: this.get_highlight(highlight.identifier), follower_name: this.ANOTOTE.selected_follower_name != null ? this.ANOTOTE.selected_follower_name : '', total_followers: (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon') ? this.ANOTOTE.follows.length : this.ANOTOTE.followers.length }, opts);
         commentDetailModal.onDidDismiss(data => {
             element.classList.remove('greyOut');
             if (this.commentDetailModalIsOpen.check && this.commentDetailModalIsOpen.comment.identifier == highlight.identifier) {
@@ -1243,8 +1244,8 @@ export class AnototeEditor implements OnDestroy {
                     return null;
                 } else if (this.actual_stream == 'follows') {
                     if (this.ANOTOTE.isMe == 0) {
-                        this.ANOTOTE.follows[0].highlights = this.ANOTOTE.highlights;
-                        for (let highlight of this.ANOTOTE.highlights) {
+                        // this.ANOTOTE.follows[0].highlights = this.ANOTOTE.highlights;
+                        for (let highlight of this.ANOTOTE.follows[0].followTote.highlights) {
                             if (highlight.identifier == identifier) {
                                 return highlight;
                             }

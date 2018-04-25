@@ -266,7 +266,7 @@ page-home {
     }
     .product-list {
         .item {
-            border-top: 2px solid #f0f0f0 !important;
+            // border-top: 2px solid #f0f0f0 !important;
             overflow: hidden;
             padding: 0px;
             .item-inner {
@@ -279,6 +279,9 @@ page-home {
                         float: left;
                         text-align: center;
                         line-height: 5.5;
+                        &:hover {
+                            background-color: color($assetFeedback, homeBaseHover)
+                        }
                         img {
                             display: inline-block;
                             width: 28px;
@@ -323,6 +326,9 @@ page-home {
                         }
                     }
                 }
+            }
+            &:hover {
+                background-color: color($assetFeedback, base) !important;
             }
         }
     }
@@ -393,16 +399,18 @@ ul.home-list {
         background: #3bde00;
         border-radius: 0;
         &:hover {
-            // background-color: #2ba600  !important; // box-shadow: 0 0px 11px 0px #181717;
-            // box-shadow: -20px 15px 20px 19px #181717 !important;
-            // transform: scale(1, 0.9);
+            background-color: color($assetFeedback, homeGreenHover) !important; // box-shadow: 0 0px 11px 0px #181717;
         }
         .activatedOn {
-            background-color: #2ba600 !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
+            background-color: color($assetFeedback, darkGreen) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
             transform: scale(1);
             opacity: 1;
             border-radius: 0;
+        }
+        button:hover {
+            background-color: color($assetFeedback, darkGreen) !important;
+            opacity: 1;
         }
     }
 }
@@ -412,16 +420,18 @@ ul.home-list {
         background: #f4e300;
         border-radius: 0;
         &:hover {
-            // background-color: #e9ca00 !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
-            // box-shadow: -20px 15px 20px 19px #181717 !important;
-            // transform: scale(1, 0.9);
+            background-color: color($assetFeedback, homeYellowHover) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
         }
         .activatedOn {
-            background-color: #e9ca00 !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
+            background-color: color($assetFeedback, darkYellow) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
             transform: scale(1);
             opacity: 1;
             border-radius: 0;
+        }
+        button:hover {
+            background-color: color($assetFeedback, darkYellow) !important;
+            opacity: 1;
         }
     }
 }
@@ -431,16 +441,19 @@ ul.home-list {
         background: #fb9df0;
         border-radius: 0;
         &:hover {
-            // background-color: #bc73b3 !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
-            // transform: scale(1, 0.9);
+            background-color: color($assetFeedback, homePinkHover) !important;
         }
         .activatedOn {
-            background-color: #bc73b3 !important;
+            background-color: color($assetFeedback, darkPink) !important;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
             transform: scale(1);
             opacity: 1;
             border-radius: 0;
             z-index: 1;
+        }
+        button:hover {
+            background-color: color($assetFeedback, darkPink) !important;
+            opacity: 1;
         }
     }
 }

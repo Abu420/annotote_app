@@ -134,4 +134,10 @@ export class AnototeService {
     var response = this.http.post(url, params).map(res => res.json());
     return response;
   }
+
+  public deleteVote(params) {
+    var url = this.constants.API_BASEURL + '/delete-annotote-vote';
+    var response = this.http.post(url, params).map(res => res.json());
+    return response;
+  }
 }

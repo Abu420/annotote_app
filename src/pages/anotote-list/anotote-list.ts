@@ -360,7 +360,7 @@ export class AnototeList {
             this.anototes = this.stream.me_anototes;
             this.current_page = this.stream.me_page_no;
             this.fbLoading = false;
-            if (this.anototes.length == 0)
+            if (this.anototes.length == 0 || this.anototes.length < 20)
               this.infiniteComplete = true;
           } else {
             this.loadanototes();
@@ -370,7 +370,7 @@ export class AnototeList {
             this.anototes = this.stream.follows_anototes;
             this.current_page = this.stream.follows_page_no;
             this.fbLoading = false;
-            if (this.anototes.length == 0)
+            if (this.anototes.length == 0 || this.anototes.length < 20)
               this.infiniteComplete = true;
           } else
             this.loadanototes();
@@ -379,7 +379,7 @@ export class AnototeList {
             this.top_anototes = this.stream.top_anototes;
             this.current_page = this.stream.top_page_no;
             this.fbLoading = false;
-            if (this.top_anototes.length == 0)
+            if (this.top_anototes.length == 0 || this.anototes.length < 20)
               this.infiniteComplete = true;
           } else
             this.loadanototes();
@@ -431,7 +431,7 @@ export class AnototeList {
         for (let entry of stream) {
           this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
         }
-        if (this.anototes.length == 0)
+        if (this.anototes.length == 0 || this.anototes.length < 20)
           this.infiniteComplete = true;
 
         if (this.current_color == 'me') {
@@ -472,7 +472,7 @@ export class AnototeList {
           }
           this.top_anototes.push(temp);
         }
-        if (this.top_anototes.length == 0)
+        if (this.top_anototes.length == 0 || this.anototes.length < 20)
           this.infiniteComplete = true;
 
         this.stream.top_anototes = this.top_anototes;
@@ -695,88 +695,92 @@ export class AnototeList {
 
   doInfinite(infiniteScroll) {
     this.infinite_scroll = infiniteScroll;
-    if (this.current_color != 'top') {
-      if (this.followedUserId == 0 && this.mentionedCase == false) {
+    if (this.infiniteComplete == false) {
+      if (this.current_color != 'top') {
+        if (this.followedUserId == 0 && this.mentionedCase == false) {
+          this.infiniteLoading = true;
+          this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
+            this.infiniteLoading = false;
+            let stream = result.data.annototes;
+            for (let entry of stream) {
+              this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+            }
+            infiniteScroll.complete();
+            if (stream.length < 20) {
+              infiniteScroll.enable(false);
+              this.infiniteComplete = true;
+            } else {
+              if (this.current_color == 'me') {
+                this.stream.me_page_no = this.current_page;
+              } else if (this.current_color == 'follows') {
+                this.stream.follows_page_no = this.current_page;
+              }
+            }
+          }, (error) => {
+            this.infiniteLoading = false;
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            }
+          });
+        } else if (this.followedUserId != 0) {
+          this.infiniteLoading = true;
+          this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
+            this.infiniteLoading = false;
+            let stream = result.data.annototes;
+            for (let entry of stream) {
+              this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+            }
+            infiniteScroll.complete();
+            if (stream.length < 20) {
+              infiniteScroll.enable(false);
+            }
+          }, (error) => {
+            this.infiniteLoading = false;
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            }
+          });
+        } else if (this.mentionedCase == true) {
+          infiniteScroll.complete();
+          infiniteScroll.enable(false);
+        }
+      } else {
+        let params = {
+          number: this.current_page++,
+          time: this.utilityMethods.get_php_wala_time()
+        }
         this.infiniteLoading = true;
-        this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
+        this.anototeService.top_totes(params).subscribe((result) => {
           this.infiniteLoading = false;
-          let stream = result.data.annototes;
-          for (let entry of stream) {
-            this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+          for (let totes of result.data.annototes) {
+            totes.createdAt = totes.userAnnotote.createdAt
+            this.top_anototes.push(totes);
+          }
+          for (let chatTote of result.data.chatTotes) {
+            var temp = {
+              chatGroup: chatTote,
+              type: 2,
+              createdAt: chatTote.createdAt
+            }
+            this.top_anototes.push(temp);
           }
           infiniteScroll.complete();
-          if (stream.length < 20) {
+          if (result.data.annototes.length < 20) {
             infiniteScroll.enable(false);
             this.infiniteComplete = true;
-          } else {
-            if (this.current_color == 'me') {
-              this.stream.me_page_no = this.current_page;
-            } else if (this.current_color == 'follows') {
-              this.stream.follows_page_no = this.current_page;
-            }
           }
         }, (error) => {
+          // this.utilityMethods.hide_loader();
           this.infiniteLoading = false;
           if (error.code == -1) {
             this.utilityMethods.internet_connection_error();
           }
         });
-      } else if (this.followedUserId != 0) {
-        this.infiniteLoading = true;
-        this.anototeService.fetchUserTotes(this.followedUserId, this.current_page++).subscribe((result) => {
-          this.infiniteLoading = false;
-          let stream = result.data.annototes;
-          for (let entry of stream) {
-            this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
-          }
-          infiniteScroll.complete();
-          if (stream.length < 20) {
-            infiniteScroll.enable(false);
-          }
-        }, (error) => {
-          this.infiniteLoading = false;
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          }
-        });
-      } else if (this.mentionedCase == true) {
-        infiniteScroll.complete();
-        infiniteScroll.enable(false);
       }
     } else {
-      let params = {
-        number: this.current_page++,
-        time: this.utilityMethods.get_php_wala_time()
-      }
-      this.infiniteLoading = true;
-      this.anototeService.top_totes(params).subscribe((result) => {
-        this.infiniteLoading = false;
-        for (let totes of result.data.annototes) {
-          totes.createdAt = totes.userAnnotote.createdAt
-          this.top_anototes.push(totes);
-        }
-        for (let chatTote of result.data.chatTotes) {
-          var temp = {
-            chatGroup: chatTote,
-            type: 2,
-            createdAt: chatTote.createdAt
-          }
-          this.top_anototes.push(temp);
-        }
-        infiniteScroll.complete();
-        if (result.data.annototes.length < 20) {
-          infiniteScroll.enable(false);
-          this.infiniteComplete = true;
-        }
-      }, (error) => {
-        // this.utilityMethods.hide_loader();
-        this.infiniteLoading = false;
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
+      this.infinite_scroll.complete();
+      infiniteScroll.enable(false);
     }
-
   }
 
   doRefresh(refresher) {
@@ -1301,6 +1305,8 @@ export class AnototeList {
             if (anotote.chatGroupId == null) {
               anotote.highlights = Object.assign(anotote.userAnnotote.annototeHeighlights);
             } else {
+              if (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0)
+                this.markReadUnread(anotote);
               this.move_fab = true;
             }
           } else if (this.current_color == 'follows') {
@@ -2035,7 +2041,7 @@ export class AnototeList {
   }
 
   markReadUnread(anotote) {
-    this.showLoading('Please wait')
+    // this.showLoading('Please wait')
     var params = {
       message_id: anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].id,
       message_text: anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].text,
@@ -2043,8 +2049,9 @@ export class AnototeList {
       updated_at: this.utilityMethods.get_php_wala_time()
     }
     this.chatService.updateMessage(params).subscribe((result) => {
-      this.hideLoading();
-      anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read = anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 1 ? 0 : 1;
+      // this.hideLoading();
+      for (let message of anotote.chatGroup.messagesUser)
+        message.read = 1;
     }, (error) => {
       if (error.code == -1) {
         this.utilityMethods.internet_connection_error();
@@ -2566,7 +2573,6 @@ export class AnototeList {
         })
       }
     }
-
   }
 
   downvote() {
@@ -2644,6 +2650,106 @@ export class AnototeList {
         })
       }
     }
+  }
+
+  discardVote() {
+    this.showLoading('Please wait');
+    if (this.current_color != 'top') {
+      if (this.current_active_anotote.active_tab == 'top') {
+        var params = {
+          user_tote_id: this.current_active_anotote.topUserToteId,
+          user_id: this.user.id
+        }
+        this.anototeService.deleteVote(params).subscribe((success) => {
+          this.hideLoading();
+          this.syncTopVotes(success);
+          for (let follower of this.current_active_anotote.followers) {
+            if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
+              this.syncFollowerandTopVotes(follower, success);
+              break;
+            }
+          }
+        }, (error) => {
+          this.hideLoading();
+          this.toastInFooter("Couldn't discard vote");
+        })
+      } else if (this.current_active_anotote.active_tab == 'follows') {
+        var follower = this.selectedFollowerToteId();
+        var params = {
+          user_tote_id: follower.followTote.id,
+          user_id: this.user.id
+        }
+        this.anototeService.deleteVote(params).subscribe((success) => {
+          this.hideLoading();
+          follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
+          follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+          follower.followTote.rating = success.data.annotote.rating;
+          if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
+            this.syncTopVotes(success);
+          }
+        }, (error) => {
+          this.hideLoading();
+          this.toastInFooter("Couldn't discard vote");
+        })
+      }
+    } else {
+      if (this.current_active_anotote.active_tab == 'top') {
+        var params = {
+          user_tote_id: this.current_active_anotote.anototeDetail.userAnnotote.id,
+          user_id: this.user.id
+        }
+        this.anototeService.deleteVote(params).subscribe((success) => {
+          this.hideLoading();
+          this.syncTopandFollowsVotes(success);
+          for (let follower of this.current_active_anotote.anototeDetail.follows) {
+            if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
+              this.syncFollowerandTopVotes(follower, success);
+              break;
+            }
+          }
+        }, (error) => {
+          this.hideLoading();
+          this.toastInFooter("Couldn't discard vote");
+        })
+      } else if (this.current_active_anotote.active_tab == 'follows') {
+        var follower = this.selectedFollowerTopPage();
+        var params = {
+          user_tote_id: follower.followTote.id,
+          user_id: this.user.id
+        }
+        this.anototeService.deleteVote(params).subscribe((success) => {
+          this.hideLoading();
+          this.syncFollowerandTopVotes(follower, success);
+          if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
+            this.syncTopandFollowsVotes(success);
+          }
+        }, (error) => {
+          this.hideLoading();
+          this.toastInFooter("Couldn't discard vote");
+        })
+      }
+    }
+  }
+
+  syncTopVotes(success) {
+    this.current_active_anotote.topVote.currentUserVote = success.data.annotote.currentUserVote;
+    this.current_active_anotote.topVote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+    this.current_active_anotote.topVote.rating = success.data.annotote.rating;
+  }
+
+  syncFollowerandTopVotes(follower, success) {
+    follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
+    follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+    follower.followTote.rating = success.data.annotote.rating;
+  }
+
+  syncTopandFollowsVotes(success) {
+    this.current_active_anotote.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
+    this.current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+    this.current_active_anotote.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
+    this.current_active_anotote.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
+    this.current_active_anotote.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
+    this.current_active_anotote.userAnnotote.rating = success.data.annotote.rating;
   }
 
   selectedFollowerToteId() {

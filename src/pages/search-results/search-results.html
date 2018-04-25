@@ -191,7 +191,7 @@
                 <div [ngClass]="{'activeTote' : current_active_anotote==anotote }" (click)="openAnototeDetail(anotote)" *ngIf="anotote.is_tote == true || anotote.isChat == true">
                     <div class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
                     </div>
-                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true, 'forFollower':anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0}" *ngIf="anotote.is_tote == true">
+                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true, 'forFollower':anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0 && anotote.userAnnotote.follows.length > 0}" *ngIf="anotote.is_tote == true">
                         <p *ngIf="anotote.userAnnotote.isMe == 0 && anotote.userAnnotote.isTop == 0">{{anotote.userAnnotote.selected_follower_name}}
                             <ng-container *ngIf="anotote.userAnnotote.follows.length > 2">+ {{anotote.userAnnotote.follows.length - 1}} others</ng-container>
                             <ng-container *ngIf="anotote.userAnnotote.follows.length == 2">+ {{anotote.userAnnotote.follows.length - 1}} other</ng-container>

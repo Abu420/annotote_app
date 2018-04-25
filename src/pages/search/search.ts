@@ -372,100 +372,81 @@ export class Search {
      */
     value_updating_search() {
         // this.search_txt = value;
-        this.search_results = [];
-        if (this.search_txt.length == 0) {
-            this.current_url = '';
+        if (this.search_txt.length > 3) {
             this.search_results = [];
-            this.statusBar.backgroundColorByHexString('#323232');
-            return;
-        }
-        if (this.filter_mode)
-            this.filter_mode = false;
-
-        var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
-        var current_time = this.utilityMethods.get_php_wala_time();
-        this.search_loading = true;
-        if (!url_or_user) {
-            this.entering_url = false;
-            var params = {
-                term: this.search_txt,
-                type: '',
-                annotote_type: '',
-                time: 0
+            if (this.search_txt.length == 0) {
+                this.current_url = '';
+                this.search_results = [];
+                this.statusBar.backgroundColorByHexString('#323232');
+                return;
             }
-            //type filter
-            if (this.search_filters.media.tote) {
-                params.type = 'annotote';
-                //stream filter
-                if (this.search_filters.category.me)
-                    params.annotote_type = 'me';
-                else if (this.search_filters.category.follows)
-                    params.annotote_type = 'follows';
-                else if (this.search_filters.category.top)
-                    params.annotote_type = 'top';
+            if (this.filter_mode)
+                this.filter_mode = false;
 
-                //date filter
-                if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
-                    params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+            var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
+            var current_time = this.utilityMethods.get_php_wala_time();
+            this.search_loading = true;
+            if (!url_or_user) {
+                this.entering_url = false;
+                var params = {
+                    term: this.search_txt,
+                    type: '',
+                    annotote_type: '',
+                    time: 0
                 }
-            } else if (this.search_filters.media.user)
-                params.type = 'user';
-            else if (this.search_filters.media.chat) {
-                params.annotote_type = 'chats'
-            }
+                //type filter
+                if (this.search_filters.media.tote) {
+                    params.type = 'annotote';
+                    //stream filter
+                    if (this.search_filters.category.me)
+                        params.annotote_type = 'me';
+                    else if (this.search_filters.category.follows)
+                        params.annotote_type = 'follows';
+                    else if (this.search_filters.category.top)
+                        params.annotote_type = 'top';
 
-            this.searchService.general_search(params)
-                .subscribe((response) => {
-                    this.search_results = [];
-                    for (let tote of response.data.annotote) {
-                        if (tote.annotote) {
-                            if (tote.userAnnotote) {
-                                tote.is_tote = true;
-                                tote.active = false;
-                                tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
-                                tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
-                                tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
-                                tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
-                                tote.userAnnotote.spinner_for_active = false;
-                                var active_tab = 'anon';
-                                if (tote.userAnnotote.isMe == 1) {
-                                    active_tab = 'me'
-                                } else if (tote.userAnnotote.isMe == 0 && tote.userAnnotote.isTop == 0) {
-                                    active_tab = 'follows';
-                                } else if (tote.userAnnotote.isTop == 1) {
-                                    active_tab = 'top';
-                                }
-                                tote.userAnnotote.active_tab = active_tab;
-                                if (tote.userAnnotote.follows.length > 0) {
-                                    tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
-                                }
-                                this.search_results.push(tote);
-                            }
-                        }
+                    //date filter
+                    if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
+                        params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
                     }
-                    for (let group of response.data.group) {
-                        var anotote = {
-                            isChat: true,
-                            is_tote: false,
-                            chatGroup: group
-                        }
-                        this.search_results.push(anotote);
-                    }
-                    for (let user of response.data.user) {
-                        user.is_tote = false;
-                        user.isChat = false;
-                        user.follow_loading = false;
-                        this.search_results.push(user);
-                    }
-                    this.search_loading = false;
-                }, (error) => {
-                    this.search_results = [];
-                    this.search_loading = false;
-                    // self.utilityMethods.message_alert('Error', 'No matching results found');
-                });
-        } else {
-            this.search_loading = false;
-            this.entering_url = true;
+                } else if (this.search_filters.media.user)
+                    params.type = 'user';
+                else if (this.search_filters.media.chat) {
+                    params.annotote_type = 'chats'
+                }
+
+                this.searchService.general_search(params)
+                    .subscribe((response) => {
+                        this.search_results = [];
+                        var manipulated = this.searchService.responseManipulation(response);
+                        this.search_results = manipulated.search_results;
+                        this.search_loading = false;
+                    }, (error) => {
+                        this.search_results = [];
+                        this.search_loading = false;
+                        // self.utilityMethods.message_alert('Error', 'No matching results found');
+                    });
+            } else {
+                this.search_loading = false;
+                this.entering_url = true;
+                var params = {
+                    term: this.search_txt,
+                    type: '',
+                    annotote_type: '',
+                    time: 0
+                }
+                this.searchService.general_search(params)
+                    .subscribe((response) => {
+                        this.search_results = [];
+                        var manipulated = this.searchService.responseManipulation(response);
+                        this.search_results = manipulated.search_results;
+                        this.search_loading = false;
+                    }, (error) => {
+                        this.search_results = [];
+                        this.search_loading = false;
+                        // self.utilityMethods.message_alert('Error', 'No matching results found');
+                    });
+            }
         }
     }
 
