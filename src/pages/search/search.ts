@@ -452,7 +452,11 @@ export class Search {
 
     scrape_this_url(check, save_or_bookmark) {
         var current_time = this.utilityMethods.get_php_wala_time();
-        var params = { url: this.search_txt, created_at: current_time }
+        var params = {
+            url: this.search_txt,
+            created_at: current_time,
+            scraped_url: ''
+        }
         var toast = null;
         if (save_or_bookmark == 'save_entry')
             toast = this.utilityMethods.doLoadingToast('Saving...');
@@ -463,41 +467,54 @@ export class Search {
         // else
         //     params['search_id'] = search.id;
         /**
-         * Create Anotote API
+         * Hypothesis Scrapping
          */
-        this.searchService.create_anotote(params)
-            .subscribe((response) => {
-                if (toast)
-                    toast.dismiss()
-                if (!check) {
-                    var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
-                        response.data.annotote.title, this.search_txt,
-                        this.authService.getUser().id, 0);
-                    if (this.searchService.AlreadySavedSearches(bookmark.term)) {
-                        this.searchService.saved_searches.unshift(bookmark);
-                        // if (save_or_bookmark == 'save_entry')
-                        //     this.utilityMethods.doToast("Saved");
-                        // else
-                        //     this.utilityMethods.doToast("Bookmarked");
-                    } else {
-                        // if (save_or_bookmark == 'save_entry')
-                        //     this.utilityMethods.doToast("Already saved");
-                        // else
-                        //     this.utilityMethods.doToast("Already bookmarked");
+        this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+            params.scraped_url = success.successMessage;
+            this.searchService.create_anotote(params)
+                .subscribe((response) => {
+                    if (toast)
+                        toast.dismiss()
+                    if (!check) {
+                        var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
+                            response.data.annotote.title, this.search_txt,
+                            this.authService.getUser().id, 0);
+                        if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                            this.searchService.saved_searches.unshift(bookmark);
+                            // if (save_or_bookmark == 'save_entry')
+                            //     this.utilityMethods.doToast("Saved");
+                            // else
+                            //     this.utilityMethods.doToast("Bookmarked");
+                        } else {
+                            // if (save_or_bookmark == 'save_entry')
+                            //     this.utilityMethods.doToast("Already saved");
+                            // else
+                            //     this.utilityMethods.doToast("Already bookmarked");
+                        }
                     }
-                }
-                response.data.userAnnotote.annotote = response.data.annotote;
-                this.go_to_browser(response.data, true);
-            }, (error) => {
-                toast.dismiss();
-                this.search_loading = false;
-                if (error.status == 500) {
-                    this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
-                }
-                else if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                }
-            });
+                    response.data.userAnnotote.annotote = response.data.annotote;
+                    this.go_to_browser(response.data, true);
+                }, (error) => {
+                    toast.dismiss();
+                    this.search_loading = false;
+                    if (error.status == 500) {
+                        this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                    }
+                    else if (error.code == -1) {
+                        this.utilityMethods.internet_connection_error();
+                    }else 
+                        this.utilityMethods.doToast("Couldn't scrap url");
+                });
+        }, (error) => {
+            toast.dismiss();
+            this.search_loading = false;
+            if (error.status == 500) {
+                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+            }else if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            } else
+                this.utilityMethods.doToast("Couldn't scrap url");
+        })
     }
 
     go_to_browser(anotote, neworold) {

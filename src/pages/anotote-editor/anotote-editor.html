@@ -1,104 +1,108 @@
 <ion-header class="topHeader" [ngClass]="{'show-header':showheader,'hide-header':hideheader}">
     <ion-toolbar [color]="which_stream">
-        <ion-title *ngIf="full_screen_mode">
-            <div class="arrows">
-                <ng-container *ngIf="which_stream == 'me'">
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowIcon.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowGreen.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowGreen.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowIcon.svg">
-                    </span>
-                </ng-container>
-
-                <ng-container *ngIf="which_stream == 'follows'">
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowIcon.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowYellow.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowYellow.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowIcon.svg">
-                    </span>
-                </ng-container>
-
-                <ng-container *ngIf="which_stream == 'top'">
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowIcon.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowPink.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowPink.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowIcon.svg">
-                    </span>
-                </ng-container>
-                <ng-container *ngIf="which_stream == 'anon'">
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowIcon.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
-                        <img src="assets/img/leftArrowBlack.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowBlack.svg">
-                    </span>
-                    <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
-                        <img src="assets/img/rightArrowIcon.svg">
-                    </span>
-                </ng-container>
-            </div>
-        </ion-title>
-        <ion-buttons *ngIf="full_screen_mode" (click)="change_full_screen_mode()" end class="boxIcon">
-            <button style="background: transparent;">
-                <span *ngIf="which_stream == 'me'" class="downImage">
-                    <img src="assets/img/toteBox.svg" alt="">
-                </span>
-
-                <span *ngIf="which_stream == 'anon'" class="downImage">
-                    <img src="assets/img/toteBoxBlack.svg" alt="">
-                </span>
-
-                <span *ngIf="which_stream == 'follows'" class="downImage">
-                    <img src="assets/img/toteBoxYellow.svg" alt="">
-                </span>
-
-                <span *ngIf="which_stream == 'top'" class="downImage">
-                    <img src="assets/img/toteBoxPink.svg" alt="">
-                </span>
-            </button>
-        </ion-buttons>
         <ion-buttons start class="searchIcon">
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
                 <img src="assets/img/searchIcon.png" alt="" />
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
         </ion-buttons>
-        <ion-title *ngIf="!full_screen_mode && which_stream == 'me'">
-            <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
-        </ion-title>
-        <ion-title *ngIf="!full_screen_mode && which_stream == 'anon'">
-            <dot-navigation class="anonDot" unactivedots="2"></dot-navigation>
-        </ion-title>
-        <ion-title *ngIf="!full_screen_mode && which_stream == 'follows'">
-            <dot-navigation class="followDot" unactivedots="2"></dot-navigation>
-        </ion-title>
-        <ion-title *ngIf="!full_screen_mode && which_stream == 'top'">
-            <dot-navigation class="topDot" unactivedots="2"></dot-navigation>
-        </ion-title>
+        <ng-container *ngIf="full_screen_mode">
+            <ion-title>
+                <div class="arrows">
+                    <ng-container *ngIf="which_stream == 'me'">
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowIcon.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowGreen.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowGreen.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowIcon.svg">
+                        </span>
+                    </ng-container>
+
+                    <ng-container *ngIf="which_stream == 'follows'">
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowIcon.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowYellow.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowYellow.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowIcon.svg">
+                        </span>
+                    </ng-container>
+
+                    <ng-container *ngIf="which_stream == 'top'">
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowIcon.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowPink.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowPink.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowIcon.svg">
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="which_stream == 'anon'">
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowIcon.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == 0" class="leftArrow" (click)="load_previous_page()">
+                            <img src="assets/img/leftArrowBlack.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT == (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowBlack.svg">
+                        </span>
+                        <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT < (SAVED_ANOTOTES_LOCALLY.length - 1)" class="rightArrow" (tap)="load_next_page()">
+                            <img src="assets/img/rightArrowIcon.svg">
+                        </span>
+                    </ng-container>
+                </div>
+            </ion-title>
+            <ion-buttons (click)="change_full_screen_mode()" end class="boxIcon">
+                <button style="background: transparent;">
+                    <span *ngIf="which_stream == 'me'" class="downImage">
+                        <img src="assets/img/toteBox.svg" alt="">
+                    </span>
+
+                    <span *ngIf="which_stream == 'anon'" class="downImage">
+                        <img src="assets/img/toteBoxBlack.svg" alt="">
+                    </span>
+
+                    <span *ngIf="which_stream == 'follows'" class="downImage">
+                        <img src="assets/img/toteBoxYellow.svg" alt="">
+                    </span>
+
+                    <span *ngIf="which_stream == 'top'" class="downImage">
+                        <img src="assets/img/toteBoxPink.svg" alt="">
+                    </span>
+                </button>
+            </ion-buttons>
+        </ng-container>
+        <ng-container *ngIf="!full_screen_mode">
+            <ion-title *ngIf="which_stream == 'me'">
+                <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
+            </ion-title>
+            <ion-title *ngIf="which_stream == 'anon'">
+                <dot-navigation class="anonDot" unactivedots="2"></dot-navigation>
+            </ion-title>
+            <ion-title *ngIf="which_stream == 'follows'">
+                <dot-navigation class="followDot" unactivedots="2"></dot-navigation>
+            </ion-title>
+            <ion-title *ngIf="which_stream == 'top'">
+                <dot-navigation class="topDot" unactivedots="2"></dot-navigation>
+            </ion-title>
+        </ng-container>
         <ion-buttons *ngIf="!full_screen_mode" class="plusBtn">
             <button (tap)="add_to_me_stream()" ion-button icon-only>
                 <img src="assets/img/plusIcon.png" alt="" />
@@ -120,7 +124,10 @@
         <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">
             <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
             <!--<dcl-wrapper [type]="tab"></dcl-wrapper>-->
+            <html id="{{WHICH_STREAM == 'top' ? ANOTOTE.annotote.htmlId: ANOTOTE.userAnnotote.annotote.htmlId}}">
             <div [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
+
+            </html>
             <!-- <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="full_text  | sanitizeHtml"></div> -->
         </div>
     </div>
@@ -237,10 +244,9 @@
         </span>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="inline_tote_options" *ngIf="ANOTOTE && WHICH_STREAM != 'anon' && WHICH_STREAM != 'me' && actual_stream != 'me' && loading_check == false">
-    <ion-toolbar color="dark" style="padding:0 25px !important">
-        <div class="downUp">
-            <!-- If he asks for upvote and downvot for top anotote in editor also -->
+<ion-footer class="message-bottom" *ngIf="ANOTOTE && WHICH_STREAM != 'anon' && actual_stream != 'me' && loading_check == false">
+    <ion-toolbar color="dark">
+        <!-- <div class="downUp">
             <ng-container *ngIf="WHICH_STREAM != 'top' && ANOTOTE.active_tab == 'top'">
                 <img src="assets/img/upArrow.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 0 && ANOTOTE.topVote.currentUserVote == 0" (click)="upvote_anotote()" alt="">
                 <img src="assets/img/upArrow.svg" *ngIf="ANOTOTE.topVote.isCurrentUserVote == 1 && ANOTOTE.topVote.currentUserVote == 0" (click)="upvote_anotote()" alt="">
@@ -295,7 +301,8 @@
             </span>
             <span *ngIf="ANOTOTE.active_tab == 'top'">Top</span>
             <img (click)="toteOptions()" src="assets/img/option-icon.png" alt="" />
-        </div>
+        </div> -->
+        <vote-footer [page]="'BROWSER'" (options)="toteOptions()" (toast-loading)="voteLoadingEvents($event)" [current_color]="WHICH_STREAM" [current_active_anotote]="ANOTOTE"></vote-footer>
     </ion-toolbar>
 </ion-footer>
 <!--<div class="inline_tote_options" *ngIf="toggle_annotation_option">

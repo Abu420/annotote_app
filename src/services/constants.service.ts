@@ -14,5 +14,6 @@ export class Constants {
 	// public SEARCH_API_BASEURL: string = "http://139.162.37.73:8983/solr/annotote";
 	// public IMAGE_BASEURL: string = "http://139.162.37.73/anotote";
 	public AUTHORIZATION_HEADER: string = "$2y$10$XLoU25gEWjCk/iDgJpHHcekPts9Shfn3hyJvrzOFFpY2zeg/kedeC";
+	public HYPOTHESIS_SCRAPPING_BASEURL = 'http://138.68.229.113/healingbudz/api/scrape?url='
 
 }

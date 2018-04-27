@@ -133,58 +133,73 @@ export class ChatToteOptions {
     scrape_this_url(save_or_bookmark) {
         if (this.usersForChat != '' && this.usersForChat != null) {
             var current_time = this.utilityMethods.get_php_wala_time();
-            var params = { url: this.usersForChat, created_at: current_time }
+            var params = {
+                url: this.usersForChat,
+                created_at: current_time,
+                scraped_url: ''
+            }
             var toast = null;
             if (save_or_bookmark == 'save')
                 toast = this.utilityMethods.doLoadingToast('Saving...');
             else
                 toast = this.utilityMethods.doLoadingToast('Bookmarking...');
-
-            this.searchService.create_anotote(params)
-                .subscribe((response) => {
-                    if (save_or_bookmark != 'save') {
-                        toast.dismiss()
-                        var bookmark = new SearchUnPinned(save_or_bookmark == 'save' ? 0 : 1,
-                            response.data.annotote.title, this.usersForChat,
-                            this.authService.getUser().id, 0);
-                        if (this.searchService.AlreadySavedSearches(bookmark.term)) {
-                            this.searchService.saved_searches.unshift(bookmark);
-                        }
-                        response.data.userAnnotote.annotote = response.data.annotote;
-                        this.dissmiss();
-                    } else {
-                        var params: any = {
-                            annotote_id: response.data.annotote.id,
-                            user_id: this.authService.getUser().id,
-                            created_at: response.data.annotote.createdAt
-                        }
-                        this.anototeService.save_totes(params).subscribe((result) => {
+            this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+                params.scraped_url = success.successMessage;
+                this.searchService.create_anotote(params)
+                    .subscribe((response) => {
+                        if (save_or_bookmark != 'save') {
                             toast.dismiss()
-                            this.runtime.follow_first_load = false;
-                            this.runtime.me_first_load = false;
-                            this.runtime.top_first_load = false;
-                            this.viewCtrl.dismiss({ chat: false, close: false, save: false, browser: true, tote: response.data })
-                        }, (error) => {
-                            toast.dismiss();
-                            this.search_loading = false;
-                            if (error.status == 500) {
-                                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                            var bookmark = new SearchUnPinned(save_or_bookmark == 'save' ? 0 : 1,
+                                response.data.annotote.title, this.usersForChat,
+                                this.authService.getUser().id, 0);
+                            if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+                                this.searchService.saved_searches.unshift(bookmark);
                             }
-                            else if (error.code == -1) {
-                                this.utilityMethods.internet_connection_error();
+                            response.data.userAnnotote.annotote = response.data.annotote;
+                            this.dissmiss();
+                        } else {
+                            var params: any = {
+                                annotote_id: response.data.annotote.id,
+                                user_id: this.authService.getUser().id,
+                                created_at: response.data.annotote.createdAt
                             }
-                        })
-                    }
-                }, (error) => {
-                    toast.dismiss();
-                    this.search_loading = false;
-                    if (error.status == 500) {
-                        this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
-                    }
-                    else if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    }
-                });
+                            this.anototeService.save_totes(params).subscribe((result) => {
+                                toast.dismiss()
+                                this.runtime.follow_first_load = false;
+                                this.runtime.me_first_load = false;
+                                this.runtime.top_first_load = false;
+                                this.viewCtrl.dismiss({ chat: false, close: false, save: false, browser: true, tote: response.data })
+                            }, (error) => {
+                                toast.dismiss();
+                                this.search_loading = false;
+                                if (error.status == 500) {
+                                    this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                                }
+                                else if (error.code == -1) {
+                                    this.utilityMethods.internet_connection_error();
+                                }
+                            })
+                        }
+                    }, (error) => {
+                        toast.dismiss();
+                        this.search_loading = false;
+                        if (error.status == 500) {
+                            this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                        } else if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        } else
+                            this.utilityMethods.doToast("Couldn't scrap url");
+                    });
+            }, (error) => {
+                toast.dismiss();
+                this.search_loading = false;
+                if (error.status == 500) {
+                    this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                } else if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                } else
+                    this.utilityMethods.doToast("Couldn't scrap url");
+            });
         } else {
             this.doSomething(save_or_bookmark);
         }

@@ -100,6 +100,7 @@ import { Badge } from '@ionic-native/badge';
 import { Verified } from '../pages/front-view/verified';
 import { TagsExclusive } from '../pages/tagsExclusive/tags';
 import { KeyboardAttachDirective } from '../directives/keyboardAttach';
+import { Votes } from '../directives/votes/votes';
 
 @NgModule({
   declarations: [
@@ -158,7 +159,8 @@ import { KeyboardAttachDirective } from '../directives/keyboardAttach';
     Verification,
     Verified,
     Bold,
-    TagsExclusive
+    TagsExclusive,
+    Votes
   ],
   imports: [
     BrowserModule,

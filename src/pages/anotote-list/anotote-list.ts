@@ -2498,310 +2498,13 @@ export class AnototeList {
     }, 2000);
   }
 
-  upvote() {
-    if (this.current_color != 'top') {
-      if (this.current_active_anotote.active_tab == 'top') {
-        this.showLoading('Upvoting');
-        var params = {
-          user_tote_id: this.current_active_anotote.topUserToteId,
-          vote: 1,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          this.current_active_anotote.topVote.currentUserVote = success.data.annotote.currentUserVote;
-          this.current_active_anotote.topVote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          this.current_active_anotote.topVote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't upvote");
-        })
-      } else if (this.current_active_anotote.active_tab == 'follows') {
-        this.showLoading('Upvoting');
-        var follower = this.selectedFollowerToteId();
-        var params = {
-          user_tote_id: follower.followTote.id,
-          vote: 1,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
-          follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          follower.followTote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't upvote");
-        })
-      }
-    } else {
-      if (this.current_active_anotote.active_tab == 'top') {
-        this.showLoading('Upvoting');
-        var params = {
-          user_tote_id: this.current_active_anotote.anototeDetail.userAnnotote.id,
-          vote: 1,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          this.current_active_anotote.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
-          this.current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          this.current_active_anotote.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
-          this.current_active_anotote.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
-          this.current_active_anotote.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          this.current_active_anotote.userAnnotote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't upvote");
-        })
-      } else if (this.current_active_anotote.active_tab == 'follows') {
-        this.showLoading('Upvoting');
-        var follower = this.selectedFollowerTopPage();
-        var params = {
-          user_tote_id: follower.followTote.id,
-          vote: 1,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
-          follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          follower.followTote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't upvote");
-        })
-      }
-    }
-  }
-
-  downvote() {
-    if (this.current_color != 'top') {
-      if (this.current_active_anotote.active_tab == 'top') {
-        this.showLoading('Downvoting');
-        var params = {
-          user_tote_id: this.current_active_anotote.topUserToteId,
-          vote: 0,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          this.current_active_anotote.topVote.currentUserVote = success.data.annotote.currentUserVote;
-          this.current_active_anotote.topVote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          this.current_active_anotote.topVote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't downvote");
-        })
-      } else if (this.current_active_anotote.active_tab == 'follows') {
-        this.showLoading('Downvoting');
-        var follower = this.selectedFollowerToteId();
-        var params = {
-          user_tote_id: follower.followTote.id,
-          vote: 0,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
-          follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          follower.followTote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't downvote");
-        })
-      }
-    } else {
-      if (this.current_active_anotote.active_tab == 'top') {
-        this.showLoading('Downvoting');
-        var params = {
-          user_tote_id: this.current_active_anotote.anototeDetail.userAnnotote.id,
-          vote: 0,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          this.current_active_anotote.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
-          this.current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          this.current_active_anotote.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
-          this.current_active_anotote.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
-          this.current_active_anotote.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          this.current_active_anotote.userAnnotote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't downvote");
-        })
-      } else if (this.current_active_anotote.active_tab == 'follows') {
-        this.showLoading('Downvoting');
-        var follower = this.selectedFollowerTopPage();
-        var params = {
-          user_tote_id: follower.followTote.id,
-          vote: 0,
-          created_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.vote_anotote(params).subscribe((success) => {
-          this.hideLoading();
-          follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
-          follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          follower.followTote.rating = success.data.annotote.rating;
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't downvote");
-        })
-      }
-    }
-  }
-
-  discardVote() {
-    this.showLoading('Please wait');
-    if (this.current_color != 'top') {
-      if (this.current_active_anotote.active_tab == 'top') {
-        var params = {
-          user_tote_id: this.current_active_anotote.topUserToteId,
-          user_id: this.user.id
-        }
-        this.anototeService.deleteVote(params).subscribe((success) => {
-          this.hideLoading();
-          this.syncTopVotes(success);
-          for (let follower of this.current_active_anotote.followers) {
-            if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
-              this.syncFollowerandTopVotes(follower, success);
-              break;
-            }
-          }
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't discard vote");
-        })
-      } else if (this.current_active_anotote.active_tab == 'follows') {
-        var follower = this.selectedFollowerToteId();
-        var params = {
-          user_tote_id: follower.followTote.id,
-          user_id: this.user.id
-        }
-        this.anototeService.deleteVote(params).subscribe((success) => {
-          this.hideLoading();
-          follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
-          follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-          follower.followTote.rating = success.data.annotote.rating;
-          if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
-            this.syncTopVotes(success);
-          }
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't discard vote");
-        })
-      }
-    } else {
-      if (this.current_active_anotote.active_tab == 'top') {
-        var params = {
-          user_tote_id: this.current_active_anotote.anototeDetail.userAnnotote.id,
-          user_id: this.user.id
-        }
-        this.anototeService.deleteVote(params).subscribe((success) => {
-          this.hideLoading();
-          this.syncTopandFollowsVotes(success);
-          for (let follower of this.current_active_anotote.anototeDetail.follows) {
-            if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
-              this.syncFollowerandTopVotes(follower, success);
-              break;
-            }
-          }
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't discard vote");
-        })
-      } else if (this.current_active_anotote.active_tab == 'follows') {
-        var follower = this.selectedFollowerTopPage();
-        var params = {
-          user_tote_id: follower.followTote.id,
-          user_id: this.user.id
-        }
-        this.anototeService.deleteVote(params).subscribe((success) => {
-          this.hideLoading();
-          this.syncFollowerandTopVotes(follower, success);
-          if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
-            this.syncTopandFollowsVotes(success);
-          }
-        }, (error) => {
-          this.hideLoading();
-          this.toastInFooter("Couldn't discard vote");
-        })
-      }
-    }
-  }
-
-  syncTopVotes(success) {
-    this.current_active_anotote.topVote.currentUserVote = success.data.annotote.currentUserVote;
-    this.current_active_anotote.topVote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-    this.current_active_anotote.topVote.rating = success.data.annotote.rating;
-  }
-
-  syncFollowerandTopVotes(follower, success) {
-    follower.followTote.currentUserVote = success.data.annotote.currentUserVote;
-    follower.followTote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-    follower.followTote.rating = success.data.annotote.rating;
-  }
-
-  syncTopandFollowsVotes(success) {
-    this.current_active_anotote.anototeDetail.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
-    this.current_active_anotote.anototeDetail.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-    this.current_active_anotote.anototeDetail.userAnnotote.rating = success.data.annotote.rating;
-    this.current_active_anotote.userAnnotote.currentUserVote = success.data.annotote.currentUserVote;
-    this.current_active_anotote.userAnnotote.isCurrentUserVote = success.data.annotote.isCurrentUserVote;
-    this.current_active_anotote.userAnnotote.rating = success.data.annotote.rating;
-  }
-
-  selectedFollowerToteId() {
-    for (let follower of this.current_active_anotote.followers) {
-      if (follower.firstName == this.current_active_anotote.selected_follower_name) {
-        return follower;
-      }
-    }
-    return null;
-  }
-
-  selectedFollowerTopPage() {
-    for (let follower of this.current_active_anotote.anototeDetail.follows) {
-      if (follower.firstName == this.current_active_anotote.selected_follower_name) {
-        return follower;
-      }
-    }
-    return null;
-  }
-
-  upvoteChatTote() {
-    var params = {
-      chat_id: this.current_active_anotote.chatGroup.id,
-      vote: 1,
-      created_at: this.utilityMethods.get_php_wala_time()
-    }
-    this.anototeService.vote_chat_tote(params).subscribe((success) => {
+  voteLoadingEvents(message){
+    if (message =='TOAST')
+      this.toastInFooter("Couldn't update vote, Please try again later.");
+    else if(message != '')
+      this.showLoading(message)
+    else
       this.hideLoading();
-      this.current_active_anotote.chatGroup.currentUserVote = 1;
-      this.current_active_anotote.chatGroup.isCurrentUserVote = 1;
-      this.current_active_anotote.chatGroup.rating = success.data.chat.rating;
-    }, (error) => {
-      this.hideLoading();
-      this.toastInFooter("Couldn't upvote");
-    })
-  }
-
-  downvoteChatTote() {
-    var params = {
-      chat_id: this.current_active_anotote.chatGroup.id,
-      vote: 0,
-      created_at: this.utilityMethods.get_php_wala_time()
-    }
-    this.anototeService.vote_chat_tote(params).subscribe((success) => {
-      this.hideLoading();
-      this.current_active_anotote.chatGroup.currentUserVote = 0;
-      this.current_active_anotote.chatGroup.isCurrentUserVote = 1;
-      this.current_active_anotote.chatGroup.rating = success.data.chat.rating;
-    }, (error) => {
-      this.hideLoading();
-      this.toastInFooter("Couldn't downvote");
-    })
   }
 
   tagClick(event, highlight) {
@@ -2832,34 +2535,41 @@ export class AnototeList {
       this.showLoading('Please wait...');
       var params = {
         url: highlight.tags[event.target.id].tagText,
-        created_at: this.utilityMethods.get_php_wala_time()
+        created_at: this.utilityMethods.get_php_wala_time(),
+        scraped_url: ''
       }
-      this.searchService.create_anotote(params)
-        .subscribe((response) => {
-          this.hideLoading();
-          var bookmark = new SearchUnPinned(0,
-            response.data.annotote.title, params.url,
-            this.authService.getUser().id, 0);
-          var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
-          if (temp == null)
-            this.searchService.saved_searches.unshift(bookmark);
-          else
-            bookmark = temp;
+      this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+        params.scraped_url = success.successMessage;
+        this.searchService.create_anotote(params)
+          .subscribe((response) => {
+            this.hideLoading();
+            var bookmark = new SearchUnPinned(0,
+              response.data.annotote.title, params.url,
+              this.authService.getUser().id, 0);
+            var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
+            if (temp == null)
+              this.searchService.saved_searches.unshift(bookmark);
+            else
+              bookmark = temp;
 
-          var paramz = {
-            tags: [response.data],
-            annotote: false,
-            search: bookmark
-          }
-          let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
-          tagsModal.onDidDismiss((data) => {
-            if (data && data.browseIt) {
-              this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+            var paramz = {
+              tags: [response.data],
+              annotote: false,
+              search: bookmark
             }
+            let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
+            tagsModal.onDidDismiss((data) => {
+              if (data && data.browseIt) {
+                this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+              }
+            })
+            tagsModal.present();
+          },(error)=>{
+            this.hideLoading();
           })
-          tagsModal.present();
-        })
-
+      },(error)=>{
+        this.hideLoading();
+      })
     }
   }
 

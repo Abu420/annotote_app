@@ -69,7 +69,7 @@ export class AnototeEditor implements OnDestroy {
     private main_anotote_id: string;
     private tote_user_id: string;
     private from_where: string;
-    private full_screen_mode: boolean;
+    private full_screen_mode: boolean = false;
     private detail_event: any;
     private which_stream: string;
     private sel: any;
@@ -343,9 +343,12 @@ export class AnototeEditor implements OnDestroy {
                 this.text = response_content.text();
                 var that = this;
                 if (this.HIGHLIGHT_RECEIVED != null)
-                    setTimeout(function () {
+                    setTimeout(() => {
+                        this.itemsShowHide();
                         that.scrollTo(that.HIGHLIGHT_RECEIVED.identifier);
                     }, 1000);
+                else
+                    this.itemsShowHide();
                 this.ANOTOTE_LOADED = true;
                 this.ANOTOTE_LOADING_ERROR = false;
             }, (error) => {
@@ -362,25 +365,22 @@ export class AnototeEditor implements OnDestroy {
         this.full_screen_mode = !this.full_screen_mode;
         this.showheader = true;
         this.hideheader = false;
-        // if (this.full_screen_mode == true) {
-        //     if (this.full_text == '') {
-        //         this.showLoading("Please wait...");
-        //         var params = {
-        //             url: this.ANOTOTE.userAnnotote.annotote.link
-        //         }
-        //         this.searchService.get_full_screenContent(params).subscribe((success: any) => {
-        //             this.hideLoading()
-        //             this.full_text = success._body;
-        //         }, (error) => {
-        //             this.hideLoading();
-        //             this.ANOTOTE_LOADED = true;
-        //             this.ANOTOTE_LOADING_ERROR = true;
-        //             if (error.code == -1 || error.code == -2) {
-        //                 this.utilityMethods.internet_connection_error();
-        //             }
-        //         })
-        //     }
-        // }
+        this.itemsShowHide();
+    }
+
+    itemsShowHide() {
+        var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
+        for (var i = 0; i < elements.length; i++) {
+            if (this.full_screen_mode) {
+                elements[i].setAttribute('style', 'display:block');
+            } else {
+                elements[i].setAttribute('style', 'display:none');
+            }
+        }
+        var elements = document.querySelectorAll('[data-header="annotote_trick"]');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].setAttribute('style', 'display:none');
+        }
     }
 
     add_to_me_stream() {
@@ -646,7 +646,7 @@ export class AnototeEditor implements OnDestroy {
                 };
                 this.commentDetailModalIsOpen.check = true;
                 this.commentDetailModalIsOpen.comment = this.selected_highlight;
-                
+
             } catch (exception) {
                 this.toastInFooter('Cannot show annotation for anon stream')
             }
@@ -783,32 +783,43 @@ export class AnototeEditor implements OnDestroy {
                     searchModal.present();
                 } else {
                     this.showLoading('Please wait...');
-                    var params = { url: this.get_highlight(element.getAttribute('data-identifier')).tagText, created_at: this.utilityMethods.get_php_wala_time() }
-                    this.searchService.create_anotote(params)
-                        .subscribe((response) => {
-                            this.hideLoading();
-                            var bookmark = new SearchUnPinned(0,
-                                response.data.annotote.title, params.url,
-                                this.authService.getUser().id, 0);
-                            var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
-                            if (temp == null)
-                                this.searchService.saved_searches.unshift(bookmark);
-                            else
-                                bookmark = temp;
+                    var params = {
+                        url: this.get_highlight(element.getAttribute('data-identifier')).tagText,
+                        created_at: this.utilityMethods.get_php_wala_time(),
+                        scraped_url: ''
+                    }
+                    this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+                        params.scraped_url = success.successMessage;
+                        this.searchService.create_anotote(params)
+                            .subscribe((response) => {
+                                this.hideLoading();
+                                var bookmark = new SearchUnPinned(0,
+                                    response.data.annotote.title, params.url,
+                                    this.authService.getUser().id, 0);
+                                var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
+                                if (temp == null)
+                                    this.searchService.saved_searches.unshift(bookmark);
+                                else
+                                    bookmark = temp;
 
-                            var paramz = {
-                                tags: [response.data],
-                                annotote: false,
-                                search: bookmark
-                            }
-                            let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
-                            tagsModal.onDidDismiss((data) => {
-                                if (data && data.browseIt) {
-                                    this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                                var paramz = {
+                                    tags: [response.data],
+                                    annotote: false,
+                                    search: bookmark
                                 }
+                                let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
+                                tagsModal.onDidDismiss((data) => {
+                                    if (data && data.browseIt) {
+                                        this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                                    }
+                                })
+                                tagsModal.present();
+                            }, (error) => {
+                                this.hideLoading()
                             })
-                            tagsModal.present();
-                        })
+                    }, (error) => {
+                        this.hideLoading()
+                    })
                 }
             }
         });
@@ -1647,6 +1658,15 @@ export class AnototeEditor implements OnDestroy {
             }
         });
         anototeOptionsModal.present();
+    }
+
+    voteLoadingEvents(message) {
+        if (message == 'TOAST')
+            this.toastInFooter("Couldn't update vote, Please try again later.");
+        else if (message != '')
+            this.showLoading(message)
+        else
+            this.hideLoading();
     }
 
     upvote_anotote() {

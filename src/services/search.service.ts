@@ -169,6 +169,12 @@ export class SearchService {
         return response;
     }
 
+    public hypothesis_scrapping(params) {
+        var url = this.constants.HYPOTHESIS_SCRAPPING_BASEURL + params.url;
+        var response = this.http.get(url).map(res => res.json());
+        return response;
+    }
+
     /**
      * Save search entry
      * type: {POST}

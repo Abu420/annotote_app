@@ -140,4 +140,10 @@ export class AnototeService {
     var response = this.http.post(url, params).map(res => res.json());
     return response;
   }
+
+  public deleteChatVote(params) {
+    var url = this.constants.API_BASEURL + '/delete-chat-vote';
+    var response = this.http.post(url, params).map(res => res.json());
+    return response;
+  }
 }
