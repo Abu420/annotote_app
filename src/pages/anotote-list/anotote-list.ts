@@ -335,6 +335,7 @@ export class AnototeList {
     /**
      * Set default mode to list not the edit one
      */
+    this.key.disableScroll(true);
     this.edit_mode = false;
     this.follow_visited = false;
 
@@ -2498,10 +2499,10 @@ export class AnototeList {
     }, 2000);
   }
 
-  voteLoadingEvents(message){
-    if (message =='TOAST')
+  voteLoadingEvents(message) {
+    if (message == 'TOAST')
       this.toastInFooter("Couldn't update vote, Please try again later.");
-    else if(message != '')
+    else if (message != '')
       this.showLoading(message)
     else
       this.hideLoading();
@@ -2564,10 +2565,10 @@ export class AnototeList {
               }
             })
             tagsModal.present();
-          },(error)=>{
+          }, (error) => {
             this.hideLoading();
           })
-      },(error)=>{
+      }, (error) => {
         this.hideLoading();
       })
     }

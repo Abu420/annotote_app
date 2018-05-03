@@ -45,13 +45,13 @@
             <h4>Date</h4>
             <ul>
                 <li>
-                    <input type="number" [(ngModel)]="search_filters.date.year" name="year" placeholder="YYYY">
+                    <input type="tel" maxlength="4" [(ngModel)]="search_filters.date.year" name="year" placeholder="YYYY">
                 </li>
                 <li>
-                    <input type="number" [(ngModel)]="search_filters.date.month" name="month" placeholder="MM">
+                    <input type="tel" maxlength="2" [(ngModel)]="search_filters.date.month" name="month" placeholder="MM">
                 </li>
                 <li>
-                    <input type="number" [(ngModel)]="search_filters.date.day" name="day" placeholder="DD">
+                    <input type="tel" maxlength="2" [(ngModel)]="search_filters.date.day" name="day" placeholder="DD">
                 </li>
             </ul>
         </div>
@@ -64,7 +64,7 @@
         <ion-list class="product-list loader-panel" *ngIf="_loading">
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -79,7 +79,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -94,7 +94,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -109,7 +109,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -124,7 +124,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -139,7 +139,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -154,7 +154,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -169,7 +169,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="search_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">

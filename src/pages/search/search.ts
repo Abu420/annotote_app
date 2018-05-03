@@ -44,9 +44,9 @@ export class Search {
             top: false
         },
         date: {
-            year: '',
-            month: '',
-            day: ''
+            year: null,
+            month: null,
+            day: null
         }
     }
     private from;
@@ -372,82 +372,87 @@ export class Search {
      */
     value_updating_search() {
         // this.search_txt = value;
-        if (this.search_txt.length > 3) {
+        this.search_results = [];
+        if (this.search_txt.length == 0) {
+            this.current_url = '';
             this.search_results = [];
-            if (this.search_txt.length == 0) {
-                this.current_url = '';
-                this.search_results = [];
-                this.statusBar.backgroundColorByHexString('#323232');
-                return;
-            }
-            if (this.filter_mode)
-                this.filter_mode = false;
-
-            var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
-            var current_time = this.utilityMethods.get_php_wala_time();
-            this.search_loading = true;
-            if (!url_or_user) {
-                this.entering_url = false;
-                var params = {
-                    term: this.search_txt,
-                    type: '',
-                    annotote_type: '',
-                    time: 0
-                }
-                //type filter
-                if (this.search_filters.media.tote) {
-                    params.type = 'annotote';
-                    //stream filter
-                    if (this.search_filters.category.me)
-                        params.annotote_type = 'me';
-                    else if (this.search_filters.category.follows)
-                        params.annotote_type = 'follows';
-                    else if (this.search_filters.category.top)
-                        params.annotote_type = 'top';
-
-                    //date filter
-                    if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
-                        params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
-                    }
-                } else if (this.search_filters.media.user)
-                    params.type = 'user';
-                else if (this.search_filters.media.chat) {
-                    params.annotote_type = 'chats'
-                }
-
-                this.searchService.general_search(params)
-                    .subscribe((response) => {
-                        this.search_results = [];
-                        var manipulated = this.searchService.responseManipulation(response);
-                        this.search_results = manipulated.search_results;
-                        this.search_loading = false;
-                    }, (error) => {
-                        this.search_results = [];
-                        this.search_loading = false;
-                        // self.utilityMethods.message_alert('Error', 'No matching results found');
-                    });
-            } else {
-                this.search_loading = false;
-                this.entering_url = true;
-                var params = {
-                    term: this.search_txt,
-                    type: '',
-                    annotote_type: '',
-                    time: 0
-                }
-                this.searchService.general_search(params)
-                    .subscribe((response) => {
-                        this.search_results = [];
-                        var manipulated = this.searchService.responseManipulation(response);
-                        this.search_results = manipulated.search_results;
-                        this.search_loading = false;
-                    }, (error) => {
-                        this.search_results = [];
-                        this.search_loading = false;
-                        // self.utilityMethods.message_alert('Error', 'No matching results found');
-                    });
-            }
+            this.statusBar.backgroundColorByHexString('#323232');
+            return;
         }
+        if (this.filter_mode)
+            this.filter_mode = false;
+
+        var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
+        var current_time = this.utilityMethods.get_php_wala_time();
+        this.search_loading = true;
+        if (!url_or_user) {
+            this.entering_url = false;
+            var params = {
+                term: this.search_txt,
+                type: '',
+                annotote_type: '',
+                time: 0
+            }
+            //type filter
+            if (this.search_filters.media.tote) {
+                params.type = 'annotote';
+                //stream filter
+                if (this.search_filters.category.me)
+                    params.annotote_type = 'me';
+                else if (this.search_filters.category.follows)
+                    params.annotote_type = 'follows';
+                else if (this.search_filters.category.top)
+                    params.annotote_type = 'top';
+
+                //date filter
+                if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
+                    if (this.search_filters.date.month < 12 && this.search_filters.date.month > 0 && this.search_filters.date.day < 31 && this.search_filters.date.day > 0)
+                        params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+                    else {
+                        this.utilityMethods.doToast("Please enter a valid date");
+                        return;
+                    }
+
+                }
+            } else if (this.search_filters.media.user)
+                params.type = 'user';
+            else if (this.search_filters.media.chat) {
+                params.annotote_type = 'chats'
+            }
+
+            this.searchService.general_search(params)
+                .subscribe((response) => {
+                    this.search_results = [];
+                    var manipulated = this.searchService.responseManipulation(response);
+                    this.search_results = manipulated.search_results;
+                    this.search_loading = false;
+                }, (error) => {
+                    this.search_results = [];
+                    this.search_loading = false;
+                    // self.utilityMethods.message_alert('Error', 'No matching results found');
+                });
+        } else {
+            this.search_loading = false;
+            this.entering_url = true;
+            var params = {
+                term: this.search_txt,
+                type: '',
+                annotote_type: '',
+                time: 0
+            }
+            this.searchService.general_search(params)
+                .subscribe((response) => {
+                    this.search_results = [];
+                    var manipulated = this.searchService.responseManipulation(response);
+                    this.search_results = manipulated.search_results;
+                    this.search_loading = false;
+                }, (error) => {
+                    this.search_results = [];
+                    this.search_loading = false;
+                    // self.utilityMethods.message_alert('Error', 'No matching results found');
+                });
+        }
+
     }
 
     scrape_this_url(check, save_or_bookmark) {
@@ -502,7 +507,7 @@ export class Search {
                     }
                     else if (error.code == -1) {
                         this.utilityMethods.internet_connection_error();
-                    }else 
+                    } else
                         this.utilityMethods.doToast("Couldn't scrap url");
                 });
         }, (error) => {
@@ -510,7 +515,7 @@ export class Search {
             this.search_loading = false;
             if (error.status == 500) {
                 this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
-            }else if (error.code == -1) {
+            } else if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
             } else
                 this.utilityMethods.doToast("Couldn't scrap url");
@@ -543,30 +548,13 @@ export class Search {
                 against = true;
             this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: search_result.chatGroup.messagesUser[0].anototeId, title: search_result.chatGroup.messagesUser[0].subject, full_tote: search_result, color: 'me' });
         } else {
-            var toast = this.utilityMethods.doLoadingToast('Please wait...');
-            this.searchService.get_user_profile_info(search_result.id)
-                .subscribe((response) => {
-                    toast.dismiss();
-                    if (response.data.user != null)
-                        this.presentProfileModal(response);
-                    else
-                        this.utilityMethods.doToast("Couldn't load user.");
-                }, (error) => {
-                    toast.dismiss();
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    }
-                });
+            let profile = this.modalCtrl.create(Profile, {
+                data: search_result.id,
+                from_page: 'search_results'
+            });
+            profile.onDidDismiss(data => {
+            });
+            profile.present();
         }
-    }
-
-    presentProfileModal(response) {
-        let profile = this.modalCtrl.create(Profile, {
-            data: response.data,
-            from_page: 'search_results'
-        });
-        profile.onDidDismiss(data => {
-        });
-        profile.present();
     }
 }

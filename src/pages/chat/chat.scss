@@ -42,9 +42,8 @@ page-chat {
             strong {
                 font-size: 16px;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 1;
+                display: -webkit-box; // -webkit-box-orient: vertical;
+                // -webkit-line-clamp: 1;
                 width: 100%;
                 overflow: hidden;
                 margin-bottom: 5px;

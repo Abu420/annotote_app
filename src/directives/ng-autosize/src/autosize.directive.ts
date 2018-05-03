@@ -81,6 +81,10 @@ export class Autosize implements AfterViewInit {
     this.el.style.height = 'auto';
     if (this.el.scrollHeight > 0)
       this.el.style.height = this.el.scrollHeight + "px";
+    // setTimeout(() => {
+    //   this.el.focus();
+    //   this.el.setSelectionRange(this.el.value.length, this.el.value.length);
+    // }, 500);
   }
 
   updateMinHeight(): void {

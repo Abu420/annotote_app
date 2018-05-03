@@ -12,7 +12,6 @@ import { EditProfile } from '../pages/edit-profile/edit-profile';
 import { Signup } from '../pages/signup/signup';
 import { FrontViewPage } from '../pages/front-view/front-view';
 import { Profile } from '../pages/follows/follows_profile';
-import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { Chat } from '../pages/chat/chat';
 import { SearchResults } from '../pages/search-results/search-results';
 import { Home } from '../pages/home/home';
@@ -120,7 +119,6 @@ import { Votes } from '../directives/votes/votes';
     TagsPopUp,
     Notifications,
     FrontViewPage,
-    ItemDetailsPage,
     AnototeOptions,
     CreateAnotationOptionsPopup,
     CreateAnotationPopup,
@@ -210,7 +208,6 @@ import { Votes } from '../directives/votes/votes';
     CommentDetailPopup,
     Notifications,
     FrontViewPage,
-    ItemDetailsPage,
     AnototeOptions,
     Chat,
     AnototeList,

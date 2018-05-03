@@ -278,25 +278,12 @@ export class ChatToteOptions {
     }
 
     showProfile(search_result) {
-        this.utilityMethods.show_loader('');
-        this.searchService.get_user_profile_info(search_result.id)
-            .subscribe((response) => {
-                this.utilityMethods.hide_loader();
-                if (response.data.user != null) {
-                    let profile = this.modalCtrl.create(Profile, {
-                        data: response.data,
-                        from_page: 'search_results'
-                    });
-                    profile.onDidDismiss(data => {
-                    });
-                    profile.present();
-                } else
-                    this.utilityMethods.doToast("Couldn't load user.");
-            }, (error) => {
-                this.utilityMethods.hide_loader();
-                if (error.code == -1) {
-                    this.utilityMethods.internet_connection_error();
-                }
-            });
+        let profile = this.modalCtrl.create(Profile, {
+            data: search_result.id,
+            from_page: 'search_results'
+        });
+        profile.onDidDismiss(data => {
+        });
+        profile.present();
     }
 }

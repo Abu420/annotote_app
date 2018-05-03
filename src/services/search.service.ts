@@ -44,7 +44,7 @@ export class SearchService {
         var search_results = [];
         for (let tote of response.data.annotote) {
             if (tote.annotote) {
-                if (tote.userAnnotote) {
+                if (tote.userAnnotote && tote.userAnnotote.highlights.length > 0) {
                     tote.is_tote = true;
                     tote.active = false;
                     tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;

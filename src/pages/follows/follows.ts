@@ -58,7 +58,6 @@ export class Follows {
       this.userToBeLoaded = authService.getUser().id;
     if (params.get('type')) {
       this.typeToBeDisplayed = params.get('type');
-      console.log(this.typeToBeDisplayed);
     }
   }
 
@@ -76,24 +75,8 @@ export class Follows {
   }
 
   showProfile(follower) {
-    var toast = this.utilityMethods.doLoadingToast('Loading Profile');
-    this.searchService.get_user_profile_info(follower.id)
-      .subscribe((response) => {
-        toast.dismiss();
-        this.presentProfileModal(response);
-      }, (error) => {
-        toast.dismiss();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        } else {
-          this.utilityMethods.doToast("Couldn't load profile")
-        }
-      });
-  }
-
-  presentProfileModal(response) {
     let profile = this.modalCtrl.create(Profile, {
-      data: response.data,
+      data: follower.id,
       from_page: 'search_results'
     });
     profile.onDidDismiss(data => {

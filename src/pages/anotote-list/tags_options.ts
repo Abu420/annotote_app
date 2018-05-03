@@ -31,8 +31,8 @@ export class TagsOptions {
         private params: NavParams,
         public key: Keyboard,
         private utilityMethods: UtilityMethods) {
-        statusbar.hide();
-
+        if (this.utilityMethods.platform.is('ios'))
+            statusbar.hide();
         this.tag = params.get('tag');
         if (params.get('is_tag') == false) {
             this.is_tag = false;

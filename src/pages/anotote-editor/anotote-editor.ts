@@ -87,6 +87,7 @@ export class AnototeEditor implements OnDestroy {
     public title_temp = '';
     public titleEditingoff: boolean = true;
     public unread_notification_count: any = 0;
+    public loaderLines = new Array(300);
 
     private show_anotation_details: (txt: string) => void;
 
@@ -171,9 +172,6 @@ export class AnototeEditor implements OnDestroy {
     }
 
     load_new_anotote(ANOTOTE_OBJECT, move_to_highlight_flag?) {
-        this.loading_message = "Loading annotote";
-        this.loading_check = true;
-        this.moveFabUp = true;
 
         this.ANOTOTE = ANOTOTE_OBJECT.ANOTOTE;
         this.FROM = ANOTOTE_OBJECT.FROM;
@@ -339,7 +337,6 @@ export class AnototeEditor implements OnDestroy {
     scrape_anotote(file_path) {
         this.searchService.get_anotote_content(file_path)
             .subscribe((response_content) => {
-                this.hideLoading();
                 this.text = response_content.text();
                 var that = this;
                 if (this.HIGHLIGHT_RECEIVED != null)
@@ -347,12 +344,15 @@ export class AnototeEditor implements OnDestroy {
                         this.itemsShowHide();
                         that.scrollTo(that.HIGHLIGHT_RECEIVED.identifier);
                     }, 1000);
-                else
-                    this.itemsShowHide();
+                else {
+                    setTimeout(() => {
+                        // this.itemsShowHide();
+                        this.cd.detectChanges();
+                    }, 1000)
+                }
                 this.ANOTOTE_LOADED = true;
                 this.ANOTOTE_LOADING_ERROR = false;
             }, (error) => {
-                this.hideLoading();
                 this.ANOTOTE_LOADED = true;
                 this.ANOTOTE_LOADING_ERROR = true;
                 if (error.code == -1 || error.code == -2) {
@@ -377,10 +377,10 @@ export class AnototeEditor implements OnDestroy {
                 elements[i].setAttribute('style', 'display:none');
             }
         }
-        var elements = document.querySelectorAll('[data-header="annotote_trick"]');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].setAttribute('style', 'display:none');
-        }
+        // var elements = document.querySelectorAll('[data-header="annotote_trick"]');
+        // for (var i = 0; i < elements.length; i++) {
+        //     elements[i].setAttribute('style', 'display:none');
+        // }
     }
 
     add_to_me_stream() {
@@ -509,6 +509,7 @@ export class AnototeEditor implements OnDestroy {
             this.hideLoading();
             this.ANOTOTE = result.data.annotote;
             this.ANOTOTE.userAnnotote.anototeDetail = result.data.annotote;
+            this.ANOTOTE.userAnnotote.annotote = result.data.annotote.annotote;
             this.title_temp = result.data.annotote.userAnnotote.annototeTitle;
             this.ANOTOTE.userAnnotote.annototeHeighlights = result.data.annotote.highlights;
             this.ANOTOTE.active_tab = 'me';
@@ -1410,6 +1411,7 @@ export class AnototeEditor implements OnDestroy {
                         this.hideLoading();
                         anotote.active_tab = 'top'
                         anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
+                        anotote.top_tags = result.data.annotote.userAnnotote.tags;
                         this.actual_stream = anotote.active_tab;
                         this.scrape_anotote(anotote.topFilePath);
                         anotote.topVote = {
@@ -1433,6 +1435,7 @@ export class AnototeEditor implements OnDestroy {
                     anotote.top_highlights = anotote.userAnnotote.annototeHeighlights;
                     anotote.active_tab = 'top';
                     anotote.topFilePath = anotote.userAnnotote.filePath;
+                    anotote.top_tags = anotote.userAnnotote.anototeDetail.userAnnotote.tags
                     this.actual_stream = anotote.active_tab;
                     anotote.topVote = {
                         currentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.currentUserVote,

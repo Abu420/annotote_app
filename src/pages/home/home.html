@@ -18,26 +18,6 @@
 </ion-header>
 <ion-content padding>
     <div id="wrapper">
-        <!-- <ion-list class="home-list layout">
-            <ion-item (click)="openAnototeList('me')" class="green">
-                <button clear="true" (click)="presentMeOptionsModal($event)" ion-button icon-only>
-                    <img src="assets/img/whiteDotIcon.svg">
-                </button>
-                <span class="txt">ME</span>
-            </ion-item>
-            <ion-item (click)="openAnototeList('follows')" class="yellow">
-                <button clear="true" (click)="follows($event)" ion-button icon-only>
-                    <img src="assets/img/whiteDotIcon.svg">
-                </button>
-                <span class="txt">FOLLOWS</span>
-            </ion-item>
-            <ion-item (click)="openAnototeList('top')" class="pink">
-                <button clear="true" (click)="presentTopOptionsModal($event)" ion-button icon-only>
-                    <img src="assets/img/whiteDotIcon.svg">
-                </button>
-                <span class="txt">TOP</span>
-            </ion-item>
-        </ion-list> -->
         <ul class="home-list layout">
             <li class="green" (click)="openAnototeList('me')">
                 <button clear="true" [ngClass]="{'activatedOn': hover.me}" (click)="presentMeOptionsModal($event)" ion-button icon-only>
@@ -78,7 +58,7 @@
         <ion-list style="margin-bottom: 50px !important;" class="product-list loader-panel" *ngIf="latest_searches_firstTime_loading">
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -93,7 +73,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -108,7 +88,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -123,7 +103,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -138,7 +118,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -153,7 +133,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -168,7 +148,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -183,7 +163,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="img-holder">
+                    <div class="bookmark_loader">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">

@@ -47,23 +47,14 @@ export class Settings {
   }
 
   showProfile() {
-    var toast = this.utilityMethods.doLoadingToast('Loading your profile...');
-    this.searchService.get_user_profile_info(this.current_user.id)
-      .subscribe((response) => {
-        toast.dismiss();
-        this.viewCtrl.dismiss();
-        let profile = this.modalCtrl.create(Profile, {
-          data: response.data
-        });
-        profile.onDidDismiss(data => {
-        });
-        profile.present();
-      }, (error) => {
-        toast.dismiss();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
+    this.viewCtrl.dismiss();
+    let profile = this.modalCtrl.create(Profile, {
+      data: this.current_user.id
+    });
+    profile.onDidDismiss(data => {
+    });
+    profile.present();
+
   }
 
   open_annotote_site() {

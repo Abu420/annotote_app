@@ -243,13 +243,14 @@ search-results {
                 width: 100%;
                 position: relative;
                 background: #fff;
+                margin-bottom: -1px;
                 &:after {
                     content: "";
                     bottom: 0px;
                     position: absolute;
                     right: 0px;
-                    width: 74%;
-                    height: 1px;
+                    width: 75%;
+                    height: 2px;
                     background: #e8e8e8;
                 }
                 h4 {
@@ -298,7 +299,7 @@ search-results {
                     ul {
                         li {
                             span {
-                                color: #CCC;
+                                color: #b3b3b3;
                                 font-size: 16px;
                             }
                             &.active {

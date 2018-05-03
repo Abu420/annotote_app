@@ -72,7 +72,18 @@ export class Chat {
     public stream: Streams,
     public statusBar: StatusBar,
     public anototeService: AnototeService,
+    public key: Keyboard,
     public popoverCtrl: PopoverController) {
+    key.onKeyboardShow().subscribe(() => {
+      if (utilityMethods.whichPlatform() == 'ios') {
+        setTimeout(() => {
+          var snackbar = document.getElementById('message');
+          snackbar.addEventListener("keydown", function (e) { console.log(e.key, e.char, e.keyCode) })
+          snackbar.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'shift' }));
+          this.content.scrollToBottom();
+        }, 500);
+      }
+    })
     this.reply_box_on = true;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');

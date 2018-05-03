@@ -79,17 +79,29 @@ export class Profile {
     public searchService: SearchService,
     private platform: Platform,
     public statusbar: StatusBar) {
-    var user = this.authService.getUser();
-    this.profileData = params.get('data');
-    if (this.profileData.user.description != null) {
-      this.new_description = Object.assign(this.profileData.user.description);
-    }
+    this.loadUser(params.get('data'));
     this.from_page = params.get('from_page');
+  }
 
-    if (this.profileData.user.id == user.id)
-      this.is_it_me = true;
-    else
-      this.is_it_me = false;
+  loadUser(id) {
+    this.searchService.get_user_profile_info(id)
+      .subscribe((response) => {
+        this.profileData = response.data;
+        if (this.profileData.user.description != null) {
+          this.new_description = Object.assign(this.profileData.user.description);
+        }
+        var user = this.authService.getUser();
+        if (this.profileData.user.id == user.id)
+          this.is_it_me = true;
+        else
+          this.is_it_me = false;
+      }, (error) => {
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else {
+          this.utilityMethods.doToast("Couldn't load profile")
+        }
+      });
   }
 
   ionViewDidEnter() {
@@ -166,7 +178,8 @@ export class Profile {
   }
 
   show_menu() {
-    this.presentActionSheet();
+    if (this.profileData != null)
+      this.presentActionSheet();
   }
 
   updateUser() {

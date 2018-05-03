@@ -110,7 +110,7 @@ export class Notifications {
     var params = {
       sender_id: notification.senderId,
       type: notification.type,
-      group_id:0
+      group_id: 0
     }
     this.notificationService.read_notificaton(params)
       .subscribe((response) => {
@@ -161,22 +161,8 @@ export class Notifications {
   }
 
   showProfile(user_id) {
-    var toast = this.utilityMethods.doLoadingToast('Please wait...');
-    this.searchService.get_user_profile_info(user_id)
-      .subscribe((response) => {
-        toast.dismiss();
-        this.presentProfileModal(response);
-      }, (error) => {
-        toast.dismiss();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
-  }
-
-  presentProfileModal(response) {
     let profile = this.modalCtrl.create(Profile, {
-      data: response.data,
+      data: user_id,
       from_page: 'search_results'
     });
     profile.onDidDismiss(data => {

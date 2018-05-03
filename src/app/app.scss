@@ -247,10 +247,6 @@ span.un_active_dot:after {
     font-size: 2.9rem;
 }
 
-.list-ios .item-block .item-inner {
-    border-bottom: 0px !important;
-}
-
 .black {
     background-color: black;
 }
@@ -748,7 +744,7 @@ search_page {
                 bottom: 0px;
                 position: absolute;
                 right: 0px;
-                width: 74%;
+                width: 75%;
                 height: 1px;
                 background: #e8e8e8;
             }
@@ -892,6 +888,7 @@ search_page {
                 }
                 >.item-inner {
                     position: relative;
+                    border-bottom: none !important;
                     &:after {
                         content: "";
                         position: absolute;
@@ -952,6 +949,7 @@ search_page {
                 padding: 0px;
                 .item-inner {
                     padding: 0px;
+                    border-bottom: none !important;
                     &:after {
                         content: "";
                         position: absolute;
@@ -996,10 +994,10 @@ search_page {
                         }
                         figcaption {
                             display: inline-block;
-                            width: calc(100% - 78px);
+                            width: calc(100% - 73px);
                             vertical-align: middle;
                             padding-right: 10px;
-                            padding-left: 10px;
+                            padding-left: 7px;
                             .rightContent {
                                 float: right;
                                 font-size: 14px;
@@ -1348,6 +1346,16 @@ search_page {
                             vertical-align: middle;
                         }
                     }
+                    .search_loader {
+                        @extend .img-holder;
+                        background-image: url(../assets/img/searchIcon.svg);
+                        background-size: 25px;
+                    }
+                    .bookmark_loader {
+                        @extend .img-holder;
+                        background-image: url(../assets/img/grayBookmark.svg);
+                        background-size: 28px;
+                    }
                     .txt {
                         vertical-align: middle;
                         padding: 26px 10px 0px 0px;
@@ -1381,5 +1389,27 @@ search_page {
                 }
             }
         }
+    }
+}
+
+.loader {
+    margin: 5px;
+    height: 8px;
+    display: inline-block;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: placeHolderShimmer;
+    background: linear-gradient(to right, #eeeeee 18%, #dddddd 28%, #eeeeee 43%);
+    width: 100%;
+}
+
+@keyframes placeHolderShimmer {
+    0% {
+        background-position: -468px 0
+    }
+    100% {
+        background-position: 468px 0
     }
 }

@@ -53,9 +53,9 @@ export class SearchResults {
       top: false
     },
     date: {
-      year: '',
-      month: '',
-      day: ''
+      year: null,
+      month: null,
+      day: null
     }
   }
 
@@ -168,8 +168,14 @@ export class SearchResults {
 
       //date filter
       if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
-        params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+        if (this.search_filters.date.month < 12 && this.search_filters.date.month > 0 && this.search_filters.date.day < 31 && this.search_filters.date.day > 0)
+          params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+        else {
+          this.utilityMethods.doToast("Please enter a valid date");
+          return;
+        }
       }
+
     } else if (this.search_filters.media.user)
       params.type = 'user';
     else if (this.search_filters.media.chat) {
@@ -223,31 +229,14 @@ export class SearchResults {
   }
 
   showProfile(search_result) {
-    var toast = this.utilityMethods.doLoadingToast("Please wait...");
-    this.searchService.get_user_profile_info(search_result.id)
-      .subscribe((response) => {
-        toast.dismiss();
-        if (response.data.user != null)
-          this.presentProfileModal(response);
-        else
-          this.utilityMethods.doToast("Couldn't load user.");
-      }, (error) => {
-        toast.dismiss();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        }
-      });
-
-  }
-
-  presentProfileModal(response) {
     let profile = this.modalCtrl.create(Profile, {
-      data: response.data,
+      data: search_result.id,
       from_page: 'search_results'
     });
     profile.onDidDismiss(data => {
     });
     profile.present();
+
   }
 
   openAnototeDetail(anotote) {

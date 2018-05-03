@@ -6,7 +6,7 @@
             <figure>
                 <img (click)="show_menu()" class="overflow_menu" src="assets/img/bg-header.png">
             </figure>
-            <div class="proName">
+            <div class="proName" *ngIf="profileData != null">
                 <strong *ngIf="is_it_me == false">{{profileData.user.firstName}}
                     <img *ngIf="profileData.user.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
                 </strong>
@@ -28,9 +28,15 @@
                     <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>
                 </div>
             </div>
+            <div class="proName" *ngIf="profileData == null">
+                <span class="loader"></span>
+                <div class="img-holder">
+                    <img src="assets/img/cover_image.jpg" imageViewer>
+                </div>
+            </div>
         </div>
         <!--<button (click)="go_to_thread()" *ngIf="profileData.user.isFollowed==1 && !is_it_me" class="send_message">Send Message</button>-->
-        <ion-list class="follow_list">
+        <ion-list class="follow_list" *ngIf="profileData != null">
             <ion-item *ngIf="is_it_me == true || (profileData.user.description != null && profileData.user.description != '')">
                 <button ion-button icon-only>
                     <img *ngIf="is_it_me != true && profileData.user.isFollowed==1" src="assets/img/img5.png">
@@ -97,6 +103,40 @@
                 <div class="txt">
                     <strong>Follows</strong>
                     <p [innerText]="profileData.follows"></p>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-list class="follow_list" *ngIf="profileData == null">
+            <ion-item>
+                <button ion-button icon-only>
+                    <img src="assets/img/check1.png">
+                </button>
+                <div class="txt">
+                    <span class="loader"></span>
+                </div>
+            </ion-item>
+            <ion-item>
+                <button ion-button icon-only>
+                    <img src="assets/img/check1.png">
+                </button>
+                <div class="txt">
+                    <span class="loader"></span>
+                </div>
+            </ion-item>
+            <ion-item>
+                <button ion-button icon-only>
+                    <img src="assets/img/check1.png">
+                </button>
+                <div class="txt">
+                    <span class="loader"></span>
+                </div>
+            </ion-item>
+            <ion-item>
+                <button ion-button icon-only>
+                    <img src="assets/img/check1.png">
+                </button>
+                <div class="txt">
+                    <span class="loader"></span>
                 </div>
             </ion-item>
         </ion-list>
