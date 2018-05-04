@@ -202,13 +202,13 @@ export class AnototeEditor implements OnDestroy {
         //     }
         // }
 
-        if (this.actual_stream == 'me' && this.FROM != 'search_result') {
+        if (this.actual_stream == 'me' ) {
             this.scrape_anotote(this.ANOTOTE.meFilePath);
-        } else if (this.actual_stream == 'follows' && this.FROM != 'search_result') {
+        } else if (this.actual_stream == 'follows') {
             this.scrape_anotote(this.ANOTOTE.followerFilePath);
-        } else if (this.actual_stream == 'top' && this.FROM != 'search_result') {
+        } else if (this.actual_stream == 'top') {
             this.scrape_anotote(this.ANOTOTE.topFilePath);
-        } else if (this.actual_stream == 'anon' || this.FROM == 'search_result') {
+        } else if (this.actual_stream == 'anon') {
             this.scrape_anotote(this.ANOTOTE.userAnnotote.filePath);
         }
     }
@@ -647,11 +647,10 @@ export class AnototeEditor implements OnDestroy {
                 };
                 this.commentDetailModalIsOpen.check = true;
                 this.commentDetailModalIsOpen.comment = this.selected_highlight;
-
+                this.presentCommentDetailModal(this.selected_highlight, event.target);
             } catch (exception) {
                 this.toastInFooter('Cannot show annotation for anon stream')
             }
-            this.presentCommentDetailModal(this.selected_highlight, event.target);
         }
 
     }
@@ -1257,7 +1256,7 @@ export class AnototeEditor implements OnDestroy {
                 } else if (this.actual_stream == 'follows') {
                     if (this.ANOTOTE.isMe == 0) {
                         // this.ANOTOTE.follows[0].highlights = this.ANOTOTE.highlights;
-                        for (let highlight of this.ANOTOTE.follows[0].followTote.highlights) {
+                        for (let highlight of this.ANOTOTE.follows[0].highlights) {
                             if (highlight.identifier == identifier) {
                                 return highlight;
                             }
@@ -1396,6 +1395,13 @@ export class AnototeEditor implements OnDestroy {
         }
     }
 
+    follows_tab_from_footer(which) {
+        if (which == 'open_follows_popup')
+            this.open_follows_popup(null, this.ANOTOTE);
+        else if (which == 'top_follows_popup')
+            this.top_follows_popup(null, this.ANOTOTE);
+    }
+
     show_top_tab(anotote) {
         this.content.scrollToTop();
         if (this.WHICH_STREAM != 'anon') {
@@ -1488,7 +1494,8 @@ export class AnototeEditor implements OnDestroy {
     }
 
     open_follows_popup(event, anotote) {
-        event.stopPropagation();
+        if (event)
+            event.stopPropagation();
         if (anotote.followers.length == 1) {
             anotote.selected_follower_name = anotote.followers[0].firstName;
             anotote.active_tab = 'follows';
@@ -1551,7 +1558,8 @@ export class AnototeEditor implements OnDestroy {
     }
 
     top_follows_popup(event, anotote) {
-        event.stopPropagation();
+        if (event)
+            event.stopPropagation();
         if (anotote.follows.length == 1) {
             anotote.selected_follower_name = anotote.follows[0].firstName;
             anotote.active_tab = 'follows';

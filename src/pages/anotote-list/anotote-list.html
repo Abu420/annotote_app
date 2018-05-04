@@ -789,7 +789,7 @@
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="(current_active_anotote.chatGroup.groupUsers | chatVoteOptions) == false">
-                <vote-footer (toast-loading)="voteLoadingEvents($event)" [page]="LISTINGS" (participants)="show_chat_paticipants()" [current_color]="current_color" [current_active_anotote]="current_active_anotote"></vote-footer>
+                <vote-footer (toast-loading)="voteLoadingEvents($event)" [page]="LISTINGS" (chat-participants)="show_chat_paticipants()" [current_color]="current_color" [current_active_anotote]="current_active_anotote"></vote-footer>
             </ng-container>
         </ng-container>
         <div *ngIf="reply_box_on" class="send-btn">
@@ -807,7 +807,7 @@
 <ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.active_tab != 'me' && current_color != 'anon' && current_active_anotote.chatGroup == null">
     <ion-toolbar color="dark">
         <ng-container *ngIf="mentionedCase == false">
-            <vote-footer (toast-loading)="voteLoadingEvents($event)" [page]="LISTINGS" [current_color]="current_color" [current_active_anotote]="current_active_anotote"></vote-footer>
+            <vote-footer (toast-loading)="voteLoadingEvents($event)" (tote-participants)="follows_tab_from_footer($event)" [page]="LISTINGS" [current_color]="current_color" [current_active_anotote]="current_active_anotote"></vote-footer>
         </ng-container>
         <ng-container *ngIf="mentionedCase">
             <div class="topTab">

@@ -125,6 +125,7 @@ export class ChatToteOptions {
                         }
                     });
             } else {
+                this.webUrlEntered = false;
                 this.search_loading = false;
             }
         }

@@ -72,7 +72,7 @@
                     </p>
                 </div>
             </div>
-            <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0">
+            <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0 && fbLoading == false">
                 <ion-item class="underlist-items">
                     <div class="txt">
                         <p>Type a message below and hit SEND.</p>

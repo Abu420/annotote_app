@@ -55,7 +55,7 @@ export class SearchService {
                     var active_tab = 'anon';
                     if (tote.userAnnotote.isMe == 1) {
                         tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
-                        tote.userAnnotote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
+                        tote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
                         active_tab = 'me'
                     } else if (tote.userAnnotote.isMe == 0 && tote.userAnnotote.isTop == 0) {
                         active_tab = 'follows';
@@ -73,11 +73,13 @@ export class SearchService {
                         //   }
                         // }
                         active_tab = 'top';
+                        tote.userAnnotote.topFilePath = tote.userAnnotote.userAnnotote.filePath;
                         tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
                     }
                     tote.userAnnotote.active_tab = active_tab;
                     if (tote.userAnnotote.follows.length > 0) {
                         tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+                        tote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
                     }
                     totes.push(tote);
                     search_results.push(tote);

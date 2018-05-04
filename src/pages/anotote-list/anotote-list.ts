@@ -803,8 +803,16 @@ export class AnototeList {
     this.navCtrl.push(Follows, {});
   }
 
+  follows_tab_from_footer(which){
+    if(which == 'open_follows_popup')
+      this.open_follows_popup(null,this.current_active_anotote);
+    else if(which == 'top_follows_popup')
+      this.top_follows_popup(null,this.current_active_anotote);
+  }
+
   open_follows_popup(event, anotote) {
-    event.stopPropagation();
+    if(event)
+      event.stopPropagation();
     this.move_fab = true;
     if (anotote.followers.length == 1) {
       anotote.selected_follower_name = anotote.followers[0].firstName;
@@ -886,7 +894,8 @@ export class AnototeList {
   }
 
   top_follows_popup(event, anotote) {
-    event.stopPropagation();
+    if(event)
+      event.stopPropagation();
     this.move_fab = true;
     if (anotote.follows.length == 1) {
       anotote.selected_follower_name = anotote.follows[0].firstName;

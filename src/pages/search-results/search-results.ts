@@ -156,29 +156,31 @@ export class SearchResults {
       time: 0
     }
     //type filter
-    if (this.search_filters.media.tote) {
+    if (this.search_filters.media.tote)
       params.type = 'annotote';
-      //stream filter
-      if (this.search_filters.category.me)
-        params.annotote_type = 'me';
-      else if (this.search_filters.category.follows)
-        params.annotote_type = 'follows';
-      else if (this.search_filters.category.top)
-        params.annotote_type = 'top';
 
-      //date filter
-      if (this.search_filters.date.year != '' && this.search_filters.date.month != '' && this.search_filters.date.day != '') {
-        if (this.search_filters.date.month < 12 && this.search_filters.date.month > 0 && this.search_filters.date.day < 31 && this.search_filters.date.day > 0)
-          params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
-        else {
-          this.utilityMethods.doToast("Please enter a valid date");
-          return;
-        }
+    if (this.search_filters.category.me)
+      params.annotote_type = 'me';
+    else if (this.search_filters.category.follows)
+      params.annotote_type = 'follows';
+    else if (this.search_filters.category.top) {
+      params.annotote_type = 'top';
+      params.time = this.utilityMethods.get_php_wala_time() - 31536000;
+    }
+
+    //date filter
+    if (this.search_filters.date.year != null && this.search_filters.date.month != null && this.search_filters.date.day != null) {
+      if (this.search_filters.date.month < 12 && this.search_filters.date.month > 0 && this.search_filters.date.day < 31 && this.search_filters.date.day > 0)
+        params.time = this.utilityMethods.get_time(this.search_filters.date.day + '/' + this.search_filters.date.month + '/' + this.search_filters.date.year);
+      else {
+        this.utilityMethods.doToast("Please enter a valid date");
+        return;
       }
+    }
 
-    } else if (this.search_filters.media.user)
+    if (this.search_filters.media.user)
       params.type = 'user';
-    else if (this.search_filters.media.chat) {
+    if (this.search_filters.media.chat) {
       params.annotote_type = 'chats'
     }
 
@@ -348,7 +350,8 @@ export class SearchResults {
           var chatParams = {
             anotote: anotote.userAnnotote,
             stream: 'anon',
-            findChatter: true
+            findChatter: true,
+            doChat: true
           }
           let chatTote = this.modalCtrl.create(ChatToteOptions, chatParams);
           chatTote.onDidDismiss((data) => {

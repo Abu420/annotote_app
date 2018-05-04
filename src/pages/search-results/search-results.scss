@@ -322,7 +322,7 @@ search-results {
                                 font-size: 16px;
                                 padding: 0;
                             }
-                            input::-webkit-input-placeholder {
+                            input::placeholder {
                                 color: #b3b3b3;
                             }
                         }

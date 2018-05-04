@@ -58,15 +58,16 @@
 </div>
 <ng-container *ngIf="current_active_anotote.chatGroup == null">
     <div class="topTab">
-        <span *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'" (click)="open_follows_popup($event,current_active_anotote)">{{current_active_anotote.selected_follower_name}}
+        <span *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'" (click)="show_tote_participants('open_follows_popup')">{{current_active_anotote.selected_follower_name}}
             <i *ngIf="current_active_anotote.userAnnotote.anototeDetail.follows.length > 1">({{current_active_anotote.userAnnotote.anototeDetail.follows.length}})</i>
         </span>
-        <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'" (click)="top_follows_popup($event,current_active_anotote)">{{current_active_anotote.selected_follower_name}}
+        <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'" (click)="show_tote_participants('top_follows_popup')">{{current_active_anotote.selected_follower_name}}
             <i *ngIf="current_active_anotote.anototeDetail.follows.length > 1">({{current_active_anotote.anototeDetail.follows.length}})</i>
         </span>
         <span *ngIf="current_active_anotote.active_tab == 'top'">Top</span>
-        <img *ngIf="current_page == 'BROWSER'" (click)="toteOptions()" src="assets/img/option-icon.png" alt="" />
+
     </div>
+    <img class="options" *ngIf="current_page == 'BROWSER'" (click)="toteOptions()" src="assets/img/option-icon.png" alt="" />
 </ng-container>
 <ng-container *ngIf="current_active_anotote.chatGroup != null">
     <div class="topTab" (click)="show_chat_paticipants()">

@@ -12,7 +12,8 @@ export class Votes {
     @Input() current_active_anotote: any;
     @Input('page') current_page: string;
     @Output('toast-loading') showLoading: EventEmitter<string> = new EventEmitter<string>();
-    @Output('participants') showThem: EventEmitter<string> = new EventEmitter<string>();
+    @Output('chat-participants') showThem: EventEmitter<string> = new EventEmitter<string>();
+    @Output('tote-participants') tote_participants: EventEmitter<string> = new EventEmitter<string>();
     @Output('options') showOptions: EventEmitter<string> = new EventEmitter<string>();
     private user;
     constructor(authService: AuthenticationService,
@@ -352,6 +353,9 @@ export class Votes {
 
     show_chat_paticipants() {
         this.showThem.emit('PARTICIPANTS');
+    }
+    show_tote_participants(type: string) {
+        this.tote_participants.emit(type);
     }
     toteOptions() {
         this.showOptions.emit('showMe')
