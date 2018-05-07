@@ -228,27 +228,10 @@ export class Home {
   //changed flow, if clicked on saved search it should scrap that url
   open_this_search(search) {
     if (this.utilityMethods.isWEBURL(search.term)) {
-      this.scrape_this_url(search);
+      this.navCtrl.push(AnototeEditor, { url: search.term, FROM: 'search', needHypothesis: true, WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
     } else {
       this.openSearchPopup({ saved_searched_txt: search.term });
     }
-  }
-
-  scrape_this_url(search) {
-    var current_time = this.utilityMethods.get_php_wala_time();
-    this.showLoading("Loading Tote");
-    this.searchService.create_anotote({ url: search.term, created_at: current_time })
-      .subscribe((response) => {
-        this.hideLoading();
-        this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
-      }, (error) => {
-        this.hideLoading();
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        } else {
-          this.toastInFooter("Couldn't scrape this url.");
-        }
-      });
   }
 
   get_search_entries() {
@@ -352,12 +335,8 @@ export class Home {
       if (data)
         if (data.go_to_browser) {
           var anotote = data.anotote;
-          // if (anotote.userAnnotote.anototeType == 'me')
-          //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
-          // else
-          //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
           if (data.neworold) {
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+            this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
           } else
             this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
         }
@@ -440,7 +419,7 @@ export class Home {
           this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
         }
       } else if (data.browser) {
-        this.navCtrl.push(AnototeEditor, { ANOTOTE: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+        this.navCtrl.push(AnototeEditor, { url: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true });
       }
     })
     chatTote.present();

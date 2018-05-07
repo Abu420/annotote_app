@@ -19,6 +19,7 @@ import { TagsPopUp } from "../anotote-list/tags";
 import { StatusBar } from "@ionic-native/status-bar";
 import { FollowsPopup } from "../anotote-list/follows_popup";
 import { Keyboard } from '@ionic-native/keyboard';
+import { AnototeList } from '../anotote-list/anotote-list';
 
 declare var io: any;
 
@@ -26,9 +27,6 @@ declare var io: any;
 @Component({
   selector: 'page-chat',
   templateUrl: 'chat.html',
-  queries: {
-    content: new ViewChild('content')
-  }
 })
 
 export class Chat {
@@ -536,7 +534,7 @@ export class Chat {
       if (data.go_to_browser) {
         var anotote = data.anotote;
         if (data.neworold) {
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
         } else
           this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
       }
@@ -553,7 +551,12 @@ export class Chat {
     let chatTote = this.modalCtrl.create(ChatToteOptions, params);
     chatTote.onDidDismiss((data) => {
       if (data.chat) {
-        this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        if (!data.group)
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
+        else
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
+      } else if (data.browser) {
+        this.navCtrl.push(AnototeList, { color: 'me', from: 'listing', url: data.tote }, { animate: false });
       }
     })
     chatTote.present();

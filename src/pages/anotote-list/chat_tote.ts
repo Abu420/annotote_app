@@ -140,9 +140,10 @@ export class ChatToteOptions {
                 scraped_url: ''
             }
             var toast = null;
-            if (save_or_bookmark == 'save')
-                toast = this.utilityMethods.doLoadingToast('Saving...');
-            else
+            if (save_or_bookmark == 'save') {
+                this.viewCtrl.dismiss({ chat: false, close: false, save: false, browser: true, tote: this.usersForChat });
+                return;
+            } else
                 toast = this.utilityMethods.doLoadingToast('Bookmarking...');
             this.searchService.hypothesis_scrapping(params).subscribe((success) => {
                 params.scraped_url = success.successMessage;

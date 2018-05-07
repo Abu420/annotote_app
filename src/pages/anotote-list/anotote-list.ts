@@ -305,6 +305,9 @@ export class AnototeList {
       this.mentionedUrl = this.mentionedNotification.link;
       this.mentionedCase = true;
     }
+    if (navParams.get('from')) {
+      this.navCtrl.push(AnototeEditor, { url: navParams.get('url'), FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true });
+    }
   }
 
   /**
@@ -380,7 +383,7 @@ export class AnototeList {
             this.top_anototes = this.stream.top_anototes;
             this.current_page = this.stream.top_page_no;
             this.fbLoading = false;
-            if (this.top_anototes.length == 0 || this.anototes.length < 20)
+            if (this.top_anototes.length == 0 || this.top_anototes.length < 20)
               this.infiniteComplete = true;
           } else
             this.loadanototes();
@@ -473,7 +476,7 @@ export class AnototeList {
           }
           this.top_anototes.push(temp);
         }
-        if (this.top_anototes.length == 0 || this.anototes.length < 20)
+        if (this.top_anototes.length == 0 || this.top_anototes.length < 20)
           this.infiniteComplete = true;
 
         this.stream.top_anototes = this.top_anototes;
@@ -803,15 +806,15 @@ export class AnototeList {
     this.navCtrl.push(Follows, {});
   }
 
-  follows_tab_from_footer(which){
-    if(which == 'open_follows_popup')
-      this.open_follows_popup(null,this.current_active_anotote);
-    else if(which == 'top_follows_popup')
-      this.top_follows_popup(null,this.current_active_anotote);
+  follows_tab_from_footer(which) {
+    if (which == 'open_follows_popup')
+      this.open_follows_popup(null, this.current_active_anotote);
+    else if (which == 'top_follows_popup')
+      this.top_follows_popup(null, this.current_active_anotote);
   }
 
   open_follows_popup(event, anotote) {
-    if(event)
+    if (event)
       event.stopPropagation();
     this.move_fab = true;
     if (anotote.followers.length == 1) {
@@ -894,7 +897,7 @@ export class AnototeList {
   }
 
   top_follows_popup(event, anotote) {
-    if(event)
+    if (event)
       event.stopPropagation();
     this.move_fab = true;
     if (anotote.follows.length == 1) {
@@ -1297,7 +1300,10 @@ export class AnototeList {
         //   }
         // })
       } else if (data.browser) {
-        this.navCtrl.push(AnototeEditor, { ANOTOTE: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+        if (this.current_color != 'me')
+          this.navCtrl.push(AnototeList, { color: 'me', from: 'listing', url: data.tote }, { animate: false });
+        else
+          this.navCtrl.push(AnototeEditor, { url: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true });
       }
     })
     chatTote.present();
@@ -2242,7 +2248,7 @@ export class AnototeList {
       if (data.go_to_browser) {
         var anotote = data.anotote;
         if (data.neworold) {
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
         } else
           this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
       }

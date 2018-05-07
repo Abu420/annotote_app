@@ -25,6 +25,7 @@ import { SearchUnPinned } from '../../models/search';
 import { AnototeOptions } from "../anotote-list/tote_options";
 import { NotificationService } from "../../services/notifications.service";
 import { TagsOptions } from "../anotote-list/tags_options";
+import { AnototeList } from '../anotote-list/anotote-list';
 
 @IonicPage()
 @Component({
@@ -71,7 +72,6 @@ export class AnototeEditor implements OnDestroy {
     private from_where: string;
     private full_screen_mode: boolean = false;
     private detail_event: any;
-    private which_stream: string;
     private sel: any;
     private range: any;
     private actual_stream: string;
@@ -116,21 +116,22 @@ export class AnototeEditor implements OnDestroy {
         /**
          * Assigning Values
          */
-        var anotote_from_params = {
-            ANOTOTE: navParams.get('ANOTOTE'),
-            FROM: navParams.get('FROM'),
-            WHICH_STREAM: navParams.get('WHICH_STREAM'),
-            HIGHLIGHT_RECEIVED: navParams.get('HIGHLIGHT_RECEIVED'),
-            actual_stream: navParams.get('actual_stream')
-        };
-        if (anotote_from_params.actual_stream == 'anon') {
-            this.search_obj_to_be_deleted = navParams.get('search_to_delete');
+        this.FROM = navParams.get('FROM');
+        this.WHICH_STREAM = navParams.get('WHICH_STREAM');
+        this.actual_stream = navParams.get('actual_stream');
+        this.ANOTOTE_LOADED = false;
+        this.ANOTOTE_LOADING_ERROR = false;
+        if (navParams.get('FROM') != 'search') {
+            this.setThingsUp(null);
+        } else {
+            if (navParams.get('needHypothesis'))
+                this.personalModificationToHypothesis({
+                    url: navParams.get('url'),
+                    created_at: this.utilityMethods.get_php_wala_time()
+                })
+            else
+                this.hypothesisScrapping(navParams.get('url'));
         }
-        this.anotote_service.add_page_locally(anotote_from_params);
-        this.SAVED_ANOTOTES_LOCALLY = this.anotote_service.get_saved_pages_locally();
-        this.SAVED_ANOTOTES_LOCALLY_CURRENT = this.SAVED_ANOTOTES_LOCALLY.length - 1;
-
-        this.load_new_anotote(anotote_from_params, true);
 
         /**
          * Document Selection Listner
@@ -156,6 +157,88 @@ export class AnototeEditor implements OnDestroy {
         this.showheader = true;
         this.hideheader = false;
     }
+    //initializing for all streams
+    setThingsUp(anotote) {
+        var anotote_from_params = {
+            ANOTOTE: anotote == null ? this.navParams.get('ANOTOTE') : anotote,
+            HIGHLIGHT_RECEIVED: this.navParams.get('HIGHLIGHT_RECEIVED'),
+        };
+        if (this.actual_stream == 'anon') {
+            this.search_obj_to_be_deleted = this.navParams.get('search_to_delete');
+        }
+        this.anotote_service.add_page_locally(anotote_from_params);
+        this.SAVED_ANOTOTES_LOCALLY = this.anotote_service.get_saved_pages_locally();
+        this.SAVED_ANOTOTES_LOCALLY_CURRENT = this.SAVED_ANOTOTES_LOCALLY.length - 1;
+        this.load_new_anotote(anotote_from_params, true);
+    }
+
+    //Eliminating loader and initializing page after url is added in search field
+    // 1st step SCRAP
+    hypothesisScrapping(url) {
+        var params = {
+            url: url,
+            created_at: this.utilityMethods.get_php_wala_time(),
+            scraped_url: ''
+        }
+        this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+            params.scraped_url = success.successMessage;
+            this.personalModificationToHypothesis(params);
+        }, (error) => {
+            if (error.status == 500) {
+                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+            } else if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            } else
+                this.utilityMethods.doToast("Couldn't scrap url");
+        })
+    }
+    //2nd step modify scrapping for anotote
+    personalModificationToHypothesis(params) {
+        this.searchService.create_anotote(params)
+            .subscribe((response) => {
+                response.data.userAnnotote.annotote = response.data.annotote;
+                if (this.navParams.get('saveThisToMe') && response.data.userAnnotote.isMe == 0)
+                    this.saveTote(response);
+                else
+                    if (response.data.userAnnotote.isMe == 1) {
+                        this.tote_id = response.data.userAnnotote.id;
+                        this.initializeAfterAnon(false);
+                    } else
+                        this.setThingsUp(response.data);
+            }, (error) => {
+
+                if (error.status == 500) {
+                    this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                }
+                else if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                } else
+                    this.utilityMethods.doToast("Couldn't scrap url");
+            });
+    }
+
+    saveTote(response) {
+        var params: any = {
+            annotote_id: response.data.annotote.id,
+            user_id: this.authService.getUser().id,
+            created_at: response.data.annotote.createdAt
+        }
+        this.anotote_service.save_totes(params).subscribe((result) => {
+            this.runtime.follow_first_load = false;
+            this.runtime.me_first_load = false;
+            this.runtime.top_first_load = false;
+            this.tote_id = response.data.userAnnotote.id;
+            this.initializeAfterAnon(false);
+        }, (error) => {
+
+            if (error.status == 500) {
+                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+            }
+            else if (error.code == -1) {
+                this.utilityMethods.internet_connection_error();
+            }
+        })
+    }
 
     load_previous_page() {
         if (this.SAVED_ANOTOTES_LOCALLY.length > 1 && this.SAVED_ANOTOTES_LOCALLY_CURRENT > 0) {
@@ -174,19 +257,13 @@ export class AnototeEditor implements OnDestroy {
     load_new_anotote(ANOTOTE_OBJECT, move_to_highlight_flag?) {
 
         this.ANOTOTE = ANOTOTE_OBJECT.ANOTOTE;
-        this.FROM = ANOTOTE_OBJECT.FROM;
-        this.WHICH_STREAM = ANOTOTE_OBJECT.WHICH_STREAM
-        this.which_stream = this.WHICH_STREAM;
         this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
-        this.actual_stream = ANOTOTE_OBJECT.actual_stream;
         if (this.WHICH_STREAM == 'me' && this.actual_stream == 'me')
             this.title_temp = Object.assign(this.ANOTOTE.userAnnotote.anototeDetail.userAnnotote.annototeTitle);
         // if (move_to_highlight_flag)
         //     this.HIGHLIGHT_RECEIVED = ANOTOTE_OBJECT.HIGHLIGHT_RECEIVED;
         // else
         //     this.HIGHLIGHT_RECEIVED = null;
-        this.ANOTOTE_LOADED = false;
-        this.ANOTOTE_LOADING_ERROR = false;
         this.tote_id = this.ANOTOTE.userAnnotote.id;
         this.main_anotote_id = this.ANOTOTE.userAnnotote.annototeId;
         this.tote_user_id = this.ANOTOTE.userAnnotote.userId;
@@ -195,14 +272,7 @@ export class AnototeEditor implements OnDestroy {
         else
             this.from_where = 'new_anotote';
 
-        // if (this.WHICH_STREAM == 'anon' && this.actual_stream == 'anon') {
-        //     if (this.ANOTOTE.userAnnotote.isMe == 1) {
-        //         this.ANOTOTE.active_tab = 'me';
-        //         this.actual_stream = 'me';
-        //     }
-        // }
-
-        if (this.actual_stream == 'me' ) {
+        if (this.actual_stream == 'me') {
             this.scrape_anotote(this.ANOTOTE.meFilePath);
         } else if (this.actual_stream == 'follows') {
             this.scrape_anotote(this.ANOTOTE.followerFilePath);
@@ -493,13 +563,16 @@ export class AnototeEditor implements OnDestroy {
                 //     }
                 // })
             } else if (data.browser) {
-                this.navCtrl.push(AnototeEditor, { ANOTOTE: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                if (this.WHICH_STREAM != 'me')
+                    this.navCtrl.push(AnototeList, { color: 'me', from: 'listing', url: data.tote }, { animate: false });
+                else
+                    this.navCtrl.push(AnototeEditor, { url: data.tote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true });
             }
         })
         chatTote.present();
     }
 
-    initializeAfterAnon() {
+    initializeAfterAnon(initialized = true) {
         var params = {
             user_id: this.user.id,
             anotote_id: this.tote_id,
@@ -517,14 +590,19 @@ export class AnototeEditor implements OnDestroy {
             this.ANOTOTE.userAnnotote.isMe = 1;
             this.ANOTOTE.followers = this.ANOTOTE.follows;
             this.actual_stream = 'me';
-            this.which_stream = 'me';
             this.WHICH_STREAM = 'me';
+            this.ANOTOTE.meFilePath = this.ANOTOTE.userAnnotote.filePath;
             this.statusBar.backgroundColorByHexString('#3bde00');
             this.searchService.saved_searches.splice(this.searchService.saved_searches.indexOf(this.search_obj_to_be_deleted), 1)
             this.runtime.me_first_load = false;
             this.runtime.top_first_load = false;
+            if (initialized == false)
+                this.setThingsUp(this.ANOTOTE)
+            else
+                this.ANOTOTE_LOADED = true;
         }, (error) => {
-            this.utilityMethods.hide_loader();
+            this.hideLoading();
+            this.ANOTOTE_LOADED = true;
             if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
             }
@@ -692,7 +770,7 @@ export class AnototeEditor implements OnDestroy {
             if (data.go_to_browser) {
                 var anotote = data.anotote;
                 if (data.neworold) {
-                    this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                    this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
                 } else
                     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
             }

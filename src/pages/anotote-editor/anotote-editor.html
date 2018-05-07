@@ -1,5 +1,5 @@
 <ion-header class="topHeader" [ngClass]="{'show-header':showheader,'hide-header':hideheader}">
-    <ion-toolbar [color]="which_stream">
+    <ion-toolbar [color]="WHICH_STREAM">
         <ion-buttons start class="searchIcon">
             <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
                 <img src="assets/img/searchIcon.png" alt="" />
@@ -9,7 +9,7 @@
         <ng-container *ngIf="full_screen_mode">
             <ion-title>
                 <div class="arrows">
-                    <ng-container *ngIf="which_stream == 'me'">
+                    <ng-container *ngIf="WHICH_STREAM == 'me'">
                         <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
                             <img src="assets/img/leftArrowIcon.svg">
                         </span>
@@ -24,7 +24,7 @@
                         </span>
                     </ng-container>
 
-                    <ng-container *ngIf="which_stream == 'follows'">
+                    <ng-container *ngIf="WHICH_STREAM == 'follows'">
                         <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
                             <img src="assets/img/leftArrowIcon.svg">
                         </span>
@@ -39,7 +39,7 @@
                         </span>
                     </ng-container>
 
-                    <ng-container *ngIf="which_stream == 'top'">
+                    <ng-container *ngIf="WHICH_STREAM == 'top'">
                         <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
                             <img src="assets/img/leftArrowIcon.svg">
                         </span>
@@ -53,7 +53,7 @@
                             <img src="assets/img/rightArrowIcon.svg">
                         </span>
                     </ng-container>
-                    <ng-container *ngIf="which_stream == 'anon'">
+                    <ng-container *ngIf="WHICH_STREAM == 'anon'">
                         <span *ngIf="SAVED_ANOTOTES_LOCALLY_CURRENT > 0" class="leftArrow" (click)="load_previous_page()">
                             <img src="assets/img/leftArrowIcon.svg">
                         </span>
@@ -71,35 +71,35 @@
             </ion-title>
             <ion-buttons (click)="change_full_screen_mode()" end class="boxIcon">
                 <button style="background: transparent;">
-                    <span *ngIf="which_stream == 'me'" class="downImage">
+                    <span *ngIf="WHICH_STREAM == 'me'" class="downImage">
                         <img src="assets/img/toteBox.svg" alt="">
                     </span>
 
-                    <span *ngIf="which_stream == 'anon'" class="downImage">
+                    <span *ngIf="WHICH_STREAM == 'anon'" class="downImage">
                         <img src="assets/img/toteBoxBlack.svg" alt="">
                     </span>
 
-                    <span *ngIf="which_stream == 'follows'" class="downImage">
+                    <span *ngIf="WHICH_STREAM == 'follows'" class="downImage">
                         <img src="assets/img/toteBoxYellow.svg" alt="">
                     </span>
 
-                    <span *ngIf="which_stream == 'top'" class="downImage">
+                    <span *ngIf="WHICH_STREAM == 'top'" class="downImage">
                         <img src="assets/img/toteBoxPink.svg" alt="">
                     </span>
                 </button>
             </ion-buttons>
         </ng-container>
         <ng-container *ngIf="!full_screen_mode">
-            <ion-title *ngIf="which_stream == 'me'">
+            <ion-title *ngIf="WHICH_STREAM == 'me'">
                 <dot-navigation class="meDot" unactivedots="2"></dot-navigation>
             </ion-title>
-            <ion-title *ngIf="which_stream == 'anon'">
+            <ion-title *ngIf="WHICH_STREAM == 'anon'">
                 <dot-navigation class="anonDot" unactivedots="2"></dot-navigation>
             </ion-title>
-            <ion-title *ngIf="which_stream == 'follows'">
+            <ion-title *ngIf="WHICH_STREAM == 'follows'">
                 <dot-navigation class="followDot" unactivedots="2"></dot-navigation>
             </ion-title>
-            <ion-title *ngIf="which_stream == 'top'">
+            <ion-title *ngIf="WHICH_STREAM == 'top'">
                 <dot-navigation class="topDot" unactivedots="2"></dot-navigation>
             </ion-title>
         </ng-container>
@@ -136,7 +136,7 @@
             </div>
         </div>
     </div>
-    <ion-fab [ngClass]="{'moveUp': moveFabUp == true}" bottom right>
+    <ion-fab [ngClass]="{'moveUp': moveFabUp == true}" *ngIf="ANOTOTE != null" bottom right>
         <button (tap)="presentViewOptionsModal()" ion-fab [color]="ANOTOTE.active_tab == null ? WHICH_STREAM : ANOTOTE.active_tab">
             <ng-container>
                 <img *ngIf="ANOTOTE.active_tab == null && ANOTOTE.userAnnotote.isMe == 0 && ANOTOTE.userAnnotote.isTop == 0 && ANOTOTE.userAnnotote.follows.length == 0" src="assets/img/whiteFab.svg" />

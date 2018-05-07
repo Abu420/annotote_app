@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, App, NavController, NavParams, Platform, Keyboard, Content } from 'ionic-angular';
+import { IonicPage, App, NavController, NavParams, Platform, Content } from 'ionic-angular';
 import { Home } from '../home/home';
 import { ForgotPassword } from '../forgot-password/forgot-password';
 import { User } from '../../models/user';
@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
  */
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @IonicPage()
 @Component({
@@ -44,6 +45,7 @@ export class Login {
     public utilityMethods: UtilityMethods,
     public authService: AuthenticationService,
     public keyboard: Keyboard) {
+    keyboard.disableScroll(true);
     this.focus_field = '';
     this.user = new User("", "", "", "", "");
     this.device_id = localStorage.getItem('device_id');
@@ -59,6 +61,7 @@ export class Login {
   }
 
   ionViewWillLeave() {
+    this.keyboard.disableScroll(false);
   }
 
   /**

@@ -1368,6 +1368,12 @@ search_page {
                                 height: 8px;
                                 display: inline-block;
                                 background: #eeeeee;
+                                animation-duration: 5s;
+                                animation-fill-mode: forwards;
+                                animation-iteration-count: infinite;
+                                animation-timing-function: linear;
+                                animation-name: placeHolderShimmer;
+                                background: linear-gradient(to right, #eeeeee 18%, #dddddd 28%, #eeeeee 43%);
                                 &.head-line {
                                     display: block;
                                 }

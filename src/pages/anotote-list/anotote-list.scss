@@ -858,28 +858,6 @@
                                             border: 0;
                                         }
                                     }
-                                    &.line-loader {
-                                        span {
-                                            height: 8px;
-                                            display: inline-block;
-                                            background: #eeeeee;
-                                            &.head-line {
-                                                display: block;
-                                            }
-                                            &.name-line {
-                                                width: calc(100% - 60px);
-                                                float: left;
-                                            }
-                                            &.date-line {
-                                                width: 40px;
-                                                float: right;
-                                            }
-                                        }
-                                        .line-bot {
-                                            overflow: hidden;
-                                            padding-top: 10px;
-                                        }
-                                    }
                                     &.txtMiddel {
                                         padding: 22px 10px 0px 0px;
                                     }

@@ -228,33 +228,6 @@ export class Search {
                     this.utilityMethods.doToast("Already bookmarked");
             }
         }
-
-        // this.utilityMethods.show_loader('Please wait...');
-        // let self = this;
-        // var current_time = this.utilityMethods.get_php_wala_time();
-        // var params = {
-        //     created_at: this.utilityMethods.get_php_wala_time(),
-        //     searched_term: this.search_txt,
-        //     book_marked: 0
-        // }
-        // if (save_or_bookmark == 'save_entry')
-        //     params.book_marked = 0;
-        // else if (save_or_bookmark == 'bookmark_entry')
-        //     params.book_marked = 1;
-        // this.searchService.save_search_entry(params).subscribe((response) => {
-        //     if (this.utilityMethods.isWEBURL(this.search_txt))
-        //         this.scrape_this_url(false, save_or_bookmark, response.data.search);
-        //     else {
-        //         this.searchService.saved_searches.unshift(response.data.search);
-        //         this.utilityMethods.hide_loader();
-        //     }
-        //     // this.events.publish('new_search_added', { entry: response.data.search });
-        // }, (error) => {
-        //     this.utilityMethods.hide_loader();
-        //     if (error.code == -1) {
-        //         this.utilityMethods.internet_connection_error();
-        //     }
-        // });
     }
 
     get_search_results() {
@@ -456,70 +429,62 @@ export class Search {
     }
 
     scrape_this_url(check, save_or_bookmark) {
-        var current_time = this.utilityMethods.get_php_wala_time();
-        var params = {
-            url: this.search_txt,
-            created_at: current_time,
-            scraped_url: ''
-        }
-        var toast = null;
-        if (save_or_bookmark == 'save_entry')
-            toast = this.utilityMethods.doLoadingToast('Saving...');
-        else if (save_or_bookmark == 'bookmark_entry')
-            toast = this.utilityMethods.doLoadingToast('Bookmarking...');
-        else
-            toast = this.utilityMethods.doLoadingToast('Please wait...');
+        // var current_time = this.utilityMethods.get_php_wala_time();
+        // var params = {
+        //     url: this.search_txt,
+        //     created_at: current_time,
+        //     scraped_url: ''
+        // }
+        // var toast = null;
+        // if (save_or_bookmark == 'save_entry')
+        //     toast = this.utilityMethods.doLoadingToast('Saving...');
+        // else if (save_or_bookmark == 'bookmark_entry')
+        //     toast = this.utilityMethods.doLoadingToast('Bookmarking...');
+        // else
+        //     toast = this.utilityMethods.doLoadingToast('Please wait...');
         // else
         //     params['search_id'] = search.id;
         /**
          * Hypothesis Scrapping
          */
-        this.searchService.hypothesis_scrapping(params).subscribe((success) => {
-            params.scraped_url = success.successMessage;
-            this.searchService.create_anotote(params)
-                .subscribe((response) => {
-                    if (toast)
-                        toast.dismiss()
-                    if (!check) {
-                        var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
-                            response.data.annotote.title, this.search_txt,
-                            this.authService.getUser().id, 0);
-                        if (this.searchService.AlreadySavedSearches(bookmark.term)) {
-                            this.searchService.saved_searches.unshift(bookmark);
-                            // if (save_or_bookmark == 'save_entry')
-                            //     this.utilityMethods.doToast("Saved");
-                            // else
-                            //     this.utilityMethods.doToast("Bookmarked");
-                        } else {
-                            // if (save_or_bookmark == 'save_entry')
-                            //     this.utilityMethods.doToast("Already saved");
-                            // else
-                            //     this.utilityMethods.doToast("Already bookmarked");
-                        }
-                    }
-                    response.data.userAnnotote.annotote = response.data.annotote;
-                    this.go_to_browser(response.data, true);
-                }, (error) => {
-                    toast.dismiss();
-                    this.search_loading = false;
-                    if (error.status == 500) {
-                        this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
-                    }
-                    else if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    } else
-                        this.utilityMethods.doToast("Couldn't scrap url");
-                });
-        }, (error) => {
-            toast.dismiss();
-            this.search_loading = false;
-            if (error.status == 500) {
-                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
-            } else if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-            } else
-                this.utilityMethods.doToast("Couldn't scrap url");
-        })
+        // this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+        //     params.scraped_url = success.successMessage;
+        //     this.searchService.create_anotote(params)
+        //         .subscribe((response) => {
+        //             if (toast)
+        //                 toast.dismiss()
+        //             if (!check) {
+        //                 var bookmark = new SearchUnPinned(save_or_bookmark == 'save_entry' ? 0 : 1,
+        //                     response.data.annotote.title, this.search_txt,
+        //                     this.authService.getUser().id, 0);
+        //                 if (this.searchService.AlreadySavedSearches(bookmark.term)) {
+        //                     this.searchService.saved_searches.unshift(bookmark);
+        //                 }
+        //             }
+        //             response.data.userAnnotote.annotote = response.data.annotote;
+        //             this.go_to_browser(response.data, true);
+        //         }, (error) => {
+        //             toast.dismiss();
+        //             this.search_loading = false;
+        //             if (error.status == 500) {
+        //                 this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+        //             }
+        //             else if (error.code == -1) {
+        //                 this.utilityMethods.internet_connection_error();
+        //             } else
+        //                 this.utilityMethods.doToast("Couldn't scrap url");
+        //         });
+        // }, (error) => {
+        //     toast.dismiss();
+        //     this.search_loading = false;
+        //     if (error.status == 500) {
+        //         this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+        //     } else if (error.code == -1) {
+        //         this.utilityMethods.internet_connection_error();
+        //     } else
+        //         this.utilityMethods.doToast("Couldn't scrap url");
+        // })
+        this.go_to_browser(this.search_txt, true);
     }
 
     go_to_browser(anotote, neworold) {
