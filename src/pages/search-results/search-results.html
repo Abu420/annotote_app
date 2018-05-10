@@ -374,3 +374,8 @@
         <button *ngIf="unread_notification_count > 0" ion-button icon-only class="notices">{{unread_notification_count}}</button>
     </ion-fab>
 </ion-content>
+<ion-footer class="message-bottom" *ngIf="current_active_anotote && current_active_anotote.chatGroup == null && current_active_anotote.userAnnotote.active_tab != 'me'">
+    <ion-toolbar color="dark">
+        <vote-footer (toast-loading)="voteLoadingEvents($event)" (tote-participants)="follows_tab_from_footer($event)" [page]="LISTINGS" [current_color]="'anon'" [current_active_anotote]="current_active_anotote.userAnnotote"></vote-footer>
+    </ion-toolbar>
+</ion-footer>

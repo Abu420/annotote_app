@@ -60,7 +60,7 @@ export class AnototeOptions {
     this.actual_stream = params.get('whichStream');
     if (this.actual_stream == 'follows' && this.anotote.chatGroup == null) {
       if (!this.anotote.follower_tags) {
-        this.anotote.follower_tags = this.anotote.followers[0].followTote.tags
+        this.anotote.follower_tags = this.anotote.followers[0].followTote.tags;
       }
     }
   }
@@ -334,7 +334,7 @@ export class AnototeOptions {
   }
 
   bookmarkTote() {
-    if (this.actual_stream != 'search')
+    if (this.actual_stream != 'search' && this.actual_stream != 'anon')
       var bookmark = new SearchUnPinned(1,
         this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title,
         this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link,
@@ -356,7 +356,7 @@ export class AnototeOptions {
 
   saveTote() {
     if (this.anotote.userAnnotote.filePath != '') {
-      if (this.actual_stream != 'search')
+      if (this.actual_stream != 'search' && this.actual_stream != 'anon')
         var params: any = {
           annotote_id: this.stream == 'follows' ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
           user_id: this.stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
@@ -365,7 +365,7 @@ export class AnototeOptions {
       else
         var params: any = {
           annotote_id: this.anotote.annotote.id,
-          user_id: this.anotote.user.id,
+          user_id: this.actual_stream == 'search' ? this.anotote.user.id : this.user.id,
           created_at: this.anotote.userAnnotote.createdAt
         }
       var toast = this.utilityMethods.doLoadingToast("Saving");

@@ -30,7 +30,6 @@ import { ChatService } from "../../services/chat.service";
 import { Keyboard } from '@ionic-native/keyboard';
 import { TagsExclusive } from '../tagsExclusive/tags';
 
-@IonicPage()
 @Component({
   selector: 'page-anotote-list',
   animations: [
@@ -592,6 +591,7 @@ export class AnototeList {
         anotote.highlights = Object.assign(anotote.my_highlights);
         anotote.active_tab = 'me'
         anotote.meFilePath = anotote.anototeDetail.userAnnotote.filePath;
+        this.title_temp = Object.assign(anotote.anototeDetail.meToteFollowTop.annototeTitle);
         this.move_fab = false;
       } else if (anotote.my_highlights == undefined) {
         this.me_spinner = true;
@@ -608,6 +608,7 @@ export class AnototeList {
             anotote.highlights = Object.assign(result.data.annotote.highlights);
             anotote.my_highlights = result.data.annotote.highlights;
             anotote.meFilePath = result.data.annotote.userAnnotote.filePath;
+            this.title_temp = result.data.annotote.annotote.title;
           } else {
             this.toastInFooter("Couldn't fetch annotations");
             anotote.active = false;
@@ -619,6 +620,10 @@ export class AnototeList {
           }
         });
       } else {
+        if (this.current_color == 'follows')
+          this.title_temp = Object.assign(anotote.userAnnotote.anototeDetail.meToteFollowTop.annototeTitle);
+        else
+          this.title_temp = Object.assign(anotote.anototeDetail.meToteFollowTop.annototeTitle);
         this.move_fab = false;
         anotote.active_tab = 'me';
         anotote.highlights = Object.assign(anotote.my_highlights);
@@ -2035,14 +2040,8 @@ export class AnototeList {
 
   presentAnototeOptionsModal(event, anotote) {
     event.stopPropagation();
-    // this.moreOPtions(anotote);
     anotote.moreOptions = true;
     if (this.current_color != 'anon') {
-      // if (anotote.chatGroup == null) {
-      //   this.options(anotote);
-      // } else {
-      //   this.options(anotote);
-      // }
       if (anotote.chatGroup && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != this.user.id && this.current_color == 'me') {
         anotote.moreOptions = false;
         this.markReadUnread(anotote);
@@ -2154,7 +2153,6 @@ export class AnototeList {
                 annotote: true
               }
             }
-
             let tagsModal = this.modalCtrl.create(TagsPopUp, params);
             tagsModal.present();
           }

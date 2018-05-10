@@ -10,7 +10,6 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
 import { Verification } from "../signup/verificationPopUp";
 
-@IonicPage()
 @Component({
   selector: 'page-forgotpassword',
   templateUrl: 'forgot-password.html',

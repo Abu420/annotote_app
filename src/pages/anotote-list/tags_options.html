@@ -9,7 +9,7 @@
             </div>
             <div class="btnRow" *ngIf="is_tag == false">
                 <span (tap)="dismiss(false)">Cancel</span>
-                <span [ngClass]="{'save': (temp_title != tag && temp_title != '')}" (tap)="dismiss(true)">Save</span>
+                <span *ngIf="temp_title != tag && temp_title != ''" class="save" (tap)="dismiss(true)">Save</span>
             </div>
         </div>
         <div class="pop_txt">

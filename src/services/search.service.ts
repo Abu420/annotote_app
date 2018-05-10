@@ -57,7 +57,7 @@ export class SearchService {
                         tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
                         tote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
                         active_tab = 'me'
-                    } else if (tote.userAnnotote.isMe == 0 && tote.userAnnotote.isTop == 0) {
+                    } else if (tote.userAnnotote.follows.length > 0) {
                         active_tab = 'follows';
                         if (tote.userAnnotote.follows.length == 0 || tote.userAnnotote.follows.length == undefined) {
                             tote.userAnnotote.follows = []
@@ -75,11 +75,22 @@ export class SearchService {
                         active_tab = 'top';
                         tote.userAnnotote.topFilePath = tote.userAnnotote.userAnnotote.filePath;
                         tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
+                        tote.userAnnotote.top_tags = tote.userAnnotote.userAnnotote.tags;
                     }
                     tote.userAnnotote.active_tab = active_tab;
+                    tote.userAnnotote.followers = tote.userAnnotote.follows;
                     if (tote.userAnnotote.follows.length > 0) {
                         tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+                        tote.userAnnotote.follower_tags = tote.userAnnotote.follows[0].followTote.tags
                         tote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
+                        tote.userAnnotote.highlights = tote.userAnnotote.follows[0].highlights;
+                    }
+                    if (tote.userAnnotote.isTop == 1) {
+                        tote.userAnnotote.topVote = {
+                            currentUserVote: tote.userAnnotote.userAnnotote.currentUserVote,
+                            rating: tote.userAnnotote.userAnnotote.rating,
+                            isCurrentUserVote: tote.userAnnotote.userAnnotote.isCurrentUserVote
+                        }
                     }
                     totes.push(tote);
                     search_results.push(tote);

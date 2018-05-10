@@ -224,7 +224,7 @@
         <p class="messageLoading">{{loading_message}}</p>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="inline_tote_options meFooter" *ngIf="WHICH_STREAM == 'me' && actual_stream == 'me' && !loading_check">
+<ion-footer class="inline_tote_options meFooter" *ngIf="actual_stream == 'me' && !loading_check">
     <ion-toolbar color="dark">
         <div class="title_and_options">
             <!-- <form *ngIf="titleEditingoff == false" (ngSubmit)="saveTitle(ANOTOTE)">
@@ -249,7 +249,7 @@
         </span>
     </ion-toolbar>
 </ion-footer>
-<ion-footer class="message-bottom" *ngIf="ANOTOTE && WHICH_STREAM != 'anon' && actual_stream != 'me' && actual_stream != 'anon' && loading_check == false">
+<ion-footer class="message-bottom" *ngIf="ANOTOTE && actual_stream != 'me' && actual_stream != 'anon' && loading_check == false">
     <ion-toolbar color="dark">
         <vote-footer [page]="'BROWSER'" (tote-participants)="follows_tab_from_footer($event)" (options)="toteOptions()" (toast-loading)="voteLoadingEvents($event)" [current_color]="WHICH_STREAM" [current_active_anotote]="ANOTOTE"></vote-footer>
     </ion-toolbar>

@@ -13,7 +13,6 @@ import { Verification } from "./verificationPopUp";
 import { Login } from "../login/login";
 
 
-@IonicPage()
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',

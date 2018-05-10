@@ -9,7 +9,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
 
-@IonicPage()
 @Component({
   selector: 'page-changepassword',
   templateUrl: 'change-password.html',

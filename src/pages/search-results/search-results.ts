@@ -18,7 +18,6 @@ import { Chat } from "../chat/chat";
 import { FollowsPopup } from "../anotote-list/follows_popup";
 import { AnototeService } from "../../services/anotote.service";
 
-@IonicPage()
 @Component({
   selector: 'search-results',
   templateUrl: 'search-results.html',
@@ -256,6 +255,7 @@ export class SearchResults {
         }
         if (this.current_active_anotote.chatGroup == null && this.current_active_anotote.userAnnotote.userAnnotote.id == anotote.userAnnotote.userAnnotote.id) {
           this.current_active_anotote = null;
+          this.move_fab = false;
           return;
         }
       } else {
@@ -263,13 +263,16 @@ export class SearchResults {
         this.move_fab = false;
         if (this.current_active_anotote.chatGroup && anotote.chatGroup.id == this.current_active_anotote.chatGroup.id) {
           this.current_active_anotote = null;
+          this.move_fab = false;
           return;
         }
       }
     }
     if (anotote.chatGroup) {
       anotote.active_tab = 'me';
-    }
+    } else
+      if (anotote.userAnnotote.active_tab != 'me')
+        this.move_fab = true;
     this.current_active_anotote = anotote;
     this.current_active_anotote.active = !this.current_active_anotote.active;
   }
@@ -394,7 +397,8 @@ export class SearchResults {
   }
 
   follows_popup(event, anotote) {
-    event.stopPropagation();
+    if (event)
+      event.stopPropagation();
     if (anotote.follows.length == 1) {
       anotote.selected_follower_name = anotote.follows[0].firstName;
       anotote.active_tab = 'follows';
@@ -491,15 +495,15 @@ export class SearchResults {
         time: this.utilityMethods.get_php_wala_time()
       }
       this.anototeService.fetchToteDetails(params).subscribe((result) => {
-        // this.move_fab = true;
+        this.move_fab = true;
         anotote.active_tab = 'top'
         anotote.topFilePath = result.data.annotote.userAnnotote.filePath;
         anotote.top_tags = result.data.annotote.userAnnotote.tags;
-        // anotote.topVote = {
-        //   currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
-        //   rating: result.data.annotote.userAnnotote.rating,
-        //   isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
-        // }
+        anotote.topVote = {
+          currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
+          rating: result.data.annotote.userAnnotote.rating,
+          isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
+        }
         if (result.status == 1) {
           anotote.highlights = Object.assign(result.data.annotote.highlights);
           anotote.top_highlights = result.data.annotote.highlights;
@@ -511,7 +515,7 @@ export class SearchResults {
         }
       })
     } else {
-      // this.move_fab = true;
+      this.move_fab = true;
       anotote.active_tab = 'top'
       anotote.highlights = Object.assign(anotote.top_highlights);
     }
@@ -625,6 +629,10 @@ export class SearchResults {
       this.no_search = true;
     else
       this.no_search = false;
+  }
+
+  follows_tab_from_footer(which) {
+    this.follows_popup(null, this.current_active_anotote.userAnnotote);
   }
 }
 

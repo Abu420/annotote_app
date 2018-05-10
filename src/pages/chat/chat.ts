@@ -23,7 +23,6 @@ import { AnototeList } from '../anotote-list/anotote-list';
 
 declare var io: any;
 
-@IonicPage()
 @Component({
   selector: 'page-chat',
   templateUrl: 'chat.html',

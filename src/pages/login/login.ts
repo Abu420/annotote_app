@@ -13,7 +13,6 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
 import { Keyboard } from '@ionic-native/keyboard';
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',

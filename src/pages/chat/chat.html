@@ -91,10 +91,6 @@
                 </ion-item>
             </ion-list>
         </div>
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
-            <ion-infinite-scroll-content loadingSpinner="none" *ngIf="infinite_completed == false">
-            </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
         <ion-list class="product-list loader-panel" *ngIf="fbLoading">
             <ion-item>
                 <div>
@@ -157,6 +153,10 @@
                 </div>
             </ion-item>
         </ion-list>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
+            <ion-infinite-scroll-content loadingSpinner="none" *ngIf="infinite_completed == false">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <ion-list no-lines class="details-list layout" id="chat-listing-area">
             <ion-item (press)="editOrDelete(message)" *ngFor="let message of conversation" class="underlist-items">
                 <figure>
