@@ -48,7 +48,8 @@ export class TagsExclusive {
         public modalCtrl: ModalController,
         public viewCtrl: ViewController,
         public searchService: SearchService) {
-        statusbar.hide();
+        if (utilityMethods.whichPlatform() == 'ios')
+            statusbar.hide();
         this.tag_input = "";
         this.user = this.authService.getUser();
         this.tag = params.get('tag');

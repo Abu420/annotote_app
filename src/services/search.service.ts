@@ -82,7 +82,7 @@ export class SearchService {
                     if (tote.userAnnotote.follows.length > 0) {
                         tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
                         tote.userAnnotote.follower_tags = tote.userAnnotote.follows[0].followTote.tags
-                        tote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
+                        tote.userAnnotote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
                         tote.userAnnotote.highlights = tote.userAnnotote.follows[0].highlights;
                     }
                     if (tote.userAnnotote.isTop == 1) {

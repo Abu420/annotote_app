@@ -117,6 +117,8 @@ export class Chat {
         this.contains = navParams.get('containsMe');
       }
     }
+    if (navParams.get('notification_group_id'))
+      this.groupId = navParams.get('notification_group_id');
     var lastView = this.navCtrl.last();
     if (lastView.data.color && navParams.get('against_anotote')) {
       if (lastView.data.color == 'me') {

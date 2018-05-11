@@ -13,9 +13,10 @@ export class User {
     public platformId: string;
     public rememberToken: string;
     public updatedAt: string;
+    public tutorial_status: string;
 
     public verified: string;
-    constructor(id, f_name, l_name, em, passw, photo=null) {
+    constructor(id, f_name, l_name, em, passw, photo = null) {
         this.id = id;
         this.firstName = f_name;
         this.lastName = l_name;

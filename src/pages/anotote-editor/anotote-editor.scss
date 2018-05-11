@@ -173,8 +173,9 @@ comment_detail_popup {
         background: #FFF;
         position: fixed;
         bottom: 93px;
-        height: 50vh;
+        height: auto;
         overflow: scroll;
+        max-height: calc(100vh - 93px);
         &:after {
             content: "";
             display: table;
@@ -193,7 +194,7 @@ comment_detail_popup {
             }
         }
         .tagList {
-            position: absolute;
+            // position: absolute;
             left: 0px;
             background: #FFF;
             margin: 0px;

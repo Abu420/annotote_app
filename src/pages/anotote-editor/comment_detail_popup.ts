@@ -48,7 +48,7 @@ export class CommentDetailPopup {
   public actual_anotated: any = '';
   public bracketStartIndex = 0;
   public selected_follower_name: string = '';
-  public isKeyboardDeployed: boolean = false;
+  // public isKeyboardDeployed: boolean = false;
   public one: string = '';
   public currentIndex = 0;
   public total_followers = 0;
@@ -61,12 +61,12 @@ export class CommentDetailPopup {
     public key: Keyboard,
     private modalCtrl: ModalController,
     public statusbar: StatusBar) {
-    this.key.onKeyboardShow().subscribe(() => {
-      this.isKeyboardDeployed = true;
-    })
-    this.key.onKeyboardHide().subscribe(() => {
-      this.isKeyboardDeployed = false;
-    })
+    // this.key.onKeyboardShow().subscribe(() => {
+    //   this.isKeyboardDeployed = true;
+    // })
+    // this.key.onKeyboardHide().subscribe(() => {
+    //   this.isKeyboardDeployed = false;
+    // })
     this.anotote_txt = this.params.get('txt');
     this.actual_anotated = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
@@ -264,7 +264,7 @@ export class CommentDetailPopup {
     //     }
     //   }
     // }
-    if (event.key == '@' || event.key == '#' || event.key == '$') {
+    if (event.target.value.charAt(event.target.value.length - 1) == '@' || event.target.value.charAt(event.target.value.length - 1) == '#' || event.target.value.charAt(event.target.value.length - 1) == '$') {
       this.nameInputIndex = event.target.selectionStart;
       var params = {
         tag: event.key,

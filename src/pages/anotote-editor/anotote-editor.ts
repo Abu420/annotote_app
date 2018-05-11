@@ -1753,20 +1753,58 @@ export class AnototeEditor implements OnDestroy {
         anototeOptionsModal.onDidDismiss(data => {
             if (data.tags) {
                 if (this.WHICH_STREAM != 'top') {
-                    var params: any = {
-                        user_tote_id: this.ANOTOTE.userAnnotote.id,
-                        tags: this.ANOTOTE.userAnnotote.anototeDetail.userAnnotote.tags,
-                        whichStream: this.WHICH_STREAM,
-                        annotote: true
-                    }
+                    if (this.WHICH_STREAM == 'me' && (this.ANOTOTE.active_tab == 'me' || this.ANOTOTE.active_tab == undefined))
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.userAnnotote.id,
+                            tags: this.ANOTOTE.userAnnotote.anototeDetail.userAnnotote.tags,
+                            whichStream: 'me',
+                            annotote: true
+                        }
+                    else if (this.WHICH_STREAM == 'follows' && this.ANOTOTE.active_tab == 'me')
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id,
+                            tags: this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.tags,
+                            whichStream: 'me',
+                            annotote: true
+                        }
+                    else if (this.ANOTOTE.active_tab == 'follows' || (this.WHICH_STREAM == 'follows' && this.ANOTOTE.active_tab == undefined))
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.userAnnotote.id,
+                            tags: this.ANOTOTE.follower_tags,
+                            whichStream: 'follows',
+                            annotote: true
+                        }
+                    else if (this.ANOTOTE.active_tab == 'top')
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.userAnnotote.id,
+                            tags: this.ANOTOTE.top_tags,
+                            whichStream: 'top',
+                            annotote: true
+                        }
                     let tagsModal = this.modalCtrl.create(TagsPopUp, params);
                     tagsModal.present();
                 } else if (this.WHICH_STREAM == 'top') {
-                    var params: any = {
-                        user_tote_id: this.ANOTOTE.userAnnotote.id,
-                        tags: this.ANOTOTE.anototeDetail.userAnnotote.tags,
-                        whichStream: this.WHICH_STREAM,
-                        annotote: true
+                    if (this.ANOTOTE.active_tab == 'me') {
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.anototeDetail.meToteFollowTop.id,
+                            tags: this.ANOTOTE.anototeDetail.meToteFollowTop.tags,
+                            whichStream: 'me',
+                            annotote: true
+                        }
+                    } else if (this.ANOTOTE.active_tab == 'follows') {
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.userAnnotote.id,
+                            tags: this.ANOTOTE.follower_tags,
+                            whichStream: 'follows',
+                            annotote: true
+                        }
+                    } else if (this.ANOTOTE.active_tab == 'top' || this.ANOTOTE.active_tab == undefined) {
+                        var params: any = {
+                            user_tote_id: this.ANOTOTE.userAnnotote.id,
+                            tags: this.ANOTOTE.anototeDetail.userAnnotote.tags,
+                            whichStream: 'top',
+                            annotote: true
+                        }
                     }
                     let tagsModal = this.modalCtrl.create(TagsPopUp, params);
                     tagsModal.present();

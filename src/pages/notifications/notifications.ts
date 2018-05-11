@@ -140,7 +140,7 @@ export class Notifications {
       } else
         this.showProfile(notification.sender.id);
     } else if (notification.type == 'user:message')
-      this.go_to_chat_thread(notification.sender);
+      this.go_to_chat_thread(notification);
   }
 
   unread_notification(notification) {
@@ -155,8 +155,8 @@ export class Notifications {
     })
   }
 
-  go_to_chat_thread(user) {
-    this.navCtrl.push(Chat, { secondUser: user });
+  go_to_chat_thread(notification) {
+    this.navCtrl.push(Chat, { secondUser: notification.sender, notification_group_id: notification.messageId });
   }
 
   showProfile(user_id) {

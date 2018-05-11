@@ -77,7 +77,7 @@ export class AnototeList {
   public has_totes: boolean = true;
   public messages: any = [];
   private reorder_highlights: boolean;
-  public user: User;
+  public user: any;
   public selected_totes: any = [];
   public infinite_scroll: any;
   public top_anototes: any = []
@@ -292,6 +292,7 @@ export class AnototeList {
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
     this.user = authService.getUser();
+    console.log(this.user);
     this.reorder_highlights = false;
     var data = notificationService.get_notification_data()
     this.unread_notification_count = data.unread;
@@ -481,6 +482,20 @@ export class AnototeList {
         this.stream.top_anototes = this.top_anototes;
         this.stream.top_page_no = this.current_page;
         this.stream.top_first_load = true;
+
+        if (this.user.tutorialStatus == 0) 
+          this.authService.update_profile({
+            tutorial_status: 1
+          }).subscribe((response) => {
+            this.authService.updateUser(response.data.user);
+            this.user.tutorialStatus = 1;
+          }, (error) => {
+            if (error.code == -1) {
+              this.utilityMethods.internet_connection_error();
+            } else
+              this.utilityMethods.message_alert('Error', 'This email has already been taken.');
+          });
+        
       }, (error) => {
         // this.hideLoading();
         this.fbLoading = false;

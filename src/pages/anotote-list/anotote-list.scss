@@ -123,6 +123,7 @@
                             line-height: 7;
                             img {
                                 width: 25px;
+                                vertical-align: initial !important;
                             }
                         }
                         .tagText {
@@ -138,6 +139,9 @@
                                 width: 100%;
                                 outline: none;
                                 padding: 28px 0px;
+                            }
+                            input::placeholder {
+                                color: #b5b5b5 !important;
                             }
                         }
                     }

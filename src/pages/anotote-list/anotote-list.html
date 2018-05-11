@@ -224,7 +224,7 @@
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
                                             </button>
                                         </div>
-                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [ngModel]="highlight | boldTags" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
+                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [ngModel]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                         <!-- <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0"> -->
                                         <!-- <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
                                         <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
@@ -320,6 +320,44 @@
             </ion-item>
         </ion-list>
         <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
+            <ng-container *ngIf="user.tutorialStatus == 0 && fbLoading == false">
+                <ion-item *ngFor="let anotote of tutorialTopCase">
+                    <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
+                        <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
+                        </div>
+                        <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}">
+                            <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.title"></strong>
+                            <div class="time">
+                                <em>
+                                    <span [innerText]="anotote.createdAt | date:'MM/dd'"></span>
+                                </em>
+                            </div>
+                            <div class="toteText">
+                                <p [innerText]="anotote.subTitle"></p>
+                                <button type="button">
+                                    <ion-icon name="menu"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toteActive" [ngClass]="{'toteTransition': anotote.active}">
+                        <div class="quotes layout message-underlist">
+                            <ion-list no-lines class="details-list layout">
+                                <ng-container *ngFor="let highlight of anotote.highlights">
+                                    <ion-item class="underlist-items">
+                                        <div class="txt">
+                                            <p>{{highlight.text}}</p>
+                                        </div>
+                                        <span class="status quoteStatus quotes_top">
+                                            <img src="assets/img/img6.png" alt="">
+                                        </span>
+                                    </ion-item>
+                                </ng-container>
+                            </ion-list>
+                        </div>
+                    </div>
+                </ion-item>
+            </ng-container>
             <ion-item *ngFor="let anotote of top_anototes | orderBy:'createdAt':true" [ngClass]="{'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
                     <div *ngIf="current_color == 'top'" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
@@ -535,7 +573,7 @@
                     </div>
                 </ion-item>
             </ng-container>
-            <ng-container *ngIf="current_color == 'top'">
+            <ng-container *ngIf="current_color == 'top' && user.tutorialStatus == 1">
                 <ion-item *ngFor="let anotote of tutorialTopCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
