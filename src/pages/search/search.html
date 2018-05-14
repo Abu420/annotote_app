@@ -15,118 +15,30 @@
             <div>
                 <div class="search_loader">
                 </div>
-                <div class="txt">
+                <div class="txt real">
                     <div>
                         <span style="color: #ababab;">Search (enter)</span>
                     </div>
                 </div>
             </div>
         </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
+        <ng-container *ngIf="search_loading">
+            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
+                <div>
+                    <div class="search_loader">
                     </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
-                    </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
+                    <div class="txt line-loader real">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
-                    </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
-                    </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
-                    </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
-                    </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
-        <ion-item *ngIf="search_loading">
-            <div>
-                <div class="search_loader">
-                </div>
-                <div class="txt line-loader">
-                    <div class="line-top">
-                        <span class="head-line"></span>
-                    </div>
-                    <div class="line-bot">
-                        <span class="name-line"></span>
-                        <span class="date-line"></span>
-                    </div>
-                </div>
-            </div>
-        </ion-item>
+            </ion-item>
+        </ng-container>
         <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
             <figure>
                 <img src="assets/img/simpleShare.svg" alt="" />

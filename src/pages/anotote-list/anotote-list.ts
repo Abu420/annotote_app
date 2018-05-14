@@ -292,7 +292,6 @@ export class AnototeList {
     this.reply_box_on = false;
     this.anototes = new Array<ListTotesModel>();
     this.user = authService.getUser();
-    console.log(this.user);
     this.reorder_highlights = false;
     var data = notificationService.get_notification_data()
     this.unread_notification_count = data.unread;

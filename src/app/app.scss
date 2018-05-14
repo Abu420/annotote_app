@@ -1353,6 +1353,7 @@ search_page {
                         @extend .img-holder;
                         background-image: url(../assets/img/searchIcon.svg);
                         background-size: 25px;
+                        width: 73px;
                     }
                     .bookmark_loader {
                         @extend .img-holder;
@@ -1393,6 +1394,9 @@ search_page {
                                 overflow: hidden;
                                 padding-top: 10px;
                             }
+                        }
+                        &.real {
+                            width: calc(100% - 73px) !important;
                         }
                     }
                 }

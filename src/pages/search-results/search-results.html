@@ -4,7 +4,7 @@
             <span [ngClass]="filter_mode?'activeOption':''" class="options" (click)="show_filters()"></span>
             <img src="assets/img/searchIcon.png" alt="" />
             <form (ngSubmit)="load_search_results()" name="login_form">
-                <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_term" type="text" placeholder="Search or enter address" />
+                <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_term" type="text" placeholder="Search or enter address" autocomplete="off" />
             </form>
             <span (click)="clear()" class="clear_button"></span>
         </div>
@@ -64,7 +64,7 @@
         <ion-list class="product-list loader-panel" *ngIf="_loading">
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -79,7 +79,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -94,7 +94,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -109,7 +109,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -124,7 +124,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -139,7 +139,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -154,7 +154,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">
@@ -169,7 +169,7 @@
             </ion-item>
             <ion-item>
                 <div>
-                    <div class="search_loader">
+                    <div class="img-holder">
                     </div>
                     <div class="txt line-loader">
                         <div class="line-top">

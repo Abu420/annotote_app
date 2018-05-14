@@ -460,6 +460,7 @@ export class SearchResults {
       anotote.highlights = Object.assign(anotote.userAnnotote.my_highlights);
       anotote.meFilePath = anotote.userAnnotote.filePath;
       anotote.active_tab = 'me';
+      this.move_fab = false;
     } else {
       var params = {
         user_id: this.user.id,
@@ -471,6 +472,7 @@ export class SearchResults {
         if (result.status == 1) {
           anotote.isMe = 1;
           anotote.active_tab = 'me'
+          this.move_fab = false;
           anotote.highlights = Object.assign(result.data.annotote.highlights);
           anotote.my_highlights = result.data.annotote.highlights;
           anotote.meFilePath = result.data.annotote.userAnnotote.filePath;

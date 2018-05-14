@@ -54,7 +54,7 @@ export class SearchService {
                     tote.userAnnotote.spinner_for_active = false;
                     var active_tab = 'anon';
                     if (tote.userAnnotote.isMe == 1) {
-                        tote.userAnnotote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
+                        tote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
                         tote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
                         active_tab = 'me'
                     } else if (tote.userAnnotote.follows.length > 0) {

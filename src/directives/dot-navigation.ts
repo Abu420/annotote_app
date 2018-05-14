@@ -20,7 +20,10 @@ export class DotNavigation {
     }
 
     remove_page(dot) {
-        this.navCtrl.popTo(this.navCtrl.getByIndex(this.un_active_dots_array.indexOf(dot)));
+        if (dot == 1)
+            this.navCtrl.popTo(this.navCtrl.getByIndex(this.un_active_dots_array.length - 1));
+        else if (dot == 0)
+            this.navCtrl.popTo(this.navCtrl.getByIndex(this.un_active_dots_array.length - 2));
     }
 
 

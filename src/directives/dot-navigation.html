@@ -1,6 +1,6 @@
 <div class="dots_box">
     <ng-container *ngFor="let dot of un_active_dots_array;let i=index">
-        <span (tap)="remove_page(dot)" *ngIf="i < 2" class="un_active_dot"></span>
+        <span (tap)="remove_page(i)" *ngIf="i < 2" class="un_active_dot"></span>
     </ng-container>
     <!-- <span (tap)="remove_current_page()" class="dot"></span>  for removing current page-->
     <span class="dot"></span>
