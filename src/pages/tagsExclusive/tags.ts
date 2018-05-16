@@ -50,10 +50,15 @@ export class TagsExclusive {
         public searchService: SearchService) {
         if (utilityMethods.whichPlatform() == 'ios')
             statusbar.hide();
-        this.tag_input = "";
+        this.tag_input = params.get('tag');
         this.user = this.authService.getUser();
         this.tag = params.get('tag');
-        this.tag_id = params.get('id');
+        if (this.tag == '@')
+            this.tag_id = 2;
+        else
+            this.tag_id = 3;
+        this.isTagging = true;
+        this.nameInputIndex = 0;
     }
 
     saveTags() {
@@ -88,71 +93,98 @@ export class TagsExclusive {
     }
 
     tag_user() {
-        if (this.tag_id == 2) {
-            // this.nameEntered = this.tag_input.substr(this.nameInputIndex + 1);
-            // if (this.nameEntered.split(' ').length == 1) {
-            var params = {
-                name: this.tag_input
-            }
-            if (params.name != '') {
-                this.no_user_found = false;
-                this.show_autocomplete = true;
-                this.search_user = true;
+        if (this.tag_input[this.tag_input.length - 1] == '@' || this.tag_input[this.tag_input.length - 1] == '#' || this.tag_input[this.tag_input.length - 1] == '$') {
+            this.nameInputIndex = this.tag_input.length - 1;
+            this.isTagging = true;
+            if (this.tag_input[this.tag_input.length - 1] == '@')
+                this.tag_id = 2;
+            else
+                this.tag_id = 3;
+        }
+        if (this.isTagging) {
+            if (this.nameInputIndex > this.tag_input.length - 1) {
+                this.show_autocomplete = false;
                 this.users = [];
-                this.searchService.autocomplete_users(params).subscribe((result) => {
-                    this.search_user = false;
-                    this.users = result.data.users;
-                    if (this.users.length == 0) {
-                        this.no_user_found = true;
+                this.isTagging = false;
+                this.nameInputIndex = 0;
+                return;
+            } else if (this.tag_input[this.nameInputIndex] == '@') {
+                this.tag_id = 2;
+                this.nameEntered = this.tag_input.substr(this.nameInputIndex + 1);
+                if (this.nameEntered.split(' ').length == 1) {
+                    var params = {
+                        name: this.nameEntered
                     }
-                }, (error) => {
-                    this.search_user = false;
-                    this.show_autocomplete = true;
-                    this.no_user_found = false;
+                    if (params.name != '') {
+                        this.no_user_found = false;
+                        this.show_autocomplete = true;
+                        this.search_user = true;
+                        this.users = [];
+                        this.searchService.autocomplete_users(params).subscribe((result) => {
+                            this.search_user = false;
+                            this.users = result.data.users;
+                            if (this.users.length == 0) {
+                                this.no_user_found = true;
+                            }
+                        }, (error) => {
+                            this.search_user = false;
+                            this.show_autocomplete = true;
+                            this.no_user_found = false;
+                            this.users = [];
+                            if (error.code == -1) {
+                                this.utilityMethods.internet_connection_error();
+                            }
+                        })
+                    }
+                } else {
+                    this.show_autocomplete = false;
                     this.users = [];
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    }
-                })
-            }
-            // }
-        } else {
-            this.tags = [];
-            var paramz = {
-                value: this.tag_input,
-                id: this.tag_id
-            }
-            if (paramz.value != '') {
-                this.no_user_found = false;
-                this.show_autocomplete = true;
-                this.search_user = true;
-                this.users = [];
-                this.tags = [];
-                this.searchService.autocomplete_tags(paramz).subscribe((result) => {
-                    this.search_user = false;
-                    this.tags = result.data.tags;
-                    if (this.tags.length == 0) {
-                        this.no_user_found = true;
-                    }
-                }, (error) => {
-                    this.search_user = false;
-                    this.show_autocomplete = true;
+                    this.isTagging = false;
+                    this.nameInputIndex = 0;
+                    return;
+                }
+            } else {
+                this.tag_id = 3;
+                var paramz = {
+                    value: this.tag_input.substr(this.nameInputIndex + 1),
+                    id: this.tag_input[this.nameInputIndex] == '#' ? 3 : 4
+                }
+                if (paramz.value != '') {
                     this.no_user_found = false;
+                    this.show_autocomplete = true;
+                    this.search_user = true;
                     this.users = [];
                     this.tags = [];
-                    if (error.code == -1) {
-                        this.utilityMethods.internet_connection_error();
-                    }
-                })
-            } else {
+                    this.searchService.autocomplete_tags(paramz).subscribe((result) => {
+                        this.search_user = false;
+                        this.tags = result.data.tags;
+                        if (this.tags.length == 0) {
+                            this.no_user_found = true;
+                        }
+                    }, (error) => {
+                        this.search_user = false;
+                        this.show_autocomplete = true;
+                        this.no_user_found = false;
+                        this.users = [];
+                        this.tags = [];
+                        if (error.code == -1) {
+                            this.utilityMethods.internet_connection_error();
+                        }
+                    })
+                } else {
 
+                }
             }
         }
     }
 
     selectTag(tag) {
-        this.tag_input = tag.tag;
-        this.addTag();
+        this.tag_input = this.tag_input.substring(0, this.nameInputIndex + 1) + tag.tag + ' ';
+        this.isTagging = false;
+        this.nameInputIndex = null;
+        this.show_autocomplete = false;
+        // this.tag_input += tag.tag;
+        // this.addTag();
     }
 
     addTag() {
@@ -201,9 +233,11 @@ export class TagsExclusive {
         // this.tag_input = '@' + user.firstName;
         this.show_autocomplete = false;
         this.users = [];
-        this.tag_input = '`@' + user.firstName + '`';
+        this.tag_input = this.tag_input.substring(0, this.nameInputIndex) + '`@' + user.firstName + '` ';
         this.user_is_from_suggestions = true;
-        this.addTag();
+        this.isTagging = false;
+        this.nameInputIndex = null;
+        // this.addTag();
     }
 
     dismiss() {

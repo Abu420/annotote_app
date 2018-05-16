@@ -217,78 +217,23 @@ export class CommentDetailPopup {
   }
 
   tag_user(event) {
-    // if (this.new_comment[this.new_comment.length - 1] == '@') {
-    //   this.nameInputIndex = this.new_comment.length - 1;
-    //   this.isTagging = true;
-    // }
-    // if (this.isTagging) {
-    //   if (this.nameInputIndex > this.new_comment.length - 1) {
-    //     this.show_autocomplete = false;
-    //     this.users = [];
-    //     this.isTagging = false;
-    //     this.nameInputIndex = 0;
-    //     return;
-    //   } else if (this.nameInputIndex != this.new_comment.length - 1) {
-    //     this.nameEntered = this.new_comment.substr(this.nameInputIndex + 1);
-    //     if (this.nameEntered.split(' ').length == 1) {
-    //       var params = {
-    //         name: this.nameEntered
-    //       }
-    //       if (params.name != '') {
-    //         this.no_user_found = false;
-    //         this.show_autocomplete = true;
-    //         this.search_user = true;
-    //         this.users = [];
-    //         this.searchService.autocomplete_users(params).subscribe((result) => {
-    //           this.search_user = false;
-    //           this.users = result.data.users;
-    //           if (this.users.length == 0) {
-    //             this.no_user_found = true;
-    //           }
-    //         }, (error) => {
-    //           this.search_user = false;
-    //           this.show_autocomplete = true;
-    //           this.no_user_found = false;
-    //           this.users = [];
-    //           if (error.code == -1) {
-    //             this.utilityMethods.internet_connection_error();
-    //           }
-    //         })
-    //       }
-    //     } else {
-    //       this.show_autocomplete = false;
-    //       this.users = [];
-    //       this.isTagging = false;
-    //       this.nameInputIndex = 0;
-    //       return;
-    //     }
-    //   }
-    // }
     if (event.target.value.charAt(event.target.value.length - 1) == '@' || event.target.value.charAt(event.target.value.length - 1) == '#' || event.target.value.charAt(event.target.value.length - 1) == '$') {
       this.nameInputIndex = event.target.selectionStart;
       var params = {
-        tag: event.key,
-        id: 0
+        tag: event.key
       }
-      if (event.key == '@')
-        params.id = 2;
-      else if (event.key == '#')
-        params.id = 3
-      else if (event.key == '$')
-        params.id = 4
 
       let tagsExlusive = this.modalCtrl.create(TagsExclusive, params);
       tagsExlusive.onDidDismiss((data) => {
         if (data) {
-          if (params.id != 2)
-            this.new_comment = this.new_comment.substring(0, this.nameInputIndex) + data.tag + " " + this.new_comment.substring(this.nameInputIndex, this.new_comment.length);
-          else if (params.id == 2)
-            this.new_comment = this.new_comment.substring(0, this.nameInputIndex - 1) + data.tag + " " + this.new_comment.substring(this.nameInputIndex, this.new_comment.length);
+          // if (params.id != 2)
+          this.new_comment = this.new_comment.substring(0, this.nameInputIndex - 1) + data.tag + " " + this.new_comment.substring(this.nameInputIndex + 1, this.new_comment.length);
+          // else if (params.id == 2)
+          // this.new_comment = this.new_comment.substring(0, this.nameInputIndex) + data.tag + " " + this.new_comment.substring(this.nameInputIndex, this.new_comment.length);
         }
       })
       tagsExlusive.present();
     }
-
   }
 
   selected_user(user) {

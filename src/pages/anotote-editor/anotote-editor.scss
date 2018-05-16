@@ -172,10 +172,10 @@ comment_detail_popup {
         width: 100%;
         background: #FFF;
         position: fixed;
-        bottom: 93px;
+        bottom: 120px;
         height: auto;
         overflow: scroll;
-        max-height: calc(100vh - 93px);
+        max-height: calc(100vh - 120px);
         &:after {
             content: "";
             display: table;

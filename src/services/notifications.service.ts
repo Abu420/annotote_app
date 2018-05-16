@@ -63,7 +63,7 @@ export class NotificationService {
      * params: [notification_id]
      */
     read_notificaton(params) {
-        var url = this.constants.API_BASEURL + '/read-notification?sender_id=' + params.sender_id + '&&type=' + params.type;
+        var url = this.constants.API_BASEURL + '/read-notification?sender_id=' + params.sender_id + '&&type=' + params.type + '&&group_id=' + params.group_id;
         var response = this.http.get(url).map(res => res.json());
         return response;
     }

@@ -92,7 +92,9 @@
                             <ng-container *ngIf="anotote.userAnnotote.anototeDetail.follows.length > 2">+ {{anotote.userAnnotote.anototeDetail.follows.length - 1}} others</ng-container>
                             <ng-container *ngIf="anotote.userAnnotote.anototeDetail.follows.length == 2">+ {{anotote.userAnnotote.anototeDetail.follows.length - 1}} other</ng-container>
                         </p>
-                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle"></strong>
+                        <strong [ngClass]="{'opened': anotote.active}" *ngIf="current_color == 'me'" [innerText]="anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle"></strong>
+                        <strong [ngClass]="{'opened': anotote.active}" *ngIf="current_color != 'me' && anotote.active_tab != 'me'" [innerText]="anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle"></strong>
+                        <strong [ngClass]="{'opened': anotote.active}" *ngIf="current_color != 'me' && anotote.active_tab == 'me'" [innerText]="anotote.userAnnotote.anototeDetail.meToteFollowTop.annototeTitle"></strong>
                         <div class="time">
                             <em>
                                 <span [innerText]="anotote.createdAt | time_stamp"></span>
@@ -111,11 +113,6 @@
                             <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup" placeholder="Change the title of this Chat"></textarea>
                             <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup == null" placeholder="Change the title of this Tote"></textarea>
                         </form>
-                        <!-- <div class="totBtn">
-                            <span *ngIf="anotote.chatGroup == null" [ngClass]="{'saveBtn': title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
-                            <span *ngIf="anotote.chatGroup != null" [ngClass]="{'saveBtn': title_temp != anotote.chatGroup.messagesUser[0].subject  && title_temp != ''}" (click)="saveTitle(anotote)">Save</span>
-                            <span (click)="cancelTitleEdit($event,anotote)">Cancel</span>
-                        </div> -->
                     </div>
                     <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type == 2 && anotote.checked == false">
                         <img class="unReadLock" *ngIf="anotote.chatGroup.groupUsers[0].privacy == 1" src="assets/img/lockIconGray.svg" alt="">
@@ -224,13 +221,7 @@
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
                                             </button>
                                         </div>
-                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [ngModel]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
-                                        <!-- <img src="assets/img/dodtsLine.svg" alt="" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)" *ngIf="highlight.tags.length > 0"> -->
-                                        <!-- <span class="closeIcon" (click)="stop_editing($event,highlight)">Cancel</span>
-                                        <span class="deleteIcon" (click)="delete_annotation(highlight)" alt="">Delete</span>
-                                        <span [ngClass]="{'save': (edit_highlight_text != highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != highlight.highlightText && edit_actual_highlight!= '')}" class="save" (click)="save_edited_annotation(highlight)" alt="">Save</span> -->
-                                        <!-- <img class="closeIcon" src="assets/img/cross.png" alt="" (click)="delete_annotation(highlight)"> -->
-                                        <!-- <img class="doneIcon" src="assets/img/tick.png" (click)="save_edited_annotation(highlight)" alt=""> -->
+                                        <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                     </div>
                                     <div class="tag_input" *ngIf="current_color == 'me'">
                                         <ul class="tagList" *ngIf="highlight.show_autocomplete == true">
@@ -370,8 +361,9 @@
                         <img *ngIf="anotote.checked" src="assets/img/img6.png">
                     </div>
                     <!-- <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span> -->
-                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode}" *ngIf="anotote.chatGroup == null">
-                        <strong [ngClass]="{'opened': anotote.active}" [innerText]="anotote.annotote.title"></strong>
+                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode}" *ngIf="anotote.chatGroup == null && anotote.checked == false">
+                        <strong [ngClass]="{'opened': anotote.active}" *ngIf="anotote.active_tab != 'me'" [innerText]="anotote.annotote.title"></strong>
+                        <strong [ngClass]="{'opened': anotote.active}" *ngIf="anotote.active_tab == 'me'" [innerText]="anotote.anototeDetail.meToteFollowTop.annototeTitle"></strong>
                         <div class="time">
                             <em>
                                 <span [innerText]="anotote.annotote.createdAt | time_stamp"></span>
@@ -384,6 +376,12 @@
                                 <ion-icon name="menu"></ion-icon>
                             </button>
                         </div>
+                    </div>
+                    <div class="txt txtMiddel" *ngIf="anotote.checked == true">
+                        <form (ngSubmit)="saveTitle(anotote)">
+                            <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup" placeholder="Change the title of this Chat"></textarea>
+                            <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup == null" placeholder="Change the title of this Tote"></textarea>
+                        </form>
                     </div>
                     <div class="txt" [ngClass]="{'txtToto': edit_mode == true, 'txtMiddel': (anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read != 0 || current_color != 'me')}" *ngIf="anotote.chatGroup">
                         <ng-container *ngIf="anotote.chatGroup.messagesUser != null && anotote.chatGroup.messagesUser[0].anototeId == 0">
@@ -430,21 +428,35 @@
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list no-lines class="details-list layout">
-                            <ion-item (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
-                                <div class="txt">
-                                    <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
-                                    <p>{{highlight.highlightText}}</p>
-                                    <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''" [innerHTML]="highlight | boldTags"></p>
-                                    <!-- <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
+                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                                <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
+                                    <div class="txt">
+                                        <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
+                                        <p>{{highlight.highlightText}}</p>
+                                        <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''" [innerHTML]="highlight | boldTags"></p>
+                                        <!-- <div class="tagImage" *ngIf="anotote.active_tab != 'me' && highlight.tags.length > 0" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div> -->
+                                    </div>
+                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                        <img src="assets/img/quoteImg.svg" alt="">
+                                    </span>
+                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                        <img src="assets/img/commentImg.svg" alt="">
+                                    </span>
+                                </ng-container>
+                                <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
+                                    <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
+                                    <div class="moveBtn">
+                                        <button class="topIcon">
+                                            <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt="">
+                                        </button>
+                                        <button class="bottomIcon">
+                                            <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
+                                        </button>
+                                    </div>
+                                    <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                 </div>
-                                <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
-                                    <img src="assets/img/quoteImg.svg" alt="">
-                                </span>
-                                <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">
-                                    <img src="assets/img/commentImg.svg" alt="">
-                                </span>
                             </ion-item>
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me'" (click)="open_browser(anotote,null)">
@@ -874,7 +886,7 @@
         <div class="editOptions">
             <span (click)="stop_editing($event,current_active_highlight)">Close</span>
             <span (click)="delete_annotation(current_active_highlight)">Delete</span>
-            <span *ngIf="(edit_highlight_text != current_active_highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != current_active_highlight.highlightText && edit_actual_highlight!= '')" [ngClass]="{'save': (edit_highlight_text != current_active_highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != current_active_highlight.highlightText && edit_actual_highlight!= '')}" (click)="save_edited_annotation(current_active_highlight)">Save</span>
+            <span *ngIf="(edit_highlight_text != current_active_highlight.comment && edit_highlight_text != '') || (edit_actual_highlight != current_active_highlight.highlightText && edit_actual_highlight != '')" class="save" (click)="save_edited_annotation(current_active_highlight)">Save</span>
         </div>
         <!-- <div class="share" (click)="share()">
             <span></span>
@@ -885,8 +897,10 @@
     <ion-toolbar color="dark">
         <div class="editOptions">
             <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>
-            <span *ngIf="current_active_anotote.chatGroup == null" [ngClass]="{'save': title_temp != current_active_anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''}" (click)="saveTitle(current_active_anotote)">Save</span>
-            <span *ngIf="current_active_anotote.chatGroup != null" [ngClass]="{'save': title_temp != current_active_anotote.chatGroup.messagesUser[0].subject  && title_temp != ''}" (click)="saveTitle(current_active_anotote)">Save</span>
+            <span *ngIf="current_active_anotote.chatGroup == null && current_color == 'me' && title_temp != current_active_anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle  && title_temp != ''" class="save" (click)="saveTitle(current_active_anotote)">Save</span>
+            <span *ngIf="current_active_anotote.chatGroup == null && current_color == 'follows' && title_temp != current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop.annototeTitle  && title_temp != ''" class="save" (click)="saveTitle(current_active_anotote)">Save</span>
+            <span *ngIf="current_active_anotote.chatGroup == null && current_color == 'top' && title_temp != current_active_anotote.anototeDetail.meToteFollowTop.annototeTitle  && title_temp != ''" class="save" (click)="saveTitle(current_active_anotote)">Save</span>
+            <span *ngIf="current_active_anotote.chatGroup != null && title_temp != current_active_anotote.chatGroup.messagesUser[0].subject  && title_temp != ''" class="save" (click)="saveTitle(current_active_anotote)">Save</span>
         </div>
         <!-- <div class="share" (click)="share()">
             <span></span>

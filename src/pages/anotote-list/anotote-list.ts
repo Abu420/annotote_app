@@ -464,6 +464,7 @@ export class AnototeList {
         // this.hideLoading();
         this.fbLoading = false;
         for (let anotote of result.data.annototes) {
+          anotote.checked = false;
           anotote.createdAt = anotote.userAnnotote.createdAt
         }
         this.top_anototes = result.data.annototes;
@@ -482,19 +483,18 @@ export class AnototeList {
         this.stream.top_page_no = this.current_page;
         this.stream.top_first_load = true;
 
-        if (this.user.tutorialStatus == 0) 
+        if (this.user.tutorialStatus == 0)
           this.authService.update_profile({
             tutorial_status: 1
           }).subscribe((response) => {
             this.authService.updateUser(response.data.user);
-            this.user.tutorialStatus = 1;
           }, (error) => {
             if (error.code == -1) {
               this.utilityMethods.internet_connection_error();
             } else
               this.utilityMethods.message_alert('Error', 'This email has already been taken.');
           });
-        
+
       }, (error) => {
         // this.hideLoading();
         this.fbLoading = false;
@@ -1020,51 +1020,54 @@ export class AnototeList {
     if (this.anototes.indexOf(anotote) > 2) {
       this.content.scrollTo(0, this.anototes.indexOf(anotote) * 65, 500);
     }
-    if (anotote.chatGroup == null && this.current_color == 'me') {
+    if (anotote.chatGroup == null && (this.current_color == 'me' || anotote.active_tab == 'me')) {
       if (this.current_active_highlight) {
         this.current_active_highlight.edit = false;
         this.current_active_highlight.show_autocomplete = false;
       }
-      anotote.active_tab = 'me';
-      if (this.current_active_anotote != null) {
-        if (this.current_active_anotote.id != anotote.id) {
-          this.current_active_anotote.checked = false;
-          this.current_active_anotote.active = false;
-          if (anotote.checked) {
-            // this.title_temp = '';
-            // this.move_fab = false;
-            // anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
+      if (this.current_color == 'me') {
+        anotote.active_tab = 'me';
+        if (this.current_active_anotote != null) {
+          if (this.current_active_anotote.id != anotote.id) {
+            this.current_active_anotote.checked = false;
+            this.current_active_anotote.active = false;
+            if (!anotote.checked) {
+              this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
+              anotote.checked = true;
+              anotote.active = false;
+            }
+            this.current_active_anotote = anotote;
           } else {
+            if (!this.current_active_anotote.checked) {
+              this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle;
+              this.current_active_anotote.checked = true;
+              this.current_active_anotote.active = false;
+            }
+          }
+        } else {
+          if (!anotote.checked) {
             this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
-            // this.move_fab = true;
             anotote.checked = true;
-            anotote.active = false;
           }
           this.current_active_anotote = anotote;
-        } else {
-          if (this.current_active_anotote.checked) {
-            // this.move_fab = false;
-            // this.title_temp = '';
-            // this.current_active_anotote.checked = false;
-            // this.current_active_anotote = null;
-          } else {
-            // this.move_fab = true;
-            this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle;
+        }
+      } else if (this.current_color != 'me') {
+        if (this.current_active_anotote) {
+          if (this.current_active_anotote.id == anotote.id) {
+            this.title_temp = this.current_color == "follows" ? anotote.userAnnotote.anototeDetail.meToteFollowTop.annototeTitle : anotote.anototeDetail.meToteFollowTop.annototeTitle;
             this.current_active_anotote.checked = true;
             this.current_active_anotote.active = false;
+          } else {
+            this.current_active_anotote.checked = false;
+            this.current_active_anotote.active = false;
+            if (!anotote.checked) {
+              this.title_temp = this.current_color == "follows" ? anotote.userAnnotote.anototeDetail.meToteFollowTop.annototeTitle : anotote.anototeDetail.meToteFollowTop.annototeTitle;
+              anotote.checked = true;
+              anotote.active = false;
+            }
+            this.current_active_anotote = anotote;
           }
         }
-      } else {
-        if (anotote.checked) {
-          // this.title_temp = '';
-          // this.move_fab = false;
-          // anotote.checked = false;  // used variable of bulk action as bulk action is eliminated
-        } else {
-          this.title_temp = anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle
-          // this.move_fab = true;
-          anotote.checked = true;
-        }
-        this.current_active_anotote = anotote;
       }
     } else if (anotote.chatGroup == null && this.current_color != 'me') {
       this.options(anotote);
@@ -1124,28 +1127,39 @@ export class AnototeList {
 
   saveTitle(anotote) {
     if (anotote.chatGroup == null) {
-      if (this.title_temp != anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle && this.title_temp != '') {
-        this.showLoading("Saving title");
-        var params: any = {
-          annotote_id: anotote.userAnnotote.id,
-          annotote_title: this.title_temp,
-          updated_at: this.utilityMethods.get_php_wala_time()
-        }
-        this.anototeService.saveTitle(params).subscribe((success) => {
-          this.hideLoading();
+      this.showLoading("Saving title");
+      var params: any = {
+        annotote_id: this.current_color == 'me' ? anotote.userAnnotote.id : this.current_color == "follows" ? anotote.userAnnotote.anototeDetail.meToteFollowTop.id : anotote.anototeDetail.meToteFollowTop.id,
+        annotote_title: this.title_temp,
+        updated_at: this.utilityMethods.get_php_wala_time()
+      }
+      this.anototeService.saveTitle(params).subscribe((success) => {
+        this.hideLoading();
+        if (this.current_color == 'me') {
           anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle = success.data.annotote.annototeTitle;
           anotote.userAnnotote.annotote.title = success.data.annotote.annototeTitle;
-          anotote.checked = false;
-          this.current_active_anotote = null;
-          // this.toastInFooter("Title updated")
-        }, (error) => {
-          this.hideLoading();
-          if (error.code == -1) {
-            this.utilityMethods.internet_connection_error();
-          } else
-            this.toastInFooter("Couldn't update title");
-        })
-      }
+          this.stream.follow_first_load = false;
+          this.stream.top_first_load = false;
+        } else {
+          this.stream.me_first_load = false;
+          if (this.current_color == 'follows') {
+            this.stream.top_first_load = false;
+            anotote.userAnnotote.anototeDetail.meToteFollowTop.annototeTitle = success.data.annotote.annototeTitle;
+          } else {
+            this.stream.follow_first_load = false;
+            anotote.anototeDetail.meToteFollowTop.annototeTitle = success.data.annotote.annototeTitle;
+          }
+        }
+        anotote.checked = false;
+        this.current_active_anotote = null;
+        this.content.resize();
+      }, (error) => {
+        this.hideLoading();
+        if (error.code == -1) {
+          this.utilityMethods.internet_connection_error();
+        } else
+          this.toastInFooter("Couldn't update title");
+      })
     } else if (anotote.chatGroup != null) {
       if (this.title_temp != anotote.chatGroup.messagesUser[0].subject && this.title_temp != '') {
         this.showLoading("Saving title");
@@ -1487,19 +1501,24 @@ export class AnototeList {
         }
       }
     } else {
-      if (anotote.active)
-        anotote.active = false;
-      else
-        anotote.active = true;
-
       if (this.current_active_anotote)
         this.current_active_anotote.active = false;
 
-      if (this.tutorial_active_tote)
-        this.tutorial_active_tote.active = false;
+      if (this.tutorial_active_tote) {
+        if (this.tutorial_active_tote.active) {
+          this.tutorial_active_tote.active = false;
+          this.tutorial_active_tote = null;
+          return;
+        } else
+          this.tutorial_active_tote.active = true;
+      } else {
+        if (anotote.active)
+          anotote.active = false;
+        else
+          anotote.active = true;
+      }
 
       this.tutorial_active_tote = anotote;
-
     }
   }
 
@@ -1528,7 +1547,7 @@ export class AnototeList {
   }
 
   annotation_options(highlight) {
-    if (this.current_color == 'me' && this.current_active_anotote.active_tab == 'me' && this.reorder_highlights == false) {
+    if (this.current_active_anotote.active_tab == 'me' && this.reorder_highlights == false) {
       this.current_active_anotote.checked = false;
       if (this.anototes.indexOf(this.current_active_anotote) > 2) {
         this.content.scrollTo(0, this.anototes.indexOf(this.current_active_anotote) * 140, 500);
@@ -1570,7 +1589,9 @@ export class AnototeList {
         } else {
           // this.move_fab = true;
           highlight.edit = true;
-          this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+          if (highlight.comment == null)
+            highlight.comment = '';
+          this.edit_highlight_text = Object.assign(highlight.comment);
           this.edit_actual_highlight = highlight.highlightText;
         }
         this.current_active_highlight = highlight;
@@ -1582,20 +1603,18 @@ export class AnototeList {
         } else {
           // this.move_fab = true;
           highlight.edit = true;
-          this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+          if (highlight.comment == null)
+            highlight.comment = '';
+          this.edit_highlight_text = highlight.comment;
           this.edit_actual_highlight = highlight.highlightText;
         }
       }
     } else {
-      if (highlight.edit) {
-        //no need to close edit mode on long press
-        // this.move_fab = false;
-        // highlight.edit = false;
-        // highlight.show_autocomplete = false;
-      } else {
-        // this.move_fab = true;
+      if (!highlight.edit) {
         highlight.edit = true;
-        this.edit_highlight_text = highlight.comment == null ? '' : highlight.comment;
+        if (highlight.comment == null)
+          highlight.comment = '';
+        this.edit_highlight_text = highlight.comment;
         this.edit_actual_highlight = highlight.highlightText;
       }
       this.current_active_highlight = highlight;
@@ -1757,7 +1776,7 @@ export class AnototeList {
               file_text: document.getElementById('temp_text_editor').innerHTML,
               comment: this.edit_highlight_text,
               identifier: highlight.identifier,
-              user_tote_id: this.current_active_anotote.userAnnotote.id
+              user_tote_id: this.current_color == 'me' ? this.current_active_anotote.userAnnotote.id : this.current_color == "follows" ? this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.current_active_anotote.anototeDetail.meToteFollowTop.id
             }
             this.anototeService.update_annotation(params).subscribe((result) => {
               this.hideLoading();
@@ -1768,6 +1787,7 @@ export class AnototeList {
               this.current_active_highlight = null;
               this.text = '';
               this.stream.top_first_load = false;
+              this.stream.follow_first_load = false;
               // this.edit_actual_highlight = '';
               if (tags.length > 0) {
                 var params = {
@@ -1850,74 +1870,15 @@ export class AnototeList {
       this.nameInputIndex = event.target.selectionStart;
       var params = {
         tag: event.key,
-        id: 0
       }
-      if (event.key == '@')
-        params.id = 2;
-      else if (event.key == '#')
-        params.id = 3
-      else if (event.key == '$')
-        params.id = 4
-
       let tagsExlusive = this.modalCtrl.create(TagsExclusive, params);
       tagsExlusive.onDidDismiss((data) => {
         if (data) {
-          if (params.id != 2)
-            this.edit_highlight_text = this.edit_highlight_text.substring(0, this.nameInputIndex) + data.tag + " " + this.edit_highlight_text.substring(this.nameInputIndex, this.edit_highlight_text.length);
-          else if (params.id == 2)
-            this.edit_highlight_text = this.edit_highlight_text.substring(0, this.nameInputIndex - 1) + data.tag + " " + this.edit_highlight_text.substring(this.nameInputIndex, this.edit_highlight_text.length);
+          this.edit_highlight_text = this.edit_highlight_text.substring(0, this.nameInputIndex - 1) + data.tag + " " + this.edit_highlight_text.substring(this.nameInputIndex + 1, this.edit_highlight_text.length);
         }
       })
       tagsExlusive.present();
     }
-    // if (this.edit_highlight_text[this.edit_highlight_text.length - 1] == '@') {
-    //   this.nameInputIndex = this.edit_highlight_text.length - 1;
-    //   this.isTagging = true;
-    // }
-    // if (this.isTagging) {
-    //   if (this.nameInputIndex > this.edit_highlight_text.length - 1) {
-    //     this.current_active_highlight.show_autocomplete = false;
-    //     this.taggies = [];
-    //     this.isTagging = false;
-    //     this.nameInputIndex = 0;
-    //     return;
-    //   } else if (this.nameInputIndex != this.edit_highlight_text.length - 1) {
-    //     this.nameEntered = this.edit_highlight_text.substr(this.nameInputIndex + 1);
-    //     if (this.nameEntered.split(' ').length == 1) {
-    //       var params = {
-    //         name: this.nameEntered
-    //       }
-    //       if (params.name != '') {
-    //         this.current_active_highlight.no_user_found = false;
-    //         this.current_active_highlight.show_autocomplete = true;
-    //         this.current_active_highlight.search_user = true;
-    //         this.taggies = [];
-    //         this.searchService.autocomplete_users(params).subscribe((result) => {
-    //           this.current_active_highlight.search_user = false;
-    //           this.taggies = result.data.users;
-    //           if (this.taggies.length == 0) {
-    //             this.current_active_highlight.no_user_found = true;
-    //           }
-    //         }, (error) => {
-    //           this.current_active_highlight.search_user = false;
-    //           this.current_active_highlight.show_autocomplete = true;
-    //           this.current_active_highlight.no_user_found = false;
-    //           this.taggies = [];
-    //           if (error.code == -1) {
-    //             this.utilityMethods.internet_connection_error();
-    //           }
-    //         })
-    //       }
-    //     } else {
-    //       this.current_active_highlight.show_autocomplete = false;
-    //       this.taggies = [];
-    //       this.isTagging = false;
-    //       this.nameInputIndex = 0;
-    //       return;
-    //     }
-    //   }
-    // }
-
   }
 
   selected_user(event, user) {
