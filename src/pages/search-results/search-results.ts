@@ -340,11 +340,18 @@ export class SearchResults {
         }
       } else if (data.delete == true) {
         if (message == null) {
-          this.current_active_anotote = null;
           this.stream.top_first_load = false;
           this.stream.follow_first_load = false;
           this.stream.me_first_load = false;
-          this.search_results.splice(this.search_results.indexOf(anotote), 1);
+          anotote.userAnnotote.isMe = 0;
+          if (anotote.userAnnotote.isTop == 0 && anotote.userAnnotote.follows.length == 0)
+            this.search_results.splice(this.search_results.indexOf(anotote), 1);
+          else if (anotote.userAnnotote.isTop == 1)
+            this.show_top_tab(anotote.userAnnotote);
+          else if (anotote.userAnnotote.follows.length > 0) {
+            this.follow_visited = false;
+            this.follows_popup(null, anotote.userAnnotote);
+          }
         } else {
           anotote.chatGroup.messagesUser.splice(anotote.chatGroup.messagesUser.indexOf(message), 1);
         }
@@ -370,7 +377,6 @@ export class SearchResults {
           this.go_to_chat_thread(anotote)
         }
       } else if (data.toggle) {
-        anotote.userAnnotote.meToteFollowTop = data.meTote[0];
         this.showMeHighlights(anotote.userAnnotote);
       }
     });

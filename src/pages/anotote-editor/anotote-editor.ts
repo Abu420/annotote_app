@@ -641,14 +641,17 @@ export class AnototeEditor implements OnDestroy {
                 var range = this.range;
             } else {
                 var selection: any = window.getSelection();
-                // var range = selection.getRangeAt(0);highlight_comment
-                if (selection.baseNode.nextSibling && (selection.baseNode.nextSibling.className == 'highlight_quote' || selection.baseNode.nextSibling.className == 'highlight_comment')) {
+                // if (selection.baseNode.nextSibling && (selection.baseNode.nextSibling.className == 'highlight_quote' || selection.baseNode.nextSibling.className == 'highlight_comment')) {
+                if (selection.baseOffset > selection.extentOffset) {
                     this.toastInFooter('The selection overlapps with the already annotated text.');
+                    this.selection_lock = false;
                     return false;
                 }
                 var range: any = document.createRange();
-                range.setStart(this.selection.startContainer, this.selection.startOffset);
-                range.setEnd(this.selection.endContainer, this.selection.endOffset);
+                range.setStart(selection.baseNode, selection.baseOffset);
+                range.setEnd(selection.extentNode, selection.extentOffset);
+                // range.setStart(this.selection.startContainer, this.selection.startOffset);
+                // range.setEnd(this.selection.endContainer, this.selection.endOffset);
             }
 
             // var nodes = [];
@@ -705,6 +708,8 @@ export class AnototeEditor implements OnDestroy {
             return true;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
+            this.selection_lock = false;
+            this.selectedText = '';
             return false;
         }
     }
@@ -1186,6 +1191,7 @@ export class AnototeEditor implements OnDestroy {
             .subscribe((response) => {
                 this.selectedText = '';
                 this.selection_lock = false;
+                this.selection = '';
                 if (this.actual_stream == 'anon') {
                     this.initializeAfterAnon();
                 } else {
@@ -1827,10 +1833,38 @@ export class AnototeEditor implements OnDestroy {
                     tagsModal.present();
                 }
             } else if (data.delete == true) {
-                this.runtime.top_first_load = false;
-                this.runtime.follow_first_load = false;
-                this.runtime.me_anototes.splice(this.runtime.me_anototes.indexOf(this.ANOTOTE), 1)
-                this.navCtrl.pop();
+                if (this.WHICH_STREAM == 'me') {
+                    this.runtime.top_first_load = false;
+                    this.runtime.follow_first_load = false;
+                    this.runtime.me_anototes.splice(this.runtime.me_anototes.indexOf(this.ANOTOTE), 1)
+                    this.navCtrl.pop();
+                } else {
+                    this.ANOTOTE.isMe = 0;
+                    if (this.WHICH_STREAM == 'follows') {
+                        this.ANOTOTE.userAnnotote.anototeDetail.isMe = 0;
+                        this.runtime.me_first_load = false;
+                        this.runtime.top_first_load = false;
+                        this.follow_visited = false;
+                        this.open_follows_popup(null, this.ANOTOTE);
+                    } else if (this.WHICH_STREAM == 'top') {
+                        this.ANOTOTE.anototeDetail.isMe = 0;
+                        this.runtime.me_first_load = false;
+                        this.runtime.follow_first_load = false;
+                        this.show_top_tab(this.ANOTOTE);
+                    } else if (this.WHICH_STREAM == 'anon') {
+                        this.ANOTOTE.isMe = 0;
+                        this.runtime.top_first_load = false;
+                        this.runtime.me_first_load = false;
+                        this.runtime.follow_first_load = false;
+                        if (this.ANOTOTE.isTop == 0 && this.ANOTOTE.follows.length == 0) {
+                            this.navCtrl.pop();
+                        } else if (this.ANOTOTE.isTop == 1) {
+                            this.show_top_tab(this.ANOTOTE);
+                        } else if (this.ANOTOTE.follows.length > 0) {
+                            this.top_follows_popup(null, this.ANOTOTE);
+                        }
+                    }
+                }
             } else if (data.chat) {
                 var chatParams = {
                     anotote: this.ANOTOTE,

@@ -195,7 +195,7 @@
                         <img src="assets/img/option-icon.png" />
                     </li>
                 </ng-container>
-                <ng-container *ngIf="actual_stream == 'anon' && stream == 'me'">
+                <ng-container *ngIf="(actual_stream == 'anon' || actual_stream == 'search') && stream == 'me'">
                     <li *ngIf="anotote.meToteFollowTop.tags.length == 0" (tap)="presentTagsModal()">
                         <span>Add Tags</span>
                     </li>

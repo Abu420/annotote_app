@@ -267,9 +267,9 @@ export class AnototeOptions {
             userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
             delete: 1
           }
-        } else if (this.actual_stream == 'search')
+        } else if (this.actual_stream == 'search' || this.actual_stream == 'anon')
           var params = {
-            userAnnotote_ids: this.anotote.userAnnotote.id,
+            userAnnotote_ids: this.anotote.meToteFollowTop.id,
             delete: 1
           }
         var toast = this.utilityMethods.doLoadingToast("Deleting");
@@ -372,21 +372,25 @@ export class AnototeOptions {
       this.anototeService.save_totes(params).subscribe((result) => {
         toast.dismiss();
         if (result.status == 1) {
-          if (result.data.save_count == 1) {
+          this.runtime.me_first_load = false;
+          this.anotote.isMe = 1;
+          if (this.actual_stream != 'search')
+            if (this.stream == 'top') {
+              this.anotote.anototeDetail.isMe = 1;
+              this.anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+              this.runtime.follow_first_load = false;
+            } else {
+              this.anotote.userAnnotote.anototeDetail.isMe = 1;
+              this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+              this.runtime.top_first_load = false;
+            }
+          else {
+            this.runtime.follow_first_load = false;
+            this.runtime.top_first_load = false;
             this.anotote.isMe = 1;
-            if (this.actual_stream != 'search')
-              if (this.stream == 'top') {
-                this.anotote.anototeDetail.isMe = 1;
-                this.anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-                this.runtime.follow_first_load = false;
-              } else {
-                this.anotote.userAnnotote.anototeDetail.isMe = 1;
-                this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-                this.runtime.top_first_load = false;
-              }
-            this.runtime.me_first_load = false;
+            this.anotote.meToteFollowTop = result.data.meToteFollowTop[0];
           }
-          this.toggle(result.data.meToteFollowTop);
+          this.toggle();
         }
       }, (error) => {
         toast.dismiss();
@@ -419,11 +423,11 @@ export class AnototeOptions {
     }, 300)
   }
 
-  toggle(meTote) {
+  toggle() {
     this.statusbar.show();
     this.show = false;
     setTimeout(() => {
-      this.viewCtrl.dismiss({ tags: false, delete: false, chat: false, toggle: true, meTote: meTote });
+      this.viewCtrl.dismiss({ tags: false, delete: false, chat: false, toggle: true });
     }, 300)
   }
 

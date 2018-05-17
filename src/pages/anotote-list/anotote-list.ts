@@ -342,15 +342,13 @@ export class AnototeList {
     this.follow_visited = false;
 
     if (this.current_active_anotote) {
-      if (this.current_color == 'me') {
-        if (this.current_active_anotote.chatGroup == null) {
-          if (this.current_active_anotote.active_tab == 'me')
-            this.move_fab = false;
-          else if (this.current_active_anotote.active_tab == 'follows' || this.current_active_anotote.active_tab == 'top')
-            this.move_fab = true;
-        } else {
+      if (this.current_active_anotote.chatGroup == null) {
+        if (this.current_active_anotote.active_tab == 'me')
+          this.move_fab = false;
+        else if (this.current_active_anotote.active_tab == 'follows' || this.current_active_anotote.active_tab == 'top')
           this.move_fab = true;
-        }
+      } else {
+        this.move_fab = true;
       }
     }
     if (this.mentionedCase == false) {
@@ -432,9 +430,12 @@ export class AnototeList {
       this.anototeService.fetchTotes(this.whichStream, this.current_page++).subscribe((result) => {
         let stream = result.data.annototes;
         for (let entry of stream) {
-          this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+          if (this.current_color == 'me')
+            this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
+          else if (entry.chatGroup != null || (entry.userAnnotote && entry.userAnnotote.annototeHeighlights.length > 0))
+            this.anototes.push(new ListTotesModel(entry.id, entry.type, entry.userToteId, entry.chatGroupId, entry.userAnnotote, entry.chatGroup, entry.createdAt, entry.updatedAt));
         }
-        if (this.anototes.length == 0 || this.anototes.length < 20)
+        if (result.data.annototes.length == 0 || result.data.annototes.length < 20)
           this.infiniteComplete = true;
 
         if (this.current_color == 'me') {
@@ -2162,9 +2163,14 @@ export class AnototeList {
           } else {
             anotote.isMe = 0;
             if (this.current_color == 'follows') {
-              this.loadFollower(anotote, anotote.follower[0]);
+              this.stream.me_first_load = false;
+              this.stream.top_first_load = false;
+              this.follow_visited = false;
+              this.open_follows_popup(null, anotote);
             } else {
-              this.loadFollower(anotote, anotote.follows[0]);
+              this.stream.me_first_load = false;
+              this.stream.follow_first_load = false;
+              this.show_top_tab(anotote)
             }
           }
         } else {
