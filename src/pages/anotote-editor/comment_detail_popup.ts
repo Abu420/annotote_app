@@ -164,10 +164,10 @@ export class CommentDetailPopup {
     }
     this.anotote_txt = test1;
     if ((this.new_comment != this.anotote_comment && this.new_comment != '') || (this.anotote_txt != this.actual_anotated && this.anotote_txt != '')) {
-      var hashTags = this.searchTags('#');
-      var cashTags = this.searchTags('$');
-      var urls = this.uptags(this.new_comment);
-      var mentions = this.userTags();
+      var hashTags = this.searchService.searchTags('#', this.new_comment);
+      var cashTags = this.searchService.searchTags('$', this.new_comment);
+      var urls = this.searchService.uptags(this.new_comment);
+      var mentions = this.searchService.userTags(this.new_comment);
       this.show = false;
       setTimeout(() => {
         this.statusbar.show();
@@ -176,44 +176,6 @@ export class CommentDetailPopup {
       }, 100)
     } else
       this.utilityMethods.doToast("You didn't update any comment.");
-  }
-
-  uptags(comment) {
-    var matches = [];
-    matches = comment.match(/\bhttps?:\/\/\S+/gi);
-    if (matches)
-      for (let match of matches) {
-        this.new_comment = this.new_comment.replace(match, ' ^ ');
-      }
-    return matches == null ? [] : matches;
-  }
-
-  userTags() {
-    var matches = [];
-    var finalized = [];
-    matches = this.new_comment.split('`')
-    for (let match of matches) {
-      if (match[0] == '@') {
-        finalized.push(match);
-      }
-    }
-    return finalized;
-  }
-
-  searchTags(tag) {
-    var tags = [];
-    var check = false;
-    if (this.new_comment[0] == tag) {
-      check = true;
-    }
-    var tagsincomment = this.new_comment.split(tag);
-    var i = check ? 0 : 1;
-    for (var i = 1; i < tagsincomment.length; i++) {
-      var temp = tagsincomment[i].split(' ');
-      temp[0] = temp[0].replace(/[^\w\s]/gi, "")
-      tags.push(temp[0]);
-    }
-    return tags;
   }
 
   tag_user(event) {

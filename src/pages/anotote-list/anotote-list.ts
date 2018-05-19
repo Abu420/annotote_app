@@ -1666,14 +1666,14 @@ export class AnototeList {
   delete_annotation(annotation) {
     this.utilityMethods.confirmation_message("Are you sure?", "Do you really want to delete this annotation?", () => {
       this.showLoading('Deleting')
-      this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
+      this.searchService.get_anotote_content(this.current_color == 'me' ? this.current_active_anotote.userAnnotote.filePath : this.current_color == "follows" ? this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop.filePath : this.current_active_anotote.anototeDetail.meToteFollowTop.filePath)
         .subscribe((response_content) => {
           this.text = response_content.text();
           setTimeout(() => {
             var highlight_quote: any = document.getElementById(annotation.identifier);
             highlight_quote.replaceWith(highlight_quote.innerText);
             var params = {
-              user_annotate_id: this.current_active_anotote.userAnnotote.id,
+              user_annotate_id: this.current_color == 'me' ? this.current_active_anotote.userAnnotote.id : this.current_color == "follows" ? this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.current_active_anotote.anototeDetail.meToteFollowTop.id,
               identifier: annotation.identifier,
               file_text: document.getElementById('temp_text_editor').innerHTML,
               delete: 1
@@ -1721,10 +1721,10 @@ export class AnototeList {
 
   save_edited_annotation(highlight) {
     if ((this.edit_highlight_text != highlight.comment && this.edit_highlight_text != '') || (this.edit_actual_highlight != highlight.highlightText && this.edit_actual_highlight != '')) {
-      var hashTags = this.searchTags('#');
-      var cashTags = this.searchTags('$');
-      var urls = this.uptags();
-      var mentions = this.userTags();
+      var hashTags = this.searchService.searchTags('#', this.edit_highlight_text);
+      var cashTags = this.searchService.searchTags('$', this.edit_highlight_text);
+      var urls = this.searchService.uptags(this.edit_highlight_text);
+      var mentions = this.searchService.userTags(this.edit_highlight_text);
       var tags = [];
       if (hashTags.length > 0) {
         for (var i = 0; i < hashTags.length; i++) {
@@ -1763,7 +1763,7 @@ export class AnototeList {
         }
       }
       this.showLoading("Saving");
-      this.searchService.get_anotote_content(this.current_active_anotote.userAnnotote.filePath)
+      this.searchService.get_anotote_content(this.current_color == 'me' ? this.current_active_anotote.userAnnotote.filePath : this.current_color == "follows" ? this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop.filePath : this.current_active_anotote.anototeDetail.meToteFollowTop.filePath)
         .subscribe((response_content) => {
           this.text = response_content.text();
           setTimeout(() => {
@@ -1794,7 +1794,7 @@ export class AnototeList {
                 var params = {
                   tags: tags,
                   annotation_id: highlight.id,
-                  user_annotote_id: this.current_active_anotote.userAnnotote.id,
+                  user_annotote_id: this.current_color == 'me' ? this.current_active_anotote.userAnnotote.id : this.current_color == "follows" ? this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.current_active_anotote.anototeDetail.meToteFollowTop.id,
                   created_at: this.utilityMethods.get_php_wala_time(),
                 }
                 this.showLoading('Saving Tags');
@@ -1826,44 +1826,6 @@ export class AnototeList {
           }
         });
     }
-  }
-
-  uptags() {
-    var matches = [];
-    matches = this.edit_highlight_text.match(/\bhttps?:\/\/\S+/gi);
-    if (matches)
-      for (let match of matches) {
-        this.edit_highlight_text = this.edit_highlight_text.replace(match, ' ^ ');
-      }
-    return matches == null ? [] : matches;
-  }
-
-  userTags() {
-    var matches = [];
-    var finalized = [];
-    matches = this.edit_highlight_text.split('`')
-    for (let match of matches) {
-      if (match[0] == '@') {
-        finalized.push(match);
-      }
-    }
-    return finalized;
-  }
-
-  searchTags(tag) {
-    var tags = [];
-    var check = false;
-    if (this.edit_highlight_text[0] == tag) {
-      check = true;
-    }
-    var tagsincomment = this.edit_highlight_text.split(tag);
-    var i = check ? 0 : 1;
-    for (var i = 1; i < tagsincomment.length; i++) {
-      var temp = tagsincomment[i].split(' ');
-      temp[0] = temp[0].replace(/[^\w\s]/gi, "")
-      tags.push(temp[0]);
-    }
-    return tags;
   }
 
   tag_user(event) {

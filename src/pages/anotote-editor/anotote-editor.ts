@@ -1076,10 +1076,13 @@ export class AnototeEditor implements OnDestroy {
         element.replaceWith(element.innerText);
         var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
-        if (this.WHICH_STREAM != 'me') {
+        if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
-            tote_id = this.ANOTOTE.userAnnotote.id;
+            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' && this.FROM != 'search_result')))
+                tote_id = this.ANOTOTE.userAnnotote.id;
+            else
+                tote_id = this.ANOTOTE.meToteFollowTop.id;
         }
         this.searchService.remove_anotation({ delete: 1, identifier: an_id, file_text: article_txt, user_annotate_id: tote_id })
             .subscribe((response) => {
@@ -1107,8 +1110,12 @@ export class AnototeEditor implements OnDestroy {
                     }
                     if (this.WHICH_STREAM == 'follows') {
                         this.ANOTOTE.top_highlights = null;
-                    } else {
+                    } else if (this.WHICH_STREAM == 'top') {
                         this.runtime.follow_first_load = false;
+                    } else if (this.WHICH_STREAM == 'anon') {
+                        this.runtime.me_first_load = false;
+                        this.runtime.follow_first_load = false;
+                        this.runtime.top_first_load = false;
                     }
                 }
             }, (error) => {
@@ -1127,7 +1134,10 @@ export class AnototeEditor implements OnDestroy {
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
-            tote_id = this.ANOTOTE.userAnnotote.id;
+            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' && this.FROM != 'search_result')))
+                tote_id = this.ANOTOTE.userAnnotote.id;
+            else
+                tote_id = this.ANOTOTE.meToteFollowTop.id;
         }
         this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
@@ -1155,9 +1165,11 @@ export class AnototeEditor implements OnDestroy {
                     if (this.WHICH_STREAM == 'follows') {
                         this.ANOTOTE.top_highlights = null;
                     }
-                } else {
+                } else if (this.WHICH_STREAM == 'anon' && this.actual_stream != 'anon') {
                     this.runtime.me_first_load = false;
-                    for (let highlight of this.ANOTOTE.userAnnotote.highlights) {
+                    this.runtime.follow_first_load = false;
+                    this.runtime.top_first_load = false;
+                    for (let highlight of this.ANOTOTE.my_highlights) {
                         if (highlight.id == response.data.highlight.id) {
                             highlight.comment = response.data.highlight.comment;
                             highlight.highlightText = response.data.highlight.highlightText;
@@ -1182,7 +1194,7 @@ export class AnototeEditor implements OnDestroy {
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
-            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' || this.FROM != 'search_result')))
+            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' && this.FROM != 'search_result')))
                 tote_id = this.ANOTOTE.userAnnotote.id;
             else
                 tote_id = this.ANOTOTE.meToteFollowTop.id;
@@ -1212,6 +1224,11 @@ export class AnototeEditor implements OnDestroy {
                         } else {
                             this.runtime.follow_first_load = false;
                         }
+                    } else if (this.WHICH_STREAM == 'anon' && this.actual_stream != 'anon') {
+                        this.runtime.me_first_load = false;
+                        this.runtime.top_first_load = false;
+                        this.runtime.follow_first_load = false;
+                        this.ANOTOTE.my_highlights.push(response.data.annotation);
                     }
                 }
                 if (tags.length > 0) {

@@ -17,6 +17,7 @@ export class SearchService {
      */
     private _user: User;
     public saved_searches = [];
+    private bracketStartIndex = 0;
 
     public constructor(public http: Http, public constants: Constants, public storage: Storage) {
     }
@@ -44,9 +45,10 @@ export class SearchService {
         var search_results = [];
         for (let tote of response.data.annotote) {
             if (tote.annotote) {
-                if (tote.userAnnotote && tote.userAnnotote.highlights.length > 0) {
+                if (tote.userAnnotote && (tote.userAnnotote.highlights.length > 0 || tote.userAnnotote.isMe == 1)) {
                     tote.is_tote = true;
                     tote.active = false;
+                    tote.checked = false;
                     tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
                     tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
                     tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
@@ -57,6 +59,9 @@ export class SearchService {
                         tote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
                         tote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
                         active_tab = 'me'
+                        if (tote.userAnnotote.meToteFollowTop == null) {
+                            tote.userAnnotote.meToteFollowTop = tote.userAnnotote.userAnnotote;
+                        }
                     } else if (tote.userAnnotote.follows.length > 0) {
                         active_tab = 'follows';
                         if (tote.userAnnotote.follows.length == 0 || tote.userAnnotote.follows.length == undefined) {
@@ -101,6 +106,7 @@ export class SearchService {
             var anotote = {
                 isChat: true,
                 is_tote: false,
+                checked: false,
                 chatGroup: group
             }
             chats.push(anotote);
@@ -119,6 +125,76 @@ export class SearchService {
             users: users,
             search_results: search_results
         }
+    }
+
+    public brackets(event, edit_actual_highlight) {
+        let textarea: HTMLTextAreaElement = event.target;
+        if (this.bracketStartIndex == 0) {
+            this.bracketStartIndex = textarea.selectionStart - 1;
+            return null
+        } else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+            if (edit_actual_highlight[textarea.selectionStart - 1] == ' ') {
+                var firstHalf = edit_actual_highlight.substr(0, this.bracketStartIndex);
+                firstHalf += ' [';
+                var sec = edit_actual_highlight.substring(this.bracketStartIndex, textarea.selectionStart);
+                sec.trim();
+                firstHalf += sec + ']';
+                firstHalf += edit_actual_highlight.substr(textarea.selectionStart, edit_actual_highlight.length);
+                edit_actual_highlight = firstHalf;
+                this.bracketStartIndex = 0;
+                return edit_actual_highlight;
+            }
+        }
+    }
+
+    public ellipsis(event, edit_actual_highlight) {
+        let textarea: HTMLTextAreaElement = event.target;
+        if (edit_actual_highlight[textarea.selectionStart - 1] == ' ') {
+            var firstHalf = edit_actual_highlight.substr(0, textarea.selectionStart - 1);
+            firstHalf += ' ... ';
+            firstHalf += edit_actual_highlight.substr(textarea.selectionStart, edit_actual_highlight.length);
+            edit_actual_highlight = firstHalf;
+            return edit_actual_highlight;
+        }
+        return null;
+    }
+
+    uptags(text) {
+        var matches = [];
+        matches = text.match(/\bhttps?:\/\/\S+/gi);
+        if (matches)
+            for (let match of matches) {
+                text = text.replace(match, ' ^ ');
+            }
+        return matches == null ? [] : matches;
+    }
+
+    userTags(text) {
+        var matches = [];
+        var finalized = [];
+        matches = text.split('`')
+        for (let match of matches) {
+            if (match[0] == '@') {
+                finalized.push(match);
+            }
+        }
+        return finalized;
+    }
+
+    searchTags(tag, text) {
+        var tags = [];
+        var check = false;
+        if (text[0] == tag) {
+            check = true;
+        }
+        var tagsincomment = text.split(tag);
+        var i = check ? 0 : 1;
+        for (var i = 1; i < tagsincomment.length; i++) {
+            var temp = tagsincomment[i].split(' ');
+            temp[0] = temp[0].replace(/[^\w\s]/gi, "")
+            tags.push(temp[0]);
+        }
+        return tags;
     }
 
     /**

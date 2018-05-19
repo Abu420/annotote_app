@@ -458,48 +458,6 @@ search-results {
                         .label-md {
                             margin: 0px;
                             >div {
-                                &.editTitle {
-                                    background: #e0e0e0;
-                                    .img-holder {
-                                        // background-image: url(../assets/img/grayDotIcon.svg);
-                                        background-image: url(../assets/img/option-icon.png);
-                                        background-position: center;
-                                        background-repeat: no-repeat;
-                                        background-size: 5px;
-                                    }
-                                    .txt {
-                                        padding: 16px 10px 0px 0px; // input {
-                                        //     margin: 0px;
-                                        //     padding: 0px;
-                                        //     border: 0px;
-                                        //     background: #e0e0e0;
-                                        //     font-size: 16px;
-                                        //     width: 100%;
-                                        // }
-                                        textarea {
-                                            margin: 0px;
-                                            padding: 0px;
-                                            border: 0px;
-                                            background: #e0e0e0;
-                                            font-size: 16px;
-                                            width: 100%;
-                                            resize: none;
-                                        }
-                                        .totBtn {
-                                            float: right;
-                                            margin-top: 8px;
-                                            span {
-                                                font-size: 12px;
-                                                text-transform: uppercase;
-                                                color: #a9a9a9;
-                                                margin-left: 10px;
-                                                &.saveBtn {
-                                                    color: #319e07;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
                                 &.toteActive {
                                     overflow: visible;
                                     max-height: 0px;
@@ -566,6 +524,20 @@ search-results {
                                     min-height: 72px;
                                     position: relative;
                                     float: right;
+                                    form {
+                                        textarea {
+                                            margin: 0px;
+                                            padding: 0px;
+                                            border: 0px;
+                                            background: #e0e0e0;
+                                            font-size: 16px;
+                                            width: 100%;
+                                            resize: none;
+                                            width: 100%;
+                                            background: inherit;
+                                            border: 0;
+                                        }
+                                    }
                                     &.line-loader {
                                         span {
                                             height: 8px;
