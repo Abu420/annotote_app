@@ -44,7 +44,7 @@ export class CommentDetailPopup {
   public nameInputIndex: number = 0;
   private search_user: boolean = false;
   public mentioned: any = [];
-  public quoteThreeDots: boolean = false;
+  public fieldInContent: boolean = false;
   public actual_anotated: any = '';
   public bracketStartIndex = 0;
   public selected_follower_name: string = '';
@@ -77,17 +77,13 @@ export class CommentDetailPopup {
     this.total_followers = params.get('total_followers');
     this.new_comment = Object.assign(this.anotote_comment);
     this.annotation = params.get('anotation');
-    if (this.annotation.comment != null)
-      this.quoteThreeDots = true;
+    if (this.anotote_comment == '' && this.stream == 'me')
+      this.fieldInContent = true;
     this.events.subscribe('closeModal', () => {
       this.dismiss();
     })
     if (utilityMethods.whichPlatform() == 'ios')
       statusbar.hide();
-  }
-
-  showTextarea() {
-    this.quoteThreeDots = true;
   }
 
   dismiss() {
@@ -128,6 +124,7 @@ export class CommentDetailPopup {
   }
 
   updateComment() {
+    this.fieldInContent = false;
     var test = this.anotote_txt.split(' ');
     var test1 = '';
     for (var i = 0; i < test.length; i++) {
@@ -316,7 +313,7 @@ export class CommentDetailPopup {
     event.stopPropagation();
     var tag: string = event.target.textContent;
     var check = tag.split(' ');
-    if ((tag[0] == '#' || tag[0] == '$' || tag[0] == '@') && check.length == 1) {
+    if (((tag[0] == '#' || tag[0] == '$') && check.length == 1) || (tag[0] == '@' && tag.length != this.new_comment.length)) {
       tag = tag.replace('#', '');
       tag = tag.replace('$', '');
       tag = tag.replace('@', '');
@@ -331,6 +328,9 @@ export class CommentDetailPopup {
         this.statusbar.show();
         this.viewCtrl.dismiss({ delete: false, share: false, update: false, comment: '', upvote: false, tags: true, search: tag, link: true });
       }, 100)
+    } else {
+      if (this.stream == 'me')
+        this.fieldInContent = true;
     }
   }
 
