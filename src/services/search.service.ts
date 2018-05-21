@@ -88,7 +88,8 @@ export class SearchService {
                         tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
                         tote.userAnnotote.follower_tags = tote.userAnnotote.follows[0].followTote.tags
                         tote.userAnnotote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
-                        tote.userAnnotote.highlights = tote.userAnnotote.follows[0].highlights;
+                        if (active_tab == 'follows')
+                            tote.userAnnotote.highlights = tote.userAnnotote.follows[0].highlights;
                     }
                     if (tote.userAnnotote.isTop == 1) {
                         tote.userAnnotote.topVote = {

@@ -182,11 +182,11 @@
                         </div>
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
-                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
+                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [side]="'start'" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.highlights">
-                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items">
+                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights}">
                                     <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
-                                        <div class="txt">
+                                        <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                             <p>{{highlight.highlightText}}</p>
                                             <!-- <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p> -->
                                             <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)" [innerHTML]="highlight | boldTags"></p>
@@ -194,7 +194,7 @@
                                                 <img src="assets/img/dotsicon.svg" alt="">
                                             </div> -->
                                         </div>
-                                        <ng-container *ngIf="current_color != 'anon'">
+                                        <ng-container *ngIf="current_color != 'anon' && reorder_highlights == false">
                                             <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
                                                 <img src="assets/img/quoteImg.svg" alt="">
                                             </span>
@@ -215,11 +215,12 @@
                                         <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
                                         <div class="moveBtn">
                                             <button class="topIcon">
-                                                <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt="">
+                                                <!-- <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt=""> -->
+                                                <img (click)="enable_list_reorder($event,highlight)" src="assets/img/arrows.png" alt="">
                                             </button>
-                                            <button class="bottomIcon">
+                                            <!-- <button class="bottomIcon">
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
-                                            </button>
+                                            </button> -->
                                         </div>
                                         <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                     </div>
@@ -427,10 +428,10 @@
                         </div>
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
-                        <ion-list no-lines class="details-list layout">
-                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" *ngFor="let highlight of anotote.highlights">
+                        <ion-list (ionItemReorder)="reorderItems($event, anotote)" [side]="'start'" [reorder]="reorder_highlights" no-lines class="details-list layout">
+                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights}" *ngFor="let highlight of anotote.highlights">
                                 <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
-                                    <div class="txt">
+                                    <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                         <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
                                         <p>{{highlight.highlightText}}</p>
                                         <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != ''" [innerHTML]="highlight | boldTags"></p>
@@ -438,22 +439,24 @@
                                         <img src="assets/img/dotsicon.svg" alt="">
                                     </div> -->
                                     </div>
-                                    <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
-                                        <img src="assets/img/quoteImg.svg" alt="">
-                                    </span>
-                                    <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">
-                                        <img src="assets/img/commentImg.svg" alt="">
-                                    </span>
+                                    <ng-container *ngIf="reorder_highlights == false">
+                                        <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
+                                            <img src="assets/img/quoteImg.svg" alt="">
+                                        </span>
+                                        <span class="status" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment != null && highlight.comment != ''">
+                                            <img src="assets/img/commentImg.svg" alt="">
+                                        </span>
+                                    </ng-container>
                                 </ng-container>
                                 <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
                                     <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
                                     <div class="moveBtn">
                                         <button class="topIcon">
-                                            <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt="">
+                                            <img (click)="enable_list_reorder($event,highlight)" src="assets/img/arrows.png" alt="">
                                         </button>
-                                        <button class="bottomIcon">
+                                        <!-- <button class="bottomIcon">
                                             <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
-                                        </button>
+                                        </button> -->
                                     </div>
                                     <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                 </div>
@@ -902,8 +905,13 @@
             <span *ngIf="current_active_anotote.chatGroup == null && current_color == 'top' && title_temp != current_active_anotote.anototeDetail.meToteFollowTop.annototeTitle  && title_temp != ''" class="save" (click)="saveTitle(current_active_anotote)">Save</span>
             <span *ngIf="current_active_anotote.chatGroup != null && title_temp != current_active_anotote.chatGroup.messagesUser[0].subject  && title_temp != ''" class="save" (click)="saveTitle(current_active_anotote)">Save</span>
         </div>
-        <!-- <div class="share" (click)="share()">
-            <span></span>
-        </div> -->
+    </ion-toolbar>
+</ion-footer>
+<ion-footer [keyboardAttach]="content" class="message-bottom" id='snackbarFortote' *ngIf="!loading_check && current_active_anotote && reorder_highlights == true">
+    <ion-toolbar color="dark">
+        <div class="editOptions">
+            <span (click)="disable_reorder()">Cancel</span>
+            <span *ngIf="reordering_data != null" (click)="reorderPlease()" class="save">Save</span>
+        </div>
     </ion-toolbar>
 </ion-footer>

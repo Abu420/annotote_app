@@ -65,6 +65,7 @@ export class SearchResults {
   public nameInputIndex: number = 0;
   public text: any;
   public title_temp = '';
+  public reordering_data = null;
 
   constructor(public stream: Streams,
     public authService: AuthenticationService,
@@ -250,6 +251,7 @@ export class SearchResults {
   }
 
   openAnototeDetail(anotote) {
+    this.reorder_highlights = false;
     if (this.current_active_anotote && this.current_active_anotote.checked == false) {
       this.current_active_anotote.active = false;
       this.current_active_anotote.checked = false;
@@ -285,6 +287,68 @@ export class SearchResults {
     this.current_active_anotote = anotote;
     if (this.current_active_anotote.checked == false)
       this.current_active_anotote.active = !this.current_active_anotote.active;
+  }
+
+  enable_list_reorder(event, highlight) {
+    event.stopPropagation();
+    if (this.current_active_anotote.userAnnotote.active_tab == 'me') {
+      this.reorder_highlights = true;
+      highlight.edit = false;
+      this.move_fab = true;
+      // this.enable_refresher = false;
+      this.cd.detectChanges();
+    }
+  }
+
+  reorderItems(indexes, anotote) {
+    let element = anotote.userAnnotote.highlights[indexes.from];
+    anotote.userAnnotote.highlights.splice(indexes.from, 1);
+    anotote.userAnnotote.highlights.splice(indexes.to, 0, element);
+
+    var _anotation_ids = "", _orders = "", counter = 1;
+    for (let highlight of anotote.userAnnotote.highlights) {
+      _anotation_ids += highlight.id + ",";
+      _orders += counter + ",";
+      counter++;
+    }
+    if (_anotation_ids.length > 0)
+      _anotation_ids = _anotation_ids.slice(0, -1);
+    if (_orders.length > 0)
+      _orders = _orders.slice(0, -1);
+    this.reordering_data = {
+      orders: _orders,
+      ids: _anotation_ids
+    }
+    // this.searchService.reorder_anotation({ annotation_ids: _anotation_ids, order: _orders })
+    //   .subscribe((res) => {
+    //     this.enable_refresher = true;
+    //     this.reorder_highlights = false;
+    //     this.move_fab = false;
+    //     this.toastInFooter("Order Updated");
+    //   }, (error) => {
+    //     this.enable_refresher = true;
+    //   });
+  }
+
+  reorderPlease() {
+    if (this.reordering_data != null)
+      this.searchService.reorder_anotation({ annotation_ids: this.reordering_data.ids, order: this.reordering_data.orders })
+        .subscribe((res) => {
+          this.reorder_highlights = false;
+          this.move_fab = false;
+          this.reordering_data = null;
+          this.utilityMethods.doToast("Order Updated");
+        }, (error) => {
+        });
+    else
+      this.utilityMethods.doToast("Please reorder highlight first");
+  }
+
+  disable_reorder() {
+    this.reorder_highlights = false;
+    this.move_fab = false;
+    this.cd.detectChanges();
+    this.content.resize();
   }
 
   chat_participants_from_tote(event, anotote) {

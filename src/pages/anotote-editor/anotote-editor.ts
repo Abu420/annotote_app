@@ -891,11 +891,11 @@ export class AnototeEditor implements OnDestroy {
                     let searchModal = this.modalCtrl.create(Search, { saved_searched_txt: data.search, saveIt: true });
                     searchModal.onDidDismiss(data => {
                         if (this.WHICH_STREAM == 'me')
-                        this.statusBar.backgroundColorByHexString('#3bde00');
-                      else if (this.WHICH_STREAM == 'follows')
-                        this.statusBar.backgroundColorByHexString('#f4e300');
-                      else if (this.WHICH_STREAM == 'top')
-                        this.statusBar.backgroundColorByHexString('#fb9df0');
+                            this.statusBar.backgroundColorByHexString('#3bde00');
+                        else if (this.WHICH_STREAM == 'follows')
+                            this.statusBar.backgroundColorByHexString('#f4e300');
+                        else if (this.WHICH_STREAM == 'top')
+                            this.statusBar.backgroundColorByHexString('#fb9df0');
                         if (data.go_to_browser) {
                             var anotote = data.anotote;
                             if (data.neworold) {
@@ -1086,7 +1086,7 @@ export class AnototeEditor implements OnDestroy {
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
-            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' && this.FROM != 'search_result')))
+            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && this.actual_stream == 'anon'))
                 tote_id = this.ANOTOTE.userAnnotote.id;
             else
                 tote_id = this.ANOTOTE.meToteFollowTop.id;
@@ -1141,7 +1141,7 @@ export class AnototeEditor implements OnDestroy {
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
-            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' && this.FROM != 'search_result')))
+            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && this.actual_stream == 'anon'))
                 tote_id = this.ANOTOTE.userAnnotote.id;
             else
                 tote_id = this.ANOTOTE.meToteFollowTop.id;
@@ -1201,7 +1201,7 @@ export class AnototeEditor implements OnDestroy {
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
         } else {
-            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && (this.FROM != 'search' && this.FROM != 'search_result')))
+            if (this.WHICH_STREAM == 'me' || (this.WHICH_STREAM == 'anon' && this.actual_stream == 'anon'))
                 tote_id = this.ANOTOTE.userAnnotote.id;
             else
                 tote_id = this.ANOTOTE.meToteFollowTop.id;

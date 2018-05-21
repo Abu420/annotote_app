@@ -817,6 +817,11 @@ search-results {
                                                     width: calc(100% - 30px);
                                                     padding: 0 5px 0 0px;
                                                     min-height: auto;
+                                                    &.txtOrdering {
+                                                        padding: 10px 0px 10px 0px !important;
+                                                        float: none;
+                                                        width: auto !important;
+                                                    }
                                                     p {
                                                         font-size: 16px; // -webkit-line-clamp: 4;
                                                         // -webkit-box-orient: vertical;
@@ -953,12 +958,24 @@ search-results {
                                         }
                                     }
                                 }
+                                .reoderOn {
+                                    .item-inner {
+                                        .input-wrapper {
+                                            ion-label {
+                                                padding: 0;
+                                            }
+                                        }
+                                    }
+                                }
                                 .no_anotation {
                                     text-align: center;
                                     padding: 5%;
                                     p {
                                         white-space: normal;
                                         position: relative;
+                                        text-align: left;
+                                        padding-left: 35px;
+                                        font-size: 16px;
                                         &.me {
                                             &::after {
                                                 content: "";
@@ -967,7 +984,7 @@ search-results {
                                                 background-repeat: no-repeat;
                                                 background-size: 5vw;
                                                 position: absolute;
-                                                left: 10px;
+                                                left: 5px;
                                                 top: 0px;
                                                 width: 17px;
                                                 height: 17px;

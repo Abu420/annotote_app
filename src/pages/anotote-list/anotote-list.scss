@@ -865,6 +865,11 @@
                                     &.txtMiddel {
                                         padding: 22px 10px 0px 0px;
                                     }
+                                    &.txtOrdering {
+                                        padding: 10px 0px 10px 0px !important;
+                                        float: none;
+                                        width: auto !important;
+                                    }
                                     &.normal {
                                         padding: 1px 10px 0px 0px;
                                     }
@@ -1252,6 +1257,15 @@
                                                         color: #32ad05;
                                                     }
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                                .reoderOn {
+                                    .item-inner {
+                                        .input-wrapper {
+                                            ion-label {
+                                                padding: 0;
                                             }
                                         }
                                     }

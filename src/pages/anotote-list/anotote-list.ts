@@ -249,6 +249,7 @@ export class AnototeList {
   public infiniteLoading: boolean = false;
   public infiniteComplete: boolean = false;
   public defaultWindowHeight: number = window.innerHeight;
+  public reordering_data = null;
   /**
    * Constructor
    */
@@ -706,15 +707,35 @@ export class AnototeList {
       _anotation_ids = _anotation_ids.slice(0, -1);
     if (_orders.length > 0)
       _orders = _orders.slice(0, -1);
+    this.reordering_data = {
+      orders: _orders,
+      ids: _anotation_ids
+    }
+    // this.searchService.reorder_anotation({ annotation_ids: _anotation_ids, order: _orders })
+    //   .subscribe((res) => {
+    //     this.enable_refresher = true;
+    //     this.reorder_highlights = false;
+    //     this.move_fab = false;
+    //     this.toastInFooter("Order Updated");
+    //   }, (error) => {
+    //     this.enable_refresher = true;
+    //   });
+  }
 
-    this.searchService.reorder_anotation({ annotation_ids: _anotation_ids, order: _orders })
-      .subscribe((res) => {
-        this.enable_refresher = true;
-        this.reorder_highlights = false;
-        this.toastInFooter("Order Updated");
-      }, (error) => {
-        this.enable_refresher = true;
-      });
+  reorderPlease() {
+    if (this.reordering_data != null)
+      this.searchService.reorder_anotation({ annotation_ids: this.reordering_data.ids, order: this.reordering_data.orders })
+        .subscribe((res) => {
+          this.enable_refresher = true;
+          this.reorder_highlights = false;
+          this.move_fab = false;
+          this.reordering_data = null;
+          this.toastInFooter("Order Updated");
+        }, (error) => {
+          this.enable_refresher = true;
+        });
+    else
+      this.toastInFooter("Please reorder highlight first");
   }
 
   doInfinite(infiniteScroll) {
@@ -1346,6 +1367,7 @@ export class AnototeList {
   //generic for all three streams
   openAnototeDetail(anotote) {
     this.reorder_highlights = false;
+    this.reordering_data = null;
     if (!anotote.tutorial) {
       if (this.current_color != 'top') {
         if (!anotote.checked) {
@@ -1574,10 +1596,17 @@ export class AnototeList {
     if (this.current_active_anotote.active_tab == 'me') {
       this.reorder_highlights = true;
       highlight.edit = false;
-      this.move_fab = false;
+      this.move_fab = true;
       this.enable_refresher = false;
       this.cd.detectChanges();
     }
+  }
+
+  disable_reorder() {
+    this.reorder_highlights = false;
+    this.move_fab = false;
+    this.cd.detectChanges();
+    this.content.resize();
   }
 
   edit_annotation(highlight) {

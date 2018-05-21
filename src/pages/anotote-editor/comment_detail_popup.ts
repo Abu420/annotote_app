@@ -313,7 +313,7 @@ export class CommentDetailPopup {
     event.stopPropagation();
     var tag: string = event.target.textContent;
     var check = tag.split(' ');
-    if (((tag[0] == '#' || tag[0] == '$') && check.length == 1) || (tag[0] == '@' && tag.length != this.new_comment.length)) {
+    if (((tag[0] == '#' || tag[0] == '$') && check.length == 1) || (tag[0] == '@' && tag.length != this.new_comment.length - 1)) {
       tag = tag.replace('#', '');
       tag = tag.replace('$', '');
       tag = tag.replace('@', '');
