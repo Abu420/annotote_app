@@ -3,7 +3,6 @@ import { IonicPage, NavController, Events, Content, NavParams, ModalController }
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
 import { CreateAnotationOptionsPopup } from '../anotote-editor/create_anotation_options';
-import { TextEditor } from '../directives/editor';
 import { Search } from '../search/search';
 import { SocialSharing } from '@ionic-native/social-sharing';
 /**
@@ -26,6 +25,7 @@ import { AnototeOptions } from "../anotote-list/tote_options";
 import { NotificationService } from "../../services/notifications.service";
 import { TagsOptions } from "../anotote-list/tags_options";
 import { AnototeList } from '../anotote-list/anotote-list';
+import { Constants } from '../../services/constants.service';
 
 @Component({
     selector: 'page-anotote-editor',
@@ -57,7 +57,6 @@ export class AnototeEditor implements OnDestroy {
     public loading_check: boolean = false;
     public headercontent: any;
     public toggle_annotation_option: boolean;
-    public htmlStr: string = '<strong>The Tortoise</strong> &amp; the Hare';
     private selectedText: string;
     private selection: any;
     private highlight: any;
@@ -87,6 +86,7 @@ export class AnototeEditor implements OnDestroy {
     public titleEditingoff: boolean = true;
     public unread_notification_count: any = 0;
     public loaderLines = new Array(300);
+    public url_for_frame: string = '';
 
     private show_anotation_details: (txt: string) => void;
 
@@ -103,6 +103,7 @@ export class AnototeEditor implements OnDestroy {
         public statusBar: StatusBar,
         public runtime: Streams,
         public cd: ChangeDetectorRef,
+        public constants: Constants,
         public notificationService: NotificationService) {
 
         var that = this;
@@ -454,9 +455,48 @@ export class AnototeEditor implements OnDestroy {
 
     change_full_screen_mode() {
         this.full_screen_mode = !this.full_screen_mode;
-        this.showheader = true;
-        this.hideheader = false;
-        this.itemsShowHide();
+        if (this.full_screen_mode == true) {
+            this.showheader = false;
+            this.hideheader = true;
+            if (this.actual_stream == 'me') {
+                var temp = this.ANOTOTE.meFilePath.split('/');
+            } else if (this.actual_stream == 'follows') {
+                var temp = this.ANOTOTE.followerFilePath.split('/');
+            } else if (this.actual_stream == 'top') {
+                var temp = this.ANOTOTE.topFilePath.split('/');
+            } else if (this.actual_stream == 'anon') {
+                var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
+            }
+            // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
+            var name = temp[temp.length - 1].split('.')[0];
+            this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
+            setTimeout(() => {
+                var iframe: any = document.getElementById('browsed');
+                iframe.contentDocument.onselectionchange = () => {
+                    var sel = iframe.contentDocument.getSelection(),
+                        selected_txt = sel.toString();
+                    if (selected_txt != '') {
+                        this.range = iframe.contentDocument.createRange();
+                        this.range.setStart(sel.baseNode, sel.baseOffset);
+                        this.range.setEnd(sel.extentNode, sel.extentOffset);
+                        this.sel = sel;
+                        var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
+                        this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
+                    } else {
+                        this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
+                    }
+                }
+            }, 500);
+        } else {
+            this.showheader = true;
+            this.hideheader = false;
+            var anotote_obj = {
+                ANOTOTE: this.ANOTOTE,
+                HIGHLIGHT_RECEIVED: null,
+            };
+            this.load_new_anotote(anotote_obj);
+            // this.itemsShowHide();
+        }
     }
 
     itemsShowHide() {
@@ -468,10 +508,14 @@ export class AnototeEditor implements OnDestroy {
                 elements[i].setAttribute('style', 'display:none');
             }
         }
-        // var elements = document.querySelectorAll('[data-header="annotote_trick"]');
-        // for (var i = 0; i < elements.length; i++) {
-        //     elements[i].setAttribute('style', 'display:none');
-        // }
+        var elements = document.querySelectorAll('[data-header="annotote_trick"]');
+        for (var i = 0; i < elements.length; i++) {
+            if (this.full_screen_mode) {
+                elements[i].setAttribute('style', 'display:block');
+            } else {
+                elements[i].setAttribute('style', 'display:none');
+            }
+        }
     }
 
     add_to_me_stream() {
@@ -636,7 +680,7 @@ export class AnototeEditor implements OnDestroy {
     private highlight_(com_or_quote, identifier, comment) {
         try {
             var self = this;
-            if (com_or_quote == 'comment') {
+            if (com_or_quote == 'comment' || this.full_screen_mode == true) {
                 var selection = this.sel;
                 var range = this.range;
             } else {
@@ -653,43 +697,7 @@ export class AnototeEditor implements OnDestroy {
                 // range.setStart(this.selection.startContainer, this.selection.startOffset);
                 // range.setEnd(this.selection.endContainer, this.selection.endOffset);
             }
-
-            // var nodes = [];
-            // var node;
-            // for (node = range.startContainer; node; node = node.nextSibling) {
-            //     var tempStr = node.nodeValue;
-            //     if (node.nodeValue != null && tempStr.replace(/^\s+|\s+$/gm, '') != '')
-            //         nodes.push(node);
-            //     if (node == range.endContainer)
-            //         break;
-            // }
-            // nodes.push(range.endContainer);
-
-            // for (var i = 0; i < nodes.length; i++) {
-            //     var newNode = document.createElement("highlight_quote");
-
-            //     newNode.setAttribute("data-selectedtxt", this.selectedText);
-            //     newNode.setAttribute("data-identifier", identifier);
-            //     if (type == 'comment') {
-            //         newNode.setAttribute("class", "highlight_comment");
-            //         newNode.setAttribute("data-comment", comment);
-            //     }
-            //     else {
-            //         if (i == 0)
-            //             newNode.setAttribute("class", "highlight_quote");
-            //         else
-            //             newNode.setAttribute("class", "only_light");
-            //     }
-
-            //     var sp1_content = document.createTextNode(nodes[i].nodeValue);
-            //     newNode.appendChild(range.extractContents());
-            //     var parentNode = nodes[i].parentNode;
-            //     parentNode.insertBefore(newNode, nodes[i]);
-            //     parentNode.replaceChild(newNode, nodes[i]);
-            // }
-
             var newNode = document.createElement("highlight_quote");
-
             newNode.setAttribute("data-selectedtxt", this.selectedText);
             newNode.setAttribute("data-identifier", identifier);
             newNode.id = identifier;
@@ -960,12 +968,14 @@ export class AnototeEditor implements OnDestroy {
             enableBackdropDismiss: true,
             showBackdrop: true
         }
-        this.sel = window.getSelection();
         // this.range = this.sel.getRangeAt(0);
-        this.range = document.createRange();
         this.commentDetailModalIsOpen.check = true;
-        this.range.setStart(this.selection.startContainer, this.selection.startOffset);
-        this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
+        if (this.full_screen_mode == false) {
+            this.sel = window.getSelection();
+            this.range = document.createRange();
+            this.range.setStart(this.selection.startContainer, this.selection.startOffset);
+            this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
+        }
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel }, opts);
         createAnotationModal.onDidDismiss(data => {
             if (this.commentDetailModalIsOpen.check == true && this.commentDetailModalIsOpen.comment == null)
@@ -1196,7 +1206,9 @@ export class AnototeEditor implements OnDestroy {
         if (!this.highlight_(type, identifier, comment))
             return;
         this.showLoading('Saving annotation');
-        var article_txt = document.getElementById('text_editor').innerHTML;
+        if (this.full_screen_mode == true)
+            var iframe: any = document.getElementById('browsed');
+        var article_txt = this.full_screen_mode == false ? document.getElementById('text_editor').innerHTML : iframe.contentDocument;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;

@@ -121,14 +121,15 @@
 <span navPop class="wedge_icon"></span>
 <ion-content [ngClass]="{'fullScreen': full_screen_mode == true}" swipe-vertical>
     <div id="wrapper">
-        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">
-            <!--<text-editor id="text_editor" [model]="text" class="editor_text_box" contenteditable="false"></text-editor>-->
-            <!--<dcl-wrapper [type]="tab"></dcl-wrapper>-->
+        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR && full_screen_mode == false">
             <html id="{{WHICH_STREAM == 'top' || WHICH_STREAM == 'anon' ? ANOTOTE.annotote.htmlId: ANOTOTE.userAnnotote.annotote.htmlId}}">
             <div [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
 
             </html>
             <!-- <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="full_text  | sanitizeHtml"></div> -->
+        </div>
+        <div class="frame_area" *ngIf="full_screen_mode == true">
+            <iframe id="browsed" [src]='url_for_frame | frameHtml' width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
         <div class="editor-area layout" *ngIf="ANOTOTE_LOADED == false">
             <div class="editor_text_box" padding>

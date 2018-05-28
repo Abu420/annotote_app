@@ -59,6 +59,10 @@ span {
     font-weight: 400 !important;
 }
 
+.bar-button-default-ios.activated {
+    opacity: 1 !important;
+}
+
 ion-fab {
     bottom: 20px !important;
     right: 15px !important;
@@ -304,6 +308,9 @@ button,
     padding: 0 !important;
 }
 
+// .item:hover {
+//     background: color($assetFeedback, base);
+// }
 .meDot {
     span.un_active_dot:after {
         background: #2ba600;

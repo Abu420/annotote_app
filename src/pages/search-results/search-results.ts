@@ -19,6 +19,7 @@ import { FollowsPopup } from "../anotote-list/follows_popup";
 import { AnototeService } from "../../services/anotote.service";
 import { TagsExclusive } from '../tagsExclusive/tags';
 import { ChatService } from '../../services/chat.service';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
   selector: 'search-results',
@@ -77,25 +78,18 @@ export class SearchResults {
     public modalCtrl: ModalController,
     public cd: ChangeDetectorRef,
     public chatService: ChatService,
+    public key: Keyboard,
     public utilityMethods: UtilityMethods,
     public statusBar: StatusBar) {
-    this.search_term = params.get('search_term');
-    var results = params.get('results');
-    this.search_results = results;
-    this.saved_search_result = results;
-    for (let tote of results) {
-      if (tote.is_tote == true) {
-        this.totes.push(tote);
-      } else if (tote.isChat == true && tote.is_tote == false) {
-        this.chats.push(tote);
-      } else {
-        this.users.push(tote);
-      }
-    }
+    this.key.disableScroll(true);
+    
     this.user = this.authService.getUser();
-    this.show_search();
-    if (this.search_results.length == 0)
-      this.no_search = true;
+    // this.show_search();
+    
+  }
+
+  ionViewDidLeave() {
+    this.key.disableScroll(false);
   }
 
   clear() {
@@ -107,33 +101,42 @@ export class SearchResults {
   }
 
   ionViewDidLoad() {
-    // this.load_search_results();
+    setTimeout(() => {
+      this.search_term = this.params.get('search_term');
+      var results = this.params.get('results');
+      this.search_results = results;
+      this.saved_search_result = results;
+      for (let tote of results) {
+        if (tote.is_tote == true) {
+          this.totes.push(tote);
+        } else if (tote.isChat == true && tote.is_tote == false) {
+          this.chats.push(tote);
+        } else {
+          this.users.push(tote);
+        }
+      }
+      if (this.search_results.length == 0)
+        this.no_search = true;
+    }, 1000);
   }
 
   ionViewDidEnter() {
     this.statusBar.backgroundColorByHexString('#323232');
   }
 
-  show_search() {
-    if (this.show_search_field) {
-      this.show_search_field = false;
-      let timeoutId = setTimeout(() => {
-        this.hide_header_contents = false;
-      }, 1000);
-    } else {
-      this.show_search_field = true;
-      this.hide_header_contents = true;
-
-
-    }
-  }
+  // show_search() {
+  //   if (this.show_search_field) {
+  //     this.show_search_field = false;
+  //     let timeoutId = setTimeout(() => {
+  //       this.hide_header_contents = false;
+  //     }, 1000);
+  //   } else {
+  //     this.show_search_field = true;
+  //     this.hide_header_contents = true;
+  //   }
+  // }
 
   go_to_browser(anotote, highlight) {
-    // if (anotote.userAnnotote.anototeType == 'me' || anotote.userAnnotote.anototeType == 'follows' || anotote.userAnnotote.anototeType == 'top')
-    //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: anotote.userAnnotote.anototeType, actual_stream: anotote.userAnnotote.anototeType });
-    // else
-    //   this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-
     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: highlight, actual_stream: anotote.userAnnotote.active_tab });
   }
 
@@ -250,7 +253,8 @@ export class SearchResults {
 
   }
 
-  openAnototeDetail(anotote) {
+  openAnototeDetail(event: Event, anotote) {
+    event.stopPropagation();
     this.reorder_highlights = false;
     if (this.current_active_anotote && this.current_active_anotote.checked == false) {
       this.current_active_anotote.active = false;
@@ -1044,6 +1048,7 @@ export class SearchResults {
     this.title_temp = '';
     anotote.checked = false;
     this.current_active_anotote = null;
+    this.content.resize();
   }
 
   saveTitle(anotote) {

@@ -480,7 +480,7 @@ page-anotote-editor {
     .editor_text_box {
         // resize: none;
         // float: left;
-        overflow: hidden;
+        overflow: scroll;
         width: 100%;
         background: #FFF;
         color: #000 !important;
@@ -623,6 +623,11 @@ page-anotote-editor {
             line-height: 1.5;
         }
     }
+}
+
+.frame_area {
+    width: 100%;
+    height: 100vh;
 }
 
 ion-fab {

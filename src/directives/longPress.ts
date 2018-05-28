@@ -1,29 +1,45 @@
-import {Directive, ElementRef, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
-import {Gesture} from 'ionic-angular/gestures/gesture';
+// import {
+//   Directive,
+//   ElementRef,
+//   OnInit,
+//   OnDestroy,
+//   Output,
+//   EventEmitter
+// } from "@angular/core";
+// import { Gesture } from "ionic-angular/gestures/gesture";
 
-@Directive({
-    selector: '[longPress]'
-})
-export class PressDirective implements OnInit, OnDestroy {
-    el: HTMLElement;
-    pressGesture: Gesture;
+// @Directive({
+//   selector: "[longPress]"
+// })
+// export class PressDirective implements OnInit, OnDestroy {
+//   el: HTMLElement;
+//   pressGesture: Gesture;
 
-    @Output()
-    longPress: EventEmitter<any> = new EventEmitter();
+//   @Output() longPress: EventEmitter<any> = new EventEmitter();
 
-    constructor(el: ElementRef) {
-        this.el = el.nativeElement;
-    }
+//   constructor(el: ElementRef) {
+//     this.el = el.nativeElement;
+//   }
 
-    ngOnInit() {
-        this.pressGesture = new Gesture(this.el);
-        this.pressGesture.listen();
-        this.pressGesture.on('press', e => {
-            this.longPress.emit(e);
-        })
-    }
+//   ngOnInit() {
+//     this.pressGesture = new Gesture(this.el);
+//     this.pressGesture.listen();
+//     this.pressGesture.on("press", e => {
+//       this.longPress.emit(e);
+//     });
+//   }
 
-    ngOnDestroy() {
-        this.pressGesture.destroy();
-    }
+//   ngOnDestroy() {
+//     this.pressGesture.destroy();
+//   }
+// }
+import {
+  HammerGestureConfig,
+  HAMMER_GESTURE_CONFIG
+} from "@angular/platform-browser";
+
+export class CustomHammerConfig extends HammerGestureConfig {
+  overrides = {
+    press: { time: 1000 } //set press delay for 1 second
+  };
 }

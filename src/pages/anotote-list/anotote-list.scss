@@ -830,7 +830,7 @@
                                         vertical-align: middle;
                                     }
                                     &.activated {
-                                        box-shadow: -9px 0 35px -5px #333;
+                                        box-shadow: -9px 0 20px -5px #333;
                                         transform: scale(1, 1);
                                         background-color: #e0e0e0;
                                     }
@@ -872,6 +872,9 @@
                                     }
                                     &.normal {
                                         padding: 1px 10px 0px 0px;
+                                    }
+                                    &.forShadow {
+                                        padding-bottom: 20px;
                                     }
                                     img.unReadLock {
                                         position: absolute;

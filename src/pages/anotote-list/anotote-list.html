@@ -114,7 +114,7 @@
                             <textarea autosize [(ngModel)]="title_temp" name="title" *ngIf="anotote.chatGroup == null" placeholder="Change the title of this Tote"></textarea>
                         </form>
                     </div>
-                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}" *ngIf="anotote.type == 2 && anotote.checked == false">
+                    <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true,'forShadow':anotote.moreOptions && anotote.active}" *ngIf="anotote.type == 2 && anotote.checked == false">
                         <img class="unReadLock" *ngIf="anotote.chatGroup.groupUsers[0].privacy == 1" src="assets/img/lockIconGray.svg" alt="">
                         <ng-container *ngIf="current_color == 'me'">
                             <img class="unReadLock" *ngIf="anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id" src="assets/img/redLock.svg" alt="">
