@@ -1,4 +1,4 @@
-import { Component, trigger, transition, style, animate, ViewChild, ElementRef } from '@angular/core';
+import { Component, trigger, transition, style, animate, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, ViewController, NavParams, Events, ModalController } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from "../../services/search.service";
@@ -59,6 +59,7 @@ export class CommentDetailPopup {
     private events: Events,
     public searchService: SearchService,
     public key: Keyboard,
+    public cd: ChangeDetectorRef,
     private modalCtrl: ModalController,
     public statusbar: StatusBar) {
     // this.key.onKeyboardShow().subscribe(() => {
@@ -192,6 +193,8 @@ export class CommentDetailPopup {
         }
       })
       tagsExlusive.present();
+    } else {
+      this.cd.detectChanges();
     }
   }
 
