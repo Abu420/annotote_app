@@ -253,9 +253,9 @@ export class Search {
       results: this.search_results,
       search_results: true
     };
-    // this.dismiss(true);
-    this.viewCtrl.dismiss(params);
-    // this.navCtrl.push(SearchResults, params);
+    this.dismiss(true);
+    // this.viewCtrl.dismiss(params);
+    this.navCtrl.push(SearchResults, params);
   }
 
   followUser(event, person) {
@@ -426,10 +426,10 @@ export class Search {
           )
             params.time = this.utilityMethods.get_time(
               this.search_filters.date.day +
-                "/" +
-                this.search_filters.date.month +
-                "/" +
-                this.search_filters.date.year
+              "/" +
+              this.search_filters.date.month +
+              "/" +
+              this.search_filters.date.year
             );
           else {
             this.utilityMethods.doToast("Please enter a valid date");
@@ -579,7 +579,7 @@ export class Search {
         data: search_result.id,
         from_page: "search_results"
       });
-      profile.onDidDismiss(data => {});
+      profile.onDidDismiss(data => { });
       profile.present();
     }
   }

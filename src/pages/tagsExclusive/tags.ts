@@ -5,6 +5,7 @@ import { UtilityMethods } from '../../services/utility_methods';
 import { AuthenticationService } from '../../services/auth.service';
 import { StatusBar } from "@ionic-native/status-bar";
 import { TagsOptions } from '../anotote-list/tags_options';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
     selector: 'comment_detail_popup',
@@ -47,9 +48,11 @@ export class TagsExclusive {
         private params: NavParams,
         public modalCtrl: ModalController,
         public viewCtrl: ViewController,
+        public key: Keyboard,
         public searchService: SearchService) {
         if (utilityMethods.whichPlatform() == 'ios')
             statusbar.hide();
+        this.key.disableScroll(false);
         this.tag_input = params.get('tag');
         this.user = this.authService.getUser();
         this.tag = params.get('tag');

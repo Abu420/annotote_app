@@ -87,6 +87,7 @@ export class AnototeEditor implements OnDestroy {
     public unread_notification_count: any = 0;
     public loaderLines = new Array(300);
     public url_for_frame: string = '';
+    public for_creating_and_updating_comment: boolean = false;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -492,10 +493,14 @@ export class AnototeEditor implements OnDestroy {
                             this.cd.detectChanges();
                         }
                     })
-                    iframe.contentWindow.document.ontouchend = (event) => {
+                    iframe.contentDocument.addEventListener('touchend', (event) => {
                         if (event.target.localName == 'highlight_quote')
                             this.editor_click(event);
-                    }
+                    })
+                    // iframe.contentWindow.document.ontouchend = (event) => {
+                    //     if (event.target.localName == 'highlight_quote')
+                    //         this.editor_click(event);
+                    // }
                 }, 500);
             }, 500);
         } else {
@@ -1133,7 +1138,10 @@ export class AnototeEditor implements OnDestroy {
     }
 
     remove_annotation_api(an_id, element) {
-        this.showLoading('Removing annotation');
+        if (this.full_screen_mode)
+            this.showLoading('Removing annotation');
+        else
+            this.for_creating_and_updating_comment = false;
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
         var article_txt = this.get_updated_article_text();
@@ -1151,7 +1159,9 @@ export class AnototeEditor implements OnDestroy {
                 this.hideLoading();
                 this.toastInFooter("Annotation removed");
                 if (this.full_screen_mode == false)
-                    this.add_remove_display_none(false);
+                    this.add_remove_display_none(false).then(() => {
+                        this.for_creating_and_updating_comment = false;
+                    });
                 if (this.WHICH_STREAM == 'me') {
                     this.runtime.top_first_load = false;
                     this.runtime.follow_first_load = false;
@@ -1188,7 +1198,10 @@ export class AnototeEditor implements OnDestroy {
     }
 
     update_annotation_api(anotation_id, highlight_text, comment, identifier, element) {
-        this.showLoading('Updating annotation');
+        if (this.full_screen_mode)
+            this.showLoading('Updating annotation');
+        else
+            this.for_creating_and_updating_comment = false;
         var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
         element.className = "highlight_comment"
@@ -1208,7 +1221,9 @@ export class AnototeEditor implements OnDestroy {
                 this.hideLoading();
                 // this.toastInFooter("Comment saved");
                 if (this.full_screen_mode == false)
-                    this.add_remove_display_none(false);
+                    this.add_remove_display_none(false).then(() => {
+                        this.for_creating_and_updating_comment = false;
+                    });
                 if (this.WHICH_STREAM == 'me') {
                     this.runtime.top_first_load = false;
                     this.runtime.follow_first_load = false;
@@ -1254,7 +1269,10 @@ export class AnototeEditor implements OnDestroy {
         var identifier = this.generate_dynamic_identifier(current_time);
         if (!this.highlight_(type, identifier, comment))
             return;
-        this.showLoading('Saving annotation');
+        if (this.full_screen_mode)
+            this.showLoading('Saving annotation');
+        else
+            this.for_creating_and_updating_comment = false;
         var article_txt = this.get_updated_article_text();
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
@@ -1298,7 +1316,11 @@ export class AnototeEditor implements OnDestroy {
                     }
                 }
                 if (this.full_screen_mode == false)
-                    this.add_remove_display_none(false);
+                    this.add_remove_display_none(false).then(() => {
+                        setTimeout(() => {
+                            this.for_creating_and_updating_comment = false;
+                        }, 500);
+                    });
                 if (tags.length > 0) {
                     var params = {
                         tags: tags,

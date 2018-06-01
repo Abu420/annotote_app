@@ -32,7 +32,8 @@ export class SwipeVertical implements OnInit, OnDestroy {
     ngOnInit() {
         this.swipeGesture = new Gesture(this.el, {
             recognizers: [
-                [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }]
+                [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
+                [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
             ]
         });
         this.swipeGesture.listen()
@@ -41,6 +42,14 @@ export class SwipeVertical implements OnInit, OnDestroy {
         })
         this.swipeGesture.on('swiperight', e => {
             this.navCtrl.pop();
+            // console.log('right');
+        })
+        this.swipeGesture.on('swipeup', e => {
+            // console.log('left');
+            window.scrollBy(0, e.gesture.distance);
+        })
+        this.swipeGesture.on('swipedown', e => {
+            window.scrollBy(0, e.gesture.distance);
             // console.log('right');
         })
     }

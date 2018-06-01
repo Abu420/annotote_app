@@ -738,6 +738,10 @@
                         .label-md {
                             margin: 0px;
                             >div {
+                                display: block;
+                                overflow: hidden;
+                                width: 100%;
+                                position: relative;
                                 &.editTitle {
                                     background: #e0e0e0;
                                     .img-holder {
@@ -808,11 +812,6 @@
                                         }
                                     }
                                 }
-                                display: block;
-                                overflow: hidden;
-                                width: 100%;
-                                border-bottom: 1px solid #e8e8e8;
-                                position: relative;
                                 .img-holder {
                                     height: 72px;
                                     vertical-align: middle;

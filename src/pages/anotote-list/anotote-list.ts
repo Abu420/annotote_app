@@ -269,7 +269,8 @@ export class AnototeList {
     public chatService: ChatService,
     public cd: ChangeDetectorRef,
     public key: Keyboard) {
-    this.key.disableScroll(true);
+    if (utilityMethods.whichPlatform() == 'ios')
+      this.key.disableScroll(true);
     // key.onKeyboardShow().subscribe(() => {
     //   if (utilityMethods.whichPlatform() == 'ios') {
     //     setTimeout(() => {
@@ -338,7 +339,8 @@ export class AnototeList {
     /**
      * Set default mode to list not the edit one
      */
-    this.key.disableScroll(true);
+    if (this.utilityMethods.whichPlatform() == 'ios')
+      this.key.disableScroll(true);
     this.edit_mode = false;
     this.follow_visited = false;
 
@@ -1039,7 +1041,7 @@ export class AnototeList {
   }
 
   bulkAction(anotote) {
-    if (this.anototes.indexOf(anotote) > 2) {
+    if (this.anototes.indexOf(anotote) > 2 && this.utilityMethods.whichPlatform() == 'ios') {
       this.content.scrollTo(0, this.anototes.indexOf(anotote) * 65, 500);
     }
     if (anotote.chatGroup == null && (this.current_color == 'me' || anotote.active_tab == 'me')) {
@@ -1572,7 +1574,7 @@ export class AnototeList {
   annotation_options(highlight) {
     if (this.current_active_anotote.active_tab == 'me' && this.reorder_highlights == false) {
       this.current_active_anotote.checked = false;
-      if (this.anototes.indexOf(this.current_active_anotote) > 2) {
+      if (this.anototes.indexOf(this.current_active_anotote) > 2 && this.utilityMethods.whichPlatform() == 'ios') {
         this.content.scrollTo(0, this.anototes.indexOf(this.current_active_anotote) * 140, 500);
       }
       this.edit_annotation(highlight);

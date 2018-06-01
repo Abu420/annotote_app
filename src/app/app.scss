@@ -1432,10 +1432,9 @@ ion-reorder {
     background-repeat: no-repeat;
     background-size: 5vw;
     max-width: 50px;
-}
-
-.icon::before {
-    content: none;
+    .icon::before {
+        content: none;
+    }
 }
 
 figure {
