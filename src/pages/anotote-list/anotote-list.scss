@@ -629,6 +629,11 @@
                             }
                         }
                     }
+                    li:active,
+                    li:visited,
+                    li:focus {
+                        background: color($assetFeedback, base);
+                    }
                 }
             }
         }

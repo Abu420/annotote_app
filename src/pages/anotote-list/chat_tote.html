@@ -6,10 +6,10 @@
                     <img src="assets/img/closeIconGray.svg" alt="" (click)="dissmiss()" />
                     <input search-field id="search_field_id" [disabled]="forChats" *ngIf="doChat == true" name="search" class="search_field" [(ngModel)]="usersForChat" (ngModelChange)="value_updating_search()" type="text" placeholder="Enter a name to chat with" />
                     <form (ngSubmit)="scrape_this_url('save')" *ngIf="doSave == true">
-                        <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" type="text" placeholder="Enter a link to save" />
+                        <input autocomplete="off" search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" type="text" placeholder="Enter a link to save" />
                     </form>
                     <form (ngSubmit)="scrape_this_url('bookmark')" *ngIf="doBookmark == true">
-                        <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" type="text" placeholder="Enter a link to bookmark" />
+                        <input autocomplete="off" search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="usersForChat" type="text" placeholder="Enter a link to bookmark" />
                     </form>
                 </div>
                 <span [ngClass]="{'me': stream == 'me','follows':stream == 'follows','top':stream == 'top'}" *ngIf="doChat == true">

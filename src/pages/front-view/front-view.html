@@ -39,6 +39,26 @@
                 <span>REGISTER</span>
             </button>
         </div>
+        <ion-list class="product-list">
+            <ion-item *ngFor="let anotote of latest_anototes" (tap)="openAnototeList()">
+                <div class="img-holder">
+                </div>
+                <div class="txt">
+                    <strong [innerText]="anotote.annotote.title"></strong>
+                    <div class="time">
+                        <em>
+                            <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
+                        </em>
+                    </div>
+                    <div class="toteText">
+                        <p [innerText]="anotote.annotote.source"></p>
+                        <button type="button">
+                            <ion-icon name="menu"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
         <ion-list class="product-list loader-panel" *ngIf="latest_anototes_firstTime_loading">
             <ion-item>
                 <div>
@@ -131,32 +151,12 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-list class="product-list">
-            <ion-item *ngFor="let anotote of latest_anototes" (tap)="openAnototeList()">
-                <div class="img-holder">
-                </div>
-                <div class="txt">
-                    <strong [innerText]="anotote.annotote.title"></strong>
-                    <div class="time">
-                        <em>
-                            <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
-                        </em>
-                    </div>
-                    <div class="toteText">
-                        <p [innerText]="anotote.annotote.source"></p>
-                        <button type="button">
-                            <ion-icon name="menu"></ion-icon>
-                        </button>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
         <!-- <div *ngIf="latest_anototes_firstTime_loading" class="latest_totes_spinner">
             <ion-spinner name="ios"></ion-spinner>
         </div> -->
     </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        <ion-infinite-scroll-content loadingSpinner="none">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-fab *ngIf="showFabButton" (tap)="open_annotote_site()" bottom right>

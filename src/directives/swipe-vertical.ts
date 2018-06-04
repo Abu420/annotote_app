@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { Gesture } from 'ionic-angular/gestures/gesture';
-import { NavController } from 'ionic-angular';
+import { NavController, Content } from 'ionic-angular';
+import { UtilityMethods } from '../services/utility_methods';
 declare var Hammer: any;
 
 /*
@@ -24,8 +25,10 @@ export class SwipeVertical implements OnInit, OnDestroy {
     private el: HTMLElement
     private swipeGesture: Gesture
     private swipeDownGesture: Gesture
+    @Input() content: Content;
 
-    constructor(el: ElementRef, public navCtrl: NavController) {
+    constructor(el: ElementRef, public navCtrl: NavController,
+        public utils: UtilityMethods) {
         this.el = el.nativeElement
     }
 
@@ -45,12 +48,12 @@ export class SwipeVertical implements OnInit, OnDestroy {
             // console.log('right');
         })
         this.swipeGesture.on('swipeup', e => {
-            // console.log('left');
-            window.scrollBy(0, e.gesture.distance);
+            if (this.utils.whichPlatform() == 'android')
+                this.content.scrollTo(0, e.distance);
         })
         this.swipeGesture.on('swipedown', e => {
-            window.scrollBy(0, e.gesture.distance);
-            // console.log('right');
+            if (this.utils.whichPlatform() == 'android')
+                this.content.scrollTo(0, e.distance);
         })
     }
 

@@ -1,7 +1,7 @@
 <ion-header class="topHeader" [ngClass]="{'show-header':showheader,'hide-header':hideheader}">
     <ion-toolbar [color]="WHICH_STREAM">
         <ion-buttons start class="searchIcon">
-            <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
+            <button (tap)="openSearchPopup()" [ngClass]="{'me': WHICH_STREAM == 'me','follows':WHICH_STREAM == 'follows','top':WHICH_STREAM == 'top'}" class="search_icon" ion-button icon-only>
                 <img src="assets/img/searchIcon.png" alt="" />
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
@@ -104,7 +104,7 @@
             </ion-title>
         </ng-container>
         <ion-buttons *ngIf="!full_screen_mode" class="plusBtn">
-            <button (tap)="add_to_me_stream()" ion-button icon-only>
+            <button (tap)="add_to_me_stream()" class="plus_icon" [ngClass]="{'me': WHICH_STREAM == 'me','follows':WHICH_STREAM == 'follows','top':WHICH_STREAM == 'top'}" ion-button icon-only>
                 <img src="assets/img/plusIcon.png" alt="" />
                 <!-- <ion-icon name="md-add"></ion-icon> -->
             </button>

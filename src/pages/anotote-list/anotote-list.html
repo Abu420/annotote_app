@@ -1,7 +1,7 @@
 <ion-header class="topHeader">
     <ion-toolbar [color]="current_color">
         <ion-buttons class="searchIcon" *ngIf="!edit_mode" start>
-            <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
+            <button (tap)="openSearchPopup()" [ngClass]="{'me': current_color == 'me','follows':current_color == 'follows','top':current_color == 'top'}" class="search_icon" ion-button icon-only>
                 <img src="assets/img/searchIcon.png" alt="" />
                 <!--<ion-icon name="search"></ion-icon>-->
             </button>
@@ -19,7 +19,7 @@
             <dot-navigation class="anonDot" unactivedots="1"></dot-navigation>
         </ion-title>
         <ion-buttons class="plusIcon" *ngIf="!edit_mode" end>
-            <button (tap)="go_to_editor()" ion-button icon-only>
+            <button class="plus_icon" [ngClass]="{'me': current_color == 'me','follows':current_color == 'follows','top':current_color == 'top'}" (tap)="go_to_editor()" ion-button icon-only>
                 <img src="assets/img/plusIcon.png" alt="" />
                 <!-- <ion-icon name="add"></ion-icon> -->
             </button>
@@ -52,7 +52,7 @@
         </ul>
     </ion-toolbar>
 </ion-header>
-<ion-content style="background:#F5F5F5" swipe-vertical padding>
+<ion-content style="background:#F5F5F5" swipe-vertical [content]="content" padding>
     <ion-refresher (ionRefresh)="doRefresh($event)" [enabled]="enable_refresher == true">
         <ion-refresher-content pullingIcon="arrow-down" refreshingSpinner="circles">
         </ion-refresher-content>

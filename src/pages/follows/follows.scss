@@ -280,8 +280,7 @@ page-follows {
         .product-list {
             margin-top: 0px !important;
             height: 100%;
-            .item-block {
-                padding: 0px !important;
+            .item {
                 &:focus {
                     background: #e0e0e0;
                 }
@@ -291,44 +290,39 @@ page-follows {
                 &:hover {
                     background: #e0e0e0;
                 }
-                .item-inner {
-                    padding: 0px;
-                    ion-label {
+                margin: 0px;
+                ion-avatar {
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 73px;
+                    height: 73px;
+                    padding: 10px;
+                    text-align: center;
+                    line-height: 3;
+                    overflow: hidden;
+                    img {
+                        border-radius: 0px !important;
                         margin: 0px;
-                        ion-avatar {
-                            display: inline-block;
-                            vertical-align: middle;
-                            width: 73px;
-                            height: 73px;
-                            padding: 10px;
-                            text-align: center;
-                            line-height: 3;
-                            overflow: hidden;
-                            img {
-                                border-radius: 0px;
-                                margin: 0px;
-                                display: inline-block;
-                                height: 100%; // width: 100%;
-                            }
-                            img.default {
-                                width: 25px;
-                            }
-                        }
-                        .txt {
-                            padding: 25px 10px 25px 10px;
-                            display: inline-block;
-                            width: calc(100% - 78px);
-                            vertical-align: middle;
-                            strong {
-                                color: #000;
-                            }
-                            img {
-                                width: 18px;
-                                display: inline-block;
-                                vertical-align: top;
-                                margin-top: 0px;
-                            }
-                        }
+                        display: inline-block;
+                        height: 100%; // width: 100%;
+                    }
+                    img.default {
+                        width: 25px;
+                    }
+                }
+                .txt {
+                    padding: 25px 10px 25px 10px;
+                    display: inline-block;
+                    width: calc(100% - 78px);
+                    vertical-align: middle;
+                    strong {
+                        color: #000;
+                    }
+                    img {
+                        width: 18px;
+                        display: inline-block;
+                        vertical-align: top;
+                        margin-top: 0px;
                     }
                 }
             }
@@ -374,15 +368,13 @@ page-follows {
     }
 }
 
-.product-list.follows {
-    margin-top: 28px !important;
-}
-
-.product-list.follows .item {
-    padding: 14px 20px 0 !important;
-    border: none !important;
-}
-
+// .product-list.follows {
+//     margin-top: 28px !important;
+// }
+// .product-list.follows .item {
+//     padding: 14px 20px 0 !important;
+//     border: none !important;
+// }
 .product-list.follows .img-holder,
 .product-list.follows .img-holder img {
     width: 52px;

@@ -115,11 +115,13 @@ export class FrontViewPage {
       doInfinite(infiniteScroll) {
             this.showFabButton = false;
             this.hideMessage();
+            this.latest_anototes_firstTime_loading = true;
             let self = this;
             this.page++;
             var current_time = this.utilityMethods.get_php_wala_time();
             this.anototeService.fetchLatestTotes(this.page, current_time)
                   .subscribe((response) => {
+                        this.latest_anototes_firstTime_loading = false;
                         for (let ano_ of response.data.annototes) {
                               var current_date = new Date();
                               var formated_time = new Date(ano_.userAnnotote.createdAt * 1000);
@@ -127,7 +129,6 @@ export class FrontViewPage {
                               var difference = timeDiff / (1000 * 3600 * 24);
                               ano_.is_today = difference < 1 ? true : false;
                               ano_.formated_time = formated_time;
-                              this.latest_anototes.push(ano_);
                               this.latest_anototes.push(ano_);
                         }
                         infiniteScroll.complete();
