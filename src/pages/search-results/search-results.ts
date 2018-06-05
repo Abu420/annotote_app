@@ -67,6 +67,7 @@ export class SearchResults {
   public text: any;
   public title_temp = '';
   public reordering_data = null;
+  public resizer: boolean = false;
 
   constructor(public stream: Streams,
     public authService: AuthenticationService,
@@ -82,10 +83,9 @@ export class SearchResults {
     public utilityMethods: UtilityMethods,
     public statusBar: StatusBar) {
     this.key.disableScroll(true);
-    
     this.user = this.authService.getUser();
     // this.show_search();
-    
+
   }
 
   ionViewDidLeave() {
@@ -122,6 +122,18 @@ export class SearchResults {
 
   ionViewDidEnter() {
     this.statusBar.backgroundColorByHexString('#323232');
+    if (this.current_active_anotote) {
+      if (this.current_active_anotote.chatGroup == null) {
+        this.move_fab = false;
+        if (this.current_active_anotote.userAnnotote.active_tab == 'follows' || this.current_active_anotote.userAnnotote.active_tab == 'top') {
+          this.move_fab = false;
+          this.resizer = true;
+        }
+      } else {
+        this.move_fab = false;
+        this.resizer = true;
+      }
+    }
   }
 
   // show_search() {
@@ -255,6 +267,8 @@ export class SearchResults {
 
   openAnototeDetail(event: Event, anotote) {
     event.stopPropagation();
+    if (this.resizer)
+      this.content.resize();
     this.reorder_highlights = false;
     if (this.current_active_anotote && this.current_active_anotote.checked == false) {
       this.current_active_anotote.active = false;

@@ -838,6 +838,10 @@
                                         transform: scale(1, 1);
                                         background-color: #e0e0e0;
                                     }
+                                    &:active,
+                                    &:focus {
+                                        background-color: color($assetFeedback, homeBaseHover);
+                                    }
                                 }
                                 .check {
                                     float: left;
@@ -1004,6 +1008,10 @@
                                     }
                                 }
                             }
+                            >div:active,
+                            >div:focus {
+                                background: color($assetFeedback, base);
+                            }
                             .activeTote {
                                 border: 0px;
                                 .options {
@@ -1112,13 +1120,13 @@
                                             ion-label {
                                                 padding: 10px 0px 10px 20px;
                                                 &:focus {
-                                                    background: #f4f4f4;
+                                                    background: color($assetFeedback, base);
                                                 }
                                                 &:active {
-                                                    background: #f4f4f4;
+                                                    background: color($assetFeedback, base);
                                                 }
                                                 &:visited {
-                                                    background: #f4f4f4;
+                                                    background: color($assetFeedback, base);
                                                 }
                                                 .txt {
                                                     border-bottom: 0px;

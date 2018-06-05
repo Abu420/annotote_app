@@ -35,8 +35,7 @@ export class SwipeVertical implements OnInit, OnDestroy {
     ngOnInit() {
         this.swipeGesture = new Gesture(this.el, {
             recognizers: [
-                [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
-                [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
+                [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }]
             ]
         });
         this.swipeGesture.listen()
@@ -47,14 +46,23 @@ export class SwipeVertical implements OnInit, OnDestroy {
             this.navCtrl.pop();
             // console.log('right');
         })
-        this.swipeGesture.on('swipeup', e => {
-            if (this.utils.whichPlatform() == 'android')
-                this.content.scrollTo(0, e.distance);
-        })
-        this.swipeGesture.on('swipedown', e => {
-            if (this.utils.whichPlatform() == 'android')
-                this.content.scrollTo(0, e.distance);
-        })
+        if (this.utils.whichPlatform() == 'android') {
+            this.swipeDownGesture = new Gesture(this.el, {
+                recognizers: [
+                    [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
+                ]
+            });
+            this.swipeDownGesture.listen();
+            this.swipeDownGesture.on('swipeup', e => {
+                if (this.content)
+                    this.content.scrollTo(e.center.x, e.distance);
+            })
+            this.swipeDownGesture.on('swipedown', e => {
+                if (this.content)
+                    this.content.scrollTo(e.center.x, e.distance);
+            })
+        }
+
     }
 
     ngOnDestroy() {

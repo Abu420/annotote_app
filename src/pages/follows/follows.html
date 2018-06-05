@@ -18,9 +18,23 @@
     </div>
     <div class="follow_details">
         <div id="wrapper">
-            <div *ngIf="_loading == false" class="follows_spinner">
-                <ion-spinner name="ios"></ion-spinner>
-            </div>
+            <ion-list *ngIf="_loading == false" no-lines class="loader-panel follows">
+                <ion-item *ngFor="let i of [1,2,3]">
+                    <div>
+                        <div class="users_loader">
+                        </div>
+                        <div class="txt line-loader real">
+                            <div class="line-top">
+                                <span class="head-line"></span>
+                            </div>
+                            <div class="line-bot">
+                                <span class="name-line"></span>
+                                <span class="date-line"></span>
+                            </div>
+                        </div>
+                    </div>
+                </ion-item>
+            </ion-list>
             <div *ngIf="no_followers_found == true" padding text-center>
                 You don't follow anyone.
             </div>

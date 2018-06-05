@@ -308,10 +308,19 @@ button,
     padding: 0 !important;
 }
 
-.item:visited,
-.item:active,
-.item:focus {
-    background: color($assetFeedback, base);
+chat_tote_page,
+page-follows,
+page-chat,
+follow_profile,
+page-front-view,
+page-home,
+search_page,
+view_options {
+    .item:visited,
+    .item:active,
+    .item:focus {
+        background: color($assetFeedback, base);
+    }
 }
 
 .meDot {
@@ -507,6 +516,7 @@ button,
     position: absolute;
     top: -29px;
     left: -15px;
+    border-radius: 0;
 }
 
 .plus_icon:hover {
@@ -516,6 +526,7 @@ button,
     position: absolute;
     top: -29px;
     right: -15px;
+    border-radius: 0;
 }
 
 .search_icon.me:hover,
@@ -1402,6 +1413,12 @@ search_page {
                         @extend .img-holder;
                         background-image: url(../assets/img/grayBookmark.svg);
                         background-size: 28px;
+                    }
+                    .users_loader {
+                        @extend .img-holder;
+                        background-image: url(../assets/img/userGray.svg);
+                        background-size: 25px;
+                        width: 72px;
                     }
                     .txt {
                         vertical-align: middle;

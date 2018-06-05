@@ -282,7 +282,7 @@ page-home {
                         text-align: center;
                         line-height: 5.5;
                         &:hover {
-                            background-color: color($assetFeedback, homeBaseHover)
+                            background-color: color($assetFeedback, homeBaseHover);
                         }
                         img {
                             display: inline-block;
@@ -403,6 +403,11 @@ ul.home-list {
         &:hover {
             background-color: color($assetFeedback, homeGreenHover) !important; // box-shadow: 0 0px 11px 0px #181717;
         }
+        &:active,
+        &:visited,
+        &:focus {
+            background-color: color($assetFeedback, base) !important;
+        }
         .activatedOn {
             background-color: color($assetFeedback, darkGreen) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
@@ -413,16 +418,19 @@ ul.home-list {
         button:hover {
             background-color: color($assetFeedback, darkGreen) !important;
             opacity: 1;
+            border-radius: 0;
         }
     }
-}
-
-.home-list {
     .yellow {
         background: #f4e300;
         border-radius: 0;
         &:hover {
             background-color: color($assetFeedback, homeYellowHover) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
+        }
+        &:active,
+        &:visited,
+        &:focus {
+            background-color: color($assetFeedback, base) !important;
         }
         .activatedOn {
             background-color: color($assetFeedback, darkYellow) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
@@ -434,16 +442,19 @@ ul.home-list {
         button:hover {
             background-color: color($assetFeedback, darkYellow) !important;
             opacity: 1;
+            border-radius: 0;
         }
     }
-}
-
-.home-list {
     .pink {
         background: #fb9df0;
         border-radius: 0;
         &:hover {
             background-color: color($assetFeedback, homePinkHover) !important;
+        }
+        &:active,
+        &:visited,
+        &:focus {
+            background-color: color($assetFeedback, base) !important;
         }
         .activatedOn {
             background-color: color($assetFeedback, darkPink) !important;
@@ -456,6 +467,7 @@ ul.home-list {
         button:hover {
             background-color: color($assetFeedback, darkPink) !important;
             opacity: 1;
+            border-radius: 0;
         }
     }
 }
