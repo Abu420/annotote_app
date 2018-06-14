@@ -616,6 +616,13 @@ page-anotote-editor {
             background-repeat: no-repeat !important;
             background-position: 2px 2px !important;
         }
+        .highlight_quote,
+        .highlight_comment {
+            &:active,
+            &:focus {
+                background: #d4d4d4 !important;
+            }
+        }
         p {
             font-size: 16px !important;
             line-height: 1.5;

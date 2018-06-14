@@ -843,6 +843,15 @@ search-results {
                                                     img {
                                                         width: 25px;
                                                     }
+                                                    &:focus {
+                                                        background: none;
+                                                    }
+                                                    &:active {
+                                                        background: none;
+                                                    }
+                                                    &:visited {
+                                                        background: none;
+                                                    }
                                                 }
                                                 figure {
                                                     float: left;

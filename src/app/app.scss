@@ -205,6 +205,21 @@ span.un_active_dot {
     height: 20px;
 }
 
+span.dot:focus:after,
+span.dot:active:after {
+    width: 12px;
+    height: 12px;
+    transition: .5px;
+}
+
+span.un_active_dot:focus:after,
+span.un_active_dot:active:after {
+    width: 12px;
+    height: 12px;
+    background: white !important;
+    transition: .5px;
+}
+
 .dots_box {
     height: 100%;
     text-align: center;
@@ -517,6 +532,7 @@ view_options {
     top: -29px;
     left: -15px;
     border-radius: 0;
+    box-shadow: 0px 5px 10px #424242 !important;
 }
 
 .plus_icon:hover {
@@ -527,6 +543,7 @@ view_options {
     top: -29px;
     right: -15px;
     border-radius: 0;
+    box-shadow: 0px 5px 10px #424242 !important;
 }
 
 .search_icon.me:hover,

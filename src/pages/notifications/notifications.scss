@@ -107,6 +107,10 @@ page-notifications {
                     .item-inner {
                         padding: 0px;
                         ion-label {
+                            &:active,
+                            &:focus {
+                                background: color($assetFeedback, base);
+                            }
                             margin: 0px;
                             display: block;
                             width: 100%;

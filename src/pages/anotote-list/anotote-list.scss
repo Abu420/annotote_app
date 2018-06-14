@@ -392,6 +392,10 @@
                                     border-bottom: 1px solid #e8e8e8;
                                 }
                             }
+                            li:select,
+                            li:focus {
+                                background: color($assetFeedback, base);
+                            }
                         }
                     }
                 }
@@ -834,7 +838,7 @@
                                         vertical-align: middle;
                                     }
                                     &.activated {
-                                        box-shadow: -9px 0 20px -5px #333;
+                                        box-shadow: 0px 5px 10px #333;
                                         transform: scale(1, 1);
                                         background-color: #e0e0e0;
                                     }
@@ -1147,6 +1151,15 @@
                                                     }
                                                     img {
                                                         width: 25px;
+                                                    }
+                                                    &:focus {
+                                                        background: none;
+                                                    }
+                                                    &:active {
+                                                        background: none;
+                                                    }
+                                                    &:visited {
+                                                        background: none;
                                                     }
                                                 }
                                                 figure {

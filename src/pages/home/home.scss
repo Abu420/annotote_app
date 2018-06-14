@@ -22,6 +22,10 @@ top_options {
         left: 0;
     }
     .sharing_pop {
+        &:focus,
+        &:active {
+            background: color($assetFeedback, base);
+        }
         &.interestTab {
             .main_label {
                 text-align: center;
@@ -417,6 +421,7 @@ ul.home-list {
         }
         button:hover {
             background-color: color($assetFeedback, darkGreen) !important;
+            box-shadow: -3px 3px 15px 5px #6b6969 !important;
             opacity: 1;
             border-radius: 0;
         }
@@ -441,6 +446,7 @@ ul.home-list {
         }
         button:hover {
             background-color: color($assetFeedback, darkYellow) !important;
+            box-shadow: -3px 3px 15px 5px #6b6969 !important;
             opacity: 1;
             border-radius: 0;
         }
@@ -466,8 +472,10 @@ ul.home-list {
         }
         button:hover {
             background-color: color($assetFeedback, darkPink) !important;
+            box-shadow: -3px 3px 15px 5px #6b6969 !important;
             opacity: 1;
             border-radius: 0;
+            z-index: 1;
         }
     }
 }
