@@ -330,7 +330,7 @@ export class AnototeList {
 
     if (this.current_active_anotote) {
       if (this.current_active_anotote.chatGroup == null) {
-          this.move_fab = false;
+        this.move_fab = false;
         if (this.current_active_anotote.active_tab == 'follows' || this.current_active_anotote.active_tab == 'top')
           this.comingBackResizeCheck = true;
       } else {

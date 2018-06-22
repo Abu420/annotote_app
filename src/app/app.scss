@@ -1016,6 +1016,14 @@ search_page {
                     }
                 }
             }
+            .loader-panel {
+                .item-block {
+                    border-bottom: none !important;
+                    .item-inner {
+                        border-bottom: none !important;
+                    }
+                }
+            }
         }
         .searchResult {
             z-index: 10001;
@@ -1474,6 +1482,7 @@ search_page {
                         }
                         &.real {
                             width: calc(100% - 73px) !important;
+                            border-bottom: 1px solid #e4e4e4
                         }
                     }
                 }

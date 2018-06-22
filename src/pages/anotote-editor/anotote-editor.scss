@@ -478,7 +478,7 @@ page-anotote-editor {
 .editor-area {
     // padding: 10px;
     .editor_text_box {
-        overflow: scroll;
+        overflow: auto;
         width: 100%;
         background: #FFF;
         color: #000 !important;
@@ -632,11 +632,12 @@ page-anotote-editor {
 
 .frame_area {
     @extend .editor-area;
-    width: 100%;
-    height: calc(100vh - 56px);
+    width: 100%; // height: calc(100vh - 56px);
+    height: 100vh;
     overflow: scroll;
     iframe {
         height: 100%;
+        overflow: scroll;
     }
 }
 

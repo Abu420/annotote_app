@@ -457,87 +457,71 @@ export class AnototeEditor implements OnDestroy {
     change_full_screen_mode() {
         this.full_screen_mode = !this.full_screen_mode;
         if (this.full_screen_mode == true) {
+            this.toggle_annotation_option = false;
             this.ANOTOTE_LOADED = false;
-            this.configureHashes(this.full_screen_mode, true).subscribe((success) => {
-                this.ANOTOTE_LOADED = true;
-                this.showheader = false;
-                this.hideheader = true;
-                if (this.actual_stream == 'me') {
-                    var temp = this.ANOTOTE.meFilePath.split('/');
-                } else if (this.actual_stream == 'follows') {
-                    var temp = this.ANOTOTE.followerFilePath.split('/');
-                } else if (this.actual_stream == 'top') {
-                    var temp = this.ANOTOTE.topFilePath.split('/');
-                } else if (this.actual_stream == 'anon') {
-                    var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
-                }
-                // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
-                var name = temp[temp.length - 1].split('.')[0];
-                this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
-                setTimeout(() => {
-                    var iframe: any = document.getElementById('browsed');
+            this.ANOTOTE_LOADED = true;
+            this.showheader = false;
+            this.hideheader = true;
+            if (this.actual_stream == 'me') {
+                var temp = this.ANOTOTE.meFilePath.split('/');
+            } else if (this.actual_stream == 'follows') {
+                var temp = this.ANOTOTE.followerFilePath.split('/');
+            } else if (this.actual_stream == 'top') {
+                var temp = this.ANOTOTE.topFilePath.split('/');
+            } else if (this.actual_stream == 'anon') {
+                var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
+            }
+            // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
+            var name = temp[temp.length - 1].split('.')[0];
+            this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
+            setTimeout(() => {
+                var iframe: any = document.getElementById('browsed');
+                iframe.onload = () => {
                     setTimeout(() => {
-                        setTimeout(() => {
-                            iframe.contentDocument.body.setAttribute('class', this.actual_stream);
-                        }, 500);
-                        iframe.contentDocument.addEventListener('selectionchange', () => {
-                            var sel = iframe.contentDocument.getSelection(),
-                                selected_txt = sel.toString();
-                            if (selected_txt != '') {
-                                this.range = iframe.contentDocument.createRange();
-                                this.range.setStart(sel.baseNode, sel.baseOffset);
-                                this.range.setEnd(sel.extentNode, sel.extentOffset);
-                                this.sel = sel;
-                                var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
-                                this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
-                                this.cd.detectChanges();
-                            } else {
+                        iframe.contentDocument.body.setAttribute('class', this.actual_stream);
+                    }, 500);
+                    iframe.contentDocument.addEventListener('selectionchange', (e) => {
+                        var sel = iframe.contentDocument.getSelection(),
+                            selected_txt = sel.toString();
+                        if (selected_txt != '') {
+                            this.range = iframe.contentDocument.createRange();
+                            this.range.setStart(sel.baseNode, sel.baseOffset);
+                            this.range.setEnd(sel.extentNode, sel.extentOffset);
+                            this.sel = sel;
+                            var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
+                            this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
+                            this.cd.detectChanges();
+                        } else {
+                            if (this.toggle_annotation_option == false) {
                                 this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
                                 this.cd.detectChanges();
+                            } else {
+                                this.toggle_annotation_option = false;
                             }
-                        })
-                        iframe.contentDocument.addEventListener('touchend', (event) => {
-                            if (event.target.localName == 'highlight_quote')
-                                this.editor_click(event);
-                        })
-                        // iframe.contentWindow.document.ontouchend = (event) => {
-                        //     if (event.target.localName == 'highlight_quote')
-                        //         this.editor_click(event);
-                        // }
-                    }, 500);
-                }, 500);
-            }, (error) => { })
+                        }
+                    })
+                    iframe.contentDocument.addEventListener('touchend', (event) => {
+                        if (event.target.localName == 'highlight_quote')
+                            this.editor_click(event);
+                    })
+                    // iframe.contentWindow.document.ontouchend = (event) => {
+                    //     if (event.target.localName == 'highlight_quote')
+                    //         this.editor_click(event);
+                    // }
+                }
+            }, 500);
         } else {
             this.ANOTOTE_LOADED = false;
-            this.configureHashes(this.full_screen_mode, true).subscribe((success) => {
-                this.ANOTOTE_LOADED = true;
-                this.showheader = true;
-                this.hideheader = false;
-                var anotote_obj = {
-                    ANOTOTE: this.ANOTOTE,
-                    HIGHLIGHT_RECEIVED: null,
-                };
-                this.load_new_anotote(anotote_obj);
-            })
+            this.ANOTOTE_LOADED = true;
+            this.showheader = true;
+            this.hideheader = false;
+            var anotote_obj = {
+                ANOTOTE: this.ANOTOTE,
+                HIGHLIGHT_RECEIVED: null,
+            };
+            this.load_new_anotote(anotote_obj);
             // this.itemsShowHide();
         }
-    }
-
-    configureHashes(mode, forUpdating) {
-        var elems = document.getElementsByTagName('link');
-        for (var i = 0; i < elems.length; i++) {
-            if (elems[i].getAttribute('data-href')) {
-                if (mode == true)
-                    elems[i].setAttribute('href', elems[i].getAttribute('data-href'));
-                else
-                    elems[i].setAttribute('href', '#');
-            }
-        }
-        var params = {
-            user_tote_id: this.tote_id,
-            file_text: this.get_updated_article_text(forUpdating)
-        }
-        return this.searchService.update_file(params);
     }
 
     itemsShowHide() {
@@ -1375,27 +1359,16 @@ export class AnototeEditor implements OnDestroy {
             });
     }
 
-    get_updated_article_text(fromHash = false) {
-        if (fromHash == false)
-            if (this.full_screen_mode == true) {
-                var iframe: any = document.getElementById('browsed');
-                var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-                return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
-            } else {
-                this.add_remove_display_none(true);
-                var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-                return tag + document.getElementById('text_editor').innerHTML + '</html>';
-            }
-        else
-            if (this.full_screen_mode == true) {
-                this.add_remove_display_none(true);
-                var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-                return tag + document.getElementById('text_editor').innerHTML + '</html>';
-            } else {
-                var iframe: any = document.getElementById('browsed');
-                var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-                return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
-            }
+    get_updated_article_text() {
+        if (this.full_screen_mode == true) {
+            var iframe: any = document.getElementById('browsed');
+            var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+            return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
+        } else {
+            this.add_remove_display_none(true);
+            var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+            return tag + document.getElementById('text_editor').innerHTML + '</html>';
+        }
     }
 
     add_remove_display_none(check) {
