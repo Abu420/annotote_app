@@ -1442,7 +1442,13 @@ search_page {
                     .users_loader {
                         @extend .img-holder;
                         background-image: url(../assets/img/userGray.svg);
-                        background-size: 25px;
+                        background-size: 35px;
+                        width: 72px;
+                    }
+                    .cloud_loader {
+                        @extend .img-holder;
+                        background-image: url(../assets/img/cloudIconGray.svg);
+                        background-size: 35px;
                         width: 72px;
                     }
                     .txt {

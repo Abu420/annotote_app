@@ -128,10 +128,10 @@
             </html>
             <!-- <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="full_text  | sanitizeHtml"></div> -->
         </div>
-        <div class="frame_area" *ngIf="full_screen_mode == true">
+        <div class="frame_area" *ngIf="full_screen_mode == true" [hidden]="for_creating_and_updating_comment == true">
             <iframe id="browsed" [src]='url_for_frame | frameHtml' width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
-        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED == false">
+        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED == false || for_creating_and_updating_comment == true">
             <div class="editor_text_box" padding>
                 <span class="loader" *ngFor="let item of loaderLines"></span>
             </div>

@@ -429,6 +429,13 @@ export class AnototeList {
           this.stream.me_page_no = this.current_page;
           this.stream.me_anototes = this.anototes;
           this.stream.me_first_load = true;
+          //offline loading
+          var store = [];
+          for (var i = 0; i < 3; i++) {
+            store.push(this.anototes[i]);
+          }
+          localStorage.setItem('offline', JSON.stringify(store));
+          //------------------
         } else if (this.current_color == 'follows') {
           this.stream.follows_page_no = this.current_page;
           this.stream.follows_anototes = this.anototes;

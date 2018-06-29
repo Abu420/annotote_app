@@ -50,7 +50,8 @@ export class CommentDetailPopup {
   public selected_follower_name: string = '';
   // public isKeyboardDeployed: boolean = false;
   public one: string = '';
-  public currentIndex = 0;
+  public previousSelection = 0;
+  public backspaceInProgress = false;
   public total_followers = 0;
 
   constructor(public params: NavParams,
@@ -70,6 +71,7 @@ export class CommentDetailPopup {
     // })
     this.anotote_txt = this.params.get('txt');
     this.actual_anotated = this.params.get('txt');
+    this.one = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
@@ -85,6 +87,14 @@ export class CommentDetailPopup {
     })
     if (utilityMethods.whichPlatform() == 'ios')
       statusbar.hide();
+  }
+
+  ionViewDidLoad() {
+    document.getElementById('actualContent').addEventListener('paste', (event) => {
+      setTimeout(() => {
+        this.released(event);
+      }, 500);
+    })
   }
 
   dismiss() {
@@ -242,74 +252,119 @@ export class CommentDetailPopup {
     }, 100)
   }
 
-  ellipsis(event) {
+  released(event) {
     if (this.one != this.anotote_txt) {
-      if (this.one.split('"..."').length == this.anotote_txt.split('"..."').length) {
-        if (event.target.selectionStart < this.currentIndex) {
-          let textarea: HTMLTextAreaElement = event.target;
-          if ((this.anotote_txt[textarea.selectionStart] == undefined || this.anotote_txt[textarea.selectionStart] == ' ' || this.anotote_txt[textarea.selectionStart] == '\n') && (this.anotote_txt[textarea.selectionStart - 1] == '\n' || this.anotote_txt[textarea.selectionStart - 1] == ' ')) {
-            var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart);
-            firstHalf += '"..."';
-            firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-            this.anotote_txt = firstHalf;
-          }
-        } else {
-          let textarea: HTMLTextAreaElement = event.target;
-          if (this.bracketStartIndex == 0)
-            this.bracketStartIndex = textarea.selectionStart - 1;
-          else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
-            if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
-              var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
-              firstHalf += ' [';
-              var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
-              sec = sec.trim();
-              firstHalf += sec + '] ';
+      if (event.target.selectionStart < this.previousSelection) {
+        let textarea: HTMLTextAreaElement = event.target;
+        var check = textarea.selectionStart - 1;
+        while (check > 0) {
+          if (this.anotote_txt[check] == ']' || check - 1 == 0) {
+            if ((this.previousSelection - event.target.selectionStart) > 1) {
+              var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart);
+              firstHalf += '"..."';
               firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
               this.anotote_txt = firstHalf;
-              this.bracketStartIndex = 0;
+              this.backspaceInProgress = false;
               this.one = JSON.parse(JSON.stringify(this.anotote_txt));
+              setTimeout((place) => {
+                var text: any = document.getElementById('actualContent');
+                text.setSelectionRange(place, place);
+              }, 500, textarea.selectionStart + 5);
+            } else {
+              this.backspaceInProgress = true;
+              let charToDelete = this.anotote_txt.substr(textarea.selectionStart - 1, 1);
+              if (charToDelete == " ") {
+                return true;
+              }
+              let nextChar = this.anotote_txt.substr(textarea.selectionStart, 1);
+              if (nextChar == " " || nextChar == "") {
+                var start = textarea.selectionStart;
+                var end = textarea.selectionStart;
+
+                while (this.anotote_txt.substr(start - 1, 1) != " " && start - 1 >= 0) {
+                  start -= 1;
+                }
+                this.anotote_txt = JSON.parse(JSON.stringify(this.one));
+                setTimeout((place) => {
+                  var text: any = document.getElementById('actualContent');
+                  text.setSelectionRange(place.start, place.end);
+                }, 500, { start: start, end: end + 1 });
+              }
             }
+          } else if (this.anotote_txt[check] == '[') {
+            this.one = JSON.parse(JSON.stringify(this.anotote_txt));
+            break;
           }
+          check--;
         }
       } else {
-        this.anotote_txt = JSON.parse(JSON.stringify(this.one));
-        event.target.blur();
+        this.backspaceInProgress = false;
+        let textarea: HTMLTextAreaElement = event.target;
+        var start = textarea.selectionStart - 1;
+        if (this.anotote_txt[start] != ' ')
+          while (start > 0) {
+            if (this.anotote_txt[start] == ']' || start - 1 == 0) {
+              var pastedValue = textarea.value.length - this.one.length;
+              this.anotote_txt = this.insertBrackets(textarea.selectionStart - pastedValue, pastedValue, textarea.value.length);
+              this.one = JSON.parse(JSON.stringify(this.anotote_txt));
+              setTimeout((place) => {
+                var text: any = document.getElementById('actualContent');
+                text.setSelectionRange(place, place);
+              }, 500, textarea.selectionStart + 1);
+              break;
+            } else if (this.anotote_txt[start] == '[') {
+              this.one = JSON.parse(JSON.stringify(this.anotote_txt));
+              break;
+            }
+            start--;
+          }
+        // if (this.bracketStartIndex == 0) {
+        //   this.bracketStartIndex = textarea.selectionStart - 1;
+        //   var pastedValue = textarea.value.length - this.one.length;
+        //   if (pastedValue > 1) {
+        //     var withinsertedText = this.insertBrackets(textarea.selectionStart - pastedValue, pastedValue, textarea.value.length);
+        //     this.anotote_txt = withinsertedText;
+        //     this.bracketStartIndex = 0;
+        //     setTimeout((place) => {
+        //       var text: any = document.getElementById('actualContent');
+        //       text.setSelectionRange(place, place);
+        //     }, 500, textarea.selectionStart + 3);
+        //   }
+        // } else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
+        //   if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
+        //     var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
+        //     firstHalf += ' [';
+        //     var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
+        //     sec = sec.trim();
+        //     firstHalf += sec + '] ';
+        //     firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
+        //     this.anotote_txt = firstHalf;
+        //     this.bracketStartIndex = 0;
+        //     this.one = JSON.parse(JSON.stringify(this.anotote_txt));
+        //   }
+        // }
       }
     }
-    // if (this.anotote_txt.length > this.actual_anotated.length) {
-    //   let textarea: HTMLTextAreaElement = event.target;
-    //   if (this.bracketStartIndex == 0)
-    //     this.bracketStartIndex = textarea.selectionStart - 1;
-    //   else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
-    //     if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
-    //       var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
-    //       firstHalf += '"[';
-    //       var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
-    //       sec.trim();
-    //       firstHalf += sec + ']"';
-    //       firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-    //       this.anotote_txt = firstHalf;
-    //       this.bracketStartIndex = 0;
-    //     }
-    //   }
-    // } else if (this.anotote_txt.length < this.actual_anotated.length) {
-    //   let textarea: HTMLTextAreaElement = event.target;
-    //   console.log(this.anotote_txt[textarea.selectionStart - 1])
-    //   if (this.anotote_txt[textarea.selectionStart - 1] == ' ' || (this.anotote_txt[textarea.selectionStart - 1] == '\n' && this.anotote_txt[textarea.selectionStart] != "[^!@%~?:#$%^&*()0']*")) {
-    //     // this.anotote_txt.splice(textarea.selectionStart, 0, "...");
-    //     var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart - 1);
-    //     firstHalf += '"..."';
-    //     firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-    //     this.anotote_txt = firstHalf;
-    //     textarea.blur();
-    //   }
-    // }
-    // this.anotote_txt = this.anotote_txt.replace('"...""..."','"..."');
+  }
+
+  insertBrackets(start, middle, end) {
+    var result = this.anotote_txt.substr(0, start);
+    result += ' [';
+    var sec = this.anotote_txt.substring(start, start + middle);
+    sec = sec.trim();
+    result += sec + '] ';
+    result += this.anotote_txt.substr(start + middle, end).trim();
+    return result;
   }
 
   initialize(event) {
-    this.currentIndex = event.target.selectionStart;
+    this.backspaceInProgress = false;
     this.one = JSON.parse(JSON.stringify(event.target.value));
+  }
+
+  pressed(event) {
+    if (this.backspaceInProgress == false)
+      this.previousSelection = event.target.selectionEnd;
   }
 
   tagClick(event) {

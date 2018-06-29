@@ -640,6 +640,14 @@
                     }
                 }
             }
+            .loader-panel {
+                .item-block {
+                    border-bottom: none !important;
+                    .item-inner {
+                        border-bottom: none !important;
+                    }
+                }
+            }
         }
 
         page-anotote-list {

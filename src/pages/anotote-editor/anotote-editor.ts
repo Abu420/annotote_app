@@ -478,7 +478,8 @@ export class AnototeEditor implements OnDestroy {
                 var iframe: any = document.getElementById('browsed');
                 iframe.onload = () => {
                     setTimeout(() => {
-                        iframe.contentDocument.body.setAttribute('class', this.actual_stream);
+                        var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
+                        iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
                     }, 500);
                     iframe.contentDocument.addEventListener('selectionchange', (e) => {
                         var sel = iframe.contentDocument.getSelection(),
@@ -496,7 +497,9 @@ export class AnototeEditor implements OnDestroy {
                                 this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
                                 this.cd.detectChanges();
                             } else {
-                                this.toggle_annotation_option = false;
+                                setTimeout(() => {
+                                    this.toggle_annotation_option = false;
+                                }, 500);
                             }
                         }
                     })
@@ -504,10 +507,6 @@ export class AnototeEditor implements OnDestroy {
                         if (event.target.localName == 'highlight_quote')
                             this.editor_click(event);
                     })
-                    // iframe.contentWindow.document.ontouchend = (event) => {
-                    //     if (event.target.localName == 'highlight_quote')
-                    //         this.editor_click(event);
-                    // }
                 }
             }, 500);
         } else {
@@ -1147,10 +1146,7 @@ export class AnototeEditor implements OnDestroy {
     }
 
     remove_annotation_api(an_id, element) {
-        if (this.full_screen_mode)
-            this.showLoading('Removing annotation');
-        else
-            this.for_creating_and_updating_comment = false;
+        this.for_creating_and_updating_comment = true;
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
         var article_txt = this.get_updated_article_text();
@@ -1171,6 +1167,10 @@ export class AnototeEditor implements OnDestroy {
                     this.add_remove_display_none(false).then(() => {
                         this.for_creating_and_updating_comment = false;
                     });
+                else {
+                    this.for_creating_and_updating_comment = false;
+                    this.cd.detectChanges();
+                }
                 if (this.WHICH_STREAM == 'me') {
                     this.runtime.top_first_load = false;
                     this.runtime.follow_first_load = false;
@@ -1207,10 +1207,7 @@ export class AnototeEditor implements OnDestroy {
     }
 
     update_annotation_api(anotation_id, highlight_text, comment, identifier, element) {
-        if (this.full_screen_mode)
-            this.showLoading('Updating annotation');
-        else
-            this.for_creating_and_updating_comment = false;
+        this.for_creating_and_updating_comment = true;
         var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
         element.className = "highlight_comment"
@@ -1233,6 +1230,10 @@ export class AnototeEditor implements OnDestroy {
                     this.add_remove_display_none(false).then(() => {
                         this.for_creating_and_updating_comment = false;
                     });
+                else {
+                    this.for_creating_and_updating_comment = false;
+                    this.cd.detectChanges();
+                }
                 if (this.WHICH_STREAM == 'me') {
                     this.runtime.top_first_load = false;
                     this.runtime.follow_first_load = false;
@@ -1278,10 +1279,7 @@ export class AnototeEditor implements OnDestroy {
         var identifier = this.generate_dynamic_identifier(current_time);
         if (!this.highlight_(type, identifier, comment))
             return;
-        if (this.full_screen_mode)
-            this.showLoading('Saving annotation');
-        else
-            this.for_creating_and_updating_comment = false;
+        this.for_creating_and_updating_comment = true;
         var article_txt = this.get_updated_article_text();
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
@@ -1330,6 +1328,10 @@ export class AnototeEditor implements OnDestroy {
                             this.for_creating_and_updating_comment = false;
                         }, 500);
                     });
+                else {
+                    this.for_creating_and_updating_comment = false;
+                    this.cd.detectChanges();
+                }
                 if (tags.length > 0) {
                     var params = {
                         tags: tags,
