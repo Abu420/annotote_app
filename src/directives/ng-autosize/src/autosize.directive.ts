@@ -9,9 +9,7 @@ export class Autosize implements AfterViewInit {
   private el: any;
   private _minHeight: string;
   private _maxHeight: string;
-  private _lastHeight: number;
   private _clientWidth: number;
-  private key: string;
 
   @Input('minHeight')
   get minHeight() {
@@ -29,27 +27,6 @@ export class Autosize implements AfterViewInit {
   set maxHeight(val: string) {
     this._maxHeight = val;
     this.updateMaxHeight();
-  }
-
-  @HostListener('window:resize', ['$event.target'])
-  onResize(textArea: HTMLTextAreaElement) {
-    //Only apply adjustment if element width had changed.
-    if (this.el.clientWidth === this._clientWidth) return;
-    this._clientWidth = this.element.nativeElement.clientWidth;
-    this.adjust();
-  }
-
-  @HostListener('input', ['$event.target'])
-  onInput(textArea: HTMLTextAreaElement): void {
-    this.adjust();
-  }
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event) {
-    if (event.currentTarget.activeElement.id == this.el.id)
-      if (event.key == 'Backspace' && parseInt(this.el.style.height) > 60) {
-        this.el.style.height = this.element.nativeElement.scrollHeight - 16 + 'px';
-      }
-
   }
 
   constructor(public element: ElementRef) {
@@ -81,10 +58,6 @@ export class Autosize implements AfterViewInit {
     this.el.style.height = 'auto';
     if (this.el.scrollHeight > 0)
       this.el.style.height = this.el.scrollHeight + "px";
-    // setTimeout(() => {
-    //   this.el.focus();
-    //   this.el.setSelectionRange(this.el.value.length, this.el.value.length);
-    // }, 500);
   }
 
   updateMinHeight(): void {

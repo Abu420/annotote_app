@@ -352,4 +352,8 @@ export class UtilityMethods {
         return (email.match(format));
     }
 
+    conatains_special_chars(input) {
+        return /^[a-zA-Z0-9]*$/.test(input) == false;
+    }
+
 }

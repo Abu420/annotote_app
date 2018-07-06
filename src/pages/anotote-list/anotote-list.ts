@@ -430,11 +430,11 @@ export class AnototeList {
           this.stream.me_anototes = this.anototes;
           this.stream.me_first_load = true;
           //offline loading
-          var store = [];
-          for (var i = 0; i < 3; i++) {
-            store.push(this.anototes[i]);
-          }
-          localStorage.setItem('offline', JSON.stringify(store));
+          // var store = [];
+          // for (var i = 0; i < 5; i++) {
+          //   store.push(this.anototes[i]);
+          // }
+          // localStorage.setItem('offline', JSON.stringify(store));
           //------------------
         } else if (this.current_color == 'follows') {
           this.stream.follows_page_no = this.current_page;
@@ -1647,33 +1647,7 @@ export class AnototeList {
   }
 
   ellipsis(event) {
-    if (this.edit_actual_highlight.length > this.current_active_highlight.highlightText.length) {
-      let textarea: HTMLTextAreaElement = event.target;
-
-      if (this.bracketStartIndex == 0)
-        this.bracketStartIndex = textarea.selectionStart - 1;
-      else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
-        if (this.edit_actual_highlight[textarea.selectionStart - 1] == ' ') {
-          var firstHalf = this.edit_actual_highlight.substr(0, this.bracketStartIndex);
-          firstHalf += ' [';
-          var sec = this.edit_actual_highlight.substring(this.bracketStartIndex, textarea.selectionStart);
-          sec.trim();
-          firstHalf += sec + ']';
-          firstHalf += this.edit_actual_highlight.substr(textarea.selectionStart, this.edit_actual_highlight.length);
-          this.edit_actual_highlight = firstHalf;
-          this.bracketStartIndex = 0;
-        }
-      }
-    } else if (this.edit_actual_highlight.length < this.edit_actual_highlight.length) {
-      let textarea: HTMLTextAreaElement = event.target;
-      if (this.edit_actual_highlight[textarea.selectionStart - 1] == ' ') {
-        var firstHalf = this.edit_actual_highlight.substr(0, textarea.selectionStart - 1);
-        firstHalf += ' ... ';
-        firstHalf += this.edit_actual_highlight.substr(textarea.selectionStart, this.edit_actual_highlight.length);
-        this.edit_actual_highlight = firstHalf;
-      }
-    }
-
+    this.edit_actual_highlight = event;
   }
 
   stop_editing(event, highlight) {

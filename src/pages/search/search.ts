@@ -413,11 +413,7 @@ export class Search {
         else if (this.search_filters.category.top) params.annotote_type = "top";
 
         //date filter
-        if (
-          this.search_filters.date.year != "" &&
-          this.search_filters.date.month != "" &&
-          this.search_filters.date.day != ""
-        ) {
+        if (this.search_filters.date.year != "" && this.search_filters.date.month != "" && this.search_filters.date.day != "") {
           if (
             this.search_filters.date.month < 12 &&
             this.search_filters.date.month > 0 &&

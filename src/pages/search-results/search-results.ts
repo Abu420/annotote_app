@@ -793,15 +793,7 @@ export class SearchResults {
   }
 
   ellipsis(event) {
-    if (this.edit_actual_highlight.length > this.current_active_highlight.highlightText.length) {
-      var text = this.searchService.brackets(event, this.edit_actual_highlight);
-      if (text)
-        this.edit_actual_highlight = text;
-    } else if (this.edit_actual_highlight.length < this.edit_actual_highlight.length) {
-      var text = this.searchService.ellipsis(event, this.edit_actual_highlight);
-      if (text)
-        this.edit_actual_highlight = text;
-    }
+    this.edit_actual_highlight = event;
   }
 
   tag_user(event) {

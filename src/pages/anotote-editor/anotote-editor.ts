@@ -479,7 +479,13 @@ export class AnototeEditor implements OnDestroy {
                 iframe.onload = () => {
                     setTimeout(() => {
                         var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
-                        iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
+                        iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes + ' ' + 'mobile-style-available');
+                        var tags = iframe.contentDocument.body.getElementsByTagName('div');
+                        for (let tag of tags) {
+                            tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+                            this.cd.detectChanges();
+                        }
+                        this.cd.detectChanges();
                     }, 500);
                     iframe.contentDocument.addEventListener('selectionchange', (e) => {
                         var sel = iframe.contentDocument.getSelection(),

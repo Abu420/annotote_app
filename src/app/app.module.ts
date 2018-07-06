@@ -107,6 +107,7 @@ import { TagsExclusive } from "../pages/tagsExclusive/tags";
 import { KeyboardAttachDirective } from "../directives/keyboardAttach";
 import { Votes } from "../directives/votes/votes";
 import { CustomHammerConfig } from "../directives/longPress";
+import { CustomActions } from "../directives/custom-textarea/custom-textarea";
 
 @NgModule({
   declarations: [
@@ -160,7 +161,8 @@ import { CustomHammerConfig } from "../directives/longPress";
     Bold,
     TagsExclusive,
     Votes,
-    Frame
+    Frame,
+    CustomActions
   ],
   imports: [
     BrowserModule,
@@ -256,4 +258,4 @@ import { CustomHammerConfig } from "../directives/longPress";
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

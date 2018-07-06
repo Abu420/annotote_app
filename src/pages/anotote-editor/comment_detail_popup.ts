@@ -1,5 +1,5 @@
-import { Component, trigger, transition, style, animate, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, ViewController, NavParams, Events, ModalController } from 'ionic-angular';
+import { Component, trigger, transition, style, animate, ViewChild, ElementRef, ChangeDetectorRef, HostListener } from '@angular/core';
+import { ViewController, NavParams, Events, ModalController } from 'ionic-angular';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from "../../services/search.service";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -34,25 +34,21 @@ export class CommentDetailPopup {
   public show: boolean = true;
   public annotation;
   private show_autocomplete: boolean = false;
-  private one_selected: { text: string, tagId: number, user_id: number, mentioned: number };
-  private no_user_found: boolean = false;
-  private no_tags_found: boolean = false;
   public user: any;
   private users: any = [];
   public isTagging: boolean = false;
   public nameEntered: string = '';
   public nameInputIndex: number = 0;
-  private search_user: boolean = false;
   public mentioned: any = [];
   public fieldInContent: boolean = false;
   public actual_anotated: any = '';
   public bracketStartIndex = 0;
   public selected_follower_name: string = '';
   // public isKeyboardDeployed: boolean = false;
-  public one: string = '';
-  public previousSelection = 0;
-  public backspaceInProgress = false;
+  public shouldPreventDefault = false;
   public total_followers = 0;
+  public waitingMode = [];
+  public waitingTime: number = 500;
 
   constructor(public params: NavParams,
     public viewCtrl: ViewController,
@@ -71,7 +67,6 @@ export class CommentDetailPopup {
     // })
     this.anotote_txt = this.params.get('txt');
     this.actual_anotated = this.params.get('txt');
-    this.one = this.params.get('txt');
     this.anotote_identifier = this.params.get('identifier');
     this.anotote_type = this.params.get('type');
     this.anotote_comment = this.params.get('comment') == null ? '' : this.params.get('comment');
@@ -90,11 +85,30 @@ export class CommentDetailPopup {
   }
 
   ionViewDidLoad() {
-    document.getElementById('actualContent').addEventListener('paste', (event) => {
-      setTimeout(() => {
-        this.released(event);
-      }, 500);
-    })
+    // var box = document.getElementById('actualContent');
+    var comment = document.getElementById('comment');
+    // autosize(box);
+    if (comment)
+      autosize(comment);
+    // box.addEventListener('paste', (event) => {
+    //   let textarea: any = event.target;
+    //   if (this.actionNeeded(textarea.selectionStart) && event.clipboardData.getData('Text') != '') {
+    //     if (textarea.selectionStart == textarea.selectionEnd)
+    //       var pastedValue = " [" + event.clipboardData.getData('Text') + "] ";
+    //     else
+    //       var pastedValue = ' "..." [' + event.clipboardData.getData('Text') + "] ";
+    //     event.preventDefault();
+    //     var result = this.anotote_txt.substr(0, textarea.selectionStart - 1).trim();
+    //     result += pastedValue;
+    //     var sec = this.anotote_txt.substring(textarea.selectionStart, this.anotote_txt.length).trim();
+    //     this.anotote_txt = result + sec;
+    //     setTimeout((place) => {
+    //       var temp: any = document.getElementById('actualContent');
+    //       temp.setSelectionRange(place, place);
+    //       this.cd.detectChanges();
+    //     }, 200, textarea.selectionStart + pastedValue.length - 3);
+    //   }
+    // })
   }
 
   dismiss() {
@@ -252,119 +266,88 @@ export class CommentDetailPopup {
     }, 100)
   }
 
-  released(event) {
-    if (this.one != this.anotote_txt) {
-      if (event.target.selectionStart < this.previousSelection) {
-        let textarea: HTMLTextAreaElement = event.target;
-        var check = textarea.selectionStart - 1;
-        while (check > 0) {
-          if (this.anotote_txt[check] == ']' || check - 1 == 0) {
-            if ((this.previousSelection - event.target.selectionStart) > 1) {
-              var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart);
-              firstHalf += '"..."';
-              firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-              this.anotote_txt = firstHalf;
-              this.backspaceInProgress = false;
-              this.one = JSON.parse(JSON.stringify(this.anotote_txt));
-              setTimeout((place) => {
-                var text: any = document.getElementById('actualContent');
-                text.setSelectionRange(place, place);
-              }, 500, textarea.selectionStart + 5);
-            } else {
-              this.backspaceInProgress = true;
-              let charToDelete = this.anotote_txt.substr(textarea.selectionStart - 1, 1);
-              if (charToDelete == " ") {
-                return true;
-              }
-              let nextChar = this.anotote_txt.substr(textarea.selectionStart, 1);
-              if (nextChar == " " || nextChar == "") {
-                var start = textarea.selectionStart;
-                var end = textarea.selectionStart;
-
-                while (this.anotote_txt.substr(start - 1, 1) != " " && start - 1 >= 0) {
-                  start -= 1;
-                }
-                this.anotote_txt = JSON.parse(JSON.stringify(this.one));
-                setTimeout((place) => {
-                  var text: any = document.getElementById('actualContent');
-                  text.setSelectionRange(place.start, place.end);
-                }, 500, { start: start, end: end + 1 });
-              }
-            }
-          } else if (this.anotote_txt[check] == '[') {
-            this.one = JSON.parse(JSON.stringify(this.anotote_txt));
-            break;
-          }
-          check--;
-        }
-      } else {
-        this.backspaceInProgress = false;
-        let textarea: HTMLTextAreaElement = event.target;
-        var start = textarea.selectionStart - 1;
-        if (this.anotote_txt[start] != ' ')
-          while (start > 0) {
-            if (this.anotote_txt[start] == ']' || start - 1 == 0) {
-              var pastedValue = textarea.value.length - this.one.length;
-              this.anotote_txt = this.insertBrackets(textarea.selectionStart - pastedValue, pastedValue, textarea.value.length);
-              this.one = JSON.parse(JSON.stringify(this.anotote_txt));
-              setTimeout((place) => {
-                var text: any = document.getElementById('actualContent');
-                text.setSelectionRange(place, place);
-              }, 500, textarea.selectionStart + 1);
-              break;
-            } else if (this.anotote_txt[start] == '[') {
-              this.one = JSON.parse(JSON.stringify(this.anotote_txt));
-              break;
-            }
-            start--;
-          }
-        // if (this.bracketStartIndex == 0) {
-        //   this.bracketStartIndex = textarea.selectionStart - 1;
-        //   var pastedValue = textarea.value.length - this.one.length;
-        //   if (pastedValue > 1) {
-        //     var withinsertedText = this.insertBrackets(textarea.selectionStart - pastedValue, pastedValue, textarea.value.length);
-        //     this.anotote_txt = withinsertedText;
-        //     this.bracketStartIndex = 0;
-        //     setTimeout((place) => {
-        //       var text: any = document.getElementById('actualContent');
-        //       text.setSelectionRange(place, place);
-        //     }, 500, textarea.selectionStart + 3);
-        //   }
-        // } else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
-        //   if (this.anotote_txt[textarea.selectionStart - 1] == ' ') {
-        //     var firstHalf = this.anotote_txt.substr(0, this.bracketStartIndex);
-        //     firstHalf += ' [';
-        //     var sec = this.anotote_txt.substring(this.bracketStartIndex, textarea.selectionStart);
-        //     sec = sec.trim();
-        //     firstHalf += sec + '] ';
-        //     firstHalf += this.anotote_txt.substr(textarea.selectionStart, this.anotote_txt.length);
-        //     this.anotote_txt = firstHalf;
-        //     this.bracketStartIndex = 0;
-        //     this.one = JSON.parse(JSON.stringify(this.anotote_txt));
-        //   }
-        // }
-      }
-    }
-  }
-
-  insertBrackets(start, middle, end) {
-    var result = this.anotote_txt.substr(0, start);
-    result += ' [';
-    var sec = this.anotote_txt.substring(start, start + middle);
-    sec = sec.trim();
-    result += sec + '] ';
-    result += this.anotote_txt.substr(start + middle, end).trim();
-    return result;
-  }
-
-  initialize(event) {
-    this.backspaceInProgress = false;
-    this.one = JSON.parse(JSON.stringify(event.target.value));
-  }
-
   pressed(event) {
-    if (this.backspaceInProgress == false)
-      this.previousSelection = event.target.selectionEnd;
+    this.anotote_txt = event;
+    // if (event.target.id == 'actualContent') {
+    //   let textarea: HTMLTextAreaElement = event.target;
+    //   if (event.key == "Backspace") {
+    //     if (this.actionNeeded(textarea.selectionStart - 1)) {
+    //       let charToDelete = this.anotote_txt.substr(textarea.selectionStart - 1, 1);
+    //       if ((charToDelete == " " || textarea.selectionStart == 0) && textarea.selectionStart != textarea.selectionEnd) {
+    //         if (this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"..."' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"...' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"..' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '".' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"') {
+    //           var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart).trim();
+    //           firstHalf += ' "..." ';
+    //           firstHalf += this.anotote_txt.substr(textarea.selectionEnd, this.anotote_txt.length).trim();
+    //           this.anotote_txt = firstHalf;
+    //           this.cd.detectChanges();
+    //           setTimeout((place) => {
+    //             var text: any = document.getElementById('actualContent');
+    //             text.setSelectionRange(place, place);
+    //             this.cd.detectChanges();
+    //           }, 200, textarea.selectionStart + 5);
+    //         } else {
+    //           event.preventDefault();
+    //           textarea.setSelectionRange(textarea.selectionEnd, textarea.selectionEnd);
+    //         }
+    //         return;
+    //       }
+    //       let nextChar = this.anotote_txt.substr(textarea.selectionStart, 1);
+    //       if (nextChar == " " || nextChar == "" || this.utilityMethods.conatains_special_chars(nextChar)) {
+    //         var start = textarea.selectionStart;
+    //         var end = textarea.selectionStart;
+
+    //         while (this.anotote_txt.substr(start - 1, 1) != " " && start - 1 >= 0) {
+    //           start -= 1;
+    //         }
+    //         if (start != end) {
+    //           event.preventDefault();
+    //           textarea.setSelectionRange(start, end);
+    //         }
+    //       }
+    //     } else {
+    //       if (this.anotote_txt[textarea.selectionStart - 1] == '[')
+    //         event.preventDefault();
+    //       else if (this.anotote_txt[textarea.selectionEnd - 1] == ']') {
+    //         event.preventDefault();
+    //         textarea.setSelectionRange(textarea.selectionEnd, textarea.selectionEnd);
+    //       }
+    //     }
+    //   } else {
+    //     if (this.actionNeeded(textarea.selectionStart - 1)) {
+    //       if (event.keyCode != 32 && event.keyCode >= 65 && event.keyCode <= 90) {
+    //         event.preventDefault();
+    //         if (this.shouldPreventDefault == false) {
+    //           this.shouldPreventDefault = true;
+    //           var result = this.anotote_txt.substr(0, textarea.selectionStart - 1).trim();
+    //           result += ' [' + event.key + '] ';
+    //           var sec = this.anotote_txt.substring(textarea.selectionStart, this.anotote_txt.length).trim();
+    //           this.anotote_txt = result + sec;
+    //           setTimeout((place) => {
+    //             var word = '';
+    //             for (let wait of this.waitingMode) {
+    //               word += wait;
+    //             }
+    //             var result = this.anotote_txt.substr(0, place - 1).trim();
+    //             result += word + ']';
+    //             result += this.anotote_txt.substr(place, this.anotote_txt.length);
+    //             this.anotote_txt = result;
+    //             setTimeout((area) => {
+    //               this.shouldPreventDefault = false;
+    //               this.waitingMode = [];
+    //               this.waitingTime = 500;
+    //               var text: any = document.getElementById('actualContent');
+    //               text.setSelectionRange(area, area);
+    //               this.cd.detectChanges();
+    //             }, 200, place + this.waitingMode.length);
+    //           }, this.waitingTime, textarea.selectionStart + 1);
+    //         } else {
+    //           this.waitingMode.push(event.key);
+    //           this.waitingTime += 200;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   tagClick(event) {
@@ -389,6 +372,9 @@ export class CommentDetailPopup {
     } else {
       if (this.stream == 'me') {
         this.fieldInContent = true;
+        setTimeout(() => {
+          autosize(document.getElementById('comment'));
+        }, 200);
         this.cd.detectChanges();
       }
     }

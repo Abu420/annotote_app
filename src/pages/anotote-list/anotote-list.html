@@ -212,7 +212,8 @@
                                         </ng-container>
                                     </ng-container>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
-                                        <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea>
+                                        <!-- <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea> -->
+                                        <custom-actions-area (update-please)="ellipsis($event)" [(text)]="edit_actual_highlight" [stream]="current_active_anotote.active_tab"></custom-actions-area>
                                         <div class="moveBtn">
                                             <button class="topIcon">
                                                 <!-- <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt=""> -->
