@@ -1,7 +1,11 @@
 <ion-header class="searchHeader">
     <ion-toolbar color="homeheader">
-        <div [ngClass]="{'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}" class="search_header">
-            <span [ngClass]="filter_mode?'activeOption':''" (click)="show_filters()" class="options"></span>
+        <!--
+            PRE_FILLED SEARCH BAR FUNCTIONALITY
+            [ngClass]="{'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}"
+         -->
+        <div class="search_header">
+            <span [ngClass]="filter_mode ? 'activeOption':''" (click)="show_filters()" class="options"></span>
             <img src="assets/img/searchIcon.png" alt="" />
             <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
             <span (click)="dismiss(false)" class="clear_button"></span>
@@ -11,18 +15,19 @@
 <ion-content swipe-vertical padding class="searchPage" [ngClass]="{'heightForKeyboard': isOpen == true}" no-bounce>
     <!-- content-->
     <ion-list class="searchItems" [ngClass]="{'loader-panel': search_loading == true}" *ngIf="!filter_mode">
-        <ion-item (click)="get_search_results()" *ngIf="search_loading">
-            <div style="border-bottom: none;">
-                <div class="search_loader">
-                </div>
-                <div class="txt real">
-                    <div>
-                        <span style="color: #ababab;">Search (enter)</span>
+        <!-- For showing loading tiles-->
+        <ng-container *ngIf="search_loading">
+            <ion-item (click)="get_search_results()">
+                <div style="border-bottom: none;">
+                    <div class="search_loader">
+                    </div>
+                    <div class="txt real">
+                        <div>
+                            <span style="color: #ababab;">Search (enter)</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ion-item>
-        <ng-container *ngIf="search_loading">
+            </ion-item>
             <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
                 <div style="border-bottom: none;">
                     <div class="search_loader">
@@ -39,69 +44,40 @@
                 </div>
             </ion-item>
         </ng-container>
-        <ion-item (click)="show_share_options()" *ngIf="current_url" class="searchFilter">
-            <figure>
-                <img src="assets/img/simpleShare.svg" alt="" />
-            </figure>
-            <span>Share this link (enter)</span>
-        </ion-item>
-        <ion-item (click)="clear_deep_link()" *ngIf="current_url" class="searchFilter searchIcon">
-            <figure>
-                <img src="assets/img/searchIcon.svg" alt="" />
-            </figure>
-            <span>New search or address</span>
-        </ion-item>
-        <!-- <ion-item *ngIf="!current_url && search_txt.length>0 && !entering_url && search_results.length==0 && !search_loading" class="searchFilter">
-            <img src="assets/img/searchBlack.png" alt="">
-            <span>No results</span>
-        </ion-item> -->
-        <ion-item (click)="get_search_results()" *ngIf="!current_url && search_txt.length>0 && !entering_url && !search_loading" class="searchFilter">
+        <!--  First option for text search   -->
+        <ion-item (click)="get_search_results()" *ngIf="search_txt.length > 0 && !entering_url && !search_loading" class="searchFilter">
             <figure>
                 <img src="assets/img/searchIcon.svg" alt="">
             </figure>
             <span>Search (enter)</span>
         </ion-item>
-        <ion-item (click)="!current_url && scrape_this_url(true)" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
+        <!--  First option for url search   -->
+        <ion-item (click)="scrape_this_url(true)" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
             <figure>
                 <img class="viewIcon" src="assets/img/searchIcon.svg" alt="">
             </figure>
             <span>View (enter)</span>
         </ion-item>
-        <!-- <ion-item (click)="save_search_entry('save_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
-            <figure>
-                <img class="saveIcon" src="assets/img/cloud.png" alt="">
-            </figure>
-            <span>Save</span>
-        </ion-item>
-        <ion-item (click)="save_search_entry('bookmark_entry')" *ngIf="!current_url && search_txt.length>0 && entering_url" class="searchFilter">
-            <figure class="bookmarkIcon">
-                <img src="assets/img/bookmark.svg" alt="">
-            </figure>
-            <span>Bookmark</span>
-        </ion-item> -->
-        <div *ngIf="search_txt.length>0" class="searchResult">
+        <!-- Response of all type, users,totes,groups -->
+        <div *ngIf="search_txt.length > 0" class="searchResult">
             <ion-item *ngFor="let search_result of search_results" (click)="showProfile(search_result)" class="user_list_item">
                 <div class="totoField" *ngIf="search_result.is_tote == true">
                     <figure>
-                        <img src="assets/img/saveIcon.svg" *ngIf="search_result.userAnnotote.isMe == 1">
-                        <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
-                        <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.userAnnotote.isMe == 0 && search_result.isBookmarked == true">
-                        <!-- <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.annotote.photo != null && search_result.annotote.photo != ''" [hidden]="!loaded" [src]="search_result.annotote.photo | image_base_path">
-                        <ion-spinner *ngIf="!loaded && search_result.annotote.photo != null && search_result.annotote.photo != ''"></ion-spinner> -->
+                        <img src="assets/img/saveIcon.svg" *ngIf="search_result.user_annotote[0].is_me == 1">
+                        <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.user_annotote[0].is_me == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
+                        <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.user_annotote[0].is_me == 0 && search_result.isBookmarked == true">
                     </figure>
                     <figcaption>
-                        <h4 [innerText]="search_result.annotote.title"></h4>
+                        <h4 [innerText]="search_result.user_annotote[0].annotote_title"></h4>
                         <span class="rightContent">
-                            {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}
+                            {{search_result.user_annotote[0].created_at * 1000 | date:'shortTime'}}
                         </span>
                         <div class="toteText">
-                            <p>{{search_result.annotote.source}}</p>
+                            <p>{{search_result.source}}</p>
                             <button type="button" class="">
-                                <!-- <img alt="" src="assets/img/lineIcon.svg"> -->
                                 <ion-icon name="menu"></ion-icon>
                             </button>
                         </div>
-                        <!-- <span class="rightAdd"><ion-icon name="add"></ion-icon></span> -->
                     </figcaption>
                 </div>
                 <div class="totoField" *ngIf="search_result.is_tote == false && search_result.isChat == true">
@@ -109,14 +85,14 @@
                         <img src="assets/img/chatIcon.svg">
                     </figure>
                     <figcaption>
-                        <h4 [innerText]="search_result.chatGroup.messagesUser[0].subject"></h4>
+                        <h4 *ngIf="search_result.messages[0].subject != null">{{search_result.messages[0].subject}}</h4>
+                        <h4 *ngIf="search_result.messages[0].subject == null">Chat</h4>
                         <span class="rightContent">
-                            {{search_result.chatGroup.createdAt * 1000 | date:'shortTime'}}
+                            {{search_result.created_at * 1000 | date:'shortTime'}}
                         </span>
                         <div class="toteText">
-                            <p>{{search_result.chatGroup.name}}</p>
+                            <p>{{search_result.chat_group[0].user.first_name}}</p>
                             <button type="button" class="">
-                                <!-- <img alt="" src="assets/img/lineIcon.svg"> -->
                                 <ion-icon name="menu"></ion-icon>
                             </button>
                         </div>
@@ -129,17 +105,13 @@
                         <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
                     </figure>
                     <figcaption class="followUser">
-                        <h4>{{search_result.firstName}}
-                            <img *ngIf="search_result.isFollowed == 1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                        <h4>{{search_result.first_name}}
+                            <img *ngIf="search_result.is_following_count == 1" class="star-icon" src="assets/img/star-gray.png" alt="">
                         </h4>
-                        <!-- <span class="rightContent">
-                            {{search_result.annotote.createdAt * 1000 | date:'shortTime'}}<ion-icon class="lines" name="menu"></ion-icon>
-                        </span> -->
-                        <span class="rightAdd" *ngIf="search_result.isFollowed == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)">FOLLOW</span>
+                        <span class="rightAdd" *ngIf="search_result.is_following_count == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)">FOLLOW</span>
                         <span class="rightAdd" *ngIf="search_result.follow_loading == true">
                             <ion-spinner name="bubbles"></ion-spinner>
                         </span>
-                        <!-- <span class="rightAdd" *ngIf="search_result.isFollowed == 1">@</span> -->
                     </figcaption>
                 </div>
             </ion-item>

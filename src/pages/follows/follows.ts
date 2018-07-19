@@ -76,7 +76,7 @@ export class Follows {
   showProfile(follower) {
     let profile = this.modalCtrl.create(Profile, {
       data: follower.id,
-      from_page: 'search_results'
+      from_page: 'follows'
     });
     profile.onDidDismiss(data => {
     });

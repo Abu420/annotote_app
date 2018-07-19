@@ -31,7 +31,7 @@ import { Chat } from "../chat/chat";
 export class Search {
   @ViewChild(Content) content: Content;
   public search_txt: string;
-  public search_results: any;
+  public search_results: Array<any> = [];
   public entering_url: boolean;
   public current_url: string;
   public filter_mode: boolean;
@@ -100,26 +100,26 @@ export class Search {
     /**
      * User followed Event Subscriber
      */
-    events.subscribe("user:followed", id => {
-      for (let user of this.search_results) {
-        if (user.id == id) {
-          user.isFollowed = 1;
-          break;
-        }
-      }
-    });
+    // events.subscribe("user:followed", id => {
+    //   for (let user of this.search_results) {
+    //     if (user.id == id) {
+    //       user.isFollowed = 1;
+    //       break;
+    //     }
+    //   }
+    // });
 
     /**
      * User unFollowed Event Subscriber
      */
-    events.subscribe("user:unFollowed", id => {
-      for (let user of this.search_results) {
-        if (user.id == id) {
-          user.isFollowed = 0;
-          break;
-        }
-      }
-    });
+    // events.subscribe("user:unFollowed", id => {
+    //   for (let user of this.search_results) {
+    //     if (user.id == id) {
+    //       user.isFollowed = 0;
+    //       break;
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidLoad() {
@@ -194,27 +194,6 @@ export class Search {
     this.viewCtrl.dismiss("interests");
   }
 
-  show_share_options() {
-    // let toteOptions = this.modalCtrl.create(AnototeOptions, {
-    //     share_content: this.current_url,
-    //     share_type: 'search'
-    // });
-    // toteOptions.onDidDismiss(data => {
-    // });
-    // toteOptions.present();
-    this.utilityMethods.share_content_native(
-      "Anotote",
-      null,
-      null,
-      this.current_url
-    );
-  }
-
-  clear_deep_link() {
-    this.current_url = null;
-    this.search_txt = "";
-  }
-
   show_filters() {
     this.filter_mode = !this.filter_mode;
   }
@@ -274,8 +253,10 @@ export class Search {
           this.stream.follow_first_load = false;
           this.stream.me_first_load = false;
           this.stream.top_first_load = false;
-          if (response.status == 1) person.isFollowed = 1;
-          else this.utilityMethods.doToast("Couldn't follow.");
+          if (response.status == 1)
+            person.is_following_count = 1;
+          else
+            this.utilityMethods.doToast("Couldn't follow.");
         },
         error => {
           this.utilityMethods.hide_loader();
@@ -299,7 +280,7 @@ export class Search {
       .subscribe(
         response => {
           this.utilityMethods.hide_loader();
-          person.isFollowed = 0;
+          person.is_following_count = 0;
           this.stream.follow_first_load = false;
           this.stream.me_first_load = false;
           this.stream.top_first_load = false;
@@ -382,7 +363,6 @@ export class Search {
    * Text field value updating event
    */
   value_updating_search() {
-    // this.search_txt = value;
     this.search_results = [];
     if (this.search_txt.length == 0) {
       this.current_url = "";
@@ -390,10 +370,11 @@ export class Search {
       this.statusBar.backgroundColorByHexString("#323232");
       return;
     }
-    if (this.filter_mode) this.filter_mode = false;
+    if (this.filter_mode)
+      this.filter_mode = false;
 
-    var url_or_user = this.utilityMethods.isWEBURL(this.search_txt); // False for USER && True for URL case
-    var current_time = this.utilityMethods.get_php_wala_time();
+    var url_or_user = this.utilityMethods.isWEBURL(this.search_txt);
+    // False for USER && True for URL case
     this.search_loading = true;
     if (!url_or_user) {
       this.entering_url = false;
@@ -407,13 +388,15 @@ export class Search {
       if (this.search_filters.media.tote) {
         params.type = "annotote";
         //stream filter
-        if (this.search_filters.category.me) params.annotote_type = "me";
+        if (this.search_filters.category.me)
+          params.annotote_type = "me";
         else if (this.search_filters.category.follows)
           params.annotote_type = "follows";
-        else if (this.search_filters.category.top) params.annotote_type = "top";
+        else if (this.search_filters.category.top)
+          params.annotote_type = "top";
 
         //date filter
-        if (this.search_filters.date.year != "" && this.search_filters.date.month != "" && this.search_filters.date.day != "") {
+        if (this.search_filters.date.year != null && this.search_filters.date.month != null && this.search_filters.date.day != null) {
           if (
             this.search_filters.date.month < 12 &&
             this.search_filters.date.month > 0 &&
@@ -432,10 +415,10 @@ export class Search {
             return;
           }
         }
-      } else if (this.search_filters.media.user) params.type = "user";
-      else if (this.search_filters.media.chat) {
+      } else if (this.search_filters.media.user)
+        params.type = "user";
+      else if (this.search_filters.media.chat)
         params.annotote_type = "chats";
-      }
 
       this.searchService.general_search(params).subscribe(
         response => {
@@ -554,25 +537,25 @@ export class Search {
       this.go_to_browser(search_result, false);
     } else if (search_result.is_tote == false && search_result.isChat == true) {
       let secondUser: any = null;
-      for (let group of search_result.chatGroup.groupUsers) {
+      for (let group of search_result.chat_group) {
         if (group.user.id != this.user.id) {
           secondUser = group.user;
         }
       }
       var against = false;
-      if (search_result.chatGroup.messagesUser[0].anototeId != 0)
+      if (search_result.messages[0].anototeId != 0)
         against = true;
       this.navCtrl.push(Chat, {
         secondUser: secondUser,
         against_anotote: against,
-        anotote_id: search_result.chatGroup.messagesUser[0].anototeId,
-        title: search_result.chatGroup.messagesUser[0].subject,
+        anotote_id: search_result.messages[0].anototeId,
+        title: search_result.messages[0].subject,
         full_tote: search_result,
         color: "me"
       });
     } else {
       let profile = this.modalCtrl.create(Profile, {
-        data: search_result.id,
+        data: search_result,
         from_page: "search_results"
       });
       profile.onDidDismiss(data => { });

@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, NavParams, ModalController, Events } from 'ionic-angular';
-import { Profile } from '../follows/follows_profile';
-import { AnototeOptions } from '../anotote-list/tote_options';
-import { AnototeEditor } from '../anotote-editor/anotote-editor';
-import { SearchResults } from '../search-results/search-results';
+import { NavController, ViewController, NavParams, ModalController } from 'ionic-angular';
 /**
  * Services
  */
-import { Constants } from '../../services/constants.service';
 import { UtilityMethods } from '../../services/utility_methods';
 import { SearchService } from '../../services/search.service';
 import { ChatService } from '../../services/chat.service';
@@ -73,6 +68,7 @@ export class ChatToteOptions {
     }
 
     findChatter() {
+        //when user opts to clear field or first comes in the field to chat
         this.initiateChat = true;
     }
 
@@ -277,15 +273,5 @@ export class ChatToteOptions {
                 this.utilityMethods.internet_connection_error();
             }
         });
-    }
-
-    showProfile(search_result) {
-        let profile = this.modalCtrl.create(Profile, {
-            data: search_result.id,
-            from_page: 'search_results'
-        });
-        profile.onDidDismiss(data => {
-        });
-        profile.present();
     }
 }

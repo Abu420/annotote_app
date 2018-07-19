@@ -20,6 +20,7 @@ import { AnototeService } from "../../services/anotote.service";
 import { TagsExclusive } from '../tagsExclusive/tags';
 import { ChatService } from '../../services/chat.service';
 import { Keyboard } from '@ionic-native/keyboard';
+import { mapper } from '../../models/mapper';
 
 @Component({
   selector: 'search-results',
@@ -105,6 +106,7 @@ export class SearchResults {
       this.search_term = this.params.get('search_term');
       var results = this.params.get('results');
       this.search_results = results;
+      var map = new mapper(this.search_results[0])
       this.saved_search_result = results;
       for (let tote of results) {
         if (tote.is_tote == true) {

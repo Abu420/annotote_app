@@ -44,7 +44,7 @@ export class Signup {
     public keyboard: Keyboard) {
     // this.statusBar.backgroundColorByHexString('000000');
     this.focus_field = '';
-    this.user = new User("", "", "", "", "");
+    this.user = new User();
   }
 
   /**

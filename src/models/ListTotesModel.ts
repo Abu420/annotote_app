@@ -1,8 +1,5 @@
-import { ListTotesUserToteModel } from "./ListTotesUserToteModel";
-import { ListTotesUserGroupModel } from "./ListTotesUserGroupModel";
+
 import { User } from "./user";
-import { UtilityMethods } from "../services/utility_methods";
-import { DatetimeService } from "../services/datetime.service";
 /**
  * Created by nomantufail on 30/05/2017.
  */

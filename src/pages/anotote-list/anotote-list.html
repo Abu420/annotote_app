@@ -58,34 +58,17 @@
         </ion-refresher-content>
     </ion-refresher>
     <div id="wrapper">
-        <ion-list *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
-            <ion-item *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id && current_color == 'me'),'bulking':anotote.checked}">
+        <ul *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
+            <li *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id && current_color == 'me'),'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
 
                     <div *ngIf="anotote.type == 1 && (current_color == 'me' || current_color == 'follows' || current_color == 'anon')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
-                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.userAnnotote.annotote.photo == null || anotote.userAnnotote.annotote.photo == ''">
-                        <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.userAnnotote.annotote.photo != null && anotote.userAnnotote.annotote.photo != ''" [src]="anotote.userAnnotote.annotote.photo">
-                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.userAnnotote.annotote.photo != '' && anotote.userAnnotote.annotote.photo != null"></ion-spinner> -->
                     </div>
 
                     <!-- Images for chat totes -->
                     <div *ngIf="anotote.type == 2 && (current_color == 'me' || current_color == 'follows' || current_color == 'anon')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
-                        <!-- For picture of first group member, if he is not the current logged in user -->
-                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo == null || anotote.chatGroup.groupUsers[0].user.photo == '')"> -->
-                        <!-- <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')" [src]="anotote.chatGroup.groupUsers[0].user.photo | image_base_path">
-                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[0].user.id != user.id && (anotote.chatGroup.groupUsers[0].user.photo != null && anotote.chatGroup.groupUsers[0].user.photo != '')"></ion-spinner> -->
-                        <!-- For picture of second group member, if he is not the current logged in user -->
-                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo == null || anotote.chatGroup.groupUsers[1].user.photo == '')"> -->
-                        <!-- <img (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null && anotote.chatGroup.groupUsers[1].user.photo != '')" [hidden]="!loaded" [src]="anotote.chatGroup.groupUsers[1].user.photo | image_base_path">
-                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.chatGroup.groupUsers[1].user.id != user.id && (anotote.chatGroup.groupUsers[1].user.photo != null && anotote.chatGroup.groupUsers[1].user.photo != '')"></ion-spinner> -->
                     </div>
-                    <div class="check" [hidden]="!edit_mode">
-                        <img *ngIf="!anotote.checked" src="assets/img/check1.png">
-                        <img *ngIf="anotote.checked && current_color == 'me'" src="assets/img/check2.png">
-                        <img *ngIf="anotote.checked && current_color == 'follows'" src="assets/img/img5.png">
-                    </div>
-                    <!-- <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span> -->
                     <div class="txt txtMiddel" [ngClass]="{'normal': followedUserId == 0 && mentionedCase == false && current_color == 'follows'}" *ngIf="anotote.type == 1 && anotote.checked == false" [ngClass]="{'txtToto': edit_mode == true}">
                         <img class="unReadLock" *ngIf="anotote.userAnnotote.privacy == 1" src="assets/img/lockIconGray.svg" alt="">
                         <p *ngIf="followedUserId == 0 && mentionedCase == false && current_color == 'follows'">{{anotote.selected_follower_name}}
@@ -188,11 +171,7 @@
                                     <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
                                         <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                             <p>{{highlight.highlightText}}</p>
-                                            <!-- <p *ngIf="highlight.comment != null && highlight.comment != ''">{{highlight.comment}}</p> -->
                                             <p (click)="tagClick($event,highlight)" class="lightText" *ngIf="highlight.comment != null && highlight.comment != '' && (highlight.edit == undefined || highlight.edit == false)" [innerHTML]="highlight | boldTags"></p>
-                                            <!-- <div class="tagImage" *ngIf="highlight.tags.length > 0 && (highlight.edit == undefined || highlight.edit == false)" (click)="show_tags_for_annotation($event,anotote.active_tab,highlight)">
-                                                <img src="assets/img/dotsicon.svg" alt="">
-                                            </div> -->
                                         </div>
                                         <ng-container *ngIf="current_color != 'anon' && reorder_highlights == false">
                                             <span class="status quoteStatus" [ngClass]="{'quotes_follows':  anotote.active_tab == 'follows','quotes_top':  anotote.active_tab == 'top'}" *ngIf="highlight.comment == null || highlight.comment == ''">
@@ -212,16 +191,11 @@
                                         </ng-container>
                                     </ng-container>
                                     <div class="editAntotion" *ngIf="highlight.edit != undefined && highlight.edit == true" (click)="editField($event)">
-                                        <!-- <textarea id="first" autosize [(ngModel)]="edit_actual_highlight" (keyup)="ellipsis($event)" name="actualAnnotation"></textarea> -->
                                         <custom-actions-area (update-please)="ellipsis($event)" [(text)]="edit_actual_highlight" [stream]="current_active_anotote.active_tab"></custom-actions-area>
                                         <div class="moveBtn">
                                             <button class="topIcon">
-                                                <!-- <img (click)="enable_list_reorder($event,highlight)" src="assets/img/topIcon.svg" alt=""> -->
                                                 <img (click)="enable_list_reorder($event,highlight)" src="assets/img/arrows.png" alt="">
                                             </button>
-                                            <!-- <button class="bottomIcon">
-                                                <img (click)="enable_list_reorder($event,highlight)" src="assets/img/bottomIcon.svg" alt="">
-                                            </button> -->
                                         </div>
                                         <textarea id="second" autosize placeholder="Comment, paste links or add tags (#,$,@)" [(ngModel)]="edit_highlight_text" class="commentGrey" (keyup)="tag_user($event)" name="edit_area"></textarea>
                                     </div>
@@ -250,9 +224,6 @@
                         </ion-list>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me'" (click)="open_browser(anotote,null)">
                             <p class="me">Leave your mark >>></p>
-                            <!-- <div class="butt">
-                                <p>Create annotation</p>
-                            </div> -->
                         </div>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && (anotote.active_tab == 'follows' || anotote.active_tab == 'top')">
                             <p>No anotations created yet.</p>
@@ -310,11 +281,11 @@
                         </div>
                     </div>
                 </div> -->
-            </ion-item>
-        </ion-list>
-        <ion-list *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
+            </li>
+        </ul>
+        <ul *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
             <ng-container *ngIf="user.tutorialStatus == 0 && fbLoading == false">
-                <ion-item *ngFor="let anotote of tutorialTopCase">
+                <li *ngFor="let anotote of tutorialTopCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
@@ -349,20 +320,16 @@
                             </ion-list>
                         </div>
                     </div>
-                </ion-item>
+                </li>
             </ng-container>
-            <ion-item *ngFor="let anotote of top_anototes | orderBy:'createdAt':true" [ngClass]="{'bulking':anotote.checked}">
+            <li *ngFor="let anotote of top_anototes | orderBy:'createdAt':true" [ngClass]="{'bulking':anotote.checked}">
                 <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
                     <div *ngIf="current_color == 'top'" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
-                        <!-- <img src="assets/img/Default.svg" *ngIf="anotote.annotote.photo == null || anotote.annotote.photo == ''">
-                        <img (load)="loaded = true" [hidden]="!loaded" [ngClass]="{'img-loaded':loaded}" *ngIf="anotote.annotote.photo != null && anotote.annotote.photo != ''" [src]="anotote.annotote.photo">
-                        <ion-spinner name="bubbles" [ngClass]="{'center':true}" *ngIf="!loaded && anotote.annotote.photo != '' && anotote.annotote.photo != null"></ion-spinner> -->
                     </div>
                     <div class="check" [hidden]="!edit_mode">
                         <img *ngIf="!anotote.checked" src="assets/img/check1.png">
                         <img *ngIf="anotote.checked" src="assets/img/img6.png">
                     </div>
-                    <!-- <span class="options" *ngIf="anotote.active" (click)="presentAnototeOptionsModal($event,anotote)"></span> -->
                     <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode}" *ngIf="anotote.chatGroup == null && anotote.checked == false">
                         <strong [ngClass]="{'opened': anotote.active}" *ngIf="anotote.active_tab != 'me'" [innerText]="anotote.annotote.title"></strong>
                         <strong [ngClass]="{'opened': anotote.active}" *ngIf="anotote.active_tab == 'me'" [innerText]="anotote.anototeDetail.meToteFollowTop.annototeTitle"></strong>
@@ -509,11 +476,11 @@
                         </ion-list>
                     </div>
                 </div>
-            </ion-item>
-        </ion-list>
-        <ion-list *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && followedUserId == 0 && (has_totes == false || infiniteComplete == true)" class="product-list">
+            </li>
+        </ul>
+        <ul *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && followedUserId == 0 && (has_totes == false || infiniteComplete == true)" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
-                <ion-item *ngFor="let anotote of tutorialMeCase">
+                <li *ngFor="let anotote of tutorialMeCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
@@ -549,10 +516,10 @@
                             </ion-list>
                         </div>
                     </div>
-                </ion-item>
+                </li>
             </ng-container>
             <ng-container *ngIf="current_color == 'follows'">
-                <ion-item *ngFor="let anotote of tutorialFollowsCase">
+                <li *ngFor="let anotote of tutorialFollowsCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
@@ -587,10 +554,10 @@
                             </ion-list>
                         </div>
                     </div>
-                </ion-item>
+                </li>
             </ng-container>
             <ng-container *ngIf="current_color == 'top' && user.tutorialStatus == 1">
-                <ion-item *ngFor="let anotote of tutorialTopCase">
+                <li *ngFor="let anotote of tutorialTopCase">
                     <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
@@ -625,11 +592,11 @@
                             </ion-list>
                         </div>
                     </div>
-                </ion-item>
+                </li>
             </ng-container>
-        </ion-list>
-        <ion-list class="product-list loader-panel" *ngIf="fbLoading || infiniteLoading">
-            <ion-item>
+        </ul>
+        <ul class="product-list loader-panel" *ngIf="fbLoading || infiniteLoading">
+            <li *ngFor="let i of [1,2,3,4,5,6,7,8]">
                 <div>
                     <div class="img-holder">
                     </div>
@@ -643,113 +610,8 @@
                         </div>
                     </div>
                 </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
+            </li>
+        </ul>
 
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
         <div class="no_totes" [hidden]="has_totes && (followedUserId == 0 || mentionedCase == false)" *ngIf="current_color != 'top'">

@@ -1,12 +1,11 @@
-/**
- * Created by Bilal Akmal on 02/06/2017.
- */
 import { Injectable } from '@angular/core';
 import { User } from "../models/user";
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 import { Constants } from '../services/constants.service'
-import { Http, RequestOptions, Headers } from "@angular/http";
+import { Http } from "@angular/http";
+import { Tote } from '../models/Totes';
+import { Group } from '../models/ChatGroup';
 
 @Injectable()
 
@@ -40,78 +39,84 @@ export class SearchService {
 
         return null;
     }
-    public responseManipulation(response) {
+    public responseManipulation(response: { data: { annotote: Array<Tote>, group: Array<Group>, user: Array<any> } }) {
         var totes = [], chats = [], users = [];
         var search_results = [];
         for (let tote of response.data.annotote) {
-            if (tote.annotote) {
-                if (tote.userAnnotote && (tote.userAnnotote.highlights.length > 0 || tote.userAnnotote.isMe == 1)) {
-                    tote.is_tote = true;
-                    tote.active = false;
-                    tote.checked = false;
-                    tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
-                    tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
-                    tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
-                    tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
-                    tote.userAnnotote.spinner_for_active = false;
-                    var active_tab = 'anon';
-                    if (tote.userAnnotote.isMe == 1) {
-                        tote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
-                        tote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
-                        active_tab = 'me'
-                        if (tote.userAnnotote.meToteFollowTop == null) {
-                            tote.userAnnotote.meToteFollowTop = tote.userAnnotote.userAnnotote;
-                        }
-                    } else if (tote.userAnnotote.follows.length > 0) {
-                        active_tab = 'follows';
-                        if (tote.userAnnotote.follows.length == 0 || tote.userAnnotote.follows.length == undefined) {
-                            tote.userAnnotote.follows = []
-                            tote.userAnnotote.user.followTote = tote.userAnnotote.userAnnotote;
-                            tote.userAnnotote.follows.push(tote.userAnnotote.user);
-                        }
-                    } else if (tote.userAnnotote.isTop == 1) {
-                        // if (tote.userAnnotote.isTop != 1) {
-                        //   tote.userAnnotote.isTop = 1;
-                        //   tote.userAnnotote.userAnnotote.isTop = 1;
-                        //   if (tote.userAnnotote.topUserToteId == 0) {
-                        //     tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
-                        //   }
-                        // }
-                        active_tab = 'top';
-                        tote.userAnnotote.topFilePath = tote.userAnnotote.userAnnotote.filePath;
-                        tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
-                        tote.userAnnotote.top_tags = tote.userAnnotote.userAnnotote.tags;
-                    }
-                    tote.userAnnotote.active_tab = active_tab;
-                    tote.userAnnotote.followers = tote.userAnnotote.follows;
-                    if (tote.userAnnotote.follows.length > 0) {
-                        tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
-                        tote.userAnnotote.follower_tags = tote.userAnnotote.follows[0].followTote.tags
-                        tote.userAnnotote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
-                        if (active_tab == 'follows')
-                            tote.userAnnotote.highlights = tote.userAnnotote.follows[0].highlights;
-                    }
-                    if (tote.userAnnotote.isTop == 1) {
-                        tote.userAnnotote.topVote = {
-                            currentUserVote: tote.userAnnotote.userAnnotote.currentUserVote,
-                            rating: tote.userAnnotote.userAnnotote.rating,
-                            isCurrentUserVote: tote.userAnnotote.userAnnotote.isCurrentUserVote
-                        }
-                    }
-                    totes.push(tote);
-                    search_results.push(tote);
-                }
+            tote.is_tote = true;
+            if (tote.user_annotote[0].is_me == 1) {
+                tote.active_tab = 'me';
+            } else if (tote.user_annotote.length > 1) {
+                tote.active_tab = 'follows';
+            } else if (tote.isTop == 1) {
+                tote.active_tab = 'me';
             }
+            totes.push(tote);
+            search_results.push(tote);
+            // if (tote.annotote) {
+            //     if (tote.userAnnotote && (tote.userAnnotote.highlights.length > 0 || tote.userAnnotote.isMe == 1)) {
+            //         tote.is_tote = true;
+            //         tote.active = false;
+            //         tote.checked = false;
+            //         tote.userAnnotote.userAnnotote.follows = tote.userAnnotote.follows;
+            //         tote.userAnnotote.userAnnotote.highlights = tote.userAnnotote.highlights;
+            //         tote.userAnnotote.userAnnotote.isMe = tote.userAnnotote.isMe;
+            //         tote.userAnnotote.userAnnotote.isTop = tote.userAnnotote.isTop;
+            //         tote.userAnnotote.spinner_for_active = false;
+            //         var active_tab = 'anon';
+            //         if (tote.userAnnotote.isMe == 1) {
+            //             tote.userAnnotote.my_highlights = Object.assign(tote.userAnnotote.highlights);
+            //             tote.userAnnotote.meFilePath = Object.assign(tote.userAnnotote.userAnnotote.filePath);
+            //             active_tab = 'me'
+            //             if (tote.userAnnotote.meToteFollowTop == null) {
+            //                 tote.userAnnotote.meToteFollowTop = tote.userAnnotote.userAnnotote;
+            //             }
+            //         } else if (tote.userAnnotote.follows.length > 0) {
+            //             active_tab = 'follows';
+            //             if (tote.userAnnotote.follows.length == 0 || tote.userAnnotote.follows.length == undefined) {
+            //                 tote.userAnnotote.follows = []
+            //                 tote.userAnnotote.user.followTote = tote.userAnnotote.userAnnotote;
+            //                 tote.userAnnotote.follows.push(tote.userAnnotote.user);
+            //             }
+            //         } else if (tote.userAnnotote.isTop == 1) {
+            //             // if (tote.userAnnotote.isTop != 1) {
+            //             //   tote.userAnnotote.isTop = 1;
+            //             //   tote.userAnnotote.userAnnotote.isTop = 1;
+            //             //   if (tote.userAnnotote.topUserToteId == 0) {
+            //             //     tote.userAnnotote.topUserToteId = tote.userAnnotote.id;
+            //             //   }
+            //             // }
+            //             active_tab = 'top';
+            //             tote.userAnnotote.topFilePath = tote.userAnnotote.userAnnotote.filePath;
+            //             tote.userAnnotote.top_highlights = Object.assign(tote.userAnnotote.highlights);
+            //             tote.userAnnotote.top_tags = tote.userAnnotote.userAnnotote.tags;
+            //         }
+            //         tote.userAnnotote.active_tab = active_tab;
+            //         tote.userAnnotote.followers = tote.userAnnotote.follows;
+            //         if (tote.userAnnotote.follows.length > 0) {
+            //             tote.userAnnotote.selected_follower_name = tote.userAnnotote.follows[0].firstName;
+            //             tote.userAnnotote.follower_tags = tote.userAnnotote.follows[0].followTote.tags
+            //             tote.userAnnotote.followerFilePath = tote.userAnnotote.follows[0].followTote.filePath;
+            //             if (active_tab == 'follows')
+            //                 tote.userAnnotote.highlights = tote.userAnnotote.follows[0].highlights;
+            //         }
+            //         if (tote.userAnnotote.isTop == 1) {
+            //             tote.userAnnotote.topVote = {
+            //                 currentUserVote: tote.userAnnotote.userAnnotote.currentUserVote,
+            //                 rating: tote.userAnnotote.userAnnotote.rating,
+            //                 isCurrentUserVote: tote.userAnnotote.userAnnotote.isCurrentUserVote
+            //             }
+            //         }
+            //         totes.push(tote);
+            //         search_results.push(tote);
+            //     }
+            // }
         }
         for (let group of response.data.group) {
-            var anotote = {
-                isChat: true,
-                is_tote: false,
-                checked: false,
-                chatGroup: group
-            }
-            chats.push(anotote);
-            search_results.push(anotote);
+            group.isChat = true;
+            group.is_tote = false;
+            chats.push(group);
+            search_results.push(group);
         }
         for (let user of response.data.user) {
             user.is_tote = false;

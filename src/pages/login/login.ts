@@ -46,7 +46,7 @@ export class Login {
     public keyboard: Keyboard) {
     keyboard.disableScroll(true);
     this.focus_field = '';
-    this.user = new User("", "", "", "", "");
+    this.user = new User();
     this.device_id = localStorage.getItem('device_id');
     if (navParams.get('justSignedUp')) {
       navCtrl.remove(navCtrl.getActive().index);

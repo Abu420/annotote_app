@@ -12,6 +12,11 @@ export class CustomActions {
     shouldPreventDefault: boolean = false;
     waitingMode = [];
     waitingTime: number;
+    barcketsPlace: { start: number, end: number } = {
+        start: 0,
+        end: 0
+    }
+    takeAction: any;
     constructor(public cd: ChangeDetectorRef,
         public utilityMethods: UtilityMethods) {
     }
@@ -89,41 +94,57 @@ export class CustomActions {
                     }
                 }
             } else {
+                if (this.takeAction)
+                    clearTimeout(this.takeAction)
                 if (this.actionNeeded(textarea.selectionStart - 1)) {
                     if (event.keyCode != 32 && event.keyCode >= 65 && event.keyCode <= 90) {
-                        event.preventDefault();
-                        if (this.shouldPreventDefault == false) {
+                        if (this.barcketsPlace.start == 0)
+                            this.barcketsPlace.start = event.target.selectionStart;
+                        else
+                            this.barcketsPlace.end = event.target.selectionStart + 1;
+                        this.takeAction = setTimeout((textarea) => {
                             this.shouldPreventDefault = true;
-                            var result = this.anotote_txt.substr(0, textarea.selectionStart - 1).trim();
-                            result += ' [' + event.key + '] ';
-                            var sec = this.anotote_txt.substring(textarea.selectionStart, this.anotote_txt.length).trim();
-                            this.anotote_txt = result + sec;
-                            setTimeout((place) => {
-                                var word = '';
-                                for (let wait of this.waitingMode) {
-                                    word += wait;
-                                }
-                                var result = this.anotote_txt.substr(0, place - 1).trim();
-                                result += word + ']';
-                                result += this.anotote_txt.substr(place, this.anotote_txt.length);
-                                this.anotote_txt = result;
-                                setTimeout((area) => {
-                                    this.shouldPreventDefault = false;
-                                    this.waitingMode = [];
-                                    this.waitingTime = 500;
-                                    var text: any = document.getElementById('actualContent');
-                                    text.setSelectionRange(area, area);
-                                    this.changed.emit(this.anotote_txt);
-                                    this.cd.detectChanges();
-                                }, 200, (place + this.waitingMode.length) - 1);
-                            }, this.waitingTime, textarea.selectionStart + 3);
-                        } else {
-                            this.waitingMode.push(event.key);
-                            this.waitingTime += 200;
-                        }
+                            var temporary = ' [' + this.anotote_txt.slice(this.barcketsPlace.start, this.barcketsPlace.end) + '] ';
+                            this.anotote_txt = this.anotote_txt.slice(0, this.barcketsPlace.start).trim() + temporary + this.anotote_txt.slice(this.barcketsPlace.end, this.anotote_txt.length).trim();
+                            setTimeout((textarea) => {
+                                textarea.setSelectionRange(this.barcketsPlace.end, this.barcketsPlace.end);
+                                this.changed.emit(this.anotote_txt);
+                                this.cd.detectChanges();
+                            }, 200, textarea);
+                        }, 1000, textarea);
+                        // if (this.shouldPreventDefault == false) {
+                        //     this.shouldPreventDefault = true;
+                        //     var result = this.anotote_txt.substr(0, textarea.selectionStart - 1).trim();
+                        //     result += ' [' + event.key + '] ';
+                        //     var sec = this.anotote_txt.substring(textarea.selectionStart, this.anotote_txt.length).trim();
+                        //     this.anotote_txt = result + sec;
+                        //     setTimeout((place) => {
+                        //         var word = '';
+                        //         for (let wait of this.waitingMode) {
+                        //             word += wait;
+                        //         }
+                        //         var result = this.anotote_txt.substr(0, place - 1).trim();
+                        //         result += word + ']';
+                        //         result += this.anotote_txt.substr(place, this.anotote_txt.length);
+                        //         this.anotote_txt = result;
+                        //         setTimeout((area) => {
+                        //             this.shouldPreventDefault = false;
+                        //             this.waitingMode = [];
+                        //             this.waitingTime = 500;
+                        //             var text: any = document.getElementById('actualContent');
+                        //             text.setSelectionRange(area, area);
+                        //             this.changed.emit(this.anotote_txt);
+                        //             this.cd.detectChanges();
+                        //         }, 200, (place + this.waitingMode.length) - 1);
+                        //     }, this.waitingTime, textarea.selectionStart + 3);
+                        // } else {
+                        //     this.waitingMode.push(event.key);
+                        //     this.waitingTime += 200;
+                        // }
                     }
                 }
             }
+            this.changed.emit(this.anotote_txt);
         }
     }
 

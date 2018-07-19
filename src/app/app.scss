@@ -1394,6 +1394,95 @@ search_page {
 }
 
 .loader-panel {
+    li {
+        >div {
+            display: block;
+            overflow: hidden;
+            width: 100%;
+            border-bottom: 1px solid #e8e8e8;
+            position: relative;
+            .img-holder {
+                height: 72px;
+                vertical-align: middle;
+                width: 50px;
+                background-image: url(../assets/img/option-icon.png); // background-image: url(../assets/img/grayDotIcon.svg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 5px;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                text-align: center;
+                line-height: 4;
+                img {
+                    vertical-align: middle;
+                }
+            }
+            .search_loader {
+                @extend .img-holder;
+                background-image: url(../assets/img/searchIcon.svg);
+                background-size: 25px;
+                width: 73px;
+            }
+            .bookmark_loader {
+                @extend .img-holder;
+                background-image: url(../assets/img/grayBookmark.svg);
+                background-size: 28px;
+            }
+            .users_loader {
+                @extend .img-holder;
+                background-image: url(../assets/img/userGray.svg);
+                background-size: 35px;
+                width: 72px;
+            }
+            .cloud_loader {
+                @extend .img-holder;
+                background-image: url(../assets/img/cloudIconGray.svg);
+                background-size: 35px;
+                width: 72px;
+            }
+            .txt {
+                vertical-align: middle;
+                padding: 26px 10px 0px 0px;
+                width: calc(100% - 50px);
+                min-height: 72px;
+                position: relative;
+                float: right;
+                &.line-loader {
+                    span {
+                        height: 8px;
+                        display: inline-block;
+                        background: #eeeeee;
+                        animation-duration: 5s;
+                        animation-fill-mode: forwards;
+                        animation-iteration-count: infinite;
+                        animation-timing-function: linear;
+                        animation-name: placeHolderShimmer;
+                        background: linear-gradient(to right, #eeeeee 18%, #dddddd 28%, #eeeeee 43%);
+                        &.head-line {
+                            display: block;
+                        }
+                        &.name-line {
+                            width: calc(100% - 60px);
+                            float: left;
+                        }
+                        &.date-line {
+                            width: 40px;
+                            float: right;
+                        }
+                    }
+                    .line-bot {
+                        overflow: hidden;
+                        padding-top: 10px;
+                    }
+                }
+                &.real {
+                    width: calc(100% - 73px) !important;
+                    border-bottom: 1px solid #e4e4e4
+                }
+            }
+        }
+    }
     .item {
         border-bottom: 0px;
     }
@@ -1405,93 +1494,7 @@ search_page {
             .label-ios,
             .label-md {
                 margin: 0px;
-                >div {
-                    display: block;
-                    overflow: hidden;
-                    width: 100%;
-                    border-bottom: 1px solid #e8e8e8;
-                    position: relative;
-                    .img-holder {
-                        height: 72px;
-                        vertical-align: middle;
-                        width: 50px;
-                        background-image: url(../assets/img/option-icon.png); // background-image: url(../assets/img/grayDotIcon.svg);
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        background-size: 5px;
-                        position: absolute;
-                        left: 0px;
-                        top: 0px;
-                        text-align: center;
-                        line-height: 4;
-                        img {
-                            vertical-align: middle;
-                        }
-                    }
-                    .search_loader {
-                        @extend .img-holder;
-                        background-image: url(../assets/img/searchIcon.svg);
-                        background-size: 25px;
-                        width: 73px;
-                    }
-                    .bookmark_loader {
-                        @extend .img-holder;
-                        background-image: url(../assets/img/grayBookmark.svg);
-                        background-size: 28px;
-                    }
-                    .users_loader {
-                        @extend .img-holder;
-                        background-image: url(../assets/img/userGray.svg);
-                        background-size: 35px;
-                        width: 72px;
-                    }
-                    .cloud_loader {
-                        @extend .img-holder;
-                        background-image: url(../assets/img/cloudIconGray.svg);
-                        background-size: 35px;
-                        width: 72px;
-                    }
-                    .txt {
-                        vertical-align: middle;
-                        padding: 26px 10px 0px 0px;
-                        width: calc(100% - 50px);
-                        min-height: 72px;
-                        position: relative;
-                        float: right;
-                        &.line-loader {
-                            span {
-                                height: 8px;
-                                display: inline-block;
-                                background: #eeeeee;
-                                animation-duration: 5s;
-                                animation-fill-mode: forwards;
-                                animation-iteration-count: infinite;
-                                animation-timing-function: linear;
-                                animation-name: placeHolderShimmer;
-                                background: linear-gradient(to right, #eeeeee 18%, #dddddd 28%, #eeeeee 43%);
-                                &.head-line {
-                                    display: block;
-                                }
-                                &.name-line {
-                                    width: calc(100% - 60px);
-                                    float: left;
-                                }
-                                &.date-line {
-                                    width: 40px;
-                                    float: right;
-                                }
-                            }
-                            .line-bot {
-                                overflow: hidden;
-                                padding-top: 10px;
-                            }
-                        }
-                        &.real {
-                            width: calc(100% - 73px) !important;
-                            border-bottom: 1px solid #e4e4e4
-                        }
-                    }
-                }
+                @extend li;
             }
         }
     }

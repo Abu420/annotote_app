@@ -1,4 +1,4 @@
-import { Component, trigger, transition, style, animate, NgZone, ViewChild } from '@angular/core';
+import { Component, trigger, transition, style, animate, ViewChild } from '@angular/core';
 import { IonicPage, NavController, ViewController, ModalController, NavParams, Events, Platform, Loading, ActionSheetController, Content } from 'ionic-angular';
 import { Chat } from '../chat/chat';
 import { ChangePassword } from '../change-password/change-password';
@@ -23,6 +23,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { Follows } from "./follows";
 import { ChatToteOptions } from '../anotote-list/chat_tote';
 import { TagsExclusive } from '../tagsExclusive/tags';
+import { UserProfile } from '../../models/profile';
 
 declare var cordova: any;
 
@@ -48,7 +49,7 @@ export class Profile {
   @ViewChild(Content) content: Content;
   public show: boolean = true;
   private image_base_path: string;
-  public profileData: any;
+  public profileData: UserProfile;
   public from_page: string;
   public is_it_me: boolean;
   private lastImage: string = null;
@@ -62,7 +63,6 @@ export class Profile {
   private show_autocomplete: boolean = false;
 
   constructor(public stream: Streams,
-    private zone: NgZone,
     private camera: Camera,
     private transfer: Transfer,
     public modalCtrl: ModalController,
@@ -79,29 +79,38 @@ export class Profile {
     public searchService: SearchService,
     private platform: Platform,
     public statusbar: StatusBar) {
-    this.loadUser(params.get('data'));
     this.from_page = params.get('from_page');
+    this.loadUser(params.get('data'));
   }
 
   loadUser(id) {
-    this.searchService.get_user_profile_info(id)
-      .subscribe((response) => {
-        this.profileData = response.data;
-        if (this.profileData.user.description != null) {
-          this.new_description = Object.assign(this.profileData.user.description);
-        }
-        var user = this.authService.getUser();
-        if (this.profileData.user.id == user.id)
-          this.is_it_me = true;
-        else
-          this.is_it_me = false;
-      }, (error) => {
-        if (error.code == -1) {
-          this.utilityMethods.internet_connection_error();
-        } else {
-          this.utilityMethods.doToast("Couldn't load profile")
-        }
-      });
+    if (this.from_page != 'search_results') {
+      this.searchService.get_user_profile_info(id)
+        .subscribe((response) => {
+          this.profileData = response.data;
+          this.initialization();
+        }, (error) => {
+          if (error.code == -1) {
+            this.utilityMethods.internet_connection_error();
+          } else {
+            this.utilityMethods.doToast("Couldn't load profile")
+          }
+        });
+    } else {
+      this.profileData = new UserProfile(id);
+      this.initialization();
+    }
+  }
+
+  initialization() {
+    if (this.profileData.user.description != null) {
+      this.new_description = Object.assign(this.profileData.user.description);
+    }
+    var user = this.authService.getUser();
+    if (this.profileData.user.id == user.id)
+      this.is_it_me = true;
+    else
+      this.is_it_me = false;
   }
 
   ionViewDidEnter() {
@@ -183,7 +192,7 @@ export class Profile {
   }
 
   updateUser() {
-    if (this.profileData.user.fristName != '' && this.new_description != '') {
+    if (this.profileData.user.firstName != '' && this.new_description != '') {
       var hashTags = this.searchTags('#');
       var cashTags = this.searchTags('$');
       var urls = this.uptags(this.new_description);

@@ -46,22 +46,6 @@ export class SwipeVertical implements OnInit, OnDestroy {
             this.navCtrl.pop();
             // console.log('right');
         })
-        if (this.utils.whichPlatform() == 'android') {
-            this.swipeDownGesture = new Gesture(this.el, {
-                recognizers: [
-                    [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }]
-                ]
-            });
-            this.swipeDownGesture.listen();
-            this.swipeDownGesture.on('swipeup', e => {
-                if (this.content)
-                    this.content.scrollTo(e.center.x, e.distance);
-            })
-            this.swipeDownGesture.on('swipedown', e => {
-                if (this.content)
-                    this.content.scrollTo(e.center.x, e.distance);
-            })
-        }
 
     }
 

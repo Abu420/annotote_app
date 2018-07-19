@@ -479,11 +479,21 @@ export class AnototeEditor implements OnDestroy {
                 iframe.onload = () => {
                     setTimeout(() => {
                         var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
-                        iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes + ' ' + 'mobile-style-available');
+                        iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
+                        iframe.contentDocument.body.setAttribute('id', 'chuddu_bodyOverride');
                         var tags = iframe.contentDocument.body.getElementsByTagName('div');
                         for (let tag of tags) {
-                            tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
-                            this.cd.detectChanges();
+                            if (tag.offsetWidth > window.innerWidth) {
+                                tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+                                this.cd.detectChanges();
+                            }
+                        }
+                        var imgs = iframe.contentDocument.body.getElementsByTagName('img');
+                        for (let img of imgs) {
+                            if (img.offsetWidth > window.innerWidth) {
+                                img.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+                                this.cd.detectChanges();
+                            }
                         }
                         this.cd.detectChanges();
                     }, 500);
@@ -533,7 +543,7 @@ export class AnototeEditor implements OnDestroy {
         var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
         for (var i = 0; i < elements.length; i++) {
             if (this.full_screen_mode) {
-                elements[i].setAttribute('style', 'display:block');
+                    elements[i].setAttribute('style', 'display:block');
             } else {
                 elements[i].setAttribute('style', 'display:none');
             }
@@ -1384,7 +1394,8 @@ export class AnototeEditor implements OnDestroy {
             var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
             for (var i = 0; i < elements.length; i++) {
                 if (check)
-                    elements[i].setAttribute('style', 'display:block');
+                    if (!elements[i].className.includes('popup'))
+                        elements[i].setAttribute('style', 'display:block');
                 else
                     elements[i].setAttribute('style', 'display:none');
             }
