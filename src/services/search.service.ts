@@ -48,8 +48,10 @@ export class SearchService {
                 tote.active_tab = 'me';
             } else if (tote.user_annotote.length > 1) {
                 tote.active_tab = 'follows';
+            } else if (tote.user_annotote[0].is_me == 0 && tote.user_annotote.length > 0) {
+                tote.active_tab = 'follows';
             } else if (tote.isTop == 1) {
-                tote.active_tab = 'me';
+                tote.active_tab = 'top';
             }
             totes.push(tote);
             search_results.push(tote);

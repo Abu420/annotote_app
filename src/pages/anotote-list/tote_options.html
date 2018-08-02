@@ -141,7 +141,7 @@
                         <img src="assets/img/option-icon.png" />
                     </li>
                 </ng-container>
-                <ng-container *ngIf="actual_stream == 'follows' && stream == 'me'">
+                <ng-container *ngIf="(actual_stream == 'follows' || actual_stream == 'search') && stream == 'me'">
                     <li *ngIf="anotote.userAnnotote.anototeDetail.meToteFollowTop.tags.length == 0" (tap)="presentTagsModal()">
                         <span>Add tags</span>
                     </li>
@@ -195,7 +195,7 @@
                         <img src="assets/img/option-icon.png" />
                     </li>
                 </ng-container>
-                <ng-container *ngIf="(actual_stream == 'anon' || actual_stream == 'search') && stream == 'me'">
+                <ng-container *ngIf="actual_stream == 'anon' && stream == 'me'">
                     <li *ngIf="anotote.meToteFollowTop.tags.length == 0" (tap)="presentTagsModal()">
                         <span>Add Tags</span>
                     </li>
@@ -277,15 +277,15 @@
             </div>
             <ul>
                 <li (click)="change_privacy('public')">
-                    <span [ngClass]="{'high': anotote.userAnnotote.privacy == 0}">Public</span>
+                    <span [ngClass]="{'high': ((actual_stream == 'me' && anotote.userAnnotote.privacy == 0) || ((actual_stream == 'follows' || actual_stream == 'search') && anotote.userAnnotote.anototeDetail.meToteFollowTop.privacy == 0) || (actual_stream == 'top' && anotote.anototeDetail.meToteFollowTop.privacy == 0)) }">Public</span>
                 </li>
                 <li (click)="change_privacy('private')">
-                    <span [ngClass]="{'high': anotote.userAnnotote.privacy == 1}">Private</span>
+                    <span [ngClass]="{'high': ((actual_stream == 'me' && anotote.userAnnotote.privacy == 1) || ((actual_stream == 'follows' || actual_stream == 'search') && anotote.userAnnotote.anototeDetail.meToteFollowTop.privacy) == 1 || (actual_stream == 'top' && anotote.anototeDetail.meToteFollowTop.privacy == 1))}">Private</span>
                 </li>
             </ul>
         </div>
     </ng-container>
-    <div *ngIf="stream == 'me' && message == null" no-lines class="sharing_pop four bottom-border">
+    <div *ngIf="(stream == 'me' || (anotote.chatGroup != null && (anotote.chatGroup.groupUsers | chatVoteOptions))) && message == null" no-lines class="sharing_pop four bottom-border">
         <div class="main_label">
             <img src="assets/img/deleteIconGray.svg" />
         </div>

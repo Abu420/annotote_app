@@ -29,6 +29,7 @@ import { SearchUnPinned } from '../../models/search';
 import { ChatService } from "../../services/chat.service";
 import { Keyboard } from '@ionic-native/keyboard';
 import { TagsExclusive } from '../tagsExclusive/tags';
+import { mapper } from '../../models/mapper';
 
 @Component({
   selector: 'page-anotote-list',
@@ -1262,7 +1263,7 @@ export class AnototeList {
           else
             this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
         } else {
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', full_tote: data.group });
         }
       } else if (data.save) {
         if (this.current_color == 'me') {
@@ -1361,6 +1362,7 @@ export class AnototeList {
   openAnototeDetail(anotote) {
     this.reorder_highlights = false;
     this.reordering_data = null;
+    this.hoverTheparent(anotote);
     if (this.comingBackResizeCheck)
       this.content.resize();
     if (!anotote.tutorial) {
@@ -1538,6 +1540,15 @@ export class AnototeList {
 
       this.tutorial_active_tote = anotote;
     }
+  }
+
+  hoverTheparent(tote) {
+    tote.hoverParent = true;
+    this.cd.detectChanges();
+    setTimeout((tote) => {
+      tote.hoverParent = false;
+      this.cd.detectChanges();
+    }, 350, tote);
   }
 
   public getQuickChatHistory(tote) {
@@ -2185,11 +2196,11 @@ export class AnototeList {
         this.statusBar.backgroundColorByHexString('#323232');
 
       if (data.go_to_browser) {
-        var anotote = data.anotote;
+        var anotote = new mapper(data.anotote, this.authService.getUser())
         if (data.neworold) {
           this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
         } else
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.active_tab });
       }
     });
     searchModal.present();

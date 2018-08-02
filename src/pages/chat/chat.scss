@@ -10,9 +10,22 @@ page-chat {
     }
     .chatHead {
         background: #FFF;
-        overflow: hidden;
+        &:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
         &.active {
             background: #ececec;
+        }
+        &:focus {
+            background: color($assetFeedback, base);
+        }
+        &:active {
+            background: color($assetFeedback, base);
+        }
+        &:visited {
+            background: color($assetFeedback, base);
         }
         >span {
             height: 70px;
@@ -26,10 +39,11 @@ page-chat {
             z-index: 9999999;
         }
         .activated {
-            box-shadow: -9px 0 20px -5px #333;
-            transform: scale(1, 1);
-            background-color: #e0e0e0;
             margin-bottom: 20px;
+            background-color: color($assetFeedback, homeBaseHover) !important;
+            box-shadow: -3px 3px 15px 5px #6b6969 !important;
+            opacity: 1;
+            border-radius: 0;
         }
         .txt {
             vertical-align: middle;

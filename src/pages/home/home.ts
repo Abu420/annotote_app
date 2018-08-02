@@ -25,6 +25,7 @@ import { Streams } from '../../services/stream.service';
 import { AnototeService } from '../../services/anotote.service';
 import { SearchUnPinned } from '../../models/search';
 import { Badge } from '@ionic-native/badge';
+import { mapper } from '../../models/mapper';
 /**
  * Generated class for the Home page.
  *
@@ -44,10 +45,14 @@ export class Home {
   public loading_check: boolean = false;
   public loading_message: string = '';
   public move_fab: boolean = false;
-  public hover: { me: boolean, follows: boolean, top: boolean } = {
+  public hover: { me: boolean, follows: boolean, top: boolean, through: { streams: string, search: any } } = {
     me: false,
     follows: false,
-    top: false
+    top: false,
+    through: {
+      streams: '',
+      search: null
+    }
   }
 
   constructor(public platform: Platform,
@@ -216,6 +221,7 @@ export class Home {
 
   follows(event) {
     event.stopPropagation();
+    this.clearHover();
     this.hover.follows = true;
     let follows = this.modalCtrl.create(Follows, null);
     follows.onDidDismiss(data => {
@@ -228,7 +234,16 @@ export class Home {
   //changed flow, if clicked on saved search it should scrap that url
   open_this_search(search) {
     if (this.utilityMethods.isWEBURL(search.term)) {
-      this.navCtrl.push(AnototeEditor, { url: search.term, FROM: 'search', needHypothesis: true, WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
+      if (this.hover.through.search != search) {
+        this.hover.through.streams = '';
+        this.hover.through.search = search;
+        setTimeout(() => {
+          this.navCtrl.push(AnototeEditor, { url: search.term, FROM: 'search', needHypothesis: true, WHICH_STREAM: 'anon', actual_stream: 'anon', search_to_delete: search });
+        }, 250);
+      } else {
+        this.hover.through.search = null;
+        this.hover.through.streams = '';
+      }
     } else {
       this.openSearchPopup({ saved_searched_txt: search.term });
     }
@@ -254,29 +269,6 @@ export class Home {
     }
   }
 
-  // remove_search_entry(id, event) {
-  //   event.stopPropagation();
-  //   this.showLoading("Unpinning");
-  //   this.searchService.remove_search_id(id)
-  //     .subscribe((response) => {
-  //       // console.log(response);
-  //       for (var i = 0; i < this.searches.length; i++) {
-  //         if (this.searches[i].id == id) {
-  //           this.searches.splice(i, 1);
-  //           break;
-  //         }
-  //       }
-  //       this.hideLoading();
-  //     }, (error) => {
-  //       this.hideLoading();
-  //       if (error.code == -1) {
-  //         this.utilityMethods.internet_connection_error();
-  //       } else {
-  //         this.toastInFooter("Couldn't unpinn");
-  //       }
-  //     });
-  // }
-
   loadNotifications() {
     var user_id = this.authService.getUser().id;
     if (this.notificationService.loaded_once()) {
@@ -296,15 +288,8 @@ export class Home {
 
   presentTopOptionsModal(event) {
     event.stopPropagation();
+    this.clearHover();
     this.hover.top = true;
-    // let topOptionsModal = this.modalCtrl.create(TopOptions, null);
-    // topOptionsModal.onDidDismiss(data => {
-    //   if (data == 'interests') {
-    //     let topInterestsModal = this.modalCtrl.create(TopInterests, null);
-    //     topInterestsModal.present();
-    //   }
-    // });
-    // topOptionsModal.present();
     let meOptionsModal = this.modalCtrl.create(MeOptions, { from: 'top' });
     meOptionsModal.onDidDismiss(data => {
       this.hover.top = false;
@@ -324,7 +309,20 @@ export class Home {
   }
 
   openAnototeList(color) {
-    this.navCtrl.push(AnototeList, { color: color });
+    if (this.hover.through.streams == '' || this.hover.through.streams != color) {
+      this.hover.through.streams = color;
+      this.hover.through.search = null;
+      setTimeout((color) => {
+        this.navCtrl.push(AnototeList, { color: color });
+      }, 250, color);
+    } else {
+      this.clearHover();
+    }
+  }
+
+  clearHover() {
+    this.hover.through.streams = '';
+    this.hover.through.search = null;
   }
 
   openSearchPopup(data) {
@@ -334,11 +332,11 @@ export class Home {
     searchModal.onDidDismiss(data => {
       if (data)
         if (data.go_to_browser) {
-          var anotote = data.anotote;
+          var anotote = new mapper(data.anotote, this.authService.getUser())
           if (data.neworold) {
             this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
           } else
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.active_tab });
         }
     });
     searchModal.present();
@@ -346,6 +344,7 @@ export class Home {
 
   presentMeOptionsModal(event) {
     event.stopPropagation();
+    this.clearHover();
     this.meOptions();
   }
 
@@ -414,7 +413,7 @@ export class Home {
     chatTote.onDidDismiss((data) => {
       if (data.chat) {
         if (data.group) {
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
+          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', full_tote: data.group });
         } else {
           this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
         }

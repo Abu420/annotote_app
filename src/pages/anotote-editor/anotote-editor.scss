@@ -95,6 +95,10 @@ comment_detail_popup {
                 width: 100%;
                 height: 100%;
                 display: block;
+                &:focus,
+                &:active {
+                    background-size: 35px;
+                }
             }
         }
     }
@@ -255,9 +259,17 @@ comment_detail_popup {
         letter-spacing: 0;
         text-transform: uppercase;
         margin-right: 10px;
+        &:focus,
+        &:hover {
+            color: color($assetFeedback, streamsHoverShadow);
+        }
     }
     .save {
         color: $me_app_color;
+        &:focus,
+        &:hover {
+            color: color($assetFeedback, darkGreen);
+        }
     }
 }
 

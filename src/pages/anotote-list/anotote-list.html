@@ -60,7 +60,7 @@
     <div id="wrapper">
         <ul *ngIf="anototes.length > 0 && current_color != 'top'" class="product-list">
             <li *ngFor="let anotote of anototes" [ngClass]="{'unread':(anotote.type == 2 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].read == 0 && anotote.chatGroup.messagesUser[anotote.chatGroup.messagesUser.length - 1].senderId != user.id && current_color == 'me'),'bulking':anotote.checked}">
-                <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true }" (click)="openAnototeDetail(anotote)">
+                <div (press)="bulkAction(anotote)" [ngClass]="{'activeTote' : current_active_anotote==anotote, 'bulkActive': anotote.checked == true,'hoverParent': anotote.hoverParent == true }" (click)="openAnototeDetail(anotote)">
                     <!-- Images for anototes -->
 
                     <div *ngIf="anotote.type == 1 && (current_color == 'me' || current_color == 'follows' || current_color == 'anon')" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
@@ -84,7 +84,7 @@
                             </em>
                         </div>
                         <div class="toteText">
-                            <p [innerText]="anotote.userAnnotote.annotote.source"></p>
+                            <p class="masla" [innerText]="anotote.userAnnotote.annotote.source"></p>
                             <button type="button">
                                 <!-- <img src="assets/img/lineIcon.svg" alt=""> -->
                                 <ion-icon name="menu"></ion-icon>
@@ -167,7 +167,7 @@
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [side]="'start'" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.highlights">
-                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights}">
+                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights,'editHighlight':highlight.edit != undefined && highlight.edit == true}">
                                     <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
                                         <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                             <p>{{highlight.highlightText}}</p>
@@ -286,7 +286,7 @@
         <ul *ngIf="top_anototes.length > 0 && current_color == 'top'" class="product-list">
             <ng-container *ngIf="user.tutorialStatus == 0 && fbLoading == false">
                 <li *ngFor="let anotote of tutorialTopCase">
-                    <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
+                    <div [ngClass]="{'activeTote' : anotote.active,'hoverParent': anotote.hoverParent == true }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
                         <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}">
@@ -323,7 +323,7 @@
                 </li>
             </ng-container>
             <li *ngFor="let anotote of top_anototes | orderBy:'createdAt':true" [ngClass]="{'bulking':anotote.checked}">
-                <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true }">
+                <div (press)="bulkAction(anotote)" (click)="openAnototeDetail(anotote)" [ngClass]="{'activeTote' : anotote.active == true, 'bulkActive': anotote.checked == true,'hoverParent': anotote.hoverParent == true }">
                     <div *ngIf="current_color == 'top'" [hidden]="edit_mode" class="img-holder" (click)="presentAnototeOptionsModal($event,anotote)" [ngClass]="{'activated': anotote.moreOptions}">
                     </div>
                     <div class="check" [hidden]="!edit_mode">
@@ -339,7 +339,7 @@
                             </em>
                         </div>
                         <div class="toteText">
-                            <p [innerText]="anotote.annotote.source"></p>
+                            <p class="masla" [innerText]="anotote.annotote.source"></p>
                             <button type="button">
                                 <!-- <img src="assets/img/lineIcon.svg" alt=""> -->
                                 <ion-icon name="menu"></ion-icon>
@@ -481,7 +481,7 @@
         <ul *ngIf="(current_color == 'top' || current_color == 'me' || current_color == 'follows') && followedUserId == 0 && (has_totes == false || infiniteComplete == true)" class="product-list">
             <ng-container *ngIf="current_color == 'me'">
                 <li *ngFor="let anotote of tutorialMeCase">
-                    <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
+                    <div [ngClass]="{'activeTote' : anotote.active,'hoverParent': anotote.hoverParent == true }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
                         <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}">
@@ -520,7 +520,7 @@
             </ng-container>
             <ng-container *ngIf="current_color == 'follows'">
                 <li *ngFor="let anotote of tutorialFollowsCase">
-                    <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
+                    <div [ngClass]="{'activeTote' : anotote.active,'hoverParent': anotote.hoverParent == true }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
                         <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}">
@@ -558,7 +558,7 @@
             </ng-container>
             <ng-container *ngIf="current_color == 'top' && user.tutorialStatus == 1">
                 <li *ngFor="let anotote of tutorialTopCase">
-                    <div [ngClass]="{'activeTote' : anotote.active }" (click)="openAnototeDetail(anotote)">
+                    <div [ngClass]="{'activeTote' : anotote.active,'hoverParent': anotote.hoverParent == true }" (click)="openAnototeDetail(anotote)">
                         <div class="img-holder" [ngClass]="{'activated': anotote.moreOptions}">
                         </div>
                         <div class="txt txtMiddel" [ngClass]="{'txtToto': edit_mode == true}">

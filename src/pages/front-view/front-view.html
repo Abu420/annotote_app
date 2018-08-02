@@ -39,103 +39,30 @@
                 <span>REGISTER</span>
             </button>
         </div>
-        <ion-list class="product-list">
-            <ion-item *ngFor="let anotote of latest_anototes" (tap)="openAnototeList()">
-                <div class="img-holder">
-                </div>
-                <div class="txt">
-                    <strong [innerText]="anotote.annotote.title"></strong>
-                    <div class="time">
-                        <em>
-                            <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
-                        </em>
+        <ul class="product-list">
+            <li *ngFor="let anotote of latest_anototes" (tap)="openAnototeList()">
+                <div>
+                    <div class="img-holder">
                     </div>
-                    <div class="toteText">
-                        <p [innerText]="anotote.annotote.source"></p>
-                        <button type="button">
-                            <ion-icon name="menu"></ion-icon>
-                        </button>
+                    <div class="txt">
+                        <strong [innerText]="anotote.annotote.title"></strong>
+                        <div class="time">
+                            <em>
+                                <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
+                            </em>
+                        </div>
+                        <div class="toteText">
+                            <p [innerText]="anotote.annotote.source"></p>
+                            <button type="button">
+                                <ion-icon name="menu"></ion-icon>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </ion-item>
-        </ion-list>
+            </li>
+        </ul>
         <ion-list class="product-list loader-panel" *ngIf="latest_anototes_firstTime_loading">
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
+            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
                 <div>
                     <div class="img-holder">
                     </div>

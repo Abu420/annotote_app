@@ -117,14 +117,9 @@ export class AnototeOptions {
             userAnnotote_ids: this.anotote.userAnnotote.id,
             privacy: 0
           }
-        else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
+        else if (this.actual_stream == 'follows' || this.actual_stream == 'top' || this.actual_stream == 'search') {
           var params = {
-            userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
-            privacy: 0
-          }
-        } else if (this.actual_stream == 'search') {
-          var params = {
-            userAnnotote_ids: this.anotote.userAnnotote.id,
+            userAnnotote_ids: (this.actual_stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
             privacy: 0
           }
         }
@@ -143,14 +138,9 @@ export class AnototeOptions {
             userAnnotote_ids: this.anotote.userAnnotote.id,
             privacy: 1
           }
-        else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
+        else if (this.actual_stream == 'follows' || this.actual_stream == 'top' || this.actual_stream == 'search') {
           var params = {
-            userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
-            privacy: 1
-          }
-        } else if (this.actual_stream == 'search') {
-          var params = {
-            userAnnotote_ids: this.anotote.userAnnotote.id,
+            userAnnotote_ids: (this.actual_stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
             privacy: 1
           }
         }
@@ -242,10 +232,21 @@ export class AnototeOptions {
     // this.utilityMethods.show_loader('', false);
     this.anototeService.privatize_bulk_totes(params).subscribe((result) => {
       // this.utilityMethods.hide_loader();
-      if (privacy == 'public')
-        this.anotote.userAnnotote.privacy = 0;
-      else
-        this.anotote.userAnnotote.privacy = 1;
+      if (this.actual_stream == 'me')
+        if (privacy == 'public')
+          this.anotote.userAnnotote.privacy = 0;
+        else
+          this.anotote.userAnnotote.privacy = 1;
+      else if (this.actual_stream == 'follows' || this.actual_stream == 'search')
+        if (privacy == 'public')
+          this.anotote.userAnnotote.anototeDetail.meToteFollowTop.privacy = 0;
+        else
+          this.anotote.userAnnotote.anototeDetail.meToteFollowTop.privacy = 1;
+      else if (this.actual_stream == 'top')
+        if (privacy == 'public')
+          this.anotote.userAnnotote.meToteFollowTop.privacy = 0;
+        else
+          this.anotote.userAnnotote.meToteFollowTop.privacy = 1;
     }, (error) => {
       this.utilityMethods.hide_loader();
       if (error.code == -1) {
@@ -262,12 +263,12 @@ export class AnototeOptions {
             userAnnotote_ids: this.anotote.userAnnotote.id,
             delete: 1
           }
-        else if (this.actual_stream == 'follows' || this.actual_stream == 'top') {
+        else if (this.actual_stream == 'follows' || this.actual_stream == 'top' || this.actual_stream == 'search') {
           var params = {
-            userAnnotote_ids: this.actual_stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
+            userAnnotote_ids: (this.actual_stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.anototeDetail.meToteFollowTop.id : this.anotote.anototeDetail.meToteFollowTop.id,
             delete: 1
           }
-        } else if (this.actual_stream == 'search' || this.actual_stream == 'anon')
+        } else if (this.actual_stream == 'anon')
           var params = {
             userAnnotote_ids: this.anotote.meToteFollowTop.id,
             delete: 1
@@ -334,10 +335,10 @@ export class AnototeOptions {
   }
 
   bookmarkTote() {
-    if (this.actual_stream != 'search' && this.actual_stream != 'anon')
+    if (this.actual_stream != 'anon')
       var bookmark = new SearchUnPinned(1,
-        this.stream == 'follows' ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title,
-        this.stream == 'follows' ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link,
+        (this.stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.annotote.title : this.anotote.annotote.title,
+        (this.stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.annotote.link : this.anotote.annotote.link,
         this.user.id,
         this.anotote.userAnnotote.id);
     else
@@ -356,16 +357,16 @@ export class AnototeOptions {
 
   saveTote() {
     if (this.anotote.userAnnotote.filePath != '') {
-      if (this.actual_stream != 'search' && this.actual_stream != 'anon')
+      if (this.actual_stream != 'anon')
         var params: any = {
-          annotote_id: this.stream == 'follows' ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
-          user_id: this.stream == 'follows' ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
+          annotote_id: (this.stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.annotote.id : this.anotote.annotote.id,
+          user_id: (this.stream == 'follows' || this.actual_stream == 'search') ? this.anotote.userAnnotote.anototeDetail.user.id : this.anotote.anototeDetail.user.id,
           created_at: this.anotote.userAnnotote.createdAt
         }
       else
         var params: any = {
           annotote_id: this.anotote.annotote.id,
-          user_id: this.actual_stream == 'search' ? this.anotote.user.id : this.user.id,
+          user_id: this.user.id,
           created_at: this.anotote.userAnnotote.createdAt
         }
       var toast = this.utilityMethods.doLoadingToast("Saving");
@@ -385,10 +386,11 @@ export class AnototeOptions {
               this.runtime.top_first_load = false;
             }
           else {
+            this.runtime.me_first_load = false;
             this.runtime.follow_first_load = false;
             this.runtime.top_first_load = false;
             this.anotote.isMe = 1;
-            this.anotote.meToteFollowTop = result.data.meToteFollowTop[0];
+            this.anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
           }
           this.toggle();
         }

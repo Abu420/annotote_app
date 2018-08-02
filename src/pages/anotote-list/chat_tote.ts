@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../services/auth.service';
 import { Streams } from '../../services/stream.service';
 import { SearchUnPinned } from "../../models/search";
 import { AnototeService } from '../../services/anotote.service';
+import { mapper } from '../../models/mapper';
 
 @Component({
     selector: 'chat_tote_page',
@@ -223,32 +224,26 @@ export class ChatToteOptions {
     }
 
     send_message(user) {
-        //OLD FLOW with two popups
-        // this.usersForChat = user.firstName;
-        // this.selectedUser = user;
-        // this.search_results = [];
-        // this.search_loading = true;
-        // this.forChats = true;
-        // var params = {
-        //     second_person: user.id
-        // }
-        // if (this.anotote) {
-        //     params['annotote_id'] = this.anotote.userAnnotote.annototeId;
-        // }
-        // this.chatService.fetchChats(params).subscribe((success) => {
-        //     this.search_loading = false;
-        //     this.search_results = success.data.chatGroup;
-        // }, (error) => {
-        //     this.search_loading = false;
-        //     if (error.code == -1) {
-        //         this.utilityMethods.internet_connection_error();
-        //     }
-        // })
-        this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle })
+        var incoming = {
+            id: user.id,
+            email: user.email,
+            firstName: user.first_name,
+            description: user.description
+        }
+        this.viewCtrl.dismiss({ chat: true, close: false, user: incoming, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle })
     }
 
     openChat(group, user) {
-        this.viewCtrl.dismiss({ chat: true, close: false, user: user, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle, group: group })
+        group.is_tote = false;
+        group.isChat = true;
+        var chattote = new mapper(group, this.user);
+        var incoming = {
+            id: user.id,
+            email: user.email,
+            firstName: user.first_name,
+            description: user.description
+        }
+        this.viewCtrl.dismiss({ chat: true, close: false, user: incoming, title: this.anotote == null ? '' : (this.stream == 'top' || this.stream == 'anon') == true ? this.anotote.annotote.title : this.anotote.userAnnotote.anototeDetail.userAnnotote.annototeTitle, group: chattote })
     }
 
     followUser(event, person) {

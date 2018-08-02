@@ -19,27 +19,27 @@
 <ion-content padding>
     <div id="wrapper">
         <ul class="home-list layout">
-            <li class="green" (click)="openAnototeList('me')">
+            <li class="green" (click)="openAnototeList('me')" [ngClass]="{'active': hover.through.streams == 'me'}">
                 <button clear="true" [ngClass]="{'activatedOn': hover.me}" (click)="presentMeOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">ME</span>
             </li>
-            <li class="yellow" (click)="openAnototeList('follows')">
+            <li class="yellow" (click)="openAnototeList('follows')" [ngClass]="{'active': hover.through.streams == 'follows'}">
                 <button clear="true" [ngClass]="{'activatedOn': hover.follows}" (click)="follows($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">FOLLOWS</span>
             </li>
-            <li (click)="openAnototeList('top')" class="pink">
+            <li (click)="openAnototeList('top')" class="pink" [ngClass]="{'active': hover.through.streams == 'top'}">
                 <button clear="true" [ngClass]="{'activatedOn': hover.top}" (click)="presentTopOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">TOP</span>
             </li>
         </ul>
-        <ion-list class="product-list">
-            <ion-item (click)="open_this_search(search)" *ngFor="let search of searches">
+        <ul class="product-list">
+            <li (click)="open_this_search(search)" *ngFor="let search of searches" [ngClass]="{'active': hover.through.search == search}">
                 <div class="img-holder" (click)="pinImage($event,search)">
                     <img *ngIf="search.id != 0" src="assets/img/blackBookmark.png" alt="">
                     <img class="unReadLock" *ngIf="search.id == 0" src="assets/img/grayBookmark.svg" alt="">
@@ -51,117 +51,11 @@
                         <span *ngIf="search.bookMarked == 0">Search</span>
                         <span *ngIf="search.bookMarked == 1">Bookmarked</span>
                     </div>
-                    <!-- <span (click)="remove_search_entry(search.id, $event)" class="remove_item"></span> -->
                 </div>
-            </ion-item>
-        </ion-list>
+            </li>
+        </ul>
         <ion-list style="margin-bottom: 50px !important;" class="product-list loader-panel" *ngIf="latest_searches_firstTime_loading">
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <div class="bookmark_loader">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item>
+            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
                 <div>
                     <div class="bookmark_loader">
                     </div>

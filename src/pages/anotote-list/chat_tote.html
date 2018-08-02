@@ -93,8 +93,8 @@
                             </em>
                         </div>
                         <div class="toteText">
-                            <p *ngIf="chat.chat_group[0].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{chat.chat_group[0].user.first_name}} ({{chat.chat_group.length}})</p>
-                            <p *ngIf="chat.chat_group[1].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{chat.chat_group[1].user.first_name}} ({{chat.chat_group.length}})</p>
+                            <p (click)="chat_participants_from_tote($event,anotote)">{{chat.chat_group[0].user.first_name}} ({{chat.chat_group.length}})</p>
+                            <!-- <p *ngIf="chat.chat_group[1].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{chat.chat_group[1].user.first_name}} ({{chat.chat_group.length}})</p> -->
                             <button type="button">
                                 <img src="assets/img/commentIcon.svg" alt="">
                             </button>

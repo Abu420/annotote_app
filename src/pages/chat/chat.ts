@@ -84,14 +84,17 @@ export class Chat {
     this.reply_box_on = true;
     this.secondUser = navParams.get('secondUser');
     this.tote = navParams.get('full_tote');
+    //if one comes from streams and its chat tote
     if (this.tote && this.tote.chatGroup) {
       this.markMessagesRead(this.tote.chatGroup.messagesUser);
       this.groupId = this.tote.chatGroup.id;
     }
-    this.chatService.threadingUser = this.secondUser;
+    //current user and sockets turned on
     this.user = this.authService.getUser();
     this.connectionToSocket();
     this.chatService.listenForGlobalMessages();
+
+
     if (navParams.get('against_anotote')) {
       this.against_tote = true;
       this.anotote_id = navParams.get('anotote_id');
@@ -101,15 +104,8 @@ export class Chat {
         this.tote.createdAt = (new Date()).getTime() / 1000;
       }
     }
-    if (navParams.get('group')) {
-      var group = navParams.get('group');
-      this.tote = {
-        chatGroup: group
-      }
-      this.groupId = group.id;
-      this.anotote_id = group.groupUsers[0].anototeId;
-      // this.title = group.subject;
-    }
+
+    //if chat doesn't include logged in user
     if (navParams.get('color')) {
       this.current_color = navParams.get('color');
       if (this.current_color != 'me') {
@@ -117,8 +113,12 @@ export class Chat {
         this.contains = navParams.get('containsMe');
       }
     }
+
+    //coming from notifications
     if (navParams.get('notification_group_id'))
       this.groupId = navParams.get('notification_group_id');
+
+    //statusbar logic
     var lastView = this.navCtrl.last();
     if (lastView.data.color && navParams.get('against_anotote')) {
       if (lastView.data.color == 'me') {
@@ -240,9 +240,11 @@ export class Chat {
           this.conversation.unshift(msg);
         }
       }
-      infiniteScroll.complete();
+      if (infiniteScroll)
+        infiniteScroll.complete();
       if (result.data.messages.length < 10) {
-        infiniteScroll.enable(false);
+        if (infiniteScroll)
+          infiniteScroll.enable(false);
         this.infinite_completed = true;
       }
     }, (error) => {
@@ -258,7 +260,7 @@ export class Chat {
   */
 
   ionViewDidLoad() {
-
+    this.doInfinite(null);
   }
 
   autoScroll() {
@@ -587,10 +589,4 @@ export class Chat {
     } else
       return true;
   }
-
-  // @ViewChild('myInput') myInput: ElementRef;
-
-  // resize() {
-  //   this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
-  // }
 }

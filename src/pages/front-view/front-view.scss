@@ -50,26 +50,11 @@ page-front-view {
             background: none;
             border-bottom: 1px solid #e8e8e8;
             background: #FFF;
-            &:focus {
-                background: #D9D9D9;
-                img {
-                    display: none;
-                }
-                .activeIcon {
-                    display: inline-block;
-                }
-            }
-            &:active {
-                background: #D9D9D9;
-                img {
-                    display: none;
-                }
-                .activeIcon {
-                    display: inline-block;
-                }
-            }
-            &:visited {
-                background: #D9D9D9;
+            &:active,
+            &:visited,
+            &:focus,
+            &:hover {
+                background: color($assetFeedback, base);
                 img {
                     display: none;
                 }
@@ -130,120 +115,237 @@ page-front-view {
             margin: auto;
         }
     }
-    .product-list .item {
-        // border-top: 1px solid #f0f0f0 !important;
-        overflow: hidden;
-        padding: 0px;
-        margin: 0px;
-        ion-label {
-            margin: 0 0 -2px;
-        }
-    }
-    .product-list .img-holder {
-        width: 50px;
-        height: 72px;
-        float: left; // background-image: url(../assets/img/totoptionIocn.svg);
-        background-image: url(../assets/img/option-icon.png);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 5px;
-        &:active,
-        &:focus {
-            background-color: color($assetFeedback, homeBaseHover);
-        }
-    }
-    .product-list .txt {
-        padding: 24px 10px 0px 0px;
-        color: #cbcbcb;
-        overflow: hidden;
-        min-height: 72px;
-    }
-    .product-list strong {
-        margin: 0;
-        color: #0f000f;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 16px;
-        font-weight: normal;
-        margin-bottom: 4px;
-    }
-    .product-list .time {
-        font-size: 14px;
-        overflow: hidden;
-        color: #afafaf;
-        float: right;
-    }
-    .product-list {
-        .toteText {
-            p {
-                width: calc(100% - 95px);
-                display: inline-block;
-                vertical-align: top;
-                padding-left: 5px;
-                margin-top: -1px;
-                text-overflow: ellipsis;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 1;
-                overflow: hidden;
-                white-space: nowrap;
-                word-break: break-all;
-                font-size: 14px;
-            }
-            button {
-                color: #8e9093;
-                background: transparent;
-                float: left;
-                margin-top: 1px !important;
-                img {
-                    display: inline-block;
-                    vertical-align: middle;
-                    width: 14px;
-                }
-                ion-icon {
-                    font-size: 16px;
-                }
-            }
-        }
-    }
-    .product-list em {
-        float: right;
-        font-style: normal;
-    }
-    .product-list em button {
-        color: #afafaf;
-    }
-    .product-list button {
+    ul {
         padding: 0;
-        float: right;
-        background: none;
-        margin-top: 2px !important;
-    }
-    .product-list .txt span {
-        overflow: hidden;
-        padding-right: 5px;
-    }
-    .product-list .line-loader {
-        span {
-            height: 8px;
-            display: inline-block;
-            background: #eeeeee;
-            &.head-line {
+        margin: 0;
+        li {
+            list-style: none;
+            background: #fff;
+            >div {
                 display: block;
+                width: 100%;
+                position: relative;
+                border-bottom: 1px solid color($colors, borders);
+                touch-action: auto !important;
+                user-select: auto !important;
+                -webkit-user-drag: auto !important;
+                .img-holder {
+                    height: 72px;
+                    vertical-align: middle;
+                    width: 50px;
+                    background-image: url(../assets/img/option-icon.png); // background-image: url(../assets/img/grayDotIcon.svg);
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 5px;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
+                    text-align: center;
+                    line-height: 4;
+                    img {
+                        vertical-align: middle;
+                    }
+                    &.activated {
+                        background-color: color($assetFeedback, homeBaseHover) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
+                        box-shadow: -3px 3px 15px 5px color($assetFeedback, streamsHoverShadow) !important;
+                        transform: scale(1);
+                        opacity: 1;
+                        border-radius: 0;
+                        z-index: 1;
+                    }
+                    &:active,
+                    &:focus {
+                        background-color: color($assetFeedback, homeBaseHover) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
+                        box-shadow: -3px 3px 15px 5px color($assetFeedback, streamsHoverShadow) !important;
+                        transform: scale(1);
+                        opacity: 1;
+                        border-radius: 0;
+                        z-index: 1;
+                    }
+                }
+                .check {
+                    float: left;
+                    padding: 22px 15px 15px;
+                    vertical-align: middle;
+                    text-align: center;
+                }
+                .txt {
+                    vertical-align: middle;
+                    padding: 20px 10px 0px 0px;
+                    width: calc(100% - 50px);
+                    min-height: 72px;
+                    position: relative;
+                    margin: 0 0 0 auto;
+                    form {
+                        textarea {
+                            margin: 0px;
+                            padding: 0px;
+                            border: 0px;
+                            background: #e0e0e0;
+                            font-size: 16px;
+                            width: 100%;
+                            resize: none;
+                            width: 100%;
+                            background: inherit;
+                            border: 0;
+                        }
+                    }
+                    &.txtMiddel {
+                        padding: 22px 10px 0px 0px;
+                    }
+                    &.txtOrdering {
+                        padding: 10px 0px 10px 0px !important;
+                        float: none;
+                        width: auto !important;
+                    }
+                    &.normal {
+                        padding: 1px 10px 0px 0px;
+                    }
+                    &.forShadow {
+                        padding-bottom: 20px;
+                    }
+                    img.unReadLock {
+                        position: absolute;
+                        right: 8px;
+                        top: 8px;
+                        width: 13px;
+                        display: inline-block;
+                    }
+                    &.txtToto {
+                        width: calc(100% - 50px);
+                        padding-left: 5px;
+                    }
+                    strong {
+                        font-weight: normal;
+                        font-size: 16px;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1;
+                        width: 100%;
+                        overflow: hidden;
+                        margin-bottom: 5px;
+                        transition: 2s;
+                        white-space: normal; // text-transform: capitalize;
+                    }
+                    .opened {
+                        -webkit-line-clamp: 2;
+                        display: block;
+                        transition: 2s;
+                    }
+                    p {
+                        font-size: 14px;
+                        margin: 0;
+                    }
+                    .time {
+                        float: right;
+                        margin-top: -5px;
+                        em {
+                            width: 70px;
+                            color: #8e9093;
+                            font-style: normal;
+                            button {
+                                color: #8e9093;
+                                img {
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    width: 14px;
+                                }
+                            }
+                        }
+                        button {
+                            //margin-left: 10px !important;
+                            display: inline-block;
+                            background: transparent;
+                        }
+                        span {
+                            display: inline-block;
+                            margin-right: 0px !important;
+                            font-size: 14px;
+                        }
+                    }
+                    .toteText {
+                        display: inline-block;
+                        &:hover {
+                            background: color($assetFeedback, base);
+                        }
+                        p {
+                            display: inline-block;
+                            vertical-align: top;
+                            padding-left: 5px;
+                            margin-top: -1px;
+                            margin: 0 0 2px;
+                            text-overflow: ellipsis;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 1;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            word-break: break-all;
+                        }
+                        p.masla {
+                            width: calc(100% - 15px);
+                        }
+                        button {
+                            color: #8e9093;
+                            background: transparent;
+                            float: left;
+                            margin-top: 3px !important;
+                            img {
+                                display: inline-block;
+                                vertical-align: middle;
+                                width: 14px;
+                                &.unReadMsg {
+                                    display: none;
+                                }
+                            }
+                            ion-icon {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    .totBtn {
+                        float: right;
+                        margin-top: 8px;
+                        span {
+                            font-size: 14px;
+                            text-transform: uppercase;
+                            color: #7f7f7f;
+                            margin-left: 10px;
+                            &.saveBtn {
+                                color: #319e07;
+                            }
+                        }
+                    }
+                    input {
+                        margin: 0px;
+                        padding: 0px;
+                        border: 0px;
+                        background: #e0e0e0;
+                        font-size: 16px;
+                        width: 100%;
+                    }
+                }
+                figure {
+                    margin: 0px;
+                    padding: 0px;
+                    list-style: none;
+                    vertical-align: top;
+                    padding-top: 25px;
+                    img {
+                        width: 15px;
+                    }
+                }
             }
-            &.name-line {
-                width: calc(100% - 60px);
-                float: left;
+            >div:active,
+            >div:focus {
+                background: color($assetFeedback, base);
             }
-            &.date-line {
-                width: 40px;
-                float: right;
+            .activeTote {
+                border: 0px;
+                .txt {
+                    width: calc(100% - 50px);
+                }
             }
-        }
-        .line-bot {
-            overflow: hidden;
-            padding-top: 10px;
         }
     }
 }

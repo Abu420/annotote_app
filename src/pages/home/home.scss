@@ -22,9 +22,13 @@ top_options {
         left: 0;
     }
     .sharing_pop {
-        &:focus,
-        &:active {
-            background: color($assetFeedback, base);
+        // &:focus,
+        // &:active {
+        //     background: color($assetFeedback, base);
+        // }
+        span:focus,
+        span:active {
+            color: color($assetFeedback, streamsHoverShadow);
         }
         &.interestTab {
             .main_label {
@@ -269,73 +273,91 @@ page-home {
         bottom: 20px !important;
         right: 15px !important;
     }
+    li.active {
+        background: color($assetFeedback, base) !important;
+        &:after {
+            content: '';
+            position: absolute;
+            right: -14%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: url(../assets/img/backIcon.svg) no-repeat center center;
+            background-size: 100%;
+            width: 25px;
+            height: 100%;
+        }
+    }
     .product-list {
-        .item {
-            // border-top: 2px solid #f0f0f0 !important;
-            overflow: hidden;
-            padding: 0px;
-            .item-inner {
-                padding: 0px;
-                border-bottom: 1px solid #e8e8e8;
-                ion-label {
-                    margin: 0px;
-                    .img-holder {
-                        width: 50px;
-                        height: 71px;
-                        float: left;
-                        text-align: center;
-                        line-height: 5.5;
-                        &:hover {
-                            background-color: color($assetFeedback, homeBaseHover);
-                        }
-                        img {
-                            display: inline-block;
-                            width: 28px;
-                        }
-                    }
-                    .txt {
-                        padding: 16px 10px 16px 0;
-                        font-size: 16px;
-                        line-height: 19px;
-                        color: #000;
-                        display: block;
-                        overflow: hidden;
-                        position: relative;
-                        strong {
-                            width: 100%;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            display: inline-block;
-                            -webkit-box-orient: vertical;
-                            -webkit-line-clamp: 1;
-                            font-size: 16px;
-                            word-wrap: unset;
-                            margin-bottom: -4px;
-                        }
-                        .time {
-                            color: #969696;
-                            span {
-                                font-size: 14px;
-                            }
-                        }
-                        .remove_item {
-                            position: absolute;
-                            right: 0px;
-                            top: 50%;
-                            -webkit-transform: translate(-50%, -50%);
-                            transform: translate(-50%, -50%);
-                            width: 20px;
-                            height: 20px;
-                            background-image: url(../assets/img/closeIconGray.svg);
-                            background-repeat: no-repeat;
-                            background-size: 100%;
-                        }
-                    }
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        li {
+            position: relative;
+            list-style: none;
+            border-bottom: 1px solid #e8e8e8;
+            .img-holder {
+                width: 50px;
+                height: 72px;
+                float: left;
+                text-align: center;
+                line-height: 5.5;
+                position: relative;
+                &:hover {
+                    background-color: color($assetFeedback, homeBaseHover) !important;
+                    box-shadow: -3px 3px 15px 5px #6b6969 !important;
+                    opacity: 1;
+                    border-radius: 0;
+                }
+                img {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    display: inline-block;
+                    width: 28px;
                 }
             }
-            &:hover {
-                background-color: color($assetFeedback, base) !important;
-            }
+            .txt {
+                padding: 19px 10px 15px 0;
+                font-size: 16px;
+                color: #000;
+                display: block;
+                overflow: hidden;
+                position: relative;
+                strong {
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                    font-size: 16px;
+                    margin-bottom: -4px;
+                }
+                .time {
+                    color: #969696;
+                    span {
+                        font-size: 14px;
+                    }
+                }
+                .remove_item {
+                    position: absolute;
+                    right: 0px;
+                    top: 50%;
+                    -webkit-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                    width: 20px;
+                    height: 20px;
+                    background-image: url(../assets/img/closeIconGray.svg);
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                }
+            } // &:hover {
+            //     background-color: color($assetFeedback, base) !important;
+            // }
         }
     }
 }
@@ -363,6 +385,7 @@ ul.home-list {
     padding: 0;
     margin: 0;
     li {
+        position: relative;
         list-style: none;
         display: flex;
         align-items: center;
@@ -403,79 +426,68 @@ ul.home-list {
 .home-list {
     .green {
         background: #3bde00;
-        border-radius: 0;
-        &:hover {
-            background-color: color($assetFeedback, homeGreenHover) !important; // box-shadow: 0 0px 11px 0px #181717;
-        }
-        &:active,
-        &:visited,
-        &:focus {
-            background-color: color($assetFeedback, base) !important;
-        }
+        border-radius: 0; // &:hover {
+        //     background-color: color($assetFeedback, homeGreenHover) !important; // box-shadow: 0 0px 11px 0px #181717;
+        // }
+        // &:active,
+        // &:visited,
+        // &:focus {
+        //     background-color: color($assetFeedback, base) !important;
+        // }
         .activatedOn {
             background-color: color($assetFeedback, darkGreen) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
             transform: scale(1);
             opacity: 1;
             border-radius: 0;
+            z-index: 999;
         }
         button:hover {
-            background-color: color($assetFeedback, darkGreen) !important;
-            box-shadow: -3px 3px 15px 5px #6b6969 !important;
-            opacity: 1;
-            border-radius: 0;
+            @extend .activatedOn;
         }
     }
     .yellow {
         background: #f4e300;
-        border-radius: 0;
-        &:hover {
-            background-color: color($assetFeedback, homeYellowHover) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
-        }
-        &:active,
-        &:visited,
-        &:focus {
-            background-color: color($assetFeedback, base) !important;
-        }
+        border-radius: 0; // &:hover {
+        //     background-color: color($assetFeedback, homeYellowHover) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
+        // }
+        // &:active,
+        // &:visited,
+        // &:focus {
+        //     background-color: color($assetFeedback, base) !important;
+        // }
         .activatedOn {
             background-color: color($assetFeedback, darkYellow) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
             transform: scale(1);
             opacity: 1;
             border-radius: 0;
+            z-index: 999;
         }
         button:hover {
-            background-color: color($assetFeedback, darkYellow) !important;
-            box-shadow: -3px 3px 15px 5px #6b6969 !important;
-            opacity: 1;
-            border-radius: 0;
+            @extend .activatedOn;
         }
     }
     .pink {
         background: #fb9df0;
-        border-radius: 0;
-        &:hover {
-            background-color: color($assetFeedback, homePinkHover) !important;
-        }
-        &:active,
-        &:visited,
-        &:focus {
-            background-color: color($assetFeedback, base) !important;
-        }
+        border-radius: 0; // &:hover {
+        //     background-color: color($assetFeedback, homePinkHover) !important;
+        // }
+        // &:active,
+        // &:visited,
+        // &:focus {
+        //     background-color: color($assetFeedback, base) !important;
+        // }
         .activatedOn {
             background-color: color($assetFeedback, darkPink) !important;
             box-shadow: -3px 3px 15px 5px #6b6969 !important;
             transform: scale(1);
             opacity: 1;
             border-radius: 0;
-            z-index: 1;
+            z-index: 999;
         }
         button:hover {
-            background-color: color($assetFeedback, darkPink) !important;
-            box-shadow: -3px 3px 15px 5px #6b6969 !important;
-            opacity: 1;
-            border-radius: 0;
-            z-index: 1;
+            @extend .activatedOn;
         }
     }
 }

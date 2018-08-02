@@ -50,6 +50,15 @@ follow_profile {
                 background: none;
                 box-shadow: none;
             }
+            &:hover,
+            &:focus {
+                background-color: color($assetFeedback, homeBaseHover) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
+                box-shadow: -3px 3px 15px 5px color($assetFeedback, streamsHoverShadow) !important;
+                transform: scale(1);
+                opacity: 1;
+                border-radius: 0;
+                z-index: 1;
+            }
         }
         .proName {
             display: inline-block;

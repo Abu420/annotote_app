@@ -966,8 +966,11 @@
                                     }
                                 }
                                 .toteText {
+                                    display: inline-block;
+                                    &:hover {
+                                        background: color($assetFeedback, base);
+                                    }
                                     p {
-                                        width: calc(100% - 90px);
                                         display: inline-block;
                                         vertical-align: top;
                                         padding-left: 5px;
@@ -979,6 +982,9 @@
                                         overflow: hidden;
                                         white-space: nowrap;
                                         word-break: break-all;
+                                    }
+                                    p.masla {
+                                        width: calc(100% - 15px);
                                     }
                                     button {
                                         color: #8e9093;
@@ -1030,23 +1036,13 @@
                                     width: 15px;
                                 }
                             }
-                        } // >div:active,
-                        // >div:focus {
-                        //     background: color($assetFeedback, base);
-                        // }
+                        }
+                        .hoverParent:active,
+                        .hoverParent:focus {
+                            background: color($assetFeedback, base);
+                        }
                         .activeTote {
                             border: 0px;
-                            .options {
-                                height: 70px;
-                                float: left;
-                                vertical-align: middle;
-                                width: 50px;
-                                background-image: url(../assets/img/grayDotIcon.svg);
-                                background-position: 22px center;
-                                background-repeat: no-repeat;
-                                background-size: 7px;
-                                z-index: 9999999;
-                            }
                             .txt {
                                 width: calc(100% - 50px);
                             }
@@ -1137,19 +1133,22 @@
                         .message-underlist {
                             padding: 0;
                             .underlist-items {
+                                &:focus {
+                                    background: color($assetFeedback, base);
+                                }
+                                &:active {
+                                    background: color($assetFeedback, base);
+                                }
+                                &:visited {
+                                    background: color($assetFeedback, base);
+                                }
+                                &.editHighlight{
+                                    background: #e0e0e0;
+                                }
                                 .item-inner {
                                     .input-wrapper {
                                         ion-label {
                                             padding: 0;
-                                            &:focus {
-                                                background: color($assetFeedback, base);
-                                            }
-                                            &:active {
-                                                background: color($assetFeedback, base);
-                                            }
-                                            &:visited {
-                                                background: color($assetFeedback, base);
-                                            }
                                             .txt {
                                                 border-bottom: 0px;
                                                 display: inline-block;
@@ -1258,9 +1257,9 @@
                                                     }
                                                 }
                                             }
+
                                             .editAntotion {
                                                 margin-left: -8%;
-                                                background: #e0e0e0;
                                                 width: 108%;
                                                 padding: 10px 10px 10px 54px;
                                                 .moveBtn {

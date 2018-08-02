@@ -23,6 +23,7 @@ import { AnototeService } from "../../services/anotote.service";
 import { Keyboard } from "@ionic-native/keyboard";
 import { StatusBar } from "@ionic-native/status-bar";
 import { Chat } from "../chat/chat";
+import { mapper } from "../../models/mapper";
 
 @Component({
   selector: "search_page",
@@ -536,22 +537,54 @@ export class Search {
     if (search_result.is_tote) {
       this.go_to_browser(search_result, false);
     } else if (search_result.is_tote == false && search_result.isChat == true) {
-      let secondUser: any = null;
+      var secondUser = null;
+      var firstUser = null;
+      var contains = false;
       for (let group of search_result.chat_group) {
-        if (group.user.id != this.user.id) {
-          secondUser = group.user;
+        if (group.user.id == this.user.id) {
+          firstUser = {
+            id: group.user.id,
+            email: group.user.email,
+            firstName: group.user.first_name,
+            description: group.user.description
+          }
+          contains = true;
+        } else {
+          secondUser = {
+            id: group.user.id,
+            email: group.user.email,
+            firstName: group.user.first_name,
+            description: group.user.description
+          }
+        }
+      }
+      if (firstUser == null) {
+        secondUser = {
+          id: search_result.chat_group[0].user.id,
+          email: search_result.chat_group[0].user.email,
+          firstName: search_result.chat_group[0].user.first_name,
+          description: search_result.chat_group[0].user.description
+        }
+        firstUser = {
+          id: search_result.chat_group[0].user.id,
+          email: search_result.chat_group[0].user.email,
+          firstName: search_result.chat_group[0].user.first_name,
+          description: search_result.chat_group[0].user.description
         }
       }
       var against = false;
       if (search_result.messages[0].anototeId != 0)
         against = true;
+
+
       this.navCtrl.push(Chat, {
         secondUser: secondUser,
         against_anotote: against,
         anotote_id: search_result.messages[0].anototeId,
         title: search_result.messages[0].subject,
-        full_tote: search_result,
-        color: "me"
+        full_tote: new mapper(search_result, this.user),
+        firstUser: firstUser,
+        containsMe: contains
       });
     } else {
       let profile = this.modalCtrl.create(Profile, {

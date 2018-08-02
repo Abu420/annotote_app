@@ -188,6 +188,12 @@ ion-fab {
     height: 57px;
     background: url(../assets/img/backIcon.svg) no-repeat center center;
     background-size: 100%;
+    &:active,
+    &:focus,
+    &:hover {
+        width: 25px;
+        height: 60px;
+    }
 }
 
 .highlight {
@@ -210,6 +216,7 @@ span.dot:active:after {
     width: 12px;
     height: 12px;
     transition: .5px;
+    box-shadow: 0px 0px 15px #424242;
 }
 
 span.un_active_dot:focus:after,
@@ -218,6 +225,7 @@ span.un_active_dot:active:after {
     height: 12px;
     background: white !important;
     transition: .5px;
+    box-shadow: 0px 0px 15px #424242;
 }
 
 .dots_box {
@@ -429,6 +437,10 @@ view_options {
             padding: 10px 0px;
             text-transform: uppercase;
         }
+        span:focus,
+        span:active {
+            color: color($assetFeedback, darkGreen);
+        }
         .messageLoading {
             color: white;
             text-align: center;
@@ -461,9 +473,17 @@ view_options {
                 letter-spacing: 0;
                 text-transform: uppercase;
                 margin-right: 10px;
+                &:focus,
+                &:hover {
+                    color: color($assetFeedback, streamsHoverShadow);
+                }
             }
             span.save {
-                color: #32ad05;
+                color: $me_app_color;
+                &:focus,
+                &:hover {
+                    color: color($assetFeedback, darkGreen);
+                }
             }
         }
         .share {
@@ -689,7 +709,7 @@ page-changepassword {
                 }
             }
             &.active {
-                background: #d9d9d9;
+                background: color($assetFeedback, base);
                 img {
                     display: none;
                 }
@@ -709,7 +729,7 @@ page-changepassword {
                 }
             }
             &.active {
-                background: #d9d9d9;
+                background: color($assetFeedback, base);
                 img {
                     display: none;
                 }
@@ -736,7 +756,7 @@ page-changepassword {
                 }
             }
             &.active {
-                background: #d9d9d9;
+                background: color($assetFeedback, base);
                 img {
                     display: none;
                 }
@@ -1373,8 +1393,12 @@ search_page {
         right: -10px; // box-shadow: 0 -6px 10px 0px #a7a7a7;
         box-shadow: 0 -2px 9px 0px #424242;
     }
+    input[type="submit"]:active,
+    input[type="submit"]:focus {
+        background: #a0a0a0;
+    }
     .loading {
-        background: $me_app_color;
+        background: color($assetFeedback, darkGreen);
         color: #FFF;
         width: 65px;
         height: 65px;
@@ -1390,6 +1414,10 @@ search_page {
     }
     .green {
         background: $me_app_color !important; // box-shadow: 0 -6px 10px 0px #a7a7a7;
+    }
+    .green:active,
+    .green:focus {
+        background: color($assetFeedback, darkGreen) !important;
     }
 }
 
