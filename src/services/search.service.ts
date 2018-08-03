@@ -245,7 +245,7 @@ export class SearchService {
      */
     public general_search(params) {
         // var url = this.constants.API_BASEURL + '/search?term=' + params.term;
-        var url = this.constants.API_BASEURL + '/new-search?term=' + params.term;
+        var url = this.constants.API_BASEURL + '/new-search?term=' + params.term + '&&skip=' + params.skip;
         if (params.type != '')
             url = url + '&type=' + params.type;
         if (params.annotote_type != '')

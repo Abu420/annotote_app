@@ -1,5 +1,5 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { NavController, ModalController, NavParams, Content } from 'ionic-angular';
+import { NavController, ModalController, NavParams, Content, InfiniteScroll } from 'ionic-angular';
 import { AnototeEditor } from '../anotote-editor/anotote-editor';
 /**
  * Services
@@ -36,8 +36,6 @@ export class SearchResults {
   public chats = [];
   public users = [];
   private user;
-  private show_search_field: boolean = false;
-  private hide_header_contents: boolean = false;
   private no_search: boolean = false;
   public current_active_anotote;
   public move_fab = false;
@@ -69,6 +67,8 @@ export class SearchResults {
   public title_temp = '';
   public reordering_data = null;
   public resizer: boolean = false;
+  //infnitescroll variables
+  public infiniteParams;
 
   constructor(public stream: Streams,
     public authService: AuthenticationService,
@@ -85,8 +85,8 @@ export class SearchResults {
     public statusBar: StatusBar) {
     this.key.disableScroll(true);
     this.user = this.authService.getUser();
+    this.infiniteParams = navParams.get('pagenationParams');
     // this.show_search();
-
   }
 
   ionViewDidLeave() {
@@ -121,7 +121,6 @@ export class SearchResults {
           this.search_results.push(tote);
         }
       }
-      console.log(this.chats);
       if (this.search_results.length == 0)
         this.no_search = true;
     }, 1000);
@@ -142,18 +141,6 @@ export class SearchResults {
       }
     }
   }
-
-  // show_search() {
-  //   if (this.show_search_field) {
-  //     this.show_search_field = false;
-  //     let timeoutId = setTimeout(() => {
-  //       this.hide_header_contents = false;
-  //     }, 1000);
-  //   } else {
-  //     this.show_search_field = true;
-  //     this.hide_header_contents = true;
-  //   }
-  // }
 
   go_to_browser(anotote, highlight) {
     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: highlight, actual_stream: anotote.active_tab });
@@ -184,7 +171,8 @@ export class SearchResults {
       term: this.search_term,
       type: '',
       annotote_type: '',
-      time: 0
+      time: 0,
+      skip: 0
     }
     //type filter
     if (this.search_filters.media.tote)
@@ -218,6 +206,7 @@ export class SearchResults {
     this.searchService.general_search(params)
       .subscribe((response) => {
         this._loading = false;
+        this.infiniteParams = params;
         if (response.status == 1) {
           var manipulated = this.searchService.responseManipulation(response);
           for (let tote of manipulated.search_results) {
@@ -238,6 +227,42 @@ export class SearchResults {
           Object.assign(this.saved_search_result, this.search_results)
           if (this.search_results.length == 0)
             this.no_search = true;
+        }
+      }, (error) => {
+        this.search_results = [];
+        this._loading = false;
+        this.no_search = true;
+      });
+  }
+
+  doInfinite(infnitescroll: InfiniteScroll) {
+    this._loading = true;
+    this.infiniteParams.skip++;
+    this.searchService.general_search(this.infiniteParams)
+      .subscribe((response) => {
+        this._loading = false;
+        if (response.status == 1) {
+          var manipulated = this.searchService.responseManipulation(response);
+          for (let tote of manipulated.search_results) {
+            if (tote.is_tote == true) {
+              var map = new mapper(tote, this.user);
+              this.totes.push(map);
+              this.search_results.push(map);
+            } else if (tote.isChat == true && tote.is_tote == false) {
+              var map = new mapper(tote, this.user);
+              this.chats.push(map);
+              this.search_results.push(map);
+            } else {
+              this.users.push(tote);
+              this.search_results.push(tote);
+            }
+          }
+          // this.saved_search_result = JSON.parse(JSON.stringify(this.search_results));
+          Object.assign(this.saved_search_result, this.search_results)
+          infnitescroll.complete();
+          if (response.data.annotote.length < 5 && response.data.group.length < 5 && response.data.user.length < 5) {
+            infnitescroll.enable(false);
+          }
         }
       }, (error) => {
         this.search_results = [];

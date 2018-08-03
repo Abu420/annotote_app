@@ -24,7 +24,8 @@ export class mapper {
     topVote = {
         currentUserVote: 0,
         isCurrentUserVote: 0,
-        rating: 0
+        rating: 0,
+        isVoted: []
     }
     top_highlights: any = null;
     top_tags: any = null;
@@ -99,6 +100,7 @@ export class mapper {
                         this.top_tags = this.allTags(top_tote.annotote_tags);
                         this.top_title = top_tote.annotote_title;
                         this.topVote.rating = this.calculateRating(top_tote.annotote_votes);
+                        this.topVote.isVoted = top_tote.annotote_votes;
                         this.userAnnotote.isVoted = top_tote.annotote_votes;
                         for (const vote of top_tote.annotote_votes) {
                             if (vote.user_id == currentUser.id) {

@@ -19,19 +19,19 @@
 <ion-content padding>
     <div id="wrapper">
         <ul class="home-list layout">
-            <li class="green" (click)="openAnototeList('me')" [ngClass]="{'active': hover.through.streams == 'me'}">
+            <li (click)="openAnototeList('me')" [ngClass]="{'green':(hover.through.streams == '' || hover.through.streams != 'me'),'active': hover.through.streams == 'me'}">
                 <button clear="true" [ngClass]="{'activatedOn': hover.me}" (click)="presentMeOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">ME</span>
             </li>
-            <li class="yellow" (click)="openAnototeList('follows')" [ngClass]="{'active': hover.through.streams == 'follows'}">
+            <li (click)="openAnototeList('follows')" [ngClass]="{'yellow':(hover.through.streams == '' || hover.through.streams != 'follows'),'active': hover.through.streams == 'follows'}">
                 <button clear="true" [ngClass]="{'activatedOn': hover.follows}" (click)="follows($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>
                 <span class="txt">FOLLOWS</span>
             </li>
-            <li (click)="openAnototeList('top')" class="pink" [ngClass]="{'active': hover.through.streams == 'top'}">
+            <li (click)="openAnototeList('top')" [ngClass]="{'pink':(hover.through.streams == '' || hover.through.streams != 'top'),'active': hover.through.streams == 'top'}">
                 <button clear="true" [ngClass]="{'activatedOn': hover.top}" (click)="presentTopOptionsModal($event)" ion-button icon-only>
                     <img src="assets/img/whiteDotIcon.svg">
                 </button>

@@ -647,8 +647,8 @@ search-results {
                             }
                         }
                     }
-                    .hoverParent:active,
-                    .hoverParent:focus {
+                    .hoverParent,
+                    .hoverParent {
                         background: color($assetFeedback, base);
                     }
                     .activeTote {

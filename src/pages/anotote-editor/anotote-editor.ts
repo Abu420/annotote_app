@@ -194,6 +194,7 @@ export class AnototeEditor implements OnDestroy {
                 this.utilityMethods.internet_connection_error();
             } else
                 this.utilityMethods.doToast("Couldn't scrap url");
+            this.navCtrl.pop();
         })
     }
     //2nd step modify scrapping for anotote
@@ -603,19 +604,19 @@ export class AnototeEditor implements OnDestroy {
                         this.hideLoading();
                         if (result.status == 1) {
                             this.ANOTOTE.isMe = 1;
-                            if (result.data.save_count == 1) {
-                                if (this.WHICH_STREAM == 'top') {
-                                    this.ANOTOTE.anototeDetail.isMe = 1;
-                                    this.ANOTOTE.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-                                    this.runtime.follow_first_load = false;
-                                } else {
-                                    this.ANOTOTE.userAnnotote.anototeDetail.isMe = 1;
-                                    this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-                                    this.runtime.top_first_load = false;
-                                }
-                                this.runtime.me_first_load = false;
-                                this.showMeHighlights(this.ANOTOTE);
+                            // if (result.data.save_count == 1) {
+                            if (this.WHICH_STREAM == 'top') {
+                                this.ANOTOTE.anototeDetail.isMe = 1;
+                                this.ANOTOTE.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                                this.runtime.follow_first_load = false;
+                            } else {
+                                this.ANOTOTE.userAnnotote.anototeDetail.isMe = 1;
+                                this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                                this.runtime.top_first_load = false;
                             }
+                            this.runtime.me_first_load = false;
+                            this.showMeHighlights(this.ANOTOTE);
+                            // }
                         }
                     }, (error) => {
                         this.hideLoading();
@@ -880,11 +881,12 @@ export class AnototeEditor implements OnDestroy {
             //         this.statusBar.backgroundColorByHexString('#fb9df0');
             // }
             if (data.go_to_browser) {
-                var anotote = new mapper(data.anotote, this.authService.getUser())
                 if (data.neworold) {
-                    this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-                } else
+                    this.navCtrl.push(AnototeEditor, { url: data.anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+                } else {
+                    var anotote = new mapper(data.anotote, this.authService.getUser())
                     this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.active_tab });
+                }
             }
         });
         searchModal.present();

@@ -59,6 +59,7 @@ export class Search {
   private from;
   public isOpen: boolean = false;
   public user;
+  public paramsForPagenation;
 
   constructor(
     public stream: Streams,
@@ -231,7 +232,8 @@ export class Search {
     var params = {
       search_term: this.search_txt,
       results: this.search_results,
-      search_results: true
+      search_results: true,
+      pagenationParams: this.paramsForPagenation
     };
     this.dismiss(true);
     // this.viewCtrl.dismiss(params);
@@ -365,7 +367,7 @@ export class Search {
    */
   value_updating_search() {
     this.search_results = [];
-    if (this.search_txt.length == 0) {
+    if (this.search_txt.length == 0 || this.search_txt.trim().length == 0) {
       this.current_url = "";
       this.search_results = [];
       this.statusBar.backgroundColorByHexString("#323232");
@@ -383,7 +385,8 @@ export class Search {
         term: this.search_txt,
         type: "",
         annotote_type: "",
-        time: 0
+        time: 0,
+        skip: 0
       };
       //type filter
       if (this.search_filters.media.tote) {
@@ -423,6 +426,7 @@ export class Search {
 
       this.searchService.general_search(params).subscribe(
         response => {
+          this.paramsForPagenation = params;
           this.search_results = [];
           var manipulated = this.searchService.responseManipulation(response);
           this.search_results = manipulated.search_results;
@@ -441,7 +445,8 @@ export class Search {
         term: this.search_txt,
         type: "",
         annotote_type: "",
-        time: 0
+        time: 0,
+        skip: 0
       };
       this.searchService.general_search(params).subscribe(
         response => {

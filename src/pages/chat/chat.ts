@@ -20,6 +20,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { FollowsPopup } from "../anotote-list/follows_popup";
 import { Keyboard } from '@ionic-native/keyboard';
 import { AnototeList } from '../anotote-list/anotote-list';
+import { mapper } from '../../models/mapper';
 
 declare var io: any;
 
@@ -535,11 +536,12 @@ export class Chat {
         this.statusBar.backgroundColorByHexString('#fb9df0');
 
       if (data.go_to_browser) {
-        var anotote = data.anotote;
         if (data.neworold) {
-          this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-        } else
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote.userAnnotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.userAnnotote.active_tab });
+          this.navCtrl.push(AnototeEditor, { url: data.anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+        } else {
+          var anotote = new mapper(data.anotote, this.authService.getUser())
+          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.active_tab });
+        }
       }
     });
     searchModal.present();

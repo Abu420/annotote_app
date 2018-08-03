@@ -46,15 +46,9 @@
                 <div class="txt">
                     <strong *ngIf="is_it_me == true">
                         <form (ngSubmit)="updateUser()">
-                            <textarea autosize type="text" placeholder="Add a description about yourself" [(ngModel)]="new_description" (keyup)="tag_user($event)" name="description"></textarea>
+                            <textarea id="description" autosize type="text" placeholder="Add a description about yourself" [(ngModel)]="new_description" (keyup)="tag_user($event)" name="description"></textarea>
                         </form>
-                        <!-- <textarea placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" ></textarea> -->
                     </strong>
-                    <!-- <strong *ngIf="profileData.user.description == null">
-                        <form (ngSubmit)="updateUser()">
-                            <input type="text" placeholder="Add a description about yourself" [(ngModel)]="profileData.user.description" name="description">
-                        </form>
-                    </strong> -->
                     <p *ngIf="(profileData.user.description != null && profileData.user.description != '') && is_it_me == false">{{profileData.user.description}}</p>
                     <p *ngIf="(profileData.user.description == null || profileData.user.description == '') && is_it_me == false">No description added by {{profileData.user.firstName}}.</p>
                     <!-- old tags code
@@ -142,11 +136,3 @@
         </ion-list>
     </div>
 </div>
-<!-- <ion-footer [keyboardAttach]="content" class="message-bottom">
-    <ion-toolbar color="dark">
-        <div class="editOptions">
-            <span (click)="cancelTitleEdit($event,current_active_anotote)">Cancel</span>
-            <span *ngIf="new_description != '' && new_description != profileData.user.description" class='save' (click)="saveTitle(current_active_anotote)">Save</span>
-        </div>
-    </ion-toolbar>
-</ion-footer> -->

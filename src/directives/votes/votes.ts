@@ -33,6 +33,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    this.current_active_anotote.topVote.isVoted = success.data.annotote.isVoted;
                     this.syncTopVotes(success);
                     for (let follower of this.current_active_anotote.followers) {
                         if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
@@ -54,6 +55,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    follower.followTote.isVoted = success.data.annotote.isVoted;
                     this.syncFollowerandTopVotes(follower, success)
                     if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
                         this.syncTopVotes(success);
@@ -73,6 +75,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    this.current_active_anotote.userAnnotote.isVoted = success.data.annotote.isVoted;
                     this.syncTopandFollowsVotes(success);
                     for (let follower of this.current_active_anotote.anototeDetail.follows) {
                         if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
@@ -94,6 +97,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    follower.followTote.isVoted = success.data.annotote.isVoted;
                     this.syncFollowerandTopVotes(follower, success);
                     if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
                         this.syncTopandFollowsVotes(success);
@@ -117,6 +121,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    this.current_active_anotote.topVote.isVoted = success.data.annotote.isVoted;
                     this.syncTopVotes(success);
                     for (let follower of this.current_active_anotote.followers) {
                         if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
@@ -138,6 +143,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    follower.followTote.isVoted = success.data.annotote.isVoted;
                     this.syncFollowerandTopVotes(follower, success)
                     if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
                         this.syncTopVotes(success);
@@ -157,6 +163,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    this.current_active_anotote.userAnnotote.isVoted = success.data.annotote.isVoted;
                     this.syncTopandFollowsVotes(success);
                     for (let follower of this.current_active_anotote.anototeDetail.follows) {
                         if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
@@ -178,6 +185,7 @@ export class Votes {
                 }
                 this.anototeService.vote_anotote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    follower.followTote.isVoted = success.data.annotote.isVoted;
                     this.syncFollowerandTopVotes(follower, success);
                     if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
                         this.syncTopandFollowsVotes(success);
@@ -200,6 +208,7 @@ export class Votes {
                 }
                 this.anototeService.deleteVote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    this.current_active_anotote.topVote.isVoted = success.data.annotote.isVoted;
                     this.syncTopVotes(success);
                     for (let follower of this.current_active_anotote.followers) {
                         if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
@@ -219,6 +228,7 @@ export class Votes {
                 }
                 this.anototeService.deleteVote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    follower.followTote.isVoted = success.data.annotote.isVoted;
                     this.syncFollowerandTopVotes(follower, success);
                     if (follower.followTote.id == this.current_active_anotote.topUserToteId) {
                         this.syncTopVotes(success);
@@ -236,6 +246,7 @@ export class Votes {
                 }
                 this.anototeService.deleteVote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    this.current_active_anotote.userAnnotote.isVoted = success.data.annotote.isVoted;
                     this.syncTopandFollowsVotes(success);
                     for (let follower of this.current_active_anotote.anototeDetail.follows) {
                         if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
@@ -255,6 +266,7 @@ export class Votes {
                 }
                 this.anototeService.deleteVote(params).subscribe((success) => {
                     // this.showLoading.emit('');
+                    follower.followTote.isVoted = success.data.annotote.isVoted;
                     this.syncFollowerandTopVotes(follower, success);
                     if (follower.followTote.id == this.current_active_anotote.anototeDetail.userAnnotote.id) {
                         this.syncTopandFollowsVotes(success);

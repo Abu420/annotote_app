@@ -83,6 +83,10 @@ export class Profile {
     this.loadUser(params.get('data'));
   }
 
+  ionViewDidLoad() {
+    autosize(document.getElementById('description'));
+  }
+
   loadUser(id) {
     if (this.from_page != 'search_results') {
       this.searchService.get_user_profile_info(id)
@@ -120,25 +124,17 @@ export class Profile {
 
   go_to_thread() {
     this.statusbar.show();
-    // this.navCtrl.push(Chat, { secondUser: this.profileData.user });
-    var params = {
-      anotote: null,
-      stream: 'anon',
-      findChatter: true,
-      user: this.profileData.user,
-      from: 'profile'
-    }
-    let chatTote = this.modalCtrl.create(ChatToteOptions, params);
-    chatTote.onDidDismiss((data) => {
-      if (data.chat) {
-        if (!data.group) {
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '' });
-        } else {
-          this.navCtrl.push(Chat, { secondUser: data.user, against_anotote: false, anotote_id: null, title: '', group: data.group });
-        }
+    if (this.from_page == 'search_results') {
+      var incoming = {
+        id: this.profileData.user.id,
+        email: this.profileData.user.email,
+        firstName: this.profileData.user.firstName,
+        description: this.profileData.user.description
       }
-    })
-    chatTote.present();
+      this.navCtrl.push(Chat, { secondUser: incoming, against_anotote: false, anotote_id: null, title: '' });
+    } else {
+      this.navCtrl.push(Chat, { secondUser: this.profileData.user, against_anotote: false, anotote_id: null, title: '' });
+    }
   }
 
   go_to_stream() {

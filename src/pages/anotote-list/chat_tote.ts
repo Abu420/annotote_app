@@ -33,6 +33,8 @@ export class ChatToteOptions {
     public forChats: boolean = false;
     public selectedUser;
     public user;
+    public infiniteParams;
+    public inifiniteScroll;
 
     constructor(public runtime: Streams,
         public params: NavParams,
@@ -58,10 +60,10 @@ export class ChatToteOptions {
             if (params.get('doChat'))
                 this.doChat = true;
         }
-        if (this.from == 'profile') {
-            this.doChat = true;
-            this.send_message(params.get('user'));
-        }
+        // if (this.from == 'profile') {
+        //     this.doChat = true;
+        //     this.send_message(params.get('user'));
+        // }
     }
 
     dissmiss() {
@@ -101,10 +103,12 @@ export class ChatToteOptions {
                     term: this.usersForChat,
                     type: 'user',
                     annotote_type: '',
-                    time: 0
+                    time: 0,
+                    skip: 0
                 }
                 this.searchService.general_search(params)
                     .subscribe((response) => {
+                        this.infiniteParams = params;
                         if (this.usersForChat != '') {
                             this.search_results = [];
                             for (let user of response.data.user) {
@@ -112,6 +116,12 @@ export class ChatToteOptions {
                                 this.search_results.push(user);
                             }
                             this.search_loading = false;
+                            if (this.inifiniteScroll) {
+                                if (response.data.user.length < 5)
+                                    this.inifiniteScroll.enable(false);
+                                else
+                                    this.inifiniteScroll.enable(true);
+                            }
                         } else {
                             this.search_results = [];
                         }
@@ -126,6 +136,29 @@ export class ChatToteOptions {
                 this.search_loading = false;
             }
         }
+    }
+
+    doInfinite(infinite) {
+        this.inifiniteScroll = infinite;
+        this.search_loading = true;
+        this.infiniteParams.skip++;
+        this.searchService.general_search(this.infiniteParams)
+            .subscribe((response) => {
+                for (let user of response.data.user) {
+                    user.follow_loading = false;
+                    this.search_results.push(user);
+                }
+                this.search_loading = false;
+                infinite.complete();
+                if (response.data.user.length < 5) {
+                    infinite.enable(false);
+                }
+            }, (error) => {
+                this.search_loading = false;
+                if (error.code == -1) {
+                    this.utilityMethods.internet_connection_error();
+                }
+            });
     }
 
     scrape_this_url(save_or_bookmark) {

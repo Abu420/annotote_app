@@ -58,23 +58,6 @@
         <div class="forClosing" (click)="show_filters()"></div>
     </ion-list>
     <div class="search-panel" [ngClass]="{'forFilter': filter_mode}">
-        <ion-list class="product-list loader-panel" *ngIf="_loading">
-            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
         <ul class="search-result">
             <li *ngIf="no_search == true" class="no_search">
                 <p>No results</p>
@@ -265,7 +248,27 @@
                 </ng-container>
             </li>
         </ul>
-
+        <ion-list class="product-list loader-panel" *ngIf="_loading">
+            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
+                <div>
+                    <div class="img-holder">
+                    </div>
+                    <div class="txt line-loader">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+            <ion-infinite-scroll-content loadingSpinner="none">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <div id="temp_text_editor" *ngIf="current_active_anotote && current_active_anotote.active && current_active_highlight && current_active_highlight.edit == true" class="not_to_show" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
     </div>
     <ion-fab bottom [ngClass]="{'moveUpList': move_fab == true || forFollowedCaseName == true}" *ngIf="(current_active_anotote == null || current_active_anotote.checked == false || current_active_anotote.checked == null) && (current_active_highlight == null || current_active_highlight.edit == false)" right>

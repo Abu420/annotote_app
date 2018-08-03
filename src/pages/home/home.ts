@@ -214,6 +214,7 @@ export class Home {
   notifications() {
     let notifications = this.modalCtrl.create(Notifications, null);
     notifications.onDidDismiss(data => {
+      this.statusBar.backgroundColorByHexString('#323232');
       this.loadNotifications();
     });
     notifications.present();
@@ -332,11 +333,12 @@ export class Home {
     searchModal.onDidDismiss(data => {
       if (data)
         if (data.go_to_browser) {
-          var anotote = new mapper(data.anotote, this.authService.getUser())
           if (data.neworold) {
-            this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-          } else
+            this.navCtrl.push(AnototeEditor, { url: data.anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+          } else {
+            var anotote = new mapper(data.anotote, this.authService.getUser())
             this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.active_tab });
+          }
         }
     });
     searchModal.present();

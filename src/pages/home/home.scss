@@ -278,13 +278,14 @@ page-home {
         &:after {
             content: '';
             position: absolute;
-            right: -14%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            left: 100%;
             background: url(../assets/img/backIcon.svg) no-repeat center center;
             background-size: 100%;
             width: 25px;
             height: 100%;
+        }
+        &:hover {
+            background: color($assetFeedback, streamsHoverShadow) !important;
         }
     }
     .product-list {
@@ -426,10 +427,10 @@ ul.home-list {
 .home-list {
     .green {
         background: #3bde00;
-        border-radius: 0; // &:hover {
-        //     background-color: color($assetFeedback, homeGreenHover) !important; // box-shadow: 0 0px 11px 0px #181717;
-        // }
-        // &:active,
+        border-radius: 0;
+        &:hover {
+            background-color: color($assetFeedback, homeGreenHover) !important;
+        } // &:active,
         // &:visited,
         // &:focus {
         //     background-color: color($assetFeedback, base) !important;
@@ -448,10 +449,10 @@ ul.home-list {
     }
     .yellow {
         background: #f4e300;
-        border-radius: 0; // &:hover {
-        //     background-color: color($assetFeedback, homeYellowHover) !important; // box-shadow: 0 0px 11px 0px #bdbdbd;
-        // }
-        // &:active,
+        border-radius: 0;
+        &:hover {
+            background-color: color($assetFeedback, homeYellowHover) !important;
+        } // &:active,
         // &:visited,
         // &:focus {
         //     background-color: color($assetFeedback, base) !important;
@@ -470,10 +471,10 @@ ul.home-list {
     }
     .pink {
         background: #fb9df0;
-        border-radius: 0; // &:hover {
-        //     background-color: color($assetFeedback, homePinkHover) !important;
-        // }
-        // &:active,
+        border-radius: 0;
+        &:hover {
+            background-color: color($assetFeedback, homePinkHover) !important;
+        } // &:active,
         // &:visited,
         // &:focus {
         //     background-color: color($assetFeedback, base) !important;

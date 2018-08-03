@@ -967,6 +967,7 @@
                                 }
                                 .toteText {
                                     display: inline-block;
+                                    width: 70%;
                                     &:hover {
                                         background: color($assetFeedback, base);
                                     }
@@ -1037,8 +1038,8 @@
                                 }
                             }
                         }
-                        .hoverParent:active,
-                        .hoverParent:focus {
+                        .hoverParent,
+                        .hoverParent {
                             background: color($assetFeedback, base);
                         }
                         .activeTote {
@@ -1142,7 +1143,7 @@
                                 &:visited {
                                     background: color($assetFeedback, base);
                                 }
-                                &.editHighlight{
+                                &.editHighlight {
                                     background: #e0e0e0;
                                 }
                                 .item-inner {
@@ -1257,7 +1258,6 @@
                                                     }
                                                 }
                                             }
-
                                             .editAntotion {
                                                 margin-left: -8%;
                                                 width: 108%;

@@ -987,7 +987,8 @@ export class AnototeList {
           anotote.topVote = {
             currentUserVote: result.data.annotote.userAnnotote.currentUserVote,
             rating: result.data.annotote.userAnnotote.rating,
-            isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote
+            isCurrentUserVote: result.data.annotote.userAnnotote.isCurrentUserVote,
+            isVoted: result.data.annotote.userAnnotote.isVoted
           }
           if (result.status == 1) {
             anotote.highlights = Object.assign(result.data.annotote.highlights);
@@ -1010,7 +1011,8 @@ export class AnototeList {
         anotote.topVote = {
           currentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.currentUserVote,
           rating: anotote.userAnnotote.anototeDetail.userAnnotote.rating,
-          isCurrentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.isCurrentUserVote
+          isCurrentUserVote: anotote.userAnnotote.anototeDetail.userAnnotote.isCurrentUserVote,
+          isVoted: anotote.userAnnotote.anototeDetail.userAnnotote.isVoted
         }
       }
     } else {
@@ -1279,20 +1281,20 @@ export class AnototeList {
             this.anototeService.save_totes(params).subscribe((result) => {
               this.hideLoading();
               if (result.status == 1) {
-                if (result.data.save_count == 1) {
-                  this.current_active_anotote.isMe = 1;
-                  if (this.current_color == 'top') {
-                    this.current_active_anotote.anototeDetail.isMe = 1;
-                    this.current_active_anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-                    this.stream.follow_first_load = false;
-                  } else {
-                    this.current_active_anotote.userAnnotote.anototeDetail.isMe = 1;
-                    this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
-                    this.stream.top_first_load = false;
-                  }
-                  this.stream.me_first_load = false;
-                  this.showMeHighlights(this.current_active_anotote);
+                // if (result.data.save_count == 1) {
+                this.current_active_anotote.isMe = 1;
+                if (this.current_color == 'top') {
+                  this.current_active_anotote.anototeDetail.isMe = 1;
+                  this.current_active_anotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                  this.stream.follow_first_load = false;
+                } else {
+                  this.current_active_anotote.userAnnotote.anototeDetail.isMe = 1;
+                  this.current_active_anotote.userAnnotote.anototeDetail.meToteFollowTop = result.data.meToteFollowTop[0];
+                  this.stream.top_first_load = false;
                 }
+                this.stream.me_first_load = false;
+                this.showMeHighlights(this.current_active_anotote);
+                // }
                 // this.open_browser(this.current_active_anotote, null);
               }
             }, (error) => {
@@ -1548,7 +1550,7 @@ export class AnototeList {
     setTimeout((tote) => {
       tote.hoverParent = false;
       this.cd.detectChanges();
-    }, 350, tote);
+    }, 2000, tote);
   }
 
   public getQuickChatHistory(tote) {
@@ -2196,11 +2198,12 @@ export class AnototeList {
         this.statusBar.backgroundColorByHexString('#323232');
 
       if (data.go_to_browser) {
-        var anotote = new mapper(data.anotote, this.authService.getUser())
         if (data.neworold) {
-          this.navCtrl.push(AnototeEditor, { url: anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-        } else
+          this.navCtrl.push(AnototeEditor, { url: data.anotote, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
+        } else {
+          var anotote = new mapper(data.anotote, this.authService.getUser())
           this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: null, actual_stream: anotote.active_tab });
+        }
       }
     });
     searchModal.present();

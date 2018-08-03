@@ -4,14 +4,12 @@
             <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 0 && current_active_anotote.topVote.currentUserVote == 0" (click)="upvote()" alt="">
             <img src="assets/img/upArrow.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" (click)="upvote()" alt="">
             <img src="assets/img/upArrowgreen.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" (click)="discardVote()" alt="">
-            <ng-container *ngIf="current_color != 'anon'">
-                <span *ngIf="current_active_anotote.topVote.rating != 0 || current_active_anotote.userAnnotote.anototeDetail.userAnnotote.isVoted.length > 0">{{current_active_anotote.topVote.rating | number:'1.0-0'}}%</span>
-                <span class="heart" *ngIf="current_active_anotote.topVote.rating == 0 && current_active_anotote.userAnnotote.anototeDetail.userAnnotote.isVoted.length == 0"></span>
-            </ng-container>
-            <ng-container *ngIf="current_color == 'anon'">
-                <span *ngIf="current_active_anotote.topVote.rating != 0 || current_active_anotote.userAnnotote.isVoted.length > 0">{{current_active_anotote.topVote.rating | number:'1.0-0'}}%</span>
-                <span class="heart" *ngIf="current_active_anotote.topVote.rating == 0 && current_active_anotote.userAnnotote.isVoted.length == 0"></span>
-            </ng-container>
+            <span *ngIf="current_active_anotote.topVote.rating != 0 || current_active_anotote.topVote.isVoted.length > 0">{{current_active_anotote.topVote.rating | number:'1.0-0'}}%</span>
+            <span class="heart" *ngIf="current_active_anotote.topVote.rating == 0 && current_active_anotote.topVote.isVoted.length == 0"></span>
+            <!-- <ng-container *ngIf="current_color == 'anon'">
+                <span *ngIf="current_active_anotote.topVote.rating != 0 || current_active_anotote.topVote.isVoted.length > 0">{{current_active_anotote.topVote.rating | number:'1.0-0'}}%</span>
+                <span class="heart" *ngIf="current_active_anotote.topVote.rating == 0 && current_active_anotote.topVote.isVoted.length == 0"></span>
+            </ng-container> -->
             <img src="assets/img/downIcon.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 0" (click)="discardVote()" alt="">
             <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 0 && current_active_anotote.topVote.currentUserVote == 0" (click)="downvote()" alt="">
             <img src="assets/img/downIconwhite.svg" *ngIf="current_active_anotote.topVote.isCurrentUserVote == 1 && current_active_anotote.topVote.currentUserVote == 1" (click)="downvote()" alt="">
@@ -64,10 +62,10 @@
 </div>
 <ng-container *ngIf="current_active_anotote.chatGroup == null">
     <div class="topTab">
-        <span *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'" (click)="show_tote_participants('open_follows_popup')">{{current_active_anotote.selected_follower_name}}
+        <span *ngIf="current_color != 'top' && current_active_anotote.active_tab == 'follows'" (click)="show_tote_participants('open_follows_popup')">{{current_active_anotote.selected_follower_name.split(' ')[0]}}
             <i *ngIf="current_active_anotote.userAnnotote.anototeDetail.follows.length > 1">({{current_active_anotote.userAnnotote.anototeDetail.follows.length}})</i>
         </span>
-        <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'" (click)="show_tote_participants('top_follows_popup')">{{current_active_anotote.selected_follower_name}}
+        <span *ngIf="current_color == 'top' && current_active_anotote.active_tab == 'follows'" (click)="show_tote_participants('top_follows_popup')">{{current_active_anotote.selected_follower_name.split(' ')[0]}}
             <i *ngIf="current_active_anotote.anototeDetail.follows.length > 1">({{current_active_anotote.anototeDetail.follows.length}})</i>
         </span>
         <span *ngIf="current_active_anotote.active_tab == 'top'">Top</span>
@@ -77,7 +75,7 @@
 </ng-container>
 <ng-container *ngIf="current_active_anotote.chatGroup != null">
     <div class="topTab" (click)="show_chat_paticipants()">
-        <span>{{current_active_anotote.chatGroup.groupUsers[0].user.firstName}}
+        <span>{{current_active_anotote.chatGroup.groupUsers[0].user.firstName.split(' ')[0]}}
             <i>({{current_active_anotote.chatGroup.groupUsers.length}})</i>
         </span>
     </div>

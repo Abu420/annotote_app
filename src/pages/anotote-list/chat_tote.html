@@ -45,23 +45,6 @@
 </ion-header>
 <ion-content swipe-vertical padding class="searchPage">
     <div class="resultWidget" *ngIf="initiateChat == true">
-        <ion-list class="product-list loader-panel" *ngIf="search_loading">
-            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8,9]">
-                <div style="border-bottom: none;">
-                    <div class="cloud_loader">
-                    </div>
-                    <div class="txt line-loader real">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
         <ul>
             <ng-container *ngFor="let search_result of search_results">
                 <li (click)="send_message(search_result)">
@@ -128,7 +111,27 @@
                 </li>
             </ng-container>
         </ul>
-
+        <ion-list class="product-list loader-panel" *ngIf="search_loading">
+            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8,9]">
+                <div style="border-bottom: none;">
+                    <div class="cloud_loader">
+                    </div>
+                    <div class="txt line-loader real">
+                        <div class="line-top">
+                            <span class="head-line"></span>
+                        </div>
+                        <div class="line-bot">
+                            <span class="name-line"></span>
+                            <span class="date-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+            <ion-infinite-scroll-content loadingSpinner="none">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
     <div class="userWidget" *ngIf="initiateChat == false">
         <ul>
