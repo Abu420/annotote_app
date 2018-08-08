@@ -228,16 +228,18 @@ export class Search {
   }
 
   get_search_results() {
-    this.save_search_entry("save_entry");
-    var params = {
-      search_term: this.search_txt,
-      results: this.search_results,
-      search_results: true,
-      pagenationParams: this.paramsForPagenation
-    };
-    this.dismiss(true);
-    // this.viewCtrl.dismiss(params);
-    this.navCtrl.push(SearchResults, params);
+    if (this.search_txt.trim() != '') {
+      this.save_search_entry("save_entry");
+      var params = {
+        search_term: this.search_txt,
+        results: this.search_results,
+        search_results: true,
+        pagenationParams: this.paramsForPagenation
+      };
+      this.dismiss(true);
+      // this.viewCtrl.dismiss(params);
+      this.navCtrl.push(SearchResults, params);
+    }
   }
 
   followUser(event, person) {

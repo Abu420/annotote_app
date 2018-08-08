@@ -189,12 +189,13 @@ export class AnototeEditor implements OnDestroy {
             this.personalModificationToHypothesis(params);
         }, (error) => {
             if (error.status == 500) {
-                this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                this.utilityMethods.message_alert_with_callback("Ooops", "Couldn't scrape this url.",()=>{
+                    this.navCtrl.pop();
+                });
             } else if (error.code == -1) {
                 this.utilityMethods.internet_connection_error();
             } else
                 this.utilityMethods.doToast("Couldn't scrap url");
-            this.navCtrl.pop();
         })
     }
     //2nd step modify scrapping for anotote
@@ -211,9 +212,10 @@ export class AnototeEditor implements OnDestroy {
                     } else
                         this.setThingsUp(response.data);
             }, (error) => {
-
                 if (error.status == 500) {
-                    this.utilityMethods.message_alert("Ooops", "Couldn't scrape this url.");
+                    this.utilityMethods.message_alert_with_callback("Ooops", "Couldn't scrape this url.", () => {
+                        this.navCtrl.pop();
+                    });
                 }
                 else if (error.code == -1) {
                     this.utilityMethods.internet_connection_error();

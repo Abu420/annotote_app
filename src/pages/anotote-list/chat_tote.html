@@ -85,17 +85,6 @@
                     </div>
                 </li>
             </ng-container>
-            <!-- <ng-container *ngIf="forChats == true">
-                <li (click)="openChat()" *ngIf="!search_loading">
-                    <img src="assets/img/chatIcon.svg" alt="" />
-                    <span>New Chat</span>
-                </li>
-                <li *ngFor="let search_result of search_results" (click)="openChat(search_result)">
-                    <img src="assets/img/chatIcon.svg" alt="" />
-                    <span *ngIf="search_result.messages.length > 0 && search_result.messages[0].subject != null">{{search_result.messages[0].subject}}</span>
-                    <span *ngIf="search_result.messages.length > 0 && search_result.messages[0].subject == null">Chat</span>
-                </li>
-            </ng-container> -->
             <ng-container *ngIf="search_results.length == 0 && search_loading == false && doChat == false && doSave == false && doBookmark == false">
                 <li (click)="scrape_this_url('save')">
                     <img src="assets/img/cloudIconGray.svg" alt="" />
@@ -128,7 +117,7 @@
                 </div>
             </ion-item>
         </ion-list>
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll *ngIf="search_results.length > 0" (ionInfinite)="doInfinite($event)">
             <ion-infinite-scroll-content loadingSpinner="none">
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>

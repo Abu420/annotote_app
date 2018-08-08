@@ -85,30 +85,11 @@ export class CommentDetailPopup {
   }
 
   ionViewDidLoad() {
-    // var box = document.getElementById('actualContent');
+    var box = document.getElementById('actualContent');
     var comment = document.getElementById('comment');
-    // autosize(box);
+    autosize(box);
     if (comment)
       autosize(comment);
-    // box.addEventListener('paste', (event) => {
-    //   let textarea: any = event.target;
-    //   if (this.actionNeeded(textarea.selectionStart) && event.clipboardData.getData('Text') != '') {
-    //     if (textarea.selectionStart == textarea.selectionEnd)
-    //       var pastedValue = " [" + event.clipboardData.getData('Text') + "] ";
-    //     else
-    //       var pastedValue = ' "..." [' + event.clipboardData.getData('Text') + "] ";
-    //     event.preventDefault();
-    //     var result = this.anotote_txt.substr(0, textarea.selectionStart - 1).trim();
-    //     result += pastedValue;
-    //     var sec = this.anotote_txt.substring(textarea.selectionStart, this.anotote_txt.length).trim();
-    //     this.anotote_txt = result + sec;
-    //     setTimeout((place) => {
-    //       var temp: any = document.getElementById('actualContent');
-    //       temp.setSelectionRange(place, place);
-    //       this.cd.detectChanges();
-    //     }, 200, textarea.selectionStart + pastedValue.length - 3);
-    //   }
-    // })
   }
 
   dismiss() {
@@ -348,6 +329,11 @@ export class CommentDetailPopup {
     //     }
     //   }
     // }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  random(event) {
+    console.log(event);
   }
 
   tagClick(event) {

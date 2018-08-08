@@ -27,8 +27,10 @@ export class UtilityMethods {
     whichPlatform() {
         if (this.platform.is('ios'))
             return 'ios';
-        else
+        else if (this.platform.is('android'))
             return 'android';
+        else if (this.platform.is('core'))
+            return 'desktop';
     }
 
     /**
