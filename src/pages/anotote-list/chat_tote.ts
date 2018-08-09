@@ -91,51 +91,60 @@ export class ChatToteOptions {
     }
 
     value_updating_search() {
-        if (this.utilityMethods.isWEBURL(this.usersForChat)) {
-            this.search_results = [];
-            this.webUrlEntered = true;
-        } else {
-            if (this.usersForChat != '') {
+        if (this.usersForChat.trim() != '')
+            if (this.utilityMethods.isWEBURL(this.usersForChat)) {
                 this.search_results = [];
-                this.search_loading = true;
-                this.webUrlEntered = false;
-                var params = {
-                    term: this.usersForChat,
-                    type: 'user',
-                    annotote_type: '',
-                    time: 0,
-                    skip: 0
-                }
-                this.searchService.general_search(params)
-                    .subscribe((response) => {
-                        this.infiniteParams = params;
-                        if (this.usersForChat != '') {
-                            this.search_results = [];
-                            for (let user of response.data.user) {
-                                user.follow_loading = false;
-                                this.search_results.push(user);
-                            }
-                            this.search_loading = false;
-                            if (this.inifiniteScroll) {
-                                if (response.data.user.length < 5)
-                                    this.inifiniteScroll.enable(false);
-                                else
-                                    this.inifiniteScroll.enable(true);
-                            }
-                        } else {
-                            this.search_results = [];
-                        }
-                    }, (error) => {
-                        this.search_loading = false;
-                        if (error.code == -1) {
-                            this.utilityMethods.internet_connection_error();
-                        }
-                    });
+                this.webUrlEntered = true;
             } else {
-                this.webUrlEntered = false;
-                this.search_loading = false;
+                if (this.usersForChat != '') {
+                    this.search_results = [];
+                    this.search_loading = true;
+                    this.webUrlEntered = false;
+                    var params = {
+                        term: this.usersForChat,
+                        type: 'user',
+                        annotote_type: '',
+                        time: 0,
+                        skip: 0
+                    }
+                    this.searchService.general_search(params)
+                        .subscribe((response) => {
+                            this.infiniteParams = params;
+                            if (this.usersForChat != '') {
+                                this.search_results = [];
+                                for (let user of response.data.user) {
+                                    user.follow_loading = false;
+                                    this.search_results.push(user);
+                                }
+                                this.search_loading = false;
+                                if (this.inifiniteScroll) {
+                                    if (response.data.user.length < 5)
+                                        this.inifiniteScroll.enable(false);
+                                    else
+                                        this.inifiniteScroll.enable(true);
+                                }
+                            } else {
+                                this.search_results = [];
+                            }
+                        }, (error) => {
+                            this.search_loading = false;
+                            if (error.code == -1) {
+                                this.utilityMethods.internet_connection_error();
+                            }
+                        });
+                } else {
+                    this.webUrlEntered = false;
+                    this.search_loading = false;
+                    this.search_results = [];
+                }
             }
+        else {
+            this.webUrlEntered = false;
+            this.search_loading = false;
+            this.usersForChat = '';
+            this.search_results = [];
         }
+
     }
 
     doInfinite(infinite) {

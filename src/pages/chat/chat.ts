@@ -181,12 +181,13 @@ export class Chat {
         if (this.conversation.length == 0 || this.tote == null) {
           this.stream.me_first_load = false
         } else {
-          if (this.tote.chatGroup.messagesUser.length < 3)
-            this.tote.chatGroup.messagesUser.push(result.data.messages)
-          else {
-            this.tote.chatGroup.messagesUser.splice(0, 1);
-            this.tote.chatGroup.messagesUser.push(result.data.messages);
-          }
+          if (this.tote && this.tote.chatGroup)
+            if (this.tote.chatGroup.messagesUser.length < 3)
+              this.tote.chatGroup.messagesUser.push(result.data.messages)
+            else {
+              this.tote.chatGroup.messagesUser.splice(0, 1);
+              this.tote.chatGroup.messagesUser.push(result.data.messages);
+            }
         }
         this.conversation.push(result.data.messages);
         this.socket.emit('send_message', this.textMessage, this.secondUser.id, this.user.id, this.utilityMethods.get_php_wala_time());

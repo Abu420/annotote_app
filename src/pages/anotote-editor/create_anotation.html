@@ -2,26 +2,6 @@
 </div> -->
 <div class="content_follows_profile commentDetail">
     <form class="popupPanel" [@enterAnimation] *ngIf="show == true">
-        <!-- <div class="tag_input" *ngIf="show_autocomplete == true">
-            <ul class="tagList">
-                <li *ngIf="no_user_found == true" text-center>
-                    No Users found.
-                </li>
-                <li *ngFor="let user of users" (click)="selected_user(user)">
-                    <figure>
-                        <img *ngIf="user.photo== null || user.photo==''" src="assets/img/img3.jpg">
-                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="user.photo != null && user.photo != ''" [hidden]="!loaded" [src]="user.photo | image_base_path">
-                        <ion-spinner *ngIf="!loaded && user.photo != null && user.photo != ''"></ion-spinner>
-                    </figure>
-                    <figcaption>
-                        <span>{{user.firstName}} </span>
-                    </figcaption>
-                </li>
-                <li *ngIf="search_user == true" text-center>
-                    <ion-spinner></ion-spinner>
-                </li>
-            </ul>
-        </div> -->
         <div class="pop_heading">
             <div class="btnRow">
                 <span (tap)="dismiss()">Close</span>
@@ -29,7 +9,8 @@
             </div>
         </div>
         <div class="pop_txt">
-            <textarea id='actualContent' autosize [(ngModel)]="selectedTxt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" name="heading"></textarea>
+            <!-- <textarea id='actualContent' autosize [(ngModel)]="selectedTxt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" name="heading"></textarea> -->
+            <custom-actions-area (update-please)="pressed($event)" [(text)]="selectedTxt" [stream]="'me'"></custom-actions-area>
             <textarea id='comment' autosize [(ngModel)]="comment" (keyup)="tag_user($event)" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
         </div>
     </form>

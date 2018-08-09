@@ -331,11 +331,6 @@ export class CommentDetailPopup {
     // }
   }
 
-  @HostListener('document:keydown', ['$event'])
-  random(event) {
-    console.log(event);
-  }
-
   tagClick(event) {
     event.stopPropagation();
     var tag: string = event.target.textContent;

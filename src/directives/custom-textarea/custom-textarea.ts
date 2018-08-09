@@ -18,12 +18,9 @@ export class CustomActions {
     takeAction: any;
     constructor(public cd: ChangeDetectorRef,
         public utilityMethods: UtilityMethods) {
-        console.log('inside');
     }
 
     ionViewDidLoad() {
-        var box = document.getElementById('actualContent');
-
     }
 
     @HostListener('document:keydown', ['$event'])
@@ -38,7 +35,7 @@ export class CustomActions {
                         if (this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"..."' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"...' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"..' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '".' || this.anotote_txt.substring(textarea.selectionStart, textarea.selectionEnd) != '"') {
                             var firstHalf = this.anotote_txt.substr(0, textarea.selectionStart).trim();
                             firstHalf += ' "..." ';
-                            firstHalf += this.anotote_txt.substr(textarea.selectionEnd, this.anotote_txt.length).trim();
+                            firstHalf += this.anotote_txt.substr(textarea.selectionEnd, this.anotote_txt.length);
                             this.anotote_txt = firstHalf;
                             this.cd.detectChanges();
                             setTimeout((place) => {
@@ -169,6 +166,11 @@ export class CustomActions {
                 return false;
             }
             index--;
+        }
+        if (index == -1) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

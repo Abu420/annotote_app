@@ -162,45 +162,9 @@ export class CreateAnotationPopup {
         }, 100);
     }
 
-    ellipsis(event) {
-        if (this.one != this.selectedTxt) {
-            if (this.one.split('"..."').length == this.selectedTxt.split('"..."').length) {
-                if (event.target.selectionStart < this.currentIndex) {
-                    let textarea: HTMLTextAreaElement = event.target;
-                    if ((this.selectedTxt[textarea.selectionStart] == undefined || this.selectedTxt[textarea.selectionStart] == ' ' || this.selectedTxt[textarea.selectionStart] == '\n') && (this.selectedTxt[textarea.selectionStart - 1] == '\n' || this.selectedTxt[textarea.selectionStart - 1] == ' ')) {
-                        var firstHalf = this.selectedTxt.substr(0, textarea.selectionStart);
-                        firstHalf += '"..."';
-                        firstHalf += this.selectedTxt.substr(textarea.selectionStart, this.selectedTxt.length);
-                        this.selectedTxt = firstHalf;
-                    }
-                } else {
-                    let textarea: HTMLTextAreaElement = event.target;
-                    if (this.bracketStartIndex == 0)
-                        this.bracketStartIndex = textarea.selectionStart - 1;
-                    else if (this.bracketStartIndex > 0 && this.bracketStartIndex < textarea.selectionStart - 1) {
-                        if (this.selectedTxt[textarea.selectionStart - 1] == ' ') {
-                            var firstHalf = this.selectedTxt.substr(0, this.bracketStartIndex);
-                            firstHalf += ' [';
-                            var sec = this.selectedTxt.substring(this.bracketStartIndex, textarea.selectionStart);
-                            sec = sec.trim();
-                            firstHalf += sec + '] ';
-                            firstHalf += this.selectedTxt.substr(textarea.selectionStart, this.selectedTxt.length);
-                            this.selectedTxt = firstHalf;
-                            this.bracketStartIndex = 0;
-                            this.one = JSON.parse(JSON.stringify(this.selectedTxt));
-                        }
-                    }
-                }
-            } else {
-                this.selectedTxt = JSON.parse(JSON.stringify(this.one));
-                event.target.blur();
-            }
-        }
-    }
-
-    initialize(event) {
-        this.currentIndex = event.target.selectionStart;
-        this.one = JSON.parse(JSON.stringify(event.target.value));
+    pressed(event) {
+        this.selectedTxt = event;
+        console.log(this.selectedTxt);
     }
 
 }
