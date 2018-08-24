@@ -278,14 +278,25 @@ page-home {
         &:after {
             content: '';
             position: absolute;
-            left: 100%;
-            background: url(../assets/img/backIcon.svg) no-repeat center center;
+            top: 0;
+            left: 99.8%;
+            background: url(../assets/img/arrowNormal.png) no-repeat center center;
             background-size: 100%;
-            width: 25px;
+            width: 30px;
             height: 100%;
         }
         &:hover {
             background: color($assetFeedback, streamsHoverShadow) !important;
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 99.8%;
+                background: url(../assets/img/homeArrowSelected.png) no-repeat center center;
+                background-size: 100%;
+                width: 30px;
+                height: 100%;
+            }
         }
     }
     .product-list {

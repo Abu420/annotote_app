@@ -895,8 +895,7 @@
                                     padding: 22px 10px 0px 0px;
                                 }
                                 &.txtOrdering {
-                                    padding: 10px 0px 10px 0px !important;
-                                    float: none;
+                                    float: none !important;
                                     width: auto !important;
                                 }
                                 &.normal {
@@ -1259,20 +1258,19 @@
                                                 }
                                             }
                                             .editAntotion {
-                                                margin-left: -8%;
-                                                width: 108%;
-                                                padding: 10px 10px 10px 54px;
+                                                width: 100%;
+                                                padding: 0px 10px 10px 30px;
                                                 .moveBtn {
                                                     position: absolute;
-                                                    left: 22px;
-                                                    top: 10px;
+                                                    left: 10px;
+                                                    top: 15px;
                                                     button {
                                                         display: block;
                                                         background: transparent;
                                                         border: 0px;
                                                         padding: 2px 0px !important;
                                                         img {
-                                                            width: 15px;
+                                                            width: 5vw;
                                                         }
                                                     }
                                                 }
@@ -1308,6 +1306,7 @@
                                 }
                             }
                             .reoderOn {
+                                padding: 0;
                                 .item-inner {
                                     .input-wrapper {
                                         ion-label {

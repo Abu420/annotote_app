@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, ModalController, NavParams, Content, PopoverController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ModalController, NavParams, Content, PopoverController } from 'ionic-angular';
 /**
  * Services
  */
@@ -195,6 +195,8 @@ export class Chat {
         this.autoScroll();
         var input = document.getElementById('message');
         input.style.height = 'auto';
+        if (this.groupId == 0)
+          this.groupId = result.data.messages.groupId;
       }, (error) => {
         this.send_message_loader = false;
         if (error.code == -1) {
@@ -263,6 +265,7 @@ export class Chat {
 
   ionViewDidLoad() {
     this.doInfinite(null);
+    autosize(document.getElementById('message'));
   }
 
   autoScroll() {
