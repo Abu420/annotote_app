@@ -46,8 +46,8 @@ export class AnototeEditor implements OnDestroy {
     private HIGHLIGHT_RECEIVED: any;
     private ANOTOTE_LOADED: boolean;
     private ANOTOTE_LOADING_ERROR: boolean;
-    private SAVED_ANOTOTES_LOCALLY: any;
-    private SAVED_ANOTOTES_LOCALLY_CURRENT: any;
+    private SAVED_ANOTOTES_LOCALLY: any = [];
+    private SAVED_ANOTOTES_LOCALLY_CURRENT: any = [];
 
     public start = 0;
     public threshold = 100;
@@ -88,7 +88,7 @@ export class AnototeEditor implements OnDestroy {
     public unread_notification_count: any = 0;
     public loaderLines = new Array(300);
     public url_for_frame: string = '';
-    public for_creating_and_updating_comment: boolean = false;
+    // public for_creating_and_updating_comment: boolean = false;
 
     private show_anotation_details: (txt: string) => void;
 
@@ -125,16 +125,23 @@ export class AnototeEditor implements OnDestroy {
         this.actual_stream = navParams.get('actual_stream');
         this.ANOTOTE_LOADED = false;
         this.ANOTOTE_LOADING_ERROR = false;
+
         if (navParams.get('FROM') != 'search') {
             this.setThingsUp(null);
         } else {
-            if (navParams.get('needHypothesis'))
-                this.personalModificationToHypothesis({
-                    url: navParams.get('url'),
-                    created_at: this.utilityMethods.get_php_wala_time()
-                })
-            else
-                this.hypothesisScrapping(navParams.get('url'));
+            // if (navParams.get('needHypothesis'))
+            //     this.HMTheorem({
+            //         url: navParams.get('url'),
+            //         created_at: this.utilityMethods.get_php_wala_time()
+            //     })
+            // else
+            //     this.hypothesisScrapping(navParams.get('url'));
+            var params = {
+                url: navParams.get('url'),
+                created_at: this.utilityMethods.get_php_wala_time(),
+                scraped_url: this.constants.HYPOTHESIS_SCRAPPING_BASEURL + navParams.get('url')
+            }
+            this.HMTheorem(params);
         }
 
         /**
@@ -170,36 +177,40 @@ export class AnototeEditor implements OnDestroy {
         if (this.actual_stream == 'anon') {
             this.search_obj_to_be_deleted = this.navParams.get('search_to_delete');
         }
-        this.anotote_service.add_page_locally(anotote_from_params);
+        this.anotote_service.add_page_locally({ url: this.navParams.get('url') });
         this.SAVED_ANOTOTES_LOCALLY = this.anotote_service.get_saved_pages_locally();
         this.SAVED_ANOTOTES_LOCALLY_CURRENT = this.SAVED_ANOTOTES_LOCALLY.length - 1;
         this.load_new_anotote(anotote_from_params, true);
     }
 
+    //1st step not need after HM's work
     //Eliminating loader and initializing page after url is added in search field
-    // 1st step SCRAP
-    hypothesisScrapping(url) {
-        var params = {
-            url: url,
-            created_at: this.utilityMethods.get_php_wala_time(),
-            scraped_url: ''
-        }
-        this.searchService.hypothesis_scrapping(params).subscribe((success) => {
-            params.scraped_url = success.successMessage;
-            this.personalModificationToHypothesis(params);
-        }, (error) => {
-            if (error.status == 500) {
-                this.utilityMethods.message_alert_with_callback("Ooops", "Couldn't scrape this url.",()=>{
-                    this.navCtrl.pop();
-                });
-            } else if (error.code == -1) {
-                this.utilityMethods.internet_connection_error();
-            } else
-                this.utilityMethods.doToast("Couldn't scrap url");
-        })
-    }
+    // 1st step SCRAP 
+    // hypothesisScrapping(url) {
+    //     var params = {
+    //         url: url,
+    //         created_at: this.utilityMethods.get_php_wala_time(),
+    //         scraped_url: this.constants.HYPOTHESIS_SCRAPPING_BASEURL + url
+    //     }
+    //     this.HMTheorem(params);
+    //     // this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+    //     //     params.scraped_url = success.successMessage;
+    //     //     this.HMTheorem(params);
+    //     // }, (error) => {
+    //     //     if (error.status == 500) {
+    //     //         this.utilityMethods.message_alert_with_callback("Ooops", "Couldn't scrape this url.",()=>{
+    //     //             this.navCtrl.pop();
+    //     //         });
+    //     //     } else if (error.code == -1) {
+    //     //         this.utilityMethods.internet_connection_error();
+    //     //     } else
+    //     //         this.utilityMethods.doToast("Couldn't scrap url");
+    //     // })
+    // }
+
     //2nd step modify scrapping for anotote
-    personalModificationToHypothesis(params) {
+    //Previously 2nd step, now its the only step to scrap a new article
+    HMTheorem(params) {
         this.searchService.create_anotote(params)
             .subscribe((response) => {
                 response.data.userAnnotote.annotote = response.data.annotote;
@@ -249,15 +260,19 @@ export class AnototeEditor implements OnDestroy {
 
     load_previous_page() {
         if (this.SAVED_ANOTOTES_LOCALLY.length > 1 && this.SAVED_ANOTOTES_LOCALLY_CURRENT > 0) {
-            this.SAVED_ANOTOTES_LOCALLY_CURRENT--;
-            this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
+            // this.SAVED_ANOTOTES_LOCALLY_CURRENT--;
+            // this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
+            this.anotote_service.currentPage--;
+            this.navCtrl.pop();
         }
     }
 
     load_next_page() {
         if (this.SAVED_ANOTOTES_LOCALLY.length > 1 && this.SAVED_ANOTOTES_LOCALLY_CURRENT < this.SAVED_ANOTOTES_LOCALLY.length - 1) {
-            this.SAVED_ANOTOTES_LOCALLY_CURRENT++;
-            this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
+            // this.SAVED_ANOTOTES_LOCALLY_CURRENT++;
+            // this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
+            this.anotote_service.currentPage++;
+            this.navCtrl.push(AnototeEditor, { url: this.SAVED_ANOTOTES_LOCALLY[this.anotote_service.currentPage], FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
         }
     }
 
@@ -377,6 +392,9 @@ export class AnototeEditor implements OnDestroy {
      * Page LifeCycle Events
      */
     ionViewDidLoad() {
+        if (this.navParams.get('full_screen')) {
+            this.change_full_screen_mode();
+        }
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
                 if (data.selection != '' && (data.selection.startContainer.parentElement.className == 'highlight_quote' || data.selection.startContainer.parentElement.className == 'highlight_comment')) {
@@ -408,6 +426,8 @@ export class AnototeEditor implements OnDestroy {
         if (this.commentDetailModalIsOpen.check && this.navCtrl.last().isOverlay == false) {
             this.events.publish('closeModal');
         }
+        this.anotote_service.currentPage = 0;
+        this.anotote_service.clearSavedPages();
     }
 
     ionViewDidEnter() {
@@ -437,15 +457,15 @@ export class AnototeEditor implements OnDestroy {
                 var that = this;
                 if (this.HIGHLIGHT_RECEIVED != null)
                     setTimeout(() => {
-                        this.itemsShowHide();
+                        // this.itemsShowHide();
                         that.scrollTo(that.HIGHLIGHT_RECEIVED.identifier);
                     }, 1000);
-                else {
-                    setTimeout(() => {
-                        this.itemsShowHide();
-                        this.cd.detectChanges();
-                    }, 1000)
-                }
+                // else {
+                //     setTimeout(() => {
+                //         this.itemsShowHide();
+                //         this.cd.detectChanges();
+                //     }, 1000)
+                // }
                 this.ANOTOTE_LOADED = true;
                 this.ANOTOTE_LOADING_ERROR = false;
             }, (error) => {
@@ -461,73 +481,74 @@ export class AnototeEditor implements OnDestroy {
         this.full_screen_mode = !this.full_screen_mode;
         if (this.full_screen_mode == true) {
             this.toggle_annotation_option = false;
-            this.ANOTOTE_LOADED = false;
-            this.ANOTOTE_LOADED = true;
+            // this.ANOTOTE_LOADED = true;
             this.showheader = false;
             this.hideheader = true;
-            if (this.actual_stream == 'me') {
-                var temp = this.ANOTOTE.meFilePath.split('/');
-            } else if (this.actual_stream == 'follows') {
-                var temp = this.ANOTOTE.followerFilePath.split('/');
-            } else if (this.actual_stream == 'top') {
-                var temp = this.ANOTOTE.topFilePath.split('/');
-            } else if (this.actual_stream == 'anon') {
-                var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
-            }
-            // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
-            var name = temp[temp.length - 1].split('.')[0];
-            this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
-            setTimeout(() => {
-                var iframe: any = document.getElementById('browsed');
-                iframe.onload = () => {
-                    setTimeout(() => {
-                        var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
-                        iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
-                        iframe.contentDocument.body.setAttribute('id', 'chuddu_bodyOverride');
-                        var tags = iframe.contentDocument.body.getElementsByTagName('div');
-                        for (let tag of tags) {
-                            if (tag.offsetWidth > window.innerWidth) {
-                                tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
-                                this.cd.detectChanges();
-                            }
-                        }
-                        var imgs = iframe.contentDocument.body.getElementsByTagName('img');
-                        for (let img of imgs) {
-                            if (img.offsetWidth > window.innerWidth) {
-                                img.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
-                                this.cd.detectChanges();
-                            }
-                        }
-                        this.cd.detectChanges();
-                    }, 500);
-                    iframe.contentDocument.addEventListener('selectionchange', (e) => {
-                        var sel = iframe.contentDocument.getSelection(),
-                            selected_txt = sel.toString();
-                        if (selected_txt != '') {
-                            this.range = iframe.contentDocument.createRange();
-                            this.range.setStart(sel.baseNode, sel.baseOffset);
-                            this.range.setEnd(sel.extentNode, sel.extentOffset);
-                            this.sel = sel;
-                            var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
-                            this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
-                            this.cd.detectChanges();
-                        } else {
-                            if (this.toggle_annotation_option == false) {
-                                this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
-                                this.cd.detectChanges();
-                            } else {
-                                setTimeout(() => {
-                                    this.toggle_annotation_option = false;
-                                }, 500);
-                            }
-                        }
-                    })
-                    iframe.contentDocument.addEventListener('touchend', (event) => {
-                        if (event.target.localName == 'highlight_quote')
-                            this.editor_click(event);
-                    })
-                }
-            }, 500);
+            //not required after HMTheorem
+            //taking iframe functionality out of equation
+            // if (this.actual_stream == 'me') {
+            //     var temp = this.ANOTOTE.meFilePath.split('/');
+            // } else if (this.actual_stream == 'follows') {
+            //     var temp = this.ANOTOTE.followerFilePath.split('/');
+            // } else if (this.actual_stream == 'top') {
+            //     var temp = this.ANOTOTE.topFilePath.split('/');
+            // } else if (this.actual_stream == 'anon') {
+            //     var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
+            // }
+            // // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
+            // var name = temp[temp.length - 1].split('.')[0];
+            // this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
+            // setTimeout(() => {
+            //     var iframe: any = document.getElementById('browsed');
+            //     iframe.onload = () => {
+            //         setTimeout(() => {
+            //             var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
+            //             iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
+            //             iframe.contentDocument.body.setAttribute('id', 'chuddu_bodyOverride');
+            //             var tags = iframe.contentDocument.body.getElementsByTagName('div');
+            //             for (let tag of tags) {
+            //                 if (tag.offsetWidth > window.innerWidth) {
+            //                     tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+            //                     this.cd.detectChanges();
+            //                 }
+            //             }
+            //             var imgs = iframe.contentDocument.body.getElementsByTagName('img');
+            //             for (let img of imgs) {
+            //                 if (img.offsetWidth > window.innerWidth) {
+            //                     img.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+            //                     this.cd.detectChanges();
+            //                 }
+            //             }
+            //             this.cd.detectChanges();
+            //         }, 500);
+            //         iframe.contentDocument.addEventListener('selectionchange', (e) => {
+            //             var sel = iframe.contentDocument.getSelection(),
+            //                 selected_txt = sel.toString();
+            //             if (selected_txt != '') {
+            //                 this.range = iframe.contentDocument.createRange();
+            //                 this.range.setStart(sel.baseNode, sel.baseOffset);
+            //                 this.range.setEnd(sel.extentNode, sel.extentOffset);
+            //                 this.sel = sel;
+            //                 var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
+            //                 this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
+            //                 this.cd.detectChanges();
+            //             } else {
+            //                 if (this.toggle_annotation_option == false) {
+            //                     this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
+            //                     this.cd.detectChanges();
+            //                 } else {
+            //                     setTimeout(() => {
+            //                         this.toggle_annotation_option = false;
+            //                     }, 500);
+            //                 }
+            //             }
+            //         })
+            //         iframe.contentDocument.addEventListener('touchend', (event) => {
+            //             if (event.target.localName == 'highlight_quote')
+            //                 this.editor_click(event);
+            //         })
+            //     }
+            // }, 500);
         } else {
             this.ANOTOTE_LOADED = false;
             this.ANOTOTE_LOADED = true;
@@ -538,28 +559,28 @@ export class AnototeEditor implements OnDestroy {
                 HIGHLIGHT_RECEIVED: null,
             };
             this.load_new_anotote(anotote_obj);
-            // this.itemsShowHide();
         }
     }
 
-    itemsShowHide() {
-        var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
-        for (var i = 0; i < elements.length; i++) {
-            if (this.full_screen_mode) {
-                elements[i].setAttribute('style', 'display:block');
-            } else {
-                elements[i].setAttribute('style', 'display:none');
-            }
-        }
-        var elements = document.querySelectorAll('[data-header="annotote_trick"]');
-        for (var i = 0; i < elements.length; i++) {
-            if (this.full_screen_mode) {
-                elements[i].setAttribute('style', 'display:block');
-            } else {
-                elements[i].setAttribute('style', 'display:none');
-            }
-        }
-    }
+    //showHide scenario changed after HMTheorem implementation.
+    // itemsShowHide() {
+    //     var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
+    //     for (var i = 0; i < elements.length; i++) {
+    //         if (this.full_screen_mode) {
+    //             elements[i].setAttribute('style', 'display:block');
+    //         } else {
+    //             elements[i].setAttribute('style', 'display:none');
+    //         }
+    //     }
+    //     var elements = document.querySelectorAll('[data-header="annotote_trick"]');
+    //     for (var i = 0; i < elements.length; i++) {
+    //         if (this.full_screen_mode) {
+    //             elements[i].setAttribute('style', 'display:block');
+    //         } else {
+    //             elements[i].setAttribute('style', 'display:none');
+    //         }
+    //     }
+    // }
 
     add_to_me_stream() {
         var params = {
@@ -723,7 +744,9 @@ export class AnototeEditor implements OnDestroy {
     private highlight_(com_or_quote, identifier, comment) {
         try {
             var self = this;
-            if (com_or_quote == 'comment' || this.full_screen_mode == true) {
+            //taking out functionality of iframe
+            //|| this.full_screen_mode == true
+            if (com_or_quote == 'comment') {
                 var selection = this.sel;
                 var range = this.range;
             } else {
@@ -747,14 +770,11 @@ export class AnototeEditor implements OnDestroy {
             if (com_or_quote == 'comment') {
                 newNode.setAttribute("class", "highlight_comment");
                 newNode.setAttribute("data-comment", comment);
-            }
-            else
+            } else
                 newNode.setAttribute("class", "highlight_quote");
             newNode.appendChild(range.extractContents());
-            // var parentNode = range.startContainer.parentNode;
-            // parentNode.insertBefore(newNode, range.startContainer);
             range.insertNode(newNode);
-            // range.surroundContents(newNode);
+
             selection.removeAllRanges();
             return true;
         } catch (e) {
@@ -774,64 +794,29 @@ export class AnototeEditor implements OnDestroy {
     }
 
     editor_click(event) {
-        if (this.full_screen_mode == false) {
-            var identifier = event.target.getAttribute("data-identifier");
-            if (identifier) {
-                if (this.commentDetailModalIsOpen.check) {
-                    if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == identifier) {
-                        var element = document.getElementById(identifier);
-                        element.classList.remove('greyOut');
-                        this.events.publish('closeModal');
-                        this.commentDetailModalIsOpen.check = false;
-                        this.commentDetailModalIsOpen.comment = null;
-                        return;
-                    } else if (this.commentDetailModalIsOpen.comment) {
-                        this.scrollTo(identifier);
-                        var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
-                        element.classList.remove('greyOut');
-                        this.events.publish('closeModal');
-                    } else {
-                        this.events.publish('closeModal');
-                    }
-                }
-                var element = document.getElementById(identifier);
-                element.classList.add('greyOut');
-                try {
-                    this.selected_highlight = {
-                        txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
-                        identifier: event.target.getAttribute("data-identifier"),
-                        type: event.target.getAttribute("class"),
-                        from_where: '',
-                        comment: event.target.getAttribute("data-comment")
-                    };
-                    this.commentDetailModalIsOpen.check = true;
-                    this.commentDetailModalIsOpen.comment = this.selected_highlight;
-                    this.presentCommentDetailModal(this.selected_highlight, event.target);
-                } catch (exception) {
-                    this.toastInFooter('Cannot show annotation for anon stream')
+        // if (this.full_screen_mode == false) {
+        var identifier = event.target.getAttribute("data-identifier");
+        if (identifier) {
+            if (this.commentDetailModalIsOpen.check) {
+                if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == identifier) {
+                    var element = document.getElementById(identifier);
+                    element.classList.remove('greyOut');
+                    this.events.publish('closeModal');
+                    this.commentDetailModalIsOpen.check = false;
+                    this.commentDetailModalIsOpen.comment = null;
+                    return;
+                } else if (this.commentDetailModalIsOpen.comment) {
+                    this.scrollTo(identifier);
+                    var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
+                    element.classList.remove('greyOut');
+                    this.events.publish('closeModal');
+                } else {
+                    this.events.publish('closeModal');
                 }
             }
-        } else {
+            var element = document.getElementById(identifier);
+            element.classList.add('greyOut');
             try {
-                var iframe: any = document.getElementById('browsed');
-                if (this.commentDetailModalIsOpen.check) {
-                    if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == event.target.getAttribute('data-identifier')) {
-                        var element: HTMLElement = iframe.contentDocument.getElementById(event.target.getAttribute('data-identifier'));
-                        element.classList.remove('greyOut');
-                        this.events.publish('closeModal');
-                        this.commentDetailModalIsOpen.check = false;
-                        this.commentDetailModalIsOpen.comment = null;
-                        return;
-                    } else if (this.commentDetailModalIsOpen.comment) {
-                        this.scrollTo(identifier);
-                        var element: HTMLElement = iframe.contentDocument.getElementById(this.commentDetailModalIsOpen.comment.identifier);
-                        element.classList.remove('greyOut');
-                        this.events.publish('closeModal');
-                    } else {
-                        this.events.publish('closeModal');
-                    }
-                }
-                iframe.contentDocument.getElementById(event.target.getAttribute('data-identifier')).classList.add('greyOut');
                 this.selected_highlight = {
                     txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
                     identifier: event.target.getAttribute("data-identifier"),
@@ -843,9 +828,51 @@ export class AnototeEditor implements OnDestroy {
                 this.commentDetailModalIsOpen.comment = this.selected_highlight;
                 this.presentCommentDetailModal(this.selected_highlight, event.target);
             } catch (exception) {
-                this.toastInFooter('Cannot show annotation from full screen mode');
+                this.toastInFooter('Cannot show annotation for anon stream')
+            }
+        } else if (event.target.href) {
+            event.preventDefault();
+            if (this.full_screen_mode) {
+                this.anotote_service.currentPage++;
+                this.navCtrl.push(AnototeEditor, { url: this.constants.HYPOTHESIS_SCRAPPING_BASEURL + event.target.href, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
             }
         }
+        // No need to add separate functionality for full screen mode
+        // } else {
+        //     try {
+        //         var iframe: any = document.getElementById('browsed');
+        //         if (this.commentDetailModalIsOpen.check) {
+        //             if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == event.target.getAttribute('data-identifier')) {
+        //                 var element: HTMLElement = iframe.contentDocument.getElementById(event.target.getAttribute('data-identifier'));
+        //                 element.classList.remove('greyOut');
+        //                 this.events.publish('closeModal');
+        //                 this.commentDetailModalIsOpen.check = false;
+        //                 this.commentDetailModalIsOpen.comment = null;
+        //                 return;
+        //             } else if (this.commentDetailModalIsOpen.comment) {
+        //                 this.scrollTo(identifier);
+        //                 var element: HTMLElement = iframe.contentDocument.getElementById(this.commentDetailModalIsOpen.comment.identifier);
+        //                 element.classList.remove('greyOut');
+        //                 this.events.publish('closeModal');
+        //             } else {
+        //                 this.events.publish('closeModal');
+        //             }
+        //         }
+        //         iframe.contentDocument.getElementById(event.target.getAttribute('data-identifier')).classList.add('greyOut');
+        //         this.selected_highlight = {
+        //             txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
+        //             identifier: event.target.getAttribute("data-identifier"),
+        //             type: event.target.getAttribute("class"),
+        //             from_where: '',
+        //             comment: event.target.getAttribute("data-comment")
+        //         };
+        //         this.commentDetailModalIsOpen.check = true;
+        //         this.commentDetailModalIsOpen.comment = this.selected_highlight;
+        //         this.presentCommentDetailModal(this.selected_highlight, event.target);
+        //     } catch (exception) {
+        //         this.toastInFooter('Cannot show annotation from full screen mode');
+        //     }
+        // }
     }
 
     comment_it() {
@@ -1166,10 +1193,10 @@ export class AnototeEditor implements OnDestroy {
     }
 
     remove_annotation_api(an_id, element) {
-        this.for_creating_and_updating_comment = true;
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
-        var article_txt = this.get_updated_article_text();
+        // var article_txt = this.get_updated_article_text();
+        var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
@@ -1183,14 +1210,15 @@ export class AnototeEditor implements OnDestroy {
             .subscribe((response) => {
                 this.hideLoading();
                 this.toastInFooter("Annotation removed");
-                if (this.full_screen_mode == false)
-                    this.add_remove_display_none(false).then(() => {
-                        this.for_creating_and_updating_comment = false;
-                    });
-                else {
-                    this.for_creating_and_updating_comment = false;
-                    this.cd.detectChanges();
-                }
+                //not required after HMTheorem
+                // if (this.full_screen_mode == false)
+                //     this.add_remove_display_none(false).then(() => {
+                //         this.for_creating_and_updating_comment = false;
+                //     });
+                // else {
+                //     this.for_creating_and_updating_comment = false;
+                //     this.cd.detectChanges();
+                // }
                 if (this.WHICH_STREAM == 'me') {
                     this.runtime.top_first_load = false;
                     this.runtime.follow_first_load = false;
@@ -1227,12 +1255,13 @@ export class AnototeEditor implements OnDestroy {
     }
 
     update_annotation_api(anotation_id, highlight_text, comment, identifier, element) {
-        this.for_creating_and_updating_comment = true;
+        // this.for_creating_and_updating_comment = true;
         var current_time = this.utilityMethods.get_php_wala_time();
         // element.replaceWith(element.innerText);
         element.className = "highlight_comment"
         element.setAttribute("data-comment", comment);
-        var article_txt = this.get_updated_article_text();
+        // var article_txt = this.get_updated_article_text();
+        var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
@@ -1245,15 +1274,16 @@ export class AnototeEditor implements OnDestroy {
         this.searchService.update_anotation({ highlight_text: highlight_text, identifier: identifier, user_tote_id: tote_id, file_text: article_txt, user_annotation_id: anotation_id, comment: comment, updated_at: current_time })
             .subscribe((response) => {
                 this.hideLoading();
+                //not required after HMTheorem
                 // this.toastInFooter("Comment saved");
-                if (this.full_screen_mode == false)
-                    this.add_remove_display_none(false).then(() => {
-                        this.for_creating_and_updating_comment = false;
-                    });
-                else {
-                    this.for_creating_and_updating_comment = false;
-                    this.cd.detectChanges();
-                }
+                // if (this.full_screen_mode == false)
+                //     this.add_remove_display_none(false).then(() => {
+                //         this.for_creating_and_updating_comment = false;
+                //     });
+                // else {
+                //     this.for_creating_and_updating_comment = false;
+                //     this.cd.detectChanges();
+                // }
                 if (this.WHICH_STREAM == 'me') {
                     this.runtime.top_first_load = false;
                     this.runtime.follow_first_load = false;
@@ -1299,8 +1329,9 @@ export class AnototeEditor implements OnDestroy {
         var identifier = this.generate_dynamic_identifier(current_time);
         if (!this.highlight_(type, identifier, comment))
             return;
-        this.for_creating_and_updating_comment = true;
-        var article_txt = this.get_updated_article_text();
+        // this.for_creating_and_updating_comment = true;
+        // var article_txt = this.get_updated_article_text();
+        var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
@@ -1342,16 +1373,17 @@ export class AnototeEditor implements OnDestroy {
                         this.ANOTOTE.my_highlights.push(response.data.annotation);
                     }
                 }
-                if (this.full_screen_mode == false)
-                    this.add_remove_display_none(false).then(() => {
-                        setTimeout(() => {
-                            this.for_creating_and_updating_comment = false;
-                        }, 500);
-                    });
-                else {
-                    this.for_creating_and_updating_comment = false;
-                    this.cd.detectChanges();
-                }
+                //not required after HMTheorem
+                // if (this.full_screen_mode == false)
+                //     this.add_remove_display_none(false).then(() => {
+                //         setTimeout(() => {
+                //             this.for_creating_and_updating_comment = false;
+                //         }, 500);
+                //     });
+                // else {
+                //     this.for_creating_and_updating_comment = false;
+                //     this.cd.detectChanges();
+                // }
                 if (tags.length > 0) {
                     var params = {
                         tags: tags,
@@ -1381,39 +1413,39 @@ export class AnototeEditor implements OnDestroy {
             });
     }
 
-    get_updated_article_text() {
-        if (this.full_screen_mode == true) {
-            var iframe: any = document.getElementById('browsed');
-            var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-            return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
-        } else {
-            this.add_remove_display_none(true);
-            var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-            return tag + document.getElementById('text_editor').innerHTML + '</html>';
-        }
-    }
+    //not required after HMTheorem
+    // get_updated_article_text() {
+    //     if (this.full_screen_mode == true) {
+    //         var iframe: any = document.getElementById('browsed');
+    //         var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+    //         return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
+    //     } else {
+    //         this.add_remove_display_none(true);
+    //         var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+    //         return tag + document.getElementById('text_editor').innerHTML + '</html>';
+    //     }
+    // }
+    // add_remove_display_none(check) {
+    //     return new Promise((resolve, reject) => {
+    //         var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
+    //         for (var i = 0; i < elements.length; i++) {
+    //             if (check)
+    //                 if (!elements[i].className.includes('popup'))
+    //                     elements[i].setAttribute('style', 'display:block');
+    //                 else
+    //                     elements[i].setAttribute('style', 'display:none');
+    //         }
+    //         var elements = document.querySelectorAll('[data-header="annotote_trick"]');
+    //         for (var i = 0; i < elements.length; i++) {
+    //             if (check)
+    //                 elements[i].setAttribute('style', 'display:block');
+    //             else
+    //                 elements[i].setAttribute('style', 'display:none');
+    //         }
+    //         return resolve();
+    //     })
 
-    add_remove_display_none(check) {
-        return new Promise((resolve, reject) => {
-            var elements = document.querySelectorAll('[data-trick="annotote_trick"]');
-            for (var i = 0; i < elements.length; i++) {
-                if (check)
-                    if (!elements[i].className.includes('popup'))
-                        elements[i].setAttribute('style', 'display:block');
-                    else
-                        elements[i].setAttribute('style', 'display:none');
-            }
-            var elements = document.querySelectorAll('[data-header="annotote_trick"]');
-            for (var i = 0; i < elements.length; i++) {
-                if (check)
-                    elements[i].setAttribute('style', 'display:block');
-                else
-                    elements[i].setAttribute('style', 'display:none');
-            }
-            return resolve();
-        })
-
-    }
+    // }
 
     showLoading(message) {
         this.loading_message = message;

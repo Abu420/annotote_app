@@ -146,14 +146,14 @@
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="current_color == 'me'" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">Me</button>
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="current_color == 'follows' && anotote.isMe == 1" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">
                                     <i *ngIf="me_spinner == false">Me</i>
-                                    <ion-spinner class="loader" [hidden]="me_spinner == false"></ion-spinner>
+                                    <ion-spinner class="loaderSpinner" [hidden]="me_spinner == false"></ion-spinner>
                                 </button>
                                 <button (click)="open_follows_popup($event,anotote)" class="me-tab" ion-button [ngClass]="{'active_follows': anotote.active_tab == 'follows'}" *ngIf="anotote.followers.length > 0">{{anotote.selected_follower_name.split(' ')[0]}}
                                     <i *ngIf="anotote.followers.length > 1">({{anotote.followers.length}})</i>
                                 </button>
                                 <button ion-button class="me-tab" [ngClass]="{'active_top': anotote.active_tab == 'top'}" *ngIf="anotote.isTop == 1" (click)="show_top_tab(anotote)">
                                     <i *ngIf="top_spinner == false">Top</i>
-                                    <ion-spinner class="loader" [hidden]="top_spinner == false"></ion-spinner>
+                                    <ion-spinner class="loaderSpinner" [hidden]="top_spinner == false"></ion-spinner>
                                 </button>
                             </div>
                             <div class="btns-area" *ngIf="current_color == 'anon' && followedUserId > 0">
@@ -386,7 +386,7 @@
                             <div class="btns-area">
                                 <button (click)="showMeHighlights(anotote)" ion-button *ngIf="anotote.isMe == 1" class="me-tab" [ngClass]="{'active_me': anotote.active_tab == 'me'}">
                                     <i *ngIf="me_spinner == false">Me</i>
-                                    <ion-spinner class="loader" [hidden]="me_spinner == false"></ion-spinner>
+                                    <ion-spinner class="loaderSpinner" [hidden]="me_spinner == false"></ion-spinner>
                                 </button>
                                 <button (click)="top_follows_popup($event,anotote)" ion-button class="me-tab" [ngClass]="{'active_follows': anotote.active_tab == 'follows'}" *ngIf="anotote.follows.length > 0">{{anotote.selected_follower_name.split(' ')[0]}}
                                     <i *ngIf="anotote.follows.length > 1">({{anotote.follows.length}})</i>

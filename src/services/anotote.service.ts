@@ -11,6 +11,7 @@ import { AuthenticationService } from "./auth.service";
 
 export class AnototeService {
   private BROWSER_PAGES: any = [];
+  public currentPage: number = 0;
 
   public constructor(public http: Http, public constants: Constants, public authService: AuthenticationService) {
 
@@ -68,9 +69,8 @@ export class AnototeService {
    */
   public add_page_locally(item) {
     for (let i = 0; i < this.BROWSER_PAGES.length; i++) {
-      if (this.BROWSER_PAGES[i].ANOTOTE.userAnnotote.id == item.ANOTOTE.userAnnotote.id) {
-        this.BROWSER_PAGES.splice(i, 1);
-        break;
+      if (this.BROWSER_PAGES[i].url == item.url) {
+        return;
       }
     }
     this.BROWSER_PAGES.push(item);
@@ -78,6 +78,10 @@ export class AnototeService {
 
   public get_saved_pages_locally() {
     return this.BROWSER_PAGES;
+  }
+
+  public clearSavedPages() {
+    this.BROWSER_PAGES = [];
   }
   public delete_bulk_totes(params) {
     var url = this.constants.API_BASEURL + '/delete-bulk-annototes';

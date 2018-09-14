@@ -592,6 +592,7 @@ page-anotote-editor {
         }
         .highlight_quote,
         .highlight_comment {
+            display: inline-block !important;
             color: #000 !important;
             padding-right: 5px;
         }
@@ -639,6 +640,23 @@ page-anotote-editor {
         p {
             font-size: 16px !important;
             line-height: 1.5;
+        }
+    }
+    .smallVersion {
+        * {
+            display: none !important;
+        }
+        .scrap_article_body {
+            display: block !important;
+        }
+        .scrap_article_title {
+            display: block !important;
+        }
+        .scrap_show {
+            display: block !important;
+        }
+        .scrap_hide {
+            display: none !important;
         }
     }
     h1 {

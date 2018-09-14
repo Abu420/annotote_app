@@ -1531,7 +1531,7 @@ search_page {
 .loader {
     margin: 5px;
     height: 8px;
-    display: inline-block;
+    display: inline-block !important;
     animation-duration: 5s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;

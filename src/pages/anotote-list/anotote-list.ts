@@ -30,6 +30,7 @@ import { ChatService } from "../../services/chat.service";
 import { Keyboard } from '@ionic-native/keyboard';
 import { TagsExclusive } from '../tagsExclusive/tags';
 import { mapper } from '../../models/mapper';
+import { Constants } from '../../services/constants.service';
 
 @Component({
   selector: 'page-anotote-list',
@@ -270,6 +271,7 @@ export class AnototeList {
     public actionSheetCtrl: ActionSheetController,
     public chatService: ChatService,
     public cd: ChangeDetectorRef,
+    public constants: Constants,
     public event: Events,
     public key: Keyboard) {
     if (utilityMethods.whichPlatform() == 'ios')
@@ -431,11 +433,11 @@ export class AnototeList {
           this.stream.me_anototes = this.anototes;
           this.stream.me_first_load = true;
           //offline loading
-          // var store = [];
-          // for (var i = 0; i < 3; i++) {
-          //   store.push(this.anototes[i]);
-          // }
-          // localStorage.setItem('offline', JSON.stringify(store));
+          var store = [];
+          for (var i = 0; i < 3; i++) {
+            store.push(this.anototes[i]);
+          }
+          localStorage.setItem('offline', JSON.stringify(store));
           //------------------
         } else if (this.current_color == 'follows') {
           this.stream.follows_page_no = this.current_page;
@@ -2505,40 +2507,40 @@ export class AnototeList {
       var params = {
         url: highlight.tags[event.target.id].tagText,
         created_at: this.utilityMethods.get_php_wala_time(),
-        scraped_url: ''
+        scraped_url: this.constants.HYPOTHESIS_SCRAPPING_BASEURL + highlight.tags[event.target.id].tagText
       }
-      this.searchService.hypothesis_scrapping(params).subscribe((success) => {
-        params.scraped_url = success.successMessage;
-        this.searchService.create_anotote(params)
-          .subscribe((response) => {
-            this.hideLoading();
-            var bookmark = new SearchUnPinned(0,
-              response.data.annotote.title, params.url,
-              this.authService.getUser().id, 0);
-            var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
-            if (temp == null)
-              this.searchService.saved_searches.unshift(bookmark);
-            else
-              bookmark = temp;
+      // this.searchService.hypothesis_scrapping(params).subscribe((success) => {
+      //   params.scraped_url = success.successMessage;
+      this.searchService.create_anotote(params)
+        .subscribe((response) => {
+          this.hideLoading();
+          var bookmark = new SearchUnPinned(0,
+            response.data.annotote.title, params.url,
+            this.authService.getUser().id, 0);
+          var temp = this.searchService.getAlreadySavedSearches(bookmark.term)
+          if (temp == null)
+            this.searchService.saved_searches.unshift(bookmark);
+          else
+            bookmark = temp;
 
-            var paramz = {
-              tags: [response.data],
-              annotote: false,
-              search: bookmark
+          var paramz = {
+            tags: [response.data],
+            annotote: false,
+            search: bookmark
+          }
+          let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
+          tagsModal.onDidDismiss((data) => {
+            if (data && data.browseIt) {
+              this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
             }
-            let tagsModal = this.modalCtrl.create(TagsPopUp, paramz);
-            tagsModal.onDidDismiss((data) => {
-              if (data && data.browseIt) {
-                this.navCtrl.push(AnototeEditor, { ANOTOTE: response.data, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon' });
-              }
-            })
-            tagsModal.present();
-          }, (error) => {
-            this.hideLoading();
           })
-      }, (error) => {
-        this.hideLoading();
-      })
+          tagsModal.present();
+        }, (error) => {
+          this.hideLoading();
+        })
+      // }, (error) => {
+      //   this.hideLoading();
+      // })
     }
   }
 

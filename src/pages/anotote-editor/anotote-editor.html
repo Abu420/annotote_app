@@ -121,17 +121,18 @@
 <span navPop class="wedge_icon"></span>
 <ion-content [ngClass]="{'fullScreen': full_screen_mode == true}" swipe-vertical>
     <div id="wrapper">
-        <div class="editor-area layout" [hidden]="for_creating_and_updating_comment == true" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR && full_screen_mode == false">
-            <html id="{{(WHICH_STREAM == 'top' || FROM == 'search') ? ANOTOTE.annotote.htmlId: ANOTOTE.userAnnotote.annotote.htmlId}}">
-            <div [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
+        <!-- <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR && full_screen_mode == false"> -->
+        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED && !ANOTOTE_LOADING_ERROR">
+            <!-- <html id="{{(WHICH_STREAM == 'top' || FROM == 'search') ? ANOTOTE.annotote.htmlId: ANOTOTE.userAnnotote.annotote.htmlId}}"> -->
+            <div [ngClass]="{'smallVersion': full_screen_mode == false,'me':actual_stream == 'me','follows':actual_stream == 'follows','top':actual_stream == 'top'}" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div>
 
-            </html>
-            <!-- <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="full_text  | sanitizeHtml"></div> -->
+            <!-- </html> -->
+            <!-- <div *ngIf="full_screen_mode == true" [ngClass]="actual_stream" (click)="editor_click($event)" class="editor_text_box" id="text_editor" contenteditable="false" [innerHTML]="text  | sanitizeHtml"></div> -->
         </div>
-        <div class="frame_area" *ngIf="full_screen_mode == true" [hidden]="for_creating_and_updating_comment == true">
+        <!-- <div class="frame_area" *ngIf="full_screen_mode == true" [hidden]="for_creating_and_updating_comment == true">
             <iframe id="browsed" [src]='url_for_frame | frameHtml' width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-        </div>
-        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED == false || for_creating_and_updating_comment == true">
+        </div> -->
+        <div class="editor-area layout" *ngIf="ANOTOTE_LOADED == false">
             <div class="editor_text_box" padding>
                 <span class="loader" *ngFor="let item of loaderLines"></span>
             </div>
