@@ -817,6 +817,7 @@
                                     display: block;
                                     max-height: 2900px;
                                     transition: 3s ease-out;
+                                    overflow: visible;
                                 }
                                 .message-underlist {
                                     border-bottom: 1px solid color($colors, borders);
@@ -1133,14 +1134,22 @@
                         .message-underlist {
                             padding: 0;
                             .underlist-items {
-                                &:focus {
-                                    background: color($assetFeedback, base);
-                                }
+                                contain: none;
+                                overflow: visible;
+                                &:focus,
+                                &:visited,
                                 &:active {
                                     background: color($assetFeedback, base);
-                                }
-                                &:visited {
-                                    background: color($assetFeedback, base);
+                                    &:after {
+                                        content: '';
+                                        position: absolute;
+                                        top: 0;
+                                        left: 99.5%;
+                                        background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                                        background-size: 100%;
+                                        width: 20px;
+                                        height: 100%;
+                                    }
                                 }
                                 &.editHighlight {
                                     background: #e0e0e0;

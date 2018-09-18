@@ -146,7 +146,6 @@ export class FrontViewPage {
             // this.navCtrl.push(AnototeList, {});
             this.showFabButton = false;
             this.hideMessage();
-
       }
 
       hideMessage() {

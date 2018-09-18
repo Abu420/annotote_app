@@ -12,7 +12,14 @@ export class UtilityMethods {
     private loading: any;
     private onDevice: boolean;
 
-    constructor(private actionSheet: ActionSheetController, private socialSharing: SocialSharing, private network: Network, private alertCtrl: AlertController, public platform: Platform, private iab: InAppBrowser, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+    constructor(private actionSheet: ActionSheetController,
+        private socialSharing: SocialSharing,
+        private network: Network,
+        private alertCtrl: AlertController,
+        public platform: Platform,
+        private iab: InAppBrowser,
+        public loadingCtrl: LoadingController,
+        private toastCtrl: ToastController) {
         this.platform = platform;
     }
 

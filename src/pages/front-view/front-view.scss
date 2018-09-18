@@ -50,6 +50,7 @@ page-front-view {
             background: none;
             border-bottom: 1px solid #e8e8e8;
             background: #FFF;
+            position: relative;
             &:active,
             &:visited,
             &:focus,
@@ -60,6 +61,16 @@ page-front-view {
                 }
                 .activeIcon {
                     display: inline-block;
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 99.5%;
+                    background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                    background-size: 100%;
+                    width: 30px;
+                    height: 100%;
                 }
             }
             figure {
