@@ -313,8 +313,18 @@ export class AnototeList {
         this.current_active_anotote.active = false;
     }
   }
+  ionViewWillUnload() {
+    if (this.current_active_anotote) {
+      if (this.current_active_anotote.chatGroup == null)
+        this.disableSelectedMode(this.current_active_anotote.highlights);
+      else
+        this.disableSelectedMode(this.current_active_anotote.chatGroup.messagesUser);
+    }
+  }
   ionViewDidEnter() {
     // set status bar color log
+    this.anototeService.currentPage = 0;
+    this.anototeService.clearSavedPages();
     if (this.current_color == 'me')
       this.statusBar.backgroundColorByHexString('#3bde00');
     else if (this.current_color == 'follows')
@@ -433,11 +443,11 @@ export class AnototeList {
           this.stream.me_anototes = this.anototes;
           this.stream.me_first_load = true;
           //offline loading
-          var store = [];
-          for (var i = 0; i < 3; i++) {
-            store.push(this.anototes[i]);
-          }
-          localStorage.setItem('offline', JSON.stringify(store));
+          // var store = [];
+          // for (var i = 0; i < 3; i++) {
+          //   store.push(this.anototes[i]);
+          // }
+          // localStorage.setItem('offline', JSON.stringify(store));
           //------------------
         } else if (this.current_color == 'follows') {
           this.stream.follows_page_no = this.current_page;
@@ -646,46 +656,58 @@ export class AnototeList {
   open_browser(anotote, highlight) {
     if (anotote.userAnnotote.filePath != '') {
       if (this.current_active_highlight == null || this.current_active_highlight.edit == false || this.reorder_highlights == false) {
-        if (this.current_color != 'top') {
-          if (this.current_color == 'me') {
-            // anotote.active = false;
-            anotote.meFilePath = anotote.userAnnotote.filePath;
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
-          } else if (this.current_color == 'follows') {
-            // anotote.active = false;
-            if (this.follow_visited == false) {
-              anotote.followerFilePath = anotote.followers[0].followTote.filePath
-              anotote.followers[0].highlights = anotote.userAnnotote.annototeHeighlights;
+        if (highlight == null || (highlight != null && highlight.selected == undefined || highlight.selected == false)) {
+          if (highlight != null) {
+            this.disableSelectedMode(anotote.highlights);
+            highlight.selected = true;
+          }
+          if (this.current_color != 'top') {
+            if (this.current_color == 'me') {
+              // anotote.active = false;
+              anotote.meFilePath = anotote.userAnnotote.filePath;
+              this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
+            } else if (this.current_color == 'follows') {
+              // anotote.active = false;
+              if (this.follow_visited == false) {
+                anotote.followerFilePath = anotote.followers[0].followTote.filePath
+                anotote.followers[0].highlights = anotote.userAnnotote.annototeHeighlights;
+              }
+              this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
+            } else if (this.current_color == 'anon') {
+              if (this.followedUserId != 0)
+                this.toastInFooter("Please follow this user first")
+              else {
+                this.toastInFooter("Please view this tote after adding it to me stream.");
+              }
             }
-            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
-          } else if (this.current_color == 'anon') {
-            if (this.followedUserId != 0)
-              this.toastInFooter("Please follow this user first")
-            else {
-              this.toastInFooter("Please view this tote after adding it to me stream.");
+          } else {
+            let tote = {
+              active: anotote.active,
+              userAnnotote: anotote.userAnnotote,
+              followers: anotote.follows,
+              highlights: anotote.highlights,
+              annototeId: anotote.annotote.id,
+              anototeDetail: anotote.anototeDetail
             }
+            tote.userAnnotote.annotote = anotote.annotote;
+            // anotote.active = false;
+            anotote.topFilePath = anotote.userAnnotote.filePath;
+            this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
           }
         } else {
-          let tote = {
-            active: anotote.active,
-            userAnnotote: anotote.userAnnotote,
-            followers: anotote.follows,
-            highlights: anotote.highlights,
-            annototeId: anotote.annotote.id,
-            anototeDetail: anotote.anototeDetail
-          }
-          tote.userAnnotote.annotote = anotote.annotote;
-          // anotote.active = false;
-          anotote.topFilePath = anotote.userAnnotote.filePath;
-          this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'anotote_list', WHICH_STREAM: this.whichStream, HIGHLIGHT_RECEIVED: highlight, actual_stream: this.current_active_anotote.active_tab });
+          highlight.selected = false;
         }
-      } else {
-        // this.current_active_highlight.edit = false;
       }
     } else {
       this.toastInFooter("Couldn't load as no file was found.");
     }
 
+  }
+
+  disableSelectedMode(highlights) {
+    for (let highlight of highlights) {
+      highlight.selected = false;
+    }
   }
 
   reorderItems(indexes, anotote) {
@@ -1238,7 +1260,7 @@ export class AnototeList {
           } else
             this.toastInFooter("Couldn't load as no file was found.");
         else
-          this.go_to_chat_thread(this.current_active_anotote);
+          this.go_to_chat_thread(this.current_active_anotote, { selected: false });
       } else {
         this.go_to_chat_tote();
       }
@@ -1398,6 +1420,7 @@ export class AnototeList {
           if (this.current_active_anotote) {
             this.current_active_anotote.active = false;
             this.current_active_anotote.checked = false;
+            this.disableSelectedMode(this.current_active_anotote.chatGroup == null ? this.current_active_anotote.highlights : this.current_active_anotote.chatGroup.messagesUser);
             if (this.current_active_anotote.chatGroupId && anotote.chatGroupId == null)
               this.move_fab = false;
             else if (this.current_active_anotote.chatGroupId && this.current_active_anotote.chatGroupId == anotote.chatGroupId)
@@ -1466,6 +1489,7 @@ export class AnototeList {
           if (this.current_active_anotote) {
             this.current_active_anotote.active = false;
             this.move_fab = false;
+            this.disableSelectedMode(this.current_active_anotote.highlights);
             if (this.current_active_anotote.userAnnotote && anotote.userAnnotote && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id) {
               this.current_active_anotote = null;
               return;
@@ -1910,40 +1934,48 @@ export class AnototeList {
 
   }
 
-  go_to_chat_thread(anotote) {
-    let secondUser: any = null;
-    let firstUser = null;
-    let contains = false;
-    if (this.current_color == 'me') {
-      for (let group of anotote.chatGroup.groupUsers) {
-        if (group.user.id != this.user.id) {
-          secondUser = group.user;
-        }
+  go_to_chat_thread(anotote, message) {
+    if (message == null || (message != null && message.selected == undefined || message.selected == false)) {
+      if (message != null) {
+        this.disableSelectedMode(anotote.chatGroup.messagesUser);
+        message.selected = true;
       }
-    } else {
-      for (let group of anotote.chatGroup.groupUsers) {
-        if (group.user.id == this.user.id) {
-          firstUser = group.user;
-          contains = true;
-        }
-      }
-      if (firstUser == null) {
-        secondUser = anotote.chatGroup.groupUsers[0].user;
-        firstUser = anotote.chatGroup.groupUsers[1].user;
-        contains = false;
-      } else {
+      let secondUser: any = null;
+      let firstUser = null;
+      let contains = false;
+      if (this.current_color == 'me') {
         for (let group of anotote.chatGroup.groupUsers) {
           if (group.user.id != this.user.id) {
             secondUser = group.user;
           }
         }
-      }
+      } else {
+        for (let group of anotote.chatGroup.groupUsers) {
+          if (group.user.id == this.user.id) {
+            firstUser = group.user;
+            contains = true;
+          }
+        }
+        if (firstUser == null) {
+          secondUser = anotote.chatGroup.groupUsers[0].user;
+          firstUser = anotote.chatGroup.groupUsers[1].user;
+          contains = false;
+        } else {
+          for (let group of anotote.chatGroup.groupUsers) {
+            if (group.user.id != this.user.id) {
+              secondUser = group.user;
+            }
+          }
+        }
 
+      }
+      var against = false;
+      if (anotote.chatGroup.messagesUser[0].anototeId != 0)
+        against = true;
+      this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: this.current_color, firstUser: firstUser, containsMe: contains });
+    } else {
+      message.selected = false;
     }
-    var against = false;
-    if (anotote.chatGroup.messagesUser[0].anototeId != 0)
-      against = true;
-    this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: this.current_color, firstUser: firstUser, containsMe: contains });
   }
 
   reply_here(anotote) {

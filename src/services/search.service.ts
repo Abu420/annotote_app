@@ -3,7 +3,7 @@ import { User } from "../models/user";
 import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 import { Constants } from '../services/constants.service'
-import { Http } from "@angular/http";
+import { Http, RequestOptions, Headers } from "@angular/http";
 import { Tote } from '../models/Totes';
 import { Group } from '../models/ChatGroup';
 
@@ -262,8 +262,11 @@ export class SearchService {
      * params: [url, created_at], 
      */
     public create_anotote(params) {
+        var options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('User-Agent', navigator.userAgent);
         var url = this.constants.API_BASEURL + '/create-annotote';
-        var response = this.http.post(url, params).map(res => res.json());
+        var response = this.http.post(url, params, options).map(res => res.json());
         return response;
     }
 

@@ -35,7 +35,7 @@ import { mapper } from '../../models/mapper';
         // ':host /deep/ >>> .highlight_quote, .highlight_comment { background: #f5f6f7; };.highlight_quote:before { content: "*";width: 25px;height: 25px;display: inline-block;text-align: center;background: greenyellow; };'
     ]
 })
-export class AnototeEditor implements OnDestroy {
+export class AnototeEditor {
     @ViewChild(Content) content: Content;
     /**
      * Reg Scroll Hide/Show Header
@@ -272,7 +272,7 @@ export class AnototeEditor implements OnDestroy {
             // this.SAVED_ANOTOTES_LOCALLY_CURRENT++;
             // this.load_new_anotote(this.SAVED_ANOTOTES_LOCALLY[this.SAVED_ANOTOTES_LOCALLY_CURRENT], false);
             this.anotote_service.currentPage++;
-            this.navCtrl.push(AnototeEditor, { url: this.SAVED_ANOTOTES_LOCALLY[this.anotote_service.currentPage], FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
+            this.navCtrl.push(AnototeEditor, { url: this.SAVED_ANOTOTES_LOCALLY[this.anotote_service.currentPage].url, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
         }
     }
 
@@ -395,6 +395,27 @@ export class AnototeEditor implements OnDestroy {
         if (this.navParams.get('full_screen')) {
             this.change_full_screen_mode();
         }
+        this.events.subscribe('show_anotation_details', (data) => {
+            this.presentCommentDetailModal(data.txt);
+        });
+    }
+
+    ionViewWillLeave() {
+        if (this.commentDetailModalIsOpen.check && this.navCtrl.last().isOverlay == false) {
+            this.events.publish('closeModal');
+        }
+    }
+
+    ionViewDidEnter() {
+        if (this.navParams.get('WHICH_STREAM') == 'me') {
+            this.statusBar.backgroundColorByHexString('#3bde00');
+        } else if (this.navParams.get('WHICH_STREAM') == 'follows')
+            this.statusBar.backgroundColorByHexString('#f4e300');
+        else if (this.navParams.get('WHICH_STREAM') == 'top')
+            this.statusBar.backgroundColorByHexString('#fb9df0');
+        else
+            this.statusBar.backgroundColorByHexString('#323232');
+        
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
                 if (data.selection != '' && (data.selection.startContainer.parentElement.className == 'highlight_quote' || data.selection.startContainer.parentElement.className == 'highlight_comment')) {
@@ -417,34 +438,12 @@ export class AnototeEditor implements OnDestroy {
                 }
             }
         });
-        this.events.subscribe('show_anotation_details', (data) => {
-            this.presentCommentDetailModal(data.txt);
-        });
-    }
-
-    ionViewWillLeave() {
-        if (this.commentDetailModalIsOpen.check && this.navCtrl.last().isOverlay == false) {
-            this.events.publish('closeModal');
-        }
-        this.anotote_service.currentPage = 0;
-        this.anotote_service.clearSavedPages();
-    }
-
-    ionViewDidEnter() {
-        if (this.navParams.get('WHICH_STREAM') == 'me') {
-            this.statusBar.backgroundColorByHexString('#3bde00');
-        } else if (this.navParams.get('WHICH_STREAM') == 'follows')
-            this.statusBar.backgroundColorByHexString('#f4e300');
-        else if (this.navParams.get('WHICH_STREAM') == 'top')
-            this.statusBar.backgroundColorByHexString('#fb9df0');
-        else
-            this.statusBar.backgroundColorByHexString('#323232');
     }
 
 
-    ngOnDestroy() {
-        this.events.unsubscribe('show_anotation_details');
-        this.events.unsubscribe('show_tote_options');
+    ionViewWillUnload() {
+        // this.events.unsubscribe('show_anotation_details');
+        // this.events.unsubscribe('show_tote_options');
     }
 
     /**
@@ -476,6 +475,27 @@ export class AnototeEditor implements OnDestroy {
                 }
             });
     }
+
+    // stripAndExecuteScript(text) {
+    //     var scripts = '';
+    //     var cleaned = text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function () {
+
+    //         scripts += arguments[1] + '\n';
+    //         return '';
+    //     });
+
+    //     // if (window.execScript){
+    //     //     window.execScript(scripts);
+    //     // } else {
+    //     // var head = document.getElementsByTagName('head')[0];
+    //     // var scriptElement = document.createElement('script');
+    //     // scriptElement.setAttribute('type', 'text/javascript');
+    //     // scriptElement.innerText = scripts;
+    //     // head.appendChild(scriptElement);
+    //     // head.removeChild(scriptElement);
+    //     // }
+    //     return cleaned;
+    // }
 
     change_full_screen_mode() {
         this.full_screen_mode = !this.full_screen_mode;
@@ -834,7 +854,7 @@ export class AnototeEditor implements OnDestroy {
             event.preventDefault();
             if (this.full_screen_mode) {
                 this.anotote_service.currentPage++;
-                this.navCtrl.push(AnototeEditor, { url: this.constants.HYPOTHESIS_SCRAPPING_BASEURL + event.target.href, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
+                this.navCtrl.push(AnototeEditor, { url: event.target.href, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
             }
         }
         // No need to add separate functionality for full screen mode

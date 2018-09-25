@@ -148,7 +148,7 @@
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [side]="'start'" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.highlights">
-                                <ion-item (press)="annotation_options(highlight)" (click)="go_to_browser(anotote,highlight)" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights}">
+                                <ion-item (press)="annotation_options(highlight)" (click)="go_to_browser(anotote,highlight)" class="underlist-items" [ngClass]="{'selectedForBrowserPane':highlight.selected == true,'reoderOn': reorder_highlights}">
                                     <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
                                         <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                             <p>{{highlight.highlightText}}</p>
@@ -184,10 +184,10 @@
                     </div>
                 </div>
                 <!-- Message detail -->
-                <div class="toteActive" (tap)="go_to_chat_thread(anotote)" [ngClass]="{'toteTransition': anotote.active && anotote.isChat == true}" *ngIf="anotote.isChat">
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active && anotote.isChat == true}" *ngIf="anotote.isChat">
                     <div class="quotes layout message-underlist">
                         <ion-list no-lines class="details-list layout" [hidden]="anotote.spinner_for_active == true">
-                            <ion-item class="underlist-items" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
+                            <ion-item class="underlist-items" [ngClass]="{'selectedForMessages':message.selected == true}" (tap)="go_to_chat_thread(anotote, message)" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <ng-container *ngIf="(anotote.chatGroup.groupUsers | chatVoteOptions) == true">
                                         <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">

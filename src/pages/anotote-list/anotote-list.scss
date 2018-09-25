@@ -1136,19 +1136,25 @@
                             .underlist-items {
                                 contain: none;
                                 overflow: visible;
-                                &:focus,
-                                &:visited,
-                                &:active {
+                                &.selectedForBrowserPane {
                                     background: color($assetFeedback, base);
                                     &:after {
                                         content: '';
                                         position: absolute;
                                         top: 0;
-                                        left: 99.5%;
+                                        bottom: 0;
+                                        margin: auto;
+                                        left: 99.8%;
                                         background: url(../assets/img/arrowNormal.svg) no-repeat center center;
                                         background-size: 100%;
                                         width: 20px;
                                         height: 100%;
+                                    }
+                                }
+                                &.selectedForMessages {
+                                    @extend .selectedForBrowserPane;
+                                    &:after {
+                                        width: 30px;
                                     }
                                 }
                                 &.editHighlight {

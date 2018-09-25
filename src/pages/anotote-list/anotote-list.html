@@ -167,7 +167,7 @@
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [side]="'start'" [reorder]="reorder_highlights" no-lines class="details-list layout" *ngIf="anotote.highlights.length > 0">
                             <ng-container *ngFor="let highlight of anotote.highlights">
-                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights,'editHighlight':highlight.edit != undefined && highlight.edit == true}">
+                                <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" *ngIf="highlight.deleted != 1" class="underlist-items" [ngClass]="{'selectedForBrowserPane':highlight.selected == true, 'reoderOn': reorder_highlights,'editHighlight':highlight.edit != undefined && highlight.edit == true}">
                                     <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
                                         <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                             <p>{{highlight.highlightText}}</p>
@@ -231,13 +231,13 @@
                     </div>
                 </div>
                 <!-- Anotote Message Detail Section -->
-                <div class="toteActive" (tap)="go_to_chat_thread(anotote)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
                     <div class="quotes layout message-underlist">
                         <div class="loading" [hidden]="anotote.spinner_for_active == false">
                             <ion-spinner></ion-spinner>
                         </div>
                         <ion-list no-lines class="details-list layout" [hidden]="anotote.spinner_for_active == true">
-                            <ion-item class="underlist-items" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
+                            <ion-item class="underlist-items" (tap)="go_to_chat_thread(anotote,message)" [ngClass]="{'selectedForMessages':message.selected == true}" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <!-- <img [src]="message | chatHeads" alt=""> -->
                                     <ng-container *ngIf="current_color == 'me' || (anotote.chatGroup.groupUsers | chatVoteOptions) == true">
@@ -440,13 +440,13 @@
 
                 </div>
                 <!-- Anotote Message Detail Section -->
-                <div class="toteActive" (tap)="go_to_chat_thread(anotote)" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
+                <div class="toteActive" [ngClass]="{'toteTransition': anotote.active && anotote.type==2}" *ngIf="anotote.chatGroup">
                     <div class="quotes layout message-underlist">
                         <!-- <div class="loading" [hidden]="anotote.spinner_for_active == false">
                             <ion-spinner></ion-spinner>
                         </div> -->
                         <ion-list no-lines class="details-list layout">
-                            <ion-item class="underlist-items" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
+                            <ion-item class="underlist-items" (tap)="go_to_chat_thread(anotote,message)" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <!-- <img [src]="message | chatHeads" alt=""> -->
                                     <ng-container *ngIf="current_color == 'me'">

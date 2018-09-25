@@ -427,6 +427,7 @@ search-results {
                                 display: block;
                                 max-height: 2900px;
                                 transition: 3s ease-out;
+                                overflow: visible;
                             }
                             .message-underlist {
                                 border-bottom: 1px solid color($colors, borders);
@@ -754,19 +755,41 @@ search-results {
                     .message-underlist {
                         padding: 0;
                         .underlist-items {
+                            contain: none;
+                            overflow: visible;
+                            &.selectedForBrowserPane {
+                                background: color($assetFeedback, base);
+                                &:after {
+                                    content: '';
+                                    position: absolute;
+                                    top: 0;
+                                    bottom: 0;
+                                    margin: auto;
+                                    left: 99.8%;
+                                    background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                                    background-size: 100%;
+                                    width: 20px;
+                                    height: 100%;
+                                }
+                            }
+                            &.selectedForMessages {
+                                @extend .selectedForBrowserPane;
+                                &:after {
+                                    width: 30px;
+                                }
+                            }
                             .item-inner {
                                 .input-wrapper {
                                     ion-label {
-                                        padding: 0;
-                                        &:focus {
-                                            background: color($assetFeedback, base);
-                                        }
-                                        &:active {
-                                            background: color($assetFeedback, base);
-                                        }
-                                        &:visited {
-                                            background: color($assetFeedback, base);
-                                        }
+                                        padding: 0; // &:focus {
+                                        //     background: color($assetFeedback, base);
+                                        // }
+                                        // &:active {
+                                        //     background: color($assetFeedback, base);
+                                        // }
+                                        // &:visited {
+                                        //     background: color($assetFeedback, base);
+                                        // }
                                         .txt {
                                             border-bottom: 0px;
                                             display: inline-block;

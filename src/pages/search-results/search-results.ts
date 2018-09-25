@@ -92,6 +92,14 @@ export class SearchResults {
   ionViewDidLeave() {
     this.key.disableScroll(false);
   }
+  ionViewWillUnload() {
+    if (this.current_active_anotote) {
+      if (this.current_active_anotote.chatGroup == null)
+        this.disableSelectedMode(this.current_active_anotote.highlights);
+      else
+        this.disableSelectedMode(this.current_active_anotote.chatGroup.messagesUser);
+    }
+  }
 
   clear() {
     this.search_term = '';
@@ -143,20 +151,36 @@ export class SearchResults {
   }
 
   go_to_browser(anotote, highlight) {
-    this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: highlight, actual_stream: anotote.active_tab });
+    if (highlight == null || (highlight != null && highlight.selected == undefined || highlight.selected == false)) {
+      if (highlight != null) {
+        this.disableSelectedMode(anotote.highlights);
+        highlight.selected = true;
+      }
+      this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: highlight, actual_stream: anotote.active_tab });
+    } else {
+      highlight.selected = false;
+    }
   }
 
-  go_to_chat_thread(anotote) {
-    let secondUser: any = null;
-    for (let group of anotote.chatGroup.groupUsers) {
-      if (group.user.id != this.user.id) {
-        secondUser = group.user;
+  go_to_chat_thread(anotote, message) {
+    if (message == null || (message != null && message.selected == undefined || message.selected == false)) {
+      if (message != null) {
+        this.disableSelectedMode(anotote.chatGroup.messagesUser);
+        message.selected = true;
       }
+      let secondUser: any = null;
+      for (let group of anotote.chatGroup.groupUsers) {
+        if (group.user.id != this.user.id) {
+          secondUser = group.user;
+        }
+      }
+      var against = false;
+      if (anotote.chatGroup.messagesUser[0].anototeId != 0)
+        against = true;
+      this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: 'me' });
+    } else {
+      message.selected = false;
     }
-    var against = false;
-    if (anotote.chatGroup.messagesUser[0].anototeId != 0)
-      against = true;
-    this.navCtrl.push(Chat, { secondUser: secondUser, against_anotote: against, anotote_id: anotote.chatGroup.messagesUser[0].anototeId, title: anotote.chatGroup.messagesUser[0].subject, full_tote: anotote, color: 'me' });
   }
 
   load_search_results() {
@@ -317,6 +341,7 @@ export class SearchResults {
     if (this.current_active_anotote && this.current_active_anotote.checked == false) {
       this.current_active_anotote.active = false;
       this.current_active_anotote.checked = false;
+      this.disableSelectedMode(this.current_active_anotote.chatGroup == null ? this.current_active_anotote.highlights : this.current_active_anotote.chatGroup.messagesUser);
       if (anotote.chatGroup == null) {
         // if (anotote.userAnnotote && this.current_active_anotote.chatGroup == null && this.current_active_anotote.userAnnotote.id == anotote.userAnnotote.id)
         //   this.move_fab = false;
@@ -351,6 +376,12 @@ export class SearchResults {
     this.current_active_anotote = anotote;
     if (this.current_active_anotote.checked == false)
       this.current_active_anotote.active = !this.current_active_anotote.active;
+  }
+
+  disableSelectedMode(highlights) {
+    for (let highlight of highlights) {
+      highlight.selected = false;
+    }
   }
 
   hoverTheparent(tote) {
@@ -521,7 +552,7 @@ export class SearchResults {
           })
           chatTote.present();
         } else {
-          this.go_to_chat_thread(anotote)
+          this.go_to_chat_thread(anotote, { selected: false })
         }
       } else if (data.toggle) {
         this.showMeHighlights(anotote);

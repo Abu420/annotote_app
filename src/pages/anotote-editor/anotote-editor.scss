@@ -644,7 +644,13 @@ page-anotote-editor {
     }
     .smallVersion {
         * {
+            padding-top: 1px;
+            padding-bottom: 1px;
             display: none !important;
+            background: white;
+            font-size: 16px;
+            border: 0px;
+            font-family: "robotolight" !important;
         }
         .scrap_article_body {
             display: block !important;
@@ -658,16 +664,12 @@ page-anotote-editor {
         .scrap_hide {
             display: none !important;
         }
+        .scrap_show_inline {
+            display: inline !important;
+        }
     }
     h1 {
         font-size: 23px !important;
-    }
-    * {
-        border: 0px;
-        font-family: "robotolight" !important;
-        font-size: 16px;
-        min-height: auto !important;
-        margin-top: auto !important;
     }
 }
 

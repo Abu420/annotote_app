@@ -18,6 +18,17 @@ body {
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     font-family: "robotolight" !important;
+    visibility: visible !important;
+    p {
+        font-family: "robotolight" !important;
+    }
+    .content {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .header {
+        padding: 0 !important;
+    }
 }
 
 .annotote_trick {

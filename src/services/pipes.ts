@@ -8,7 +8,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
   name: "chatHeads"
 })
 export class ChatHeads {
-  constructor(public auth: AuthenticationService) {}
+  constructor(public auth: AuthenticationService) { }
 
   transform(input) {
     let user = this.auth.getUser();
@@ -26,7 +26,7 @@ export class ChatHeads {
   name: "chat_name"
 })
 export class chatName {
-  constructor(public auth: AuthenticationService) {}
+  constructor(public auth: AuthenticationService) { }
 
   transform(input) {
     let user = this.auth.getUser();
@@ -39,7 +39,7 @@ export class chatName {
   name: "image_base_path"
 })
 export class basePath {
-  constructor(public constants: Constants) {}
+  constructor(public constants: Constants) { }
 
   transform(input) {
     var url = this.constants.IMAGE_BASEURL + "/" + input;
@@ -51,7 +51,7 @@ export class basePath {
   name: "time_stamp"
 })
 export class timeStamp {
-  constructor(public date: DatePipe) {}
+  constructor(public date: DatePipe) { }
 
   transform(input) {
     var formated_time = new Date(input * 1000);
@@ -72,7 +72,7 @@ export class timeStamp {
   name: "notificationTimeStamp"
 })
 export class notificationTime {
-  constructor(public date: DatePipe) {}
+  constructor(public date: DatePipe) { }
 
   transform(input) {
     var formated_time = new Date(input * 1000);
@@ -87,10 +87,9 @@ export class notificationTime {
   name: "sanitizeHtml"
 })
 export class SanitizeHtmlPipe implements PipeTransform {
-  constructor(private _sanitizer: DomSanitizer) {}
+  constructor(private _sanitizer: DomSanitizer) { }
 
   transform(v: string): SafeHtml {
-    this._sanitizer.bypassSecurityTrustStyle(v);
     return this._sanitizer.bypassSecurityTrustHtml(v);
   }
 }
@@ -99,7 +98,7 @@ export class SanitizeHtmlPipe implements PipeTransform {
   name: "frameHtml"
 })
 export class Frame implements PipeTransform {
-  constructor(private _sanitizer: DomSanitizer) {}
+  constructor(private _sanitizer: DomSanitizer) { }
 
   transform(v: string): SafeHtml {
     return this._sanitizer.bypassSecurityTrustResourceUrl(v);
@@ -110,7 +109,7 @@ export class Frame implements PipeTransform {
   name: "chatVoteOptions"
 })
 export class chatVote {
-  constructor(public auth: AuthenticationService) {}
+  constructor(public auth: AuthenticationService) { }
 
   transform(groupUsers) {
     var contains = false;
@@ -127,7 +126,7 @@ export class chatVote {
   name: "boldTags"
 })
 export class Bold implements PipeTransform {
-  constructor(private _sanitizer: DomSanitizer) {}
+  constructor(private _sanitizer: DomSanitizer) { }
 
   transform(highlight) {
     if (highlight.comment != null) {
