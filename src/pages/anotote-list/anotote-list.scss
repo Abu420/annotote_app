@@ -622,6 +622,7 @@
                                     white-space: nowrap;
                                     word-break: break-all;
                                     margin: 0;
+                                    color: #8e9093;
                                 }
                                 button {
                                     color: #8e9093;
@@ -940,7 +941,6 @@
                                 }
                                 .time {
                                     float: right;
-                                    margin-top: -5px;
                                     em {
                                         width: 70px;
                                         color: #8e9093;
@@ -983,6 +983,7 @@
                                         overflow: hidden;
                                         white-space: nowrap;
                                         word-break: break-all;
+                                        color: #8e9093;
                                     }
                                     p.masla {
                                         width: calc(100% - 15px);
@@ -1137,6 +1138,12 @@
                                 contain: none;
                                 overflow: visible;
                                 &.selectedForBrowserPane {
+                                    p {
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        -webkit-line-clamp: 2;
+                                    }
                                     background: color($assetFeedback, base);
                                     &:after {
                                         content: '';
@@ -1147,7 +1154,7 @@
                                         left: 99.8%;
                                         background: url(../assets/img/arrowNormal.svg) no-repeat center center;
                                         background-size: 100%;
-                                        width: 20px;
+                                        width: 25px;
                                         height: 100%;
                                     }
                                 }

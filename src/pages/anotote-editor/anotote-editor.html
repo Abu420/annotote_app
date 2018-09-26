@@ -103,7 +103,7 @@
                 <dot-navigation class="topDot" unactivedots="2"></dot-navigation>
             </ion-title>
         </ng-container>
-        <ion-buttons *ngIf="!full_screen_mode" class="plusBtn">
+        <ion-buttons class="plusBtn">
             <button (tap)="add_to_me_stream()" class="plus_icon" [ngClass]="{'me': WHICH_STREAM == 'me','follows':WHICH_STREAM == 'follows','top':WHICH_STREAM == 'top'}" ion-button icon-only>
                 <img src="assets/img/plusIcon.png" alt="" />
                 <!-- <ion-icon name="md-add"></ion-icon> -->

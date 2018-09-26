@@ -87,7 +87,7 @@
                             <p class="masla" [innerText]="anotote.userAnnotote.annotote.source"></p>
                             <button type="button">
                                 <!-- <img src="assets/img/lineIcon.svg" alt=""> -->
-                                <ion-icon name="menu"></ion-icon>
+                                <ion-icon name="menu" [color]="'menuIconColor'"></ion-icon>
                             </button>
                         </div>
                     </div>
@@ -299,7 +299,7 @@
                             <div class="toteText">
                                 <p [innerText]="anotote.subTitle"></p>
                                 <button type="button">
-                                    <ion-icon name="menu"></ion-icon>
+                                    <ion-icon name="menu" [color]="'menuIconColor'"></ion-icon>
                                 </button>
                             </div>
                         </div>
@@ -342,7 +342,7 @@
                             <p class="masla" [innerText]="anotote.annotote.source"></p>
                             <button type="button">
                                 <!-- <img src="assets/img/lineIcon.svg" alt=""> -->
-                                <ion-icon name="menu"></ion-icon>
+                                <ion-icon name="menu" [color]="'menuIconColor'"></ion-icon>
                             </button>
                         </div>
                     </div>
@@ -397,7 +397,7 @@
                     </header>
                     <div class="quotes layout message-underlist" [hidden]="anotote.spinner_for_active == true">
                         <ion-list (ionItemReorder)="reorderItems($event, anotote)" [side]="'start'" [reorder]="reorder_highlights" no-lines class="details-list layout">
-                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" [ngClass]="{'reoderOn': reorder_highlights}" *ngFor="let highlight of anotote.highlights">
+                            <ion-item (press)="annotation_options(highlight)" (click)="open_browser(anotote, highlight)" class="underlist-items" [ngClass]="{'selectedForBrowserPane':highlight.selected == true,'reoderOn': reorder_highlights}" *ngFor="let highlight of anotote.highlights">
                                 <ng-container *ngIf="highlight.edit == undefined || highlight.edit == false">
                                     <div class="txt" [ngClass]="{'txtOrdering': reorder_highlights == true}">
                                         <!-- <p *ngIf="(highlight.comment == null || highlight.comment == '') && anotote.active_tab == 'top'">{{highlight.highlight_text}}</p> -->
@@ -446,7 +446,7 @@
                             <ion-spinner></ion-spinner>
                         </div> -->
                         <ion-list no-lines class="details-list layout">
-                            <ion-item class="underlist-items" (tap)="go_to_chat_thread(anotote,message)" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
+                            <ion-item class="underlist-items" [ngClass]="{'selectedForMessages':message.selected == true}" (tap)="go_to_chat_thread(anotote,message)" (press)="presentMessageOptions(message,anotote)" *ngFor="let message of anotote.chatGroup.messagesUser">
                                 <figure>
                                     <!-- <img [src]="message | chatHeads" alt=""> -->
                                     <ng-container *ngIf="current_color == 'me'">
@@ -495,7 +495,7 @@
                             <div class="toteText">
                                 <p [innerText]="anotote.subTitle"></p>
                                 <button type="button">
-                                    <ion-icon name="menu"></ion-icon>
+                                    <ion-icon name="menu" [color]="'menuIconColor'"></ion-icon>
                                 </button>
                             </div>
                         </div>
@@ -533,7 +533,7 @@
                             <div class="toteText">
                                 <p [innerText]="anotote.subTitle"></p>
                                 <button type="button">
-                                    <ion-icon name="menu"></ion-icon>
+                                    <ion-icon name="menu" [color]="'menuIconColor'"></ion-icon>
                                 </button>
                             </div>
                         </div>
@@ -571,7 +571,7 @@
                             <div class="toteText">
                                 <p [innerText]="anotote.subTitle"></p>
                                 <button type="button">
-                                    <ion-icon name="menu"></ion-icon>
+                                    <ion-icon name="menu" [color]="'menuIconColor'"></ion-icon>
                                 </button>
                             </div>
                         </div>

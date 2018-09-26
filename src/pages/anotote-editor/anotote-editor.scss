@@ -288,9 +288,10 @@ comment_detail_popup {
 .hide-header {
     ion-buttons {
         .downImage {
-            margin-top: 122px;
+            margin-top: 140px;
             position: relative;
             z-index: 999;
+            margin-right: -10px;
         }
     }
 }
@@ -312,7 +313,7 @@ page-anotote-editor {
     }
     .show-header {
         transition: top 0.25s ease;
-        top: 0px;
+        top: -1px;
     }
     .toolbar-content {
         .plusBtn {
@@ -326,9 +327,7 @@ page-anotote-editor {
     }
     .boxIcon {
         margin: 0px;
-        button {
-            height: 114px;
-        }
+        float: right;
         span {
             padding: 13px 11px 13px;
             display: block;
@@ -353,16 +352,15 @@ page-anotote-editor {
         }
     }
     .downImage {
-        margin-top: 37px;
-        margin-right: -4px;
+        margin-top: 45px;
+        margin-right: -10px;
         padding: 0px !important;
         transition: all 0.1s ease;
         -moz-transition: all 0.1s ease;
         -webkit-transition: all 0.1s ease;
         img {
             margin: 0px !important;
-            width: 55px !important;
-            margin-right: -6px !important;
+            width: 60px !important; // margin-right: -6px !important;
         }
     }
     .inline_tote_options {
@@ -647,9 +645,9 @@ page-anotote-editor {
             padding-top: 1px;
             padding-bottom: 1px;
             display: none !important;
-            background: white;
-            font-size: 16px;
+            background: white; // font-size: 16px;
             border: 0px;
+            min-width: auto !important;
             font-family: "robotolight" !important;
         }
         .scrap_article_body {
@@ -667,10 +665,9 @@ page-anotote-editor {
         .scrap_show_inline {
             display: inline !important;
         }
-    }
-    h1 {
-        font-size: 23px !important;
-    }
+    } // h1 {
+    //     font-size: 23px !important;
+    // }
 }
 
 .frame_area {
@@ -689,16 +686,18 @@ ion-fab {
 }
 
 .plusBtn {
-    float: right;
+    margin-right: 7vw;
+    position: absolute;
+    top: 11px;
+    right: 35px;
     button {
         font-size: 18px;
     }
 }
 
-.boxIcon {
-    margin-right: 20px;
-}
-
+// .boxIcon {
+//     margin-right: 20px;
+// }
 .no_padding {
     padding: 0;
 }

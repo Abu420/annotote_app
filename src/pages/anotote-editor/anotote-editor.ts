@@ -376,13 +376,16 @@ export class AnototeEditor {
             if (this.ionScroll.scrollTop - this.start > this.threshold) {
                 this.showheader = true;
                 this.hideheader = false;
+                this.statusBar.show();
             } else {
                 this.showheader = false;
                 this.hideheader = true;
+                this.statusBar.hide();
             }
             if (this.slideHeaderPrevious >= this.ionScroll.scrollTop - this.start) {
                 this.showheader = false;
                 this.hideheader = true;
+                this.statusBar.hide();
             }
             this.slideHeaderPrevious = this.ionScroll.scrollTop - this.start;
         });
@@ -415,7 +418,7 @@ export class AnototeEditor {
             this.statusBar.backgroundColorByHexString('#fb9df0');
         else
             this.statusBar.backgroundColorByHexString('#323232');
-        
+
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
                 if (data.selection != '' && (data.selection.startContainer.parentElement.className == 'highlight_quote' || data.selection.startContainer.parentElement.className == 'highlight_comment')) {
@@ -504,6 +507,7 @@ export class AnototeEditor {
             // this.ANOTOTE_LOADED = true;
             this.showheader = false;
             this.hideheader = true;
+            this.statusBar.hide();
             //not required after HMTheorem
             //taking iframe functionality out of equation
             // if (this.actual_stream == 'me') {
@@ -574,6 +578,8 @@ export class AnototeEditor {
             this.ANOTOTE_LOADED = true;
             this.showheader = true;
             this.hideheader = false;
+            if(this.statusBar.isVisible == false)
+                this.statusBar.show();
             var anotote_obj = {
                 ANOTOTE: this.ANOTOTE,
                 HIGHLIGHT_RECEIVED: null,
@@ -772,10 +778,14 @@ export class AnototeEditor {
             } else {
                 var selection: any = window.getSelection();
                 // if (selection.baseNode.nextSibling && (selection.baseNode.nextSibling.className == 'highlight_quote' || selection.baseNode.nextSibling.className == 'highlight_comment')) {
-                if (selection.baseOffset > selection.extentOffset) {
-                    this.toastInFooter('The selection overlapps with the already annotated text.');
-                    this.selection_lock = false;
-                    return false;
+                var node = selection.baseNode.nextElementSibling;
+                while (node != null) {
+                    if (node.localName == 'highlight_quote') {
+                        this.toastInFooter('The selection overlapps with the already annotated text.');
+                        this.selection_lock = false;
+                        return false;
+                    }
+                    node = node.nextElementSibling;
                 }
                 var range: any = document.createRange();
                 range.setStart(selection.baseNode, selection.baseOffset);
@@ -796,7 +806,7 @@ export class AnototeEditor {
             range.insertNode(newNode);
 
             selection.removeAllRanges();
-            return true;
+            return false;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
             this.selection_lock = false;
