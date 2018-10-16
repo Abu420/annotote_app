@@ -24,14 +24,14 @@
 <ion-content (ionScrollEnd)="onScroll($event)" padding>
     <div id="wrapper">
         <div no-lines class="user-controls layout">
-            <button (tap)="login()" class="layout" type="button">
+            <button (tap)="login()" [ngClass]="{'chosen': choice.login == true}" class="layout" type="button">
                 <figure>
                     <img src="assets/img/lockIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/lockActiveIcon.svg" alt="">
                 </figure>
                 <span>SIGN IN</span>
             </button>
-            <button (tap)="signup()" class="layout" type="button">
+            <button (tap)="signup()" [ngClass]="{'chosen': choice.signup == true}" class="layout" type="button">
                 <figure>
                     <img src="assets/img/userIcon.svg" alt="">
                     <img class="activeIcon" src="assets/img/userIconActive.svg" alt="">
@@ -46,16 +46,16 @@
                     </div>
                     <div class="txt">
                         <strong [innerText]="anotote.annotote.title"></strong>
-                        <div class="time">
-                            <em>
-                                <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
-                            </em>
-                        </div>
                         <div class="toteText">
                             <p [innerText]="anotote.annotote.source"></p>
                             <button type="button">
                                 <ion-icon name="menu"></ion-icon>
                             </button>
+                        </div>
+                        <div class="time">
+                            <em>
+                                <span>{{ anotote.userAnnotote.createdAt | time_stamp}}</span>
+                            </em>
                         </div>
                     </div>
                 </div>

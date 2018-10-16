@@ -341,12 +341,14 @@ page-anotote-editor {
         .leftArrow {
             padding: 0 15px;
             img {
+                display: inline-block;
                 width: 19px;
             }
         }
         .rightArrow {
             padding: 0 15px;
             img {
+                display: inline-block;
                 width: 18px;
             }
         }
@@ -489,7 +491,7 @@ page-anotote-editor {
 .editor-area {
     // padding: 10px;
     .editor_text_box {
-        overflow: auto;
+        overflow: hidden;
         width: 100%;
         background: #FFF;
         color: #000 !important;
@@ -641,6 +643,7 @@ page-anotote-editor {
         }
     }
     .smallVersion {
+        padding: 5%;
         * {
             padding-top: 1px;
             padding-bottom: 1px;
@@ -652,6 +655,9 @@ page-anotote-editor {
         }
         .scrap_article_body {
             display: block !important;
+        }
+        .scrap_show_inline {
+            display: inline !important
         }
         .scrap_article_title {
             display: block !important;

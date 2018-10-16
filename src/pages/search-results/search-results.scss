@@ -370,6 +370,12 @@ search-results {
                 li {
                     list-style: none;
                     background: #fff;
+                    &:last-child {
+                        border-bottom: none !important;
+                        >div {
+                            border-bottom: none;
+                        }
+                    }
                     >div {
                         display: block;
                         width: 100%;
@@ -1043,7 +1049,7 @@ search-results {
                             }
                         }
                         h4 {
-                            color: #9a9a9a;
+                            color: #000000;
                             font-size: 16px;
                             text-overflow: ellipsis;
                             -webkit-box-orient: vertical;

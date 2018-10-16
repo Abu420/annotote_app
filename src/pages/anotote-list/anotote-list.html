@@ -71,7 +71,7 @@
                     </div>
                     <div class="txt txtMiddel" [ngClass]="{'normal': followedUserId == 0 && mentionedCase == false && current_color == 'follows'}" *ngIf="anotote.type == 1 && anotote.checked == false" [ngClass]="{'txtToto': edit_mode == true}">
                         <img class="unReadLock" *ngIf="anotote.userAnnotote.privacy == 1" src="assets/img/lockIconGray.svg" alt="">
-                        <p *ngIf="followedUserId == 0 && mentionedCase == false && current_color == 'follows'">{{anotote.selected_follower_name}}
+                        <p class="followerName" *ngIf="followedUserId == 0 && mentionedCase == false && current_color == 'follows'">{{anotote.selected_follower_name}}
                             <ng-container *ngIf="anotote.userAnnotote.anototeDetail.follows.length > 2">+ {{anotote.userAnnotote.anototeDetail.follows.length - 1}} others</ng-container>
                             <ng-container *ngIf="anotote.userAnnotote.anototeDetail.follows.length == 2">+ {{anotote.userAnnotote.anototeDetail.follows.length - 1}} other</ng-container>
                         </p>

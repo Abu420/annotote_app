@@ -27,6 +27,10 @@ export class FrontViewPage {
       public latest_anototes: any;
       public latest_anototes_firstTime_loading: boolean;
       public showFabButton: boolean;
+      public choice = {
+            login: false,
+            signup: false
+      }
 
       constructor(public navCtrl: NavController,
             public statusBar: StatusBar,
@@ -105,11 +109,27 @@ export class FrontViewPage {
        */
 
       login() {
-            this.navCtrl.push(Login, {});
+            if (this.choice.login == false) {
+                  this.choice.signup = false;
+                  this.choice.login = true;
+                  setTimeout(() => {
+                        this.navCtrl.push(Login, {});
+                  }, 500);
+            } else {
+                  this.choice.login = false;
+            }
       }
 
       signup() {
-            this.navCtrl.push(Signup, {});
+            if (this.choice.signup == false) {
+                  this.choice.login = false;
+                  this.choice.signup = true;
+                  setTimeout(() => {
+                        this.navCtrl.push(Signup, {});
+                  }, 500);
+            } else {
+                  this.choice.signup = false;
+            }
       }
 
       doInfinite(infiniteScroll) {

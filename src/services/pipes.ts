@@ -94,6 +94,64 @@ export class SanitizeHtmlPipe implements PipeTransform {
   }
 }
 
+let loadJsURL = function (url: string) {
+
+  // let canJsLoad = function (url: string) {
+  //   if (!url) return false;
+  //   let scripts = document.getElementsByTagName('script');
+  //   for (var i = scripts.length; i--;) {
+  //     // *td
+  //     // better with substring or pos, make work with //
+  //     document.appendChild(scripts[i]);
+  //   }
+  //   return true;
+  // }
+
+
+  // // Load js url
+  // let insertJsUrl = function (url: string) {
+  //   var script = document.createElement('script');
+  //   script.setAttribute('src', url);
+  //   document.body.appendChild(script);
+  // }
+
+  // if (canJsLoad(url)) {
+  //   insertJsUrl(url)
+  // }
+}
+
+
+@Pipe({ name: 'checkScripts' })
+export class CheckScriptsPipe implements PipeTransform {
+  constructor(private sanitized: DomSanitizer) {
+  }
+  transform(value: string) {
+    // let jsUrls = value.match(/(\/\/.+\..+\/.+\.js)/g);
+    let jsUrls = value.match(/<script[\s\S]*?>[\s\S]*?<\/script>/gi);
+
+    // if (jsUrls && jsUrls.length) {
+    //   for (let url of jsUrls) {
+    //     loadJsURL(url)
+    //   }
+    // }
+    // let scripts = document.getElementsByTagName('script');
+    for (var i = jsUrls.length; i--;) {
+      //loading all scripts of html page
+      var url = jsUrls[i].match(/(\/\/.+\..+\/.+\.js)/g);
+      if (url != null) {
+        var script = document.createElement('script');
+        script.setAttribute('src', 'https:' + url[0]);
+        document.body.appendChild(script);
+      }
+      // var script = document.createElement(jsUrls[i]);
+      // console.log(script);
+      // document.body.appendChild(jsUrls[i]);
+    }
+
+    return value;
+  }
+}
+
 @Pipe({
   name: "frameHtml"
 })
