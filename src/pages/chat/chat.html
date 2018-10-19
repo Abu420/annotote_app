@@ -18,9 +18,9 @@
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding #scrollMe>
     <div id="wrapper">
-        <div class="chatHead" [ngClass]="{'active': titleField}">
+        <div class="chatHead" [ngClass]="{'active': titleField,'hoverParent':justHoverParent == true}">
             <span class="chatOptions" [ngClass]="{'activated': options}" (click)="showOptions()"></span>
-            <div class="txt">
+            <div class="txt" (click)="justHover()">
                 <ng-container *ngIf="tote != null && tote.chatGroup != null">
                     <!-- This container works when we come from streams including search stream -->
                     <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
@@ -56,6 +56,14 @@
                         <textarea autosize [(ngModel)]="newChatTitle" name="title" placeholder="Change the title of this Chat"></textarea>
                     </form>
                 </ng-container>
+                <div class="toteText" *ngIf="titleField == false">
+                    <button type="button">
+                        <img alt="" src="assets/img/commentIcon.svg">
+                    </button>
+                    <p (click)="chat_participants_from_tote($event)">{{secondUser.firstName}}
+                        <ng-container *ngIf="tote != null && tote.chatGroup != null">({{tote.chatGroup.groupUsers.length}})</ng-container>
+                    </p>
+                </div>
                 <div class="time" *ngIf="tote != null && titleField == false">
                     <em>
                         <ng-container *ngIf="tote.chatGroup">
@@ -65,14 +73,6 @@
                             <span *ngIf="tote.createdAt != null" [innerText]="tote.createdAt | time_stamp"></span>
                         </ng-container>
                     </em>
-                </div>
-                <div class="toteText" *ngIf="titleField == false">
-                    <button type="button">
-                        <img alt="" src="assets/img/commentIcon.svg">
-                    </button>
-                    <p (click)="chat_participants_from_tote()">{{secondUser.firstName}}
-                        <ng-container *ngIf="tote != null && tote.chatGroup != null">({{tote.chatGroup.groupUsers.length}})</ng-container>
-                    </p>
                 </div>
             </div>
             <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0 && fbLoading == false">

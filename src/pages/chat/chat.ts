@@ -58,6 +58,7 @@ export class Chat {
   public privacyForNewTote: number = 0;
   public fbLoading: boolean = true;
   public options: boolean = false;
+  public justHoverParent: boolean = false;
   /**
    * Constructor
    */
@@ -132,6 +133,13 @@ export class Chat {
     } else {
       this.statusBar.backgroundColorByHexString('#3bde00');
     }
+  }
+
+  justHover() {
+    this.justHoverParent = true;
+    setTimeout(() => {
+      this.justHoverParent = false;
+    }, 2000);
   }
 
   markMessagesRead(messages) {
@@ -571,7 +579,8 @@ export class Chat {
     chatTote.present();
   }
 
-  chat_participants_from_tote() {
+  chat_participants_from_tote(event:Event) {
+    event.stopPropagation();
     var users = [];
     if (this.tote.chatGroup) {
       for (let group of this.tote.chatGroup.groupUsers) {

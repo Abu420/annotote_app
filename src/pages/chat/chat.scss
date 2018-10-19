@@ -15,16 +15,7 @@ page-chat {
             display: block;
             clear: both;
         }
-        &.active {
-            background: #ececec;
-        }
-        &:focus {
-            background: color($assetFeedback, base);
-        }
-        &:active {
-            background: color($assetFeedback, base);
-        }
-        &:visited {
+        &.hoverParent {
             background: color($assetFeedback, base);
         }
         >span {
@@ -79,7 +70,9 @@ page-chat {
                 font-size: 16px
             }
             .time {
-                float: right;
+                display: inline-block;
+                width: 20%;
+                vertical-align: middle;
                 em {
                     font-style: normal;
                     color: #b5b5b5;
@@ -87,9 +80,11 @@ page-chat {
                 }
             }
             .toteText {
-                margin-top: -3px;
+                width: 75%;
+                display: inline-block;
+                vertical-align: middle;
                 P {
-                    width: calc(100% - 100px);
+                    width: 80%;
                     display: inline-block;
                     margin: 0px;
                     vertical-align: middle;
@@ -114,6 +109,10 @@ page-chat {
                         width: 14px;
                         margin-top: 3px;
                     }
+                }
+                &:focus,
+                &:hover {
+                    background: color($assetFeedback, base);
                 }
             }
         }
