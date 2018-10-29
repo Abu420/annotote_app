@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, Pipe, ViewChild, Output, Directive, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
+import { NavController, Events, Content, NavParams, ModalController } from 'ionic-angular';
 import { CommentDetailPopup } from '../anotote-editor/comment_detail_popup';
 import { CreateAnotationPopup } from '../anotote-editor/create_anotation';
 import { CreateAnotationOptionsPopup } from '../anotote-editor/create_anotation_options';
@@ -27,6 +27,7 @@ import { TagsOptions } from "../anotote-list/tags_options";
 import { AnototeList } from '../anotote-list/anotote-list';
 import { Constants } from '../../services/constants.service';
 import { mapper } from '../../models/mapper';
+import _ from 'lodash';
 
 @Component({
     selector: 'page-anotote-editor',
@@ -71,8 +72,8 @@ export class AnototeEditor {
     private from_where: string;
     private full_screen_mode: boolean = false;
     private detail_event: any;
-    private sel: any;
-    private range: any;
+    public sel: any;
+    public range: any;
     private actual_stream: string;
     private search_obj_to_be_deleted;
     public user: User;
@@ -421,24 +422,21 @@ export class AnototeEditor {
 
         this.events.subscribe('show_tote_options', (data) => {
             if (this.actual_stream == 'me' || this.actual_stream == 'anon') {
-                if (data.selection != '' && (data.selection.startContainer.parentElement.className == 'highlight_quote' || data.selection.startContainer.parentElement.className == 'highlight_comment')) {
-                    this.toastInFooter("Already annotated")
-                } else {
-                    this.toggle_annotation_option = data.flag;
-                    if (this.toggle_annotation_option)
-                        this.moveFabUp = true;
-                    else
-                        this.moveFabUp = false;
-                    if (data.flag && !this.selection_lock) {
-                        this.selectedText = data.txt;
-                        this.selection = data.selection;
-                    }
-                    setTimeout(() => {
-                        this.content.resize();
-                        this.cd.detectChanges();
-                    }, 500);
-
+                this.toggle_annotation_option = data.flag;
+                if (this.toggle_annotation_option)
+                    this.moveFabUp = true;
+                else
+                    this.moveFabUp = false;
+                if (data.flag && !this.selection_lock) {
+                    this.selectedText = data.txt;
+                    this.selection = data.selection;
                 }
+                setTimeout(() => {
+                    this.content.resize();
+                    this.cd.detectChanges();
+                }, 500);
+
+
             }
         });
     }
@@ -510,75 +508,50 @@ export class AnototeEditor {
             this.statusBar.hide();
             //not required after HMTheorem
             //taking iframe functionality out of equation
-            // if (this.actual_stream == 'me') {
-            //     var temp = this.ANOTOTE.meFilePath.split('/');
-            // } else if (this.actual_stream == 'follows') {
-            //     var temp = this.ANOTOTE.followerFilePath.split('/');
-            // } else if (this.actual_stream == 'top') {
-            //     var temp = this.ANOTOTE.topFilePath.split('/');
-            // } else if (this.actual_stream == 'anon') {
-            //     var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
-            // }
-            // // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
-            // var name = temp[temp.length - 1].split('.')[0];
-            // this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
+            if (this.actual_stream == 'me') {
+                var temp = this.ANOTOTE.meFilePath.split('/');
+            } else if (this.actual_stream == 'follows') {
+                var temp = this.ANOTOTE.followerFilePath.split('/');
+            } else if (this.actual_stream == 'top') {
+                var temp = this.ANOTOTE.topFilePath.split('/');
+            } else if (this.actual_stream == 'anon') {
+                var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
+            }
+            // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
+            var name = temp[temp.length - 1].split('.')[0];
+            this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
             // setTimeout(() => {
-            //     var iframe: any = document.getElementById('browsed');
-            //     iframe.onload = () => {
-            //         setTimeout(() => {
-            //             var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
-            //             iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
-            //             iframe.contentDocument.body.setAttribute('id', 'chuddu_bodyOverride');
-            //             var tags = iframe.contentDocument.body.getElementsByTagName('div');
-            //             for (let tag of tags) {
-            //                 if (tag.offsetWidth > window.innerWidth) {
-            //                     tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
-            //                     this.cd.detectChanges();
-            //                 }
-            //             }
-            //             var imgs = iframe.contentDocument.body.getElementsByTagName('img');
-            //             for (let img of imgs) {
-            //                 if (img.offsetWidth > window.innerWidth) {
-            //                     img.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
-            //                     this.cd.detectChanges();
-            //                 }
-            //             }
-            //             this.cd.detectChanges();
-            //         }, 500);
-            //         iframe.contentDocument.addEventListener('selectionchange', (e) => {
-            //             var sel = iframe.contentDocument.getSelection(),
-            //                 selected_txt = sel.toString();
-            //             if (selected_txt != '') {
-            //                 this.range = iframe.contentDocument.createRange();
-            //                 this.range.setStart(sel.baseNode, sel.baseOffset);
-            //                 this.range.setEnd(sel.extentNode, sel.extentOffset);
-            //                 this.sel = sel;
-            //                 var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
-            //                 this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
-            //                 this.cd.detectChanges();
-            //             } else {
-            //                 if (this.toggle_annotation_option == false) {
-            //                     this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
-            //                     this.cd.detectChanges();
-            //                 } else {
-            //                     setTimeout(() => {
-            //                         this.toggle_annotation_option = false;
-            //                     }, 500);
-            //                 }
-            //             }
-            //         })
-            //         iframe.contentDocument.addEventListener('touchend', (event) => {
-            //             if (event.target.localName == 'highlight_quote')
-            //                 this.editor_click(event);
-            //         })
-            //     }
+
+            //     // iframe.onload = () => {
+            //         // setTimeout(() => {
+            //         //     var classes = this.WHICH_STREAM == 'top' ? (this.ANOTOTE.annotote.htmlClass == null ? '' : this.ANOTOTE.annotote.htmlClass) : (this.ANOTOTE.userAnnotote.annotote.htmlClass == null ? '' : this.ANOTOTE.userAnnotote.annotote.htmlClass)
+            //         //     iframe.contentDocument.body.setAttribute('class', this.actual_stream + ' ' + classes);
+            //         //     iframe.contentDocument.body.setAttribute('id', 'chuddu_bodyOverride');
+            //         //     var tags = iframe.contentDocument.body.getElementsByTagName('div');
+            //         //     for (let tag of tags) {
+            //         //         if (tag.offsetWidth > window.innerWidth) {
+            //         //             tag.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+            //         //             this.cd.detectChanges();
+            //         //         }
+            //         //     }
+            //         //     var imgs = iframe.contentDocument.body.getElementsByTagName('img');
+            //         //     for (let img of imgs) {
+            //         //         if (img.offsetWidth > window.innerWidth) {
+            //         //             img.setAttribute('style', "max-width:" + (window.innerWidth - 50) + "px !important;");
+            //         //             this.cd.detectChanges();
+            //         //         }
+            //         //     }
+            //         //     this.cd.detectChanges();
+            //         // }, 500);
+
+            //     // }
             // }, 500);
         } else {
             this.ANOTOTE_LOADED = false;
             this.ANOTOTE_LOADED = true;
             this.showheader = true;
             this.hideheader = false;
-            if(this.statusBar.isVisible == false)
+            if (this.statusBar.isVisible == false)
                 this.statusBar.show();
             var anotote_obj = {
                 ANOTOTE: this.ANOTOTE,
@@ -586,6 +559,44 @@ export class AnototeEditor {
             };
             this.load_new_anotote(anotote_obj);
         }
+    }
+
+    iframeLoaded() {
+        setTimeout(() => {
+            var iframe: any = document.getElementById('browsed');
+            if (iframe.contentDocument) {
+                iframe.contentDocument.addEventListener('selectionchange', (e) => {
+                    var sel = iframe.contentDocument.getSelection(),
+                        selected_txt = sel.toString();
+                    if (selected_txt != '') {
+                        this.range = iframe.contentDocument.createRange();
+                        this.range.setStart(sel.baseNode, sel.baseOffset);
+                        this.range.setEnd(sel.extentNode, sel.extentOffset);
+                        this.sel = _.clone(sel);
+                        if (sel.baseNode != null)
+                            this.authService.store(this.sel, this.range);
+                        console.log(this.sel);
+                        console.log(this.range);
+                        var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
+                        this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
+                        this.cd.detectChanges();
+                    } else {
+                        if (this.toggle_annotation_option == false) {
+                            this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
+                            this.cd.detectChanges();
+                        } else {
+                            setTimeout(() => {
+                                this.toggle_annotation_option = false;
+                            }, 500);
+                        }
+                    }
+                })
+                iframe.contentDocument.addEventListener('touchend', (event) => {
+                    if (event.target.localName == 'highlight_quote')
+                        this.editor_click(event);
+                })
+            }
+        }, 1000);
     }
 
     //showHide scenario changed after HMTheorem implementation.
@@ -769,29 +780,24 @@ export class AnototeEditor {
 
     private highlight_(com_or_quote, identifier, comment) {
         try {
-            var self = this;
-            //taking out functionality of iframe
-            //|| this.full_screen_mode == true
-            if (com_or_quote == 'comment') {
-                var selection = this.sel;
-                var range = this.range;
+            if (com_or_quote == 'comment' || this.full_screen_mode == true) {
+                if (!this.full_screen_mode) {
+                    var selection = this.sel;
+                    var range = this.range;
+                } else {
+                    var temp = this.authService.retrieve();
+                    var selection = temp.selection;
+                    var range = temp.range;
+                }
             } else {
                 var selection: any = window.getSelection();
-                // if (selection.baseNode.nextSibling && (selection.baseNode.nextSibling.className == 'highlight_quote' || selection.baseNode.nextSibling.className == 'highlight_comment')) {
-                var node = selection.baseNode.nextElementSibling;
-                while (node != null) {
-                    if (node.localName == 'highlight_quote') {
-                        this.toastInFooter('The selection overlapps with the already annotated text.');
-                        this.selection_lock = false;
-                        return false;
-                    }
-                    node = node.nextElementSibling;
-                }
                 var range: any = document.createRange();
                 range.setStart(selection.baseNode, selection.baseOffset);
                 range.setEnd(selection.extentNode, selection.extentOffset);
-                // range.setStart(this.selection.startContainer, this.selection.startOffset);
-                // range.setEnd(this.selection.endContainer, this.selection.endOffset);
+            }
+            if (this.checkIfItOverlaps(range) == true) {
+                this.utilityMethods.doToast("You cannot overlap already annototed text.");
+                return false;
             }
             var newNode = document.createElement("highlight_quote");
             newNode.setAttribute("data-selectedtxt", this.selectedText);
@@ -804,15 +810,32 @@ export class AnototeEditor {
                 newNode.setAttribute("class", "highlight_quote");
             newNode.appendChild(range.extractContents());
             range.insertNode(newNode);
-
             selection.removeAllRanges();
-            return false;
+            return true;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
             this.selection_lock = false;
             this.selectedText = '';
             return false;
         }
+    }
+
+    checkIfItOverlaps(range): boolean {
+        var node = document.createElement('temp');
+        node.appendChild(range.cloneContents());
+        return node.innerHTML.includes('highlight_quote');
+        // var node = selection.baseNode.nextElementSibling;
+        // while (node != null) {
+        //     if (node.localName == 'highlight_quote') {
+
+        //         this.toastInFooter('The selection overlapps with the already annotated text.');
+        //         this.selection_lock = false;
+        //         return false;
+        //     }
+        //     node = node.nextElementSibling;
+        // }
+        // return true;
+
     }
 
     scrollTo(identifier: string) {
@@ -1106,7 +1129,13 @@ export class AnototeEditor {
         // this.range = this.sel.getRangeAt(0);
         this.commentDetailModalIsOpen.check = true;
         if (this.full_screen_mode == false) {
-            this.sel = window.getSelection();
+            var temp = window.getSelection();
+            this.sel = {
+                baseNode: temp.baseNode,
+                baseOffset: temp.baseOffset,
+                extentNode: temp.extentNode,
+                extentOffset: temp.extentOffset
+            }
             this.range = document.createRange();
             this.range.setStart(this.selection.startContainer, this.selection.startOffset);
             this.range.setEnd(this.selection.endContainer, this.selection.endOffset);

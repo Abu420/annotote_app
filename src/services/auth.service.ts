@@ -17,11 +17,24 @@ export class AuthenticationService {
   private _user: User;
   private _storage_ready: boolean;
   public dots_to_show: Array<any> = [];
+  private dummb = {
+    selection: null,
+    range: null
+  }
 
   public constructor(public http: Http, public constants: Constants, public storage: Storage) {
     this.storage.ready().then(() => {
       this._storage_ready = true;
     });
+  }
+
+  public store(selection, range) {
+    this.dummb.selection = selection;
+    this.dummb.range = range;
+  }
+
+  public retrieve() {
+    return this.dummb;
   }
 
   /**
