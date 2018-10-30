@@ -503,14 +503,7 @@ page-anotote-editor {
             .highlight_quote,
             .highlight_comment {
                 background: #c3f5b2 !important;
-                p,
-                h1,
-                h2,
-                h3,
-                h4,
-                h5,
-                h6,
-                div {
+                * {
                     background: #c3f5b2 !important;
                 }
             }
@@ -525,6 +518,9 @@ page-anotote-editor {
             }
             .greyOut {
                 background: #d4d4d4 !important;
+                * {
+                    background: #d4d4d4 !important;
+                }
             }
             .only_light {
                 background: #c3f5b2 !important;
@@ -534,11 +530,14 @@ page-anotote-editor {
             .highlight_quote,
             .highlight_comment {
                 background: #fff896 !important;
-                p {
+                * {
                     background: #fff896 !important;
                 }
                 &.greyOut {
                     background: #d4d4d4 !important;
+                    * {
+                        background: #d4d4d4 !important;
+                    }
                 }
             }
             .highlight_comment:before {
@@ -555,11 +554,14 @@ page-anotote-editor {
             .highlight_quote,
             .highlight_comment {
                 background: #f9d7f5 !important;
-                p {
+                * {
                     background: #f9d7f5;
                 }
                 &.greyOut {
                     background: #d4d4d4 !important;
+                    * {
+                        background: #d4d4d4 !important;
+                    }
                 }
             }
             .highlight_comment:before {
@@ -576,11 +578,14 @@ page-anotote-editor {
             .highlight_quote,
             .highlight_comment {
                 background: #e0e0e0 !important;
-                p {
+                * {
                     background: #e0e0e0;
                 }
                 &.greyOut {
                     background: #d4d4d4 !important;
+                    * {
+                        background: #d4d4d4 !important;
+                    }
                 }
             }
             .highlight_comment:before {

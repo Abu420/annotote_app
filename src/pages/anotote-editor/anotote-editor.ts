@@ -565,6 +565,7 @@ export class AnototeEditor {
         setTimeout(() => {
             var iframe: any = document.getElementById('browsed');
             if (iframe.contentDocument) {
+                iframe.contentDocument.body.setAttribute('class', this.actual_stream);
                 iframe.contentDocument.addEventListener('selectionchange', (e) => {
                     var sel = iframe.contentDocument.getSelection(),
                         selected_txt = sel.toString();
@@ -591,9 +592,13 @@ export class AnototeEditor {
                         }
                     }
                 })
-                iframe.contentDocument.addEventListener('touchend', (event) => {
+                iframe.contentDocument.addEventListener('touchstart', (event) => {
+                    event.preventDefault();
                     if (event.target.localName == 'highlight_quote')
                         this.editor_click(event);
+                    else if (event.target.href) {
+                        this.editor_click(event);
+                    }
                 })
             }
         }, 1000);
@@ -810,7 +815,8 @@ export class AnototeEditor {
                 newNode.setAttribute("class", "highlight_quote");
             newNode.appendChild(range.extractContents());
             range.insertNode(newNode);
-            selection.removeAllRanges();
+            if (selection.baseNode)
+                selection.removeAllRanges();
             return true;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
@@ -847,85 +853,94 @@ export class AnototeEditor {
     }
 
     editor_click(event) {
-        // if (this.full_screen_mode == false) {
-        var identifier = event.target.getAttribute("data-identifier");
-        if (identifier) {
-            if (this.commentDetailModalIsOpen.check) {
-                if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == identifier) {
-                    var element = document.getElementById(identifier);
-                    element.classList.remove('greyOut');
-                    this.events.publish('closeModal');
-                    this.commentDetailModalIsOpen.check = false;
-                    this.commentDetailModalIsOpen.comment = null;
-                    return;
-                } else if (this.commentDetailModalIsOpen.comment) {
-                    this.scrollTo(identifier);
-                    var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
-                    element.classList.remove('greyOut');
-                    this.events.publish('closeModal');
-                } else {
-                    this.events.publish('closeModal');
+        if (this.full_screen_mode == false) {
+            var identifier = event.target.getAttribute("data-identifier");
+            if (identifier) {
+                if (this.commentDetailModalIsOpen.check) {
+                    if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == identifier) {
+                        var element = document.getElementById(identifier);
+                        element.classList.remove('greyOut');
+                        this.events.publish('closeModal');
+                        this.commentDetailModalIsOpen.check = false;
+                        this.commentDetailModalIsOpen.comment = null;
+                        return;
+                    } else if (this.commentDetailModalIsOpen.comment) {
+                        this.scrollTo(identifier);
+                        var element = document.getElementById(this.commentDetailModalIsOpen.comment.identifier);
+                        element.classList.remove('greyOut');
+                        this.events.publish('closeModal');
+                    } else {
+                        this.events.publish('closeModal');
+                    }
+                }
+                var element = document.getElementById(identifier);
+                element.classList.add('greyOut');
+                try {
+                    this.selected_highlight = {
+                        txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
+                        identifier: event.target.getAttribute("data-identifier"),
+                        type: event.target.getAttribute("class"),
+                        from_where: '',
+                        comment: event.target.getAttribute("data-comment")
+                    };
+                    this.commentDetailModalIsOpen.check = true;
+                    this.commentDetailModalIsOpen.comment = this.selected_highlight;
+                    this.presentCommentDetailModal(this.selected_highlight, event.target);
+                } catch (exception) {
+                    this.toastInFooter('Cannot show annotation for anon stream')
+                }
+            } else if (event.target.href) {
+                event.preventDefault();
+                if (this.full_screen_mode) {
+                    this.anotote_service.currentPage++;
+                    this.navCtrl.push(AnototeEditor, { url: event.target.href, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
                 }
             }
-            var element = document.getElementById(identifier);
-            element.classList.add('greyOut');
+        } else {
             try {
-                this.selected_highlight = {
-                    txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
-                    identifier: event.target.getAttribute("data-identifier"),
-                    type: event.target.getAttribute("class"),
-                    from_where: '',
-                    comment: event.target.getAttribute("data-comment")
-                };
-                this.commentDetailModalIsOpen.check = true;
-                this.commentDetailModalIsOpen.comment = this.selected_highlight;
-                this.presentCommentDetailModal(this.selected_highlight, event.target);
+                var identifier = event.target.getAttribute('data-identifier');
+                if (identifier) {
+                    var iframe: any = document.getElementById('browsed');
+                    if (this.commentDetailModalIsOpen.check) {
+                        if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == identifier) {
+                            var element: HTMLElement = iframe.contentDocument.getElementById(identifier);
+                            element.classList.remove('greyOut');
+                            this.events.publish('closeModal');
+                            this.commentDetailModalIsOpen.check = false;
+                            this.commentDetailModalIsOpen.comment = null;
+                            return;
+                        } else if (this.commentDetailModalIsOpen.comment) {
+                            this.scrollTo(identifier);
+                            var element: HTMLElement = iframe.contentDocument.getElementById(this.commentDetailModalIsOpen.comment.identifier);
+                            element.classList.remove('greyOut');
+                            this.events.publish('closeModal');
+                        } else {
+                            this.events.publish('closeModal');
+                        }
+                    }
+                    iframe.contentDocument.getElementById(identifier).classList.add('greyOut');
+                    this.selected_highlight = {
+                        txt: this.get_highlight(identifier).highlightText,
+                        identifier: identifier,
+                        type: event.target.getAttribute("class"),
+                        from_where: '',
+                        comment: event.target.getAttribute("data-comment")
+                    };
+                    this.commentDetailModalIsOpen.check = true;
+                    this.commentDetailModalIsOpen.comment = this.selected_highlight;
+                    this.presentCommentDetailModal(this.selected_highlight, event.target);
+                } else if (event.target.href) {
+                    event.preventDefault();
+                    if (this.full_screen_mode) {
+                        this.anotote_service.currentPage++;
+                        this.navCtrl.push(AnototeEditor, { url: event.target.href, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
+                    }
+                }
+
             } catch (exception) {
-                this.toastInFooter('Cannot show annotation for anon stream')
-            }
-        } else if (event.target.href) {
-            event.preventDefault();
-            if (this.full_screen_mode) {
-                this.anotote_service.currentPage++;
-                this.navCtrl.push(AnototeEditor, { url: event.target.href, FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true, full_screen: true });
+                this.toastInFooter('Cannot show annotation from full screen mode');
             }
         }
-        // No need to add separate functionality for full screen mode
-        // } else {
-        //     try {
-        //         var iframe: any = document.getElementById('browsed');
-        //         if (this.commentDetailModalIsOpen.check) {
-        //             if (this.commentDetailModalIsOpen.comment && this.commentDetailModalIsOpen.comment.identifier == event.target.getAttribute('data-identifier')) {
-        //                 var element: HTMLElement = iframe.contentDocument.getElementById(event.target.getAttribute('data-identifier'));
-        //                 element.classList.remove('greyOut');
-        //                 this.events.publish('closeModal');
-        //                 this.commentDetailModalIsOpen.check = false;
-        //                 this.commentDetailModalIsOpen.comment = null;
-        //                 return;
-        //             } else if (this.commentDetailModalIsOpen.comment) {
-        //                 this.scrollTo(identifier);
-        //                 var element: HTMLElement = iframe.contentDocument.getElementById(this.commentDetailModalIsOpen.comment.identifier);
-        //                 element.classList.remove('greyOut');
-        //                 this.events.publish('closeModal');
-        //             } else {
-        //                 this.events.publish('closeModal');
-        //             }
-        //         }
-        //         iframe.contentDocument.getElementById(event.target.getAttribute('data-identifier')).classList.add('greyOut');
-        //         this.selected_highlight = {
-        //             txt: this.get_highlight(event.target.getAttribute("data-identifier")).highlightText,
-        //             identifier: event.target.getAttribute("data-identifier"),
-        //             type: event.target.getAttribute("class"),
-        //             from_where: '',
-        //             comment: event.target.getAttribute("data-comment")
-        //         };
-        //         this.commentDetailModalIsOpen.check = true;
-        //         this.commentDetailModalIsOpen.comment = this.selected_highlight;
-        //         this.presentCommentDetailModal(this.selected_highlight, event.target);
-        //     } catch (exception) {
-        //         this.toastInFooter('Cannot show annotation from full screen mode');
-        //     }
-        // }
     }
 
     comment_it() {
@@ -1254,8 +1269,8 @@ export class AnototeEditor {
     remove_annotation_api(an_id, element) {
         var current_time = this.utilityMethods.get_php_wala_time();
         element.replaceWith(element.innerText);
-        // var article_txt = this.get_updated_article_text();
-        var article_txt = document.getElementById('text_editor').innerHTML;
+        var article_txt = this.get_updated_article_text();
+        // var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
@@ -1319,8 +1334,8 @@ export class AnototeEditor {
         // element.replaceWith(element.innerText);
         element.className = "highlight_comment"
         element.setAttribute("data-comment", comment);
-        // var article_txt = this.get_updated_article_text();
-        var article_txt = document.getElementById('text_editor').innerHTML;
+        var article_txt = this.get_updated_article_text();
+        // var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
@@ -1389,8 +1404,8 @@ export class AnototeEditor {
         if (!this.highlight_(type, identifier, comment))
             return;
         // this.for_creating_and_updating_comment = true;
-        // var article_txt = this.get_updated_article_text();
-        var article_txt = document.getElementById('text_editor').innerHTML;
+        var article_txt = this.get_updated_article_text();
+        // var article_txt = document.getElementById('text_editor').innerHTML;
         var tote_id = '';
         if (this.WHICH_STREAM != 'me' && this.WHICH_STREAM != 'anon') {
             tote_id = this.WHICH_STREAM == 'follows' ? this.ANOTOTE.userAnnotote.anototeDetail.meToteFollowTop.id : this.ANOTOTE.anototeDetail.meToteFollowTop.id;
@@ -1473,17 +1488,19 @@ export class AnototeEditor {
     }
 
     //not required after HMTheorem
-    // get_updated_article_text() {
-    //     if (this.full_screen_mode == true) {
-    //         var iframe: any = document.getElementById('browsed');
-    //         var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-    //         return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
-    //     } else {
-    //         this.add_remove_display_none(true);
-    //         var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-    //         return tag + document.getElementById('text_editor').innerHTML + '</html>';
-    //     }
-    // }
+    get_updated_article_text(): string {
+        if (this.full_screen_mode == true) {
+            var iframe: any = document.getElementById('browsed');
+            // var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+            // return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
+            return iframe.contentDocument.documentElement.innerHTML;
+        } else {
+            // this.add_remove_display_none(true);
+            // var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+            // return tag + document.getElementById('text_editor').innerHTML + '</html>';
+            return document.getElementById('text_editor').innerHTML;
+        }
+    }
     // add_remove_display_none(check) {
     //     return new Promise((resolve, reject) => {
     //         var elements = document.querySelectorAll('[data-trick="annotote_trick"]');

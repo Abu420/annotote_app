@@ -159,7 +159,7 @@ export class Frame implements PipeTransform {
   constructor(private _sanitizer: DomSanitizer) { }
 
   transform(v: string): SafeHtml {
-    return this._sanitizer.bypassSecurityTrustResourceUrl(v);
+    return this._sanitizer.bypassSecurityTrustResourceUrl(v + "?random=" + (new Date()).getTime() + Math.floor(Math.random() * 1000000));
   }
 }
 
