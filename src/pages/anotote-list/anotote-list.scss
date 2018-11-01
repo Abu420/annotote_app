@@ -1014,6 +1014,15 @@
                                         }
                                     }
                                 }
+                                .chatToteForHover {
+                                    @extend .toteText;
+                                    &:hover {
+                                        background: none;
+                                    }
+                                    p:hover {
+                                        background: color($assetFeedback, base);
+                                    }
+                                }
                                 .totBtn {
                                     float: right;
                                     margin-top: 8px;
@@ -1071,7 +1080,7 @@
                                             }
                                             .check-text {
                                                 vertical-align: top;
-                                                padding: 0 10px 0 12px;
+                                                padding: 0 0 0 12px;
                                                 border: 0px;
                                                 width: calc(100% - 15px);
                                                 margin: 0;
@@ -1146,13 +1155,15 @@
                                 contain: none;
                                 overflow: visible;
                                 &.selectedForBrowserPane {
+                                    background: color($assetFeedback, base);
+                                    min-height: 6.4rem;
                                     p {
                                         text-overflow: ellipsis;
                                         display: -webkit-box;
                                         -webkit-box-orient: vertical;
                                         -webkit-line-clamp: 2;
+                                        overflow: hidden;
                                     }
-                                    background: color($assetFeedback, base);
                                     &:after {
                                         content: '';
                                         position: absolute;
@@ -1179,6 +1190,7 @@
                                     .input-wrapper {
                                         ion-label {
                                             padding: 0;
+                                            margin-right: 0;
                                             .txt {
                                                 border-bottom: 0px;
                                                 display: inline-block;
@@ -1216,7 +1228,7 @@
                                             }
                                             .check-text {
                                                 vertical-align: top;
-                                                padding: 0 10px 0 17px;
+                                                padding: 0 0px 0 17px;
                                                 border: 0px;
                                                 width: calc(100% - 15px);
                                                 margin: 0;

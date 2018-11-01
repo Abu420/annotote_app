@@ -38,7 +38,7 @@ $font-path: "../assets/fonts";
 // It's highly recommended to change the default colors
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
-// The "primary" color is the only required color in the map.
+// The "primary" color is the only required color in the map. old base color #f0f0f0
 $colors: ( me: #3bde00,
 follows: #f4e300,
 top: #fb9df0,
@@ -54,8 +54,9 @@ commonheader: #3bde00,
 yellowheader: #f4e300,
 menuIconColor:#8e9093,
 pinkheader: #fb9df0);
-$assetFeedback:( base:#f0f0f0,
+$assetFeedback:( base: #e2e2e2,
 homeBaseHover:#cfcfcf,
+popUpbtnHover:#6c6c6d,
 darkGreen:#2ba600,
 streamsHoverShadow:#c4c4c4,
 darkYellow:#e9ca00,

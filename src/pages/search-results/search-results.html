@@ -110,7 +110,7 @@
                                     <span [innerText]="anotote.chatGroup.createdAt | time_stamp"></span>
                                 </em>
                             </div>
-                            <div class="toteText">
+                            <div class="chatToteForHover">
                                 <ng-container *ngIf="(anotote.chatGroup.groupUsers | chatVoteOptions) == true">
                                     <p *ngIf="anotote.chatGroup.groupUsers[0].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{anotote.chatGroup.groupUsers[0].user.firstName}} ({{anotote.chatGroup.groupUsers.length}})</p>
                                     <p *ngIf="anotote.chatGroup.groupUsers[1].user.id != user.id" (click)="chat_participants_from_tote($event,anotote)">{{anotote.chatGroup.groupUsers[1].user.firstName}} ({{anotote.chatGroup.groupUsers.length}})</p>

@@ -621,6 +621,15 @@ search-results {
                                     }
                                 }
                             }
+                            .chatToteForHover {
+                                @extend .toteText;
+                                &:hover {
+                                    background: none;
+                                }
+                                p:hover {
+                                    background: color($assetFeedback, base);
+                                }
+                            }
                             .totBtn {
                                 float: right;
                                 margin-top: 8px;
@@ -765,11 +774,13 @@ search-results {
                             overflow: visible;
                             &.selectedForBrowserPane {
                                 background: color($assetFeedback, base);
+                                min-height: 6.4rem;
                                 p {
                                     text-overflow: ellipsis;
                                     display: -webkit-box;
                                     -webkit-box-orient: vertical;
                                     -webkit-line-clamp: 2;
+                                    overflow: hidden;
                                 }
                                 &:after {
                                     content: '';

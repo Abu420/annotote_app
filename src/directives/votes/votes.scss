@@ -49,6 +49,10 @@ vote-footer {
             i {
                 font-style: normal;
             }
+            &:active,
+            &:focus {
+                color: color($assetFeedback, popUpbtnHover)
+            }
         }
     }
     .options {

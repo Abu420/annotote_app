@@ -261,7 +261,7 @@ comment_detail_popup {
         margin-right: 10px;
         &:focus,
         &:hover {
-            color: color($assetFeedback, streamsHoverShadow);
+            color: color($assetFeedback, popUpbtnHover);
         }
     }
     .save {
@@ -444,6 +444,10 @@ page-anotote-editor {
                 overflow: hidden;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
+                &:focus,
+                &:active {
+                    color: color($assetFeedback, popUpbtnHover);
+                }
             }
             textarea {
                 display: inline-block;
@@ -657,6 +661,7 @@ page-anotote-editor {
             border: 0px;
             min-width: auto !important;
             font-family: "robotolight" !important;
+            margin: 0;
         }
         .scrap_article_body {
             display: block !important;

@@ -273,7 +273,9 @@ export class Chat {
 
   ionViewDidLoad() {
     this.doInfinite(null);
-    autosize(document.getElementById('message'));
+    setTimeout(()=>{
+      autosize(document.getElementById('message'));
+    },1000);
   }
 
   autoScroll() {
