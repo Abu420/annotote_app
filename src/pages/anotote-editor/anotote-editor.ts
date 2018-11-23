@@ -519,7 +519,7 @@ export class AnototeEditor {
             }
             // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
             var name = temp[temp.length - 1].split('.')[0];
-            this.url_for_frame = this.constants.iframe_baseurl + name + '.html';
+            this.url_for_frame = this.constants.iframe_baseurl + name + '.html?stream=' + this.actual_stream + '&&toteId=' + this.ANOTOTE.userAnnotote.id;
             // setTimeout(() => {
 
             //     // iframe.onload = () => {
@@ -562,46 +562,46 @@ export class AnototeEditor {
     }
 
     iframeLoaded() {
-        setTimeout(() => {
-            var iframe: any = document.getElementById('browsed');
-            if (iframe.contentDocument) {
-                iframe.contentDocument.body.setAttribute('class', this.actual_stream);
-                iframe.contentDocument.addEventListener('selectionchange', (e) => {
-                    var sel = iframe.contentDocument.getSelection(),
-                        selected_txt = sel.toString();
-                    if (selected_txt != '') {
-                        this.range = iframe.contentDocument.createRange();
-                        this.range.setStart(sel.baseNode, sel.baseOffset);
-                        this.range.setEnd(sel.extentNode, sel.extentOffset);
-                        this.sel = _.clone(sel);
-                        if (sel.baseNode != null)
-                            this.authService.store(this.sel, this.range);
-                        console.log(this.sel);
-                        console.log(this.range);
-                        var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
-                        this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
-                        this.cd.detectChanges();
-                    } else {
-                        if (this.toggle_annotation_option == false) {
-                            this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
-                            this.cd.detectChanges();
-                        } else {
-                            setTimeout(() => {
-                                this.toggle_annotation_option = false;
-                            }, 500);
-                        }
-                    }
-                })
-                iframe.contentDocument.addEventListener('touchstart', (event) => {
-                    event.preventDefault();
-                    if (event.target.localName == 'highlight_quote')
-                        this.editor_click(event);
-                    else if (event.target.href) {
-                        this.editor_click(event);
-                    }
-                })
-            }
-        }, 1000);
+        // setTimeout(() => {
+        //     var iframe: any = document.getElementById('browsed');
+        //     if (iframe.contentDocument) {
+        //         iframe.contentDocument.body.setAttribute('class', this.actual_stream);
+        //         iframe.contentDocument.addEventListener('selectionchange', (e) => {
+        //             var sel = iframe.contentDocument.getSelection(),
+        //                 selected_txt = sel.toString();
+        //             if (selected_txt != '') {
+        //                 this.range = iframe.contentDocument.createRange();
+        //                 this.range.setStart(sel.baseNode, sel.baseOffset);
+        //                 this.range.setEnd(sel.extentNode, sel.extentOffset);
+        //                 this.sel = _.clone(sel);
+        //                 if (sel.baseNode != null)
+        //                     this.authService.store(this.sel, this.range);
+        //                 console.log(this.sel);
+        //                 console.log(this.range);
+        //                 var current_selection = { "startContainer": this.range.startContainer, "startOffset": this.range.startOffset, "endContainer": this.range.endContainer, "endOffset": this.range.endOffset };
+        //                 this.events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection });
+        //                 this.cd.detectChanges();
+        //             } else {
+        //                 if (this.toggle_annotation_option == false) {
+        //                     this.events.publish('show_tote_options', { flag: false, txt: '', selection: '' });
+        //                     this.cd.detectChanges();
+        //                 } else {
+        //                     setTimeout(() => {
+        //                         this.toggle_annotation_option = false;
+        //                     }, 500);
+        //                 }
+        //             }
+        //         })
+        //         iframe.contentDocument.addEventListener('touchstart', (event) => {
+        //             event.preventDefault();
+        //             if (event.target.localName == 'highlight_quote')
+        //                 this.editor_click(event);
+        //             else if (event.target.href) {
+        //                 this.editor_click(event);
+        //             }
+        //         })
+        //     }
+        // }, 1000);
     }
 
     //showHide scenario changed after HMTheorem implementation.
