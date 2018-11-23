@@ -461,6 +461,10 @@ view_options {
             color: white;
             text-align: left;
             width: 100%;
+            &:focus,
+            &:active {
+                color: color($assetFeedback, popUpbtnHover);
+            }
         }
         .notFollowing {
             position: absolute;

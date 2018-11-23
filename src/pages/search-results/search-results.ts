@@ -155,6 +155,13 @@ export class SearchResults {
       if (highlight != null) {
         this.disableSelectedMode(anotote.highlights);
         highlight.selected = true;
+      } else if (highlight == null) {
+        if (anotote.noHighlights == undefined || anotote.noHighlights == false)
+          anotote.noHighlights = true;
+        else {
+          anotote.noHighlights = false;
+          return;
+        }
       }
       this.navCtrl.push(AnototeEditor, { ANOTOTE: anotote, FROM: 'search_result', WHICH_STREAM: 'anon', HIGHLIGHT_RECEIVED: highlight, actual_stream: anotote.active_tab });
     } else {

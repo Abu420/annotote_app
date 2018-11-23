@@ -660,6 +660,13 @@ export class AnototeList {
           if (highlight != null) {
             this.disableSelectedMode(anotote.highlights);
             highlight.selected = true;
+          } else if (highlight == null) {
+            if (anotote.noHighlights == undefined || anotote.noHighlights == false)
+              anotote.noHighlights = true;
+            else {
+              anotote.noHighlights = false;
+              return;
+            }
           }
           if (this.current_color != 'top') {
             if (this.current_color == 'me') {

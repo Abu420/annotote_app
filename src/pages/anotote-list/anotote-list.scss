@@ -1156,14 +1156,13 @@
                                 overflow: visible;
                                 &.selectedForBrowserPane {
                                     background: color($assetFeedback, base);
-                                    min-height: 6.4rem;
-                                    p {
-                                        text-overflow: ellipsis;
-                                        display: -webkit-box;
-                                        -webkit-box-orient: vertical;
-                                        -webkit-line-clamp: 2;
-                                        overflow: hidden;
-                                    }
+                                    min-height: 6.4rem; // p {
+                                    //     text-overflow: ellipsis;
+                                    //     display: -webkit-box;
+                                    //     -webkit-box-orient: vertical;
+                                    //     -webkit-line-clamp: 2;
+                                    //     overflow: hidden;
+                                    // }
                                     &:after {
                                         content: '';
                                         position: absolute;
@@ -1361,6 +1360,22 @@
                             .no_anotation {
                                 text-align: center;
                                 padding: 10px 0px 10px 20px;
+                                &.noHighlight {
+                                    position: relative;
+                                    background: color($assetFeedback, base);
+                                    &:after {
+                                        content: '';
+                                        position: absolute;
+                                        top: 0;
+                                        bottom: 0;
+                                        margin: auto;
+                                        left: 99.8%;
+                                        background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                                        background-size: 100%;
+                                        width: 25px;
+                                        height: 100%;
+                                    }
+                                }
                                 p {
                                     white-space: normal;
                                     position: relative;
@@ -1374,12 +1389,14 @@
                                             background: url(../assets/img/check2.png);
                                             background-position: left;
                                             background-repeat: no-repeat;
-                                            background-size: 5vw;
+                                            background-size: 18px;
                                             position: absolute;
                                             left: 0px;
                                             top: 0px;
-                                            width: 17px;
-                                            height: 100%;
+                                            bottom: 0;
+                                            margin: auto;
+                                            width: 18px;
+                                            height: 18px;
                                         }
                                     }
                                 }

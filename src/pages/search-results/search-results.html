@@ -175,7 +175,7 @@
                                 </ion-item>
                             </ng-container>
                         </ion-list>
-                        <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me'" (click)="go_to_browser(anotote,null)">
+                        <div class="no_anotation" [ngClass]="{'noHighlight': anotote.noHighlights == true}" *ngIf="anotote.highlights.length == 0 && anotote.active_tab == 'me'" (click)="go_to_browser(anotote,null)">
                             <p class="me">Leave your mark >>></p>
                         </div>
                         <div class="no_anotation" *ngIf="anotote.highlights.length == 0 && (anotote.active_tab == 'follows' || anotote.active_tab == 'top')">

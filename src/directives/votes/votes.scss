@@ -51,7 +51,7 @@ vote-footer {
             }
             &:active,
             &:focus {
-                color: color($assetFeedback, popUpbtnHover)
+                color: color($assetFeedback, popUpbtnHover) !important;
             }
         }
     }
