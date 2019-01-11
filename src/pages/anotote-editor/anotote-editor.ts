@@ -214,6 +214,8 @@ export class AnototeEditor {
     HMTheorem(params) {
         this.searchService.create_anotote(params)
             .subscribe((response) => {
+                // added by Hamza
+                console.log(response.data);
                 response.data.userAnnotote.annotote = response.data.annotote;
                 if (this.navParams.get('saveThisToMe') && response.data.userAnnotote.isMe == 0)
                     this.saveTote(response);
@@ -519,6 +521,7 @@ export class AnototeEditor {
             }
             // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
             var name = temp[temp.length - 1].split('.')[0];
+            console.log(this.ANOTOTE);
             this.url_for_frame = this.constants.iframe_baseurl + name + '.html?stream=' + this.actual_stream + '&&toteId=' + this.ANOTOTE.userAnnotote.id;
             // setTimeout(() => {
 
