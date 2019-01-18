@@ -293,7 +293,7 @@
         <button *ngIf="unread_notification_count > 0" ion-button icon-only class="notices">{{unread_notification_count}}</button>
     </ion-fab>
 </ion-content>
-<!-- <ion-footer class="inline_tote_options" *ngIf="loading_check">
+<ion-footer class="inline_tote_options" *ngIf="loading_check">
     <ion-toolbar color="dark">
         <p class="messageLoading">{{loading_message}}</p>
     </ion-toolbar>
@@ -325,8 +325,8 @@
             (toast-loading)="voteLoadingEvents($event)" [current_color]="WHICH_STREAM" [current_active_anotote]="ANOTOTE"></vote-footer>
     </ion-toolbar>
 </ion-footer> -->
-<!--<div class="inline_tote_options" *ngIf="toggle_annotation_option">
+<div class="inline_tote_options" *ngIf="toggle_annotation_option">
     <span (click)="comment_it()" class="comment"></span>
     <span (click)="quote_it()" class="quote"></span>
     <span (click)="share_it()" class="cross"></span>
-</div>-->
+</div>
