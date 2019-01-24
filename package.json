@@ -43,7 +43,7 @@
     "@types/lodash": "^4.14.117",
     "angular2-moment": "^1.4.0",
     "code-point-at": "^1.1.0",
-    "cordova-android": "7.0.0",
+    "cordova-android": "7.1.4",
     "cordova-clipboard": "^1.1.0",
     "cordova-ios": "4.5.4",
     "cordova-plugin-badge": "^0.8.7",
@@ -73,7 +73,8 @@
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
     "underscore": "^1.8.3",
-    "zone.js": "0.8.26"
+    "zone.js": "0.8.26",
+    "phonegap-plugin-push": "^1.10.5"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
@@ -101,8 +102,8 @@
   "description": "Anotot: An Ionic project",
   "cordova": {
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-console": {},
@@ -141,6 +142,9 @@
         "DEEPLINK_4_HOST": " ",
         "DEEPLINK_5_SCHEME": " ",
         "DEEPLINK_5_HOST": " "
+      },
+      "phonegap-plugin-push": {
+        "SENDER_ID": "200726631075"
       }
     }
   }
