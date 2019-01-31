@@ -447,7 +447,7 @@ view_options {
             color: #3bde00;
             padding: 10px 0px;
             text-transform: uppercase;
-            width: 35px;
+            min-width: 35px;
         }
         span:focus,
         span:active {

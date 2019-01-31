@@ -278,24 +278,36 @@ page-home {
         &:after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 99.5%;
-            background: url(../assets/img/arrowNormal.svg) no-repeat center center;
-            background-size: 100%;
-            width: 30px;
-            height: 100%;
+                // top: 0;
+                // left: 99.5%;
+                // background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                // background-size: 100%;
+                // width: 30px;
+                // height: 100%;
+                width: 25px !important;
+                top: -6%;
+                bottom: -6%;
+                right: -23px;
+                background: url(../assets/img/arrowNormal.png) no-repeat center center;
+                background-size: 100% 100%;
         }
         &:hover {
             background: color($assetFeedback, streamsHoverShadow) !important;
             &:after {
                 content: '';
                 position: absolute;
-                top: 0;
-                left: 99.5%;
-                background: url(../assets/img/homeArrowSelected.svg) no-repeat center center;
-                background-size: 100%;
-                width: 30px;
-                height: 100%;
+                // top: 0;
+                // left: 99.5%;
+                // background: url(../assets/img/homeArrowSelected.svg) no-repeat center center;
+                // background-size: 100%;
+                // width: 30px;
+                // height: 100%;
+                width: 25px !important;
+                top: -6%;
+                bottom: -6%;
+                right: -23px;
+                background: url(../assets/img/homeArrowSelected.png) no-repeat center center;
+                background-size: 100% 100%;
             }
         }
     }
