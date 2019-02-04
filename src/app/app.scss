@@ -416,6 +416,11 @@ view_options {
     /** Opera **/
 }
 
+.fullFab {
+    @extend .moveUp;
+    bottom: 75px !important;
+}
+
 .moveUpList {
     @extend .moveUp;
     bottom: 65px !important;

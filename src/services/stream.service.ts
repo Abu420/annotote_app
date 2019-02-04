@@ -13,11 +13,11 @@ export class Streams {
     public top_first_load = false;
 
     constructor() {
-        // var store = JSON.parse(localStorage.getItem('offline'));
-        // if (store && store.length > 0) {
-        //     this.me_first_load = true;
-        //     this.me_anototes = store;
-        // }
+        var store = JSON.parse(localStorage.getItem('offline'));
+        if (store && store.length > 0) {
+            this.me_first_load = true;
+            this.me_anototes = store;
+        }
     }
 
     clear() {

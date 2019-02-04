@@ -372,12 +372,11 @@ page-anotote-editor {
         width: 100%;
         background: black;
         padding: 0;
-        z-index: 10000; // &.meFooter {
-        //     height: auto;
-        //     ion-toolbar {
-        //         height: auto;
-        //     }
-        // }
+        z-index: 10000;
+        &.meFooter {
+            display: block !important;
+            padding: 0 !important;
+        }
         &.bottomLine {
             height: auto;
             padding: 10px 0px;

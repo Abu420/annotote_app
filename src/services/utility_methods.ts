@@ -350,7 +350,7 @@ export class UtilityMethods {
      */
 
     launch(url) {
-        window.open(url, '_system')
+        window.open(url, '_blank', 'footer=yes')
     }
 
     /**
