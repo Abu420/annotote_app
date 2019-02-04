@@ -10,10 +10,10 @@ vote-footer {
             width: 15px;
             vertical-align: middle;
             display: inline-block;
-            &:focus,
-            &:active {
-                width: 18px;
-            }
+            // &:focus,
+            // &:active {
+            //     width: 18px;
+            // }
         }
         span {
             display: inline-block;

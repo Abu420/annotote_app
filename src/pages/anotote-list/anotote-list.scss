@@ -1166,14 +1166,19 @@
                                     &:after {
                                         content: '';
                                         position: absolute;
-                                        top: 0;
-                                        bottom: 0;
+                                        // top: 0;
+                                        // bottom: 0;
                                         margin: auto;
-                                        left: 99.8%;
-                                        background: url(../assets/img/arrowNormal.svg) no-repeat center center;
-                                        background-size: 100%;
-                                        width: 25px;
-                                        height: 100%;
+                                        // left: 99.8%;
+                                        // background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                                        // background-size: 100%;
+                                        width: 25px !important;
+                                        // height: 100%;
+                                        top: -6%;
+                                        bottom: -6%;
+                                        right: -23px;
+                                        background: url(../assets/img/arrowNormal.png) no-repeat center center;
+                                        background-size: 100% 100%;
                                     }
                                 }
                                 &.selectedForMessages {
@@ -1366,14 +1371,19 @@
                                     &:after {
                                         content: '';
                                         position: absolute;
-                                        top: 0;
-                                        bottom: 0;
+                                        // top: 0;
+                                        // bottom: 0;
                                         margin: auto;
-                                        left: 99.8%;
-                                        background: url(../assets/img/arrowNormal.svg) no-repeat center center;
-                                        background-size: 100%;
-                                        width: 25px;
-                                        height: 100%;
+                                        // left: 99.8%;
+                                        // background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+                                        // background-size: 100%;
+                                        width: 25px !important;
+                                        // height: 100%;
+                                        top: -6%;
+                                        bottom: -6%;
+                                        right: -23px;
+                                        background: url(../assets/img/arrowNormal.png) no-repeat center center;
+                                        background-size: 100% 100%;
                                     }
                                 }
                                 p {
