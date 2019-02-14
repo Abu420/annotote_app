@@ -215,7 +215,6 @@ export class AnototeEditor {
         this.searchService.create_anotote(params)
             .subscribe((response) => {
                 // added by Hamza
-                console.log(response.data);
                 response.data.userAnnotote.annotote = response.data.annotote;
                 if (this.navParams.get('saveThisToMe') && response.data.userAnnotote.isMe == 0)
                     this.saveTote(response);
@@ -502,27 +501,26 @@ export class AnototeEditor {
 
     change_full_screen_mode() {
         this.full_screen_mode = !this.full_screen_mode;
-        this.moveFabUp = !this.moveFabUp;
+        // this.moveFabUp = !this.moveFabUp;
         if (this.full_screen_mode == true) {
             this.toggle_annotation_option = false;
-            // this.ANOTOTE_LOADED = true;
+            this.ANOTOTE_LOADED = true;
             this.showheader = false;
             this.hideheader = true;
             this.statusBar.hide();
             //not required after HMTheorem
             //taking iframe functionality out of equation
-            if (this.actual_stream == 'me') {
-                var temp = this.ANOTOTE.meFilePath.split('/');
-            } else if (this.actual_stream == 'follows') {
-                var temp = this.ANOTOTE.followerFilePath.split('/');
-            } else if (this.actual_stream == 'top') {
-                var temp = this.ANOTOTE.topFilePath.split('/');
-            } else if (this.actual_stream == 'anon') {
-                var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
-            }
-            // var temp = this.ANOTOTE.userAnnotote.annotote.localLink.split('/');
-            var name = temp[temp.length - 1].split('.')[0];
-            this.url_for_frame = this.constants.iframe_baseurl + name + '.html?stream=' + this.actual_stream + '&&toteId=' + this.ANOTOTE.userAnnotote.id + "&&token=" + localStorage.getItem('_token') + "&&dummy=dum";
+            // if (this.actual_stream == 'me') {
+            //     var temp = this.ANOTOTE.meFilePath.split('/');
+            // } else if (this.actual_stream == 'follows') {
+            //     var temp = this.ANOTOTE.followerFilePath.split('/');
+            // } else if (this.actual_stream == 'top') {
+            //     var temp = this.ANOTOTE.topFilePath.split('/');
+            // } else if (this.actual_stream == 'anon') {
+            //     var temp = this.ANOTOTE.userAnnotote.filePath.split('/');
+            // }
+            // var name = temp[temp.length - 1].split('.')[0];
+            // this.url_for_frame = this.constants.iframe_baseurl + name + '.html?stream=' + this.actual_stream + '&&toteId=' + this.ANOTOTE.userAnnotote.id + "&&token=" + localStorage.getItem('_token') + "&&dummy=dum";
             // setTimeout(() => {
 
             //     // iframe.onload = () => {
@@ -795,15 +793,16 @@ export class AnototeEditor {
 
     private highlight_(com_or_quote, identifier, comment) {
         try {
-            if (com_or_quote == 'comment' || this.full_screen_mode == true) {
-                if (!this.full_screen_mode) {
-                    var selection = this.sel;
-                    var range = this.range;
-                } else {
-                    var temp = this.authService.retrieve();
-                    var selection = temp.selection;
-                    var range = temp.range;
-                }
+            if (com_or_quote == 'comment') {
+                // if (!this.full_screen_mode) {
+                var selection = this.sel;
+                var range = this.range;
+                // }
+                //  else {
+                //     var temp = this.authService.retrieve();
+                //     var selection = temp.selection;
+                //     var range = temp.range;
+                // }
             } else {
                 var selection: any = window.getSelection();
                 var range: any = document.createRange();
@@ -825,8 +824,8 @@ export class AnototeEditor {
                 newNode.setAttribute("class", "highlight_quote");
             newNode.appendChild(range.extractContents());
             range.insertNode(newNode);
-            if (selection.baseNode)
-                selection.removeAllRanges();
+            // if (selection.baseNode)
+            //     selection.removeAllRanges();
             return true;
         } catch (e) {
             this.utilityMethods.message_alert("Oops", "You cannot overlap already annototed text.");
@@ -1153,18 +1152,18 @@ export class AnototeEditor {
         }
         // this.range = this.sel.getRangeAt(0);
         this.commentDetailModalIsOpen.check = true;
-        if (this.full_screen_mode == false) {
-            var temp = window.getSelection();
-            this.sel = {
-                baseNode: temp.baseNode,
-                baseOffset: temp.baseOffset,
-                extentNode: temp.extentNode,
-                extentOffset: temp.extentOffset
-            }
-            this.range = document.createRange();
-            this.range.setStart(this.selection.startContainer, this.selection.startOffset);
-            this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
+        // if (this.full_screen_mode == false) { 
+        var temp = window.getSelection();
+        this.sel = {
+            baseNode: temp.baseNode,
+            baseOffset: temp.baseOffset,
+            extentNode: temp.extentNode,
+            extentOffset: temp.extentOffset
         }
+        this.range = document.createRange();
+        this.range.setStart(this.selection.startContainer, this.selection.startOffset);
+        this.range.setEnd(this.selection.endContainer, this.selection.endOffset);
+        // }
         let createAnotationModal = this.modalCtrl.create(CreateAnotationPopup, { selected_txt: this.selectedText, range: this.range, sel: this.sel }, opts);
         createAnotationModal.onDidDismiss(data => {
             if (this.commentDetailModalIsOpen.check == true && this.commentDetailModalIsOpen.comment == null)
@@ -1499,17 +1498,17 @@ export class AnototeEditor {
 
     //not required after HMTheorem
     get_updated_article_text(): string {
-        if (this.full_screen_mode == true) {
-            var iframe: any = document.getElementById('browsed');
-            // var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-            // return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
-            return iframe.contentDocument.documentElement.innerHTML;
-        } else {
-            // this.add_remove_display_none(true);
-            // var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
-            // return tag + document.getElementById('text_editor').innerHTML + '</html>';
-            return document.getElementById('text_editor').innerHTML;
-        }
+        // if (this.full_screen_mode == true) {
+        //     var iframe: any = document.getElementById('browsed');
+        //     // var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+        //     // return tag + iframe.contentDocument.documentElement.innerHTML + '</html>';
+        //     return iframe.contentDocument.documentElement.innerHTML;
+        // } else {
+        // this.add_remove_display_none(true);
+        // var tag = "<html id='" + (this.WHICH_STREAM == 'top' || this.WHICH_STREAM == 'anon' ? this.ANOTOTE.annotote.htmlId : this.ANOTOTE.userAnnotote.annotote.htmlId) + "' lang='en-US'>"
+        // return tag + document.getElementById('text_editor').innerHTML + '</html>';
+        return document.getElementById('text_editor').innerHTML;
+        // }
     }
     // add_remove_display_none(check) {
     //     return new Promise((resolve, reject) => {
