@@ -655,31 +655,13 @@ page-anotote-editor {
         * {
             padding-top: 1px;
             padding-bottom: 1px;
-            display: none !important;
             background: white; // font-size: 16px;
             border: 0px;
             min-width: auto !important;
             font-family: "robotolight" !important;
             margin: 0;
         }
-        .scrap_article_body {
-            display: block !important;
-        }
-        .scrap_show_inline {
-            display: inline !important
-        }
-        .scrap_article_title {
-            display: block !important;
-        }
-        .scrap_show {
-            display: block !important;
-        }
-        .scrap_hide {
-            display: none !important;
-        }
-        .scrap_show_inline {
-            display: inline !important;
-        }
+
     } // h1 {
     //     font-size: 23px !important;
     // }
