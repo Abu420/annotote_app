@@ -510,6 +510,8 @@ export class AnototeEditor {
 
   change_full_screen_mode() {
     console.log(this.navParams.get('ANOTOTE'))
+    console.log(this.user);
+    console.log(`https://annotote.codingpixel.co/api/getInjectionFile?key=` + this.user.access_token + `&tote_id=` + this.navParams.get('ANOTOTE')['userToteId'] + `&user_id=` + this.user.id)
     if (this.navParams.get('ANOTOTE') == undefined)
       this.url_for_frame = this.navParams.get('url')
     else
@@ -526,9 +528,7 @@ export class AnototeEditor {
 
     let temp = false
     browser.on('loadstop').subscribe(event => {
-      if (!temp)
-        browser.executeScript({ code: `alert('hello)` })
-      temp = true
+      browser.executeScript({ file: `https://annotote.codingpixel.co/api/getInjectionFile?key=` + this.user.access_token + `&tote_id=` + this.navParams.get('ANOTOTE')['userToteId'] + `&user_id=` + this.user.id })
     });
 
 
