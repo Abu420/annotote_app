@@ -1,3 +1,6 @@
+.default_option{
+  font-weight: bolder !important;
+}
 search-results {
     .resultHead {
         overflow: visible;
@@ -1063,6 +1066,7 @@ search-results {
                             vertical-align: middle; // height: 26px;
                         }
                     }
+
                     figcaption {
                         display: inline-block; // width: calc(100% - 78px);
                         vertical-align: middle;

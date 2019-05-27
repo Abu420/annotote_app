@@ -1,17 +1,21 @@
 <!-- <div class="top_empty_box" (tap)="dismiss()">
 </div> -->
 <div class="content_follows_profile commentDetail">
-    <form class="popupPanel" [@enterAnimation] *ngIf="show == true">
-        <div class="pop_heading">
-            <div class="btnRow">
-                <span (tap)="dismiss()">Close</span>
-                <span (tap)="create()" *ngIf="(comment != '' && comment != null) || (selectedTxt != '' && actual_ano != selectedTxt)" [ngClass]="{'save': (comment != '' && comment != null) || (selectedTxt != '' && actual_ano != selectedTxt)}">Save</span>
-            </div>
-        </div>
-        <div class="pop_txt">
-            <!-- <textarea id='actualContent' autosize [(ngModel)]="selectedTxt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" name="heading"></textarea> -->
-            <custom-actions-area (update-please)="pressed($event)" [(text)]="selectedTxt" [stream]="'me'"></custom-actions-area>
-            <textarea id='comment' autosize [(ngModel)]="comment" (keyup)="tag_user($event)" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
-        </div>
-    </form>
+  <form class="popupPanel" [@enterAnimation] *ngIf="show == true">
+    <div class="pop_heading">
+      <div class="btnRow">
+        <span (tap)="dismiss()">Close</span>
+        <span (tap)="create()"
+          *ngIf="(comment != '' && comment != null) || (selectedTxt != '' && actual_ano != selectedTxt)"
+          [ngClass]="{'save': (comment != '' && comment != null) || (selectedTxt != '' && actual_ano != selectedTxt)}">Save</span>
+      </div>
+    </div>
+    <div class="pop_txt">
+      <!-- <textarea id='actualContent' autosize [(ngModel)]="selectedTxt" class="firstOne" (click)="initialize($event)" (keyup)="ellipsis($event)" name="heading"></textarea> -->
+      <custom-actions-area (update-please)="pressed($event)" [(text)]="selectedTxt" [stream]="'me'">
+      </custom-actions-area>
+      <textarea id='comment' autosize [(ngModel)]="comment" (keyup)="tag_user($event)" name="comment"
+        placeholder="Write a note, paste links or add tags (#,$,@)"></textarea>
+    </div>
+  </form>
 </div>

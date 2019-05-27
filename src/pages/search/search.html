@@ -1,165 +1,175 @@
 <ion-header class="searchHeader">
-    <ion-toolbar color="homeheader">
-        <!--
+  <ion-toolbar color="homeheader">
+    <!--
             PRE_FILLED SEARCH BAR FUNCTIONALITY
             [ngClass]="{'green':(current_url != '' && stream_color == 'me'),'yellow':(current_url != '' && stream_color == 'follows'),'pink':(current_url != '' && stream_color == 'top')}"
          -->
-        <div class="search_header">
-            <span [ngClass]="filter_mode ? 'activeOption':''" (click)="show_filters()" class="options"></span>
-            <img src="assets/img/searchIcon.png" alt="" />
-            <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt" (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
-            <span (click)="dismiss(false)" class="clear_button"></span>
-        </div>
-    </ion-toolbar>
+    <div class="search_header">
+      <span [ngClass]="filter_mode ? 'activeOption':''" (click)="show_filters()" class="options"></span>
+      <img src="assets/img/searchIcon.png" alt="" />
+      <input search-field id="search_field_id" name="search" class="search_field" [(ngModel)]="search_txt"
+        (ngModelChange)="value_updating_search()" type="text" placeholder="Search or enter address" />
+      <span (click)="dismiss(false)" class="clear_button"></span>
+    </div>
+  </ion-toolbar>
 </ion-header>
 <ion-content swipe-vertical padding class="searchPage" [ngClass]="{'heightForKeyboard': isOpen == true}" no-bounce>
-    <!-- content-->
-    <ion-list class="searchItems" [ngClass]="{'loader-panel': search_loading == true}" *ngIf="!filter_mode">
-        <!-- For showing loading tiles-->
-        <ng-container *ngIf="search_loading">
-            <ion-item (click)="get_search_results()">
-                <div style="border-bottom: none;">
-                    <div class="search_loader">
-                    </div>
-                    <div class="txt real">
-                        <div>
-                            <span style="color: #ababab;">Search (enter)</span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
-                <div style="border-bottom: none;">
-                    <div class="search_loader">
-                    </div>
-                    <div class="txt line-loader real">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-        </ng-container>
-        <!--  First option for text search   -->
-        <ion-item (click)="get_search_results()" *ngIf="search_txt.length > 0 && !entering_url && !search_loading" class="searchFilter">
-            <figure>
-                <img src="assets/img/searchIcon.svg" alt="">
-            </figure>
-            <span>Search (enter)</span>
-        </ion-item>
-        <!--  First option for url search   -->
-        <ion-item (click)="scrape_this_url(true)" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
-            <figure>
-                <img class="viewIcon" src="assets/img/searchIcon.svg" alt="">
-            </figure>
-            <span>View (enter)</span>
-        </ion-item>
-        <!-- Response of all type, users,totes,groups -->
-        <div *ngIf="search_txt.length > 0" class="searchResult">
-            <ion-item *ngFor="let search_result of search_results" (click)="showProfile(search_result)" class="user_list_item">
-                <div class="totoField" *ngIf="search_result.is_tote == true">
-                    <figure>
-                        <img src="assets/img/saveIcon.svg" *ngIf="search_result.user_annotote[0].is_me == 1">
-                        <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.user_annotote[0].is_me == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
-                        <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)" *ngIf="search_result.user_annotote[0].is_me == 0 && search_result.isBookmarked == true">
-                    </figure>
-                    <figcaption>
-                        <h4 [innerText]="search_result.user_annotote[0].annotote_title"></h4>
-                        <span class="rightContent">
-                            {{search_result.user_annotote[0].created_at * 1000 | date:'shortTime'}}
-                        </span>
-                        <div class="toteText">
-                            <p>{{search_result.source}}</p>
-                            <button type="button" class="">
-                                <ion-icon name="menu"></ion-icon>
-                            </button>
-                        </div>
-                    </figcaption>
-                </div>
-                <div class="totoField" *ngIf="search_result.is_tote == false && search_result.isChat == true">
-                    <figure>
-                        <img src="assets/img/chatIcon.svg">
-                    </figure>
-                    <figcaption>
-                        <h4 *ngIf="search_result.messages[0].subject != null">{{search_result.messages[0].subject}}</h4>
-                        <h4 *ngIf="search_result.messages[0].subject == null">Chat</h4>
-                        <span class="rightContent">
-                            {{search_result.created_at * 1000 | date:'shortTime'}}
-                        </span>
-                        <div class="toteText">
-                            <p>{{search_result.chat_group[0].user.first_name}}</p>
-                            <button type="button" class="">
-                                <ion-icon name="menu"></ion-icon>
-                            </button>
-                        </div>
-                    </figcaption>
-                </div>
-                <div class="userField" *ngIf="search_result.is_tote == false && search_result.isChat == false">
-                    <figure>
-                        <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/userGray.svg">
-                        <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}" *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded" [src]="search_result.photo | image_base_path">
-                        <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
-                    </figure>
-                    <figcaption class="followUser">
-                        <h4>{{search_result.first_name}}
-                            <img *ngIf="search_result.is_following_count == 1" class="star-icon" src="assets/img/star-gray.png" alt="">
-                        </h4>
-                        <span class="rightAdd" *ngIf="search_result.is_following_count == 0 && search_result.follow_loading == false" (click)="followUser($event,search_result)">FOLLOW</span>
-                        <span class="rightAdd" *ngIf="search_result.follow_loading == true">
-                            <ion-spinner name="bubbles"></ion-spinner>
-                        </span>
-                    </figcaption>
-                </div>
-            </ion-item>
+  <!-- content-->
+  <ion-list class="searchItems" [ngClass]="{'loader-panel': search_loading == true}" *ngIf="!filter_mode">
+    <!-- For showing loading tiles-->
+    <ng-container *ngIf="search_loading">
+      <ion-item (click)="get_search_results()">
+        <div style="border-bottom: none;">
+          <div class="search_loader">
+          </div>
+          <div class="txt real">
+            <div>
+              <span style="color: #ababab;">Search (enter)</span>
+            </div>
+          </div>
         </div>
-    </ion-list>
-    <ion-list *ngIf="filter_mode" class="filterMode" no-bounce>
-        <div class="mediaMode">
-            <h4>Media</h4>
-            <ul>
-                <li (click)="anotote_or_user_filter('tote')">
-                    <h4 [ngClass]="{'selected': search_filters.media.tote}">Totes</h4>
-                </li>
-                <li (click)="anotote_or_user_filter('user')">
-                    <h4 [ngClass]="{'selected': search_filters.media.user}">Users</h4>
-                </li>
-                <li (click)="anotote_or_user_filter('chat')">
-                    <h4 [ngClass]="{'selected': search_filters.media.chat}">Chats</h4>
-                </li>
-            </ul>
+      </ion-item>
+      <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
+        <div style="border-bottom: none;">
+          <div class="search_loader">
+          </div>
+          <div class="txt line-loader real">
+            <div class="line-top">
+              <span class="head-line"></span>
+            </div>
+            <div class="line-bot">
+              <span class="name-line"></span>
+              <span class="date-line"></span>
+            </div>
+          </div>
         </div>
-        <div class="catMode" *ngIf="search_filters.media.user == false && search_filters.media.chat == false">
-            <h4>Category</h4>
-            <ul>
-                <li [ngClass]="{'active': search_filters.category.me == true}" (click)="category_filter('me')">
-                    <span>Me</span>
-                </li>
-                <li [ngClass]="{'active': search_filters.category.follows == true}" (click)="category_filter('follows')">
-                    <span>Follows</span>
-                </li>
-                <li [ngClass]="{'active': search_filters.category.top == true}" (click)="category_filter('top')">
-                    <span>Top</span>
-                </li>
-            </ul>
+      </ion-item>
+    </ng-container>
+    <!--  First option for text search   -->
+    <ion-item (click)="get_search_results()" *ngIf="search_txt.length > 0 && !entering_url && !search_loading"
+      class="searchFilter">
+      <figure>
+        <img src="assets/img/searchIcon.svg" alt="">
+      </figure>
+      <span class="default_option">Search (enter)</span>
+    </ion-item>
+    <!--  First option for url search   -->
+    <ion-item (click)="scrape_this_url(true)" *ngIf="search_txt.length > 0 && entering_url" class="searchFilter">
+      <figure>
+        <img class="viewIcon" src="assets/img/searchIcon.svg" alt="">
+      </figure>
+      <span>View (enter)</span>
+    </ion-item>
+    <!-- Response of all type, users,totes,groups -->
+    <div *ngIf="search_txt.length > 0" class="searchResult">
+      <ion-item *ngFor="let search_result of search_results" (click)="showProfile(search_result)"
+        class="user_list_item">
+        <div class="totoField" *ngIf="search_result.is_tote == true">
+          <figure>
+            <img src="assets/img/saveIcon.svg" *ngIf="search_result.user_annotote[0].is_me == 1">
+            <img src="assets/img/grayBookmark.svg" (click)="bookmark($event,search_result)"
+              *ngIf="search_result.user_annotote[0].is_me == 0 && (search_result.isBookmarked == false || search_result.isBookmarked == null)">
+            <img src="assets/img/blackBookmark.svg" (click)="bookmark($event,search_result)"
+              *ngIf="search_result.user_annotote[0].is_me == 0 && search_result.isBookmarked == true">
+          </figure>
+          <figcaption>
+            <h4 [innerText]="search_result.user_annotote[0].annotote_title"></h4>
+            <span class="rightContent">
+              {{search_result.user_annotote[0].created_at * 1000 | date:'shortTime'}}
+            </span>
+            <div class="toteText">
+              <p>{{search_result.source}}</p>
+              <button type="button" class="">
+                <ion-icon name="menu"></ion-icon>
+              </button>
+            </div>
+          </figcaption>
         </div>
-        <div class="dateMode" *ngIf="search_filters.media.user == false && search_filters.media.chat == false">
-            <h4>Date</h4>
-            <ul>
-                <li>
-                    <input type="tel" maxlength="4" [(ngModel)]="search_filters.date.year" name="year" placeholder="YYYY">
-                </li>
-                <li>
-                    <input type="tel" maxlength="2" [(ngModel)]="search_filters.date.month" name="month" placeholder="MM">
-                </li>
-                <li>
-                    <input type="tel" maxlength="2" [(ngModel)]="search_filters.date.day" name="day" placeholder="DD">
-                </li>
-            </ul>
+        <div class="totoField" *ngIf="search_result.is_tote == false && search_result.isChat == true">
+          <figure>
+            <img src="assets/img/chatIcon.svg">
+          </figure>
+          <figcaption>
+            <h4 *ngIf="search_result.messages[0].subject != null">{{search_result.messages[0].subject}}</h4>
+            <h4 *ngIf="search_result.messages[0].subject == null">Chat</h4>
+            <span class="rightContent">
+              {{search_result.created_at * 1000 | date:'shortTime'}}
+            </span>
+            <div class="toteText">
+              <p>{{search_result.chat_group[0].user.first_name}}</p>
+              <button type="button" class="">
+                <ion-icon name="menu"></ion-icon>
+              </button>
+            </div>
+          </figcaption>
         </div>
-    </ion-list>
-    <div class="top_empty_box" *ngIf=" search_results.length == 0" (click)="dismiss()"></div>
+        <div class="userField" *ngIf="search_result.is_tote == false && search_result.isChat == false">
+          <figure>
+            <img *ngIf="search_result.photo== null || search_result.photo==''" src="assets/img/userGray.svg">
+            <img (load)="loaded = true" [ngClass]="{'img-loaded': loaded}"
+              *ngIf="search_result.photo != null && search_result.photo != ''" [hidden]="!loaded"
+              [src]="search_result.photo | image_base_path">
+            <ion-spinner *ngIf="!loaded && search_result.photo != null && search_result.photo != ''"></ion-spinner>
+          </figure>
+          <figcaption class="followUser">
+            <h4>{{search_result.first_name}}
+              <img *ngIf="search_result.is_following_count == 1" class="star-icon" src="assets/img/star-gray.png"
+                alt="">
+            </h4>
+            <span class="rightAdd"
+              *ngIf="search_result.is_following_count == 0 && search_result.follow_loading == false"
+              (click)="followUser($event,search_result)">FOLLOW</span>
+            <span class="rightAdd" *ngIf="search_result.follow_loading == true">
+              <ion-spinner name="bubbles"></ion-spinner>
+            </span>
+          </figcaption>
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
+  <ion-list *ngIf="filter_mode" class="filterMode" no-bounce>
+    <div class="mediaMode">
+      <h4>Media</h4>
+      <ul>
+        <li (click)="anotote_or_user_filter('tote')">
+          <h4 [ngClass]="{'selected': search_filters.media.tote}">Totes</h4>
+        </li>
+        <li (click)="anotote_or_user_filter('user')">
+          <h4 [ngClass]="{'selected': search_filters.media.user}">Users</h4>
+        </li>
+        <li (click)="anotote_or_user_filter('chat')">
+          <h4 [ngClass]="{'selected': search_filters.media.chat}">Chats</h4>
+        </li>
+      </ul>
+    </div>
+    <div class="catMode" *ngIf="search_filters.media.user == false && search_filters.media.chat == false">
+      <h4>Category</h4>
+      <ul>
+        <li [ngClass]="{'active': search_filters.category.me == true}" (click)="category_filter('me')">
+          <span>Me</span>
+        </li>
+        <li [ngClass]="{'active': search_filters.category.follows == true}" (click)="category_filter('follows')">
+          <span>Follows</span>
+        </li>
+        <li [ngClass]="{'active': search_filters.category.top == true}" (click)="category_filter('top')">
+          <span>Top</span>
+        </li>
+      </ul>
+    </div>
+    <div class="dateMode" *ngIf="search_filters.media.user == false && search_filters.media.chat == false">
+      <h4>Date</h4>
+      <ul>
+        <li>
+          <input type="tel" maxlength="4" [(ngModel)]="search_filters.date.year" name="year" placeholder="YYYY">
+        </li>
+        <li>
+          <input type="tel" maxlength="2" [(ngModel)]="search_filters.date.month" name="month" placeholder="MM">
+        </li>
+        <li>
+          <input type="tel" maxlength="2" [(ngModel)]="search_filters.date.day" name="day" placeholder="DD">
+        </li>
+      </ul>
+    </div>
+  </ion-list>
+  <div class="top_empty_box" *ngIf=" search_results.length == 0" (click)="dismiss()"></div>
 </ion-content>

@@ -1,32 +1,39 @@
 <div class="top_empty_box" *ngIf="stream != 'me'" (tap)="dismiss()">
 </div>
 <div class="content_follows_profile commentDetail">
-    <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
-        <div class="pop_heading">
-            <div class="downUp" *ngIf="stream != 'me'">
-                <span (tap)="dismiss()">CLOSE</span>
-            </div>
-            <div class="topTab" *ngIf="stream != 'me'">
-                <span *ngIf="stream == 'follows'">{{selected_follower_name}}
-                    <ng-container *ngIf="total_followers > 1">({{total_followers}})</ng-container>
-                </span>
-                <span *ngIf="stream == 'top'">Top</span>
-            </div>
-            <div class="btnRow" *ngIf="stream == 'me'">
-                <span (tap)="dismiss()">Close</span>
-                <span (tap)="delete()">Delete</span>
-                <span [ngClass]="{'save': (new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')}" *ngIf="(new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')" (tap)="updateComment()">Save</span>
-            </div>
-            <div class="share" (click)="share()">
-                <span></span>
-            </div>
-        </div>
+  <form (ngSubmit)="update_comment()" class="popupPanel" [@enterAnimation] *ngIf="show == true">
+    <div class="pop_heading">
+      <div class="downUp" *ngIf="stream != 'me'">
+        <span (tap)="dismiss()">CLOSE</span>
+      </div>
+      <div class="topTab" *ngIf="stream != 'me'">
+        <span *ngIf="stream == 'follows'">{{selected_follower_name}}
+          <ng-container *ngIf="total_followers > 1">({{total_followers}})</ng-container>
+        </span>
+        <span *ngIf="stream == 'top'">Top</span>
+      </div>
+      <div class="btnRow" *ngIf="stream == 'me'">
+        <span (tap)="dismiss()">Close</span>
+        <span (tap)="delete()">Delete</span>
+        <span
+          [ngClass]="{'save': (new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')}"
+          *ngIf="(new_comment != anotote_comment && new_comment != '') || (anotote_txt != actual_anotated && anotote_txt != '')"
+          (tap)="updateComment()">Save</span>
+      </div>
+      <div class="share" (click)="share()">
+        <span></span>
+      </div>
+    </div>
 
-        <div class="pop_txt">
-            <!-- <textarea id='actualContent' [(ngModel)]="anotote_txt" class="firstOne" [disabled]="stream != 'me'" name="heading"></textarea> -->
-            <custom-actions-area (update-please)="pressed($event)" [(text)]="anotote_txt" [stream]="stream"></custom-actions-area>
-            <textarea id='comment' search-field class="addComment" [(ngModel)]="new_comment" (keyup)="tag_user($event)" *ngIf="fieldInContent == true" name="comment" placeholder="Comment, paste links or add tags (#,$,@)"></textarea>
-            <p (click)="tagClick($event)" class="addComment" *ngIf="fieldInContent == false" [innerHTML]="annotation | boldTags"></p>
-        </div>
-    </form>
+    <div class="pop_txt">
+      <!-- <textarea id='actualContent' [(ngModel)]="anotote_txt" class="firstOne" [disabled]="stream != 'me'" name="heading"></textarea> -->
+      <custom-actions-area (update-please)="pressed($event)" [(text)]="anotote_txt" [stream]="stream">
+      </custom-actions-area>
+      <textarea id='comment' search-field class="addComment" [(ngModel)]="new_comment" (keyup)="tag_user($event)"
+        *ngIf="fieldInContent == true" name="comment"
+        placeholder="Write a note, paste links or add tags (#,$,@)"></textarea>
+      <p (click)="tagClick($event)" class="addComment" *ngIf="fieldInContent == false"
+        [innerHTML]="annotation | boldTags"></p>
+    </div>
+  </form>
 </div>

@@ -10,6 +10,12 @@
     }
 }
 
+iframe, img, video, picture, figure{
+  height: 100%;
+  width: 100%;
+}
+
+
 comment_detail_popup {
     .plusBtn {
         float: right;
@@ -511,9 +517,11 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: $meQuotesandComments;
             }
             .highlight_quote:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: $meQuotesandComments;
             }
             .greyOut:before {
@@ -544,9 +552,11 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: $followQuotesandComments;
             }
             .highlight_quote:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: $followQuotesandComments;
             }
             .only_light {
@@ -568,9 +578,11 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: $topQuotesandComments;
             }
             .highlight_quote:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: $topQuotesandComments;
             }
             .only_light {
@@ -592,9 +604,11 @@ page-anotote-editor {
                 }
             }
             .highlight_comment:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: #000;
             }
             .highlight_quote:before {
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
                 background: #000;
             }
         }
@@ -605,6 +619,7 @@ page-anotote-editor {
             padding-right: 5px;
         }
         .highlight_comment:before {
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
             content: "";
             background-image: url(../assets/img/commentImg.svg) !important;
             width: 18px;
@@ -622,6 +637,7 @@ page-anotote-editor {
             background-position: 3px 2px !important;
         }
         .highlight_quote:before {
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
             content: '';
             width: 18px;
             height: 18px;

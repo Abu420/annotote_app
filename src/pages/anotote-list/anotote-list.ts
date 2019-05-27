@@ -1140,7 +1140,7 @@ export class AnototeList {
             this.current_active_anotote = anotote;
           } else {
             if (this.current_active_anotote.checked) {
-              //Reverted bulk action pressing to close the editing mode 
+              //Reverted bulk action pressing to close the editing mode
               // this.move_fab = false;
               // this.title_temp = '';
               // this.current_active_anotote.checked = false;

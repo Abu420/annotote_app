@@ -50,7 +50,7 @@ export class AnototeEditor {
   private ANOTOTE_LOADING_ERROR: boolean;
   private SAVED_ANOTOTES_LOCALLY: any = [];
   private SAVED_ANOTOTES_LOCALLY_CURRENT: any = [];
-
+  public new_annotote_id = null;
   public start = 0;
   public threshold = 100;
   public slideHeaderPrevious = 0;
@@ -88,6 +88,7 @@ export class AnototeEditor {
     check: false,
     comment: null
   };
+  public normal_footer = true;
   public title_temp = '';
   public titleEditingoff: boolean = true;
   public unread_notification_count: any = 0;
@@ -159,6 +160,8 @@ export class AnototeEditor {
         selected_txt = sel.toString();
       if (selected_txt != '') {
         var range = sel.getRangeAt(0);
+        console.log(range)
+        console.log(sel)
         var current_selection = { "startContainer": range.startContainer, "startOffset": range.startOffset, "endContainer": range.endContainer, "endOffset": range.endOffset };
         events.publish('show_tote_options', { flag: true, txt: selected_txt, selection: current_selection, nodeName: sel.anchorNode.parentElement.nodeName, 'innerHTML': sel.anchorNode.parentElement.innerHTML });
       } else {
@@ -245,6 +248,8 @@ export class AnototeEditor {
   }
 
   saveTote(response) {
+    console.log(response);
+    this.new_annotote_id = response.data.userAnnotote.id;
     var params: any = {
       annotote_id: response.data.annotote.id,
       user_id: this.authService.getUser().id,
@@ -509,27 +514,60 @@ export class AnototeEditor {
   // }
 
   change_full_screen_mode() {
+    this.normal_footer = false;
     console.log(this.navParams.get('ANOTOTE'))
     console.log(this.user);
-    console.log(`https://annotote.codingpixel.co/api/getInjectionFile?key=` + this.user.access_token + `&tote_id=` + this.navParams.get('ANOTOTE')['userToteId'] + `&user_id=` + this.user.id)
+    let user_tote_id = this.new_annotote_id;
+    if (this.navParams.get('ANOTOTE') != undefined) {
+      user_tote_id = this.navParams.get('ANOTOTE')['userToteId'];
+    }
     if (this.navParams.get('ANOTOTE') == undefined)
       this.url_for_frame = this.navParams.get('url')
     else
       this.url_for_frame = this.navParams.get('ANOTOTE').userAnnotote.annotote.link
 
     var options = ''
-    if (this.utilityMethods.whichPlatform() == 'ios') {
-      options = 'zoom=no,location=yes,hidenavigationbuttons=yes,closebuttoncaption=Close,toolbar=yes,fullscreen=yes,presentationstyle=pagesheet,toolbarposition=bottom,toolbarcolor=#3cde01';
-    } else {
-      options = 'zoom=no,location=yes,hidenavigationbuttons=yes,closebuttoncaption="Close",toolbar=no,footer=yes,toolbarcolor=#3cde01'
+
+    if (this.url_for_frame.includes('https://www.google.com/amp/s/')) {
+      this.url_for_frame = 'http://' + this.url_for_frame.split('https://www.google.com/amp/s/')[1]
     }
 
-    const browser = this.iab.create(this.url_for_frame, '_blank', options);
+    console.log('https://annotote.codingpixel.co/api/getInjectionFile?key=' + this.user.access_token + '&tote_id=' + user_tote_id + '&user_id=' + this.user.id);
 
-    let temp = false
-    browser.on('loadstop').subscribe(event => {
-      browser.executeScript({ file: `https://annotote.codingpixel.co/api/getInjectionFile?key=` + this.user.access_token + `&tote_id=` + this.navParams.get('ANOTOTE')['userToteId'] + `&user_id=` + this.user.id })
-    });
+
+    if (this.utilityMethods.whichPlatform() != 'desktop') {
+      if (this.utilityMethods.whichPlatform() == 'ios') {
+        options = 'zoom=no,location=yes,hidenavigationbuttons=yes,closebuttoncaption=Close,toolbar=yes,fullscreen=yes,presentationstyle=pagesheet,toolbarposition=bottom,toolbarcolor=#3cde01,hidden=yes';
+      } else if (this.utilityMethods.whichPlatform() == 'android') {
+        options = 'zoom=no,location=yes,hidenavigationbuttons=yes,closebuttoncaption="Close",toolbar=no,footer=yes,toolbarcolor=#3cde01,hidden=yes'
+      }
+      const browser = this.iab.create(this.url_for_frame, '_blank', options);
+
+      let temp = true
+      browser.on('loadstop').subscribe(event => {
+
+        this.normal_footer = true;
+        browser.show();
+
+        if (temp) {
+          browser.insertCSS({ file: `https://annotote.codingpixel.co/public/css/fullview.css` })
+          browser.executeScript({ file: `https://annotote.codingpixel.co/api/getInjectionFile?key=` + this.user.access_token + `&tote_id=` + user_tote_id + `&user_id=` + this.user.id })
+          temp = false;
+        }
+      });
+      browser.on('exit').subscribe(event => {
+
+        this.normal_footer = true;
+
+      })
+    } else {
+      var x = window.open(this.url_for_frame, "_blank") // open a blank tab;
+      var temp = `https://annotote.codingpixel.co/api/getInjectionFile?key=` + this.user.access_token + `&tote_id=` + user_tote_id + `&user_id=` + this.user.id;
+
+
+
+
+    }
 
 
     //this.full_screen_mode = !this.full_screen_mode;

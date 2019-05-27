@@ -362,13 +362,20 @@
   </ion-toolbar>
 </ion-footer>
 <ion-footer class="inline_tote_options meFooter"
-  *ngIf="actual_stream == 'me' && !loading_check && full_screen_mode == false">
+  *ngIf="actual_stream == 'me' && !loading_check && full_screen_mode == false && normal_footer == true">
   <ion-toolbar color="dark">
     <div class="title_and_options">
       <p (click)="editTitle()">{{title_temp}}</p>
       <!-- <p (click)="editTitle()">DUMMY TITLE</p> -->
 
       <img (click)="toteOptions()" src="assets/img/option-icon.png" alt="" />
+    </div>
+  </ion-toolbar>
+</ion-footer>
+<ion-footer class="inline_tote_options meFooter" *ngIf="normal_footer == false">
+  <ion-toolbar color="dark">
+    <div class="title_and_options">
+      <p (click)="editTitle()">Downloading Page...</p>
     </div>
   </ion-toolbar>
 </ion-footer>

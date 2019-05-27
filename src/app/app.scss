@@ -331,7 +331,7 @@ span.un_active_dot:after {
 #wrapper {
     width: 100%;
     position: relative;
-    //box-shadow: 0 0px 11px 0px #bdbdbd;
+    box-shadow: 0 0px 11px 0px #bdbdbd;
 }
 
 .toolbar-content {
@@ -378,7 +378,7 @@ view_options {
 .fab {
     width: 65px;
     height: 65px;
-    box-shadow: 0 6px 10px 0px #a7a7a7;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.48);
     padding: 2px;
     .button-inner {
         padding: 7px;
