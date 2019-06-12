@@ -173,17 +173,17 @@ export class AnototeList {
       ]
     },
     {
-      title: 'Annotate',
+      title: 'Annotote',
       subTitle: 'Annotote',
       createdAt: new Date(),
       active: false,
       tutorial: true,
       highlights: [
         {
-          text: 'When you\'re viewing an article you\'ve browsed, searched, saved, or bookmarked, simply highlight any text, then select the "Quote" or "Comment" options that will pop-up from the bottom of your screen.'
+          text: 'When you\'re viewing an article you\'ve browsed, searched, saved, or bookmarked, simply highlight any text, then select the "Quote" or "Note" options that will pop-up from the bottom of your screen.'
         },
         {
-          text: 'You can also add tags to any Tote, Quote, or Comment. Tags include #hashtags, $cashtags, @usernames, or ^links.'
+          text: 'You can also add tags to any Tote, Quote, or Note. Tags include #hashtags, $cashtags, @usernames, or ^links.'
         }
       ]
     }
