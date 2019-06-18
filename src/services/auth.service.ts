@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 import { Constants } from '../services/constants.service'
 import { Http, RequestOptions, Headers } from "@angular/http";
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable()
 export class AuthenticationService {
@@ -16,7 +17,13 @@ export class AuthenticationService {
    */
   private _user: User;
   private _storage_ready: boolean;
-  public dots_to_show: Array<any> = [];
+  public dots_to_show: Array<any> = [
+    {
+      view: 'home'
+    }
+  ];
+  public stateForDots: { from: any, which: any, actual: any, tote: any, received: any } = null;
+  public LAST_VISITED_TOTE_STATE = null;
   private dummb = {
     selection: null,
     range: null
@@ -26,6 +33,24 @@ export class AuthenticationService {
     this.storage.ready().then(() => {
       this._storage_ready = true;
     });
+  }
+
+  public setDotState(from, which, actual, tote, received) {
+    this.stateForDots = {
+      from: from,
+      which: which,
+      actual: actual,
+      tote: tote,
+      received: received
+    }
+  }
+
+  public reInitializeDots() {
+    this.dots_to_show = [
+      {
+        view: 'home'
+      }
+    ];
   }
 
   public store(selection, range) {

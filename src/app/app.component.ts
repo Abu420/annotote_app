@@ -51,13 +51,14 @@ export class MyApp {
         this.initializeApp();
         app.viewDidLoad.subscribe((view) => {
             if (view.isOverlay == false && view.name != 'Home' && view.name != 'FrontViewPage') {
-                // if (authService.dots_to_show.length < 3)
-                authService.dots_to_show.push(view);
+                if (authService.dots_to_show.length < 3) {
+                    authService.dots_to_show.push(view);
+                }
             }
         })
         app.viewWillUnload.subscribe((view) => {
             if (view.isOverlay == false) {
-                if (authService.dots_to_show.length > 0)
+                if (authService.dots_to_show.length > 0 && authService.stateForDots == null)
                     authService.dots_to_show.pop();
             }
         })

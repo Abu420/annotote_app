@@ -295,6 +295,10 @@ export class AnototeList {
     }
     if (navParams.get('from')) {
       this.navCtrl.push(AnototeEditor, { url: navParams.get('url'), FROM: 'search', WHICH_STREAM: 'anon', actual_stream: 'anon', saveThisToMe: true });
+    } else if (navParams.get('dots')) { //for dots in header
+      this.navCtrl.push(AnototeEditor, { ANOTOTE: this.authService.stateForDots.tote, FROM: this.authService.stateForDots.from, WHICH_STREAM: this.authService.stateForDots.which, HIGHLIGHT_RECEIVED: this.authService.stateForDots.received, actual_stream: this.authService.stateForDots.actual });
+    } else if (this.authService.stateForDots && this.current_color == this.authService.stateForDots.which) { //for dots in header
+      this.current_active_anotote = this.authService.stateForDots.tote;
     }
   }
 
@@ -308,16 +312,18 @@ export class AnototeList {
     // this.anototes = [];
     // this.top_anototes = [];
     this.key.disableScroll(false);
-    if (this.navCtrl.getViews().length == 2) {
-      if (this.current_active_anotote)
-        this.current_active_anotote.active = false;
-    }
+    // if (this.navCtrl.getViews().length == 2) {
+    //   if (this.current_active_anotote)
+    //     this.current_active_anotote.active = false;
+    // }
   }
   ionViewWillUnload() {
     if (this.current_active_anotote) {
-      if (this.current_active_anotote.chatGroup == null)
-        this.disableSelectedMode(this.current_active_anotote.highlights);
-      else
+      //for maintaining state
+      // if (this.current_active_anotote.chatGroup == null) 
+      //   this.disableSelectedMode(this.current_active_anotote.highlights);
+      // else
+      if (this.current_active_anotote.chatGroup)
         this.disableSelectedMode(this.current_active_anotote.chatGroup.messagesUser);
     }
   }
@@ -340,6 +346,7 @@ export class AnototeList {
       this.key.disableScroll(true);
     this.edit_mode = false;
     this.follow_visited = false;
+    // if(this.)
 
     if (this.current_active_anotote) {
       if (this.current_active_anotote.chatGroup == null) {

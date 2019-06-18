@@ -11,6 +11,7 @@ top_options {
         background: rgba(0, 0, 0, 0.7);
         z-index: 1000;
     }
+
     .content_follows_profile {
         width: 100%;
         height: auto;
@@ -21,29 +22,40 @@ top_options {
         bottom: 0;
         left: 0;
     }
+
     .sharing_pop {
+
         // &:focus,
         // &:active {
         //     background: color($assetFeedback, base);
         // }
+        &.settingEffect:focus,
+        &.settingEffect:hover {
+            background: color($assetFeedback, homeBaseHover);
+        }
+
         span:focus,
         span:active {
-            color: color($assetFeedback, streamsHoverShadow);
+            color: color($assetFeedback, popUpbtnHover);
         }
+
         &.interestTab {
             .main_label {
                 text-align: center;
                 line-height: 8;
                 padding: 20px 0;
+
                 ion-icon {
                     float: none !important;
                 }
+
                 &.shareIcon {
                     img {
                         width: 46px;
                     }
                 }
             }
+
             span {
                 display: inline-block !important;
                 vertical-align: middle;
@@ -54,23 +66,29 @@ top_options {
                 border-bottom: 1px solid #ececec;
             }
         }
+
         &.borderNone {
             .main_label {
                 line-height: 7;
             }
         }
+
         padding: 0;
+
         &.four {
             .main_label {
                 line-height: 6;
+
                 img {
                     width: 25px;
                 }
             }
+
             ul {
                 border-bottom: 0px;
             }
         }
+
         &.two {
             .main_label {
                 img {
@@ -78,6 +96,7 @@ top_options {
                 }
             }
         }
+
         .main_label {
             display: inline-block;
             vertical-align: middle;
@@ -86,27 +105,34 @@ top_options {
             padding: 0;
             height: 73px;
             line-height: 7.5;
+
             img {
                 width: 36px;
                 vertical-align: initial;
             }
+
             &.shareIcon {
                 img {
                     width: 46px;
                 }
             }
+
             &.helpIcon {
                 line-height: 7;
+
                 img {
                     width: 20px;
                 }
             }
+
             &.userIcon {
                 padding: 10px;
                 line-height: 0;
+
                 img {
                     width: 25px;
                 }
+
                 p {
                     font-size: 14px;
                     color: #b3b3b3;
@@ -114,25 +140,32 @@ top_options {
                     font-family: 'robotolight';
                 }
             }
+
             &.markIcon {
                 line-height: 6.4;
+
                 img {
                     width: 29px;
                 }
             }
+
             &.bookmarkIcon {
                 line-height: 7;
+
                 img {
                     width: 20px;
                 }
             }
+
             &.saveIcon {
                 line-height: 7;
+
                 img {
                     width: 35px;
                 }
             }
         }
+
         ul {
             display: inline-block;
             vertical-align: middle;
@@ -141,16 +174,19 @@ top_options {
             padding: 25px 10px 25px 0;
             list-style: none;
             border-bottom: 1px solid #ececec;
+
             li {
                 float: left;
                 padding: 0 6px;
                 vertical-align: middle;
                 color: #797979;
                 font-size: 16px;
+
                 &.tabOption {
                     text-align: right;
                     float: right;
                     height: 22px;
+
                     img {
                         width: 5px;
                         -webkit-transform: translate(-50%, 0%);
@@ -159,16 +195,19 @@ top_options {
                         transform: rotate(90deg);
                     }
                 }
+
                 .high {
                     color: green;
                     text-shadow: 0px 3px 3px #a0a0a0;
                 }
             }
         }
+
         &.three {
             ul {
                 li {
                     padding: 0 1.5vw;
+
                     span {
                         width: 21vw;
                         text-overflow: ellipsis;
@@ -181,29 +220,35 @@ top_options {
             }
         }
     }
+
     .sharing_pop .item {
         width: 18%;
         display: inline-block;
         vertical-align: top;
     }
+
     .sharing_pop.fluid .item {
         width: 100%;
         display: block;
     }
+
     .sharing_pop.fluid .item ion-icon {
         float: left;
     }
+
     .sharing_pop.fluid .item span {
         padding: 9px 32px;
         display: block;
         overflow: hidden;
     }
+
     .sharing_pop span,
     .sharing_pop em {
         font-size: 16px; // line-height: 14px;
         font-style: normal;
         color: #b3b3b3;
     }
+
     .sharing_pop ion-icon {
         padding-left: 0;
         font-size: 40px;
@@ -211,18 +256,22 @@ top_options {
         color: #cdcdcd;
         display: block;
     }
+
     .sharing_pop.add ion-icon,
     .sharing_pop.add em {
         display: inline-block;
         vertical-align: middle;
         margin: 0px !important;
     }
+
     .sharing_pop.add em {
         margin-left: 30%;
     }
+
     .sharing_pop.add .item {
         width: 32% !important;
     }
+
     .pop_heading {
         padding: 13px;
         text-align: center;
@@ -232,6 +281,7 @@ top_options {
         z-index: 5;
         overflow: hidden;
         position: relative;
+
         .backBtn {
             position: absolute;
             left: 20px;
@@ -241,27 +291,33 @@ top_options {
             transform: translate(0%, -50%);
         }
     }
+
     .tags-clouds {
         padding: 20px;
         color: #bfbfbf;
         overflow: hidden;
     }
+
     .tags-clouds em {
         margin: 0 3px;
         font-style: normal;
     }
+
     .tags-clouds .xs {
         font-size: 11px;
         line-height: 15px;
     }
+
     .tags-clouds .sm {
         font-size: 13px;
         line-height: 17px;
     }
+
     .tags-clouds .md {
         font-size: 16px;
         line-height: 20px;
     }
+
     .tags-clouds .large {
         font-size: 20px;
         line-height: 24px;
@@ -273,26 +329,30 @@ page-home {
         bottom: 20px !important;
         right: 15px !important;
     }
+
     li.active {
         background: color($assetFeedback, base) !important;
+
         &:after {
             content: '';
             position: absolute;
-                // top: 0;
-                // left: 99.5%;
-                // background: url(../assets/img/arrowNormal.svg) no-repeat center center;
-                // background-size: 100%;
-                // width: 30px;
-                // height: 100%;
-                width: 25px !important;
-                top: -6%;
-                bottom: -6%;
-                right: -23px;
-                background: url(../assets/img/arrowNormal.png) no-repeat center center;
-                background-size: 100% 100%;
+            // top: 0;
+            // left: 99.5%;
+            // background: url(../assets/img/arrowNormal.svg) no-repeat center center;
+            // background-size: 100%;
+            // width: 30px;
+            // height: 100%;
+            width: 25px !important;
+            top: -6%;
+            bottom: -6%;
+            right: -23px;
+            background: url(../assets/img/arrowNormal.png) no-repeat center center;
+            background-size: 100% 100%;
         }
+
         &:hover {
             background: color($assetFeedback, streamsHoverShadow) !important;
+
             &:after {
                 content: '';
                 position: absolute;
@@ -311,15 +371,18 @@ page-home {
             }
         }
     }
+
     .product-list {
         list-style: none;
         margin: 0;
         padding: 0;
         background: #fff;
+
         li {
             position: relative;
             list-style: none;
             border-bottom: 1px solid #e8e8e8;
+
             .img-holder {
                 width: 50px;
                 height: 72px;
@@ -327,12 +390,14 @@ page-home {
                 text-align: center;
                 line-height: 5.5;
                 position: relative;
+
                 &:hover {
                     background-color: color($assetFeedback, homeBaseHover) !important;
                     box-shadow: -3px 3px 15px 5px #6b6969 !important;
                     opacity: 1;
                     border-radius: 0;
                 }
+
                 img {
                     position: absolute;
                     top: 0;
@@ -344,6 +409,7 @@ page-home {
                     width: 28px;
                 }
             }
+
             .txt {
                 padding: 19px 10px 15px 0;
                 font-size: 16px;
@@ -351,6 +417,7 @@ page-home {
                 display: block;
                 overflow: hidden;
                 position: relative;
+
                 strong {
                     width: 100%;
                     overflow: hidden;
@@ -361,12 +428,15 @@ page-home {
                     font-size: 16px;
                     margin-bottom: -4px;
                 }
+
                 .time {
                     color: #969696;
+
                     span {
                         font-size: 14px;
                     }
                 }
+
                 .remove_item {
                     position: absolute;
                     right: 0px;
@@ -379,7 +449,9 @@ page-home {
                     background-repeat: no-repeat;
                     background-size: 100%;
                 }
-            } // &:hover {
+            }
+
+            // &:hover {
             //     background-color: color($assetFeedback, base) !important;
             // }
         }
@@ -408,18 +480,22 @@ ion-buttons {
 ul.home-list {
     padding: 0;
     margin: 0;
+
     li {
         position: relative;
         list-style: none;
         display: flex;
         align-items: center;
         height: 73px;
+
         button {
             height: 100%;
             margin-right: 10px !important;
+
             .button-inner {
                 height: 100%;
                 width: 50px;
+
                 img {
                     width: 100%;
                     max-width: 30px;
@@ -451,9 +527,12 @@ ul.home-list {
     .green {
         background: #3bde00;
         border-radius: 0;
+
         &:hover {
             background-color: color($assetFeedback, homeGreenHover) !important;
-        } // &:active,
+        }
+
+        // &:active,
         // &:visited,
         // &:focus {
         //     background-color: color($assetFeedback, base) !important;
@@ -466,16 +545,21 @@ ul.home-list {
             border-radius: 0;
             z-index: 999;
         }
+
         button:hover {
             @extend .activatedOn;
         }
     }
+
     .yellow {
         background: #f4e300;
         border-radius: 0;
+
         &:hover {
             background-color: color($assetFeedback, homeYellowHover) !important;
-        } // &:active,
+        }
+
+        // &:active,
         // &:visited,
         // &:focus {
         //     background-color: color($assetFeedback, base) !important;
@@ -488,16 +572,21 @@ ul.home-list {
             border-radius: 0;
             z-index: 999;
         }
+
         button:hover {
             @extend .activatedOn;
         }
     }
+
     .pink {
         background: #fb9df0;
         border-radius: 0;
+
         &:hover {
             background-color: color($assetFeedback, homePinkHover) !important;
-        } // &:active,
+        }
+
+        // &:active,
         // &:visited,
         // &:focus {
         //     background-color: color($assetFeedback, base) !important;
@@ -510,6 +599,7 @@ ul.home-list {
             border-radius: 0;
             z-index: 999;
         }
+
         button:hover {
             @extend .activatedOn;
         }
@@ -566,6 +656,7 @@ ul.home-list {
 .latest_searches_spinner {
     position: relative;
     width: 100%;
+
     ion-spinner {
         position: absolute;
         display: inline-block;

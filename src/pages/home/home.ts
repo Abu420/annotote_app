@@ -313,6 +313,10 @@ export class Home {
     if (this.hover.through.streams == '' || this.hover.through.streams != color) {
       this.hover.through.streams = color;
       this.hover.through.search = null;
+      if (this.authService.stateForDots && this.authService.stateForDots.which != color) {
+        this.authService.stateForDots = null;
+        this.authService.reInitializeDots();
+      }
       setTimeout((color) => {
         this.navCtrl.push(AnototeList, { color: color });
       }, 250, color);

@@ -13,24 +13,29 @@
                 height: calc(100% - 44%);
                 background: rgba(0, 0, 0, 0.5);
             }
+
             .moadalView {
                 height: auto;
                 position: absolute;
                 width: 100%;
                 bottom: 0;
             }
+
             .top_empty_no_tote {
                 @extend .top_empty_box;
                 height: 90%;
             }
+
             .content_follows_profile {
                 height: calc(100% - 56%);
                 background: transparent;
+
                 .sharing_pop {
                     background: #FFF;
                     height: 100vh;
                 }
             }
+
             .notiFaction {
                 &:after {
                     display: none;
@@ -42,24 +47,30 @@
             ion-item {
                 .item-inner {
                     padding: 0px;
+
                     ion-label {
                         margin: 0px;
                     }
                 }
             }
+
             .item-block {
                 &:focus {
                     background: #e0e0e0;
                 }
+
                 &:active {
                     background: #e0e0e0;
                 }
+
                 &:visited {
                     background: #e0e0e0;
                 }
             }
+
             .active {
                 background: #e0e0e0;
+
                 &:after {
                     border-bottom: none;
                 }
@@ -102,16 +113,19 @@
         tags_popup {
             .tag-panel {
                 height: 100%;
+
                 .top_empty_box {
                     height: calc(100vh);
                     background: transparent;
                 }
+
                 .tags-panel {
                     background: #FFF;
                     position: absolute;
                     width: 100%;
                     bottom: 0;
                     height: auto;
+
                     .sharing_pop {
                         .main_label {
                             display: inline-block;
@@ -121,11 +135,13 @@
                             padding: 0;
                             height: 73px;
                             line-height: 7;
+
                             img {
                                 width: 25px;
                                 vertical-align: initial !important;
                             }
                         }
+
                         .tagText {
                             display: inline-block;
                             vertical-align: middle;
@@ -134,22 +150,26 @@
                             padding: 28px 10px 28px 0;
                             list-style: none;
                             border-bottom: 1px solid #ececec;
+
                             input {
                                 border: 0px;
                                 width: 100%;
                                 outline: none;
                                 padding: 28px 0px;
                             }
+
                             input::placeholder {
                                 color: #b5b5b5 !important;
                             }
                         }
                     }
+
                     &.tagTypes {
                         .tag-list {
                             height: calc(100% - 153px);
                         }
                     }
+
                     h3 {
                         text-align: center;
                         padding: 15px 0px;
@@ -160,35 +180,42 @@
                         font-size: 16px;
                         box-shadow: 0px 1px 2px #888;
                     }
+
                     .sharing_pop {
                         border-top: 1px solid #CCC;
+
                         .tagText {
                             padding: 0 10px 0 0;
                             border: 0px;
                         }
                     }
+
                     .tag_input {
                         width: 100%;
                         background: #efefef;
                         position: relative;
                         z-index: 99;
+
                         &:after {
                             content: "";
                             display: table;
                             clear: both;
                             width: 100%;
                         }
+
                         &::before {
                             content: "";
                             display: table;
                             clear: both;
                             width: 100%;
                         }
+
                         .input-wrapper {
                             ion-label {
                                 font-size: 14px;
                             }
                         }
+
                         .tagList {
                             position: absolute;
                             bottom: 0;
@@ -201,17 +228,20 @@
                             overflow: auto;
                             z-index: 1;
                             border-top: 1px solid #e0e0e0;
+
                             li {
                                 display: block;
                                 padding: 10px;
                                 border-bottom: 1px solid #ececec;
                                 overflow: hidden;
+
                                 figure {
                                     margin: 0px;
                                     float: left;
                                     width: 40px;
                                     height: 40px;
                                 }
+
                                 figcaption {
                                     width: calc(100% - 40px);
                                     display: inline-block;
@@ -219,12 +249,14 @@
                                 }
                             }
                         }
+
                         input {
                             width: 100%;
                             padding: 0px 78px 0 10px;
                             line-height: 35px;
                             float: left;
                         }
+
                         button {
                             height: 40px;
                             width: 80px;
@@ -233,25 +265,30 @@
                             top: 20px;
                         }
                     }
+
                     .tabWidget {
                         background: #efefef;
                         max-height: 140vw;
                         overflow: auto;
+
                         .tag-list {
                             margin: 0px;
                             padding: 15px;
                             list-style: none;
                             background: #FFF; // height: calc(100% - 109px);
                             overflow: auto;
+
                             li {
                                 display: block;
                                 padding: 5px 0px;
+
                                 img {
                                     width: 25px;
                                     display: inline-block;
                                     vertical-align: middle;
                                     margin-right: 15px;
                                 }
+
                                 span {
                                     display: inline-block;
                                     vertical-align: middle;
@@ -260,30 +297,38 @@
                                 }
                             }
                         }
+
                         .fortags {
                             .img-holder {
                                 display: inline-block;
                                 width: 25%;
                                 padding: 4%;
                                 text-align: center;
+
                                 img {
                                     height: 18vw;
                                 }
                             }
+
                             .txt {
                                 display: inline-block;
                                 width: 70%;
+
                                 strong {
                                     font-weight: bolder;
                                     font-size: 16px;
                                 }
+
                                 .time {
                                     color: #8e9093;
+
                                     span {
                                         font-size: 14px;
                                     }
+
                                     button {
                                         background: transparent;
+
                                         ion-icon {
                                             color: #8e9093;
                                         }
@@ -304,17 +349,22 @@
             .top_empty_box {
                 height: calc(100% - (40% + 45px));
             }
+
             .pop_wrapper {
                 top: 60%;
+
                 .wrapper {
                     width: 100%;
+
                     ul {
                         list-style: none;
                         -webkit-margin-before: 0;
                         -webkit-padding-start: 0;
+
                         li {
                             padding: 10px 0;
                             overflow: hidden;
+
                             .image_holder {
                                 width: 68px;
                                 height: 60px;
@@ -322,16 +372,19 @@
                                 vertical-align: middle;
                                 overflow: hidden;
                                 padding-right: 8px;
+
                                 img {
                                     height: 100%;
                                 }
                             }
+
                             .name {
                                 display: inline-block;
                                 width: calc(100% - 73px);
                                 border-bottom: 1px solid #bdbdbd;
                                 padding: 21px 0;
                                 vertical-align: middle;
+
                                 p {
                                     width: 100%;
                                     margin: 0;
@@ -346,6 +399,7 @@
                     }
                 }
             }
+
             .pop_wrapper_full {
                 top: 45px;
                 @extend .pop_wrapper;
@@ -359,21 +413,28 @@
                     overflow: visible;
                 }
             }
+
             .toolbar {
                 box-shadow: none !important;
             }
+
             .searchPage {
                 background: rgba(121, 121, 121, 0.58);
+
                 .scroll-content {
                     background: transparent;
                     padding: 0px !important;
+
                     .userWidget {
                         background: #F5F5F5;
+
                         ul {
                             margin: 0px;
                             padding: 0px;
+
                             li {
                                 padding: 0 0px 0 10px;
+
                                 img {
                                     width: 26px;
                                     display: inline-block;
@@ -382,6 +443,7 @@
                                     margin-left: 10px;
                                     margin-top: 5px;
                                 }
+
                                 span {
                                     display: inline-block;
                                     vertical-align: middle;
@@ -392,6 +454,7 @@
                                     border-bottom: 1px solid #e8e8e8;
                                 }
                             }
+
                             li:select,
                             li:focus {
                                 background: color($assetFeedback, base);
@@ -400,9 +463,11 @@
                     }
                 }
             }
+
             .searchUserHead {
                 height: 54px;
                 text-align: center;
+
                 .imgNotOn {
                     width: 18px;
                     display: inline-block;
@@ -411,11 +476,13 @@
                     margin-right: 15px;
                     margin-left: 23px;
                 }
+
                 .inputField {
                     position: relative;
                     width: 70%;
                     display: inline-block;
                     box-shadow: 0px 5px 10px #424242;
+
                     img {
                         width: 18px;
                         display: inline-block;
@@ -424,6 +491,7 @@
                         position: absolute;
                         left: 0;
                     }
+
                     input {
                         width: 100%;
                         padding: 17.5px 0;
@@ -436,17 +504,21 @@
                         opacity: 1;
                         font-size: 16px;
                     }
+
                     input::-webkit-input-placeholder {
                         font-size: 16px;
                     }
                 }
+
                 .notOnField {
                     @extend .inputField;
                     width: 60%;
+
                     input {
                         padding-left: 10px;
                     }
                 }
+
                 span {
                     display: inline-block;
                     vertical-align: top; // padding: 13.5px 21.5px 13px 20px;
@@ -467,43 +539,57 @@
                     //     border-top: 15px solid #2BA600;
                     // }
                 }
+
                 span.me {
                     background: #2BA600;
                 }
+
                 span.follows {
                     background: #e9ca00;
+
                     &:after {
                         border-top: 15px solid #e9ca00;
                     }
                 }
+
                 span.top {
                     background: #ca6ebf;
+
                     &:after {
                         border-top: 15px solid #ca6ebf;
                     }
                 }
+
                 span.anon {
                     background: #000000;
+
                     &:after {
                         border-top: 15px solid #000000;
                     }
                 }
             }
+
             .forNotOn {
                 text-align: left;
             }
+
             .resultUserHead {
                 @extend .searchUserHead;
+
                 >span {
                     background: #000;
                 }
             }
+
             .resultWidget {
                 @extend .userWidget;
+
                 ul {
                     padding: 0 !important;
+
                     li {
                         overflow: hidden;
+
                         figure {
                             position: relative;
                             display: inline-block;
@@ -512,11 +598,13 @@
                             height: 60px;
                             margin: 0px;
                             overflow: hidden;
+
                             img {
                                 width: 100% !important;
                                 margin: 0px !important;
                                 vertical-align: middle !important;
                             }
+
                             ion-spinner {
                                 position: absolute;
                                 top: 50%;
@@ -525,12 +613,15 @@
                                 transform: translate(-50%, -50%);
                             }
                         }
+
                         .headAndShoulder {
                             padding: 5%;
                         }
+
                         .cloud {
                             padding: 3%;
                         }
+
                         figcaption {
                             display: inline-block;
                             vertical-align: middle;
@@ -539,20 +630,24 @@
                             border-bottom: 1px solid #D2D2D2;
                             padding: 25px 0px;
                             margin-left: 10px;
+
                             p {
                                 margin: 0px;
                                 width: 65%;
                                 font-size: 16px;
                                 display: inline-block;
+
                                 img {
                                     display: inline-block !important;
                                     width: 12px !important;
+
                                     &.star-icon {
                                         width: 15px !important;
                                         margin: -4px 0 0 !important;
                                     }
                                 }
                             }
+
                             .rightAdd {
                                 float: right;
                                 margin-right: 10px;
@@ -565,6 +660,7 @@
                                 border-bottom: 0px !important;
                             }
                         }
+
                         .txt {
                             vertical-align: middle;
                             padding: 10px 10px 0px 0px;
@@ -573,6 +669,7 @@
                             position: relative;
                             float: right;
                             border-bottom: 1px solid #D2D2D2;
+
                             strong {
                                 font-weight: normal;
                                 font-size: 16px;
@@ -585,20 +682,25 @@
                                 margin-bottom: 5px;
                                 white-space: normal; // text-transform: capitalize;
                             }
+
                             .opened {
                                 -webkit-line-clamp: 2;
                                 display: block;
                             }
+
                             p {
                                 font-size: 14px;
                             }
+
                             .time {
                                 float: right;
+
                                 em {
                                     width: 70px;
                                     color: #8e9093;
                                     font-style: normal;
                                 }
+
                                 .timeToBe {
                                     display: inline-block;
                                     margin-right: 0px !important;
@@ -608,6 +710,7 @@
                                     border: 0;
                                 }
                             }
+
                             .toteText {
                                 p {
                                     width: calc(100% - 90px);
@@ -624,16 +727,19 @@
                                     margin: 0;
                                     color: #8e9093;
                                 }
+
                                 button {
                                     color: #8e9093;
                                     background: transparent;
                                     float: left;
                                     margin: 0 3px;
+
                                     img {
                                         display: inline-block;
                                         vertical-align: middle;
                                         width: 14px;
                                         margin: 5px 0;
+
                                         &.unReadMsg {
                                             display: none;
                                         }
@@ -641,12 +747,14 @@
                                 }
                             }
                         }
+
                         &:last-child {
                             figcaption {
                                 border-bottom: none;
                             }
                         }
                     }
+
                     li:active,
                     li:visited,
                     li:focus {
@@ -654,9 +762,11 @@
                     }
                 }
             }
+
             .loader-panel {
                 .item-block {
                     border-bottom: none !important;
+
                     .item-inner {
                         border-bottom: none !important;
                     }
@@ -668,9 +778,11 @@
             ion-refresher.refresher-active {
                 background: #F5F5F5;
             }
+
             .fab {
                 overflow: visible;
                 contain: layout;
+
                 .notices,
                 .bell em {
                     width: 25px;
@@ -687,6 +799,7 @@
                     font-style: normal;
                     font-weight: bold;
                 }
+
                 .meNote {
                     width: 25px;
                     height: 25px;
@@ -702,12 +815,14 @@
                     font-weight: bold !important;
                     text-align: center;
                 }
+
                 .notiNote {
                     @extend .meNote; // top: auto;
                     // bottom: -5px;
                     font-size: 1.6rem;
                     background: red;
                 }
+
                 .followNote {
                     @extend .meNote;
                     right: 0px;
@@ -715,6 +830,7 @@
                     z-index: 22;
                     background: color($colors, follows);
                 }
+
                 .topNote {
                     @extend .meNote;
                     right: 0px;
@@ -723,6 +839,7 @@
                     z-index: 22;
                     background: color($colors, top);
                 }
+
                 .topAheadNote {
                     @extend .meNote;
                     right: 0px;
@@ -731,20 +848,25 @@
                     background: color($colors, top);
                 }
             }
+
             .img-loaded+ion-spinner {
                 display: none;
-            } // .center in my case to make the spinner at the center
+            }
+
+            // .center in my case to make the spinner at the center
             .center {
                 height: 100%;
                 margin-left: auto;
                 margin-right: auto;
                 display: block;
             }
+
             .not_to_show {
                 opacity: 0;
                 width: 0;
                 height: 0;
             }
+
             .toolbar-ios-follow {
                 ion-buttons {
                     button {
@@ -752,20 +874,25 @@
                     }
                 }
             }
+
             .scroll-content {
                 padding: 8px 25px 16px !important;
                 background: #F5F5F5;
+
                 .loader-panel {
                     .item {
                         border-bottom: 0px;
                     }
                 }
+
                 ul {
                     padding: 0;
                     margin: 0;
+
                     li {
                         list-style: none;
                         background: #fff;
+
                         >div {
                             display: block;
                             width: 100%;
@@ -774,16 +901,20 @@
                             touch-action: auto !important;
                             user-select: auto !important;
                             -webkit-user-drag: auto !important;
+
                             &.editTitle {
                                 background: #e0e0e0;
+
                                 .img-holder {
                                     background-image: url(../assets/img/option-icon.png);
                                     background-position: center;
                                     background-repeat: no-repeat;
                                     background-size: 5px;
                                 }
+
                                 .txt {
                                     padding: 16px 10px 0px 0px;
+
                                     form {
                                         textarea {
                                             margin: 0px;
@@ -798,14 +929,17 @@
                                             border: 0;
                                         }
                                     }
+
                                     .totBtn {
                                         float: right;
                                         margin-top: 8px;
+
                                         span {
                                             font-size: 12px;
                                             text-transform: uppercase;
                                             color: #a9a9a9;
                                             margin-left: 10px;
+
                                             &.saveBtn {
                                                 color: #319e07;
                                             }
@@ -813,30 +947,36 @@
                                     }
                                 }
                             }
+
                             &.toteActive {
                                 max-height: 0;
                                 border: 0px;
                                 overflow: hidden;
                                 transition: .70s ease-in;
                                 z-index: 0;
+
                                 &.toteTransition {
                                     display: block;
                                     max-height: 2900px;
                                     transition: 3s ease-out;
                                     overflow: visible;
                                 }
+
                                 .message-underlist {
                                     border-bottom: 1px solid color($colors, borders);
                                 }
                             }
+
                             &.bulkActive {
                                 background: #e0e0e0;
+
                                 .check {
                                     img {
                                         box-shadow: 0px 3px 4px #a7a7a7;
                                     }
                                 }
                             }
+
                             .img-holder {
                                 height: 72px;
                                 vertical-align: middle;
@@ -850,9 +990,11 @@
                                 top: 0px;
                                 text-align: center;
                                 line-height: 4;
+
                                 img {
                                     vertical-align: middle;
                                 }
+
                                 &.activated {
                                     background-color: color($assetFeedback, homeBaseHover) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
                                     box-shadow: -3px 3px 15px 5px color($assetFeedback, streamsHoverShadow) !important;
@@ -861,6 +1003,7 @@
                                     border-radius: 0;
                                     z-index: 1;
                                 }
+
                                 &:active,
                                 &:focus {
                                     background-color: color($assetFeedback, homeBaseHover) !important; // box-shadow: -20px 15px 20px 19px #181717 !important;
@@ -871,12 +1014,14 @@
                                     z-index: 1;
                                 }
                             }
+
                             .check {
                                 float: left;
                                 padding: 22px 15px 15px;
                                 vertical-align: middle;
                                 text-align: center;
                             }
+
                             .txt {
                                 vertical-align: middle;
                                 padding: 26px 10px 0px 0px;
@@ -884,6 +1029,7 @@
                                 min-height: 72px;
                                 position: relative;
                                 margin: 0 0 0 auto;
+
                                 form {
                                     textarea {
                                         margin: 0px;
@@ -898,22 +1044,28 @@
                                         border: 0;
                                     }
                                 }
+
                                 &.txtMiddel {
                                     padding: 22px 10px 0px 0px;
+
                                     .followerName {
                                         color: #8e9093
                                     }
                                 }
+
                                 &.txtOrdering {
                                     float: none !important;
                                     width: auto !important;
                                 }
+
                                 &.normal {
                                     padding: 1px 10px 0px 0px;
                                 }
+
                                 &.forShadow {
                                     padding-bottom: 20px;
                                 }
+
                                 img.unReadLock {
                                     position: absolute;
                                     right: 8px;
@@ -921,10 +1073,12 @@
                                     width: 13px;
                                     display: inline-block;
                                 }
+
                                 &.txtToto {
                                     width: calc(100% - 50px);
                                     padding-left: 5px;
                                 }
+
                                 strong {
                                     font-weight: normal;
                                     font-size: 16px;
@@ -938,23 +1092,29 @@
                                     transition: 2s;
                                     white-space: normal; // text-transform: capitalize;
                                 }
+
                                 .opened {
                                     -webkit-line-clamp: 2;
                                     display: block;
                                     transition: 2s;
                                 }
+
                                 p {
                                     font-size: 14px;
                                     margin: 0;
                                 }
+
                                 .time {
                                     float: right;
+
                                     em {
                                         width: 70px;
                                         color: #8e9093;
                                         font-style: normal;
+
                                         button {
                                             color: #8e9093;
+
                                             img {
                                                 display: inline-block;
                                                 vertical-align: middle;
@@ -962,23 +1122,28 @@
                                             }
                                         }
                                     }
+
                                     button {
                                         //margin-left: 10px !important;
                                         display: inline-block;
                                         background: transparent;
                                     }
+
                                     span {
                                         display: inline-block;
                                         margin-right: 0px !important;
                                         font-size: 14px;
                                     }
                                 }
+
                                 .toteText {
                                     display: inline-block;
                                     width: 60%;
+
                                     &:hover {
                                         background: color($assetFeedback, base);
                                     }
+
                                     p {
                                         display: inline-block;
                                         vertical-align: top;
@@ -993,49 +1158,61 @@
                                         word-break: break-all;
                                         color: #8e9093;
                                     }
+
                                     p.masla {
                                         width: calc(100% - 15px);
                                     }
+
                                     button {
                                         color: #8e9093;
                                         background: transparent;
                                         float: left;
                                         margin-top: 3px !important;
+
                                         img {
                                             display: inline-block;
                                             vertical-align: middle;
                                             width: 14px;
+
                                             &.unReadMsg {
                                                 display: none;
                                             }
                                         }
+
                                         ion-icon {
                                             font-size: 16px;
                                         }
                                     }
                                 }
+
                                 .chatToteForHover {
                                     @extend .toteText;
+
                                     &:hover {
                                         background: none;
                                     }
+
                                     p:hover {
                                         background: color($assetFeedback, base);
                                     }
                                 }
+
                                 .totBtn {
                                     float: right;
                                     margin-top: 8px;
+
                                     span {
                                         font-size: 14px;
                                         text-transform: uppercase;
                                         color: #7f7f7f;
                                         margin-left: 10px;
+
                                         &.saveBtn {
                                             color: #319e07;
                                         }
                                     }
                                 }
+
                                 input {
                                     margin: 0px;
                                     padding: 0px;
@@ -1045,27 +1222,33 @@
                                     width: 100%;
                                 }
                             }
+
                             figure {
                                 margin: 0px;
                                 padding: 0px;
                                 list-style: none;
                                 vertical-align: top;
                                 padding-top: 25px;
+
                                 img {
                                     width: 15px;
                                 }
                             }
                         }
+
                         .hoverParent,
                         .hoverParent {
                             background: color($assetFeedback, base);
                         }
+
                         .activeTote {
                             border: 0px;
+
                             .txt {
                                 width: calc(100% - 50px);
                             }
                         }
+
                         .ng-trigger {
                             .details-list {
                                 .item {
@@ -1074,10 +1257,12 @@
                                             padding: 15px 0px 0 20px;
                                             display: block;
                                             width: 100%;
+
                                             figure {
                                                 float: left;
                                                 padding: 3px 0 0;
                                             }
+
                                             .check-text {
                                                 vertical-align: top;
                                                 padding: 0 0 0 12px;
@@ -1085,17 +1270,21 @@
                                                 width: calc(100% - 15px);
                                                 margin: 0;
                                                 display: inline-block;
+
                                                 .name-time {
                                                     font-size: 14px;
                                                     color: #888;
+
                                                     .msg-time {
                                                         float: right;
                                                         font-size: 12px;
                                                     }
                                                 }
+
                                                 p {
                                                     font-size: 16px;
                                                 }
+
                                                 img {
                                                     width: 25px;
                                                     display: inline-block;
@@ -1107,14 +1296,17 @@
                                 }
                             }
                         }
+
                         .listHeader {
                             padding: 0px 5px 0 45px;
                             margin-top: 0;
                             background: #FFF;
                             height: 30px;
+
                             .btns-area {
                                 padding: 0px;
                                 line-height: 1;
+
                                 .me-tab {
                                     background: #e0e0e0;
                                     color: white;
@@ -1123,40 +1315,50 @@
                                     height: auto;
                                     padding: 5px !important;
                                     font-size: 14px;
+
                                     i {
                                         font-style: normal;
                                     }
+
                                     .loaderSpinner {
                                         width: 10px;
                                         height: 10px;
                                     }
                                 }
+
                                 .active_me {
                                     background: $meQuotesandComments;
                                     box-shadow: 0 0 3px #848484;
                                 }
+
                                 .anon_stream {
                                     background: color($colors, anon);
                                     box-shadow: 0 0 3px #848484;
                                 }
+
                                 .active_follows {
                                     background: $followQuotesandComments;
                                     box-shadow: 0 0 3px #848484;
                                 }
+
                                 .active_top {
                                     background: $topQuotesandComments;
                                     box-shadow: 0 0 3px #848484;
                                 }
                             }
                         }
+
                         .message-underlist {
                             padding: 0;
+
                             .underlist-items {
                                 contain: none;
                                 overflow: visible;
+
                                 &.selectedForBrowserPane {
                                     background: color($assetFeedback, base);
                                     min-height: 6.4rem; // p {
+
                                     //     text-overflow: ellipsis;
                                     //     display: -webkit-box;
                                     //     -webkit-box-orient: vertical;
@@ -1181,20 +1383,25 @@
                                         background-size: 100% 100%;
                                     }
                                 }
+
                                 &.selectedForMessages {
                                     @extend .selectedForBrowserPane;
+
                                     &:after {
                                         width: 30px;
                                     }
                                 }
+
                                 &.editHighlight {
                                     background: #e0e0e0;
                                 }
+
                                 .item-inner {
                                     .input-wrapper {
                                         ion-label {
                                             padding: 0;
                                             margin-right: 0;
+
                                             .txt {
                                                 border-bottom: 0px;
                                                 display: inline-block;
@@ -1203,33 +1410,41 @@
                                                 padding: 0 5px 0 0px;
                                                 min-height: auto;
                                                 float: right;
+
                                                 p {
                                                     font-size: 16px;
                                                     text-align: left;
                                                     white-space: pre-wrap;
                                                     width: 100%;
                                                     color: #000;
+
                                                     &.lightText {
                                                         color: #bfbfbf;
                                                     }
                                                 }
+
                                                 img {
                                                     width: 25px;
                                                 }
+
                                                 &:focus {
                                                     background: none;
                                                 }
+
                                                 &:active {
                                                     background: none;
                                                 }
+
                                                 &:visited {
                                                     background: none;
                                                 }
                                             }
+
                                             figure {
                                                 float: left;
                                                 padding: 21px 0 0;
                                             }
+
                                             .check-text {
                                                 vertical-align: top;
                                                 padding: 0 0px 0 17px;
@@ -1237,14 +1452,17 @@
                                                 width: calc(100% - 15px);
                                                 margin: 0;
                                                 display: inline-block;
+
                                                 .name-time {
                                                     font-size: 14px;
                                                     color: #888;
+
                                                     .msg-time {
                                                         float: right;
                                                         font-size: 14px;
                                                     }
                                                 }
+
                                                 p {
                                                     font-size: 16px;
                                                     color: #222;
@@ -1252,25 +1470,31 @@
                                                     white-space: normal;
                                                     text-align: left;
                                                 }
+
                                                 img {
                                                     width: 25px;
                                                     display: inline-block;
                                                     vertical-align: top;
                                                 }
                                             }
+
                                             .status {
                                                 margin-top: 2px;
                                             }
+
                                             .quotes_follows {
                                                 background: $followQuotesandComments;
                                             }
+
                                             .quotes_anon {
                                                 background: color($colors, anon);
                                             }
+
                                             .quotes_top {
                                                 background: $topQuotesandComments;
                                                 color: white;
                                             }
+
                                             .tag_input {
                                                 margin-left: -8%;
                                                 background: #f1f1f1;
@@ -1279,22 +1503,27 @@
                                                 border-bottom: 0px;
                                                 max-height: 150px;
                                                 overflow: auto;
+
                                                 ul {
                                                     margin: 0px;
                                                     padding: 0px;
                                                     list-style: none;
+
                                                     li {
                                                         padding: 8px 0px;
+
                                                         figure {
                                                             width: 25px;
                                                             margin: 0px;
                                                             padding: 0px;
                                                             display: inline-block;
                                                             float: none;
+
                                                             img {
                                                                 width: auto;
                                                             }
                                                         }
+
                                                         figcaption {
                                                             display: inline-block;
                                                             vertical-align: middle;
@@ -1303,23 +1532,28 @@
                                                     }
                                                 }
                                             }
+
                                             .editAntotion {
                                                 width: 100%;
                                                 padding: 0px 10px 10px 30px;
+
                                                 .moveBtn {
                                                     position: absolute;
                                                     left: 10px;
                                                     top: 15px;
+
                                                     button {
                                                         display: block;
                                                         background: transparent;
                                                         border: 0px;
                                                         padding: 2px 0px !important;
+
                                                         img {
                                                             width: 16px;
                                                         }
                                                     }
                                                 }
+
                                                 textarea {
                                                     font-size: 16px;
                                                     width: 100%;
@@ -1328,15 +1562,18 @@
                                                     resize: none;
                                                     display: block;
                                                 }
+
                                                 textarea.commentGrey {
                                                     color: #777776;
                                                     margin-bottom: 5px;
                                                 }
+
                                                 img {
                                                     float: left;
                                                     width: 25px;
                                                     margin-top: 3px;
                                                 }
+
                                                 span {
                                                     font-size: 14px;
                                                     text-transform: uppercase;
@@ -1344,6 +1581,7 @@
                                                     color: #7f7f7f;
                                                     padding-left: 10px;
                                                 }
+
                                                 span.save {
                                                     color: #32ad05;
                                                 }
@@ -1352,8 +1590,10 @@
                                     }
                                 }
                             }
+
                             .reoderOn {
                                 padding: 0;
+
                                 .item-inner {
                                     .input-wrapper {
                                         ion-label {
@@ -1362,12 +1602,15 @@
                                     }
                                 }
                             }
+
                             .no_anotation {
                                 text-align: center;
                                 padding: 10px 0px 10px 20px;
+
                                 &.noHighlight {
                                     position: relative;
                                     background: color($assetFeedback, base);
+
                                     &:after {
                                         content: '';
                                         position: absolute;
@@ -1386,6 +1629,7 @@
                                         background-size: 100% 100%;
                                     }
                                 }
+
                                 p {
                                     white-space: normal;
                                     position: relative;
@@ -1393,6 +1637,7 @@
                                     padding-left: 30px;
                                     font-size: 16px;
                                     color: #8e9093;
+
                                     &.me {
                                         &::after {
                                             content: "";
@@ -1410,11 +1655,13 @@
                                         }
                                     }
                                 }
+
                                 .butt {
                                     width: 60%;
                                     display: inline-block;
                                     padding: 5%;
                                     background: $me_app_color;
+
                                     p {
                                         color: white;
                                     }
@@ -1423,17 +1670,21 @@
                         }
                     }
                 }
+
                 .no_totes {
                     width: 100%;
                     text-align: center;
                     padding: 3%;
                     height: 72px;
                     background: #fff;
+
                     p {
                         font-size: 16px;
                         font-weight: bolder;
                         color: #000;
-                    } // p.me {
+                    }
+
+                    // p.me {
                     //     color: #3bde00;
                     // }
                     // p.follows {
@@ -1443,14 +1694,17 @@
                     //     color: #fb9df0;
                     // }
                 }
+
                 .loading {
                     text-align: center;
                 }
             }
+
             .toolbar-ios {
                 contain: none;
                 overflow: visible;
             }
+
             .platform-ios {
                 .topList {
                     li {
@@ -1460,22 +1714,27 @@
                     }
                 }
             }
+
             .topList {
                 margin: 0;
                 padding: 0 25px 0 0;
                 list-style: none;
                 overflow: hidden;
+
                 li {
                     float: right;
                     padding: 6px 18px 0;
+
                     img {
                         width: 39px;
                     }
+
                     &.followSave {
                         img {
                             width: 35px;
                             margin-top: 2px;
                         }
+
                         &.share {
                             img {
                                 width: 32px;
@@ -1483,35 +1742,42 @@
                             }
                         }
                     }
+
                     &.delete {
                         img {
                             width: 36px;
                         }
                     }
+
                     &.leftIcon {
                         float: left;
                         padding: 0px 3px;
                         position: absolute;
                         left: 15px;
                         top: 2px;
+
                         img {
                             width: 50px;
                         }
                     }
+
                     &.bookmark {
                         padding-right: 8px;
+
                         img {
                             width: 57px;
                         }
                     }
                 }
             }
+
             .col {
                 width: 15%;
                 float: right;
                 vertical-align: middle;
                 text-align: center;
                 letter-spacing: 0;
+
                 img {
                     width: 28px;
                 }
@@ -1522,26 +1788,31 @@
             .scroll-content {
                 background: none;
             }
+
             .content-ios {
                 color: inherit;
                 background-color: inherit;
             }
+
             .top_empty_box {
                 width: 100%;
                 height: 100%;
                 background: rgba(0, 0, 0, 0.7);
                 z-index: 1000;
             }
+
             .content_follows_profile {
                 width: 100%;
                 height: 100%;
                 overflow-y: auto;
                 background-color: rgba(49, 49, 49, 0.83);
             }
+
             .platform-android.keyboard-open {
                 top: 0px !important;
                 bottom: auto;
             }
+
             .pop_heading {
                 padding: 5px 10px;
                 color: #fff;
@@ -1551,7 +1822,9 @@
                 box-shadow: 4px 0 10px #000;
                 z-index: 10;
                 position: relative;
+                height: 52.5px;
             }
+
             .pop_txt {
                 max-height: 298px;
                 padding: 5px 25px;
@@ -1560,9 +1833,11 @@
                 color: #d4d4d4;
                 overflow: auto;
                 background: #313131;
+
                 p {
                     margin: 0px;
                 }
+
                 textarea {
                     border: 0px;
                     background: transparent;
@@ -1571,18 +1846,22 @@
                     resize: none;
                     min-height: 65px;
                     padding-top: 12px;
+
                     &.addComment {
                         color: #b5b5b5 !important;
                         min-height: 48px;
                     }
                 }
+
                 textarea.firstOne {
                     opacity: 1;
                 }
             }
+
             .content_follows_profile {
                 overflow: hidden;
             }
+
             .popupPanel {
                 position: absolute;
                 bottom: 0px;

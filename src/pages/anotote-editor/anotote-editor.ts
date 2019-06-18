@@ -135,15 +135,10 @@ export class AnototeEditor {
     this.ANOTOTE_LOADING_ERROR = false;
 
     if (navParams.get('FROM') != 'search') {
+      this.authService.setDotState(navParams.get('FROM'), navParams.get('WHICH_STREAM'), navParams.get('actual_stream'), this.navParams.get('ANOTOTE'), navParams.get('HIGHLIGHT_RECEIVED'))
       this.setThingsUp(null);
     } else {
-      // if (navParams.get('needHypothesis'))
-      //     this.HMTheorem({
-      //         url: navParams.get('url'),
-      //         created_at: this.utilityMethods.get_php_wala_time()
-      //     })
-      // else
-      //     this.hypothesisScrapping(navParams.get('url'));
+      this.authService.stateForDots = null;
       var params = {
         url: navParams.get('url'),
         created_at: this.utilityMethods.get_php_wala_time(),
@@ -151,7 +146,6 @@ export class AnototeEditor {
       }
       this.HMTheorem(params);
     }
-    console.log(navParams.get('url'))
     /**
      * Document Selection Listner
      */
@@ -221,10 +215,8 @@ export class AnototeEditor {
   //2nd step modify scrapping for anotote
   //Previously 2nd step, now its the only step to scrap a new article
   HMTheorem(params) {
-    console.log("params")
     this.searchService.create_anotote(params)
       .subscribe((response) => {
-        // added by Hamza
         response.data.userAnnotote.annotote = response.data.annotote;
         if (this.navParams.get('saveThisToMe') && response.data.userAnnotote.isMe == 0)
           this.saveTote(response);
@@ -1283,7 +1275,7 @@ export class AnototeEditor {
     // this.range = this.sel.getRangeAt(0);
     this.commentDetailModalIsOpen.check = true;
     // if (this.full_screen_mode == false) {
-    var temp = window.getSelection();
+    var temp: any = window.getSelection();
     this.sel = {
       baseNode: temp.baseNode,
       baseOffset: temp.baseOffset,
