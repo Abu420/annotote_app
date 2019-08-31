@@ -1,59 +1,71 @@
-<div class="top_empty_box" (click)="dismiss()">
-</div>
 <ng-container *ngIf="show == true">
-    <ion-content class="content_notifaction" [@enterAnimation] no-bounce padding>
-        <div class="headFollow" (click)="dismiss()">
-            <ion-title>Notifications
-                <ng-container *ngIf="_unread > 1">({{_unread}})</ng-container>
-            </ion-title>
+  <div class="top_empty_box"
+    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"
+    (tap)="dismiss()">
+  </div>
+  <ion-content class="content_notifaction" [@enterAnimation] no-bounce padding>
+    <div class="headFollow" (click)="dismiss()">
+      <ion-title>Notifications
+        <ng-container *ngIf="_unread > 1">({{_unread}})</ng-container>
+      </ion-title>
+    </div>
+    <div class="notifaction_details">
+      <div id="wrapper">
+        <div *ngIf="!_loading" class="notifications_spinner">
+          <ion-spinner name="ios"></ion-spinner>
         </div>
-        <div class="notifaction_details">
-            <div id="wrapper">
-                <div *ngIf="!_loading" class="notifications_spinner">
-                    <ion-spinner name="ios"></ion-spinner>
+        <ion-list no-lines class="product-list follows notifications">
+          <ion-item *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus == 0}">
+            <div class="img-holder" (click)="read_or_unread(notification)">
+              <img *ngIf="notification.readStatus == 1" src="assets/img/check1.png">
+              <img class="unRead" *ngIf="notification.readStatus == 0" src="assets/img/check-red.png">
+            </div>
+            <div class="txt" (click)="go_to_thread(notification)">
+              <strong class="follow-name" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">
+                {{notification.sender.firstName }}
+                <img *ngIf="notification.sender.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
+                <!-- <img *ngIf="notification.sender.isFollowed==1" class="arrow-icon" src="assets/img/arrow-gray.png" alt=""> -->
+              </strong>
+              <div class="time">
+                <em>
+                  <span
+                    [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.createdAt | notificationTimeStamp}}</span>
+                </em>
+                <div class="toteText">
+                  <button *ngIf="notification.type=='user:follwowed_by'" type="button">
+                    <ion-icon name="at"></ion-icon>
+                  </button>
+                  <img *ngIf="notification.type=='user:message' && notification.readStatus == 0" class="chat-icon"
+                    src="assets/img/redMessage.svg" alt="">
+                  <img *ngIf="notification.type=='user:message' && notification.readStatus == 1" class="chat-icon"
+                    src="assets/img/commentIcon.svg" alt="">
+                  <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 0"
+                    class="mentioned-icon" src="assets/img/mentionedIcon.svg" alt="">
+                  <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 1"
+                    class="mentioned-icon" src="assets/img/mentionedGray.svg" alt="">
+                  <img *ngIf="notification.type=='user:followed_by' && notification.readStatus == 0"
+                    class="followed-icon" src="assets/img/userRed.svg" alt="">
+                  <img *ngIf="notification.type=='user:followed_by' && notification.readStatus == 1"
+                    class="followed-icon" src="assets/img/userGray.svg" alt="">
+                  <span *ngIf="notification.type=='user:mentioned_you'"
+                    [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Mentioned you</span>
+                  <span *ngIf="notification.type=='user:message'"
+                    [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Message</span>
+                  <span *ngIf="notification.type=='user:followed_by'"
+                    [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Followed you</span>
                 </div>
-                <ion-list no-lines class="product-list follows notifications">
-                    <ion-item *ngFor="let notification of _notifications" [ngClass]="{'active': notification.readStatus == 0}">
-                        <div class="img-holder" (click)="read_or_unread(notification)">
-                            <img *ngIf="notification.readStatus == 1" src="assets/img/check1.png">
-                            <img class="unRead" *ngIf="notification.readStatus == 0" src="assets/img/check-red.png">
-                        </div>
-                        <div class="txt" (click)="go_to_thread(notification)">
-                            <strong class="follow-name" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">
-                                {{notification.sender.firstName }}
-                                <img *ngIf="notification.sender.isFollowed==1" class="star-icon" src="assets/img/star-gray.png" alt="">
-                                <!-- <img *ngIf="notification.sender.isFollowed==1" class="arrow-icon" src="assets/img/arrow-gray.png" alt=""> -->
-                            </strong>
-                            <div class="time">
-                                <em>
-                                    <span [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">{{ notification.createdAt | notificationTimeStamp}}</span>
-                                </em>
-                                <div class="toteText">
-                                    <button *ngIf="notification.type=='user:follwowed_by'" type="button">
-                                        <ion-icon name="at"></ion-icon>
-                                    </button>
-                                    <img *ngIf="notification.type=='user:message' && notification.readStatus == 0" class="chat-icon" src="assets/img/redMessage.svg" alt="">
-                                    <img *ngIf="notification.type=='user:message' && notification.readStatus == 1" class="chat-icon" src="assets/img/commentIcon.svg" alt="">
-                                    <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 0" class="mentioned-icon" src="assets/img/mentionedIcon.svg" alt="">
-                                    <img *ngIf="notification.type=='user:mentioned_you' && notification.readStatus == 1" class="mentioned-icon" src="assets/img/mentionedGray.svg" alt="">
-                                    <img *ngIf="notification.type=='user:followed_by' && notification.readStatus == 0" class="followed-icon" src="assets/img/userRed.svg" alt="">
-                                    <img *ngIf="notification.type=='user:followed_by' && notification.readStatus == 1" class="followed-icon" src="assets/img/userGray.svg" alt="">
-                                    <span *ngIf="notification.type=='user:mentioned_you'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Mentioned you</span>
-                                    <span *ngIf="notification.type=='user:message'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Message</span>
-                                    <span *ngIf="notification.type=='user:followed_by'" [ngStyle]="{'color': notification.readStatus == 0 ? 'red': ''}">Followed you</span>
-                                </div>
-                            </div>
-                        </div>
-                    </ion-item>
-                </ion-list>
+              </div>
             </div>
-            <div class="no_totes" *ngIf="has_notifications == false">
-                <p>No new notifications.</p>
-            </div>
-            <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="loadMore">
-                <ion-infinite-scroll-content loadingSpinner="bubbles">
-                </ion-infinite-scroll-content>
-            </ion-infinite-scroll>
-        </div>
-    </ion-content>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="no_totes" *ngIf="has_notifications == false">
+        <p>No new notifications.</p>
+      </div>
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="loadMore">
+        <ion-infinite-scroll-content loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </ion-content>
 </ng-container>

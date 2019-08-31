@@ -245,6 +245,71 @@ page-chat {
     }
 }
 
+.top-bar {
+  margin-left: -8%;
+  width: 117%;
+  padding: 5px 10px;
+  color: #fff;
+  letter-spacing: -5px;
+  background: #313131;
+  overflow: hidden;
+  -webkit-box-shadow: 4px 0 10px #000;
+  box-shadow: 4px 0 10px #000;
+  z-index: 10;
+  position: relative;
+  height: 52.5px;
+
+  span{
+    float: right;
+    letter-spacing: 0px;
+    padding: 10px 0px;
+    text-transform: uppercase;
+    min-width: 40px;
+  }
+  .send{
+    color: #3bde00;
+    position: absolute;
+    right: 30px;
+  }
+  .channel{
+    color: #b5b5b5 !important;
+    text-transform: none !important;
+    position: absolute;
+    left: 20px;
+    width: 55%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .cancel{
+    color: #b5b5b5 !important;
+    position: absolute;
+    right: 75px;
+  }
+}
+.fortextarea2 {
+  overflow: scroll;
+  height: 90px;
+  margin: 5px 5px 5px;
+  display: inline-block;
+  width: 95%;
+  max-height: 250px;
+  overflow: scroll;
+  vertical-align: middle;
+  -webkit-overflow-scrolling: touch;
+}
+
+textarea {
+  display: inline-block;
+  vertical-align: middle; // padding: 20px 5px 5px;
+  resize: none;
+  width: 100%;
+  background: #222;
+  border: 0px;
+  color: #FFF;
+  font-size: 16px;
+  max-height: 300px;
+}
 ion-infinite-scroll-content {
     min-height: 5px !important;
 }

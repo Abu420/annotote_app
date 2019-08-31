@@ -98,6 +98,7 @@ export class Notifications {
   }
 
   dismiss(action) {
+    console.log("HELLO!!!")
     this.show = false;
     this.statusBar.show();
     setTimeout(() => {

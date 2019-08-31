@@ -163,9 +163,16 @@ export class AnototeOptions {
             privacy: 0
           }
           this.anototeService.chat_tote_privacy(params).subscribe((result) => {
-            for (let user of this.anotote.chatGroup.groupUsers) {
-              user.privacy = 0;
+            console.log(result.updated)
+            if (result.updated != 'not') {
+              for (let user of this.anotote.chatGroup.groupUsers) {
+                user.privacy = 0;
+              }
+            } else {
+              this.utilityMethods.doToast("Anotote was initiated as private. Can not make it Public");
+              return;
             }
+
           }, (error) => {
             if (error.code == -1) {
               this.utilityMethods.internet_connection_error();
@@ -185,9 +192,12 @@ export class AnototeOptions {
             privacy: 1
           }
           this.anototeService.chat_tote_privacy(params).subscribe((result) => {
-            for (let user of this.anotote.chatGroup.groupUsers) {
-              user.privacy = 1;
+            if (result.updated != 'not') {
+              for (let user of this.anotote.chatGroup.groupUsers) {
+                user.privacy = 1;
+              }
             }
+
           }, (error) => {
             if (error.code == -1) {
               this.utilityMethods.internet_connection_error();

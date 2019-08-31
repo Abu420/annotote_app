@@ -1,192 +1,224 @@
 <ion-header class="topHeader">
-    <ion-toolbar [color]="current_color">
-        <ion-buttons class="searchIcon" start>
-            <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
-                <img src="assets/img/searchIcon.png" alt="" />
-            </button>
-        </ion-buttons>
-        <ion-title>
-            <dot-navigation [ngClass]="{'meDot': current_color == 'me','followDot': current_color == 'follows','topDot':current_color == 'top'}" unactivedots="2"></dot-navigation>
-        </ion-title>
-        <ion-buttons class="plusIcon" end>
-            <button (tap)="addBtn()" ion-button icon-only>
-                <img src="assets/img/plusIcon.png" alt="" />
-            </button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar [color]="current_color">
+    <ion-buttons class="searchIcon" start>
+      <button (tap)="openSearchPopup()" class="search_icon" ion-button icon-only>
+        <img src="assets/img/searchIcon.png" alt="" />
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <dot-navigation
+        [ngClass]="{'meDot': current_color == 'me','followDot': current_color == 'follows','topDot':current_color == 'top'}"
+        unactivedots="2"></dot-navigation>
+    </ion-title>
+    <ion-buttons class="plusIcon" end>
+      <button (tap)="addBtn()" ion-button icon-only>
+        <img src="assets/img/plusIcon.png" alt="" />
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 <span navPop class="wedge_icon"></span>
 <ion-content swipe-vertical padding #scrollMe>
-    <div id="wrapper">
-        <div class="chatHead" [ngClass]="{'active': titleField,'hoverParent':justHoverParent == true}">
-            <span class="chatOptions" [ngClass]="{'activated': options}" (click)="showOptions()"></span>
-            <div class="txt" (click)="justHover()">
-                <ng-container *ngIf="tote != null && tote.chatGroup != null">
-                    <!-- This container works when we come from streams including search stream -->
-                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null && titleField == false" (press)="showTitleField()">Chat</strong>
-                    <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
-                        <textarea autosize [(ngModel)]="newChatTitle" name="title" placeholder="Change the title of this Chat"></textarea>
-                    </form>
-                    <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false" (press)="showTitleField()">Chat: {{tote.chatGroup.messagesUser[0].subject}}</strong>
-                </ng-container>
-                <ng-container *ngIf="tote == null || tote.chatGroup == null">
-                    <!-- 
+  <div id="wrapper">
+    <div class="chatHead" [ngClass]="{'active': titleField,'hoverParent':justHoverParent == true}">
+      <span class="chatOptions" [ngClass]="{'activated': options}" (click)="showOptions()"></span>
+      <div class="txt" (click)="justHover()">
+        <ng-container *ngIf="tote != null && tote.chatGroup != null">
+          <!-- This container works when we come from streams including search stream -->
+          <strong *ngIf="tote.chatGroup.messagesUser[0].subject == null && titleField == false"
+            (press)="showTitleField()">Chat</strong>
+          <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
+            <textarea autosize [(ngModel)]="newChatTitle" name="title"
+              placeholder="Change the title of this Chat"></textarea>
+          </form>
+          <strong *ngIf="tote.chatGroup.messagesUser[0].subject != null && titleField == false"
+            (press)="showTitleField()">Chat: {{tote.chatGroup.messagesUser[0].subject}}</strong>
+        </ng-container>
+        <ng-container *ngIf="tote == null || tote.chatGroup == null">
+          <!--
                         This container works when we come from search to create new chat
                         or to create a new chat against a tote.
                     -->
-                    <strong *ngIf="tote == null && conversation.length == 0 && titleField == false" (press)="showTitleField()">
-                        <!-- Creating a new chat against a random subject or no subject -->
-                        <ng-container *ngIf="newChatTitle != ''">Chat: {{newChatTitle}}</ng-container>
-                        <ng-container *ngIf="newChatTitle == ''">Chat</ng-container>
-                    </strong>
+          <strong *ngIf="tote == null && conversation.length == 0 && titleField == false" (press)="showTitleField()">
+            <!-- Creating a new chat against a random subject or no subject -->
+            <ng-container *ngIf="newChatTitle != ''">Chat: {{newChatTitle}}</ng-container>
+            <ng-container *ngIf="newChatTitle == ''">Chat</ng-container>
+          </strong>
 
-                    <strong *ngIf="tote != null && tote.chatGroup == null && titleField == false" (press)="showTitleField()">
-                        <!-- This works when we are creating a chat against anotote -->
-                        Chat: {{title}}
-                    </strong>
-                    <!-- if we come from notifications then we don't have chat group -->
-                    <strong *ngIf="tote == null && conversation.length > 0  && titleField == false" (press)="showTitleField()">
-                        <!-- This check works when we come from notifications to an existing chat -->
-                        <ng-container *ngIf="conversation[0].subject == null">Chat</ng-container>
-                        <ng-container *ngIf="conversation[0].subject != null">Chat: {{conversation[0].subject}}</ng-container>
-                    </strong>
+          <strong *ngIf="tote != null && tote.chatGroup == null && titleField == false" (press)="showTitleField()">
+            <!-- This works when we are creating a chat against anotote -->
+            Chat: {{title}}
+          </strong>
+          <!-- if we come from notifications then we don't have chat group -->
+          <strong *ngIf="tote == null && conversation.length > 0  && titleField == false" (press)="showTitleField()">
+            <!-- This check works when we come from notifications to an existing chat -->
+            <ng-container *ngIf="conversation[0].subject == null">Chat</ng-container>
+            <ng-container *ngIf="conversation[0].subject != null">Chat: {{conversation[0].subject}}</ng-container>
+          </strong>
 
-                    <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
-                        <!-- For updating Chat's title -->
-                        <textarea autosize [(ngModel)]="newChatTitle" name="title" placeholder="Change the title of this Chat"></textarea>
-                    </form>
-                </ng-container>
-                <div class="toteText" *ngIf="titleField == false">
-                    <button type="button">
-                        <img alt="" src="assets/img/commentIcon.svg">
-                    </button>
-                    <p (click)="chat_participants_from_tote($event)">{{secondUser.firstName}}
-                        <ng-container *ngIf="tote != null && tote.chatGroup != null">({{tote.chatGroup.groupUsers.length}})</ng-container>
-                    </p>
-                </div>
-                <div class="time" *ngIf="tote != null && titleField == false">
-                    <em>
-                        <ng-container *ngIf="tote.chatGroup">
-                            <span *ngIf="tote.chatGroup.createdAt != null" [innerText]="tote.chatGroup.createdAt | time_stamp"></span>
-                        </ng-container>
-                        <ng-container *ngIf="tote.chatGroup == null">
-                            <span *ngIf="tote.createdAt != null" [innerText]="tote.createdAt | time_stamp"></span>
-                        </ng-container>
-                    </em>
-                </div>
-            </div>
-            <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0 && fbLoading == false">
-                <ion-item class="underlist-items">
-                    <div class="txt">
-                        <p>Type a message below and hit SEND.</p>
-                    </div>
-                    <span>
-                        <img src="assets/img/checkblack.png" alt="">
-                    </span>
-                </ion-item>
-                <ion-item class="underlist-items">
-                    <div class="txt">
-                        <p>Change privacy settings or add participants in the options menu.</p>
-                    </div>
-                    <span>
-                        <img src="assets/img/checkblack.png" alt="">
-                    </span>
-                </ion-item>
-            </ion-list>
+          <form (ngSubmit)="updateSubject()" *ngIf="titleField == true">
+            <!-- For updating Chat's title -->
+            <textarea autosize [(ngModel)]="newChatTitle" name="title"
+              placeholder="Change the title of this Chat"></textarea>
+          </form>
+        </ng-container>
+        <div class="toteText" *ngIf="titleField == false">
+          <button type="button">
+            <img alt="" src="assets/img/commentIcon.svg">
+          </button>
+          <p (click)="chat_participants_from_tote($event)">{{secondUser.firstName}}
+            <ng-container *ngIf="tote != null && tote.chatGroup != null">({{tote.chatGroup.groupUsers.length}})
+            </ng-container>
+          </p>
         </div>
-        <ion-list class="product-list loader-panel" *ngIf="fbLoading">
-            <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
-                <div>
-                    <div class="img-holder">
-                    </div>
-                    <div class="txt line-loader">
-                        <div class="line-top">
-                            <span class="head-line"></span>
-                        </div>
-                        <div class="line-bot">
-                            <span class="name-line"></span>
-                            <span class="date-line"></span>
-                        </div>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
-            <ion-infinite-scroll-content loadingSpinner="none" *ngIf="infinite_completed == false">
-            </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-        <ion-list no-lines class="details-list layout" id="chat-listing-area`">
-            <ion-item (press)="editOrDelete(message)" *ngFor="let message of conversation" class="underlist-items">
-                <figure>
-                    <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
-                    <ng-container *ngIf="current_color == 'me' || contains == true">
-                        <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
-                        <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
-                    </ng-container>
-                    <ng-container *ngIf="current_color != 'me' && contains == false">
-                        <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
-                    </ng-container>
-                </figure>
-                <div class="check-text">
-                    <div class="name-time">
-                        <span class="user" *ngIf="message.senderId == user.id">Me</span>
-                        <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
-                        <span class="msg-time">{{message.createdAt | time_stamp}}</span>
-                    </div>
-                    <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id && contains == true}">{{message.text}}
-                        <ng-container *ngFor="let tag of message.messageTags">
-                            <ng-container *ngIf="tag.tagId == 1">^</ng-container>
-                            <ng-container *ngIf="tag.tagId == 2">@</ng-container>
-                            <ng-container *ngIf="tag.tagId == 3">#</ng-container>
-                            <ng-container *ngIf="tag.tagId == 4">$</ng-container>
-                            {{tag.tagText}}
-                        </ng-container>
-                    </p>
-                    <!-- <img (click)="editOrDelete(message)" src="assets/img/dotsicon.svg" alt=""> -->
-                </div>
-            </ion-item>
-        </ion-list>
+        <div class="time" *ngIf="tote != null && titleField == false">
+          <em>
+            <ng-container *ngIf="tote.chatGroup">
+              <span *ngIf="tote.chatGroup.createdAt != null" [innerText]="tote.chatGroup.createdAt | time_stamp"></span>
+            </ng-container>
+            <ng-container *ngIf="tote.chatGroup == null">
+              <span *ngIf="tote.createdAt != null" [innerText]="tote.createdAt | time_stamp"></span>
+            </ng-container>
+          </em>
+        </div>
+      </div>
+      <ion-list no-lines class="details-list layout" *ngIf="conversation.length == 0 && fbLoading == false">
+        <ion-item class="underlist-items">
+          <div class="txt">
+            <p>Type a message below and hit SEND.</p>
+          </div>
+          <span>
+            <img src="assets/img/checkblack.png" alt="">
+          </span>
+        </ion-item>
+        <ion-item class="underlist-items">
+          <div class="txt">
+            <p>Change privacy settings or add participants in the options menu.</p>
+          </div>
+          <span>
+            <img src="assets/img/checkblack.png" alt="">
+          </span>
+        </ion-item>
+      </ion-list>
     </div>
-    <ion-fab [ngClass]="{'moveUp': move == true}" *ngIf="contains == false" bottom right>
-        <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
-            <img src="assets/img/whiteTote.svg" />
-        </button>
-    </ion-fab>
+    <ion-list class="product-list loader-panel" *ngIf="fbLoading">
+      <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8]">
+        <div>
+          <div class="img-holder">
+          </div>
+          <div class="txt line-loader">
+            <div class="line-top">
+              <span class="head-line"></span>
+            </div>
+            <div class="line-bot">
+              <span class="name-line"></span>
+              <span class="date-line"></span>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [position]="scrollPosition">
+      <ion-infinite-scroll-content loadingSpinner="none" *ngIf="infinite_completed == false">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <ion-list no-lines class="details-list layout" id="chat-listing-area`">
+      <ion-item (press)="editOrDelete(message)" *ngFor="let message of conversation" class="underlist-items">
+        <figure>
+          <img *ngIf="message.senderId == user.id" src="assets/img/check-green.png" alt="">
+          <ng-container *ngIf="current_color == 'me' || contains == true">
+            <img *ngIf="message.senderId != user.id && message.read == 0" src="assets/img/check-red.png" alt="">
+            <img *ngIf="message.senderId != user.id && message.read == 1" src="assets/img/checkYellow.png" alt="">
+          </ng-container>
+          <ng-container *ngIf="current_color != 'me' && contains == false">
+            <img *ngIf="message.senderId != user.id" src="assets/img/checkYellow.png" alt="">
+          </ng-container>
+        </figure>
+        <div class="check-text">
+          <div class="name-time">
+            <span class="user" *ngIf="message.senderId == user.id">Me</span>
+            <span class="user" *ngIf="message.senderId != user.id">{{secondUser.firstName}} </span>
+            <span class="msg-time">{{message.createdAt | time_stamp}}</span>
+          </div>
+          <p [ngClass]="{'red': message.read == 0 && message.senderId != user.id && contains == true}">{{message.text}}
+            <ng-container *ngFor="let tag of message.messageTags">
+              <ng-container *ngIf="tag.tagId == 1">^</ng-container>
+              <ng-container *ngIf="tag.tagId == 2">@</ng-container>
+              <ng-container *ngIf="tag.tagId == 3">#</ng-container>
+              <ng-container *ngIf="tag.tagId == 4">$</ng-container>
+              {{tag.tagText}}
+            </ng-container>
+          </p>
+          <!-- <img (click)="editOrDelete(message)" src="assets/img/dotsicon.svg" alt=""> -->
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ion-fab [ngClass]="{'moveUp': move == true}" *ngIf="contains == false" bottom right>
+    <button (tap)="presentViewOptionsModal()" ion-fab [color]="current_color">
+      <img src="assets/img/whiteTote.svg" />
+    </button>
+  </ion-fab>
 </ion-content>
 <ion-footer class="message-bottom shadow" *ngIf="contains == true && titleField == false">
-    <ion-toolbar color="dark">
-        <ng-container *ngIf="tote != null && tote.chatGroup != null">
-            <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
-            <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject != null">“[{{tote.chatGroup.messagesUser[0].subject}}]”</p>
-        </ng-container>
-        <ng-container *ngIf="tote == null || tote.chatGroup == null">
-            <p *ngIf="!reply_box_on">“[No subject]”</p>
-        </ng-container>
-        <span *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply</span>
-        <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
-        <div *ngIf="reply_box_on" class="send-btn">
-            <img src="assets/img/check-green.png" alt="">
-            <div class="fortextarea">
-                <textarea id="message" autosize *ngIf="conversation.length > 0" [(ngModel)]="textMessage" name="search" placeholder="Reply to chat"></textarea>
-                <textarea id="message" autosize *ngIf="conversation.length == 0" [(ngModel)]="textMessage" name="search" placeholder="Type a message"></textarea>
-                <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
-            </div>
-            <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''" name="send">
-            <span class="loading" *ngIf="send_message_loader">
-                <ion-spinner></ion-spinner>
-            </span>
-        </div>
-    </ion-toolbar>
+  <ion-toolbar color="dark">
+    <div *ngIf="reply_box_on" class="top-bar">
+      <span class="channel" *ngIf="tote == null">To: {{secondUser.firstName}}</span>
+      <span *ngIf="tote != null && tote.chatGroup != null" class="channel">To: {{secondUser.firstName}}
+        ({{tote.chatGroup.groupUsers.length}})</span>
+      <span class="cancel" (click)="reply_box_on = false">Cancel</span>
+      <span class="send" (click)="sendMessage()">Send</span>
+    </div>
+    <!-- <ng-container *ngIf="tote != null && tote.chatGroup != null">
+      <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject == null">“[No subject]”</p>
+      <p *ngIf="!reply_box_on && tote.chatGroup.messagesUser[0].subject != null">
+        “[{{tote.chatGroup.messagesUser[0].subject}}]”</p>
+    </ng-container> -->
+    <ng-container *ngIf="tote == null || tote.chatGroup == null">
+      <p *ngIf="!reply_box_on">“[No subject]”</p>
+    </ng-container>
+    <ng-container *ngIf="!reply_box_on">
+      <p *ngIf="tote.chatGroup.messagesUser[0].subject == null">Chat</p>
+      <p *ngIf="tote.chatGroup.messagesUser[0].subject != null">Chat:
+        {{tote.chatGroup.messagesUser[0].subject}}</p>
+      <span (click)="reply_box_on = true">Reply</span>
+    </ng-container>
+
+    <!-- <span *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply</span> -->
+    <!-- <p style="text-align: center;color: white;" *ngIf="!reply_box_on" (tap)="show_reply_box()">Reply to {{secondUser.firstName}} </p> -->
+    <div *ngIf="reply_box_on" class="send-btn">
+      <!-- <img src="assets/img/check-green.png" alt=""> -->
+      <div class="fortextarea">
+        <textarea id="message" *ngIf="conversation.length > 0" [(ngModel)]="textMessage" name="search"
+          placeholder="Reply to chat"></textarea>
+        <textarea id="message" *ngIf="conversation.length == 0" [(ngModel)]="textMessage" name="search"
+          placeholder="Type a message"></textarea>
+        <!-- <input type="text" [(ngModel)]="textMessage" value="" name="search" placeholder="Write your reply"> -->
+      </div>
+      <!-- <input type="submit" value="Send" (click)="sendMessage()" [ngClass]="(textMessage.length > 0) ? 'green':''"
+        name="send"> -->
+      <!-- <span class="loading" *ngIf="send_message_loader">
+        <ion-spinner></ion-spinner>
+      </span> -->
+    </div>
+  </ion-toolbar>
 </ion-footer>
 <ion-footer class="message-bottom" id='snackbarFortote' *ngIf="titleField">
-    <ion-toolbar color="dark" class="saved">
-        <div class="editOptions">
-            <span (click)="cancelTitleEdit()">Cancel</span>
-            <span class="save" *ngIf="tote && tote.chatGroup && newChatTitle != tote.chatGroup.messagesUser[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <span class="save" *ngIf="tote && tote.chatGroup == null && newChatTitle != title && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <!-- <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote == null && newChatTitle != tote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span> -->
-            <span class="save" *ngIf="tote == null && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''" (click)="updateSubject()">Save</span>
-            <span class="save" *ngIf="tote == null && conversation.length == 0 && newChatTitle != ''" (click)="updateSubject()">Save</span>
-        </div>
-    </ion-toolbar>
+  <ion-toolbar color="dark" class="saved">
+
+    <div class="editOptions">
+      <span (click)="cancelTitleEdit()">Cancel</span>
+      <span class="save"
+        *ngIf="tote && tote.chatGroup && newChatTitle != tote.chatGroup.messagesUser[0].subject && newChatTitle != ''"
+        (click)="updateSubject()">Save</span>
+      <span class="save" *ngIf="tote && tote.chatGroup == null && newChatTitle != title && newChatTitle != ''"
+        (click)="updateSubject()">Save</span>
+      <!-- <span class="save" *ngIf="tote && tote.chatGroup == null && tote.userAnnotote.annotote == null && newChatTitle != tote.annotote.title && newChatTitle != ''" (click)="updateSubject()">Save</span> -->
+      <span class="save"
+        *ngIf="tote == null && conversation.length > 0 && newChatTitle != conversation[0].subject && newChatTitle != ''"
+        (click)="updateSubject()">Save</span>
+      <span class="save" *ngIf="tote == null && conversation.length == 0 && newChatTitle != ''"
+        (click)="updateSubject()">Save</span>
+    </div>
+  </ion-toolbar>
 </ion-footer>

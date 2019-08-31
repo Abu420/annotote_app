@@ -273,9 +273,9 @@ export class Chat {
 
   ionViewDidLoad() {
     this.doInfinite(null);
-    setTimeout(()=>{
+    setTimeout(() => {
       autosize(document.getElementById('message'));
-    },1000);
+    }, 1000);
   }
 
   autoScroll() {
@@ -299,6 +299,7 @@ export class Chat {
   show_reply_box() {
     this.move = true;
     this.reply_box_on = true;
+    this.key.show();
   }
 
   presentViewOptionsModal() {
@@ -581,7 +582,7 @@ export class Chat {
     chatTote.present();
   }
 
-  chat_participants_from_tote(event:Event) {
+  chat_participants_from_tote(event: Event) {
     event.stopPropagation();
     var users = [];
     if (this.tote.chatGroup) {

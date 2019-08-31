@@ -628,12 +628,16 @@ view_options {
     top: -29px;
     right: -15px;
     border-radius: 0;
-    box-shadow: 0px 5px 10px #424242 !important;
+    box-shadow: 0px 5px 10px #000 !important;
 }
 
-.search_icon.me:hover,
+.search_icon.me:hover{
+  background: color($assetFeedback, darkGreen);
+
+}
 .plus_icon.me:hover {
     background: color($assetFeedback, darkGreen);
+    margin-top: 18px !important;
 }
 
 .search_icon.follows:hover,
@@ -716,7 +720,10 @@ view_options {
 
         .aling-left {
             position: relative;
-
+            img{
+              width: 30px;
+              height: 30px;
+            }
             ion-icon {
                 font-size: 30px;
                 color: #bdbdbd;
@@ -1563,9 +1570,10 @@ search_page {
     }
 
     .fortextarea {
-        margin: 20px 5px 5px;
+
+        margin: 5px 5px 5px;
         display: inline-block;
-        width: 85%;
+        width: 100%;
         max-height: 250px;
         overflow: scroll;
         vertical-align: middle;
@@ -1573,10 +1581,12 @@ search_page {
     }
 
     textarea {
+      overflow: scroll;
+      height: 90px;
         display: inline-block;
         vertical-align: middle; // padding: 20px 5px 5px;
         resize: none;
-        width: 70vw;
+        width: 95%;
         background: #222;
         border: 0px;
         color: #FFF;

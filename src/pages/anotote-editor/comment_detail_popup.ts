@@ -44,13 +44,13 @@ export class CommentDetailPopup {
   public actual_anotated: any = '';
   public bracketStartIndex = 0;
   public selected_follower_name: string = '';
-  // public isKeyboardDeployed: boolean = false;
   public shouldPreventDefault = false;
   public total_followers = 0;
   public waitingMode = [];
   public waitingTime: number = 500;
 
-  constructor(public params: NavParams,
+  constructor(
+    public params: NavParams,
     public viewCtrl: ViewController,
     public utilityMethods: UtilityMethods,
     private events: Events,
@@ -133,39 +133,39 @@ export class CommentDetailPopup {
     this.fieldInContent = false;
     var test = this.anotote_txt.split(' ');
     var test1 = '';
-    for (var i = 0; i < test.length; i++) {
-      if (i == 0) {
-        if (test[i][0] == '[') {
-          if (test[i + 1][0] != '[') {
-            test1 += ' ' + test[i];
-          } else {
-            test1 += ' ' + test[i].slice(test[i].length - 1);
-          }
-        } else {
-          test1 += ' ' + test[i];
-        }
-      } else if (i > 0) {
-        if (test[i][0] == '[') {
-          if (test[i - 1][test[i - 1].length - 1] == ']') {
-            if (test[i + 1][0] != '[') {
-              test1 += ' ' + test[i].slice(1);
-            } else {
-              test1 += ' ' + test[i].slice(1, test[i].length - 1);
-            }
-          } else {
-            if (test[i + 1][0] != '[') {
-              test1 += ' ' + test[i];
-            } else {
-              test1 += ' ' + test[i].slice(0, test[i].length - 1);
-            }
-          }
-        } else {
-          test1 += ' ' + test[i];
-        }
+    // for (var i = 0; i < test.length; i++) {
+    //   if (i == 0) {
+    //     if (test[i][0] == '[') {
+    //       if (test[i + 1][0] != '[') {
+    //         test1 += ' ' + test[i];
+    //       } else {
+    //         test1 += ' ' + test[i].slice(test[i].length - 1);
+    //       }
+    //     } else {
+    //       test1 += ' ' + test[i];
+    //     }
+    //   } else if (i > 0) {
+    //     if (test[i][0] == '[') {
+    //       if (test[i - 1][test[i - 1].length - 1] == ']') {
+    //         if (test[i + 1][0] != '[') {
+    //           test1 += ' ' + test[i].slice(1);
+    //         } else {
+    //           test1 += ' ' + test[i].slice(1, test[i].length - 1);
+    //         }
+    //       } else {
+    //         if (test[i + 1][0] != '[') {
+    //           test1 += ' ' + test[i];
+    //         } else {
+    //           test1 += ' ' + test[i].slice(0, test[i].length - 1);
+    //         }
+    //       }
+    //     } else {
+    //       test1 += ' ' + test[i];
+    //     }
 
-      }
-    }
-    this.anotote_txt = test1;
+    //   }
+    // }
+    // this.anotote_txt = test1;
     if ((this.new_comment != this.anotote_comment && this.new_comment != '') || (this.anotote_txt != this.actual_anotated && this.anotote_txt != '')) {
       var hashTags = this.searchService.searchTags('#', this.new_comment);
       var cashTags = this.searchService.searchTags('$', this.new_comment);

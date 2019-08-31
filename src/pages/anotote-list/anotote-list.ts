@@ -320,7 +320,7 @@ export class AnototeList {
   ionViewWillUnload() {
     if (this.current_active_anotote) {
       //for maintaining state
-      // if (this.current_active_anotote.chatGroup == null) 
+      // if (this.current_active_anotote.chatGroup == null)
       //   this.disableSelectedMode(this.current_active_anotote.highlights);
       // else
       if (this.current_active_anotote.chatGroup)
@@ -1995,6 +1995,7 @@ export class AnototeList {
   reply_here(anotote) {
     this.textMessage = '';
     this.reply_box_on = true;
+    this.key.show()
   }
 
   sendMessage() {
